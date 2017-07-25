@@ -23,7 +23,7 @@
 
     <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase-database.js"></script>
+    
     <script src="https://www.gstatic.com/firebasejs/4.1.4/firebase.js"></script>
     <script>
         // Initialize Firebase
@@ -37,19 +37,18 @@
         };
         firebase.initializeApp(config);
     </script>
-
+    <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase-database.js"></script> 
     <script>
         var provider = new firebase.auth.GoogleAuthProvider();
         var database = firebase.database();
         var textInput = document.querySelector('#text');
         var postButton = document.querySelector('#post');
         var user;
-provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-       
-        var username = null;
+        provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+   
         var loginButton = document.querySelector('#login');
 
-        postButton.addEventListener("click", writeUserData("test",textInput));
+      
 
         loginButton.addEventListener("click", function () {
            
@@ -111,8 +110,9 @@ provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
             return firebase.database().ref().update(updates);
         }
-         
+        postButton.addEventListener("click", writeUserData("test", textInput)); 
 
   </script>
+   
 </body>
 </html>
