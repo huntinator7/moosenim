@@ -11,22 +11,24 @@
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
-<body>
+<body style="background-color:#000000;">
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="js/materialize.min.js"></script>
+	
 	<div class="container row col s12">
+		<img class="responsive-img" src="http://www.moosen.im/images/banner.png" alt="Mighty Moosen">
 		<h1 style="text-align:center" class="light-blue-text">MoosenIM</h1><br>
 		<div class="center">
-			<button id="login" class="btn waves-effect waves-light red">Sign in with Google</button>
+			<button id="login" class="btn waves-effect waves-light orange white-text">Sign in with Google</button>
 		</div>
 		
-		<input id="text" type="text" placeholder="Message"><br />
-		<button id="post" class="btn waves-effect waves-light light-blue">Post</button><br />
+		<input id="text" style="color:black" type="text" placeholder="Message"><br>
+		<button id="post" class="btn waves-effect waves-light orange white-text">Post</button><br>
 		<div id="results"></div>
 	</div>
 
