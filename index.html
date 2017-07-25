@@ -94,7 +94,7 @@ provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
         function writeNewPost( user, username, body) {
             // A post entry.
             var postData = {
-                uid = user,
+                uid : user,
                 author: username,
                 body: body,
                 starCount: 0,         
