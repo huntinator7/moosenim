@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -8,8 +8,11 @@
 
 </head>
 <body>
-  <input id="username" type="text" placeholder="Name"><br/>
-  <input id="text" type="text" placeholder="Message"><br/>
+    
+        <button id="login">Login with Google</button><br />
+        <input id="text" type="text" placeholder="Message"><br />
+      
+    
   <button id="post">Post</button><br/>
   <div id="results"></div>
   <script>
@@ -18,13 +21,63 @@
     var textInput = document.querySelector('#text');
     var postButton = document.querySelector('#post');
 
+      var username = null;
+      var loginButton = document.querySelector('#login');
+      postButton.style.display = "none";
+      textInput.style.display = "none";
+
     postButton.addEventListener("click", function() {
-      var msgUser = usernameInput.value;
+        var msgUser = username;
       var msgText = textInput.value;
       myFirebase.push({username: msgUser, text: msgText});
       textInput.value = "";
     });
 
+      /** Function to add a data listener **/
+      var startListening = function () {
+          myFirebase.on('child_added', function (snapshot) {
+              var msg = snapshot.val();
+              msgElement.className = "msg";
+              document.getElementById("results").appendChild(msgElement);
+
+              var msgUsernameElement = document.createElement("b");
+              msgUsernameElement.textContent = msg.username;
+
+              var msgTextElement = document.createElement("p");
+              msgTextElement.textContent = msg.text;
+
+              var msgElement = document.createElement("div");
+              msgElement.appendChild(msgUsernameElement);
+              msgElement.appendChild(msgTextElement);
+
+              document.getElementById("results").appendChild(msgElement);
+          });
+      }
+
+      myFirebase.onAuth(function (authData) {
+          if (authData) {
+              username = authData.google.displayName;
+              loginButton.textContent = "Logged in as " + username;
+              loginButton.disabled = true;
+              postButton.style.display = "block";
+              textInput.style.display = "block";
+
+              // Start listening for data, remove previous calls to this method
+              startListening();
+          }
+      });
+
+      // Begin listening for data
+      startListening();
+      loginButton.addEventListener("click", function () {
+          myFirebase.authWithOAuthPopup("google", function (error, authData) {
+              if (error) {
+                  console.log(error);
+              } else {
+                  console.log(authData);
+              }
+          }, { remember: "none" }); // will end authentication on page close/reload
+      });
 
   </script>
 </body>
