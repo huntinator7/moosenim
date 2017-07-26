@@ -9,7 +9,8 @@ app.get('/', function(req, res){
 });
 
 io.on('connection', function(socket){
-  console.log('a user connected');
+    console.log('a user connected');
+
   socket.on('chat message', function(msg){
     console.log('message: ' + msg);
     io.emit('chat message', msg);
@@ -34,6 +35,7 @@ var con = mysql.createConnection({
 con.connect(function (err) {
     if (err) throw err;
     console.log("Connected!");
+    con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT 10) sub ORDER BY  id ASC");
 });
 
 function sendMessage(message) {
