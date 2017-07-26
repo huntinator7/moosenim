@@ -4,10 +4,10 @@ var provider = new firebase.auth.GoogleAuthProvider();
         var postButton = document.querySelector('#post');
         var user;
         provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-   
+
         var loginButton = document.querySelector('#login');
 
-      
+
 
         loginButton.addEventListener("click", function () {
             console.log("login button pressed");
@@ -34,7 +34,7 @@ var provider = new firebase.auth.GoogleAuthProvider();
             if (result.credential) {
                 // This gives you a Google Access Token. You can use it to access the Google API.
                 var token = result.credential.accessToken;
-                // ...
+                window.location.href = 'http://www.moosen.im/index.html';
             }
             // The signed-in user info.
             var user = result.user;
@@ -49,6 +49,3 @@ var provider = new firebase.auth.GoogleAuthProvider();
             var credential = error.credential;
             // ...
             });
-
-       
-     
