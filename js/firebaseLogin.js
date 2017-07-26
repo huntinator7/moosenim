@@ -10,7 +10,7 @@ var provider = new firebase.auth.GoogleAuthProvider();
       
 
         loginButton.addEventListener("click", function () {
-           
+            console.log("login button pressed");
             firebase.auth().signInWithPopup(provider).then(function (result) {
                 console.log("clicked");
                 // This gives you a Google Access Token. You can use it to access the Google API.
