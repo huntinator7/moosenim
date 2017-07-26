@@ -1,4 +1,6 @@
 var mysql = require('mysql');
+var textInput = document.querySelector('#text');
+var postButton = document.querySelector('#post');
 
 var con = mysql.createConnection({
     host: "localhost",
@@ -16,6 +18,10 @@ function sendMessage(message) {
 }
 
 postButton.addEventListener("click", function () {
-
+    con.connect(function (err) {
+        if (err) throw err;
+        console.log("Connected!");
+        sendMessage(textInput);
+    });  
 
 });
