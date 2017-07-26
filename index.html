@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <link rel="icon" href="http://www.moosen.im/images/favicon.png">
@@ -26,17 +26,15 @@
             <img class="responsive-img" src="http://www.moosen.im/images/banner.png" alt="Mighty Moosen">
             <!-- <h1 style="text-align:center" class="light-blue-text">MoosenIM</h1><br> -->
             <div class="center">
-                <button id="login" class="btn waves-effect waves-light orange white-text">Sign in with Google</button>
+                <button id="login" style="font-size:1.5em" class="btn-large waves-effect waves-light grey white-text darken-1">Sign in with Google</button>
             </div>
         </div>
-        <div class="col s11">
+        <div class="col s12">
             <input id="text" style="color:white" type="text" placeholder="Message">
         </div>
-        <div class="col s1">
-            <button id="post" class="btn waves-effect waves-light orange white-text">Post</button>
-        </div>
         <div class="col s12">
-            <label name="files[]" id="add_pics" class="btn btn-floating btn-file multiple waves-effect waves-light orange">
+            <button id="post" class="btn waves-effect waves-light orange white-text">Post</button>
+            <label name="files[]" id="add_pics" class="btn btn-floating btn-file multiple waves-effect waves-light grey darken-1">
                 <i class="material-icons">add</i><input style="display: none;" type="file" multiple>
             </label>
             <br>
@@ -44,7 +42,7 @@
         </div>
         <div id="results"></div>
     </div>
-  
+
     <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase-database.js"></script>
@@ -124,6 +122,51 @@
         d.remove();
         d_b.remove();
     }
+    </script>
+
+    <script>
+    var myFirebase = new Firebase('https://FIREBASE-PROJECTID.firebaseio.com/');
+    var textInput = document.querySelector('#text');
+    var postButton = document.querySelector('#post');
+
+    // ADD THESE 4 LINES
+    var username = null;
+    var loginButton = document.querySelector('#login');
+    postButton.style.display = "none";
+    textInput.style.display = "none";
+
+
+    postButton.addEventListener("click", function() {
+        // ADD THIS LINE
+        var msgUser = username;
+
+        var msgText = textInput.value;
+        myFirebase.push({username:msgUser, text:msgText});
+        textInput.value = "";
+    });
+
+    loginButton.addEventListener("click", function() {
+        myFirebase.authWithOAuthPopup("google", function(error, authData) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log(authData);
+            }
+        }, {remember: "none"}); // will end authentication on page close/reload
+    });
+
+    myFirebase.onAuth(function (authData) {
+        if (authData) {
+            username = authData.google.displayName;
+            loginButton.textContent = "Logged in as " + username;
+            loginButton.disabled = true;
+            postButton.style.display = "block";
+            textInput.style.display = "block";
+
+            // Start listening for data, remove previous calls to this method
+            startListening();
+        }
+    });
     </script>
 
     <style>
