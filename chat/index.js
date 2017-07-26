@@ -36,7 +36,7 @@ con.connect(function (err) {
     if (err) throw err;
     console.log("Connected!");
     con.query("SELECT message FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT 10) sub ORDER BY  id ASC", function (error, result) {
-        console.log(result);
+       io.emit('last message',result);
     });
     
 });
