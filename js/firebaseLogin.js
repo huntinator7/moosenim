@@ -50,23 +50,5 @@ var provider = new firebase.auth.GoogleAuthProvider();
             // ...
             });
 
-        function writeNewPost( user, username, body) {
-            // A post entry.
-            var postData = {
-                uid : user,
-                author: username,
-                body: body,
-                starCount: 0,         
-            };
-
-            // Get a key for a new Post.
-            var newPostKey = firebase.database().ref().child('posts').push().key;
-
-            // Write the new post's data simultaneously in the posts list and the user's post list.
-            var updates = {};
-            updates['/posts/' + newPostKey] = postData;
-            updates['/user-posts/' + user + '/' + newPostKey] = postData;
-
-            return firebase.database().ref().update(updates);
-        }
-        postButton.addEventListener("click", writeUserData("test", textInput)); 
+       
+     
