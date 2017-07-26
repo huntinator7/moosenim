@@ -1,3 +1,5 @@
+
+
 var provider = new firebase.auth.GoogleAuthProvider();
         var database = firebase.database();
         var textInput = document.querySelector('#text');
@@ -49,3 +51,4 @@ var provider = new firebase.auth.GoogleAuthProvider();
             var credential = error.credential;
             // ...
             });
+       
