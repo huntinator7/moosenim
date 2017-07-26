@@ -26,8 +26,9 @@ http.listen(3000, function(){
 
 var con = mysql.createConnection({
     host: "localhost",
-    user: "yourusername",
-    password: "yourpassword"
+    user: "root",
+    password: "raspberry",
+    database: "moosenim"
 });
 
 con.connect(function (err) {
@@ -36,6 +37,6 @@ con.connect(function (err) {
 });
 
 function sendMessage(message) {
-    con.query("INSERT INTO messages (message, username,timestamp) VALUES('" + message + "', 'username', 'time'))");
+    con.query("INSERT INTO messages (message, username, timestamp) VALUES ('" + message + "', 'username', 'time')");
 }
 
