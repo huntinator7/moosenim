@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html>
 <head>
     <link rel="icon" href="http://www.moosen.im/images/favicon.png">
@@ -24,22 +24,22 @@
     form { padding: 3px; position: fixed; bottom: 0; width: 100%; }
     form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
     form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-    #messages { list-style-type: none; margin: 0; padding: 0; }
+    #messages { list-style-type: none; margin: 0; padding: 1%; }
     #messages li { font-size:1.5em; padding: 1% 2%; }
     #messages li:nth-child(odd) { background: #DFDFDF; padding: 1% 4%; }
     </style>
 </head>
 <body style="background-color:#000000;">
     <div class="container row">
-        <div class="col s12">
-            <img class="responsive-img" src="http://moosen.im/images/banner.png" alt="Mighty Moosen">
+        <div class="center col s12">
+            <img style="height:10vh" src="http://moosen.im/images/banner.png" alt="Mighty Moosen">
         </div>
         <div class="col s12">
-            <ul class='white black-text z-depth-5"' id="messages"></ul>
+            <ul class="white black-text z-depth-5" style="height:80vh; overflow:auto" id="messages"></ul>
         </div>
         <div class="col s12">
             <form action="">
-                <input id="m" style="color:black; background-color:white; border:2px solid #6EB7FF; padding:0px 1%; font-size:1.5em" type="text" placeholder="Message">
+                <input id="m" style="color:black; background-color:white; border:2px solid #6EB7FF; padding:0px 1%; font-size:1.5em; width:67vw" type="text" placeholder="Message">
                 <button class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
             </form>
         </div>
@@ -62,6 +62,14 @@
 
         });
     });
+    </script>
+    <script>
+    var msgdiv = document.getElementById("messages");
+    // allow 1px inaccuracy by adding 1
+    var isScrolledToBottom = msgdiv.scrollHeight - msgdiv.clientHeight <= msgdiv.scrollTop + 1;
+    if(isScrolledToBottom){
+        msgdiv.scrollTop = msgdiv.scrollHeight - msgdiv.clientHeight;
+    }
     </script>
 </body>
 </html>
