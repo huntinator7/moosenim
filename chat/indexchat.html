@@ -34,7 +34,7 @@
             <form action="">
                 <input id="login" autocomplete="off" style="color:black; background-color:white; border:2px solid #6EB7FF; font-size:1.5em" type="text" placeholder="Username">
                 <br>
-                <button id="loginbut" onclick="loggedIn('test_un')" class="center btn waves-effect waves-light light-blue white-text"><i class="material-icons">forward</i></button>
+                <button id="logbut" onclick="loggedIn('test_un')" class="center btn waves-effect waves-light light-blue white-text"><i class="material-icons">forward</i></button>
             </form>
         </div>
         <div class="row col s12">
@@ -86,14 +86,16 @@
 
     </script>
     <script>
-    function loggedIn(un) {
-        username = un;
-        document.getElementById("login").style.display = "none";
-        document.getElementById("loginbut").style.display = "none";
-        document.getElementById("messages").style.display = "inline";
-        document.getElementById("mbut").style.display = "inline";
-        document.getElementById("m").style.display = "inline";
-    }
+    $(document).ready(function() {
+        $('#logbut').click(function() {
+            username = $('#login').val();
+            document.getElementById("login").style.display = "none";
+            document.getElementById("loginbut").style.display = "none";
+            document.getElementById("messages").style.display = "inline";
+            document.getElementById("mbut").style.display = "inline";
+            document.getElementById("m").style.display = "inline";
+        });
+    });
     </script>
 </body>
 </html>
