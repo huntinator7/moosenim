@@ -48,8 +48,8 @@ con.connect(function (err) {
 
 });
 
-function sendMessage(message) {
-    con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, 'username', CURTIME())", [message], function (error, results) {
+function sendMessage(message, username) {
+    con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [message, username], function (error, results) {
         if (error) throw error;
 
     });
@@ -59,10 +59,9 @@ function getMessage(num) {
         console.log("getting messages...");
         if (error) throw error;
         for (var i = 0; i < num; i++) {
-            io.emit('last message', rows[i].message + " " + rows[i].timestamp);
+            io.emit('last message', rows[i].username + ": " + rows[i].message + "\n" + rows[i].timestamp);
 
         }
 
     });
 }
-

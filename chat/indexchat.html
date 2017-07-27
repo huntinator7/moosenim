@@ -30,13 +30,18 @@
             <img style="height:10vh" src="http://moosen.im/images/banner.png" alt="Mighty Moosen">
         </div>
         <div class="row col s12">
-            <ul class="white black-text" style="overflow-x:hidden" id="messages"></ul>
+            <ul id="messages" class="white black-text" style="overflow-x:hidden; display:none"></ul>
+            <form action="">
+                <input id="login" autocomplete="off" style="color:black; background-color:white; border:2px solid #6EB7FF; font-size:1.5em" type="text" placeholder="Username">
+                <br>
+                <button id="loginbut" onclick="loggedIn('test_un')" class="center btn waves-effect waves-light light-blue white-text"><i class="material-icons">forward</i></button>
+            </form>
         </div>
         <div class="row col s12">
             <form action="">
-                <input id="m" autocomplete="off" style="color:black; background-color:white; border:2px solid #6EB7FF; font-size:1.5em" type="text" placeholder="Message">
+                <input id="m" autocomplete="off" style="color:black; background-color:white; border:2px solid #6EB7FF; font-size:1.5em; display:none" type="text" placeholder="Message">
                 <br>
-                <button class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
+                <button id="mbut" style="display:none" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
             </form>
         </div>
     </div>
@@ -45,6 +50,7 @@
     <script>
     var canAuto = false;
     $(function () {
+        username = "";
         var socket = io();
         $('form').submit(function(){
             socket.emit('chat message', $('#m').val());
@@ -77,6 +83,16 @@
         }
     });
 
+    </script>
+    <script>
+    loggedIn(un) {
+        username = un;
+        document.getElementById("login").style.display = "none";
+        document.getElementById("loginbut").style.display = "none";
+        document.getElementById("messages").style.display = "inline";
+        document.getElementById("mbut").style.display = "inline";
+        document.getElementById("m").style.display = "inline";
+    }
     </script>
 </body>
 </html>
