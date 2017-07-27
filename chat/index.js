@@ -43,6 +43,7 @@ con.connect(function (err) {
 function sendMessage(message) {
     con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, 'username', CURTIME())", [message], function (error, results) {
         if (error) throw error;
+
     });
 }
 function getMessage(num) {
@@ -50,7 +51,7 @@ function getMessage(num) {
         console.log("getting messages...");
         if (error) throw error;
         for (var i = 0; i < num; i++) {
-            io.emit('last message',rows[i].message);
+            io.emit('last message',rows[i].message+" "+rows[i].timestamp);
             console.log(results[i]);
         }
         
