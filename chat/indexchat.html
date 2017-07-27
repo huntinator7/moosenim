@@ -90,15 +90,12 @@
 
     </script>
     <script>
-    $(document).ready(function() {
-        function hideShow() {
-            document.getElementById("main").style.display = "block";
-            document.getElementById("login").style.display = "none";
-            username = $('#log').val();
-            Materialize.toast('logbut clicked', 4000);
-        }
-    });
-
+    function hideShow() {
+        document.getElementById("main").style.display = "unset";
+        document.getElementById("login").style.display = "none";
+        username = $('#log').val();
+        Materialize.toast('logbut clicked', 4000);
+    }
     </script>
 </body>
 </html>
