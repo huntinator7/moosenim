@@ -28,7 +28,7 @@ http.listen(3000, function () {
 
 var con = mysql.createConnection({
     host: "localhost",
-    user: "root",
+    user: "root", 
     password: "raspberry",
     database: "moosenim"
 });
