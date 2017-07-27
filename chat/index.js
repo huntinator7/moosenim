@@ -59,9 +59,7 @@ function getMessage(num) {
         console.log("getting messages...");
         if (error) throw error;
         for (var i = 0; i < num; i++) {
-            io.emit('last message', rows[i].username + ": " + rows[i].message);
-
+            io.emit('chat message', rows[i].username + ": " + rows[i].message);
         }
-
     });
 }
