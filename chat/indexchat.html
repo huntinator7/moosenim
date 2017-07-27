@@ -53,7 +53,7 @@
             return false;
         });
         socket.on('chat message', function(msg){
-            $('#messages').append($('<li>').text(msg));
+            $('#messages').append($('<li>').text(msg + (timeStampInMs, Date.now())));
         });
         socket.on('last message', function (msg) {
             $('#messages').append($('<li>').text(msg));

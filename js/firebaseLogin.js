@@ -1,10 +1,10 @@
 
-
+var user;
 var provider = new firebase.auth.GoogleAuthProvider();
         var database = firebase.database();
         var textInput = document.querySelector('#text');
         var postButton = document.querySelector('#post');
-        var user;
+       
         provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
         var loginButton = document.querySelector('#login');
