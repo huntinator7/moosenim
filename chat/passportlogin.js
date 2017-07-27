@@ -1,4 +1,5 @@
 var passport = require('passport');
+var app = require('express')();
 var GoogleStrategy = require('passport-google-oauth').OAuthStrategy;
 
 // Use the GoogleStrategy within Passport.
