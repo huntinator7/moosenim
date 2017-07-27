@@ -71,7 +71,7 @@
             $('#messages').append($('<li>').text(msg + (Date.now()) + " penis"));
         });
         socket.on('last message', function (msg) {
-            $('#messages').append($('<li>').text(msg));
+            $('#messages').append($('<li>').text(msg + " vagina"));
             if (canAuto) {
                 window.scrollTo(0,document.body.scrollHeight);
             }
