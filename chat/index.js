@@ -15,10 +15,10 @@ io.on('connection', function (socket) {
 
         console.log('message: ' + msg);
         if (msg === "lag") {
-            sendMessage("I love Rick Astley!");
+            sendMessage("I love Rick Astley!", 'notch');
         }
         else {
-            sendMessage(msg);
+            sendMessage(msg, 'test_');
         }
         io.emit(getMessage(1));
 

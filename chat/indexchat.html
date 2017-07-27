@@ -20,7 +20,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <style>
     #messages { list-style-type: none; margin: 0; padding: 1%; }
-    #messages li { font-size:1.5em; padding: 1% 2%; }
+    #messages li { background: #FFFFFF; font-size:1.5em; padding: 1% 2%; }
     #messages li:nth-child(odd) { background: #DFDFDF; padding: 1% 4%; }
     </style>
 </head>
@@ -53,6 +53,7 @@
         username = "";
         var socket = io();
         $('form').submit(function(){
+            Materialize.toast(username, 4000);
             socket.emit('chat message', $('#m').val());
             $('#m').val('');
             return false;
