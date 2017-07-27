@@ -15,3 +15,10 @@ passport.use(new LocalStrategy(
         });
     }
 ));
+app.post('/login',
+    passport.authenticate('local', {
+        successRedirect: '/indexchat.html',
+        failureRedirect: '/passportloginpage.html',
+        failureFlash: true
+    })
+);
