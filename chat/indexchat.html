@@ -54,19 +54,20 @@
         socket.on('chat message', function(msg){
             $('#messages').append($('<li>').text(msg + (Date.now())));
             if (canAuto) {
-                alert("chat message canAuto");
+                Materialize.toast('chat message yes canAuto', 4000)
             }
             else {
-                alert("chat message no canAuto");
+                Materialize.toast('chat message no canAuto', 4000)
             }
         });
         socket.on('last message', function (msg) {
             $('#messages').append($('<li>').text(msg));
             if (canAuto) {
-                alert("last message canAuto");
+                Materialize.toast('last message yes canAuto', 4000)
+                window.scrollTo(0,document.body.scrollHeight);
             }
             else {
-                alert("last message no canAuto");
+                Materialize.toast('last message no canAuto', 4000)
             }
         });
     });
