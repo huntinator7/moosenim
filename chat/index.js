@@ -12,7 +12,7 @@ io.on('connection', function (socket) {
     console.log('a user connected');
     getMessage(10);
     socket.on('chat message', function (msg) {
-        
+
         console.log('message: ' + msg);
         if (msg === "lag") {
             sendMessage("I love Rick Astley!");
@@ -20,30 +20,31 @@ io.on('connection', function (socket) {
         else {
             sendMessage(msg);
         }
-       io.emit(getMessage(1));
-        
+        io.emit(getMessage(1));
+
     });
 
     socket.on('disconnect', function () {
         console.log('user disconnected');
     });
 });
-
+//open port on 3000
 http.listen(3000, function () {
     console.log('listening on *:3000');
 });
 
+//connection variable
 var con = mysql.createConnection({
     host: "localhost",
-    user: "root", 
+    user: "root",
     password: "raspberry",
     database: "moosenim"
 });
 
+//connects to mysql database
 con.connect(function (err) {
     if (err) throw err;
     console.log("Connected!");
-
 
 });
 
@@ -58,10 +59,10 @@ function getMessage(num) {
         console.log("getting messages...");
         if (error) throw error;
         for (var i = 0; i < num; i++) {
-            io.emit('last message',rows[i].message+" "+rows[i].timestamp);
-            
+            io.emit('last message', rows[i].message + " " + rows[i].timestamp);
+
         }
-        
+
     });
 }
 
