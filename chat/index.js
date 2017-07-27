@@ -50,7 +50,7 @@ function getMessage(num) {
         console.log("getting messages...");
         if (error) throw error;
         for (var i = 0; i < num; i++) {
-            io.emit('last message', console.log(rows[i].message));
+            io.emit('last message',rows[i].message);
             console.log(results[i]);
         }
         
