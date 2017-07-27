@@ -30,11 +30,11 @@
             <img style="height:10vh" src="http://moosen.im/images/banner.png" alt="Mighty Moosen">
         </div>
         <div class="row col s12">
-            <ul class="white black-text" style="height:70vh; overflow-y:auto; overflow-x:hidden" id="messages"></ul>
+            <ul class="white black-text" style="overflow-x:hidden" id="messages"></ul>
         </div>
         <div class="row col s12">
             <form action="">
-                <input id="m" style="color:black; background-color:white; border:2px solid #6EB7FF; font-size:1.5em" type="text" placeholder="Message">
+                <input id="m" autocomplete="off" style="color:black; background-color:white; border:2px solid #6EB7FF; font-size:1.5em" type="text" placeholder="Message">
                 <br>
                 <button class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
             </form>
@@ -52,20 +52,20 @@
         });
         socket.on('chat message', function(msg){
             $('#messages').append($('<li>').text(msg + (Date.now())));
+            document.body.scrollTop = document.body.scrollHeight;
         });
         socket.on('last message', function (msg) {
             $('#messages').append($('<li>').text(msg));
-
+            document.body.scrollTop = document.body.scrollHeight;
         });
     });
     </script>
     <script>
-    var msgdiv = document.getElementById("messages");
-    // allow 1px inaccuracy by adding 1
-    var isScrolledToBottom = msgdiv.scrollHeight - msgdiv.clientHeight <= msgdiv.scrollTop + 1;
-    if(isScrolledToBottom){
-        msgdiv.scrollTop = msgdiv.scrollHeight - msgdiv.clientHeight;
-    }
+    $(window).scroll(function() {
+        if($(window).scrollTop() + $(window).height() >= $(document).height() * .9) {
+            alert("bottom!");
+        }
+    });
     </script>
 </body>
 </html>
