@@ -34,11 +34,11 @@
             <form action="">
                 <input id="login" autocomplete="off" style="color:black; background-color:white; border:2px solid #6EB7FF; font-size:1.5em" type="text" placeholder="Username">
                 <br>
-                <button id="logbut" onclick="loggedIn('test_un')" class="center btn waves-effect waves-light light-blue white-text"><i class="material-icons">forward</i></button>
+                <button id="logbut" class="center btn waves-effect waves-light light-blue white-text"><i class="material-icons">forward</i></button>
             </form>
         </div>
         <div class="row col s12">
-            <form action="">
+            <form id="msg" action="">
                 <input id="m" autocomplete="off" style="color:black; background-color:white; border:2px solid #6EB7FF; font-size:1.5em; display:none" type="text" placeholder="Message">
                 <br>
                 <button id="mbut" style="display:none" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
@@ -52,7 +52,7 @@
     $(function () {
         username = "";
         var socket = io();
-        $('form').submit(function(){
+        $('#msg').submit(function(){
             Materialize.toast(username, 4000);
             socket.emit('chat message', $('#m').val());
             $('#m').val('');
