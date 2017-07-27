@@ -41,7 +41,7 @@ con.connect(function (err) {
 });
 
 function sendMessage(message) {
-    con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, 'username', 'time')", [message], function (error, results) {
+    con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, 'username', CURTIME())", [message], function (error, results) {
         if (error) throw error;
     });
 }
