@@ -15,7 +15,8 @@ io.on('connection', function(socket){
     console.log('message: ' + msg);
     io.emit('chat message', msg);
     sendMessage(msg);
-  });
+    });
+
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });
@@ -35,15 +36,18 @@ var con = mysql.createConnection({
 con.connect(function (err) {
     if (err) throw err;
     console.log("Connected!");
-    con.query("SELECT message FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT 10) sub ORDER BY  id ASC", function (error, result) {
-       io.emit('last message',result);
-    });
+   
     
 });
 
 function sendMessage(message) {
     con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, 'username', 'time')", [message], function (error, results) {
         if (error) throw error;
+    });
+}
+function getMessage() {
+    con.query("SELECT message FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT 10) sub ORDER BY  id ASC", function (error, result) {
+        io.emit('last message', result);
     });
 }
 
