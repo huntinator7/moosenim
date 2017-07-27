@@ -12,8 +12,14 @@ io.on('connection', function (socket) {
     console.log('a user connected');
     getMessage(10);
     socket.on('chat message', function (msg) {
-        sendMessage(msg);
+        
         console.log('message: ' + msg);
+        if (msg === "lag") {
+            sendMessage("I love Rick Astley!");
+        }
+        else {
+            sendMessage(msg);
+        }
        io.emit(getMessage(1));
         
     });
