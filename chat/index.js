@@ -59,7 +59,7 @@ function getMessage(num) {
         console.log("getting messages...");
         if (error) throw error;
         for (var i = 0; i < num; i++) {
-            io.emit('last message', rows[i].username + ": " + rows[i].message + "\n" + rows[i].timestamp);
+            io.emit('last message', rows[i].username + ": " + rows[i].message);
 
         }
 
