@@ -1,7 +1,6 @@
-
 <!doctype html>
 <html>
-  <head>
+<head>
     <link rel="icon" href="http://www.moosen.im/images/favicon.png">
     <meta charset="UTF-8">
     <title>Moosen Chat</title>
@@ -20,17 +19,17 @@
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font: 13px Helvetica, Arial; }
+    form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+    form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+    form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+    #messages { list-style-type: none; margin: 0; padding: 0; }
+    #messages li { padding: 5px 10px; }
+    #messages li:nth-child(odd) { background: #6eb7ff; }
     </style>
-  </head>
-  <body style="background-color:#000000;">
+</head>
+<body style="background-color:#000000;">
     <div class="container row">
         <div class="col s12">
             <img class="responsive-img" src="http://moosen.im/images/banner.png" alt="Mighty Moosen">
@@ -41,24 +40,24 @@
             </div>
             <form action="">
                 <input id="m" style="color:white" type="text" placeholder="Message">
-                    <button class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
+                <button class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
             </form>
         </div>
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
-      $(function () {
+    $(function () {
         var socket = io();
         $('form').submit(function(){
-          socket.emit('chat message', $('#m').val());
-          $('#m').val('');
-          return false;
+            socket.emit('chat message', $('#m').val());
+            $('#m').val('');
+            return false;
         });
         socket.on('chat message', function(msg){
-          $('#messages').append($('<li>').text(msg));
+            $('#messages').append($('<li>').text(msg));
         });
-      });
+    });
     </script>
-  </body>
+</body>
 </html>

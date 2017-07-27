@@ -11,7 +11,7 @@
       form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
       #messages { list-style-type: none; margin: 0; padding: 0; }
       #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
+      #messages li:nth-child(odd) { background: #6eb7ff; }
     </style>
   </head>
   <body>
@@ -31,7 +31,7 @@
         });
         socket.on('chat message', function(msg){
             $('#messages').append($('<li>').text(msg));
-           
+
         });
         socket.on('last message', function (msg) {
             $('#messages').append($('<li>').text(msg));
