@@ -63,7 +63,7 @@
         var socket = io();
         $('form').submit(function(){
             Materialize.toast("Logged in as " + username, 4000);
-            socket.emit('chat message', $('#m').val());
+            socket.emit('chat message', $('#m').val(), username);
             $('#m').val('');
             return false;
         });
