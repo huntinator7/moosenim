@@ -68,9 +68,9 @@
             return false;
         });
         socket.on('chat message', function(msg, time){
-            // $('#messages').append($('<li>').text(msg + " " + time));
+            $('#messages').append($('<li>').text(msg + " " + time));
             // $('#messages').append('<li>'msg'</li>');
-            $('#messages').append($('<li>').html(msg + '<span style="float:right;">' + time + '</span>');
+            // $('#messages').append($('<li>').html(msg + '<span style="float:right;">' + time + '</span>');
         });
         // socket.on('last message', function (msg) {
         //     $('#messages').append($('<li>').text(msg + " vagina"));
@@ -99,9 +99,7 @@
     <script>
     function hideShow(un) {
         username = un;
-        alert(username + document.getElementById("main").style.display);
         document.getElementById("main").style.display = "unset";
-        document.getElementById("main").className = "container"
         document.getElementById("login").style.display = "none";
         Materialize.toast('logbut clicked', 4000);
     }
