@@ -52,7 +52,7 @@ function getMessage(num) {
         if (error) throw error;
         for (var i = 0; i < num; i++) {
             io.emit('last message',rows[i].message+" "+rows[i].timestamp);
-            console.log(results[i]);
+            
         }
         
     });
