@@ -70,10 +70,11 @@
         }
     });
 
-    if($('#m').is(':focus')){
-        Materialize.toast('text box focused', 4000)
-        // window.scrollTo(0,document.body.scrollHeight);
-    }
+    $(window).resize(function () { //checking for window resize event
+        if($("#m").is(":focus")){
+            Materialize.toast('I am a toast!', 4000);
+        }
+    });
 
     </script>
 </body>
