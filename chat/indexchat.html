@@ -25,17 +25,17 @@
     </style>
 </head>
 <body style="background-color:#000000;">
-    <div class="container row">
-        <div class="center col s12">
+    <div class="container">
+        <div class="center row col s12">
             <img style="height:10vh" src="http://moosen.im/images/banner.png" alt="Mighty Moosen">
         </div>
-        <div class="col s12">
-            <ul class="white black-text" style="height:70vh; overflow:auto" id="messages"></ul>
+        <div class="row col s12">
+            <ul class="white black-text" style="height:70vh; overflow-y:auto; overflow-x:hidden" id="messages"></ul>
         </div>
-        <div class="divider"></div>
-        <div class="col s12">
+        <div class="row col s12">
             <form action="">
-                <input id="m" style="color:black; background-color:white; border:2px solid #6EB7FF; font-size:1.5em; width:67vw" type="text" placeholder="Message">
+                <input id="m" style="color:black; background-color:white; border:2px solid #6EB7FF; font-size:1.5em" type="text" placeholder="Message">
+                <br>
                 <button class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
             </form>
         </div>
