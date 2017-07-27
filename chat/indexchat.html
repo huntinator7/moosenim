@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html>
 <head>
     <link rel="icon" href="http://www.moosen.im/images/favicon.png">
@@ -56,6 +56,10 @@
         });
         socket.on('chat message', function(msg){
             $('#messages').append($('<li>').text(msg));
+        });
+        socket.on('last message', function (msg) {
+            $('#messages').append($('<li>').text(msg));
+
         });
     });
     </script>
