@@ -11,14 +11,14 @@ app.get('/', function (req, res) {
 io.on('connection', function (socket) {
     console.log('a user connected');
     getMessage(10);
-    socket.on('chat message', function (msg) {
+    socket.on('chat message', function (msg, un) {
 
-        console.log('message: ' + msg);
+        console.log('un: ' + un + ' | message: ' + msg);
         if (msg === "lag") {
             sendMessage("I love Rick Astley!", 'notch');
         }
         else {
-            sendMessage(msg, 'test_');
+            sendMessage(msg, un);
         }
         io.emit(getMessage(1));
 
