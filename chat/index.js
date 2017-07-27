@@ -12,9 +12,10 @@ io.on('connection', function (socket) {
     console.log('a user connected');
     getMessage(10);
     socket.on('chat message', function (msg) {
-        console.log('message: ' + msg);
-        io.emit('chat message', msg);
         sendMessage(msg);
+        console.log('message: ' + msg);
+       io.emit(getMessage(1));
+        
     });
 
     socket.on('disconnect', function () {
