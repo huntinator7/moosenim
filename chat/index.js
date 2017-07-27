@@ -46,9 +46,13 @@ function sendMessage(message) {
     });
 }
 function getMessage(num) {
-    con.query("SELECT message FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC",[num], function (error, result) {
-        io.emit('last message', result);
-        console.log(result);
+    con.query("SELECT message FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC",[num], function (error, results) {
+   console.log("getting messages..."); 
+  if(error) throw error;
+for(var i =0;i<num;i++){
+  io.emit('last message', results[i].toString());
+}
+        console.log(results);
     });
 }
 
