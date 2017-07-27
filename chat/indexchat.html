@@ -68,7 +68,7 @@
             return false;
         });
         socket.on('chat message', function(msg, time){
-            $('#messages').append('<li>' + msg + '</li>');
+            $('#messages').append('<li>' + msg + '<span style="float:right;">' + time + '</span></li>');
             // $('#messages').append($('<li>').text(msg + " " + time));
             // $('#messages').append($('<li>').html(msg + '<span style="float:right;">' + time + '</span>');
         });
