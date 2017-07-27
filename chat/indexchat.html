@@ -68,8 +68,8 @@
             return false;
         });
         socket.on('chat message', function(msg, time){
-            $('#messages').append($('<li>').text(msg + " " + time));
-            // $('#messages').append('<li>'msg'</li>');
+            $('#messages').append('<li>' + msg + '</li>');
+            // $('#messages').append($('<li>').text(msg + " " + time));
             // $('#messages').append($('<li>').html(msg + '<span style="float:right;">' + time + '</span>');
         });
         // socket.on('last message', function (msg) {
@@ -101,7 +101,6 @@
         username = un;
         document.getElementById("main").style.display = "unset";
         document.getElementById("login").style.display = "none";
-        Materialize.toast('logbut clicked', 4000);
     }
     </script>
 </body>
