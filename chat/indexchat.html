@@ -91,9 +91,10 @@
     </script>
     <script>
     function hideShow() {
+        username = $('#log').val();
+        alert(username + document.getElementById("main").style.display);
         document.getElementById("main").style.display = "unset";
         document.getElementById("login").style.display = "none";
-        username = $('#log').val();
         Materialize.toast('logbut clicked', 4000);
     }
     </script>
