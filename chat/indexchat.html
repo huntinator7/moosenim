@@ -68,7 +68,7 @@
             return false;
         });
         socket.on('chat message', function(msg, time){
-            $('#messages').append($('<li>').text(msg + '<span style="float:right;">' + time + '</span>'));
+            $('#messages').append('<li><span style="float:left;">'msg + '</span><span style="float:right;">' + time + '</span>');
         });
         // socket.on('last message', function (msg) {
         //     $('#messages').append($('<li>').text(msg + " vagina"));
