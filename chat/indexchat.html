@@ -46,7 +46,7 @@
                 <ul id="messages" style="overflow-x:hidden"></ul>
             </div>
             <div class="row col s12">
-                <form action="">
+                <form id="mform" action="">
                     <input id="m" autocomplete="off" style="color:black; background-color:white; border:2px solid #6EB7FF; font-size:1.5em" type="text" placeholder="Message">
                     <br>
                     <button id="mbut" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
@@ -61,8 +61,8 @@
     $(function () {
         username = "";
         var socket = io();
-        $('form').submit(function(){
-            Materialize.toast(username, 4000);
+        $('#mform').submit(function(){
+            Materialize.toast("Logged in as " + username, 4000);
             socket.emit('chat message', $('#m').val());
             $('#m').val('');
             return false;
