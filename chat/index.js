@@ -1,14 +1,23 @@
-var SocketIOFileUpload = require("socketio-file-upload");
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var mysql = require('mysql');
-var siofu = require("socketio-file-upload")
+var SocketIOFile = require('socket.io-file');
 
-app.use(SocketIOFileUpload.router);
+app.get('/', (req, res, next) => {
+    return res.sendFile(__dirname + '/client/index.html');
+});
 
-app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/indexchat.html');
+app.get('/app.js', (req, res, next) => {
+    return res.sendFile(__dirname + '/client/app.js');
+});
+
+app.get('/socket.io.js', (req, res, next) => {
+    return res.sendFile(__dirname + '/node_modules/socket.io-client/dist/socket.io.js');
+});
+
+app.get('/socket.io-file-client.js', (req, res, next) => {
+    return res.sendFile(__dirname + '/node_modules/socket.io-file-client/socket.io-file-client.js');
 });
 
 io.on('connection', function (socket) {
@@ -51,14 +60,28 @@ io.on('connection', function (socket) {
         console.log('user disconnected');
     });
 
-    var uploader = new SocketIOFileUpload();
-    uploader.listen(socket);
-    uploader.dir="/testimagestorage"
-    uploader.on("start", function(event){
-        console.log('uploading: ' + event.file.name);
-        if (/\.exe$/.test(event.file.name)) {
-            uploader.abort(event.file.id, socket);
-        }
+    var uploader = new SocketIOFile(socket, {
+        uploadDir: 'testimages',							// simple directory
+        chunkSize: 10240,							// default is 10240(1KB)
+        transmissionDelay: 0,						// delay of each transmission, higher value saves more cpu resources, lower upload speed. default is 0(no delay)
+        overwrite: true 							// overwrite file if exists, default is true.
+    });
+    uploader.on('start', (fileInfo) => {
+        console.log('Start uploading');
+        console.log(fileInfo);
+    });
+    uploader.on('stream', (fileInfo) => {
+        console.log(`${fileInfo.wrote} / ${fileInfo.size} byte(s)`);
+    });
+    uploader.on('complete', (fileInfo) => {
+        console.log('Upload Complete.');
+        console.log(fileInfo);
+    });
+    uploader.on('error', (err) => {
+        console.log('Error!', err);
+    });
+    uploader.on('abort', (fileInfo) => {
+        console.log('Aborted: ', fileInfo);
     });
 
 });
