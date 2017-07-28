@@ -158,6 +158,7 @@
 
     </script>
     <script>
+<<<<<<< HEAD
     document.addEventListener('DOMContentLoaded', function () {
         if (!Notification) {
             alert('dis broke as shit');
@@ -180,6 +181,32 @@
                 notification.onclick = function () {
                     window.focus();
                 };
+=======
+        document.addEventListener('DOMContentLoaded', function () {
+            if (!Notification) {
+                alert('dis broke as shit');
+                return;
+            }
+            if (Notification.permission !== "granted")
+                Notification.requestPermission();
+        });
+        var iter = 0;
+        function notifyMe(msg) {
+            if (Notification.permission !== "granted")
+                Notification.requestPermission();
+            else {
+                iter++;
+                if (iter > 10) {
+                    var notification = new Notification('Moosen im', {
+                        icon: 'https://lh3.googleusercontent.com/j5fD3m5qXRNtGYDuajhEtS_etFvU8FE5PogmqTY2hrshDG0_urf_UBeVAyJljoCxdf4=w300',
+                        body: msg,
+                    });
+                    
+                    notification.onclick = function () {
+                        window.focus();
+                    };
+                }
+>>>>>>> dd170b39362a1a5d5c6c51c342d772b35153f8b3
             }
         }
     }
