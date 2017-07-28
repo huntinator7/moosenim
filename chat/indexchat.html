@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html>
 <head>
     <link rel="icon" href="http://www.moosen.im/images/favicon.png">
@@ -52,10 +52,48 @@
                     <button id="mbut" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
                 </form>
             </div>
+            <div class="col s12">
+                <button id="filebut" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
+                <label name="files[]" id="add_pics" class="btn btn-floating btn-file multiple waves-effect waves-light light-blue">
+                    <i class="material-icons">add</i><input style="display: none;" type="file" multiple>
+                </label>
+                <br>
+                <output id="list"></output>
+            </div>
         </div>
     </div>
+    <!-- Check if browser supports file upload -->
+    <script>
+    if (window.File && window.FileReader && window.FileList && window.Blob) {
+        // Great success! All the File APIs are supported.
+    } else {
+        alert('The File APIs are not fully supported in this browser.');
+    }
+    </script>
+
+    <script src="/siofu/client.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+    <!-- Get files by upload - simple -->
+    <script>
+    function handleFileSelect(evt) {
+        var instance = new SocketIOFileUpload(socket);
+        var files = evt.target.files; // FileList object
+        instance.submitFiles(files);
+        // files is a FileList of File objects. List some properties.
+        var output = [];
+        for (var i = 0, f; f = files[i]; i++) {
+            output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+            f.size, ' bytes, last modified: ',
+            f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
+            '</li>');
+        }
+        document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+    }
+
+    document.getElementById('add_pics').addEventListener('change', handleFileSelect, false);
+    </script>
     <script>
     $(function () {
         canAuto = false;
@@ -80,7 +118,7 @@
             // $('#messages').append('<li>' + msg + '<span style="font-size:0.5em; color:#9F9F9F; float:right;">' + time + '</span></li>');
             $('#messages').append('<li class="collection-item avatar"><i class="material-icons circle">account circle</i><span class="title">'
             + user + '</span><p>'
-            + msg + '</p><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
+            + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
             + time + '</a></li>');
             if (canAuto) {
                 window.scrollTo(0,document.body.scrollHeight);
@@ -120,39 +158,33 @@
 
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            if (!Notification) {
-                alert('dis broke as shit');
-                return;
-            }
-            if (Notification.permission !== "granted")
-                Notification.requestPermission();
-        });
-        var iter = 0;
-        function notifyMe(msg) {
-            if (Notification.permission !== "granted")
-                Notification.requestPermission();
-            else {
-                iter++;
-                if (iter > 10) {
-                    var notification = new Notification('Moosen im', {
-                        icon: 'https://lh3.googleusercontent.com/j5fD3m5qXRNtGYDuajhEtS_etFvU8FE5PogmqTY2hrshDG0_urf_UBeVAyJljoCxdf4=w300',
-                        body: msg,
-                    });
-                    notification.onclick = function () {
-                        window.focus();
-                    };
-                }
+    document.addEventListener('DOMContentLoaded', function () {
+        if (!Notification) {
+            alert('dis broke as shit');
+            return;
+        }
+        if (Notification.permission !== "granted")
+        Notification.requestPermission();
+    });
+    var iter = 0;
+    function notifyMe(msg) {
+        if (Notification.permission !== "granted")
+        Notification.requestPermission();
+        else {
+            iter++;
+            if (iter > 10) {
+                var notification = new Notification('Moosen im', {
+                    icon: 'https://lh3.googleusercontent.com/j5fD3m5qXRNtGYDuajhEtS_etFvU8FE5PogmqTY2hrshDG0_urf_UBeVAyJljoCxdf4=w300',
+                    body: msg,
+                });
+                notification.onclick = function () {
+                    window.focus();
+                };
             }
         }
-    </script>
-    <!-- <script>
-    function hideShow(un) {
-        username = un;
-        Materialize.toast("Logged in as " + username, 4000);
-        document.getElementById("main").style.display = "unset";
-        document.getElementById("login").style.display = "none";
     }
-    </script> -->
+    </script>
+    <!-- Image multi upload -->
+
 </body>
 </html>

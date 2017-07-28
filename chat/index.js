@@ -1,8 +1,8 @@
-var app = require('express')();
+var app = require('express')().use(SocketIOFileUpload.router);
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var mysql = require('mysql');
-
+var siofu = require("socketio-file-upload");
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/indexchat.html');
@@ -18,14 +18,14 @@ io.on('connection', function (socket) {
                 sendMessage("I love Rick Astley!", 'notch');
                 break;
             case "*autistic screeching*":
-                sendMessage(un +"is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", un);
+                sendMessage(un +" is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", un);
                 break;
             case "!pepe":
                 sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">",un)
                 break;
             default: sendMessage(msg, un);
         }
-       
+
         io.emit(getMessage(1));
 
     });
@@ -39,6 +39,16 @@ io.on('connection', function (socket) {
     socket.on('disconnect', function () {
         console.log('user disconnected');
     });
+    
+    var uploader = new SocketIOFileUpload();
+    uploader.listen(socket);
+    uploader.dir="/testimagestorage"
+    uploader.on("start", function(event){
+    if (/\.exe$/.test(event.file.name)) {
+        uploader.abort(event.file.id, socket);
+    }
+});
+
 });
 //open port on 3000
 http.listen(3000, function () {
