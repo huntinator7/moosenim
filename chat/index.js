@@ -1,8 +1,8 @@
-var app = require('express')().use(SocketIOFileUpload.router);
+var app = require('express')()
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var mysql = require('mysql');
-var siofu = require("socketio-file-upload");
+var siofu = require("socketio-file-upload").use(SocketIOFileUpload.router);
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/indexchat.html');
@@ -47,8 +47,6 @@ io.on('connection', function (socket) {
     socket.on('disconnect', function () {
         console.log('user disconnected');
     });
-
-    var uploader = new siofu.SocketIOFileUpload();
     uploader.listen(socket);
     uploader.dir="/testimagestorage"
     uploader.on("start", function(event){
