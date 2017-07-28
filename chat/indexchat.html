@@ -122,7 +122,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             if (!Notification) {
-                alert('Desktop notifications not available in your browser. Try Chromium.');
+                alert('dis broke as shit');
                 return;
             }
             if (Notification.permission !== "granted")
@@ -140,7 +140,7 @@
                         body: msg,
                     });
                     notification.onclick = function () {
-                        window.open("www.moosen.im");
+                        window.open("http://www.moosen.im");
                     };
                 }
             }
