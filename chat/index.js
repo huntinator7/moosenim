@@ -80,7 +80,7 @@ function sendMessage(message, username) {
      //   con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", ["error", username], function (error, results) {
          //   if (error) throw error;
 
-        });
+     //   });
   //  }
 }
 function getMessage() {
