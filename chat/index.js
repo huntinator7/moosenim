@@ -58,11 +58,11 @@ function sendMessage(message, username) {
 
         if (message.length > 254) {
             var l = message.length - 254;
-            var m = string.substring(0, 254);
+            var m = message.substring(0, 254);
             con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [m, username], function (error, results) {
                 if (error) throw error;
             });
-            m = string.substring(l - message.length);
+            m = message.substring(l - message.length);
             con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [m, username], function (error, results) {
                 if (error) throw error;
             });
