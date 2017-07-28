@@ -47,8 +47,8 @@ io.on('connection', function (socket) {
     socket.on('disconnect', function () {
         console.log('user disconnected');
     });
-    
-    var uploader = new SocketIOFileUpload();
+
+    var uploader = new siofu.SocketIOFileUpload();
     uploader.listen(socket);
     uploader.dir="/testimagestorage"
     uploader.on("start", function(event){
