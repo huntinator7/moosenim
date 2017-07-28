@@ -26,7 +26,7 @@
 </head>
 <body style="background-color:#000000;">
     <div style="display:none" id="login" class="container">
-        <div class="center row col s12">
+        <!-- <div class="center row col s12">
             <img style="height:10vh" src="http://moosen.im/images/banner.png" alt="Mighty Moosen">
         </div>
         <div class="row col s12">
@@ -35,14 +35,14 @@
                 <br>
                 <button id="logbut" class="center btn waves-effect waves-light light-blue white-text"><i class="material-icons">forward</i></button>
             </form>
-        </div>
+        </div> -->
     </div>
     <div id="main">
         <div class="container">
             <div class="center row col s12">
                 <img style="height:10vh" src="http://moosen.im/images/banner.png" alt="Mighty Moosen">
             </div>
-            <div class="row col s12">
+            <!-- <div class="row col s12">
                 <ul class="collection" id="messages" style="overflow-x:hidden"></ul>
             </div>
             <div class="row col s12">
@@ -51,7 +51,7 @@
                     <br>
                     <button id="mbut" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
                 </form>
-            </div>
+            </div> -->
             <div class="col s12">
                 <form id="imgform">
                     <input type="file" id="file" multiple />
@@ -148,7 +148,7 @@ $(function () {
     // });
 
     var uploader = new SocketIOFileClient(socket);
-    var form = document.getElementById('imgform');
+    var imgform = document.getElementById('imgform');
 
     uploader.on('start', function(fileInfo) {
         console.log('Start uploading', fileInfo);
@@ -166,7 +166,7 @@ $(function () {
         console.log('Aborted: ', fileInfo);
     });
 
-    form.onsubmit = function(ev) {
+    imgform.onsubmit = function(ev) {
         ev.preventDefault();
 
         var fileEl = document.getElementById('file');
