@@ -76,8 +76,8 @@ function showLastMessages(num) {
             + rows[i].message + '</p><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
             + rows[i].timestamp + '</a></li>');
         }
-        // if (canAuto) {
-        //     window.scrollTo(0,document.body.scrollHeight);
-        // }
+        if (canAuto) {
+            window.scrollTo(0,document.body.scrollHeight);
+        }
     });
 }
