@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html>
 <head>
     <link rel="icon" href="http://www.moosen.im/images/favicon.png">
@@ -74,7 +74,8 @@
             document.getElementById("login").style.display = "none";
             return false;
         });
-        socket.on('chat message', function(user, msg, time){
+        socket.on('chat message', function (user, msg, time) {
+            notifyMe();
             // $('#messages').append('<li>' + msg + '<span style="font-size:0.5em; color:#9F9F9F; float:right;">' + time + '</span></li>');
             $('#messages').append('<li class="collection-item avatar"><i class="material-icons circle">account circle</i><span class="title">'
             + user + '</span><p>'
@@ -116,6 +117,29 @@
         }
     });
 
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            if (!Notification) {
+                alert('Desktop notifications not available in your browser. Try Chromium.');
+                return;
+            }
+            if (Notification.permission !== "granted")
+                Notification.requestPermission();
+        });
+        function notifyMe() {
+            if (Notification.permission !== "granted")
+                Notification.requestPermission();
+            else {
+                var notification = new Notification('Notification title', {
+                    icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
+                    body: "Hey there! You've been notified!",
+                });
+                notification.onclick = function () {
+                    window.open("http://stackoverflow.com/a/13328397/1269037");
+                };
+            }
+        }
     </script>
     <!-- <script>
     function hideShow(un) {
