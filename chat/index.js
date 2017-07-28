@@ -5,12 +5,12 @@ var mysql = require('mysql');
 var SocketIOFile = require('socket.io-file');
 
 app.get('/', (req, res, next) => {
-    return res.sendFile(__dirname + '/client/index.html');
+    return res.sendFile(__dirname + '/indexchat.html');
 });
 
-app.get('/app.js', (req, res, next) => {
-    return res.sendFile(__dirname + '/client/app.js');
-});
+// app.get('/app.js', (req, res, next) => {
+//     return res.sendFile(__dirname + '/client/app.js');
+// });
 
 app.get('/socket.io.js', (req, res, next) => {
     return res.sendFile(__dirname + '/node_modules/socket.io-client/dist/socket.io.js');
