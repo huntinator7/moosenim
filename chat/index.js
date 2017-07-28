@@ -71,13 +71,16 @@ function showLastMessages(num) {
         console.log("getting messages...");
         if (error) throw error;
         for (var i = 0; i < num; i++) {
-            $('#messages').append('<li class="collection-item avatar"><i class="material-icons circle">account circle</i><span class="title">'
+            var ul = document.getElementById("messages");
+            var li = document.createElement("li");
+            li.innerHTML = '<li class="collection-item avatar"><i class="material-icons circle">account circle</i><span class="title">'
             + rows[i].username + '</span><p>'
             + rows[i].message + '</p><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
-            + rows[i].timestamp + '</a></li>');
+            + rows[i].timestamp + '</a></li>';
+            ul.appendChild(li);
         }
-        if (canAuto) {
-            window.scrollTo(0,document.body.scrollHeight);
-        }
+        // if (canAuto) {
+        //     window.scrollTo(0,document.body.scrollHeight);
+        // }
     });
 }
