@@ -139,6 +139,7 @@
                         icon: 'https://lh3.googleusercontent.com/j5fD3m5qXRNtGYDuajhEtS_etFvU8FE5PogmqTY2hrshDG0_urf_UBeVAyJljoCxdf4=w300',
                         body: msg,
                     });
+                    setTimeout(notification.close.bind(n), 4000);
                     notification.onclick = function () {
                         window.focus();
                     };
