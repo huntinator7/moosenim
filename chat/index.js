@@ -10,7 +10,7 @@ app.get('/', function (req, res) {
 
 io.on('connection', function (socket) {
     console.log('a user connected');
-    showLastMessages(10, socket#id);
+    showLastMessages(10, socket);
     socket.on('chat message', function (msg, un) {
 
         console.log('un: ' + un + ' | message: ' + msg);
