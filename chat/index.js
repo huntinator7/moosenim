@@ -18,23 +18,23 @@ io.on('connection', function (socket) {
         console.log('un: ' + un + ' | message: ' + msg);
         switch (msg) {
             case "lag":
-                sendMessage("I love Rick Astley!", 'notch');
-                break;
+            sendMessage("I love Rick Astley!", 'notch');
+            break;
             case "*autistic screeching*":
-                sendMessage(un +" is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", un);
-                break;
+            sendMessage(un +" is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", un);
+            break;
             case "!pepe":
-                sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">",un)
-                break;
+            sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">",un)
+            break;
             case "nigger":
-                sendMessage("Whoa there! please a PC term such as 'Basketball American'.", un+", racist")
-                break;
+            sendMessage("Whoa there! please a PC term such as 'Basketball American'.", un+", racist")
+            break;
             default:
-                var term="<script>";
-                if (msg.includes(term)){
-                    sendMessage("nice try.", un);
-                }
-                else sendMessage(msg, un);
+            var term="<script>";
+            if (msg.includes(term)){
+                sendMessage("nice try.", un);
+            }
+            else sendMessage(msg, un);
         }
 
         io.emit(getMessage(1));
@@ -50,15 +50,16 @@ io.on('connection', function (socket) {
     socket.on('disconnect', function () {
         console.log('user disconnected');
     });
-    
+
     var uploader = new SocketIOFileUpload();
     uploader.listen(socket);
     uploader.dir="/testimagestorage"
     uploader.on("start", function(event){
-    if (/\.exe$/.test(event.file.name)) {
-        uploader.abort(event.file.id, socket);
-    }
-});
+        console.log('uploading: ' + event.file.name);
+        if (/\.exe$/.test(event.file.name)) {
+            uploader.abort(event.file.id, socket);
+        }
+    });
 
 });
 //open port on 3000
@@ -82,34 +83,34 @@ con.connect(function (err) {
 });
 
 function sendMessage(message, username) {
-  //  try {
+    //  try {
 
-        if (message.length > 254) {
-            var l = message.length - 254;
-            var m = message.substring(0, 254);
-            con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [m, username], function (error, results) {
-                if (error) throw error;
-            });
-            m = message.substring(l - message.length);
-            con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [m, username], function (error, results) {
-                if (error) throw error;
-            });
-        }
-        else {
-
-
-            con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [message, username], function (error, results) {
-                if (error) throw error;
-
-            });
-     //   }
+    if (message.length > 254) {
+        var l = message.length - 254;
+        var m = message.substring(0, 254);
+        con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [m, username], function (error, results) {
+            if (error) throw error;
+        });
+        m = message.substring(l - message.length);
+        con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [m, username], function (error, results) {
+            if (error) throw error;
+        });
     }
-   // catch (Exception) {
-     //   con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", ["error", username], function (error, results) {
-         //   if (error) throw error;
+    else {
 
-     //   });
-  //  }
+
+        con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [message, username], function (error, results) {
+            if (error) throw error;
+
+        });
+        //   }
+    }
+    // catch (Exception) {
+    //   con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", ["error", username], function (error, results) {
+    //   if (error) throw error;
+
+    //   });
+    //  }
 }
 function getMessage() {
     con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", function (error, rows, results) {
