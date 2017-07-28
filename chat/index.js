@@ -20,6 +20,9 @@ io.on('connection', function (socket) {
             case "*autistic screeching*":
                 sendMessage(un +"is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", un);
                 break;
+            case "!pepe":
+                sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">",un)
+                break;
             default: sendMessage(msg, un);
         }
        
