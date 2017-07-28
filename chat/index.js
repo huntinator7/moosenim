@@ -24,9 +24,14 @@ io.on('connection', function (socket) {
                 sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">",un)
                 break;
             case "nigger":
-                sendMessage("Whoa there! please a PC term such as 'Basketball American'.", un+", flaming racist")
+                sendMessage("Whoa there! please a PC term such as 'Basketball American'.", un+", racist")
                 break;
-            default: sendMessage(msg, un);
+            default:
+                var term="<script>";
+                if (msg.includes(term)){
+                    sendMessage("nice try.", un);
+                }
+                else sendMessage(msg, un);
         }
        
         io.emit(getMessage(1));
