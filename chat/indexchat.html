@@ -25,7 +25,7 @@
     </style>
 </head>
 <body style="background-color:#000000;">
-    <div id="login" class="container">
+    <div style="display:none" id="login" class="container">
         <div class="center row col s12">
             <img style="height:10vh" src="http://moosen.im/images/banner.png" alt="Mighty Moosen">
         </div>
@@ -37,7 +37,7 @@
             </form>
         </div>
     </div>
-    <div style="display:none" id="main">
+    <div id="main">
         <div class="container">
             <div class="center row col s12">
                 <img style="height:10vh" src="http://moosen.im/images/banner.png" alt="Mighty Moosen">
@@ -53,7 +53,7 @@
                 </form>
             </div>
             <div class="col s12">
-                <form id="form">
+                <form id="imgform">
                     <input type="file" id="file" multiple />
                     <input type="submit" value="Upload" />
                 </form>
@@ -138,17 +138,17 @@ $(function () {
         $('#m').val('');
         return false;
     });
-    $('#logform').submit(function(){
-        socket.emit('login message', $('#log').val());
-        username = $('#log').val();
-        Materialize.toast("Logged in as " + username, 4000);
-        document.getElementById("main").style.display = "unset";
-        document.getElementById("login").style.display = "none";
-        return false;
-    });
+    // $('#logform').submit(function(){
+    //     socket.emit('login message', $('#log').val());
+    //     username = $('#log').val();
+    //     Materialize.toast("Logged in as " + username, 4000);
+    //     document.getElementById("main").style.display = "unset";
+    //     document.getElementById("login").style.display = "none";
+    //     return false;
+    // });
 
     var uploader = new SocketIOFileClient(socket);
-    var form = document.getElementById('form');
+    var form = document.getElementById('imgform');
 
     uploader.on('start', function(fileInfo) {
         console.log('Start uploading', fileInfo);
