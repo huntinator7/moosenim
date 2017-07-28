@@ -25,7 +25,7 @@
     </style>
 </head>
 <body style="background-color:#000000;">
-    <div id="login" style="display:none" class="container">
+    <div id="login" class="container">
         <div class="center row col s12">
             <img style="height:10vh" src="http://moosen.im/images/banner.png" alt="Mighty Moosen">
         </div>
@@ -37,7 +37,7 @@
             </form>
         </div>
     </div>
-    <div id="main">
+    <div style="display:none" id="main">
         <div class="container">
             <div class="center row col s12">
                 <img style="height:10vh" src="http://moosen.im/images/banner.png" alt="Mighty Moosen">
@@ -66,18 +66,33 @@
             $('#m').val('');
             return false;
         });
-        socket.on('chat message', function(msg, time){
+        $('#logform').submit(function(){
+            socket.emit('login message', $('#log').val());
+            username = $('#log').val();
+            Materialize.toast("Logged in as " + username, 4000);
+            document.getElementById("main").style.display = "unset";
+            document.getElementById("login").style.display = "none";
+            return false;
+        });
+        socket.on('chat message', function(user, msg, time){
             // $('#messages').append('<li>' + msg + '<span style="font-size:0.5em; color:#9F9F9F; float:right;">' + time + '</span></li>');
             $('#messages').append('<li class="collection-item avatar"><i class="material-icons circle">account circle</i><span class="title">'
-            + username + '</span><p>'
+            + user + '</span><p>'
             + msg + '</p><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
             + time + '</a></li>');
             if (canAuto) {
                 window.scrollTo(0,document.body.scrollHeight);
             }
-            // $('#messages').append($('<li>').text(msg + " " + time));
-            // $('#messages').append($('<li>').html(msg + '<span style="float:right;">' + time + '</span>');
         });
+        socket.on('login message', function(user){
+            $('#messages').append('<li class="collection-item"><i class="material-icons circle">announcement</i><span class="title">'
+            + user + ' logged in</span></a></li>');
+            if (canAuto) {
+                window.scrollTo(0,document.body.scrollHeight);
+            }
+        });
+        // $('#messages').append($('<li>').text(msg + " " + time));
+        // $('#messages').append($('<li>').html(msg + '<span style="float:right;">' + time + '</span>');
         // socket.on('last message', function (msg) {
         //     $('#messages').append($('<li>').text(msg + " vagina"));
         //     if (canAuto) {
@@ -102,13 +117,13 @@
     });
 
     </script>
-    <script>
+    <!-- <script>
     function hideShow(un) {
         username = un;
         Materialize.toast("Logged in as " + username, 4000);
         document.getElementById("main").style.display = "unset";
         document.getElementById("login").style.display = "none";
     }
-    </script>
+    </script> -->
 </body>
 </html>

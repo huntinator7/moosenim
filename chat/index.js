@@ -24,6 +24,11 @@ io.on('connection', function (socket) {
 
     });
 
+    // socket.on('login message', function (un) {
+    //     console.log('un: ' + un + ' logged in');
+    //     io.emit(getMessage(1));
+    // });
+
     socket.on('disconnect', function () {
         console.log('user disconnected');
     });
@@ -59,7 +64,7 @@ function getMessage(num) {
         console.log("getting messages...");
         if (error) throw error;
         for (var i = 0; i < num; i++) {
-            io.emit('chat message', rows[i].username + ": " + rows[i].message, rows[i].timestamp);
+            io.emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp);
         }
     });
 }
