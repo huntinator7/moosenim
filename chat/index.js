@@ -10,7 +10,7 @@ app.get('/', function (req, res) {
 
 io.on('connection', function (socket) {
     console.log('a user connected');
-    showLastMessages(10);
+    showLastMessages(10, socket#id);
     socket.on('chat message', function (msg, un) {
 
         console.log('un: ' + un + ' | message: ' + msg);
@@ -66,21 +66,12 @@ function getMessage() {
         io.emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp);
     });
 }
-function showLastMessages(num) {
+function showLastMessages(num, id) {
     con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [num], function (error, rows, results) {
         console.log("getting messages...");
         if (error) throw error;
         for (var i = 0; i < num; i++) {
-            var ul = document.getElementById("messages");
-            var li = document.createElement("li");
-            li.innerHTML = '<li class="collection-item avatar"><i class="material-icons circle">account circle</i><span class="title">'
-            + rows[i].username + '</span><p>'
-            + rows[i].message + '</p><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
-            + rows[i].timestamp + '</a></li>';
-            ul.appendChild(li);
+            io.to(id).emit('hey');
         }
-        // if (canAuto) {
-        //     window.scrollTo(0,document.body.scrollHeight);
-        // }
     });
 }
