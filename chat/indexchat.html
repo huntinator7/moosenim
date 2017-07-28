@@ -78,6 +78,7 @@
     <!-- Get files by upload - simple -->
     <script>
     function handleFileSelect(evt) {
+        alert("here");
         var instance = new SocketIOFileUpload(socket);
         var files = evt.target.files; // FileList object
         instance.submitFiles(files);
