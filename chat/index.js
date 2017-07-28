@@ -63,7 +63,7 @@ function getMessage() {
     con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", function (error, rows, results) {
         console.log("getting messages...");
         if (error) throw error;
-        io.emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp);
+        io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp);
     });
 }
 function showLastMessages(num, id) {
@@ -71,7 +71,7 @@ function showLastMessages(num, id) {
         console.log("getting messages...");
         if (error) throw error;
         for (var i = 0; i < num; i++) {
-            io.to(id).emit('hey');
+            io.to(id).emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp);
         }
     });
 }
