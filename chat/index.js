@@ -23,6 +23,9 @@ io.on('connection', function (socket) {
             case "!pepe":
                 sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">",un)
                 break;
+            case "nigger":
+                sendMessage("Whoa there! please a PC term such as 'Basketball American'.", un+", flaming racist")
+                break;
             default: sendMessage(msg, un);
         }
        
