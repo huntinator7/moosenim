@@ -61,7 +61,7 @@
     $(function () {
         username = "testing";
         var socket = io();
-        $('form').submit(function(){
+        $('#mform').submit(function(){
             socket.emit('chat message', $('#m').val(), username);
             $('#m').val('');
             return false;
@@ -72,6 +72,9 @@
             + username + '</span><p>'
             + msg + '</p><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
             + time + '</a></li>');
+            if (canAuto) {
+                window.scrollTo(0,document.body.scrollHeight);
+            }
             // $('#messages').append($('<li>').text(msg + " " + time));
             // $('#messages').append($('<li>').html(msg + '<span style="float:right;">' + time + '</span>');
         });
