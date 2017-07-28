@@ -10,7 +10,7 @@ app.get('/', function (req, res) {
 
 io.on('connection', function (socket) {
     console.log('a user connected');
-    getMessage(10);
+    showLastMessages(10);
     socket.on('chat message', function (msg, un) {
 
         console.log('un: ' + un + ' | message: ' + msg);
@@ -59,12 +59,25 @@ function sendMessage(message, username) {
 
     });
 }
-function getMessage(num) {
+function getMessage() {
+    con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", function (error, rows, results) {
+        console.log("getting messages...");
+        if (error) throw error;
+        io.emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp);
+    });
+}
+function showLastMessages(num) {
     con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [num], function (error, rows, results) {
         console.log("getting messages...");
         if (error) throw error;
         for (var i = 0; i < num; i++) {
-            io.emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp);
+            $('#messages').append('<li class="collection-item avatar"><i class="material-icons circle">account circle</i><span class="title">'
+            + rows[i].username + '</span><p>'
+            + rows[i].message + '</p><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
+            + rows[i].timestamp + '</a></li>');
+        }
+        if (canAuto) {
+            window.scrollTo(0,document.body.scrollHeight);
         }
     });
 }
