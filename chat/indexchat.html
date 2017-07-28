@@ -132,8 +132,8 @@
             if (Notification.permission !== "granted")
                 Notification.requestPermission();
             else {
-                var notification = new Notification('Notification title', {
-                    icon: 'http://www.moosen.im/images/favicon.png',
+                var notification = new Notification('Moosen im', {
+                    icon: 'https://lh3.googleusercontent.com/j5fD3m5qXRNtGYDuajhEtS_etFvU8FE5PogmqTY2hrshDG0_urf_UBeVAyJljoCxdf4=w300',
                     body: msg,
                 });
                 notification.onclick = function () {
