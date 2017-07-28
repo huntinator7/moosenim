@@ -13,12 +13,16 @@ io.on('connection', function (socket) {
     socket.on('chat message', function (msg, un) {
 
         console.log('un: ' + un + ' | message: ' + msg);
-        if (msg === "lag") {
-            sendMessage("I love Rick Astley!", 'notch');
+        switch (msg) {
+            case "lag":
+                sendMessage("I love Rick Astley!", 'notch');
+                break;
+            case "*autistic screeching*":
+                sendMessage(un +"is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", un);
+                break;
+            default: sendMessage(msg, un);
         }
-        else {
-            sendMessage(msg, un);
-        }
+       
         io.emit(getMessage(1));
 
     });
