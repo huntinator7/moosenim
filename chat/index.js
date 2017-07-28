@@ -54,10 +54,34 @@ con.connect(function (err) {
 });
 
 function sendMessage(message, username) {
-    con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [message, username], function (error, results) {
-        if (error) throw error;
+    try {
 
-    });
+        if (message.length > 255) {
+            var l = message.length - 255;
+            var m = string.substring(0, 255);
+            con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [m, username], function (error, results) {
+                if (error) throw error;
+            });
+            m = string.substring(l - message.length);
+            con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [m, username], function (error, results) {
+                if (error) throw error;
+            });
+        }
+        else {
+
+
+            con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [message, username], function (error, results) {
+                if (error) throw error;
+
+            });
+        }
+    }
+    catch (Exception) {
+        con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", ["error", username], function (error, results) {
+            if (error) throw error;
+
+        });
+    }
 }
 function getMessage() {
     con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", function (error, rows, results) {
