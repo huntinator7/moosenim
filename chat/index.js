@@ -90,7 +90,7 @@ function updateOnline(un, add) {
     }
     console.log('updateOnline');
     for (var i = 0; i < online.length; i++) {
-        $('#online').append('<li class="collection-item">' + users[i] + '</li>');
+        console.log('online: ' + online[i]);
     }
     io.emit('update online', online);
 }
