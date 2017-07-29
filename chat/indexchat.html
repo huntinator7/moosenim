@@ -46,27 +46,28 @@
         </div>
     </div>
     <div style="display:none" id="main">
-        <div class="container">
-            <!-- <div class="center row col s12">
+        <!-- <div class="container">
+            <div class="center row col s12">
                 <img style="height:10vh" src="http://moosen.im/images/banner.png" alt="Mighty Moosen">
-            </div> -->
-            <div class="row">
-                <div class="col s12 m9">
-                    <ul class="collection with-header" id="messages" style="overflow-x:hidden"></ul>
-                </div>
-                <div class="col hide-on-small-only m3">
-                    <div class="toc-wrapper pinned" style="top:10vh">
-                        <ul class="collection with-header" id="online" style="overflow-x:hidden"></ul>
-                    </div>
+            </div>
+
+        </div> -->
+        <div class="row">
+            <div class="col s8 offset-s2">
+                <ul class="collection with-header" id="messages" style="overflow-x:hidden"></ul>
+            </div>
+            <div class="col hide-on-small-only s2">
+                <div class="toc-wrapper pinned" style="top:10vh">
+                    <ul class="collection with-header" id="online" style="overflow-x:hidden"></ul>
                 </div>
             </div>
-            <div class="row col s12 m9">
-                <form id="mform" action="">
-                    <input id="m" autocomplete="off" style="color:black; background-color:white; border:2px solid #6EB7FF; font-size:1.5em" type="text" placeholder="Message">
-                    <br>
-                    <button id="mbut" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
-                </form>
-            </div>
+        </div>
+        <div class="row col s8 offset-s2">
+            <form id="mform" action="">
+                <input id="m" autocomplete="off" style="color:black; background-color:white; border:2px solid #6EB7FF; font-size:1.5em" type="text" placeholder="Message">
+                <br>
+                <button id="mbut" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
+            </form>
         </div>
     </div>
     <script src="/socket.io/socket.io.js"></script>
@@ -129,7 +130,7 @@
         });
 
         socket.on('update online', function(users){
-            document.getElementById("online").style.display = "inline";
+            document.getElementById("online").style.display = "none";
             $('#online').empty();
             $('#online').append('<li class="collection-header">Online</li>');
             for (var i = 0; i < users.length; i++) {
@@ -138,6 +139,7 @@
             if (canAuto) {
                 window.scrollTo(0,document.body.scrollHeight);
             }
+            document.getElementById("online").style.display = "block";
         });
     });
     $(window).scroll(function() {

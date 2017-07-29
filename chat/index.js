@@ -38,7 +38,9 @@ io.on('connection', function (socket) {
     socket.on('login message', function (un) {
         console.log('un: ' + un + ' logged in');
         showLastMessages(10, socket.id);
-        addOnline(un, socket.id);
+        if (un != 'ping timeout') {
+            addOnline(un, socket.id);
+        }
         socket.broadcast.emit('login message', un);
     });
 
@@ -50,7 +52,9 @@ io.on('connection', function (socket) {
     socket.on('disconnect', function (un) {
         console.log('user disconnected, id ' + socket.id);
         removeOnline(socket.id);
-        socket.broadcast.emit('logout message', un);
+        if (un != 'ping timeout') {
+            socket.broadcast.emit('logout message', un);
+        }
     });
 });
 //open port on 3000
