@@ -13,26 +13,7 @@ io.on('connection', function (socket) {
     socket.on('chat message', function (msg, un) {
 
         console.log('un: ' + un + ' | message: ' + msg);
-        // switch (msg) {
-        //     case "lag":
-        //         sendMessage("I love Rick Astley!", 'notch');
-        //         break;
-        //     case "*autistic screeching*":
-        //         sendMessage(un +"is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", un);
-        //         break;
-        //     case "!pepe":
-        //         sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">",un)
-        //         break;
-        //     case "nigger":
-        //         sendMessage("Whoa there! please a PC term such as 'Basketball American'.", un+", racist")
-        //         break;
-        //     default:
-        //         var term="<script>";
-        //         if (msg.includes(term)){
-        //             sendMessage("nice try.", un);
-        //         }
-        //         else sendMessage(msg, un);
-        // }
+       
         if (msg.indexOf("lag") > -1) {
             sendMessage("I love Rick Astley!", 'notch');
         } else if (msg.indexOf("*autistic screeching*") > -1) {
@@ -86,7 +67,7 @@ con.connect(function (err) {
 });
 
 function sendMessage(message, username) {
-    //  try {
+      try {
 
     if (message.length > 254) {
         var l = message.length - 254;
@@ -106,14 +87,14 @@ function sendMessage(message, username) {
             if (error) throw error;
 
         });
-        //   }
+           }
     }
-    // catch (Exception) {
-    //   con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", ["error", username], function (error, results) {
-    //   if (error) throw error;
+     catch (Exception) {
+      con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", ["error", username], function (error, results) {
+     if (error) throw error;
 
-    //   });
-    //  }
+      });
+     }
 }
 function getMessage() {
     con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", function (error, rows, results) {
