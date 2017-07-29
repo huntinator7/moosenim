@@ -47,7 +47,7 @@ io.on('connection', function (socket) {
         showLastMessages(num, socket.id);
     });
 
-    socket.on('disconnect', function () {
+    socket.on('disconnect', function (un) {
         console.log('user disconnected');
         socket.broadcast.emit('logoff message', un);
     });
