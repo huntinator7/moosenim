@@ -76,13 +76,21 @@ con.connect(function (err) {
 var online = [];
 
 function updateOnline(un, add) {
+    console.log('updateOnline| un:' + un + ' add:' + add);
     if (add) {
         online.push(un);
+        console.log('adding ' + un);
     } else {
         var pos = online.indexOf(un);
+        console.log('removing ' + un + ', pos of un = ' + pos);
         if (pos > -1) {
             online.splice(pos, 1);
+            console.log('removed ' + un);
         }
+    }
+    console.log('updateOnline');
+    for (var i = 0; i < users.length; i++) {
+        $('#online').append('<li class="collection-item">' + users[i] + '</li>');
     }
     io.emit('update online', online);
 }
