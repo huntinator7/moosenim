@@ -67,7 +67,7 @@
             return false;
         });
         $('#logform').submit(function(){
-            socket.emit('login message', $('#log').val());
+            socket.broadcast.emit('login message', $('#log').val());
             username = $('#log').val();
             Materialize.toast("Logged in as " + username, 4000);
             document.getElementById("main").style.display = "unset";
@@ -76,8 +76,8 @@
         });
         socket.on('chat message', function (user, msg, time) {
             var m = user + ": " + msg;
-            alert(document.visibilityState);
-            if (document.hidden){
+            if (document.visibilityState == 'hidden'){
+                alert(document.visibilityState);
                 notifyMe(m);
             }
 
