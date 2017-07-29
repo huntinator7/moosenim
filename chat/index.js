@@ -61,8 +61,14 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('login message', un);
     });
 
+    socket.on('local message', function (un, num) {
+        console.log(un + ' logged in');
+        showLastMessages(num, socket.id);
+    });
+
     socket.on('disconnect', function () {
         console.log('user disconnected');
+        socket.broadcast.emit('logoff message', un);
     });
 });
 //open port on 3000
@@ -119,7 +125,7 @@ function getMessage() {
     con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", function (error, rows, results) {
         console.log("emitting message");
         if (error) throw error;
-        io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp);
+        io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id);
     });
 }
 function showLastMessages(num, id) {
