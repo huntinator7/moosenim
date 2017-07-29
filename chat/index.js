@@ -33,18 +33,18 @@ io.on('connection', function (socket) {
         //         }
         //         else sendMessage(msg, un);
         // }
-        if (str.indexOf("lag") > -1) {
+        if (msg.indexOf("lag") > -1) {
             sendMessage("I love Rick Astley!", 'notch');
-        } else if (str.indexOf("*autistic screeching*") > -1) {
+        } else if (msg.indexOf("*autistic screeching*") > -1) {
             sendMessage(msg, un);
             sendMessage(un +" is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod");
-        } else if (str.indexOf("!pepe") == 0) {
+        } else if (msg.indexOf("!pepe") == 0) {
             sendMessage(msg, un);
             sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", "AutoMod")
-        } else if (str.indexOf("nigger") > -1) {
+        } else if (msg.indexOf("nigger") > -1) {
             var newmsg = msg.replace("nigger", "Basketball American");
             sendMessage(newmsg, un + ', casual racist');
-        } else if (str.indexOf("<script") > -1) {
+        } else if (msg.indexOf("<script") > -1) {
             sendMessage("nice try.", "AutoMod");
         }
         else {
