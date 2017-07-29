@@ -22,19 +22,23 @@
     #messages { list-style-type: none; margin: 0; }
     #online { list-style-type: background-color:white; }
     #online li{ color:black; }
+    nav.top-nav a.page-title {
+        line-height: 10vh;
+        font-size: 4em;
+    }
     /*#messages li { background: #FFFFFF; font-color:#000000; font-size:1.5em; padding: 1% 2%; }*/
     /*#messages li:nth-child(odd) { background: #DFDFDF; padding-left: 4%; }*/
     </style>
 </head>
 <body style="background-color:#000000;">
     <header>
-      <nav class="top-nav light-blue">
-        <div class="container">
-          <div class="nav-wrapper">
-              <a class="page-title white-text">MoosenIM</a>
-          </div>
-        </div>
-      </nav>
+        <nav class="top-nav light-blue">
+            <div class="container">
+                <div class="nav-wrapper">
+                    <a class="page-title white-text">MoosenIM</a>
+                </div>
+            </div>
+        </nav>
     </header>
     <div id="login" class="container">
         <div class="row col s12">
@@ -47,143 +51,143 @@
     </div>
     <div style="display:none" id="main">
         <!-- <div class="container">
-            <div class="center row col s12">
-                <img style="height:10vh" src="http://moosen.im/images/banner.png" alt="Mighty Moosen">
-            </div>
+        <div class="center row col s12">
+        <img style="height:10vh" src="http://moosen.im/images/banner.png" alt="Mighty Moosen">
+    </div>
 
-        </div> -->
-        <div class="row" style ="padding-top:5vh;">
-            <div class="row col s12 xl8 offset-xl2">
-                <ul class="collection with-header" id="messages" style="overflow-x:hidden"></ul>
-            </div>
-            <div class="col hide-on-small-only s2">
-                <div class="toc-wrapper pinned">
-                    <ul class="collection with-header" id="online" style="overflow-x:hidden"></ul>
-                </div>
-            </div>
+</div> -->
+<div class="container">
+    <div class="row" style ="padding-top:5vh;">
+        <div class="row col s12 xl8 offset-xl2">
+            <ul class="collection with-header" id="messages" style="overflow-x:hidden"></ul>
         </div>
-        <div class="container">
-            <div class="row col s12 xl8 offset-xl2">
-                <form id="mform" action="">
-                    <input id="m" autocomplete="off" style="color:black; background-color:white; border:2px solid #6EB7FF; font-size:1.5em" type="text" placeholder="Message">
-                    <br>
-                    <button id="mbut" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
-                </form>
+        <div class="col hide-on-small-only s2">
+            <div class="toc-wrapper pinned">
+                <ul class="collection with-header" id="online" style="overflow-x:hidden"></ul>
             </div>
         </div>
     </div>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <script>
-    $(function () {
-        canAuto = false;
-        username = "testing";
-        last_id = 0;
-        var socket = io();
-        $('#mform').submit(function(){
-            socket.emit('chat message', $('#m').val(), username);
-            $('#m').val('');
-            return false;
-        });
-        $('#logform').submit(function(){
-            socket.emit('login message', $('#log').val());
-            username = $('#log').val();
-            Materialize.toast("Logged in as " + username, 4000);
-            document.getElementById("main").style.display = "block";
-            document.getElementById("login").style.display = "none";
-            return false;
-        });
-        socket.on('chat message', function (user, msg, time, id) {
-            // if (last_id == 0){
-            //     last_id = id;
-            // } else if (id - last_id > 10) {
-            //     $('#messages').append('<li class="collection-item"><div class="divider"></div></li>');
-            //     socket.emit('local message', username, 10);
-            // } else if (id - last_id != 1) {
-            //     socket.emit('local message', username, id-last_id - 1);
-            // }
-            console.log(id);
-            var m = user + ": " + msg;
-            if(document.hidden) {
-                notifyMe(m);
-            }
-            $('#messages').append('<li class="collection-item avatar"><i class="material-icons circle">face</i><span class="title">'
-            + user + '</span><p>'
-            + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
-            + time + '</a></li>');
-            if (canAuto) {
-                window.scrollTo(0,document.body.scrollHeight);
-            }
-        });
-        socket.on('login message', function(user){
-            $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">info outline</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
-            + user + ' logged in</span></a></li>');
-            if (canAuto) {
-                window.scrollTo(0,document.body.scrollHeight);
-            }
-        });
-
-        socket.on('logout message', function(user){
-            $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">error outline</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
-            + user + ' logged out</span></a></li>');
-            if (canAuto) {
-                window.scrollTo(0,document.body.scrollHeight);
-            }
-        });
-
-        socket.on('update online', function(users){
-            document.getElementById("online").style.display = "none";
-            $('#online').empty();
-            $('#online').append('<li class="collection-header">Online</li>');
-            for (var i = 0; i < users.length; i++) {
-                $('#online').append('<li class="collection-item">' + users[i] + '</li>');
-            }
-            if (canAuto) {
-                window.scrollTo(0,document.body.scrollHeight);
-            }
-            document.getElementById("online").style.display = "block";
-        });
+    <div class="row col s12 xl8 offset-xl2">
+        <form id="mform" action="">
+            <input id="m" autocomplete="off" style="color:black; background-color:white; border:2px solid #6EB7FF; font-size:1.5em" type="text" placeholder="Message">
+            <br>
+            <button id="mbut" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
+        </form>
+    </div>
+</div>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+$(function () {
+    canAuto = false;
+    username = "testing";
+    last_id = 0;
+    var socket = io();
+    $('#mform').submit(function(){
+        socket.emit('chat message', $('#m').val(), username);
+        $('#m').val('');
+        return false;
     });
-    $(window).scroll(function() {
-        if($(window).scrollTop() + $(window).height() >= $(document).height() * .9) {
-            canAuto = true;
-        }
-        else {
-            canAuto = false;
-        }
+    $('#logform').submit(function(){
+        socket.emit('login message', $('#log').val());
+        username = $('#log').val();
+        Materialize.toast("Logged in as " + username, 4000);
+        document.getElementById("main").style.display = "block";
+        document.getElementById("login").style.display = "none";
+        return false;
     });
-
-    $(window).resize(function () { //checking for window resize event
-        if($("#m").is(":focus")){
+    socket.on('chat message', function (user, msg, time, id) {
+        // if (last_id == 0){
+        //     last_id = id;
+        // } else if (id - last_id > 10) {
+        //     $('#messages').append('<li class="collection-item"><div class="divider"></div></li>');
+        //     socket.emit('local message', username, 10);
+        // } else if (id - last_id != 1) {
+        //     socket.emit('local message', username, id-last_id - 1);
+        // }
+        console.log(id);
+        var m = user + ": " + msg;
+        if(document.hidden) {
+            notifyMe(m);
+        }
+        $('#messages').append('<li class="collection-item avatar"><i class="material-icons circle">face</i><span class="title">'
+        + user + '</span><p>'
+        + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
+        + time + '</a></li>');
+        if (canAuto) {
             window.scrollTo(0,document.body.scrollHeight);
+        }
+    });
+    socket.on('login message', function(user){
+        $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">info outline</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
+        + user + ' logged in</span></a></li>');
+        if (canAuto) {
             window.scrollTo(0,document.body.scrollHeight);
         }
     });
 
-    </script>
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        if (!Notification) {
-            alert('dis broke as shit');
-            return;
+    socket.on('logout message', function(user){
+        $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">error outline</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
+        + user + ' logged out</span></a></li>');
+        if (canAuto) {
+            window.scrollTo(0,document.body.scrollHeight);
         }
-        if (Notification.permission !== "granted")
-        Notification.requestPermission();
     });
-    var iter = 0;
-    function notifyMe(msg) {
-        if (Notification.permission !== "granted")
-        Notification.requestPermission();
-        else {
-            var notification = new Notification('Moosen IM', {
-                icon: 'https://lh3.googleusercontent.com/j5fD3m5qXRNtGYDuajhEtS_etFvU8FE5PogmqTY2hrshDG0_urf_UBeVAyJljoCxdf4=w300',
-                body: msg,
-            });
-            notification.onclick = function () {
-                window.focus();
-            };
+
+    socket.on('update online', function(users){
+        document.getElementById("online").style.display = "none";
+        $('#online').empty();
+        $('#online').append('<li class="collection-header">Online</li>');
+        for (var i = 0; i < users.length; i++) {
+            $('#online').append('<li class="collection-item">' + users[i] + '</li>');
         }
+        if (canAuto) {
+            window.scrollTo(0,document.body.scrollHeight);
+        }
+        document.getElementById("online").style.display = "block";
+    });
+});
+$(window).scroll(function() {
+    if($(window).scrollTop() + $(window).height() >= $(document).height() * .9) {
+        canAuto = true;
     }
-    </script>
+    else {
+        canAuto = false;
+    }
+});
+
+$(window).resize(function () { //checking for window resize event
+    if($("#m").is(":focus")){
+        window.scrollTo(0,document.body.scrollHeight);
+        window.scrollTo(0,document.body.scrollHeight);
+    }
+});
+
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    if (!Notification) {
+        alert('dis broke as shit');
+        return;
+    }
+    if (Notification.permission !== "granted")
+    Notification.requestPermission();
+});
+var iter = 0;
+function notifyMe(msg) {
+    if (Notification.permission !== "granted")
+    Notification.requestPermission();
+    else {
+        var notification = new Notification('Moosen IM', {
+            icon: 'https://lh3.googleusercontent.com/j5fD3m5qXRNtGYDuajhEtS_etFvU8FE5PogmqTY2hrshDG0_urf_UBeVAyJljoCxdf4=w300',
+            body: msg,
+        });
+        notification.onclick = function () {
+            window.focus();
+        };
+    }
+}
+</script>
 </body>
 </html>
