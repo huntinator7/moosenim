@@ -82,14 +82,14 @@
             return false;
         });
         socket.on('chat message', function (user, msg, time, id) {
-            if (last_id == 0){
-                last_id = id;
-            } else if (id - last_id > 10) {
-                $('#messages').append('<li class="collection-item"><div class="divider"></div></li>');
-                socket.emit('local message', username, 10);
-            } else if (id - last_id != 1) {
-                socket.emit('local message', username, id-last_id - 1);
-            }
+            // if (last_id == 0){
+            //     last_id = id;
+            // } else if (id - last_id > 10) {
+            //     $('#messages').append('<li class="collection-item"><div class="divider"></div></li>');
+            //     socket.emit('local message', username, 10);
+            // } else if (id - last_id != 1) {
+            //     socket.emit('local message', username, id-last_id - 1);
+            // }
             var m = user + ": " + msg;
             if(document.hidden) {
                 notifyMe(m);
