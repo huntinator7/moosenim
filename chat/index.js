@@ -21,7 +21,7 @@ io.on('connection', function (socket) {
             sendMessage(un +" is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod");
         } else if (msg.indexOf("!pepe") == 0) {
             sendMessage(msg, un);
-            sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", "AutoMod")
+            sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un)
         } else if (msg.indexOf("nigger") > -1) {
             var newmsg = msg.replace("nigger", "Basketball American");
             sendMessage(newmsg, un + ', casual racist');
@@ -100,6 +100,10 @@ function getMessage() {
     con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", function (error, rows, results) {
         console.log("emitting message");
         if (error) throw error;
+        if (rows[0].id == 1000) {
+            io.emit('chat message', rows[0].username, "congradulations! you just sent the 1000th moosen im chat message!", rows[0].timestamp);
+        }
+        else
         io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp);
     });
 }
