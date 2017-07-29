@@ -38,6 +38,7 @@ io.on('connection', function (socket) {
     socket.on('login message', function (un) {
         console.log('un: ' + un + ' logged in');
         showLastMessages(10, socket.id);
+        updateOnline(un, true);
         socket.broadcast.emit('login message', un);
     });
 
@@ -48,6 +49,8 @@ io.on('connection', function (socket) {
 
     socket.on('disconnect', function (un) {
         console.log('user disconnected');
+        updateOnline(un, false);
+        if (un != 'ping timeout' && un != 'transport close')
         socket.broadcast.emit('logoff message', un);
     });
 });
@@ -68,38 +71,52 @@ var con = mysql.createConnection({
 con.connect(function (err) {
     if (err) throw err;
     console.log("Connected!");
-
 });
 
+var online = [];
+
+function updateOnline(un, add) {
+    if (add) {
+        online.push(un);
+    } else {
+        var pos = online.indexOf(un);
+        if (pos > -1) {
+            online.splice(pos, 1);
+        }
+    }
+    io.emit('update online', online);
+}
+
+
 function sendMessage(message, username) {
-      try {
+    try {
 
-    if (message.length > 254) {
-        var l = message.length - 254;
-        var m = message.substring(0, 254);
-        con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [m, username], function (error, results) {
+        if (message.length > 254) {
+            var l = message.length - 254;
+            var m = message.substring(0, 254);
+            con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [m, username], function (error, results) {
+                if (error) throw error;
+            });
+            m = message.substring(l - message.length);
+            con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [m, username], function (error, results) {
+                if (error) throw error;
+            });
+        }
+        else {
+
+
+            con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [message, username], function (error, results) {
+                if (error) throw error;
+
+            });
+        }
+    }
+    catch (Exception) {
+        con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", ["error", username], function (error, results) {
             if (error) throw error;
-        });
-        m = message.substring(l - message.length);
-        con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [m, username], function (error, results) {
-            if (error) throw error;
+
         });
     }
-    else {
-
-
-        con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [message, username], function (error, results) {
-            if (error) throw error;
-
-        });
-           }
-    }
-     catch (Exception) {
-      con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", ["error", username], function (error, results) {
-     if (error) throw error;
-
-      });
-     }
 }
 function getMessage() {
     con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", function (error, rows, results) {

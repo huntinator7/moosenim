@@ -20,7 +20,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <style>
     #messages { list-style-type: none; margin: 0; padding: 1%; }
-    #online { list-style-type: circle; padding: 2%; }
+    #online { list-style-type: circle; padding: 2%;}
+    #online li{ color:#6EB7FF}
     /*#messages li { background: #FFFFFF; font-color:#000000; font-size:1.5em; padding: 1% 2%; }*/
     /*#messages li:nth-child(odd) { background: #DFDFDF; padding-left: 4%; }*/
     </style>
@@ -44,11 +45,13 @@
                 <img style="height:10vh" src="http://moosen.im/images/banner.png" alt="Mighty Moosen">
             </div>
             <div class="row">
-                <div class="row col s12 m9">
+                <div class="col s12 m9">
                     <ul class="collection" id="messages" style="overflow-x:hidden"></ul>
                 </div>
-                <div class="row col hide-on-small-only m3">
-                    <ul class="collection" id="online" style="overflow-x:hidden"></ul>
+                <div class="col hide-on-small-only m3">
+                    <div class="toc-wrapper pinned" style="top: 0px">
+                        <ul class="collection" id="online" style="overflow-x:hidden"></ul>
+                    </div>
                 </div>
             </div>
             <div class="row col s12">
@@ -104,9 +107,7 @@
             }
         });
         socket.on('login message', function(user){
-            $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">announcement</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
-            + user + ' logged in</span></a></li>');
-            $('#online').append('<li id="' + user + '">' + user + '</li>');
+            $('#messages').append('<li>' + user + '</li>');
             if (canAuto) {
                 window.scrollTo(0,document.body.scrollHeight);
             }
@@ -115,19 +116,21 @@
         socket.on('logoff message', function(user){
             $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">announcement</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
             + user + ' logged out</span></a></li>');
-            $('#' + user).remove();
             if (canAuto) {
                 window.scrollTo(0,document.body.scrollHeight);
             }
         });
-        // $('#messages').append($('<li>').text(msg + " " + time));
-        // $('#messages').append($('<li>').html(msg + '<span style="float:right;">' + time + '</span>');
-        // socket.on('last message', function (msg) {
-        //     $('#messages').append($('<li>').text(msg + " vagina"));
-        //     if (canAuto) {
-        //         window.scrollTo(0,document.body.scrollHeight);
-        //     }
-        // });
+
+        socket.on('update online', function(users){
+            $('#online').empty();
+            $('#online').append('<li><h3>Online</h3></li>');
+            for (var i = 0; i < users.length; i++) {
+                $('#online').append('<li class="collection-item">' + users[i] + '</li>');
+            }
+            if (canAuto) {
+                window.scrollTo(0,document.body.scrollHeight);
+            }
+        });
     });
     $(window).scroll(function() {
         if($(window).scrollTop() + $(window).height() >= $(document).height() * .9) {
