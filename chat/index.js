@@ -38,7 +38,7 @@ io.on('connection', function (socket) {
     socket.on('login message', function (un) {
         console.log('un: ' + un + ' logged in');
         showLastMessages(10, socket.id);
-        updateOnline(un, true);
+        addOnline(un, socket.id);
         socket.broadcast.emit('login message', un);
     });
 
@@ -49,9 +49,7 @@ io.on('connection', function (socket) {
 
     socket.on('disconnect', function (un) {
         console.log('user disconnected');
-        updateOnline(un, false);
-        if (un != 'ping timeout' && un != 'transport close')
-        socket.broadcast.emit('logoff message', un);
+        removeOnline(socket.id);
     });
 });
 //open port on 3000
@@ -75,24 +73,29 @@ con.connect(function (err) {
 
 var online = [];
 
+function addOnline(un, id) {
+    var user = {name:un, id:id};
+    online.push(user);
+    console.log('Adding ' + un + ', id ' + id);
+    updateOnline();
+}
+
+function removeOnline(uid) {
+    var newonline = online.filter(function( obj ) {
+        return obj.id !== uid;
+    });
+    online = newonline;
+    updateOnline();
+}
+
 function updateOnline(un, add) {
-    console.log('updateOnline| un:' + un + ' add:' + add);
-    if (add) {
-        online.push(un);
-        console.log('adding ' + un);
-    } else {
-        var pos = online.indexOf(un);
-        console.log('removing ' + un + ', pos of un = ' + pos);
-        if (pos > -1) {
-            online.splice(pos, 1);
-            console.log('removed ' + un);
-        }
-    }
     console.log('updateOnline');
+    var names = [];
     for (var i = 0; i < online.length; i++) {
-        console.log('online: ' + online[i]);
+        names.push(online[i].un);
+        console.log('online: ' + online[i].un);
     }
-    io.emit('update online', online);
+    io.emit('update online', names);
 }
 
 
