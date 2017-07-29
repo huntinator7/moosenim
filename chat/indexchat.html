@@ -76,7 +76,11 @@
         });
         socket.on('chat message', function (user, msg, time) {
             var m = user + ": " + msg;
-            checkHidden(m);
+            if(document.hidden) {
+                console.log("tab is hidden");
+            } else {
+                console.log("tab is not hidden");
+            }
             $('#messages').append('<li class="collection-item avatar"><i class="material-icons circle">account circle</i><span class="title">'
             + user + '</span><p>'
             + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
@@ -116,31 +120,6 @@
             window.scrollTo(0,document.body.scrollHeight);
         }
     });
-
-    function checkHidden(m){
-        // Set the name of the hidden property and the change event for visibility
-        var hidden, visibilityChange;
-        if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support
-            hidden = "hidden";
-            visibilityChange = "visibilitychange";
-        } else if (typeof document.msHidden !== "undefined") {
-            hidden = "msHidden";
-            visibilityChange = "msvisibilitychange";
-        } else if (typeof document.webkitHidden !== "undefined") {
-            hidden = "webkitHidden";
-            visibilityChange = "webkitvisibilitychange";
-        }
-
-        var videoElement = document.getElementById("videoElement");
-
-        // If the page is hidden, pause the video;
-        // if the page is shown, play the video
-        function handleVisibilityChange() {
-            if (document[hidden]) {
-                notifyMe(m);
-            }
-        }
-    }
 
     </script>
     <script>
