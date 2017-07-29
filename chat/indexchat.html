@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html>
 <head>
     <link rel="icon" href="http://www.moosen.im/images/favicon.png">
@@ -76,11 +76,7 @@
         });
         socket.on('chat message', function (user, msg, time) {
             var m = user + ": " + msg;
-            if (document.visibilityState == 'hidden'){
-                alert(document.visibilityState);
-                notifyMe(m);
-            }
-
+            checkHidden(m);
             $('#messages').append('<li class="collection-item avatar"><i class="material-icons circle">account circle</i><span class="title">'
             + user + '</span><p>'
             + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
@@ -121,42 +117,67 @@
         }
     });
 
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            if (!Notification) {
-                alert('dis broke as shit');
-                return;
-            }
-            if (Notification.permission !== "granted")
-                Notification.requestPermission();
-        });
-        var iter = 0;
-        function notifyMe(msg) {
-            if (Notification.permission !== "granted")
-                Notification.requestPermission();
-            else {
-                iter++;
-                if (iter > 10) {
-                    var notification = new Notification('Moosen im', {
-                        icon: 'https://lh3.googleusercontent.com/j5fD3m5qXRNtGYDuajhEtS_etFvU8FE5PogmqTY2hrshDG0_urf_UBeVAyJljoCxdf4=w300',
-                        body: msg,
-                    });
+    function checkHidden(m){
+        // Set the name of the hidden property and the change event for visibility
+        var hidden, visibilityChange;
+        if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support
+            hidden = "hidden";
+            visibilityChange = "visibilitychange";
+        } else if (typeof document.msHidden !== "undefined") {
+            hidden = "msHidden";
+            visibilityChange = "msvisibilitychange";
+        } else if (typeof document.webkitHidden !== "undefined") {
+            hidden = "webkitHidden";
+            visibilityChange = "webkitvisibilitychange";
+        }
 
-                    notification.onclick = function () {
-                        window.focus();
-                    };
-                }
+        var videoElement = document.getElementById("videoElement");
+
+        // If the page is hidden, pause the video;
+        // if the page is shown, play the video
+        function handleVisibilityChange() {
+            if (document[hidden]) {
+                notifyMe(m);
             }
         }
+    }
+
+    </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if (!Notification) {
+            alert('dis broke as shit');
+            return;
+        }
+        if (Notification.permission !== "granted")
+        Notification.requestPermission();
+    });
+    var iter = 0;
+    function notifyMe(msg) {
+        if (Notification.permission !== "granted")
+        Notification.requestPermission();
+        else {
+            iter++;
+            if (iter > 10) {
+                var notification = new Notification('Moosen im', {
+                    icon: 'https://lh3.googleusercontent.com/j5fD3m5qXRNtGYDuajhEtS_etFvU8FE5PogmqTY2hrshDG0_urf_UBeVAyJljoCxdf4=w300',
+                    body: msg,
+                });
+
+                notification.onclick = function () {
+                    window.focus();
+                };
+            }
+        }
+    }
     </script>
     <!-- <script>
     function hideShow(un) {
-        username = un;
-        Materialize.toast("Logged in as " + username, 4000);
-        document.getElementById("main").style.display = "unset";
-        document.getElementById("login").style.display = "none";
-    }
-    </script> -->
+    username = un;
+    Materialize.toast("Logged in as " + username, 4000);
+    document.getElementById("main").style.display = "unset";
+    document.getElementById("login").style.display = "none";
+}
+</script> -->
 </body>
 </html>
