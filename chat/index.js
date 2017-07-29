@@ -13,27 +13,45 @@ io.on('connection', function (socket) {
     socket.on('chat message', function (msg, un) {
 
         console.log('un: ' + un + ' | message: ' + msg);
-        switch (msg) {
-            case "lag":
-                sendMessage("I love Rick Astley!", 'notch');
-                break;
-            case "*autistic screeching*":
-                sendMessage(un +"is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", un);
-                break;
-            case "!pepe":
-                sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">",un)
-                break;
-            case "nigger":
-                sendMessage("Whoa there! please a PC term such as 'Basketball American'.", un+", racist")
-                break;
-            default:
-                var term="<script>";
-                if (msg.includes(term)){
-                    sendMessage("nice try.", un);
-                }
-                else sendMessage(msg, un);
+        // switch (msg) {
+        //     case "lag":
+        //         sendMessage("I love Rick Astley!", 'notch');
+        //         break;
+        //     case "*autistic screeching*":
+        //         sendMessage(un +"is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", un);
+        //         break;
+        //     case "!pepe":
+        //         sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">",un)
+        //         break;
+        //     case "nigger":
+        //         sendMessage("Whoa there! please a PC term such as 'Basketball American'.", un+", racist")
+        //         break;
+        //     default:
+        //         var term="<script>";
+        //         if (msg.includes(term)){
+        //             sendMessage("nice try.", un);
+        //         }
+        //         else sendMessage(msg, un);
+        // }
+        if (str.indexOf("lag") > -1) {
+            sendMessage("I love Rick Astley!", 'notch');
+        } else if (str.indexOf("*autistic screeching*") > -1) {
+            sendMessage(msg, un);
+            sendMessage(un +" is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod");
+        } else if (str.indexOf("!pepe") == 0) {
+            sendMessage(msg, un);
+            sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", "AutoMod")
+        } else if (str.indexOf("nigger") > -1) {
+            var newmsg = msg.replace("nigger", "Basketball American");
+            sendMessage(newmsg, un + ', casual racist');
+            break;
+        } else if (str.indexOf("<script") > -1) {
+            sendMessage("nice try.", "AutoMod");
         }
-       
+        else {
+            sendMessage(msg, un);
+        }
+
         io.emit(getMessage(1));
 
     });
@@ -69,34 +87,34 @@ con.connect(function (err) {
 });
 
 function sendMessage(message, username) {
-  //  try {
+    //  try {
 
-        if (message.length > 254) {
-            var l = message.length - 254;
-            var m = message.substring(0, 254);
-            con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [m, username], function (error, results) {
-                if (error) throw error;
-            });
-            m = message.substring(l - message.length);
-            con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [m, username], function (error, results) {
-                if (error) throw error;
-            });
-        }
-        else {
-
-
-            con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [message, username], function (error, results) {
-                if (error) throw error;
-
-            });
-     //   }
+    if (message.length > 254) {
+        var l = message.length - 254;
+        var m = message.substring(0, 254);
+        con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [m, username], function (error, results) {
+            if (error) throw error;
+        });
+        m = message.substring(l - message.length);
+        con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [m, username], function (error, results) {
+            if (error) throw error;
+        });
     }
-   // catch (Exception) {
-     //   con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", ["error", username], function (error, results) {
-         //   if (error) throw error;
+    else {
 
-     //   });
-  //  }
+
+        con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [message, username], function (error, results) {
+            if (error) throw error;
+
+        });
+        //   }
+    }
+    // catch (Exception) {
+    //   con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", ["error", username], function (error, results) {
+    //   if (error) throw error;
+
+    //   });
+    //  }
 }
 function getMessage() {
     con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", function (error, rows, results) {
