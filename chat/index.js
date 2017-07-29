@@ -20,7 +20,6 @@ io.on('connection', function (socket) {
             sendMessage(msg, un);
             sendMessage(un +" is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod");
         } else if (msg.indexOf("!pepe") == 0) {
-            sendMessage(msg, un);
             sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un)
         } else if (msg.indexOf("nigger") > -1) {
             var newmsg = msg.replace("nigger", "Basketball American");
@@ -43,7 +42,7 @@ io.on('connection', function (socket) {
     });
 
     socket.on('local message', function (un, num) {
-        console.log(un + ' logged in');
+        console.log(un + ' accessing db');
         showLastMessages(num, socket.id);
     });
 
@@ -107,7 +106,7 @@ function getMessage() {
         console.log("emitting message");
         if (error) throw error;
         if (rows[0].id == 1000) {
-            io.emit('chat message', rows[0].username, "congradulations! you just sent the 1000th moosen im chat message!", rows[0].timestamp, rows[0].id);
+            io.emit('chat message', rows[0].username, "congratulations! you just sent the 1000th moosen im chat message!", rows[0].timestamp, rows[0].id);
         }
         else
         io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id);
