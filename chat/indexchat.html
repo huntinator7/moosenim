@@ -52,24 +52,22 @@
             </div>
 
         </div> -->
-        <div class="row">
+        <div class="row" style ="padding-top:5vh;">
             <div class="row col s12 m8 l8 offset-m2 offset-l2">
                 <ul class="collection with-header" id="messages" style="overflow-x:hidden"></ul>
             </div>
             <div class="col hide-on-small-only m2 l2">
-                <div class="toc-wrapper pinned" style="top:10vh">
+                <div class="toc-wrapper pinned">
                     <ul class="collection with-header" id="online" style="overflow-x:hidden"></ul>
                 </div>
             </div>
         </div>
         <div class="row col s12 m8 l8 offset-m2 offset-l2">
-            <div class="row col s8 offset-s2">
-                <form id="mform" action="">
-                    <input id="m" autocomplete="off" style="color:black; background-color:white; border:2px solid #6EB7FF; font-size:1.5em" type="text" placeholder="Message">
-                    <br>
-                    <button id="mbut" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
-                </form>
-            </div>
+            <form id="mform" action="">
+                <input id="m" autocomplete="off" style="color:black; background-color:white; border:2px solid #6EB7FF; font-size:1.5em" type="text" placeholder="Message">
+                <br>
+                <button id="mbut" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
+            </form>
         </div>
     </div>
     <script src="/socket.io/socket.io.js"></script>
