@@ -48,7 +48,7 @@ io.on('connection', function (socket) {
     });
 
     socket.on('disconnect', function (un) {
-        console.log('user disconnected');
+        console.log('user disconnected, id ' + socket.id);
         removeOnline(socket.id);
     });
 });
@@ -74,13 +74,17 @@ con.connect(function (err) {
 var online = [];
 
 function addOnline(un, id) {
-    var user = {name:un, id:id};
+    var user = {
+        name:un,
+        id:id
+    };
     online.push(user);
     console.log('Adding ' + un + ', id ' + id);
     updateOnline();
 }
 
 function removeOnline(uid) {
+    console.log('Removing by id ' + id);
     var newonline = online.filter(function( obj ) {
         return obj.id !== uid;
     });
@@ -92,8 +96,8 @@ function updateOnline(un, add) {
     console.log('updateOnline');
     var names = [];
     for (var i = 0; i < online.length; i++) {
-        names.push(online[i].un);
-        console.log('online: ' + online[i].un);
+        names.push(online[i].name);
+        console.log('online: ' + online[i].name);
     }
     io.emit('update online', names);
 }
