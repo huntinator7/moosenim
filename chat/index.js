@@ -13,7 +13,7 @@ io.on('connection', function (socket) {
     socket.on('chat message', function (msg, un) {
 
         console.log('un: ' + un + ' | message: ' + msg);
-       
+
         if (msg.indexOf("lag") > -1) {
             sendMessage("I love Rick Astley!", 'notch');
         } else if (msg.indexOf("*autistic screeching*") > -1) {
@@ -106,15 +106,11 @@ function getMessage() {
     con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", function (error, rows, results) {
         console.log("emitting message");
         if (error) throw error;
-<<<<<<< HEAD
-        io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id);
-=======
         if (rows[0].id == 1000) {
-            io.emit('chat message', rows[0].username, "congradulations! you just sent the 1000th moosen im chat message!", rows[0].timestamp);
+            io.emit('chat message', rows[0].username, "congradulations! you just sent the 1000th moosen im chat message!", rows[0].timestamp, rows[0].id);
         }
         else
-        io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp);
->>>>>>> eebae7c29088943d832c70a79e95db96a6baee77
+        io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id);
     });
 }
 function showLastMessages(num, id) {
@@ -122,7 +118,7 @@ function showLastMessages(num, id) {
         console.log("getting messages...");
         if (error) throw error;
         for (var i = 0; i < num; i++) {
-            io.to(id).emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp);
+            io.to(id).emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp, rows[i].id);
         }
     });
 }
