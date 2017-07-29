@@ -89,7 +89,7 @@ function updateOnline(un, add) {
         }
     }
     console.log('updateOnline');
-    for (var i = 0; i < users.length; i++) {
+    for (var i = 0; i < online.length; i++) {
         $('#online').append('<li class="collection-item">' + users[i] + '</li>');
     }
     io.emit('update online', online);
