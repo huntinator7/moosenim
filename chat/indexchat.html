@@ -76,10 +76,13 @@
         });
         socket.on('chat message', function (user, msg, time) {
             var m = user + ": " + msg;
+            var n = user + " says " + msg;
             if(document.hidden) {
                 console.log("tab is hidden");
+                notifyMe(m);
             } else {
                 console.log("tab is not hidden");
+                notifyMe(n);
             }
             $('#messages').append('<li class="collection-item avatar"><i class="material-icons circle">account circle</i><span class="title">'
             + user + '</span><p>'
