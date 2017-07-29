@@ -76,6 +76,7 @@
         });
         socket.on('chat message', function (user, msg, time) {
             var m = user + ": " + msg;
+            alert(document.visibilityState);
             if (document.hidden){
                 notifyMe(m);
             }
