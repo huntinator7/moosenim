@@ -44,7 +44,6 @@ io.on('connection', function (socket) {
         } else if (str.indexOf("nigger") > -1) {
             var newmsg = msg.replace("nigger", "Basketball American");
             sendMessage(newmsg, un + ', casual racist');
-            break;
         } else if (str.indexOf("<script") > -1) {
             sendMessage("nice try.", "AutoMod");
         }
