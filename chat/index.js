@@ -84,7 +84,7 @@ function addOnline(un, id) {
 }
 
 function removeOnline(uid) {
-    console.log('Removing by id ' + id);
+    console.log('Removing by id ' + uid);
     var newonline = online.filter(function( obj ) {
         return obj.id !== uid;
     });
