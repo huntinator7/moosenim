@@ -78,10 +78,8 @@
             var m = user + ": " + msg;
             var n = user + " says " + msg;
             if(document.hidden) {
-                console.log("tab is hidden");
                 notifyMe(m);
             } else {
-                console.log("tab is not hidden");
             }
             $('#messages').append('<li class="collection-item avatar"><i class="material-icons circle">account circle</i><span class="title">'
             + user + '</span><p>'
@@ -138,17 +136,13 @@
         if (Notification.permission !== "granted")
         Notification.requestPermission();
         else {
-            iter++;
-            if (iter > 10) {
-                var notification = new Notification('Moosen im', {
-                    icon: 'https://lh3.googleusercontent.com/j5fD3m5qXRNtGYDuajhEtS_etFvU8FE5PogmqTY2hrshDG0_urf_UBeVAyJljoCxdf4=w300',
-                    body: msg,
-                });
-
-                notification.onclick = function () {
-                    window.focus();
-                };
-            }
+            var notification = new Notification('Moosen IM', {
+                icon: 'https://lh3.googleusercontent.com/j5fD3m5qXRNtGYDuajhEtS_etFvU8FE5PogmqTY2hrshDG0_urf_UBeVAyJljoCxdf4=w300',
+                body: msg,
+            });
+            notification.onclick = function () {
+                window.focus();
+            };
         }
     }
     </script>
