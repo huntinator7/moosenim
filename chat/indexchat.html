@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html>
 <head>
     <link rel="icon" href="http://www.moosen.im/images/favicon.png">
@@ -52,199 +52,108 @@
                     <button id="mbut" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
                 </form>
             </div>
-            <div class="col s12">
-                <form id="imgform">
-                    <input type="file" id="file" multiple />
-                    <input type="submit" value="Upload" />
-                </form>
-                <!-- <button id="filebut" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
-                <label name="files[]" id="add_pics" class="btn btn-floating btn-file multiple waves-effect waves-light light-blue">
-                <i class="material-icons">add</i><input style="display: none;" type="file" multiple>
-            </label>
-            <br>
-            <output id="list"></output> -->
         </div>
     </div>
-</div>
-
-<script src="/socket.io/socket.io.js"></script>
-<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-
-<!-- Get files by upload - simple -->
-<!-- <script>
-if (window.File && window.FileReader && window.FileList && window.Blob) {
-// Great success! All the File APIs are supported.
-} else {
-alert('The File APIs are not fully supported in this browser.');
-}
-</script>
-
-<script>
-function handleFileSelect(evt) {
-var files = evt.target.files; // FileList object
-
-// Loop through the FileList and render image files as thumbnails.
-for (var i = 0, f; f = files[i]; i++) {
-
-// Only process image files.
-if (!f.type.match('image.*')) {
-continue;
-}
-
-var reader = new FileReader();
-
-// Closure to capture the file information.
-reader.onload = (function(theFile) {
-return function(e) {
-// Render thumbnail.
-var span = document.createElement('span');
-span.setAttribute('data-ondeleteId', escape(theFile.name));
-span.innerHTML = ['<img id="', escape(theFile.name), '" class="thumb" src="', e.target.result,
-'" title="', escape(theFile.name), '"/>'].join('');
-document.getElementById('list').insertBefore(span, null);
-
-var del = document.createElement('button');
-del.className = 'btn btn-floating waves-effect waves-light red';
-del.setAttribute('onclick', 'dele("' + escape(theFile.name) + '")')
-del.id = escape(theFile.name) + 'del';
-del.innerHTML = ['<i class="material-icons">clear</i>'];
-document.getElementById('list').insertBefore(del, null);
-};
-})(f);
-
-// Read in the image file as a data URL.
-reader.readAsDataURL(f);
-}
-}
-document.getElementById('add_pics').addEventListener('change', handleFileSelect, false);
-</script>
-
-<script>
-function dele(n) {
-var d = document.getElementById(n);
-var d_b = document.getElementById(n + 'del');
-d.remove();
-d_b.remove();
-}
-</script> -->
-
-<script>
-$(function () {
-    canAuto = false;
-    username = "testing";
-    var socket = io();
-    $('#mform').submit(function(){
-        socket.emit('chat message', $('#m').val(), username);
-        $('#m').val('');
-        return false;
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+    $(function () {
+        canAuto = false;
+        username = "testing";
+        var socket = io();
+        $('#mform').submit(function(){
+            socket.emit('chat message', $('#m').val(), username);
+            $('#m').val('');
+            return false;
+        });
+        $('#logform').submit(function(){
+            socket.emit('login message', $('#log').val());
+            username = $('#log').val();
+            Materialize.toast("Logged in as " + username, 4000);
+            document.getElementById("main").style.display = "unset";
+            document.getElementById("login").style.display = "none";
+            return false;
+        });
+        socket.on('chat message', function (user, msg, time) {
+            var m = user + ": " + msg;
+            notifyMe(m);
+            // $('#messages').append('<li>' + msg + '<span style="font-size:0.5em; color:#9F9F9F; float:right;">' + time + '</span></li>');
+            $('#messages').append('<li class="collection-item avatar"><i class="material-icons circle">account circle</i><span class="title">'
+            + user + '</span><p>'
+            + msg + '</p><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
+            + time + '</a></li>');
+            if (canAuto) {
+                window.scrollTo(0,document.body.scrollHeight);
+            }
+        });
+        socket.on('login message', function(user){
+            $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">announcement</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
+            + user + ' logged in</span></a></li>');
+            if (canAuto) {
+                window.scrollTo(0,document.body.scrollHeight);
+            }
+        });
+        // $('#messages').append($('<li>').text(msg + " " + time));
+        // $('#messages').append($('<li>').html(msg + '<span style="float:right;">' + time + '</span>');
+        // socket.on('last message', function (msg) {
+        //     $('#messages').append($('<li>').text(msg + " vagina"));
+        //     if (canAuto) {
+        //         window.scrollTo(0,document.body.scrollHeight);
+        //     }
+        // });
     });
-    $('#logform').submit(function(){
-        socket.emit('login message', $('#log').val());
-        username = $('#log').val();
+    $(window).scroll(function() {
+        if($(window).scrollTop() + $(window).height() >= $(document).height() * .9) {
+            canAuto = true;
+        }
+        else {
+            canAuto = false;
+        }
+    });
+
+    $(window).resize(function () { //checking for window resize event
+        if($("#m").is(":focus")){
+            window.scrollTo(0,document.body.scrollHeight);
+            window.scrollTo(0,document.body.scrollHeight);
+        }
+    });
+
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            if (!Notification) {
+                alert('dis broke as shit');
+                return;
+            }
+            if (Notification.permission !== "granted")
+                Notification.requestPermission();
+        });
+        var iter = 0;
+        function notifyMe(msg) {
+            if (Notification.permission !== "granted")
+                Notification.requestPermission();
+            else {
+                iter++;
+                if (iter > 10) {
+                    var notification = new Notification('Moosen im', {
+                        icon: 'https://lh3.googleusercontent.com/j5fD3m5qXRNtGYDuajhEtS_etFvU8FE5PogmqTY2hrshDG0_urf_UBeVAyJljoCxdf4=w300',
+                        body: msg,
+                    });
+                    
+                    notification.onclick = function () {
+                        window.focus();
+                    };
+                }
+            }
+        }
+    </script>
+    <!-- <script>
+    function hideShow(un) {
+        username = un;
         Materialize.toast("Logged in as " + username, 4000);
         document.getElementById("main").style.display = "unset";
         document.getElementById("login").style.display = "none";
-        return false;
-    });
-
-    var uploader = new SocketIOFileClient(socket);
-
-    uploader.on('start', function(fileInfo) {
-        console.log('Start uploading', fileInfo);
-    });
-    uploader.on('stream', function(fileInfo) {
-        console.log('Streaming... sent ' + fileInfo.sent + ' bytes.');
-    });
-    uploader.on('complete', function(fileInfo) {
-        console.log('Upload Complete', fileInfo);
-    });
-    uploader.on('error', function(err) {
-        console.log('Error!', err);
-    });
-    uploader.on('abort', function(fileInfo) {
-        console.log('Aborted: ', fileInfo);
-    });
-
-    $('#imgform').submit(function(ev) {
-        ev.preventDefault();
-
-        var fileEl = document.getElementById('file');
-        var uploadIds = uploader.upload(fileEl);
-
-        // setTimeout(function() {
-        // uploader.abort(uploadIds[0]);
-        // console.log(uploader.getUploadInfo());
-        // }, 1000);
-    )};
-
-    socket.on('chat message', function (user, msg, time) {
-        var m = user + ": " + msg;
-        if (document.hidden) {
-            notifyMe(m);
-        }
-        // $('#messages').append('<li>' + msg + '<span style="font-size:0.5em; color:#9F9F9F; float:right;">' + time + '</span></li>');
-        $('#messages').append('<li class="collection-item avatar"><i class="material-icons circle">account circle</i><span class="title">'
-        + user + '</span><p>'
-        + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
-        + time + '</a></li>');
-        if (canAuto) {
-            window.scrollTo(0,document.body.scrollHeight);
-        }
-    });
-    socket.on('login message', function(user){
-        $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">announcement</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
-        + user + ' logged in</span></a></li>');
-        if (canAuto) {
-            window.scrollTo(0,document.body.scrollHeight);
-        }
-    });
-});
-$(window).scroll(function() {
-    if($(window).scrollTop() + $(window).height() >= $(document).height() * .9) {
-        canAuto = true;
     }
-    else {
-        canAuto = false;
-    }
-});
-
-$(window).resize(function () { //checking for window resize event
-    if($("#m").is(":focus")){
-        window.scrollTo(0,document.body.scrollHeight);
-        window.scrollTo(0,document.body.scrollHeight);
-    }
-});
-
-
-
-</script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    if (!Notification) {
-        alert('dis broke as shit');
-        return;
-    }
-    if (Notification.permission !== "granted")
-    Notification.requestPermission();
-});
-var iter = 0;
-function notifyMe(msg) {
-    if (Notification.permission !== "granted")
-    Notification.requestPermission();
-    else {
-        iter++;
-        if (iter > 10) {
-            var notification = new Notification('Moosen im', {
-                icon: 'https://lh3.googleusercontent.com/j5fD3m5qXRNtGYDuajhEtS_etFvU8FE5PogmqTY2hrshDG0_urf_UBeVAyJljoCxdf4=w300',
-                body: msg,
-            });
-            notification.onclick = function () {
-                window.focus();
-            };
-        }
-    }
-}
-</script>
-
+    </script> -->
 </body>
 </html>

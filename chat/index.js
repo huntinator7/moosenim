@@ -2,22 +2,10 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var mysql = require('mysql');
-var SocketIOFile = require('socket.io-file');
 
-app.get('/', (req, res, next) => {
-    return res.sendFile(__dirname + '/indexchat.html');
-});
 
-// app.get('/app.js', (req, res, next) => {
-//     return res.sendFile(__dirname + '/client/app.js');
-// });
-
-app.get('/socket.io.js', (req, res, next) => {
-    return res.sendFile(__dirname + '/node_modules/socket.io-client/dist/socket.io.js');
-});
-
-app.get('/socket.io-file-client.js', (req, res, next) => {
-    return res.sendFile(__dirname + '/node_modules/socket.io-file-client/socket.io-file-client.js');
+app.get('/', function (req, res) {
+    res.sendFile(__dirname + '/indexchat.html');
 });
 
 io.on('connection', function (socket) {
@@ -27,25 +15,25 @@ io.on('connection', function (socket) {
         console.log('un: ' + un + ' | message: ' + msg);
         switch (msg) {
             case "lag":
-            sendMessage("I love Rick Astley!", 'notch');
-            break;
+                sendMessage("I love Rick Astley!", 'notch');
+                break;
             case "*autistic screeching*":
-            sendMessage(un +" is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", un);
-            break;
+                sendMessage(un +"is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", un);
+                break;
             case "!pepe":
-            sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">",un)
-            break;
+                sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">",un)
+                break;
             case "nigger":
-            sendMessage("Whoa there! please a PC term such as 'Basketball American'.", un+", racist")
-            break;
+                sendMessage("Whoa there! please a PC term such as 'Basketball American'.", un+", racist")
+                break;
             default:
-            var term="<script>";
-            if (msg.includes(term)){
-                sendMessage("nice try.", un);
-            }
-            else sendMessage(msg, un);
+                var term="<script>";
+                if (msg.includes(term)){
+                    sendMessage("nice try.", un);
+                }
+                else sendMessage(msg, un);
         }
-
+       
         io.emit(getMessage(1));
 
     });
@@ -59,31 +47,6 @@ io.on('connection', function (socket) {
     socket.on('disconnect', function () {
         console.log('user disconnected');
     });
-
-    var uploader = new SocketIOFile(socket, {
-        uploadDir: 'testimages',							// simple directory
-        chunkSize: 10240,							// default is 10240(1KB)
-        transmissionDelay: 0,						// delay of each transmission, higher value saves more cpu resources, lower upload speed. default is 0(no delay)
-        overwrite: true 							// overwrite file if exists, default is true.
-    });
-    uploader.on('start', (fileInfo) => {
-        console.log('Start uploading');
-        console.log(fileInfo);
-    });
-    uploader.on('stream', (fileInfo) => {
-        console.log(`${fileInfo.wrote} / ${fileInfo.size} byte(s)`);
-    });
-    uploader.on('complete', (fileInfo) => {
-        console.log('Upload Complete.');
-        console.log(fileInfo);
-    });
-    uploader.on('error', (err) => {
-        console.log('Error!', err);
-    });
-    uploader.on('abort', (fileInfo) => {
-        console.log('Aborted: ', fileInfo);
-    });
-
 });
 //open port on 3000
 http.listen(3000, function () {
@@ -106,34 +69,34 @@ con.connect(function (err) {
 });
 
 function sendMessage(message, username) {
-    //  try {
+  //  try {
 
-    if (message.length > 254) {
-        var l = message.length - 254;
-        var m = message.substring(0, 254);
-        con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [m, username], function (error, results) {
-            if (error) throw error;
-        });
-        m = message.substring(l - message.length);
-        con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [m, username], function (error, results) {
-            if (error) throw error;
-        });
+        if (message.length > 254) {
+            var l = message.length - 254;
+            var m = message.substring(0, 254);
+            con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [m, username], function (error, results) {
+                if (error) throw error;
+            });
+            m = message.substring(l - message.length);
+            con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [m, username], function (error, results) {
+                if (error) throw error;
+            });
+        }
+        else {
+
+
+            con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [message, username], function (error, results) {
+                if (error) throw error;
+
+            });
+     //   }
     }
-    else {
+   // catch (Exception) {
+     //   con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", ["error", username], function (error, results) {
+         //   if (error) throw error;
 
-
-        con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [message, username], function (error, results) {
-            if (error) throw error;
-
-        });
-        //   }
-    }
-    // catch (Exception) {
-    //   con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", ["error", username], function (error, results) {
-    //   if (error) throw error;
-
-    //   });
-    //  }
+     //   });
+  //  }
 }
 function getMessage() {
     con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", function (error, rows, results) {
