@@ -19,9 +19,9 @@
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <style>
-    #messages { list-style-type: none; margin: 0; padding: 1%; }
-    #online { list-style-type: circle; padding: 2%;}
-    #online li{ color:#6EB7FF}
+    #messages { list-style-type: none; margin: 0; }
+    #online { list-style-type: circle; padding: 2%; background-color:white; }
+    #online li{ color:#6EB7FF; }
     /*#messages li { background: #FFFFFF; font-color:#000000; font-size:1.5em; padding: 1% 2%; }*/
     /*#messages li:nth-child(odd) { background: #DFDFDF; padding-left: 4%; }*/
     </style>
@@ -50,11 +50,11 @@
                 </div>
                 <div class="col hide-on-small-only m3">
                     <div class="toc-wrapper pinned" style="top: 0px">
-                        <ul class="collection" id="online" style="overflow-x:hidden"></ul>
+                        <ul id="online" style="overflow-x:hidden"></ul>
                     </div>
                 </div>
             </div>
-            <div class="row col s12">
+            <div class="row col s12 m9">
                 <form id="mform" action="">
                     <input id="m" autocomplete="off" style="color:black; background-color:white; border:2px solid #6EB7FF; font-size:1.5em" type="text" placeholder="Message">
                     <br>
@@ -114,7 +114,7 @@
             }
         });
 
-        socket.on('logoff message', function(user){
+        socket.on('logout message', function(user){
             $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">error outline</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
             + user + ' logged out</span></a></li>');
             if (canAuto) {
@@ -123,6 +123,7 @@
         });
 
         socket.on('update online', function(users){
+            document.getElementById("online").style.display = "inline";
             $('#online').empty();
             $('#online').append('<li><h3>Online</h3></li>');
             for (var i = 0; i < users.length; i++) {
@@ -174,13 +175,5 @@
         }
     }
     </script>
-    <!-- <script>
-    function hideShow(un) {
-    username = un;
-    Materialize.toast("Logged in as " + username, 4000);
-    document.getElementById("main").style.display = "unset";
-    document.getElementById("login").style.display = "none";
-}
-</script> -->
 </body>
 </html>
