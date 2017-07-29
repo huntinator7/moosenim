@@ -58,7 +58,7 @@ io.on('connection', function (socket) {
     socket.on('login message', function (un) {
         console.log('un: ' + un + ' logged in');
         showLastMessages(10, socket.id);
-        io.emit('login message', un);
+        io.broadcast.emit('login message', un);
     });
 
     socket.on('disconnect', function () {
