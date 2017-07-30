@@ -3,7 +3,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var mysql = require('mysql');
 var passport = require('passport');
-var GoogleStrategy = require('passport-google-oauth').OAuthStrategy;
+var GoogleStrategy = require('passport-google-oauth2').Strategy;
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/indexchat.html');
@@ -66,17 +66,16 @@ http.listen(3000, function () {
 
 //login shtuff
 passport.use(new GoogleStrategy({
-    consumerKey: "1083055405716-7kthdtis3745dia2r1ke9im0g52nfa52.apps.googleusercontent.com",
-    consumerSecret: "xAHh50p4bJiXpNyg2bxW1XYW",
-    callbackURL: "http://www.moosen.im"
-},
-    function (token, tokenSecret, profile, done) {
-        User.findOrCreate({ googleId: profile.id }, function (err, user) {
-            return done(err, user);
-            console.log(err);
-
-        });
-    }
+    clientID: "1083055405716-7kthdtis3745dia2r1ke9im0g52nfa52.apps.googleusercontent.com",
+    clientSecret: "xAHh50p4bJiXpNyg2bxW1XYW",
+    callbackURL: "http://www.moosen.im/auth/google/callback",
+    passReqToCallback: true
+},
+    function (request, accessToken, refreshToken, profile, done) {
+        User.findOrCreate({ googleId: profile.id }, function (err, user) {
+            return done(err, user);
+        });
+    }
 ));
 app.get('/auth/google',
     passport.authenticate('google', { scope: 'https://www.google.com/' }));
