@@ -32,7 +32,7 @@
 </head>
 <body style="background-color:#000000;">
     <header>
-        <nav class="top-nav light-blue">
+        <nav class="top-nav center light-blue" style="height:10vh">
             <div class="container">
                 <div class="nav-wrapper">
                     <a class="page-title white-text">MoosenIM</a>
@@ -50,32 +50,33 @@
         </div>
     </div>
     <div style="display:none" id="main">
-        <!-- <div class="container">
-        <div class="center row col s12">
-        <img style="height:10vh" src="http://moosen.im/images/banner.png" alt="Mighty Moosen">
-    </div>
-
-</div> -->
-<div class="container">
-    <div class="row" style ="padding-top:5vh;">
-        <div class="row col s12 xl8 offset-xl2">
-            <ul class="collection with-header" id="messages" style="overflow-x:hidden"></ul>
-        </div>
-        <div class="col hide-on-small-only s2">
-            <div class="toc-wrapper pinned">
-                <ul class="collection with-header" id="online" style="overflow-x:hidden"></ul>
+        <div class="row" style ="padding-top:5vh;">
+            <div class="row col s12 xl8 offset-xl2">
+                <ul class="collection with-header" id="messages" style="overflow-x:hidden"></ul>
+            </div>
+            <div class="row col s12 xl8 offset-xl2">
+                <form id="mform" action="">
+                    <input id="m" autocomplete="off" style="color:black; background-color:white; border:2px solid #6EB7FF; font-size:1.5em" type="text" placeholder="Message">
+                    <br>
+                    <button id="mbut" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
+                </form>
             </div>
         </div>
     </div>
-    <div class="row col s12 xl8 offset-xl2">
-        <form id="mform" action="">
-            <input id="m" autocomplete="off" style="color:black; background-color:white; border:2px solid #6EB7FF; font-size:1.5em" type="text" placeholder="Message">
-            <br>
-            <button id="mbut" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
-        </form>
-    </div>
+    <!-- <div class="container">
+    <div class="center row col s12">
+    <img style="height:10vh" src="http://moosen.im/images/banner.png" alt="Mighty Moosen">
+</div>
+</div> -->
+
+<!-- <div class="container">
+<div class="col hide-on-small-only s2">
+<div class="toc-wrapper pinned">
+<ul class="collection with-header" id="online" style="overflow-x:hidden"></ul>
 </div>
 </div>
+</div> -->
+
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>

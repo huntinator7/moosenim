@@ -52,9 +52,9 @@ io.on('connection', function (socket) {
     socket.on('disconnect', function (un) {
         console.log('user disconnected, id ' + socket.id);
         removeOnline(socket.id);
-        if (un != 'ping timeout') {
-            socket.broadcast.emit('logout message', un);
-        }
+        // if (un != 'ping timeout') {
+        //     socket.broadcast.emit('logout message', un);
+        // }
     });
 });
 //open port on 3000
