@@ -79,8 +79,6 @@ http.listen(3000, function () {
     console.log('listening on *:3000');
 });
 
-app.use(siofu.router);
-
 //connection variable
 var con = mysql.createConnection({
     host: "localhost",
