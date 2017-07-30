@@ -4,7 +4,12 @@ var io = require('socket.io')(http);
 var mysql = require('mysql');
 var formidable = require('formidable');
 var fs = require('file-system');
+var passport = require('passport');
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
+
+app.use(passport.initialize());
+app.use(passport.session());
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/indexchat.html');
 });
