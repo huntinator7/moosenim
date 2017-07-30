@@ -74,7 +74,7 @@ passport.use(new GoogleStrategy({
     function (request, accessToken, refreshToken, profile, done) {
         User.findOrCreate({ googleId: profile.id }, function (err, user) {
             return done(err, user);            
-        });        addOnline("test", profile.id);
+        });        console.log("logging in");        addOnline("test", profile.id);
     }
 ));
 app.get('/auth/google',
