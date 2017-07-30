@@ -2,7 +2,8 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var mysql = require('mysql');
-
+var passport = require('passport');
+var GoogleStrategy = require('passport-google-oauth').OAuthStrategy;
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/indexchat.html');
@@ -61,6 +62,27 @@ io.on('connection', function (socket) {
 http.listen(3000, function () {
     console.log('listening on *:3000');
 });
+
+
+//login shtuff
+passport.use(new GoogleStrategy({
+    consumerKey: "1083055405716-7kthdtis3745dia2r1ke9im0g52nfa52.apps.googleusercontent.com",
+    consumerSecret: "xAHh50p4bJiXpNyg2bxW1XYW",
+    callbackURL: "http://www.example.com/auth/google/callback"
+},
+    function (token, tokenSecret, profile, done) {
+        User.findOrCreate({ googleId: profile.id }, function (err, user) {
+            return done(err, user);
+        });
+    }
+));
+app.get('/auth/google',
+    passport.authenticate('google', { scope: 'https://www.google.com/m8/feeds' }));
+app.get('/auth/google/callback',
+    passport.authenticate('google', { failureRedirect: '/login' }),
+    function (req, res) {
+        res.redirect('/');
+    });
 
 //connection variable
 var con = mysql.createConnection({
