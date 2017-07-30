@@ -96,6 +96,12 @@ passport.deserializeUser(function (user, callback) {
 app.get('/auth/google',
     passport.authenticate('google', { scope: 'https://www.googleapis.com/auth/plus.login' }));
 
+app.get('/auth/google/callback',
+    passport.authenticate('google', {
+        successRedirect: '/profile',
+        failureRedirect: '/fail'
+    })
+);
 
 //connection variable
 var con = mysql.createConnection({
