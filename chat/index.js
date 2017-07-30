@@ -68,7 +68,7 @@ http.listen(3000, function () {
 passport.use(new GoogleStrategy({
     clientID: "1083055405716-7kthdtis3745dia2r1ke9im0g52nfa52.apps.googleusercontent.com",
     clientSecret: "xAHh50p4bJiXpNyg2bxW1XYW",
-    callbackURL: "http://moosen.im:3000//auth/google/callback",
+    callbackURL: "http://moosen.im:3000/auth/google/callback",
     passReqToCallback: true
 },
     function (request, accessToken, refreshToken, profile, done) {
