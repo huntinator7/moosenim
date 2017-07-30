@@ -2,7 +2,8 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var mysql = require('mysql');
-
+var formidable = require('formidable');
+var fs = require('file-system');
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/indexchat.html');
@@ -25,7 +26,7 @@ io.on('connection', function (socket) {
             var newmsg = msg.replace("nigger", "Basketball American");
             sendMessage(newmsg, un + ', casual racist');
         } else if (msg.indexOf("<script") > -1) {
-            sendMessage("nice try.", "AutoMod");
+            sendMessage("Stop right there, criminal scum! You violated the law!", "AutoMod");
         }
         else {
             sendMessage(msg, un);
@@ -49,6 +50,22 @@ io.on('connection', function (socket) {
         showLastMessages(num, socket.id);
     });
 
+    socket.on('uploadfile', function (file) {
+        console.log(un + ' uploading file');
+        var form = new formidable.IncomingForm();
+        form.multiples = true;
+        form.parse(function (err, file) {
+            console.log('Path: ' + file.filetoupload.path);
+            console.log('Name: ' + file.filetoupload.name);
+            var oldpath = file.filetoupload.path;
+            var newpath = '/uploads/' + file.filetoupload.name;
+            console.log('New Path: ' + newpath);
+            fs.rename(oldpath, newpath, function (err) {
+                if (err) throw err;
+            });
+        });
+    });
+
     socket.on('disconnect', function (un) {
         console.log('user disconnected, id ' + socket.id);
         removeOnline(socket.id);
@@ -61,6 +78,8 @@ io.on('connection', function (socket) {
 http.listen(3000, function () {
     console.log('listening on *:3000');
 });
+
+app.use(siofu.router);
 
 //connection variable
 var con = mysql.createConnection({
@@ -107,7 +126,6 @@ function updateOnline(un, add) {
     io.emit('update online', names);
 }
 
-
 function sendMessage(message, username) {
     try {
 
@@ -138,6 +156,7 @@ function sendMessage(message, username) {
         });
     }
 }
+
 function getMessage() {
     con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", function (error, rows, results) {
         console.log("emitting message");
@@ -149,6 +168,7 @@ function getMessage() {
         io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id);
     });
 }
+
 function showLastMessages(num, id) {
     con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [num], function (error, rows, results) {
         console.log("getting messages...");

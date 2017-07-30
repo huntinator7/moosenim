@@ -26,8 +26,11 @@
         line-height: 10vh;
         font-size: 4em;
     }
-    /*#messages li { background: #FFFFFF; font-color:#000000; font-size:1.5em; padding: 1% 2%; }*/
-    /*#messages li:nth-child(odd) { background: #DFDFDF; padding-left: 4%; }*/
+    .thumb {
+        height: 200px;
+        border: 1px solid #000;
+        text-align:center
+    }
     </style>
 </head>
 <body style="background-color:#000000;">
@@ -60,6 +63,12 @@
                     <br>
                     <button id="mbut" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
                 </form>
+                <!-- <button id="post" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button> -->
+                <label name="files[]" id="add_pics" class="btn btn-floating btn-file multiple waves-effect waves-light light-blue">
+                    <i class="material-icons">add</i><input style="display: none;" type="file" multiple>
+                </label>
+                <br>
+                <!-- <output id="list"></output> -->
             </div>
         </div>
     </div>
@@ -79,6 +88,8 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+<!-- Socket.io -->
 <script>
 $(function () {
     canAuto = false;
@@ -164,8 +175,74 @@ $(window).resize(function () { //checking for window resize event
         window.scrollTo(0,document.body.scrollHeight);
     }
 });
-
 </script>
+
+<script>
+if (window.File && window.FileReader && window.FileList && window.Blob) {
+    // Great success! All the File APIs are supported.
+} else {
+    alert('The File APIs are not fully supported in this browser.');
+}
+</script>
+
+<!-- File upload -->
+<script>
+function handleFileSelect(evt) {
+    var files = evt.target.files; // FileList object
+
+    // Loop through the FileList and render image files as thumbnails.
+    for (var i = 0, f; f = files[i]; i++) {
+
+        // Only process image files.
+        if (!f.type.match('image.*')) {
+            continue;
+        }
+
+        var reader = new FileReader();
+
+        // Closure to capture the file information.
+        // reader.onload = (function(theFile) {
+        //     return function(e) {
+        //
+        //         TODO: Render thumbnail.
+        //         var span = document.createElement('span');
+        //         span.setAttribute('data-ondeleteId', escape(theFile.name));
+        //         span.innerHTML = ['<img id="', escape(theFile.name), '" class="thumb" src="', e.target.result,
+        //         '" title="', escape(theFile.name), '"/>'].join('');
+        //         document.getElementById('list').insertBefore(span, null);
+        //
+        //         TODO: This code will be used later to delete pictures prior to upload
+        //         var del = document.createElement('button');
+        //         del.className = 'btn btn-floating waves-effect waves-light red';
+        //         del.setAttribute('onclick', 'dele("' + escape(theFile.name) + '")')
+        //         del.id = escape(theFile.name) + 'del';
+        //         del.innerHTML = ['<i class="material-icons">clear</i>'];
+        //         document.getElementById('list').insertBefore(del, null);
+        //     };
+        // })(f);
+
+        reader.onloadend = (function() {
+            // emit a custom event we have named 'upload file'
+            // In Socket.IO, emit sends data to the web socket server
+            socket.emit("uploadfile", {
+                fileData: fr.result
+            });
+        });
+
+        // Read in the image file as a data URL.
+        reader.readAsArrayBuffer(f);
+    }
+}
+document.getElementById('add_pics').addEventListener('change', handleFileSelect, false);
+
+function dele(n) {
+    var d = document.getElementById(n);
+    var d_b = document.getElementById(n + 'del');
+    d.remove();
+    d_b.remove();
+}
+</script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     if (!Notification) {
@@ -175,7 +252,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (Notification.permission !== "granted")
     Notification.requestPermission();
 });
-var iter = 0;
+
 function notifyMe(msg) {
     if (Notification.permission !== "granted")
     Notification.requestPermission();
