@@ -68,21 +68,19 @@ http.listen(3000, function () {
 passport.use(new GoogleStrategy({
     consumerKey: "1083055405716-7kthdtis3745dia2r1ke9im0g52nfa52.apps.googleusercontent.com",
     consumerSecret: "xAHh50p4bJiXpNyg2bxW1XYW",
-    callbackURL: "http://www.example.com/auth/google/callback"
+    callbackURL: "http://www.moosen.im"
 },
     function (token, tokenSecret, profile, done) {
         User.findOrCreate({ googleId: profile.id }, function (err, user) {
             return done(err, user);
+            console.log(err);
+
         });
     }
 ));
 app.get('/auth/google',
-    passport.authenticate('google', { scope: 'https://www.google.com/m8/feeds' }));
-app.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: '/login' }),
-    function (req, res) {
-        res.redirect('/');
-    });
+    passport.authenticate('google', { scope: 'https://www.google.com/' }));
+
 
 //connection variable
 var con = mysql.createConnection({
