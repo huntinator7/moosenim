@@ -78,7 +78,7 @@ passport.use(new GoogleStrategy({
     }
 ));
 app.get('/auth/google',
-    passport.authenticate('google', { scope: 'https://www.google.com/' }));
+    passport.authenticate('google', { scope: 'https://www.googleapis.com/auth/plus.login' }));
 
 
 //connection variable
