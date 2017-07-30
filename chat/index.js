@@ -74,11 +74,21 @@ passport.use(new GoogleStrategy({
     function (request, accessToken, refreshToken, profile, done) {
         User.findOrCreate({ googleId: profile.id }, function (err, user) {            console.log("loggin in");
             addOnline(profile.name, proile.id);
-            return done(null, profile);            
-           
-        });             
+            return done(null, profile);               
+        });          
     }      
 ));
+
+passport.serializeUser(function (user, callback) {
+    console.log('serializing user.');
+    callback(null, user.id);
+});
+
+passport.deserializeUser(function (user, callback) {
+    console.log('deserialize user.');
+    callback(null, user.id);
+});
+
 app.get('/auth/google',
     passport.authenticate('google', { scope: 'https://www.googleapis.com/auth/plus.login' }));
 
