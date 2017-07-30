@@ -56,7 +56,7 @@ io.on('connection', function (socket) {
     });
 
     socket.on('uploadfile', function (file) {
-        console.log(un + ' uploading file');
+        console.log('uploading file');
         var form = new formidable.IncomingForm();
         form.multiples = true;
         form.parse(function (err, file) {
