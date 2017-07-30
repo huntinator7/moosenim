@@ -73,9 +73,10 @@ passport.use(new GoogleStrategy({
 },
     function (request, accessToken, refreshToken, profile, done) {
         User.findOrCreate({ googleId: profile.id }, function (err, user) {
-            return done(err, user);            
-        });        console.log("logging in");        addOnline("test", profile.id);
-    }
+            return done(err, user);            addOnline("test", profile.id);
+            console.log("loggin in");
+        });             
+    }      
 ));
 app.get('/auth/google',
     passport.authenticate('google', { scope: 'https://www.googleapis.com/auth/plus.login' }));
