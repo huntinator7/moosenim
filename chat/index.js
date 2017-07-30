@@ -72,9 +72,10 @@ passport.use(new GoogleStrategy({
     passReqToCallback: true
 },
     function (request, accessToken, refreshToken, profile, done) {
-        User.findOrCreate({ googleId: profile.id }, function (err, user) {
-            return done(err, user);            addOnline("test", profile.id);
-            console.log("loggin in");
+        User.findOrCreate({ googleId: profile.id }, function (err, user) {            console.log("loggin in");
+            addOnline(profile.name, proile.id);
+            return done(null, profile);            
+           
         });             
     }      
 ));
