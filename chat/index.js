@@ -211,14 +211,14 @@ passport.authenticate('google', {
 function sendMessage(message, username) {
     try {
 
-        if (message.length >10) {
-            var l = message.length - 10;
-            var m = message.substring(0, 10);
-            console.log(m);
+        if (message.length >255) {
+            var l = message.length - 255;
+            var m = message.substring(0, 255);
+            
             con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [m, username], function (error, results) {
                 if (error) throw error;
             });
-
+            console.log(m);
             var n = message.substring(l , message.length);
             con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [n, username], function (error, results) {
                 if (error) throw error;
@@ -245,10 +245,6 @@ function getMessage() {
     con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", function (error, rows, results) {
         console.log("emitting message");
         if (error) throw error;
-        if (rows[0].id == 1000) {
-            io.emit('chat message', rows[0].username, "congratulations! you just sent the 1000th moosen im chat message!", rows[0].timestamp, rows[0].id);
-        }
-        else
         io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id);
     });
 }
