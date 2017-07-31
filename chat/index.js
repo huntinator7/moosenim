@@ -26,6 +26,13 @@ io.on('connection', function (socket) {
     });
     uploader.on("saved", function(event){
         console.log(event.file.name + ' successfully saved.');
+        var user = { name:"AutoMod" };
+        user = online.filter(function( obj ) {
+            return obj.id == socket.id;
+        });
+        var msg = '<img style="height:20vh" src="http://moosen.im/chat/user_uploads/"' + event.file.name + ' alt="Mighty Moosen">';
+        sendMessage(msg, user.name);
+        io.emit(getMessage(1));
     });
 
     socket.on('chat message', function (msg, un) {
@@ -66,21 +73,6 @@ io.on('connection', function (socket) {
         console.log(un + ' accessing db');
         showLastMessages(num, socket.id);
     });
-
-    // socket.on('uploadfile', function (file) {
-    //     console.log('uploading file');
-    //     form.parse(function (err, file) {
-    //         console.log('Path: ' + file.filetoupload.path);
-    //         console.log('Name: ' + file.filetoupload.name);
-    //         var oldpath = file.filetoupload.path;
-    //         fs.rename(file.path, form.uploadDir + "/" + file.name);
-    //         var newpath = '/uploads/' + file.filetoupload.name;
-    //         console.log('New Path: ' + newpath);
-    //         fs.rename(oldpath, newpath, function (err) {
-    //             if (err) throw err;
-    //         });
-    //     });
-    // });
 
     socket.on('disconnect', function (un) {
         console.log('user disconnected, id ' + socket.id);

@@ -151,7 +151,7 @@ $(function () {
     });
 
     socket.on('update online', function(users){
-        document.getElementById("online").style.display = "none";
+        // document.getElementById("online").style.display = "none";
         $('#online').empty();
         $('#online').append('<li class="collection-header">Online</li>');
         for (var i = 0; i < users.length; i++) {
@@ -181,14 +181,14 @@ $(function () {
         //     reader.onload = (function(theFile) {
         //         return function(e) {
         //
-        //             TODO: Render thumbnail.
+        //             // TODO: Render thumbnail.
         //             var span = document.createElement('span');
         //             span.setAttribute('data-ondeleteId', escape(theFile.name));
         //             span.innerHTML = ['<img id="', escape(theFile.name), '" class="thumb" src="', e.target.result,
         //             '" title="', escape(theFile.name), '"/>'].join('');
         //             document.getElementById('list').insertBefore(span, null);
         //
-        //             TODO: This code will be used later to delete pictures prior to upload
+        //             // TODO: This code will be used later to delete pictures prior to upload
         //             var del = document.createElement('button');
         //             del.className = 'btn btn-floating waves-effect waves-light red';
         //             del.setAttribute('onclick', 'dele("' + escape(theFile.name) + '")')
@@ -197,16 +197,6 @@ $(function () {
         //             document.getElementById('list').insertBefore(del, null);
         //         };
         //     })(f);
-        //
-        //     reader.onloadend = (function() {
-        //         // emit a custom event we have named 'upload file'
-        //         // In Socket.IO, emit sends data to the web socket server
-        //         console.log('In reader.onloadend');
-        //         console.log('File name: ' + reader.result.name);
-        //         socket.emit("uploadfile", {
-        //             fileData: reader.result
-        //         });
-        //     });
         //
         //     // Read in the image file as a data URL.
         //     reader.readAsArrayBuffer(f);
