@@ -214,6 +214,7 @@ function sendMessage(message, username) {
         if (message.length >10) {
             var l = message.length - 10;
             var m = message.substring(0, 10);
+            console.log(m);
             con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [m, username], function (error, results) {
                 if (error) throw error;
             });
