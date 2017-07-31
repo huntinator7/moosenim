@@ -10,7 +10,7 @@ var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 app.use(siofu.router);
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.cookieParser());
+
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/indexchat.html');
