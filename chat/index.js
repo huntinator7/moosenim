@@ -32,7 +32,7 @@ io.on('connection', function (socket) {
         user = online.filter(function( obj ) {
             return obj.id == socket.id;
         });
-        var msg = '<img style="height:20vh" src="http://moosen.im/chat/user_uploads/"' + event.file.name + ' alt="Mighty Moosen">';
+        var msg = '<img style="height:20vh" src="http://moosen.im/chat/user_uploads/' + event.file.name + '" alt="Mighty Moosen">';
         sendMessage(msg, user.name);
         io.emit(getMessage(1));
     });
