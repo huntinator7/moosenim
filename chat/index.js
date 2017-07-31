@@ -211,9 +211,9 @@ passport.authenticate('google', {
 function sendMessage(message, username) {
     try {
 
-        if (message.length > 254) {
-            var l = message.length - 254;
-            var m = message.substring(0, 254);
+        if (message.length >10) {
+            var l = message.length - 10;
+            var m = message.substring(0, 10);
             con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [m, username], function (error, results) {
                 if (error) throw error;
             });
