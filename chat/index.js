@@ -30,8 +30,8 @@ io.on('connection', function (socket) {
         console.log(event.file.name + ' successfully saved.');
         var user = { name:"AutoMod" };
         user = online.filter(function( obj ) {
-            return obj.id == socket.id;
-        });
+            return obj.id === socket.id;
+        })[0];
         var msg = '<img style="height:20vh" src="http://moosen.im/chat/user_uploads/' + event.file.name + '" alt="Mighty Moosen">';
         sendMessage(msg, user.name);
         io.emit(getMessage(1));
