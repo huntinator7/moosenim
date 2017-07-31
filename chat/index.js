@@ -2,12 +2,12 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var mysql = require('mysql');
-var formidable = require('formidable');
-var fs = require('file-system');
+var siofu = require("socketio-file-upload");
+// var fs = require('file-system');
 var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
-
+app.use(siofu.router());
 app.use(passport.initialize());
 app.use(passport.session());
 app.get('/', function (req, res) {
@@ -16,6 +16,18 @@ app.get('/', function (req, res) {
 
 io.on('connection', function (socket) {
     console.log('a user connected');
+
+    var uploader = new siofu();
+    uploader.dir = __dirname + '/user_uploads';
+    uploader.listen(socket);
+
+    uploader.on("start", function(event){
+        console.log('Starting upload. Filename : ' + event.file.name);
+    });
+    uploader.on("saved", function(event){
+        console.log(event.file.name + ' successfully saved.');
+    });
+
     socket.on('chat message', function (msg, un) {
 
         console.log('un: ' + un + ' | message: ' + msg);
@@ -55,21 +67,20 @@ io.on('connection', function (socket) {
         showLastMessages(num, socket.id);
     });
 
-    socket.on('uploadfile', function (file) {
-        console.log('uploading file');
-        var form = new formidable.IncomingForm();
-        form.multiples = true;
-        form.parse(function (err, file) {
-            console.log('Path: ' + file.filetoupload.path);
-            console.log('Name: ' + file.filetoupload.name);
-            var oldpath = file.filetoupload.path;
-            var newpath = '/uploads/' + file.filetoupload.name;
-            console.log('New Path: ' + newpath);
-            fs.rename(oldpath, newpath, function (err) {
-                if (err) throw err;
-            });
-        });
-    });
+    // socket.on('uploadfile', function (file) {
+    //     console.log('uploading file');
+    //     form.parse(function (err, file) {
+    //         console.log('Path: ' + file.filetoupload.path);
+    //         console.log('Name: ' + file.filetoupload.name);
+    //         var oldpath = file.filetoupload.path;
+    //         fs.rename(file.path, form.uploadDir + "/" + file.name);
+    //         var newpath = '/uploads/' + file.filetoupload.name;
+    //         console.log('New Path: ' + newpath);
+    //         fs.rename(oldpath, newpath, function (err) {
+    //             if (err) throw err;
+    //         });
+    //     });
+    // });
 
     socket.on('disconnect', function (un) {
         console.log('user disconnected, id ' + socket.id);
@@ -137,15 +148,15 @@ passport.use(new GoogleStrategy({
     passReqToCallback: true
 },
 
-    function (request, accessToken, refreshToken, profile, done) {
+function (request, accessToken, refreshToken, profile, done) {
 
-        User.findOrCreate({ googleId: profile.id }, function (err, user) {
-            console.log("loggin in");
-            addOnline(profile.name, proile.id);
-            return done(null, profile);
-        });
+    User.findOrCreate({ googleId: profile.id }, function (err, user) {
+        console.log("loggin in");
+        addOnline(profile.name, proile.id);
+        return done(null, profile);
+    });
 
-    }
+}
 
 ));
 
@@ -160,13 +171,13 @@ passport.deserializeUser(function (user, callback) {
 });
 
 app.get('/auth/google',
-    passport.authenticate('google', { scope: 'https://www.googleapis.com/auth/plus.login' }));
+passport.authenticate('google', { scope: 'https://www.googleapis.com/auth/plus.login' }));
 
 app.get('/auth/google/callback',
-    passport.authenticate('google', {
-        successRedirect: '/profile',
-        failureRedirect: '/fail'
-    })
+passport.authenticate('google', {
+    successRedirect: '/profile',
+    failureRedirect: '/fail'
+})
 );
 
 function sendMessage(message, username) {
