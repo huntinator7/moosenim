@@ -7,7 +7,7 @@ var siofu = require("socketio-file-upload");
 var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
-app.use(siofu.router());
+app.use(siofu.router);
 app.use(passport.initialize());
 app.use(passport.session());
 app.get('/', function (req, res) {
