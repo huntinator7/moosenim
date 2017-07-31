@@ -211,28 +211,13 @@ passport.authenticate('google', {
 function sendMessage(message, username) {
     try {
 
-        if (message.length >255) {
-            var l = message.length - 255;
-            var m = message.substring(0, 255);
-            
-            con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [m, username], function (error, results) {
-                if (error) throw error;
-            });
-            console.log(m);
-            var n = message.substring(l , message.length);
-            con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [n, username], function (error, results) {
-                if (error) throw error;
-            });
-        }
-        else {
-
+       
 
             con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [message, username], function (error, results) {
                 if (error) throw error;
 
             });
         }
-    }
     catch (Exception) {
         con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", ["error", username], function (error, results) {
             if (error) throw error;
