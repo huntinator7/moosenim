@@ -22,7 +22,7 @@ io.on('connection', function (socket) {
     uploader.listen(socket);
 
     uploader.on("start", function(event){
-        console.log('Starting upload. Filename : ' + event.file.name);
+        console.log('Starting upload to ' + uploader.dir + '. Filename : ' + event.file.name);
     });
     uploader.on("saved", function(event){
         console.log(event.file.name + ' successfully saved.');
