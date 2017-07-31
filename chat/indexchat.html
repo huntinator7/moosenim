@@ -67,8 +67,8 @@
                 <input id="log" autocomplete="off" style="color:black; background-color:white; border:2px solid #6EB7FF; font-size:1.5em" type="text" placeholder="Username">
                 <br>
                 <a href="/auth/google">Sign In with Google</a>
-                <br> 
-                
+                <br>
+
                 <button id="logbut" class="center btn waves-effect waves-light light-blue white-text"><i class="material-icons">forward</i></button>
             </form>
         </div>
@@ -128,7 +128,7 @@ $(function () {
         socket.emit('login message', $('#log').val());
         username = $('#log').val();
         Materialize.toast("Logged in as " + username, 4000);
-        document.getElementById("main").style.display = "block";
+        document.getElementById("main").style.display = "inline";
         document.getElementById("login").style.display = "none";
         return false;
     });
@@ -171,7 +171,7 @@ $(function () {
     });
 
     socket.on('update online', function(users){
-        // document.getElementById("online").style.display = "none";
+        document.getElementById("online").style.display = "none";
         $('#online').empty();
         $('#online').append('<li class="collection-header">Online</li>');
         for (var i = 0; i < users.length; i++) {
