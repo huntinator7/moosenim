@@ -146,7 +146,7 @@ function updateOnline(un, add) {
     io.emit('update online', names);
 }
 
-//login shtuff
+
 
 
 
