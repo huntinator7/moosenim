@@ -65,6 +65,18 @@ io.on('connection', function (socket) {
             sendMessage(newmsg, un + ', casual racist');
         } else if (msg.indexOf("<script") > -1) {
             sendMessage("Stop right there, criminal scum! You violated my mother!", "AutoMod");
+        } else if (/^http\S*\.(jpg|gif|png|svg)$/.test(msg)) {
+            sendMessage('<img class="materialboxed responsive-img initialized" src="' + msg + '" alt="' + msg + '">', un);
+        } else if (/http\S*youtube\S*/.test(msg)) {
+            var ind = msg.search(/watch\?v=\S*/);
+            var res = msg.substring(ind+8, ind+19);
+            var newmsg = '<div class="video-container"><iframe width="100%" src="//www.youtube.com/embed/' + res + '?rel=0" frameborder="0" allowfullscreen></iframe></div>';
+            sendMessage(newmsg, un);
+        } else if (/http\S*youtu\.be\S*/.test(msg)) {
+            var ind = msg.search(/youtu\.be\//);
+            var res = msg.substring(ind+9, ind+20);
+            var newmsg = '<div class="video-container"><iframe width="100%" src="//www.youtube.com/embed/' + res + '?rel=0" frameborder="0" allowfullscreen></iframe></div>';
+            sendMessage(newmsg, un);
         }
         else {
             sendMessage(msg, un);
@@ -211,13 +223,13 @@ passport.authenticate('google', {
 function sendMessage(message, username) {
     try {
 
-       
 
-            con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [message, username], function (error, results) {
-                if (error) throw error;
 
-            });
-        }
+        con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [message, username], function (error, results) {
+            if (error) throw error;
+
+        });
+    }
     catch (Exception) {
         con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", ["error", username], function (error, results) {
             if (error) throw error;
