@@ -190,7 +190,7 @@ $(function () {
             var name = files[i].name;
             var type = files[i].type;
             console.log("Filename: " + name + " , Type: " + type);
-            siofu.submitFiles(files[i]);
+            siofu.submitFiles([files[i]]);
         }
         // Loop through the FileList and render image files as thumbnails.
         // for (var i = 0, f; f = files[i]; i++) {
