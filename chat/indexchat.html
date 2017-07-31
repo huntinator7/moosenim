@@ -107,6 +107,7 @@ $(function () {
     siofu.addEventListener("start", function(event){
         event.file.meta.filetype = event.file.type;
     });
+    
     $('#mform').submit(function(){
         socket.emit('chat message', $('#m').val(), username);
         $('#m').val('');
