@@ -66,7 +66,9 @@ limitations under the License.
 
 
     <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
-
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/siofu/client.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
 
         // Initialize Firebase
@@ -233,7 +235,7 @@ limitations under the License.
             firebase.auth().onAuthStateChanged(function (user) {
 
                 if (user) {
-
+//send this information over socket.io in login message. 
                     // User is signed in.
 
                     var displayName = user.displayName;
@@ -255,7 +257,7 @@ limitations under the License.
                     document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
 
                     document.getElementById('quickstart-sign-in').textContent = 'Sign out';
-
+//change this to a link to the chat 
                     document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
 
                     // [END_EXCLUDE]
