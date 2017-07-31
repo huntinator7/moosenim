@@ -218,8 +218,9 @@ function sendMessage(message, username) {
             con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [m, username], function (error, results) {
                 if (error) throw error;
             });
-            m = message.substring(l - message.length);
-            con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [m, username], function (error, results) {
+
+            var n = message.substring(l , message.length);
+            con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [n, username], function (error, results) {
                 if (error) throw error;
             });
         }
