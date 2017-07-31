@@ -4,12 +4,14 @@ var io = require('socket.io')(http);
 var mysql = require('mysql');
 var siofu = require("socketio-file-upload");
 // var fs = require('file-system');
-var passport = require('passport');
+var passport = require('passport') , LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 app.use(siofu.router);
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(express.cookieParser());
+
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/indexchat.html');
 });
@@ -43,7 +45,7 @@ io.on('connection', function (socket) {
             var newmsg = msg.replace("nigger", "Basketball American");
             sendMessage(newmsg, un + ', casual racist');
         } else if (msg.indexOf("<script") > -1) {
-            sendMessage("Stop right there, criminal scum! You violated the law!", "AutoMod");
+            sendMessage("Stop right there, criminal scum! You violated my mother!", "AutoMod");
         }
         else {
             sendMessage(msg, un);
@@ -141,6 +143,28 @@ function updateOnline(un, add) {
 }
 
 //login shtuff
+
+passport.use(new LocalStrategy(
+    function (username, password, done) {
+        User.findOne({ username: username }, function (err, user) {
+            if (err) { return done(err); }
+            if (!user) {
+                console.log("incorrect.");
+                return done(null, false, { message: 'Incorrect username.' });
+            }
+            if (!user.validPassword(password)) {
+                return done(null, false, { message: 'Incorrect password.' });
+            }
+            console.log("successful login");
+            return done(null, user);
+        });
+    }
+));
+
+
+
+//google login method
+
 passport.use(new GoogleStrategy({
     clientID: "1083055405716-7kthdtis3745dia2r1ke9im0g52nfa52.apps.googleusercontent.com",
     clientSecret: "xAHh50p4bJiXpNyg2bxW1XYW",
@@ -151,7 +175,7 @@ passport.use(new GoogleStrategy({
 function (request, accessToken, refreshToken, profile, done) {
 
     User.findOrCreate({ googleId: profile.id }, function (err, user) {
-        console.log("loggin in");
+        console.log(profile);
         addOnline(profile.name, proile.id);
         return done(null, profile);
     });

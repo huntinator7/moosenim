@@ -45,10 +45,30 @@
     </header>
     <div id="login" class="container">
         <div class="row col s12">
+
+
+            <form action="/login" method="post">
+                <div>
+                    <label>Username:</label>
+                    <input type="text" name="username" />
+                </div>
+                <div>
+                    <label>Password:</label>
+                    <input type="password" name="password" />
+                </div>
+                <div>
+                    <input type="submit" value="Log In" />
+                </div>
+            </form>
+
+
+
             <form id="logform" style ="padding-top:5vh;" action="">
                 <input id="log" autocomplete="off" style="color:black; background-color:white; border:2px solid #6EB7FF; font-size:1.5em" type="text" placeholder="Username">
                 <br>
                 <a href="/auth/google">Sign In with Google</a>
+                <br> 
+                
                 <button id="logbut" class="center btn waves-effect waves-light light-blue white-text"><i class="material-icons">forward</i></button>
             </form>
         </div>
@@ -247,6 +267,7 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 </script> -->
 
 <script>
+    //notification code
 document.addEventListener('DOMContentLoaded', function () {
     if (!Notification) {
         alert('dis broke as shit');
