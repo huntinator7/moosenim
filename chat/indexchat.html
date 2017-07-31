@@ -195,50 +195,50 @@ $(function () {
             console.log("Filename: " + name + " , Type: " + type);
             siofu.submitFiles([files[i]]);
         }
-    // Loop through the FileList and render image files as thumbnails.
-    // for (var i = 0, f; f = files[i]; i++) {
-    //     console.log('In for loop turn ' + i);
-    //     console.log('File name: ' + f.name);
-    //     // Only process image files.
-    //     if (!f.type.match('image.*')) {
-    //         continue;
-    //     }
-    //
-    //     var reader = new FileReader();
-    //
-    //     Closure to capture the file information.
-    //     reader.onload = (function(theFile) {
-    //         return function(e) {
-    //
-    //             // TODO: Render thumbnail.
-    //             var span = document.createElement('span');
-    //             span.setAttribute('data-ondeleteId', escape(theFile.name));
-    //             span.innerHTML = ['<img id="', escape(theFile.name), '" class="thumb" src="', e.target.result,
-    //             '" title="', escape(theFile.name), '"/>'].join('');
-    //             document.getElementById('list').insertBefore(span, null);
-    //
-    //             // TODO: This code will be used later to delete pictures prior to upload
-    //             var del = document.createElement('button');
-    //             del.className = 'btn btn-floating waves-effect waves-light red';
-    //             del.setAttribute('onclick', 'dele("' + escape(theFile.name) + '")')
-    //             del.id = escape(theFile.name) + 'del';
-    //             del.innerHTML = ['<i class="material-icons">clear</i>'];
-    //             document.getElementById('list').insertBefore(del, null);
-    //         };
-    //     })(f);
-    //
-    //     // Read in the image file as a data URL.
-    //     reader.readAsArrayBuffer(f);
-    // }
+        // Loop through the FileList and render image files as thumbnails.
+        // for (var i = 0, f; f = files[i]; i++) {
+        //     console.log('In for loop turn ' + i);
+        //     console.log('File name: ' + f.name);
+        //     // Only process image files.
+        //     if (!f.type.match('image.*')) {
+        //         continue;
+        //     }
+        //
+        //     var reader = new FileReader();
+        //
+        //     Closure to capture the file information.
+        //     reader.onload = (function(theFile) {
+        //         return function(e) {
+        //
+        //             // TODO: Render thumbnail.
+        //             var span = document.createElement('span');
+        //             span.setAttribute('data-ondeleteId', escape(theFile.name));
+        //             span.innerHTML = ['<img id="', escape(theFile.name), '" class="thumb" src="', e.target.result,
+        //             '" title="', escape(theFile.name), '"/>'].join('');
+        //             document.getElementById('list').insertBefore(span, null);
+        //
+        //             // TODO: This code will be used later to delete pictures prior to upload
+        //             var del = document.createElement('button');
+        //             del.className = 'btn btn-floating waves-effect waves-light red';
+        //             del.setAttribute('onclick', 'dele("' + escape(theFile.name) + '")')
+        //             del.id = escape(theFile.name) + 'del';
+        //             del.innerHTML = ['<i class="material-icons">clear</i>'];
+        //             document.getElementById('list').insertBefore(del, null);
+        //         };
+        //     })(f);
+        //
+        //     // Read in the image file as a data URL.
+        //     reader.readAsArrayBuffer(f);
+        // }
     }
-document.getElementById('add_pics').addEventListener('change', handleFileSelect, false);
+    document.getElementById('add_pics').addEventListener('change', handleFileSelect, false);
 
-// function dele(n) {
-//     var d = document.getElementById(n);
-//     var d_b = document.getElementById(n + 'del');
-//     d.remove();
-//     d_b.remove();
-// }
+    // function dele(n) {
+    //     var d = document.getElementById(n);
+    //     var d_b = document.getElementById(n + 'del');
+    //     d.remove();
+    //     d_b.remove();
+    // }
 });
 $(window).scroll(function() {
     if($(window).scrollTop() + $(window).height() >= $(document).height() * .9) {
@@ -254,6 +254,10 @@ $(window).resize(function () { //checking for window resize event
         window.scrollTo(0,document.body.scrollHeight);
         window.scrollTo(0,document.body.scrollHeight);
     }
+});
+
+$(document).ready(function(){
+    $('.materialboxed').materialbox();
 });
 </script>
 

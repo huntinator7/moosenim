@@ -34,7 +34,17 @@ io.on('connection', function (socket) {
         if (user === null) {
             user = { name:"AutoMod" };
         }
-        var msg = '<img class="materialboxed" style="height:20vh" src="http://moosen.im/chat/user_uploads/' + event.file.name + '" alt="Mighty Moosen">';
+        var msg;
+        if (event.file.meta.filetype.match('image.*') {
+            msg = '<img class="materialboxed" style="height:20vh" src="http://moosen.im/chat/user_uploads/' + event.file.name + '" alt="Mighty Moosen">';
+        } else if (event.file.meta.filetype.match('video.*') {
+            msg = '<video class="responsive-video" controls><source src="http://moosen.im/chat/user_uploads/' + event.file.name + '" type="' + event.file.meta.filetype + '">Your browser does not support HTML5 video.</video>';
+        } else if (event.file.meta.filetype.match('audio.*') {
+            msg = '<audio controls><source src="http://moosen.im/chat/user_uploads/' + event.file.name + '" type="' + event.file.meta.filetype + '">Your browser does not support the audio element.</audio>';
+        } else {
+            msg = 'Cannot display this file type';
+        }
+
         sendMessage(msg, user.name);
         io.emit(getMessage(1));
     });
