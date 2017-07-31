@@ -158,24 +158,9 @@ function updateOnline(un, add) {
     io.emit('update online', names);
 }
 
-//login shtuff
 
-passport.use(new LocalStrategy(
-    function (username, password, done) {
-        User.findOne({ username: username }, function (err, user) {
-            if (err) { return done(err); }
-            if (!user) {
-                console.log("incorrect.");
-                return done(null, false, { message: 'Incorrect username.' });
-            }
-            if (!user.validPassword(password)) {
-                return done(null, false, { message: 'Incorrect password.' });
-            }
-            console.log("successful login");
-            return done(null, user);
-        });
-    }
-));
+
+
 
 
 
