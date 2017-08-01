@@ -78,22 +78,27 @@ io.on('connection', function (socket) {
             var newmsg = '<div class="video-container"><iframe width="100%" src="//www.youtube.com/embed/' + res + '?rel=0" frameborder="0" allowfullscreen></iframe></div>';
             sendMessage(newmsg, un);
         } else if (/\S*twitch\.tv\S*/.test(msg)) {
+            console.log('Is Twitch message');
             if (/\S*clips\S*/.test(msg)) { // Twitch clips
+                console.log('Is Twitch clip');
                 var ind = msg.search(/\.tv\//);
-                var res = msg.substring(ind+3);
+                var res = msg.substring(ind+4);
                 console.log(newmsg);
                 var newmsg = '<iframe height="100%" width="100%" src="https://clips.twitch.tv/embed?clip=' + res + '" scrolling="no" frameborder="0" allowfullscreen="true"></iframe>'
                 sendMessage(newmsg, un);
             } else if (/\S*videos\S*/.test(msg)) { // Twitch VODs
+                console.log('Is Twitch VOD');
                 var ind = msg.search(/videos\//);
                 var res = msg.substring(ind+7);
                 var newmsg = '<div id="' + res + '"></div><script type="text/javascript">var options = { width: 100%, video: "' + res + '",};var player = new Twitch.Player("' + res + '", options);player.setVolume(0.5);</script>'
                 console.log(newmsg);
                 sendMessage(newmsg, un);
             } else { // Twitch channel/stream
+                console.log('Is Twitch channel/stream');
                 var ind = msg.search(/\.tv\//);
-                var res = msg.substring(ind+3);
+                var res = msg.substring(ind+4);
                 var newmsg = '<div id="' + res + '"></div><script type="text/javascript">var options = { width: 100%, channel: "' + res + '",};var player = new Twitch.Player("' + res + '", options);player.setVolume(0.5);</script>'
+                console.log(newmsg);
                 sendMessage(newmsg, un);
             }
         } else {
