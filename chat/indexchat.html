@@ -44,7 +44,7 @@
         <div class="row col s12">
 
 
-          
+
 
 
 
@@ -94,6 +94,7 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="/siofu/client.js"></script>
+<script src= "http://player.twitch.tv/js/embed/v1.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 
 <!-- Socket.io -->
@@ -107,7 +108,7 @@ $(function () {
     siofu.addEventListener("start", function(event){
         event.file.meta.filetype = event.file.type;
     });
-    
+
     $('#mform').submit(function(){
         socket.emit('chat message', $('#m').val(), username);
         $('#m').val('');
