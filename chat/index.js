@@ -84,13 +84,14 @@ io.on('connection', function (socket) {
                 var ind = msg.search(/\.tv\//);
                 var res = msg.substring(ind+4);
                 console.log(newmsg);
-                var newmsg = '<iframe width="100%" src="https://clips.twitch.tv/embed?clip=' + res + '" scrolling="no" frameborder="0" autoplay="false" muted="true" allowfullscreen="true"></iframe>'
+                '<div style="position: relative; width: 100%; height: 0px; padding-bottom: 56%;""><iframe style="width:100%; height:100%" src="https://clips.twitch.tv/embed?clip=' + res + '" scrolling="no" frameborder="0" autoplay=false muted=true allowfullscreen=true></iframe></div>'
+                var newmsg = ''
                 sendMessage(newmsg, un);
             } else if (/\S*videos\S*/.test(msg)) { // Twitch VODs
                 console.log('Is Twitch VOD');
                 var ind = msg.search(/videos\//);
                 var res = msg.substring(ind+7);
-                var newmsg = '<div id="' + res + '"></div><script type="text/javascript">var options = { width: 100%, video: "' + res + '",};var player = new Twitch.Player("' + res + '", options);player.setVolume(0.5);</script>'
+                var newmsg = '<div id="' + res + '"></div><script type="text/javascript"> var player = new Twitch.Player("' + res + '", { width: 100%, video: "' + res + '",});player.setVolume(0.5);</script>'
                 console.log(newmsg);
                 sendMessage(newmsg, un);
             } else { // Twitch channel/stream
