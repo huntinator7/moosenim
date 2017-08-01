@@ -47,12 +47,6 @@
     </header>
     <div id="login" class="container">
         <div class="row col s12">
-
-
-
-
-
-
             <form id="logform" style ="padding-top:5vh;" action="">
                 <input id="log" autocomplete="off" style="color:black; background-color:white; border:2px solid #6EB7FF; font-size:1.5em" type="text" placeholder="Username">
                 <br>
@@ -63,7 +57,7 @@
             </form>
         </div>
     </div>
-    <div style="display:none" id="main">
+    <div id="main">
         <div class="row" style ="padding-top:5vh;">
             <div class="row col s12 xl8 offset-xl2">
                 <ul class="collection with-header" id="messages" style="overflow-x:hidden"></ul>
@@ -104,7 +98,7 @@ $(function () {
     username = "testing";
     last_id = 0;
     var socket = io();
-    var siofu = new SocketIOFileUpload(socket);
+    // var siofu = new SocketIOFileUpload(socket);
     siofu.addEventListener("start", function(event){
         event.file.meta.filetype = event.file.type;
     });
@@ -118,14 +112,14 @@ $(function () {
     document.getElementById("main").style.display = "inline";
     document.getElementById("login").style.display = "none";
 
-    $('#logform').submit(function(){
-        socket.emit('login message', $('#log').val());
-        username = $('#log').val();
-        Materialize.toast("Logged in as " + username, 4000);
-        document.getElementById("main").style.display = "inline";
-        document.getElementById("login").style.display = "none";
-        return false;
-    });
+    // $('#logform').submit(function(){
+    //     socket.emit('login message', $('#log').val());
+    //     username = $('#log').val();
+    //     Materialize.toast("Logged in as " + username, 4000);
+    //     document.getElementById("main").style.display = "inline";
+    //     document.getElementById("login").style.display = "none";
+    //     return false;
+    // });
     socket.on('chat message', function (user, msg, time, id) {
         // if (last_id == 0){
         //     last_id = id;
@@ -176,53 +170,53 @@ $(function () {
     //     }
     //     document.getElementById("online").style.display = "block";
     // });
-    function handleFileSelect(evt) {
-        console.log('In handleFileSelect');
-        var files = evt.target.files; // FileList object
-
-        for (var i = 0; i < files.length; i++) {
-            var name = files[i].name;
-            var type = files[i].type;
-            console.log("Filename: " + name + " , Type: " + type);
-            siofu.submitFiles([files[i]]);
-        }
-        // Loop through the FileList and render image files as thumbnails.
-        // for (var i = 0, f; f = files[i]; i++) {
-        //     console.log('In for loop turn ' + i);
-        //     console.log('File name: ' + f.name);
-        //     // Only process image files.
-        //     if (!f.type.match('image.*')) {
-        //         continue;
-        //     }
-        //
-        //     var reader = new FileReader();
-        //
-        //     Closure to capture the file information.
-        //     reader.onload = (function(theFile) {
-        //         return function(e) {
-        //
-        //             // TODO: Render thumbnail.
-        //             var span = document.createElement('span');
-        //             span.setAttribute('data-ondeleteId', escape(theFile.name));
-        //             span.innerHTML = ['<img id="', escape(theFile.name), '" class="thumb" src="', e.target.result,
-        //             '" title="', escape(theFile.name), '"/>'].join('');
-        //             document.getElementById('list').insertBefore(span, null);
-        //
-        //             // TODO: This code will be used later to delete pictures prior to upload
-        //             var del = document.createElement('button');
-        //             del.className = 'btn btn-floating waves-effect waves-light red';
-        //             del.setAttribute('onclick', 'dele("' + escape(theFile.name) + '")')
-        //             del.id = escape(theFile.name) + 'del';
-        //             del.innerHTML = ['<i class="material-icons">clear</i>'];
-        //             document.getElementById('list').insertBefore(del, null);
-        //         };
-        //     })(f);
-        //
-        //     // Read in the image file as a data URL.
-        //     reader.readAsArrayBuffer(f);
-        // }
-    }
-    document.getElementById('add_pics').addEventListener('change', handleFileSelect, false);
+    // function handleFileSelect(evt) {
+    //     console.log('In handleFileSelect');
+    //     var files = evt.target.files; // FileList object
+    //
+    //     for (var i = 0; i < files.length; i++) {
+    //         var name = files[i].name;
+    //         var type = files[i].type;
+    //         console.log("Filename: " + name + " , Type: " + type);
+    //         siofu.submitFiles([files[i]]);
+    //     }
+    //     // Loop through the FileList and render image files as thumbnails.
+    //     // for (var i = 0, f; f = files[i]; i++) {
+    //     //     console.log('In for loop turn ' + i);
+    //     //     console.log('File name: ' + f.name);
+    //     //     // Only process image files.
+    //     //     if (!f.type.match('image.*')) {
+    //     //         continue;
+    //     //     }
+    //     //
+    //     //     var reader = new FileReader();
+    //     //
+    //     //     Closure to capture the file information.
+    //     //     reader.onload = (function(theFile) {
+    //     //         return function(e) {
+    //     //
+    //     //             // TODO: Render thumbnail.
+    //     //             var span = document.createElement('span');
+    //     //             span.setAttribute('data-ondeleteId', escape(theFile.name));
+    //     //             span.innerHTML = ['<img id="', escape(theFile.name), '" class="thumb" src="', e.target.result,
+    //     //             '" title="', escape(theFile.name), '"/>'].join('');
+    //     //             document.getElementById('list').insertBefore(span, null);
+    //     //
+    //     //             // TODO: This code will be used later to delete pictures prior to upload
+    //     //             var del = document.createElement('button');
+    //     //             del.className = 'btn btn-floating waves-effect waves-light red';
+    //     //             del.setAttribute('onclick', 'dele("' + escape(theFile.name) + '")')
+    //     //             del.id = escape(theFile.name) + 'del';
+    //     //             del.innerHTML = ['<i class="material-icons">clear</i>'];
+    //     //             document.getElementById('list').insertBefore(del, null);
+    //     //         };
+    //     //     })(f);
+    //     //
+    //     //     // Read in the image file as a data URL.
+    //     //     reader.readAsArrayBuffer(f);
+    //     // }
+    // }
+    // document.getElementById('add_pics').addEventListener('change', handleFileSelect, false);
 
     // function dele(n) {
     //     var d = document.getElementById(n);
