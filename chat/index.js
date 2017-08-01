@@ -122,7 +122,7 @@ io.on('connection', function (socket) {
         console.log(un + 's email ' + email);
         showLastMessages(10, socket.id);
         if (un != 'ping timeout') {
-            addOnline(un, socket.id);
+            addOnline(un,email,photo,uid);
         }
         socket.broadcast.emit('login message', un);
     });
