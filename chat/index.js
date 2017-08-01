@@ -16,13 +16,10 @@ app.use(function(req, res, next) {
     next();
 });
 
+// app.get('/', function (req, res) {
+//     res.sendFile(__dirname + '/indexchat.html');
+// });
 app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/indexchat.html');
-});
-app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/login.html');
-});
-app.post('/', function (req, res) {
     res.sendFile(__dirname + '/login.html');
 });
 
