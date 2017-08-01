@@ -1,5 +1,7 @@
-var express = require('express');
 var router = express.Router();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+var mysql = require('mysql');
 
 router.get('/', function(req, res){
    res.sendFile(__dirname + '/login.html');

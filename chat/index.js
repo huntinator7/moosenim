@@ -1,27 +1,28 @@
-var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var mysql = require('mysql');
 var siofu = require("socketio-file-upload");
-// var fs = require('file-system');
-var passport = require('passport') , LocalStrategy = require('passport-local').Strategy;
-var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var express = require('express');
+var router = express.Router();
 
-app.use(siofu.router);
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
+router.get('/', function(req, res){
+   res.sendFile(__dirname + '/chat.html');
+});
+router.post('/', function(req, res){
+   res.send('POST route on chat.');
 });
 
-// app.get('/', function (req, res) {
-//     res.sendFile(__dirname + '/indexchat.html');
+//export this router to use in our index.js
+module.exports = router;
+
+
+
+// app.use(siofu.router);
+// app.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
 // });
-app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/login.html');
-});
 
 io.on('connection', function (socket) {
     console.log('a user connected');
@@ -43,11 +44,11 @@ io.on('connection', function (socket) {
         }
         var msg;
         if (event.file.meta.filetype.match('image.*')) {
-            msg = '<img class="materialboxed responsive-img initialized" src="http://moosen.im/chat/user_uploads/' + event.file.name + '" alt="Mighty Moosen">';
+            msg = '<img class="materialboxed responsive-img initialized" src="http://moosen.im/user_uploads/' + event.file.name + '" alt="Mighty Moosen">';
         } else if (event.file.meta.filetype.match('video.*')) {
-            msg = event.file.name + '<br><video class="responsive-video" width="100%" controls><source src="http://moosen.im/chat/user_uploads/' + event.file.name + '" type="' + event.file.meta.filetype + '">Your browser does not support HTML5 video.</video>';
+            msg = event.file.name + '<br><video class="responsive-video" width="100%" controls><source src="http://moosen.im/user_uploads/' + event.file.name + '" type="' + event.file.meta.filetype + '">Your browser does not support HTML5 video.</video>';
         } else if (event.file.meta.filetype.match('audio.*')) {
-            msg = event.file.name + '<br><audio controls><source src="http://moosen.im/chat/user_uploads/' + event.file.name + '" type="' + event.file.meta.filetype + '">Your browser does not support the audio element.</audio>';
+            msg = event.file.name + '<br><audio controls><source src="http://moosen.im/user_uploads/' + event.file.name + '" type="' + event.file.meta.filetype + '">Your browser does not support the audio element.</audio>';
         } else {
             msg = 'Cannot display this file type';
         }
