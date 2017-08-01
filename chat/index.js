@@ -84,7 +84,7 @@ io.on('connection', function (socket) {
                 var ind = msg.search(/\.tv\//);
                 var res = msg.substring(ind+4);
                 console.log(newmsg);
-                var newmsg = '<div style="position: relative; width: 100%; height: 0px; padding-bottom: 56%;""><iframe style="width:100%; height:100%" src="https://clips.twitch.tv/embed?clip=' + res + '" scrolling="no" frameborder="0" autoplay=false muted=true allowfullscreen=true></iframe></div>';
+                var newmsg = '<iframe style="width:32vh; height:18vh" src="https://clips.twitch.tv/embed?clip=' + res + '" scrolling="no" frameborder="0" autoplay=false muted=true allowfullscreen=true></iframe>';
                 sendMessage(newmsg, un);
             } else if (/\S*videos\S*/.test(msg)) { // Twitch VODs
                 console.log('Is Twitch VOD');
