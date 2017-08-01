@@ -32,6 +32,7 @@ limitations under the License.
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Google Sign In Example</title>
     <!-- Material Design Theming -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.orange-indigo.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
@@ -68,7 +69,7 @@ limitations under the License.
             canAuto = false;
             username = "testing";
             last_id = 0;
-            socket = io();
+            socket = io.connect(http://moosen.im:30000);
 
 
         });
@@ -109,7 +110,7 @@ limitations under the License.
          *    the auth redirect flow. It is where you can get the OAuth access token from the IDP.
          */
 
-        function initApp() {        
+        function initApp() {
             // Result from Redirect auth flow.
             // [START getidptoken]
             firebase.auth().getRedirectResult().then(function (result) {
@@ -127,7 +128,7 @@ limitations under the License.
                 var user = result.user;
             }).catch(function (error) {
                // Handle Errors here.
-                var errorCode = error.code;     
+                var errorCode = error.code;
                 var errorMessage = error.message;
                 // The email of the user's account used.
                 var email = error.email;
@@ -149,9 +150,9 @@ limitations under the License.
             // Listening for auth state changes.
 
             // [START authstatelistener]
-            firebase.auth().onAuthStateChanged(function (user) {                            
+            firebase.auth().onAuthStateChanged(function (user) {
                 if (user) {
-//send this information over socket.io in login message. 
+//send this information over socket.io in login message.
                     // User is signed in.
                     var displayName = user.displayName;
                     var email = user.email;
@@ -164,7 +165,7 @@ limitations under the License.
                     socket.emit('login message', displayName);
                     document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
                     document.getElementById('quickstart-sign-in').textContent = 'Sign out';
-//change this to a link to the chat 
+//change this to a link to the chat
                     document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
                     // [END_EXCLUDE]
                 } else {
@@ -187,7 +188,7 @@ limitations under the License.
         window.onload = function () {
             var socket = io();
             initApp();
-           
+
         };
 
     </script>
