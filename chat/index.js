@@ -81,7 +81,8 @@ io.on('connection', function (socket) {
             if (/\S*clips\S*/.test(msg)) { // Twitch clips
                 var ind = msg.search(/\.tv\//);
                 var res = msg.substring(ind+3);
-                var newmsg = '<iframe width="100%" src="https://clips.twitch.tv/embed?clip=' + res + '" scrolling="no" allowfullscreen="true"></iframe>'
+                console.log(newmsg);
+                var newmsg = '<iframe height="100%" width="100%" src="https://clips.twitch.tv/embed?clip=' + res + '" scrolling="no" frameborder="0" allowfullscreen="true"></iframe>'
                 sendMessage(newmsg, un);
             } else if (/\S*videos\S*/.test(msg)) { // Twitch VODs
                 var ind = msg.search(/videos\//);
