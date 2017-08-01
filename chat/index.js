@@ -122,7 +122,7 @@ io.on('connection', function (socket) {
         console.log(un + 's email ' + email);
         showLastMessages(10, socket.id);
         if (un != 'ping timeout') {
-            addOnline(un, socket.id);
+            addOnline(un,email,photo,uid);
         }
         socket.broadcast.emit('login message', un);
     });
@@ -164,10 +164,12 @@ var online = [];
 function addOnline(un,email,photo,uid) {
     var user = {
         name:un,
-        id:uid
+        id: uid,
+        photo: photo,
+        email:email
     };
     online.push(user);
-    console.log('Adding ' + un + ', id ' + id);
+    console.log('Adding ' + un + ', id ' + uid);
     updateOnline();
 }
 

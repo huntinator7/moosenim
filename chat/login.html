@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <!--
 
@@ -36,7 +36,7 @@ limitations under the License.
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.orange-indigo.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
-    <link rel="stylesheet" href="main.css">
+
     <!-- Import and configure the Firebase SDK -->
     <!-- These scripts are made available when the app is served or deployed on Firebase Hosting -->
     <!-- If you do not serve/host your project using Firebase Hosting see https://firebase.google.com/docs/web/setup -->
@@ -116,6 +116,7 @@ limitations under the License.
             if (result.credential) {
                 // This gives you a Google Access Token. You can use it to access the Google API.
                 var token = result.credential.accessToken;
+                window.location.href = "http://moosen.im/chat/indexchat/";
                 // [START_EXCLUDE]
                 document.getElementById('quickstart-oauthtoken').textContent = token;
             }
@@ -161,7 +162,8 @@ limitations under the License.
                 var uid = user.uid;
                 var providerData = user.providerData;
                 // [START_EXCLUDE]
-                socket.emit('login message', displayName);
+
+                socket.emit('login message', displayName, email, photoURL,uid);
                 document.getElementById('quickstart-sign-in-status').innerHTML="<a href='http://moosen.im/chat/indexchat/'>click here to go to chat</a>";
                 document.getElementById('quickstart-sign-in').textContent = 'Sign out';
                 //change this to a link to the chat
