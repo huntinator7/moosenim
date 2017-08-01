@@ -160,18 +160,18 @@ $(function () {
         }
     });
 
-    socket.on('update online', function(users){
-        document.getElementById("online").style.display = "none";
-        $('#online').empty();
-        $('#online').append('<li class="collection-header">Online</li>');
-        for (var i = 0; i < users.length; i++) {
-            $('#online').append('<li class="collection-item">' + users[i] + '</li>');
-        }
-        if (canAuto) {
-            window.scrollTo(0,document.body.scrollHeight);
-        }
-        document.getElementById("online").style.display = "block";
-    });
+    // socket.on('update online', function(users){
+    //     document.getElementById("online").style.display = "none";
+    //     $('#online').empty();
+    //     $('#online').append('<li class="collection-header">Online</li>');
+    //     for (var i = 0; i < users.length; i++) {
+    //         $('#online').append('<li class="collection-item">' + users[i] + '</li>');
+    //     }
+    //     if (canAuto) {
+    //         window.scrollTo(0,document.body.scrollHeight);
+    //     }
+    //     document.getElementById("online").style.display = "block";
+    // });
     function handleFileSelect(evt) {
         console.log('In handleFileSelect');
         var files = evt.target.files; // FileList object
