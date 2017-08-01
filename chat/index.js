@@ -192,67 +192,15 @@ function updateOnline(un, add) {
     io.emit('update online', names);
 }
 
-
-
-
-
-
-
-//google login method
-
-passport.use(new GoogleStrategy({
-    clientID: "1083055405716-7kthdtis3745dia2r1ke9im0g52nfa52.apps.googleusercontent.com",
-    clientSecret: "xAHh50p4bJiXpNyg2bxW1XYW",
-    callbackURL: "http://www.moosen.im:3000/",
-    passReqToCallback: true
-},
-
-function (request, accessToken, refreshToken, profile, done) {
-
-    User.findOrCreate({ googleId: profile.id }, function (err, user) {
-        console.log(profile);
-        addOnline(profile.name, proile.id);
-        return done(null, profile);
-    });
-
-}
-
-));
-
-passport.serializeUser(function (user, callback) {
-    console.log('serializing user.');
-    callback(null, user.id);
-});
-
-passport.deserializeUser(function (user, callback) {
-    console.log('deserialize user.');
-    callback(null, user.id);
-});
-
-app.get('/auth/google',
-passport.authenticate('google', { scope: 'https://www.googleapis.com/auth/plus.login' }));
-
-app.get('/auth/google/callback',
-passport.authenticate('google', {
-    successRedirect: '/profile',
-    failureRedirect: '/fail'
-})
-);
-
 function sendMessage(message, username) {
     try {
-
-
-
         con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [message, username], function (error, results) {
             if (error) throw error;
-
         });
     }
     catch (Exception) {
         con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", ["error", username], function (error, results) {
             if (error) throw error;
-
         });
     }
 }
