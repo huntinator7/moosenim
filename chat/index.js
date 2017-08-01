@@ -81,12 +81,13 @@ io.on('connection', function (socket) {
             if (/\S*clips\S*/.test(msg)) { // Twitch clips
                 var ind = msg.search(/\.tv\//);
                 var res = msg.substring(ind+3);
-                var newmsg = '<iframe src="https://clips.twitch.tv/embed?clip=' + res + '" scrolling="no" allowfullscreen="true"></iframe>'
+                var newmsg = '<iframe width="100%" src="https://clips.twitch.tv/embed?clip=' + res + '" scrolling="no" allowfullscreen="true"></iframe>'
                 sendMessage(newmsg, un);
             } else if (/\S*videos\S*/.test(msg)) { // Twitch VODs
                 var ind = msg.search(/videos\//);
                 var res = msg.substring(ind+7);
                 var newmsg = '<div id="' + res + '"></div><script type="text/javascript">var options = { width: 100%, video: "' + res + '",};var player = new Twitch.Player("' + res + '", options);player.setVolume(0.5);</script>'
+                console.log(newmsg);
                 sendMessage(newmsg, un);
             } else { // Twitch channel/stream
                 var ind = msg.search(/\.tv\//);
