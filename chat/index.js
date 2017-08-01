@@ -19,6 +19,9 @@ app.use(function(req, res, next) {
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/indexchat.html');
 });
+app.get('/', function (req, res) {
+    res.sendFile(__dirname + '/login.html');
+});
 
 io.on('connection', function (socket) {
     console.log('a user connected');
