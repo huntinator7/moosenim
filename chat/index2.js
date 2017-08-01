@@ -1,5 +1,9 @@
 var express = require('express');
 var app = express();
+var http = require('http').Server(express);
+var io = require('socket.io')(http);
+var mysql = require('mysql');
+var siofu = require("socketio-file-upload");
 
 var chat = require('./chat.js');
 var login = require('./login.js');
