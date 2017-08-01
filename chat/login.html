@@ -90,6 +90,16 @@ limitations under the License.
         };
 
         firebase.initializeApp(config);
+        var socket;
+
+        $(function () {
+            canAuto = false;
+            username = "testing";
+            last_id = 0;
+            socket = io();
+
+
+        });
 
     </script>
 
