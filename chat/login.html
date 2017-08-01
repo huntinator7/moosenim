@@ -162,7 +162,7 @@ limitations under the License.
                     var providerData = user.providerData;
                     // [START_EXCLUDE]
                     socket.emit('login message', displayName);
-                    document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
+                    document.getElementById('quickstart-sign-in-status').innerHTML("<a href='http://moosen.im/chat/indexchat/'>click here to go to chat</a>");
                     document.getElementById('quickstart-sign-in').textContent = 'Sign out';
 //change this to a link to the chat
                     document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
