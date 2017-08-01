@@ -7,7 +7,7 @@ var siofu = require("socketio-file-upload");
 
 var chat = require('./chat.js');
 var login = require('./login.js');
-var index = require('./index.js');
+// var index = require('./index.js');
 var socktest = require('./socktest.js');
 
 //both index.js and things.js should be in same directory
