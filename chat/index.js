@@ -1,9 +1,9 @@
-var http = require('http').Server(app);
+var express = require('express');
+var router = express.Router();
+var http = require('http').Server(express);
 var io = require('socket.io')(http);
 var mysql = require('mysql');
 var siofu = require("socketio-file-upload");
-var express = require('express');
-var router = express.Router();
 
 router.get('/', function(req, res){
    res.sendFile(__dirname + '/chat.html');

@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var http = require('http').Server(app);
+var http = require('http').Server(express);
 var io = require('socket.io')(http);
 var mysql = require('mysql');
 
