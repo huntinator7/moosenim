@@ -6,7 +6,9 @@ var siofu = require("socketio-file-upload");
 // var fs = require('file-system');
 var passport = require('passport') , LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var things = require('./things.js');
 
+app.use('/things', things);
 app.use(siofu.router);
 app.use(passport.initialize());
 app.use(passport.session());
@@ -141,7 +143,7 @@ io.on('connection', function (socket) {
     });
 });
 //open port on 3000
-http.listen(3000, function () {
+http.listen(3000, 'moosen.im', function () {
     console.log('listening on *:3000');
 });
 
