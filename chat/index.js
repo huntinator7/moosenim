@@ -117,8 +117,9 @@ io.on('connection', function (socket) {
 
     });
 
-    socket.on('login message', function (un) {
+    socket.on('login message', function (un,email,photo,uid) {
         console.log('un: ' + un + ' logged in');
+        console.log(un + 's email ' + email);
         showLastMessages(10, socket.id);
         if (un != 'ping timeout') {
             addOnline(un, socket.id);
@@ -160,7 +161,7 @@ con.connect(function (err) {
 
 var online = [];
 
-function addOnline(un, id) {
+function addOnline(un,email,photo,uid) {
     var user = {
         name:un,
         id:id
