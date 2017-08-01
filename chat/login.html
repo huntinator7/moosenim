@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <!--
 
@@ -116,6 +116,7 @@ limitations under the License.
             if (result.credential) {
                 // This gives you a Google Access Token. You can use it to access the Google API.
                 var token = result.credential.accessToken;
+                window.location.href = "http://moosen.im/chat/indexchat/";
                 // [START_EXCLUDE]
                 document.getElementById('quickstart-oauthtoken').textContent = token;
             }
@@ -161,7 +162,8 @@ limitations under the License.
                 var uid = user.uid;
                 var providerData = user.providerData;
                 // [START_EXCLUDE]
-                socket.emit('login message', displayName);
+
+                socket.emit('login message', displayName, email, photoURL,uid);
                 document.getElementById('quickstart-sign-in-status').innerHTML="<a href='http://moosen.im/chat/indexchat/'>click here to go to chat</a>";
                 document.getElementById('quickstart-sign-in').textContent = 'Sign out';
                 //change this to a link to the chat
