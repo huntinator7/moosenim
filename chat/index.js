@@ -167,7 +167,7 @@ function addOnline(un,email,photo,uid) {
         id:uid
     };
     online.push(user);
-    console.log('Adding ' + un + ', id ' + id);
+    console.log('Adding ' + un + ', id ' + uid);
     updateOnline();
 }
 
