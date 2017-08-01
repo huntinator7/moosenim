@@ -97,7 +97,7 @@ io.on('connection', function (socket) {
                 console.log('Is Twitch channel/stream');
                 var ind = msg.search(/\.tv\//);
                 var res = msg.substring(ind+4);
-                var newmsg = '<div id="' + res + '"></div><script type="text/javascript">var options = { width: 100%, channel: "' + res + '"}; var player = new Twitch.Player("' + res + '", options); player.setVolume(0.5);</script>'
+                var newmsg = '<div id="' + res + '"></div><script type="text/javascript"> var player = new Twitch.Player("' + res + '", { width:100%, channel:"' + res + '"}); player.setVolume(0.5); </script>'
                 console.log(newmsg);
                 sendMessage(newmsg, un);
             }
