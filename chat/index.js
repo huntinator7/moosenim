@@ -57,6 +57,7 @@ io.on('connection', function (socket) {
             sendMessage("I love Rick Astley!", 'notch');
         } else if (msg.indexOf("*autistic screeching*") > -1) {
             sendMessage(msg, un);
+            io.emit(getMessage(1));
             sendMessage(un +" is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod");
         } else if (msg.indexOf("!pepe") == 0) {
             sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un)
