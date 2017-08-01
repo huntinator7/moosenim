@@ -164,7 +164,7 @@ var online = [];
 function addOnline(un,email,photo,uid) {
     var user = {
         name:un,
-        id:id
+        id:uid
     };
     online.push(user);
     console.log('Adding ' + un + ', id ' + id);
