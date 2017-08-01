@@ -1,4 +1,4 @@
-var express = require('Express');
+var express = require('express');
 var app = express();
 
 var things = require('./things.js');
