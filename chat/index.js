@@ -22,6 +22,9 @@ app.get('/', function (req, res) {
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/login.html');
 });
+app.post('/', function (req, res) {
+    res.sendFile(__dirname + '/login.html');
+});
 
 io.on('connection', function (socket) {
     console.log('a user connected');
