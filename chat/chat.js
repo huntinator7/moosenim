@@ -5,7 +5,7 @@ app = express();
 
 
 router.get('/', function(req, res){
-   res.send('GET route on chat.');
+    res.sendFile(path.join(__dirname + '/chat.html'));
 });
 router.post('/', function(req, res){
    res.send('POST route on chat.');
@@ -18,6 +18,3 @@ app.get('/', function (req, res) {
 //export this router to use in our index.js
 module.exports = router;
 
-http.listen(80, function () {
-    console.log('listening on *:3000');
-});
