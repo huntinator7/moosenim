@@ -150,7 +150,7 @@ http.listen(3000, function () {
 //connection variable
 var con = mysql.createConnection({
     host: "localhost",
-    user: "root",
+    user: "root",            
     password: "raspberry",
     database: "moosenim"
 });
