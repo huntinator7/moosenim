@@ -5,7 +5,7 @@ var io = require('socket.io')(http);
 var mysql = require('mysql');
 
 router.get('/', function(req, res){
-   res.sendFile(__dirname + '/login.html');
+   res.sendFile(__dirname + '/chat.html');
 });
 router.post('/', function(req, res){
    res.send('POST route on login.');
