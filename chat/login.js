@@ -11,7 +11,9 @@ router.post('/', function(req, res){
    res.send('POST route on login.');
 });
 
+console.log("called login.js");
 io.on('connection', function (socket) {
+    console.log("connection");
     socket.on('login message', function (named) {
         console.log(name + " " + email);
     });

@@ -164,6 +164,7 @@
 
         window.onload = function () {
             var socket = io();
+            socket.emit('echo', "post init");
             initApp();
             socket.emit('echo', "post init");
         };
