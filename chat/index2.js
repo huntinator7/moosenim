@@ -50,8 +50,8 @@ io.sockets.on('connection', function (socket) {
            if(!ison) addOnline(displayName, email, photoURL, uid);
         });
 
-
-        console.log(displayName + " email: " + email);
+        socket.emit('login', displayName, email, photoURL, uid);
+        
     });
     socket.on('ping', function (name) {
         console.log('pong');
