@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html>
 <head>
     <link rel="icon" href="http://www.moosen.im/images/favicon.png">
@@ -82,6 +82,7 @@
 $(function () {
     canAuto = false;
     username = "testing";
+    var picture;
     last_id = 0;
     var socket = io();
     // var siofu = new SocketIOFileUpload(socket);
@@ -102,7 +103,7 @@ $(function () {
         if(document.hidden) {
             notifyMe(m);
         }
-        $('#messages').append('<li class="collection-item avatar"><img src="'/*NICK GET THIS FROM DATABASE*/'" alt="" class="circle"><span class="title">'
+        $('#messages').append('<li class="collection-item avatar"><img src="'+picture+'" alt="" class="circle"><span class="title">'
         + user + '</span><p>'
         + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
         + time + '</a></li>');
@@ -110,7 +111,9 @@ $(function () {
             window.scrollTo(0,document.body.scrollHeight);
         }
     });
-    socket.on('login message', function(user){
+    socket.on('login message', function (displayName, email, photoURL, uid) {
+        picture = photoURL;
+        username = displayName;
         $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">info outline</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
         + user + ' logged in</span></a></li>');
         if (canAuto) {
