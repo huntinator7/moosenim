@@ -15,7 +15,7 @@ socket.on('login message', function (name, email, photo, uid) {
 
 
 
-}
+});
 //export this router to use in our index.js
 module.exports = router;
 
