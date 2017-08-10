@@ -23,6 +23,8 @@ var con = mysql.createConnection({
 
 io.sockets.on('connection', function (socket) {
     console.log('A user connected - index2.js');
+
+    // login process and recording. 
     socket.on('login message', function (displayName, email, photoURL, uid) {
         con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
             if (rows[0]==null) {
@@ -31,12 +33,15 @@ io.sockets.on('connection', function (socket) {
                    if (error) console.log(error);
                 });
             }
-            else {  
-                console.log("exist " + results.length);
-                //add user to isonline or something. 
-               
+            
+            //addOnline(un,email,photo,uid)
+            var ison = false;
+            for (var i = 0; i < online.length; i++) {
+                if (online[i].name = displayName) ison = true;
+                
             }
-
+            //add user to list of online users if they aren't on already. '
+           if(!ison) addOnline(displayName, email, photoURL, uid);
         });
 
 
@@ -106,13 +111,7 @@ io.sockets.on('connection', function (socket) {
     });
 });
 
-//connection variable
-var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "raspberry",
-    database: "moosenim"
-});
+
 
 //connects to mysql database
 con.connect(function (err) {
@@ -183,5 +182,20 @@ function showLastMessages(num, id) {
         }
     });
 }
+//chatrooms are gonna be fun. tl;Dr we need to have a sidebar that displays all chatrooms the user has access to. 
+//also have a "create" button for them to create one. as soon as one of these chatrooms is clicked, pull last (x) messages 
+//and reload page to show only that user's chatroom.
+function createChatroom (n,i) {
+   
+        var name = n;
+        var id = i;
+        var chatroom = {
+            name: name,
+            id: id
+        };
+    
+    
+}
+
 
 console.log('listening on *:80');
