@@ -37,6 +37,7 @@ io.sockets.on('connection', function (socket) {
                 });
             }
             username = displayName;
+            picture = photoURL;
             //addOnline(un,email,photo,uid)
             var ison = false;
             for (var i = 0; i < online.length; i++) {
@@ -56,7 +57,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('chat message', function (msg, un) {
 
         console.log('un: ' + username + ' | message: ' + msg);
-      //  un = username;
+        un = username;
         if (msg.indexOf("lag") > -1) {
             sendMessage("I love Rick Astley!", 'notch');
         } else if (msg.indexOf("*autistic screeching*") > -1) {
@@ -177,7 +178,7 @@ function getMessage() {
         con.query("SELECT * FROM users WHERE users.name = ?", [username], function (error, rows) {
             pic = rows[0].profpic 
         });
-        io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id,pic );
+        io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id,picture );
     });
 }
 
