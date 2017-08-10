@@ -82,7 +82,7 @@
 $(function () {
     canAuto = false;
     username = "testing";
-    var picture;
+   
     last_id = 0;
     var socket = io();
     // var siofu = new SocketIOFileUpload(socket);
@@ -97,13 +97,15 @@ $(function () {
     });
 
     document.getElementById("main").style.display = "inline";
-    socket.on('chat message', function (user, msg, time, id) {
+    socket.on('chat message', function (user, msg, time, id, pic) {
+
+        username = user;
         console.log(id);
         var m = user + ": " + msg;
         if(document.hidden) {
             notifyMe(m);
         }
-        $('#messages').append('<li class="collection-item avatar"><img src="'+picture+'" alt="" class="circle"><span class="title">'
+        $('#messages').append('<li class="collection-item avatar"><img src="'+pic+'" alt="" class="circle"><span class="title">'
         + user + '</span><p>'
         + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
         + time + '</a></li>');
