@@ -50,7 +50,7 @@ io.sockets.on('connection', function (socket) {
            if(!ison) addOnline(displayName, email, photoURL, uid);
         });
 
-        socket.emit('login', displayName, email, photoURL, uid);
+        io.emit('login', displayName, email, photoURL, uid);
         
     });
     socket.on('ping', function (name) {
