@@ -173,7 +173,7 @@ function getMessage() {
     con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", function (error, rows, results) {
         console.log("emitting message");
         if (error) throw error;
-        io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id);
+        io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id, rows[0].photoURL);
     });
 }
 
