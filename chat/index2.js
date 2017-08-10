@@ -13,13 +13,11 @@ app.use('/chat', chat);
 app.use('/', login);
 // app.use('/index', index);
 
-io.sockets.on('connection', function (socket) {
-    console.log('client connect');
-    socket.on('echo', function (data) {
-        io.sockets.emit('message', data);
-    });
-});
-
-
+// io.sockets.on('connection', function (socket) {
+//     console.log('client connect');
+//     socket.on('echo', function (data) {
+//         io.sockets.emit('message', data);
+//     });
+// });
 
 console.log('listening on *:80');

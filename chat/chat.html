@@ -7,7 +7,7 @@
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="/js/materialize.js"></script>
+    <script src="/js/materialize.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
     <script src="/siofu/client.js"></script>
@@ -87,10 +87,10 @@ $(function () {
     username = "testing";
     last_id = 0;
     var socket = io();
-    var siofu = new SocketIOFileUpload(socket);
-    siofu.addEventListener("start", function(event){
-        event.file.meta.filetype = event.file.type;
-    });
+    // var siofu = new SocketIOFileUpload(socket);
+    // siofu.addEventListener("start", function(event){
+    //     event.file.meta.filetype = event.file.type;
+    // });
 
     $('#mform').submit(function(){
         socket.emit('chat message', $('#m').val(), username);

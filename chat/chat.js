@@ -15,7 +15,7 @@ router.get('/', function(req, res){
 module.exports = router;
 
 io.on('connection', function (socket) {
-    console.log('a user connected');
+    console.log('A user connected - chat.js');
     // var uploader = new siofu();
     // uploader.dir = __dirname + '/user_uploads';
     // uploader.listen(socket);
