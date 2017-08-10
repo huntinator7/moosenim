@@ -1,20 +1,15 @@
 var express = require('express');
 var router = express.Router();
-var path = require('path');
-app = express();
+var http = require('http').Server(express);
+var io = require('socket.io')(http);
+var mysql = require('mysql');
 
-
-
-router.get('/', function (req, res) {
-    console.log("loading chat.html");
-    res.sendFile((__dirname + '/chat.html'));
+router.get('/', function(req, res){
+   res.sendFile(__dirname + '/chat.html');
 });
 router.post('/', function(req, res){
    res.send('POST route on chat.');
 });
 
-
-
 //export this router to use in our index.js
 module.exports = router;
-
