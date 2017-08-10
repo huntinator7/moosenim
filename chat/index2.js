@@ -166,6 +166,7 @@ function sendMessage(message, username) {
 }
 
 function getMessage() {
+    //will need to add chatroom_id at some point. 
     con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", function (error, rows, results) {
         console.log("emitting message");
         if (error) throw error;
@@ -186,7 +187,9 @@ function showLastMessages(num, id) {
 //also have a "create" button for them to create one. as soon as one of these chatrooms is clicked, pull last (x) messages 
 //and reload page to show only that user's chatroom.
 function createChatroom (n,i) {
-   
+
+
+    // get availible chatrooms from user SELECT room_id FROM room_users WHERE user_id = ? [user.uid]
         var name = n;
         var id = i;
         var chatroom = {
