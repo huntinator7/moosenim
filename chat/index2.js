@@ -56,7 +56,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('chat message', function (msg, un) {
 
         console.log('un: ' + username + ' | message: ' + msg);
-        un = username;
+      //  un = username;
         if (msg.indexOf("lag") > -1) {
             sendMessage("I love Rick Astley!", 'notch');
         } else if (msg.indexOf("*autistic screeching*") > -1) {
