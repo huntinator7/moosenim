@@ -25,7 +25,7 @@ var con = mysql.createConnection({
 
 
 io.sockets.on('connection', function (socket) {
-    socket.emit('login', displayName, email, photoURL, uid);
+   
     console.log('A user connected - index2.js');
     showLastMessages(10, 1);
     // login process and recording. 
