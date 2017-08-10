@@ -12,7 +12,7 @@ var login = require('./login.js');
 
 //both index.js and things.js should be in same directory
 app.use('/chat', chat);
-app.use('/login', login);
+app.use('/', login);
 // app.use('/index', index);
 //app.use('/socktest', socktest);
 
@@ -26,4 +26,3 @@ io.sockets.on('connection', function (socket) {
 //require('socktest')(io);
 
 console.log('listening on *:80');
-
