@@ -12,7 +12,7 @@ router.post('/', function(req, res){
 });
 
 io.on('connection', function (socket) {
-    socket.on('login message', function (name, email, photo, uid) {
+    socket.on('login message', function (named) {
         console.log(name + " " + email);
     });
 });

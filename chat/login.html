@@ -91,7 +91,7 @@
                 if (result.credential) {
                     // This gives you a Google Access Token. You can use it to access the Google API.
                     var token = result.credential.accessToken;
-                   
+                    socket.emit('login message', "pre redirect link");
                     window.location.href = "http://www.moosen.im/chat/";
                     // [START_EXCLUDE]
                     document.getElementById('quickstart-oauthtoken').textContent = token;
@@ -139,7 +139,7 @@
                     var providerData = user.providerData;
                     // [START_EXCLUDE]
 
-                    socket.emit('login message', user.displayName, email, photoURL, uid);
+                    socket.emit('login message', "onauth state change");
                     document.getElementById('quickstart-sign-in-status').innerHTML = "<a href='http://www.moosen.im/chat/'>click here to go to chat</a>";
                     document.getElementById('quickstart-sign-in').textContent = 'Sign out';
                     //change this to a link to the chat
@@ -165,7 +165,7 @@
         window.onload = function () {
             var socket = io();
             initApp();
-            
+            socket.emit('login message', "post init");
         };
 
     </script>
