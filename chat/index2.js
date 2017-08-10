@@ -8,6 +8,9 @@ var siofu = require("socketio-file-upload");
 var chat = require('./chat.js');
 var login = require('./login.js');
 
+
+var username;
+var picture;
 //both index.js and things.js should be in same directory
 app.use('/chat', chat);
 app.use('/', login);
@@ -33,7 +36,7 @@ io.sockets.on('connection', function (socket) {
                    if (error) console.log(error);
                 });
             }
-            
+            username = displayName;
             //addOnline(un,email,photo,uid)
             var ison = false;
             for (var i = 0; i < online.length; i++) {
@@ -53,7 +56,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('chat message', function (msg, un) {
 
         console.log('un: ' + un + ' | message: ' + msg);
-
+        un = username;
         if (msg.indexOf("lag") > -1) {
             sendMessage("I love Rick Astley!", 'notch');
         } else if (msg.indexOf("*autistic screeching*") > -1) {
