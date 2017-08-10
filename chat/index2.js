@@ -13,9 +13,31 @@ app.use('/chat', chat);
 app.use('/', login);
 // app.use('/index', index);
 
+var con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "raspberry",
+    database: "moosenim"
+});
+
+
 io.sockets.on('connection', function (socket) {
     console.log('A user connected - index2.js');
     socket.on('login message', function (displayName, email, photoURL, uid) {
+        con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
+            if (!result.length) {
+                //add user to DB
+                con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email) VALUES ( ?, ?, ?, 1,1,?)", [displayName,uid,photoURL,email], function (error, results) {
+                    if (error) throw error;
+                });
+            }
+            else {
+                //show user as online
+            }
+
+        });
+
+
         console.log(displayName + " email: " + email+" uid:"+uid);
     });
     socket.on('ping', function (name) {
