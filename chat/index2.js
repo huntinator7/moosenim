@@ -25,7 +25,7 @@ io.sockets.on('connection', function (socket) {
     console.log('A user connected - index2.js');
     socket.on('login message', function (displayName, email, photoURL, uid) {
         con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
-            if (rows[0].username ==!null) {
+            if (rows[0]==null) {
                 console.log("deosnt exists " + rows[0].username);
                 //show user as online adn dont add to DB
             }
