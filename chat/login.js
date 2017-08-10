@@ -14,8 +14,8 @@ router.post('/', function(req, res){
 console.log("called login.js");
 io.on('connection', function (socket) {
     console.log("connection");
-    socket.on('login message', function (named) {
-        console.log(name + " " + email);
+    socket.on('login message', function (name) {
+        console.log(name);
     });
 });
 //export this router to use in our index.js
