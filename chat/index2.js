@@ -26,6 +26,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('login message', function (displayName, email, photoURL, uid) {
         con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
             if (!results.length) {
+                console.log("querying");
                 //add user to DB
                 con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email) VALUES ( ?, ?, ?, 1,1,?)", [displayName,uid,photoURL,email], function (error, results) {
                     if (error) console.log(error);
@@ -34,6 +35,7 @@ io.sockets.on('connection', function (socket) {
             }
             else {
                 //show user as online
+                console.log("retunred else");
             }
 
         });
