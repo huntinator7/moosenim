@@ -139,7 +139,7 @@
                     var providerData = user.providerData;
                     // [START_EXCLUDE]
 
-                    socket.emit('login message', displayName, email, photoURL, uid);
+                    
                     document.getElementById('quickstart-sign-in-status').innerHTML = "<a href='http://www.moosen.im/chat/'>click here to go to chat</a>";
                     document.getElementById('quickstart-sign-in').textContent = 'Sign out';
                     //change this to a link to the chat
@@ -165,7 +165,7 @@
         window.onload = function () {
             var socket = io();
             initApp();
-
+            socket.emit('login message', displayName, email, photoURL, uid);
         };
 
     </script>
