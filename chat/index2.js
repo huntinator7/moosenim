@@ -28,7 +28,8 @@ io.sockets.on('connection', function (socket) {
             if (!results.length) {
                 //add user to DB
                 con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email) VALUES ( ?, ?, ?, 1,1,?)", [displayName,uid,photoURL,email], function (error, results) {
-                    if (error) throw error;
+                    if (error) console.log(error);
+
                 });
             }
             else {
