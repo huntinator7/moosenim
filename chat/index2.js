@@ -173,7 +173,7 @@ function sendMessage(message, username) {
 function getMessage() {
     //will need to add chatroom_id at some point. 
     con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", function (error, rows, results) {
-        console.log("emitting message");
+        console.log("emitting message from "+username);
         if (error) throw error;
         var pic
         con.query("SELECT * FROM users WHERE users.name = ?", [username], function (error, rows) {
