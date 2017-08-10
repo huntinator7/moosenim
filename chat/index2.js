@@ -57,7 +57,7 @@ io.sockets.on('connection', function (socket) {
         console.log('pong');
     });
     socket.on('chat message', function (msg, un) {
-
+        socket.emit('test', un);
         console.log('un: ' + username + ' | message: ' + msg);
       //  un = username;
         if (msg.indexOf("lag") > -1) {
