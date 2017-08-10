@@ -15,9 +15,14 @@ app.use('/', login);
 
 io.sockets.on('connection', function (socket) {
     console.log('A user connected - index2.js');
-    socket.on('echo', function (data) {
-        io.sockets.emit('message', data);
-        console.log('here');
+    socket.on('login message', function (named) {
+        console.log(name + " " + email);
+    });
+    socket.on('ping', function (named) {
+        console.log('pong');
+    });
+    socket.on('chat message', function (msg, un) {
+        console.log('chat message from ' + socket.id);
     });
 });
 
