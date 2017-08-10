@@ -44,6 +44,7 @@ io.sockets.on('connection', function (socket) {
                 if (online[i].name = displayName) ison = true;
                 
             }
+            showLastMessages(10, 1);
             //add user to list of online users if they aren't on already. '
            if(!ison) addOnline(displayName, email, photoURL, uid);
         });
