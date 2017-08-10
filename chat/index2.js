@@ -26,23 +26,21 @@ io.sockets.on('connection', function (socket) {
     socket.on('login message', function (displayName, email, photoURL, uid) {
         con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
             if (rows[0]==null) {
-                console.log("deosnt exists ");
-                //show user as online adn dont add to DB
+                //show user as online and it add to DB
+                con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email) VALUES ( ?, ?, ?, 1,1,?)", [displayName, uid, photoURL, email], function (error, results) {
+                   if (error) console.log(error);
+                });
             }
-            else {
+            else {  
+                console.log("exist " + results.length);
+                //add user to isonline or something. 
                
-                console.log(" exist" + results.length);
-                //add user to DB
-               // con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email) VALUES ( ?, ?, ?, 1,1,?)", [displayName, uid, photoURL, email], function (error, results) {
-                   // if (error) console.log(error);
-
-              //  });
             }
 
         });
 
 
-        console.log(displayName + " email: " + email+" uid:"+uid);
+        console.log(displayName + " email: " + email);
     });
     socket.on('ping', function (name) {
         console.log('pong');
