@@ -15,10 +15,10 @@ app.use('/', login);
 
 io.sockets.on('connection', function (socket) {
     console.log('A user connected - index2.js');
-    socket.on('login message', function (named) {
-        console.log(name + " " + email);
+    socket.on('login message', function (name) {
+        console.log(name);
     });
-    socket.on('ping', function (named) {
+    socket.on('ping', function (name) {
         console.log('pong');
     });
     socket.on('chat message', function (msg, un) {

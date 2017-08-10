@@ -6,6 +6,11 @@ var io = require('socket.io')(http);
 var mysql = require('mysql');
 var siofu = require("socketio-file-upload");
 
+
+var chat = require('./chat.js');
+var login = require('./login.js');
+
+
 router.get('/', function(req, res){
    res.sendFile(__dirname + '/chat.html');
 });
