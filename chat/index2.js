@@ -27,15 +27,16 @@ io.sockets.on('connection', function (socket) {
         con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
             if (!results.length) {
                 console.log("querying");
+                //show user as online adn dont add to DB
+            }
+            else {
+               
+                console.log("retunred else");
                 //add user to DB
-                con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email) VALUES ( ?, ?, ?, 1,1,?)", [displayName,uid,photoURL,email], function (error, results) {
+                con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email) VALUES ( ?, ?, ?, 1,1,?)", [displayName, uid, photoURL, email], function (error, results) {
                     if (error) console.log(error);
 
                 });
-            }
-            else {
-                //show user as online
-                console.log("retunred else");
             }
 
         });
