@@ -25,7 +25,7 @@ var con = mysql.createConnection({
 
 
 io.sockets.on('connection', function (socket) {
-    socket.emit('login', function (displayName, photoURL) { });
+    socket.emit('login', user.displayName, email, photoURL, uid);
     console.log('A user connected - index2.js');
     showLastMessages(10, 1);
     // login process and recording. 
@@ -45,7 +45,7 @@ io.sockets.on('connection', function (socket) {
                 if (online[i].name = displayName) ison = true;
                 
             }
-            
+            socket.emit('login', user.displayName, email, photoURL, uid);
             //add user to list of online users if they aren't on already. '
            if(!ison) addOnline(displayName, email, photoURL, uid);
         });
