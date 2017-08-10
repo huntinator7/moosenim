@@ -25,6 +25,7 @@ var con = mysql.createConnection({
 
 
 io.sockets.on('connection', function (socket) {
+    socket.emit('login', function (displayName, photoURL) { });
     console.log('A user connected - index2.js');
     showLastMessages(10, 1);
     // login process and recording. 
@@ -176,8 +177,8 @@ function getMessage() {
         console.log("emitting message from "+username);
         if (error) throw error;
         var pic
-        con.query("SELECT * FROM users WHERE users.name = ?", [username], function (error, rows) {
-            pic = rows[0].profpic 
+        con.query("SELECT * FROM users WHERE users.name = ?", [username], function (error, row) {
+            pic = row[0].profpic 
         });
         io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id,picture );
     });

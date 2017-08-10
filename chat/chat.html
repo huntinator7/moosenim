@@ -113,7 +113,7 @@ $(function () {
             window.scrollTo(0,document.body.scrollHeight);
         }
     });
-    socket.on('login message', function (displayName, email, photoURL, uid) {
+    socket.on('login', function (displayName, email, photoURL, uid) {
         console.log("logging in " + displayName);
         picture = photoURL;
         username = displayName;
