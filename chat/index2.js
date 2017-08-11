@@ -216,14 +216,7 @@ function showLastMessages(num, id) {
         console.log("Getting messages...");
         if (error) throw error;
         for (var i = 0; i < num; i++) {
-            con.query("SELECT * FROM users WHERE users.name = ?", [rows[0].username], function (error, row) {
-                if(row.length < 1) {
-                    io.to(id).emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp, rows[i].id, "http://www.moosen.im/images/favicon.png");
-                } else {
-                    io.to(id).emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp, rows[i].id, row[0].profpic);
-                }
-            });
-            // io.to(id).emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp, rows[i].id);
+            io.to(id).emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp, rows[i].id);
         }
     });
 }
