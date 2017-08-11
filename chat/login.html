@@ -135,23 +135,12 @@
                     var emailVerified = user.emailVerified;
                     var photoURL = user.photoURL;
                     var isAnonymous = user.isAnonymous;
-                    var uid = user.uid;
                     var providerData = user.providerData;
-                    socket.userid = user.uid;
-                    socket.displayName = user.displayName;
-                    console.log(
-                        displayName + " "
-                        + email + " "
-                        + emailVerified + " "
-                        + photoURL + " "
-                        + isAnonymous + " "
-                        + uid + " "
-                        + socket.userid + " "
-                        + socket.displayName
-                    );
+                    var uid = providerData.uid;
+
                     // [START_EXCLUDE]
 
-                    socket.emit('login message', displayName, email, photoURL);
+                    socket.emit('login message', displayName, email, photoURL, uid);
 
                     document.getElementById('quickstart-sign-in-status').innerHTML = "<a href='http://www.moosen.im/chat/'>click here to go to chat</a>";
                     document.getElementById('quickstart-sign-in').textContent = 'Sign out';

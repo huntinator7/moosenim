@@ -30,11 +30,8 @@ io.sockets.on('connection', function (socket) {
     showLastMessages(10, socket.id);
     // login process and recording.
     socket.on('login message', function (displayName, email, photoURL, uid) {
-        socket.userid = uid;
-        socket.displayName = displayName;
-        console.log("socket.userid: " + socket.userid + " socket.displayName: " + socket.displayName);
-        console.log("uid: " + uid + " displayName: " + displayName);
-        con.query("SELECT * FROM users WHERE uid = ?", [socket.userid], function (error, rows, results) {
+        console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id);
+        con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
             if (rows[0]==null) {
                 //show user as online and it add to DB
                 con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email) VALUES ( ?, ?, ?, 1,1,?)", [displayName, socket.userid, photoURL, email], function (error, results) {
@@ -46,21 +43,23 @@ io.sockets.on('connection', function (socket) {
                 if (online[i].name = displayName) ison = true;
             }
             //add user to list of online users if they aren't on already. '
-           if(!ison) addOnline(displayName, email, photoURL, socket.userid);
+           if(!ison) addOnline(displayName, email, photoURL, uid);
         });
 
-        io.emit('login', displayName, email, photoURL, socket.userid);
+        io.emit('login', displayName, email, photoURL, uid);
 
     });
     socket.on('ping', function (name) {
         console.log('pong');
     });
     socket.on('chat message', function (msg) {
-        console.log("socket.userid: " + socket.userid + " socket.displayName: " + socket.displayName);
+        console.log("In chat message");
         var un = 'NULL';
-        if (socket.displayName != null) {
-            un = socket.displayName;
-        }
+        var newun = online.filter(function( obj ) {
+            return obj.id == socket.id;
+        })[0];
+        if(newun) un = newun;
+
         console.log('un: ' + un + ' | message: ' + msg);
         if (msg.indexOf("lag") > -1) {
             sendMessage("I love Rick Astley!", 'notch');
