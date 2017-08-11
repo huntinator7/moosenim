@@ -66,12 +66,12 @@ io.sockets.on('connection', function (socket) {
         }
     });
     socket.on('chat message', function (msg) {
-        console.log("In chat message");
+        console.log("chat message");
         var un = 'Error - Username Not Found';
         // var newun = online.filter(function( obj ) {
         //     return obj.sid === socket.id;
         // })[0];
-        console.log('socket.id: ' + socket.id);
+        console.log('chat message       socket.id: ' + socket.id);
         for (var i = 0; i < online.length; i++) {
             console.log(i + ': ' + online[i].sid);
             if (online[i].sid == socket.id) {
@@ -79,10 +79,10 @@ io.sockets.on('connection', function (socket) {
                 un = online[i].name;
             }
         }
-        console.log('End result of un: ' + un);
+        console.log('chat message       End result of un: ' + un);
         // if(newun) un = newun.name;
 
-        console.log('un: ' + un + ' | message: ' + msg);
+        console.log('chat message       un: ' + un + ' | message: ' + msg);
         if (msg.indexOf("lag") > -1) {
             sendMessage("I love Rick Astley!", 'notch');
         } else if (msg.indexOf("*autistic screeching*") > -1) {
@@ -159,28 +159,28 @@ function addOnline(un, email, photo, uid, sock) {
         sid: sock
     };
     online.push(user);
-    console.log('Adding ' + un + ', id ' + uid + ', sid ' + sock);
-    updateOnline();
+    console.log('addOnline          Adding ' + un + ', id ' + uid + ', sid ' + sock);
+    // updateOnline();
 }
 
-function removeOnline(uid) {
-    console.log('Removing by id ' + uid);
-    var newonline = online.filter(function( obj ) {
-        return obj.id !== uid;
-    });
-    online = newonline;
-    updateOnline();
-}
-
-function updateOnline(un, add) {
-    console.log('updateOnline');
-    var names = [];
-    for (var i = 0; i < online.length; i++) {
-        names.push(online[i].name);
-        console.log('online: ' + online[i].name);
-    }
-    io.emit('update online', names);
-}
+// function removeOnline(uid) {
+//     console.log('Removing by id ' + uid);
+//     var newonline = online.filter(function( obj ) {
+//         return obj.id !== uid;
+//     });
+//     online = newonline;
+//     updateOnline();
+// }
+//
+// function updateOnline(un, add) {
+//     console.log('updateOnline');
+//     var names = [];
+//     for (var i = 0; i < online.length; i++) {
+//         names.push(online[i].name);
+//         console.log('online: ' + online[i].name);
+//     }
+//     io.emit('update online', names);
+// }
 
 function sendMessage(message, username) {
     try {
