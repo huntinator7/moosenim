@@ -137,12 +137,14 @@
                     var isAnonymous = user.isAnonymous;
                     var providerData = user.providerData;
                     var uid = providerData[0].uid;
+                    var url = 'http://www.moosen.im/chat/' + uid;
+                    console.log(url);
 
                     // [START_EXCLUDE]
 
                     socket.emit('login message', displayName, email, photoURL, uid);
 
-                    document.getElementById('quickstart-sign-in-status').innerHTML = "<a href='http://www.moosen.im/chat/" + uid + "'>click here to go to chat</a>";
+                    document.getElementById('quickstart-sign-in-status').innerHTML = "<a href='" + url + "'>click here to go to chat</a>";
                     document.getElementById('quickstart-sign-in').textContent = 'Sign out';
                     //change this to a link to the chat
                     document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
