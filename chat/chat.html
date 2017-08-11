@@ -81,9 +81,7 @@
 <script>
 $(function () {
     canAuto = false;
-    username = "testing";
-   
-    last_id = 0;
+    // last_id = 0;
     var socket = io();
     // var siofu = new SocketIOFileUpload(socket);
     // siofu.addEventListener("start", function(event){
@@ -91,7 +89,7 @@ $(function () {
     // });
 
     $('#mform').submit(function(){
-        socket.emit('chat message', $('#m').val(), username);
+        socket.emit('chat message', $('#m').val());
         $('#m').val('');
         return false;
     });

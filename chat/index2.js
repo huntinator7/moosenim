@@ -25,41 +25,39 @@ var con = mysql.createConnection({
 
 
 io.sockets.on('connection', function (socket) {
-   
+
     console.log('A user connected - index2.js');
     showLastMessages(10, 1);
-    // login process and recording. 
-    socket.on('login message', function (displayName, email, photoURL, uid) {
-        con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
+    // login process and recording.
+    socket.on('login message', function (displayName, email, photoURL) {
+        con.query("SELECT * FROM users WHERE uid = ?", [socket.userid], function (error, rows, results) {
             if (rows[0]==null) {
                 //show user as online and it add to DB
-                con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email) VALUES ( ?, ?, ?, 1,1,?)", [displayName, uid, photoURL, email], function (error, results) {
+                con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email) VALUES ( ?, ?, ?, 1,1,?)", [displayName, socket.userid, photoURL, email], function (error, results) {
                    if (error) console.log(error);
                 });
-            }
-            username = displayName;
-            picture = photoURL;
-            //addOnline(un,email,photo,uid)
+            }//addOnline(un,email,photo,uid)
             var ison = false;
             for (var i = 0; i < online.length; i++) {
                 if (online[i].name = displayName) ison = true;
-                
+
             }
-            socket.emit('login', displayName, email, photoURL, uid);
             //add user to list of online users if they aren't on already. '
-           if(!ison) addOnline(displayName, email, photoURL, uid);
+           if(!ison) addOnline(displayName, email, photoURL, socket.userid);
         });
 
-        io.emit('login', displayName, email, photoURL, uid);
-        
+        io.emit('login', displayName, email, photoURL, socket.userid);
+
     });
     socket.on('ping', function (name) {
         console.log('pong');
     });
-    socket.on('chat message', function (msg, un) {
-        socket.emit('test', un);
-        console.log('un: ' + username + ' | message: ' + msg);
-      //  un = username;
+    socket.on('chat message', function (msg) {
+        var un = 'NULL';
+        if (socket.displayName != null) {
+            un = socket.displayName;
+        }
+        console.log('un: ' + un + ' | message: ' + msg);
         if (msg.indexOf("lag") > -1) {
             sendMessage("I love Rick Astley!", 'notch');
         } else if (msg.indexOf("*autistic screeching*") > -1) {
@@ -129,7 +127,7 @@ var online = [];
 
 function addOnline(un,email,photo,uid) {
     var user = {
-        name:un,
+        name: un,
         id: uid,
         photo: photo,
         email:email
@@ -172,29 +170,29 @@ function sendMessage(message, username) {
 }
 
 function getMessage() {
-    //will need to add chatroom_id at some point. 
+    //will need to add chatroom_id at some point.
     con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", function (error, rows, results) {
-        console.log("emitting message from "+username);
+        console.log("Emitting message");
         if (error) throw error;
-        var pic
-        con.query("SELECT * FROM users WHERE users.name = ?", [username], function (error, row) {
-            pic = row[0].profpic 
+        var pic;
+        con.query("SELECT * FROM users WHERE users.name = ?", [rows[0].username], function (error, row) {
+            pic = row[0].profpic;
         });
-        io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id,picture );
+        io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id, pic);
     });
 }
 
 function showLastMessages(num, id) {
     con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [num], function (error, rows, results) {
-        console.log("getting messages...");
+        console.log("Getting messages...");
         if (error) throw error;
         for (var i = 0; i < num; i++) {
             io.to(id).emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp, rows[i].id);
         }
     });
 }
-//chatrooms are gonna be fun. tl;Dr we need to have a sidebar that displays all chatrooms the user has access to. 
-//also have a "create" button for them to create one. as soon as one of these chatrooms is clicked, pull last (x) messages 
+//chatrooms are gonna be fun. tl;Dr we need to have a sidebar that displays all chatrooms the user has access to.
+//also have a "create" button for them to create one. as soon as one of these chatrooms is clicked, pull last (x) messages
 //and reload page to show only that user's chatroom.
 function createChatroom (n,i) {
 
@@ -206,8 +204,8 @@ function createChatroom (n,i) {
             name: name,
             id: id
         };
-    
-    
+
+
 }
 
 
