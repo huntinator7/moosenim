@@ -58,6 +58,7 @@ io.sockets.on('connection', function (socket) {
         var newun = online.filter(function( obj ) {
             return obj.id == socket.id;
         })[0];
+        console.log(newun);
         if(newun) un = newun;
 
         console.log('un: ' + un + ' | message: ' + msg);
