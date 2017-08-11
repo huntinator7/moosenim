@@ -32,6 +32,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('login message', function (displayName, email, photoURL, uid) {
         console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id);
         con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
+            console.log(rows[0]);
             if (rows[0]==null) {
                 //show user as online and it add to DB
                 con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email) VALUES ( ?, ?, ?, 1,1,?)", [displayName, uid, photoURL, email], function (error, results) {
