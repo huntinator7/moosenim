@@ -45,7 +45,6 @@ io.sockets.on('connection', function (socket) {
             //add user to list of online users if they aren't on already. '
             if(!ison) {
                 addOnline(displayName, email, photoURL, uid, socket.id);
-
             }
         });
 
@@ -160,6 +159,7 @@ function addOnline(un, email, photo, uid, sock) {
     };
     online.push(user);
     console.log('addOnline          Adding ' + un + ', id ' + uid + ', sid ' + sock);
+    console.log(online);
     // updateOnline();
 }
 
