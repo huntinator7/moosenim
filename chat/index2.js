@@ -43,7 +43,10 @@ io.sockets.on('connection', function (socket) {
                 if (online[i].name = displayName) ison = true;
             }
             //add user to list of online users if they aren't on already. '
-           if(!ison) addOnline(displayName, email, photoURL, uid, socket.id);
+           if(!ison) {
+               addOnline(displayName, email, photoURL, uid, socket.id);
+
+           }
         });
 
         io.emit('login', displayName, email, photoURL, uid);
@@ -201,12 +204,9 @@ function getMessage() {
         con.query("SELECT * FROM users WHERE users.name = ?", [rows[0].username], function (error, row) {
             if(row.length < 1) {
                 io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id, "http://www.moosen.im/images/favicon.png");
-                console.log("row length < 1");
             } else {
                 io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id, row[0].profpic);
-                console.log("row length >= 1, pic url " + row[0].profpic);
             }
-
         });
     });
 }
@@ -216,7 +216,14 @@ function showLastMessages(num, id) {
         console.log("Getting messages...");
         if (error) throw error;
         for (var i = 0; i < num; i++) {
-            io.to(id).emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp, rows[i].id);
+            con.query("SELECT * FROM users WHERE users.name = ?", [rows[0].username], function (error, row) {
+                if(row.length < 1) {
+                    io.to(id).emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp, rows[i].id, "http://www.moosen.im/images/favicon.png");
+                } else {
+                    io.to(id).emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp, rows[i].id, row[0].profpic);
+                }
+            });
+            // io.to(id).emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp, rows[i].id);
         }
     });
 }
