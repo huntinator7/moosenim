@@ -217,7 +217,7 @@ function showLastMessages(num, id) {
     con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [num], function (error, rows, results) {
         console.log("Getting messages...");
         if (error) throw error;
-        for (var i = 0; i < num; i++) {
+        for (var i = 0; i < num-1; i++) {
             con.query("SELECT * FROM users WHERE users.name = ?", [rows[i].username], function (error, row) {
                 io.to(id).emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp, rows[i].id, row[0].profpic);
             });
