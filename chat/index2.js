@@ -206,6 +206,7 @@ function getMessage() {
                 console.log("row length >= 1, pic url " + row[0].profpic);
             }
         });
+        console.log("pic: " + pic);
         io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id, pic);
     });
 }
