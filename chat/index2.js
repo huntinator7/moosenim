@@ -218,7 +218,9 @@ function showLastMessages(num, id) {
         console.log("Getting messages...");
         if (error) throw error;
         for (var i = 0; i < num; i++) {
-            io.to(id).emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp, rows[i].id);
+            con.query("SELECT * FROM users WHERE users.name = ?", [rows[i].username], function (error, row) {
+                io.to(id).emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp, rows[i].id, row[0].profpic);
+            });
         }
     });
 }
