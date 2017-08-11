@@ -34,8 +34,8 @@ io.sockets.on('connection', function (socket) {
         con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
             if (rows[0]==null) {
                 //show user as online and it add to DB
-                con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email) VALUES ( ?, ?, ?, 1,1,?)", [displayName, socket.userid, photoURL, email], function (error, results) {
-                   if (error) console.log(error);
+               // con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email) VALUES ( ?, ?, ?, 1,1,?)", [displayName, socket.userid, photoURL, email], function (error, results) {
+                 //  if (error) console.log(error);
                 });
             }//addOnline(un,email,photo,uid)
             var ison = false;
