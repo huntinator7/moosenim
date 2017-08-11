@@ -71,7 +71,7 @@ io.sockets.on('connection', function (socket) {
         for (var i = 0; i < online.length; i++) {
             console.log(i + ': ' + online[i].sid);
             if (online[i].sid == socket.id) {
-                console.log(online[i].name);
+                console.log("New message from " + online[i].name + ", pictureUrl: " + online[i].photo);
                 un = online[i].name;
             }
         }
@@ -200,8 +200,10 @@ function getMessage() {
         con.query("SELECT * FROM users WHERE users.name = ?", [rows[0].username], function (error, row) {
             if(row.length < 1) {
                 pic = "http://www.moosen.im/images/favicon.png";
+                console.log("row length < 1");
             } else {
                 pic = row[0].profpic;
+                console.log("row length >= 1, pic url " + row[0].profpic);
             }
         });
         io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id, pic);
