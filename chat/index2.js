@@ -29,8 +29,11 @@ io.sockets.on('connection', function (socket) {
     console.log('A user connected - index2.js');
     showLastMessages(10, socket.id);
     // login process and recording.
-    socket.on('login message', function (displayName, email, photoURL) {
+    socket.on('login message', function (displayName, email, photoURL, uid) {
+        socket.userid = uid;
+        socket.displayName = displayName;
         console.log("socket.userid: " + socket.userid + " socket.displayName: " + socket.displayName);
+        console.log("uid: " + uid + " displayName: " + displayName);
         con.query("SELECT * FROM users WHERE uid = ?", [socket.userid], function (error, rows, results) {
             if (rows[0]==null) {
                 //show user as online and it add to DB
