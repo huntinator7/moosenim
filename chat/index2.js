@@ -55,11 +55,19 @@ io.sockets.on('connection', function (socket) {
     socket.on('chat message', function (msg) {
         console.log("In chat message");
         var un = 'Error - Username Not Found';
-        var newun = online.filter(function( obj ) {
-            return obj.sid === socket.id;
-        })[0];
-        console.log(newun);
-        if(newun) un = newun.name;
+        // var newun = online.filter(function( obj ) {
+        //     return obj.sid === socket.id;
+        // })[0];
+        console.log('socket.id: 'socket.id);
+        for (var i = 0; i < online.length; i++) {
+            console.log(i + ': ' + online[i].sid);
+            if (online[i].sid == socket.id) {
+                console.log(online[i].name);
+                un = online[i].name;
+            }
+        }
+        console.log('End result of un: ' + un);
+        // if(newun) un = newun.name;
 
         console.log('un: ' + un + ' | message: ' + msg);
         if (msg.indexOf("lag") > -1) {
