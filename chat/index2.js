@@ -36,7 +36,7 @@ io.sockets.on('connection', function (socket) {
                 //show user as online and it add to DB
                // con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email) VALUES ( ?, ?, ?, 1,1,?)", [displayName, socket.userid, photoURL, email], function (error, results) {
                  //  if (error) console.log(error);
-                });
+                // });
             }//addOnline(un,email,photo,uid)
             var ison = false;
             for (var i = 0; i < online.length; i++) {
