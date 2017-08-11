@@ -218,9 +218,8 @@ function showLastMessages(num, id) {
         console.log("Getting messages...");
         if (error) throw error;
         for (var i = 0; i < num-1; i++) {
-            var picture;
             con.query("SELECT * FROM users WHERE users.name = ?", [rows[i].username], function (error, row) {
-                picture = row[0].profpic;
+                var picture = row[0].profpic;
             });
             io.to(id).emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp, rows[i].id, picture);
         }
