@@ -199,15 +199,14 @@ function getMessage() {
         var pic;
         con.query("SELECT * FROM users WHERE users.name = ?", [rows[0].username], function (error, row) {
             if(row.length < 1) {
-                pic = "http://www.moosen.im/images/favicon.png";
+                io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id, "http://www.moosen.im/images/favicon.png");
                 console.log("row length < 1");
             } else {
-                pic = row[0].profpic;
+                io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id, row[0].profpic);
                 console.log("row length >= 1, pic url " + row[0].profpic);
             }
+
         });
-        console.log("pic: " + pic);
-        io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id, pic);
     });
 }
 
