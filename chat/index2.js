@@ -58,7 +58,7 @@ io.sockets.on('connection', function (socket) {
         // var newun = online.filter(function( obj ) {
         //     return obj.sid === socket.id;
         // })[0];
-        console.log('socket.id: 'socket.id);
+        console.log('socket.id: ' + socket.id);
         for (var i = 0; i < online.length; i++) {
             console.log(i + ': ' + online[i].sid);
             if (online[i].sid == socket.id) {
