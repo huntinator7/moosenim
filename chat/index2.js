@@ -55,8 +55,9 @@ io.sockets.on('connection', function (socket) {
     socket.on('associate', function (old_uid) {
         console.log('Associating ' + old_uid + ' with ' + socket.id);
         for (var i = 0; i < online.length; i++) {
-            console.log(i + ': ' + online[i].sid);
+            console.log(i + ': ' + online[i].sid + ', uid ' + online[i].uid);
             if (online[i].uid == old_uid) {
+                console.log('Replacing ' + online[i].sid + ' with ' + socket.id);
                 online[i].sid = socket.id;
             }
         }
