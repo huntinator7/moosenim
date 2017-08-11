@@ -52,6 +52,15 @@ io.sockets.on('connection', function (socket) {
     socket.on('ping', function (name) {
         console.log('pong');
     });
+    socket.on('associate', function (old_uid) {
+        console.log('Associating ' + old_uid + ' with ' + socket.id);
+        for (var i = 0; i < online.length; i++) {
+            console.log(i + ': ' + online[i].sid);
+            if (online[i].uid == old_uid) {
+                online[i].sid = socket.id;
+            }
+        }
+    });
     socket.on('chat message', function (msg) {
         console.log("In chat message");
         var un = 'Error - Username Not Found';

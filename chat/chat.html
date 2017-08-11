@@ -94,6 +94,14 @@ $(function () {
         return false;
     });
 
+
+    $(document).ready(function(){
+        var ind = window.location.href.search(/chat\//);
+        var res = window.location.href.substring(ind+5);
+        console.log(res);
+        socket.emit('associate', res);
+    });
+
     document.getElementById("main").style.display = "inline";
     socket.on('chat message', function (user, msg, time, id, pic) {
 
