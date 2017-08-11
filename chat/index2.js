@@ -34,19 +34,19 @@ io.sockets.on('connection', function (socket) {
         con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
             if (rows[0]==null) {
                 //show user as online and it add to DB
-               // con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email) VALUES ( ?, ?, ?, 1,1,?)", [displayName, socket.userid, photoURL, email], function (error, results) {
-                 //  if (error) console.log(error);
-                // });
+                con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email) VALUES ( ?, ?, ?, 1,1,?)", [displayName, socket.userid, photoURL, email], function (error, results) {
+                    if (error) console.log(error);
+                });
             }//addOnline(un,email,photo,uid)
             var ison = false;
             for (var i = 0; i < online.length; i++) {
                 if (online[i].name = displayName) ison = true;
             }
             //add user to list of online users if they aren't on already. '
-           if(!ison) {
-               addOnline(displayName, email, photoURL, uid, socket.id);
+            if(!ison) {
+                addOnline(displayName, email, photoURL, uid, socket.id);
 
-           }
+            }
         });
 
         io.emit('login', displayName, email, photoURL, uid);
@@ -227,12 +227,12 @@ function createChatroom (n,i) {
 
 
     // get availible chatrooms from user SELECT room_id FROM room_users WHERE user_id = ? [user.uid]
-        var name = n;
-        var id = i;
-        var chatroom = {
-            name: name,
-            id: id
-        };
+    var name = n;
+    var id = i;
+    var chatroom = {
+        name: name,
+        id: id
+    };
 
 
 }
