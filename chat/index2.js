@@ -27,9 +27,10 @@ var con = mysql.createConnection({
 io.sockets.on('connection', function (socket) {
 
     console.log('A user connected - index2.js');
-    showLastMessages(10, 1);
+    showLastMessages(10, socket.id);
     // login process and recording.
     socket.on('login message', function (displayName, email, photoURL) {
+        console.log("socket.userid: " + socket.userid + " socket.displayName: " + socket.displayName);
         con.query("SELECT * FROM users WHERE uid = ?", [socket.userid], function (error, rows, results) {
             if (rows[0]==null) {
                 //show user as online and it add to DB
@@ -52,6 +53,7 @@ io.sockets.on('connection', function (socket) {
         console.log('pong');
     });
     socket.on('chat message', function (msg) {
+        console.log("socket.userid: " + socket.userid + " socket.displayName: " + socket.displayName);
         var un = 'NULL';
         if (socket.displayName != null) {
             un = socket.displayName;
