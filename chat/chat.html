@@ -96,7 +96,7 @@ $(function () {
 
 
     $(document).ready(function(){
-        var ind = window.location.href.search(/chat\//);
+        var ind = window.location.href.search(/chat\?/);
         var res = window.location.href.substring(ind+5);
         console.log(res);
         socket.emit('associate', res);
