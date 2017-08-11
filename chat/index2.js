@@ -40,7 +40,6 @@ io.sockets.on('connection', function (socket) {
             var ison = false;
             for (var i = 0; i < online.length; i++) {
                 if (online[i].name = displayName) ison = true;
-
             }
             //add user to list of online users if they aren't on already. '
            if(!ison) addOnline(displayName, email, photoURL, socket.userid);
@@ -176,7 +175,11 @@ function getMessage() {
         if (error) throw error;
         var pic;
         con.query("SELECT * FROM users WHERE users.name = ?", [rows[0].username], function (error, row) {
-            pic = row[0].profpic;
+            if(row.length < 1) {
+                pic = "http://www.moosen.im/images/favicon.png";
+            } else {
+                pic = row[0].profpic;
+            }
         });
         io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id, pic);
     });

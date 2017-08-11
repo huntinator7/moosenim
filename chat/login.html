@@ -139,6 +139,16 @@
                     var providerData = user.providerData;
                     socket.userid = user.uid;
                     socket.displayName = user.displayName;
+                    console.log(
+                        displayName + " "
+                        + email + " "
+                        + emailVerified + " "
+                        + photoURL + " "
+                        + isAnonymous + " "
+                        + uid + " "
+                        + socket.userid + " "
+                        + socket.displayName
+                    );
                     // [START_EXCLUDE]
 
                     socket.emit('login message', displayName, email, photoURL);
