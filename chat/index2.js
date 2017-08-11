@@ -219,9 +219,9 @@ function showLastMessages(num, id) {
         if (error) throw error;
         for (var i = 0; i < num-1; i++) {
             con.query("SELECT * FROM users WHERE users.name = ?", [rows[i].username], function (error, row) {
-                //var picture = row[0].profpic;
+                var picture = row[0].profpic;
             });
-            io.to(id).emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp, rows[i].id, "null");
+            io.to(id).emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp, rows[i].id, picture);
         }
     });
 }
