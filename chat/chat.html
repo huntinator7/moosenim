@@ -104,8 +104,7 @@ $(function () {
     document.getElementById("main").style.display = "inline";
     socket.on('chat message', function (user, msg, time, id, pic) {
         document.title = user+": "+msg;
-       // username = user;
-        console.log(id);
+       
         var m = user + ": " + msg;
         if(document.hidden) {
             notifyMe(m);
