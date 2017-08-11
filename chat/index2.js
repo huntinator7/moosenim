@@ -43,7 +43,7 @@ io.sockets.on('connection', function (socket) {
                 if (online[i].name = displayName) ison = true;
             }
             //add user to list of online users if they aren't on already. '
-           if(!ison) addOnline(displayName, email, photoURL, uid);
+           if(!ison) addOnline(displayName, email, photoURL, uid, socket.id);
         });
 
         io.emit('login', displayName, email, photoURL, uid);
@@ -54,12 +54,12 @@ io.sockets.on('connection', function (socket) {
     });
     socket.on('chat message', function (msg) {
         console.log("In chat message");
-        var un = 'NULL';
+        var un = 'Error - Username Not Found';
         var newun = online.filter(function( obj ) {
-            return obj.id == socket.id;
+            return obj.sid === socket.id;
         })[0];
         console.log(newun);
-        if(newun) un = newun;
+        if(newun) un = newun.name;
 
         console.log('un: ' + un + ' | message: ' + msg);
         if (msg.indexOf("lag") > -1) {
@@ -129,15 +129,16 @@ con.connect(function (err) {
 
 var online = [];
 
-function addOnline(un,email,photo,uid) {
+function addOnline(un, email, photo, uid, sock) {
     var user = {
         name: un,
-        id: uid,
+        uid: uid,
         photo: photo,
-        email:email
+        email: email,
+        sid: sock
     };
     online.push(user);
-    console.log('Adding ' + un + ', id ' + uid);
+    console.log('Adding ' + un + ', id ' + uid + ', sid ' + sock);
     updateOnline();
 }
 
