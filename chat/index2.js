@@ -38,14 +38,7 @@ io.sockets.on('connection', function (socket) {
                     if (error) console.log(error);
                 });
             }//addOnline(un,email,photo,uid)
-            var ison = false;
-            for (var i = 0; i < online.length; i++) {
-                if (online[i].name = displayName) ison = true;
-            }
-            //add user to list of online users if they aren't on already. '
-            if(!ison) {
-                addOnline(displayName, email, photoURL, uid, socket.id);
-            }
+            addOnline(displayName, email, photoURL, uid, socket.id);
         });
 
         io.emit('login', displayName, email, photoURL, uid);
