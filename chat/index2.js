@@ -48,22 +48,30 @@ io.sockets.on('connection', function (socket) {
     socket.on('ping', function (name) {
         console.log('pong');
     });
-    socket.on('associate', function (old_uid) {
-        console.log('Associating ' + old_uid + ' with ' + socket.id);
+    socket.on('associate', function (uid) {
+        console.log('Associating ' + uid + ' with ' + socket.id);
+        var match;
         for (var i = 0; i < online.length; i++) {
             console.log(i + ': ' + online[i].sid + ', uid ' + online[i].uid);
-            if (online[i].uid == old_uid) {
-                console.log('Replacing ' + online[i].sid + ' with ' + socket.id);
-                online[i].sid = socket.id;
+            if (online[i].uid == uid) {
+                match = i;
+                console.log('associate      match = ' + i);
             }
         }
+        console.log('Replacing ' + online[match].sid + ' with ' + socket.id + ', match = ' + match);
+        online[match].sid = socket.id;
+
+        // for (var i = 0; i < online.length; i++) {
+        //     console.log(i + ': ' + online[i].sid + ', uid ' + online[i].uid);
+        //     if (online[i].uid == uid) {
+        //         console.log('Replacing ' + online[i].sid + ' with ' + socket.id);
+        //         online[i].sid = socket.id;
+        //     }
+        // }
     });
     socket.on('chat message', function (msg) {
         console.log("chat message");
         var un = 'Error - Username Not Found';
-        // var newun = online.filter(function( obj ) {
-        //     return obj.sid === socket.id;
-        // })[0];
         console.log('chat message       socket.id: ' + socket.id);
         for (var i = 0; i < online.length; i++) {
             console.log(i + ': ' + online[i].sid);
