@@ -89,7 +89,7 @@ $(function () {
     // });
 
     $('#mform').submit(function(){
-        socket.emit('chat message', $('#m').val());
+        socket.emit('chat message', encodeURI($('#m').val()));
         $('#m').val('');
         return false;
     });
@@ -113,7 +113,7 @@ $(function () {
         console.log('pic: ' + pic);
         $('#messages').append('<li class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
         + user + '</span><p>'
-        + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
+        + decodeURI(msg) + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
         + time + '</a></li>');
         if (canAuto) {
             window.scrollTo(0,document.body.scrollHeight);
@@ -122,13 +122,12 @@ $(function () {
     socket.on('login', function (displayName, email, photoURL, uid) {
         console.log("logging in " + displayName);
         $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">info outline</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
-        + displayName + ': id ' + uid + ' logged in</span></a></li>');
+        + displayName + ' logged in</span></a></li>');
         if (canAuto) {
             window.scrollTo(0,document.body.scrollHeight);
         }
     });
     socket.on('test', function (name) {
-
         console.log(name + "asdasd");
     });
     socket.on('logout message', function(user){

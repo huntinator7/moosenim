@@ -70,7 +70,6 @@ io.sockets.on('connection', function (socket) {
         // }
     });
     socket.on('chat message', function (msg) {
-        console.log("chat message");
         var un = 'Error - Username Not Found';
         console.log('chat message       socket.id: ' + socket.id);
         for (var i = 0; i < online.length; i++) {
