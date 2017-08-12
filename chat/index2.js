@@ -58,16 +58,10 @@ io.sockets.on('connection', function (socket) {
                 console.log('associate      match = ' + i);
             }
         }
-        console.log('Replacing ' + online[match].sid + ' with ' + socket.id + ', match = ' + match);
-        online[match].sid = socket.id;
-
-        // for (var i = 0; i < online.length; i++) {
-        //     console.log(i + ': ' + online[i].sid + ', uid ' + online[i].uid);
-        //     if (online[i].uid == uid) {
-        //         console.log('Replacing ' + online[i].sid + ' with ' + socket.id);
-        //         online[i].sid = socket.id;
-        //     }
-        // }
+        if (match){
+            console.log('Replacing ' + online[match].sid + ' with ' + socket.id + ', match = ' + match);
+            online[match].sid = socket.id;
+        }
     });
     socket.on('chat message', function (msg) {
         var un = 'Error - Username Not Found';
@@ -200,7 +194,7 @@ function getMessage() {
     //will need to add chatroom_id at some point.
     con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", function (error, rows, results) {
         console.log("Emitting message");
-       
+
         if (error) throw error;
         var pic;
         con.query("SELECT * FROM users WHERE users.name = ?", [rows[0].username], function (error, row) {
