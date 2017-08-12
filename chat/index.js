@@ -198,7 +198,16 @@ function updateOnline(un, add) {
     }
     io.emit('update online', names);
 }
+function binTreeSearch(key, x, arr) {
+    var y = x;
+    while (y != null) {
+        if (arr[y] = key) return arr[y];
+        else if (arr[y] < key) y = y + 1;
+        else y = y - 1;
+        return null;
+    }
 
+}
 function sendMessage(message, username) {
     try {
         con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [message, username], function (error, results) {
