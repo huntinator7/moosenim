@@ -147,8 +147,10 @@
                 socket.emit('login message', displayName, email, photoURL, uid);
 
                 // document.getElementById('quickstart-sign-in-status').innerHTML = "<a href='" + url + "'>Click to Chat</a>";
+                var div = $('<button id="quickstart-sign-in-status" class="btn waves-effect waves-light light-blue white-text"><a href="' + url + '">Click to Chat</a></button>');
+                $("#redirect").append(div);
                 document.getElementById('quickstart-sign-in-status').innerHTML = "<a href='" + url + "'>Click to Chat</a>";
-                document.getElementById('quickstart-sign-in-status').style.display = "block";
+                document.getElementById('quickstart-sign-in-status').style.display = "inline";
                 document.getElementById('quickstart-sign-in-status').style.textAlign = "center";
                 document.getElementById('quickstart-sign-in').textContent = 'Sign out';
                 //change this to a link to the chat
@@ -157,7 +159,9 @@
             } else {
                 // User is signed out.
                 // [START_EXCLUDE]
-                document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
+                // document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
+                var div = $('<h3>Signed Out</h3>');
+                $("#redirect").append(div);
                 document.getElementById('quickstart-sign-in').textContent = 'Sign in with Google';
                 document.getElementById('quickstart-account-details').textContent = 'null';
                 document.getElementById('quickstart-oauthtoken').textContent = 'null';
@@ -230,8 +234,8 @@
     <div class="row" style ="padding-top:15vh;">
         <div style="text-align:center" class="row col s12 xl12 center">
             <button disabled id="quickstart-sign-in" class="btn waves-effect waves-light light-blue white-text">Sign In with Google</button>
-            <br>
-            <button style="hidden" id="quickstart-sign-in-status" class="btn waves-effect waves-light light-blue white-text">Unknown</span>
+        </div>
+        <div id="redirect" style="text-align:center" class="row col s12 xl12 center">
         </div>
     </div>
     <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-header">
