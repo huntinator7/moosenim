@@ -146,7 +146,9 @@
 
                 socket.emit('login message', displayName, email, photoURL, uid);
 
-                document.getElementById('quickstart-sign-in-status').innerHTML = "<a href='" + url + "'>Click to Chat</a>";
+                // document.getElementById('quickstart-sign-in-status').innerHTML = "<a href='" + url + "'>Click to Chat</a>";
+                document.getElementById('quickstart-sign-in-status').innerHTML = "Click to Chat";
+                document.getElementById('quickstart-sign-in-status').style.display = "block";
                 document.getElementById('quickstart-sign-in').textContent = 'Sign out';
                 //change this to a link to the chat
                 document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
@@ -225,9 +227,10 @@
         </nav>
     </header>
     <div class="row" style ="padding-top:15vh;">
-        <div class="row col s12 xl8 offset-xl2">
+        <div class="row col s12 xl12 center">
             <button disabled id="quickstart-sign-in" class="btn waves-effect waves-light light-blue white-text">Sign In with Google</button>
-            <span id="quickstart-sign-in-status">Unknown</span>
+            <br>
+            <button style="hidden" id="quickstart-sign-in-status" class="btn waves-effect waves-light light-blue white-text">Unknown</span>
         </div>
     </div>
     <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-header">
