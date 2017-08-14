@@ -147,7 +147,7 @@
                 socket.emit('login message', displayName, email, photoURL, uid);
 
                 // document.getElementById('quickstart-sign-in-status').innerHTML = "<a href='" + url + "'>Click to Chat</a>";
-                var div = $('<button id="quickstart-sign-in-status" class="btn waves-effect waves-light light-blue white-text"><a href="' + url + '">Click to Chat</a></button>');
+                var div = $('<button id="quickstart-sign-in-status" class="btn waves-effect waves-light light-blue white-text"><a style="font-color:white" href="' + url + '">Click to Chat</a></button>');
                 $("#redirect").append(div);
                 document.getElementById('quickstart-sign-in-status').innerHTML = "<a href='" + url + "'>Click to Chat</a>";
                 document.getElementById('quickstart-sign-in-status').style.display = "inline";
