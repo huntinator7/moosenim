@@ -61,6 +61,8 @@ io.sockets.on('connection', function (socket) {
         if (match){
             console.log('Replacing ' + online[match].sid + ' with ' + socket.id + ', match = ' + match);
             online[match].sid = socket.id;
+        } else {
+            io.to(socket.id).emit('retreat');
         }
     });
     socket.on('chat message', function (msg) {
@@ -75,6 +77,11 @@ io.sockets.on('connection', function (socket) {
         }
         console.log('chat message       End result of un: ' + un);
         // if(newun) un = newun.name;
+        if(un == 'Error - Username Not Found') {
+            io.to(socket.id).emit('retreat');
+            console.log('Retreating ' + socket.id);
+            break;
+        }
 
         console.log('chat message       un: ' + un + ' | message: ' + msg);
         if (msg.indexOf("lag") > -1) {
