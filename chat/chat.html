@@ -129,6 +129,10 @@ $(function () {
     socket.on('test', function (name) {
         console.log(name + "asdasd");
     });
+    socket.on('retreat', function () {
+        console.log("Retreat!");
+        window.location.href = "http://www.moosen.im/";
+    });
     socket.on('logout message', function(user){
         $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">error outline</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
         + user + ' logged out</span></a></li>');
