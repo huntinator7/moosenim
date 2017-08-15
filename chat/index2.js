@@ -186,7 +186,7 @@ function addOnline(un, email, photo, uid, sock) {
 
 function sendMessage(message, username) {
     try {
-        con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", [message, username], function (error, results) {
+        con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'))", [message, username], function (error, results) {
             if (error) throw error;
         });
     }
