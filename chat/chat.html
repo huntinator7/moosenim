@@ -89,7 +89,8 @@ $(function () {
     // });
 
     $('#mform').submit(function(){
-        socket.emit('chat message', encodeURI($('#m').val()));
+        var message = convert($('#m').val());
+        socket.emit('chat message', message);
         $('#m').val('');
         return false;
     });
@@ -261,6 +262,13 @@ function notifyMe(msg) {
             window.focus();
         };
     }
+}
+
+function convert(msg) {
+    var message;
+    message = str.replace(/</g, '&lt;');
+    message = str.replace(/>/g, '&gt;');
+    return encodeURI(message);
 }
 </script>
 </body>
