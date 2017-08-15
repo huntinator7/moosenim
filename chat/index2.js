@@ -191,7 +191,7 @@ function sendMessage(message, username) {
         });
     }
     catch (Exception) {
-        con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, CURTIME())", ["error", username], function (error, results) {
+        con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?,TIME_FORMAT(CURTIME(), '%h:%i:%s %p'))", ["error", username], function (error, results) {
             if (error) throw error;
         });
     }
