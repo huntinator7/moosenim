@@ -90,7 +90,6 @@ $(function () {
 
     $('#mform').submit(function(){
         var message = convert($('#m').val());
-        socket.emit('chat message', message);
         $('#m').val('');
         return false;
     });
@@ -268,7 +267,7 @@ function convert(msg) {
     var message;
     message = str.replace(/</g, '&lt;');
     message = str.replace(/>/g, '&gt;');
-    return encodeURI(message);
+    socket.emit('chat message', encodeURI(message));
 }
 </script>
 </body>
