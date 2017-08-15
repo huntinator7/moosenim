@@ -106,11 +106,11 @@ $(function () {
 
     document.getElementById("main").style.display = "inline";
     socket.on('chat message', function (user, msg, time, id, pic) {
-        document.title = user+": "+msg;
+        document.title = user.substring(0,3) + ": " + decodeURI(msg);
 
-        var m = user + ": " + msg;
+        var m = decodeURI(msg);
         if(document.hidden) {
-            notifyMe(m);
+            notifyMe(m, pic);
         }
         
         console.log('pic: ' + pic);
@@ -252,12 +252,12 @@ document.addEventListener('DOMContentLoaded', function () {
     Notification.requestPermission();
 });
 
-function notifyMe(msg) {
+function notifyMe(msg, pic) {
     if (Notification.permission !== "granted")
     Notification.requestPermission();
     else {
         var notification = new Notification('Moosen IM', {
-            icon: 'https://lh3.googleusercontent.com/j5fD3m5qXRNtGYDuajhEtS_etFvU8FE5PogmqTY2hrshDG0_urf_UBeVAyJljoCxdf4=w300',
+            icon: pic,
             body: msg,
         });
         notification.onclick = function () {
