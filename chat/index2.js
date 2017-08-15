@@ -52,10 +52,10 @@ io.sockets.on('connection', function (socket) {
         console.log('Associating ' + uid + ' with ' + socket.id);
         var match;
         for (var i = 0; i < online.length; i++) {
-            console.log(i + ': ' + online[i].sid + ', uid ' + online[i].uid);
+            //console.log(i + ': ' + online[i].sid + ', uid ' + online[i].uid);
             if (online[i].uid == uid) {
                 match = i;
-                console.log('associate      match = ' + i);
+                //console.log('associate      match = ' + i);
             }
         }
         if (match){
@@ -161,7 +161,7 @@ function addOnline(un, email, photo, uid, sock) {
     };
     online.push(user);
     console.log('addOnline          Adding ' + un + ', id ' + uid + ', sid ' + sock);
-    console.log(online);
+    //console.log(online);
     // updateOnline();
 }
 
