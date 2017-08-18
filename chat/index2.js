@@ -146,8 +146,8 @@ io.sockets.on('connection', function (socket) {
     //getrooms is called when the user logs in, and then returns a roomlist array back to the client. 
     socket.on('getrooms', function (uid) {
         var rooms = getrooms(uid);
-        for (var i = 0; i < rooms.length - 1; i++) {
-            console.log(rooms[i]);
+        for (var i = 0; i < getrooms(uid).length - 1; i++) {
+            console.log(getrooms(uid)[i]);
         }
         socket.emit('roomlist',getrooms(uid));
         
