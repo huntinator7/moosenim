@@ -44,7 +44,7 @@ io.sockets.on('connection', function (socket) {
         });
 
         io.emit('login', displayName, email, photoURL, uid);
-
+        console.log(getrooms(uid));
     });
     socket.on('ping', function (name) {
         console.log('pong');
@@ -53,6 +53,7 @@ io.sockets.on('connection', function (socket) {
         console.log('Associating ' + uid + ' with ' + socket.id);
         var match;
         io.to(socket.id).emit('roomlist', getrooms(uid));
+        console.log(getrooms(uid));
         for (var i = 0; i < online.length; i++) {
             //console.log(i + ': ' + online[i].sid + ', uid ' + online[i].uid);
             if (online[i].uid == uid) {
@@ -62,6 +63,7 @@ io.sockets.on('connection', function (socket) {
         }
         if (match) {
             socket.emit('roomlist', getrooms(uid));
+            console.log(getrooms(uid));
             console.log('Replacing ' + online[match].sid + ' with ' + socket.id + ', match = ' + match);
             online[match].sid = socket.id;
         } else {
