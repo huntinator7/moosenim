@@ -117,7 +117,7 @@ $(function () {
             notifyMe(m, pic);
         }
         //get rooms
-        socket.emit('getrooms', uid);
+        socket.emit('getrooms', id);
         console.log('pic: ' + pic);
         $('#messages').append('<li class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
         + user + '</span><p>'
