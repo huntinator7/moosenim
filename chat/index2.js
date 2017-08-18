@@ -263,7 +263,7 @@ function getrooms(uid) {
     con.query("SELECT * FROM room_users WHERE user_id = ?", [uid], function (error, row) {
       for (var i = 0; i < row.length - 1; i++) {
           list.push(row[i].room_id);
-            console.log("list =  " + list[i]);
+            console.log("list =  " + row[i].room_id);
         }
        
        
