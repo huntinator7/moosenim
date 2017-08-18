@@ -91,6 +91,7 @@ $(function () {
 
     //roomList holds an array of all chatrooms a user has access to. 
     var roomList;
+    var userid = "104635400788300812127";
     $('#mform').submit(function(){
         var message = $('#m').val();
         message = message.replace(/</g, '&lt;');
@@ -117,7 +118,7 @@ $(function () {
             notifyMe(m, pic);
         }
         //get rooms
-        socket.emit('getrooms', id);
+        socket.emit('getrooms', userid);
         console.log('pic: ' + pic);
         $('#messages').append('<li class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
         + user + '</span><p>'
