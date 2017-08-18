@@ -263,7 +263,7 @@ function getrooms(uid) {
             list.push(rows[i]);
             console.log("list =  " + list[i]);
         }
-        
+        return list;
     });
 
 
