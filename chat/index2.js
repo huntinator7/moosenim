@@ -26,7 +26,7 @@ var con = mysql.createConnection({
 
 io.sockets.on('connection', function (socket) {
 
-    console.log('A user connected - index2.js');
+   // console.log('A user connected - index2.js');
     showLastMessages(11, socket.id);
 
     // login process and recording.
@@ -174,7 +174,7 @@ function addOnline(un, email, photo, uid, sock) {
         sid: sock
     };
     online.push(user);
-    console.log('addOnline          Adding ' + un + ', id ' + uid + ', sid ' + sock);
+//    console.log('addOnline          Adding ' + un + ', id ' + uid + ', sid ' + sock);
     //console.log(online);
     // updateOnline();
 }
