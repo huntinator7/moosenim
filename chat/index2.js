@@ -52,6 +52,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('associate', function (uid) {
         console.log('Associating ' + uid + ' with ' + socket.id);
         var match;
+        socket.emit('roomlist', getrooms(uid));
         for (var i = 0; i < online.length; i++) {
             //console.log(i + ': ' + online[i].sid + ', uid ' + online[i].uid);
             if (online[i].uid == uid) {
