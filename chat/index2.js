@@ -237,12 +237,7 @@ function showLastMessages(num, id) {
     con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [num], function (error, rows, results) {
         console.log("Getting messages...");
         if (error) throw error;
-        // for (var i = 0; i < num-1; i++) {
-        //     con.query("SELECT * FROM users WHERE users.name = ?", [rows[i].username], function (error, row) {
-        //         var picture = row[0].profpic;
-        //     });
-        //     io.to(id).emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp, rows[i].id, picture);
-        // }
+       
         rows.forEach(function(element) {
             con.query("SELECT * FROM users WHERE users.name = ?", [element.username], function (error, row) {
                 if (row[0]) {
@@ -264,14 +259,19 @@ function getrooms(uid) {
 
     var list = Array();
     list.push(0);
+    list.push(1);
+    list.push(2);
+    list.push(3);
+
     con.query("SELECT * FROM room_users WHERE users_id = ?", [uid], function (error, rows) {
        // for (var i = 0; i < rows.length - 1; i++) {
          //   list.push(rows[i]);
            // console.log("list =  " + list[i]);
-       // }
-        return list[0];
+        // }
+        //list.push(rows[0].room_id)
+       
     });
-
+    return list;
 
 }
 
