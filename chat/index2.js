@@ -259,18 +259,13 @@ function getrooms(uid) {
 
     var list = Array();
     list.push(0);
-    list.push(1);
-    list.push(2);
-    list.push(3);
-    list.push(4);
+ 
     con.query("SELECT * FROM room_users WHERE user_id = ?", [uid], function (error, row) {
-       // for (var i = 0; i < rows.length - 1; i++) {
-         //   list.push(rows[i]);
-           // console.log("list =  " + list[i]);
-        // }
-        if (row[1]) {
-            console.log(row[1].user_id);
+      for (var i = 0; i < row.length - 1; i++) {
+          list.push(row[i].room_id);
+            console.log("list =  " + list[i]);
         }
+       
        
        
     });
