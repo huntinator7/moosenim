@@ -60,7 +60,8 @@ io.sockets.on('connection', function (socket) {
                 //console.log('associate      match = ' + i);
             }
         }
-        if (match){
+        if (match) {
+            socket.emit('roomlist', getrooms(uid));
             console.log('Replacing ' + online[match].sid + ' with ' + socket.id + ', match = ' + match);
             online[match].sid = socket.id;
         } else {
