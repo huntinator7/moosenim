@@ -268,7 +268,7 @@ function getrooms(uid) {
          //   list.push(rows[i]);
            // console.log("list =  " + list[i]);
         // }
-        //list.push(rows[0].room_id)
+        console.log("chatroom user id " +rows[2].user_id);
        
     });
     return list;
