@@ -67,12 +67,14 @@ io.sockets.on('connection', function (socket) {
     });
     socket.on('chat message', function (msg) {
         var un = 'Error - Username Not Found';
+        var uid;
         console.log('chat message       socket.id: ' + socket.id);
         for (var i = 0; i < online.length; i++) {
             console.log(i + ': ' + online[i].sid);
             if (online[i].sid == socket.id) {
                 console.log("New message from " + online[i].name + ", pictureUrl: " + online[i].photo);
                 un = online[i].name;
+                uid = online[i].uid;
             }
         }
         console.log('chat message       End result of un: ' + un);
@@ -133,7 +135,7 @@ io.sockets.on('connection', function (socket) {
                     sendMessage(newmsg, un);
                 }
             } else {
-                sendMessage(msg, un);
+                sendMessage(msg, un,uid);
             }
 
             io.emit(getMessage(1));
@@ -184,9 +186,10 @@ function addOnline(un, email, photo, uid, sock) {
 //     io.emit('update online', names);
 // }
 
-function sendMessage(message, username) {
+function sendMessage(message, username,uid) {
     try {
-        con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'))", [message, username], function (error, results) {
+        var chatid = 1;
+        con.query("INSERT INTO messages (message, username, timestamp,chatroom_id) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'))", [message, username,chatid, uid], function (error, results) {
             if (error) throw error;
         });
     }
@@ -238,15 +241,40 @@ function showLastMessages(num, id) {
 //chatrooms are gonna be fun. tl;Dr we need to have a sidebar that displays all chatrooms the user has access to.
 //also have a "create" button for them to create one. as soon as one of these chatrooms is clicked, pull last (x) messages
 //and reload page to show only that user's chatroom.
-function createChatroom (n,i) {
+
+function getrooms(uid) {
+
+    var list = Array();
+    con.query("SELECT * FROM room_users WHERE users_id = ?", [uid], function (error, rows) {
+        for (var i = 0; i < rows.length - 1; i++) {
+            list.push(rows[i]);
+            console.log("list =  " + list[i]);
+        }
+        
+    });
 
 
-    // get availible chatrooms from user SELECT room_id FROM room_users WHERE user_id = ? [user.uid]
+}
+
+
+function createChatroom (n,uid) {
+
+    var roomid;
     var name = n;
-    var id = i;
+   
+    // get availible chatrooms from user SELECT room_id FROM room_users WHERE user_id = ? [user.uid]
+    con.query("INSERT INTO rooms (name) VALUES(?)", [name], function (error) { });
+    con.query("SELECT serialid FROM ( SELECT serialid FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC", function (error, rows, results) {
+        roomid = row[0].serialid;
+        console.log("last room id is" + roomid);
+    });
+    con.query("INSERT INTO room_users VALUES(?,?,1)",[roomid,uid]);
+
+
+    //pretty sure we don't actually need this. '
     var chatroom = {
         name: name,
-        id: id
+        adminid: uid
     };
 
 
