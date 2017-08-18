@@ -105,6 +105,7 @@ $(function () {
         var res = window.location.href.substring(26);
         console.log(res);
         socket.emit('associate', res);
+
     });
 
     document.getElementById("main").style.display = "inline";
@@ -115,7 +116,8 @@ $(function () {
         if(document.hidden) {
             notifyMe(m, pic);
         }
-        
+        //get rooms
+        socket.emit('getrooms', uid);
         console.log('pic: ' + pic);
         $('#messages').append('<li class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
         + user + '</span><p>'
@@ -128,8 +130,7 @@ $(function () {
     socket.on('login', function (displayName, email, photoURL, uid) {
         console.log("logging in " + displayName);
 
-        //get rooms
-        socket.emit('getrooms', uid);
+      
         
         $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">info outline</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
         + displayName + ' logged in</span></a></li>');
