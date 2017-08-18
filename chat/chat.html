@@ -20,8 +20,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <style>
     #messages { list-style-type: none; margin: 0; }
-    #online { list-style-type: background-color:white; }
-    #online li{ color:black; }
+    #chatrooms { background-color:black; }
+    #chatrooms li{ color:#6EB7FF; }
     nav.top-nav a.page-title {
         line-height: 10vh;
         font-size: 4em;
@@ -42,6 +42,15 @@
                 </div>
             </div>
         </nav>
+        <ul id="nav-mobile" class="side-nav fixed" style="transform: translateX(0px);">
+            <li class="logo"><a id="logo-container" href="http://www.moosen.im/" class="brand-logo">
+                <object id="front-page-logo" type="image/svg+xml" data="/images/moosen.svg">Your browser does not support SVG</object></a></li>
+            <li>
+                <ul id="chatrooms">
+                    <li><h4 style="color:white">Chatrooms</h4></li>
+                </ul>
+            </li>
+        </ul>
     </header>
     <div id="main">
         <div class="row" style ="padding-top:5vh;">
@@ -143,8 +152,12 @@ $(function () {
         console.log(name + "asdasd");
     });
     socket.on('roomlist', function (list) {
-        roomList = list;
-        console.log("got list"+list);
+        console.log("Received roomlist: " + list);
+        $('#chatrooms').empty();
+        $('#chatrooms').append('<li><h4 style="color:white">Chatrooms</h4></li>');
+        list.forEach(function(element) {
+            $('#chatrooms').append('<li><h2 style="color:#6EB7FF">' + element + '</h2></li>');
+        });
     });
     socket.on('retreat', function () {
         console.log("Retreat!");
