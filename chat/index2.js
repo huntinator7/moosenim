@@ -205,7 +205,7 @@ function addOnline(un, email, photo, uid, sock) {
 function sendMessage(message, username,uid) {
     try {
         var chatid = 1;
-        con.query("INSERT INTO messages (message, username, timestamp,chatroom_id) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'),?)", [message, username,chatid, uid], function (error, results) {
+        con.query("INSERT INTO messages (message, username, timestamp,chatroom_id,uid) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'),?,?)", [message, username,chatid, uid], function (error, results) {
             if (error) throw error;
         });
     }
