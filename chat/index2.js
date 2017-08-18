@@ -258,6 +258,7 @@ function showLastMessages(num, id) {
 function getrooms(uid) {
 
     var list = Array();
+    list.push(0);
     con.query("SELECT * FROM room_users WHERE users_id = ?", [uid], function (error, rows) {
         for (var i = 0; i < rows.length - 1; i++) {
             list.push(rows[i]);
