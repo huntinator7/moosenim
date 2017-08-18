@@ -263,12 +263,13 @@ function getrooms(uid) {
     list.push(2);
     list.push(3);
     list.push(4);
-    con.query("SELECT * FROM room_users WHERE users_id = ?", [uid], function (error, rows) {
+    con.query("SELECT * FROM room_users WHERE users_id = ?", [uid], function (error, row) {
        // for (var i = 0; i < rows.length - 1; i++) {
          //   list.push(rows[i]);
            // console.log("list =  " + list[i]);
         // }
-        console.log("chatroom user id " +rows[2].user_id);
+        if(row[2])
+        console.log("chatroom user id " +row[2].user_id);
        
     });
     return list;
