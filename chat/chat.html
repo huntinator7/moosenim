@@ -144,7 +144,7 @@ $(function () {
     });
     socket.on('roomlist', function (list) {
         roomList = list;
-        console.log("got list");
+        console.log("got list"+list);
     });
     socket.on('retreat', function () {
         console.log("Retreat!");
