@@ -28,6 +28,7 @@ io.sockets.on('connection', function (socket) {
 
     console.log('A user connected - index2.js');
     showLastMessages(11, socket.id);
+
     // login process and recording.
     socket.on('login message', function (displayName, email, photoURL, uid) {
         console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id);
@@ -141,6 +142,16 @@ io.sockets.on('connection', function (socket) {
             io.emit(getMessage(1));
         }
     });
+
+    //getrooms is called when the user logs in, and then returns a roomlist array back to the client. 
+    socket.on('getrooms', function (uid) {
+        var rooms = getrooms(uid);
+        for (var i = 0; i < rooms.length - 1; i++) {
+            console.log(rooms[i]);
+        }
+        socket.emit('roomlist',getrooms(uid));
+        
+    });
 });
 
 
@@ -242,6 +253,8 @@ function showLastMessages(num, id) {
 //also have a "create" button for them to create one. as soon as one of these chatrooms is clicked, pull last (x) messages
 //and reload page to show only that user's chatroom.
 
+
+
 function getrooms(uid) {
 
     var list = Array();
@@ -271,7 +284,7 @@ function createChatroom (n,uid) {
     con.query("INSERT INTO room_users VALUES(?,?,1)",[roomid,uid]);
 
 
-    //pretty sure we don't actually need this. '
+    //pretty sure we don't actually need this. 
     var chatroom = {
         name: name,
         adminid: uid
