@@ -268,8 +268,7 @@ function getrooms(uid) {
          //   list.push(rows[i]);
            // console.log("list =  " + list[i]);
         // }
-        if(row[2])
-        console.log("chatroom user id " +row[2].user_id);
+       
        
     });
     return list;
