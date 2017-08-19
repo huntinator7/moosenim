@@ -204,7 +204,7 @@ function addOnline(un, email, photo, uid, sock) {
 function sendMessage(message, username,uid) {
     try {
         var chatid = 1;
-        con.query("INSERT INTO messages (message, username, timestamp,chatroom_id) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'))", [message, username,chatid, uid], function (error, results) {
+        con.query("INSERT INTO messages (message, username, timestamp,chatroom_id,uid) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'),?,?)", [message, username,chatid, uid], function (error, results) {
             if (error) throw error;
         });
     }
@@ -263,12 +263,15 @@ function getrooms(uid) {
 
     var list = Array();
     list.push(0);
-    con.query("SELECT * FROM room_users WHERE users_id = ?", [uid], function (error, rows) {
-       // for (var i = 0; i < rows.length - 1; i++) {
-         //   list.push(rows[i]);
-           // console.log("list =  " + list[i]);
-       // }
-        return list[0];
+ 
+    con.query("SELECT * FROM room_users WHERE user_id = ?", [uid], function (error, row) {
+      for (var i = 0; i < row.length - 1; i++) {
+          list.push(row[i].room_id);
+            console.log("list =  " + row[i].room_id);
+        }
+       
+       
+       
     });
 
 
