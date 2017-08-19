@@ -1,5 +1,6 @@
 ﻿<!doctype html>
 <html>
+
 <head>
     <link rel="icon" href="http://www.moosen.im/images/favicon.png">
     <meta charset="UTF-8">
@@ -13,49 +14,72 @@
     <!-- <script src="/siofu/client.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
-    <script src= "http://player.twitch.tv/js/embed/v1.js"></script>
+    <script src="http://player.twitch.tv/js/embed/v1.js"></script>
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
-    #messages { list-style-type: none; margin: 0; }
-    #chatrooms { background-color:black; }
-    #chatrooms li{ color:#6EB7FF; }
-    nav.top-nav a.page-title {
-        line-height: 10vh;
-        font-size: 4em;
-    }
-    .thumb {
-        height: 200px;
-        border: 1px solid #000;
-        text-align:center
-    }
+        #messages {
+            list-style-type: none;
+            margin: 0;
+        }
+
+        #chatrooms {
+            background-color: black;
+        }
+
+        #chatrooms li {
+            color: #6EB7FF;
+        }
+
+        nav.top-nav a.page-title {
+            line-height: 10vh;
+            font-size: 4em;
+        }
+
+        .thumb {
+            height: 200px;
+            border: 1px solid #000;
+            text-align: center
+        }
     </style>
 </head>
+
 <body style="background-color:#000000;">
     <header>
         <nav class="top-nav center light-blue" style="height:10vh">
+            <div class="nav-wrapper">
+                    <a class="brand-logo white-text">MoosenIM</a>
+                <ul id="nav-mobile" class="left hide-on-med-and-down">
+                    <li><a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons white">menu</i></a></li>
+                </ul>
+            </div>
+        </nav>
+        <!-- <nav class="top-nav center light-blue" style="height:10vh">
             <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons white">menu</i></a>
             <div class="container">
                 <div class="nav-wrapper">
                     <a class="page-title white-text">MoosenIM</a>
                 </div>
             </div>
-        </nav>
+        </nav> -->
         <ul id="slide-out" class="side-nav black white-text">
             <li>
                 <div class="user-view">
-                  <div class="background">
-                    <img src="/images/favicon.png">
-                  </div>
-                  <a href="#!user"><img class="circle" src="images/yuna.jpg"></a>
-                  <a href="#!name"><span class="white-text name">John Doe</span></a>
-                  <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
-                </div></li>
+                    <div class="background">
+                        <img src="/images/favicon.png">
+                    </div>
+                    <a href="#!user"><img class="circle" src="images/yuna.jpg"></a>
+                    <a href="#!name"><span class="white-text name">John Doe</span></a>
+                    <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
+                </div>
+            </li>
             <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
             <li><a href="#!">Second Link</a></li>
-            <li><div class="divider"></div></li>
+            <li>
+                <div class="divider"></div>
+            </li>
             <li><a class="subheader">Subheader</a></li>
             <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
         </ul>
@@ -70,13 +94,14 @@
         </ul> -->
     </header>
     <div id="main">
-        <div class="row" style ="padding-top:5vh;">
+        <div class="row" style="padding-top:5vh;">
             <div class="row col s12 xl8 offset-xl2">
                 <ul class="collection with-header" id="messages" style="overflow-x:hidden"></ul>
             </div>
             <div class="row col s12 xl8 offset-xl2">
                 <form id="mform" action="">
-                    <input id="m" autocomplete="off" style="color:black; background-color:white; border:2px solid #6EB7FF; font-size:1.5em" type="text" placeholder="Message">
+                    <input id="m" autocomplete="off" style="color:black; background-color:white; border:2px solid #6EB7FF; font-size:1.5em" type="text"
+                        placeholder="Message">
                     <br>
                     <button id="mbut" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
                 </form>
@@ -95,7 +120,7 @@
 </div>
 </div> -->
 
-<!-- <div class="container">
+    <!-- <div class="container">
 <div class="col hide-on-small-only s2">
 <div class="toc-wrapper pinned">
 <ul class="collection with-header" id="online" style="overflow-x:hidden"></ul>
@@ -103,213 +128,216 @@
 </div>
 </div> -->
 
-<!-- Socket.io -->
-<script>
-$(function () {
-    canAuto = false;
-    // last_id = 0;
-    var socket = io();
-    // var siofu = new SocketIOFileUpload(socket);
-    // siofu.addEventListener("start", function(event){
-    //     event.file.meta.filetype = event.file.type;
-    // });
+    <!-- Socket.io -->
+    <script>
+        $(function () {
+            canAuto = false;
+            // last_id = 0;
+            var socket = io();
+            // var siofu = new SocketIOFileUpload(socket);
+            // siofu.addEventListener("start", function(event){
+            //     event.file.meta.filetype = event.file.type;
+            // });
 
 
-    //roomList holds an array of all chatrooms a user has access to. 
-    var roomList;
-    var userid = "104635400788300812127";
-    $('#mform').submit(function(){
-        var message = $('#m').val();
-        message = message.replace(/</g, '&lt;');
-        message = message.replace(/>/g, '&gt;');
-        socket.emit('chat message', encodeURI(message));
-        $('#m').val('');
-        return false;
-    });
+            //roomList holds an array of all chatrooms a user has access to. 
+            var roomList;
+            var userid = "104635400788300812127";
+            $('#mform').submit(function () {
+                var message = $('#m').val();
+                message = message.replace(/</g, '&lt;');
+                message = message.replace(/>/g, '&gt;');
+                socket.emit('chat message', encodeURI(message));
+                $('#m').val('');
+                return false;
+            });
 
 
-    $(document).ready(function(){
-        var res = window.location.href.substring(31);
-      //  console.log(res);
-        socket.emit('associate', res);
-        $(".button-collapse").sideNav();
-        $('.collapsible').collapsible();
-    });
+            $(document).ready(function () {
+                var res = window.location.href.substring(31);
+                //  console.log(res);
+                socket.emit('associate', res);
+                $(".button-collapse").sideNav();
+                $('.collapsible').collapsible();
+            });
 
-    document.getElementById("main").style.display = "inline";
-    socket.on('chat message', function (user, msg, time, id, pic) {
-        document.title = user.substring(0,3) + ": " + decodeURI(msg);
+            document.getElementById("main").style.display = "inline";
+            socket.on('chat message', function (user, msg, time, id, pic) {
+                document.title = user.substring(0, 3) + ": " + decodeURI(msg);
 
-        var m = decodeURI(msg);
-        if(document.hidden) {
-            notifyMe(m, pic);
-        }
-        //get rooms
-       // socket.emit('getrooms', userid);
-       
-        $('#messages').append('<li class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
-        + user + '</span><p>'
-        + decodeURI(msg) + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
-        + time + '</a></li>');
-        if (canAuto) {
-            window.scrollTo(0,document.body.scrollHeight);
-        }
-    });
-    socket.on('login', function (displayName, email, photoURL, uid) {
-        console.log("logging in " + displayName);
+                var m = decodeURI(msg);
+                if (document.hidden) {
+                    notifyMe(m, pic);
+                }
+                //get rooms
+                // socket.emit('getrooms', userid);
 
-        socket.emit('getrooms', uid);
-        
-        $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">info outline</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
-        + displayName + ' logged in</span></a></li>');
-        if (canAuto) {
-            window.scrollTo(0,document.body.scrollHeight);
-        }
-    });
-    socket.on('test', function (name) {
-        console.log(name + "asdasd");
-    });
-    socket.on('roomlist', function (list) {
-        console.log("Received roomlist: " + list);
-        $('#chatrooms').empty();
-        $('#chatrooms').append('<li><h4 style="color:white">Chatrooms</h4></li>');
-        list.forEach(function(element) {
-            $('#chatrooms').append('<li><h2 style="color:#6EB7FF">' + element + '</h2></li>');
+                $('#messages').append('<li class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
+                    + user + '</span><p>'
+                    + decodeURI(msg) + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
+                    + time + '</a></li>');
+                if (canAuto) {
+                    window.scrollTo(0, document.body.scrollHeight);
+                }
+            });
+            socket.on('login', function (displayName, email, photoURL, uid) {
+                console.log("logging in " + displayName);
+
+                socket.emit('getrooms', uid);
+
+                $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">info outline</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
+                    + displayName + ' logged in</span></a></li>');
+                if (canAuto) {
+                    window.scrollTo(0, document.body.scrollHeight);
+                }
+            });
+            socket.on('test', function (name) {
+                console.log(name + "asdasd");
+            });
+            socket.on('roomlist', function (list) {
+                console.log("Received roomlist: " + list);
+                $('#chatrooms').empty();
+                $('#chatrooms').append('<li><h4 style="color:white">Chatrooms</h4></li>');
+                list.forEach(function (element) {
+                    $('#chatrooms').append('<li><h2 style="color:#6EB7FF">' + element + '</h2></li>');
+                });
+            });
+            socket.on('retreat', function () {
+                console.log("Retreat!");
+                window.location.href = "http://www.moosen.im/";
+            });
+            socket.on('logout message', function (user) {
+                $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">error outline</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
+                    + user + ' logged out</span></a></li>');
+                if (canAuto) {
+                    window.scrollTo(0, document.body.scrollHeight);
+                }
+            });
+
+            // socket.on('update online', function(users){
+            //     document.getElementById("online").style.display = "none";
+            //     $('#online').empty();
+            //     $('#online').append('<li class="collection-header">Online</li>');
+            //     for (var i = 0; i < users.length; i++) {
+            //         $('#online').append('<li class="collection-item">' + users[i] + '</li>');
+            //     }
+            //     if (canAuto) {
+            //         window.scrollTo(0,document.body.scrollHeight);
+            //     }
+            //     document.getElementById("online").style.display = "block";
+            // });
+            // function handleFileSelect(evt) {
+            //     console.log('In handleFileSelect');
+            //     var files = evt.target.files; // FileList object
+            //
+            //     for (var i = 0; i < files.length; i++) {
+            //         var name = files[i].name;
+            //         var type = files[i].type;
+            //         console.log("Filename: " + name + " , Type: " + type);
+            //         siofu.submitFiles([files[i]]);
+            //     }
+            //     // Loop through the FileList and render image files as thumbnails.
+            //     // for (var i = 0, f; f = files[i]; i++) {
+            //     //     console.log('In for loop turn ' + i);
+            //     //     console.log('File name: ' + f.name);
+            //     //     // Only process image files.
+            //     //     if (!f.type.match('image.*')) {
+            //     //         continue;
+            //     //     }
+            //     //
+            //     //     var reader = new FileReader();
+            //     //
+            //     //     Closure to capture the file information.
+            //     //     reader.onload = (function(theFile) {
+            //     //         return function(e) {
+            //     //
+            //     //             // TODO: Render thumbnail.
+            //     //             var span = document.createElement('span');
+            //     //             span.setAttribute('data-ondeleteId', escape(theFile.name));
+            //     //             span.innerHTML = ['<img id="', escape(theFile.name), '" class="thumb" src="', e.target.result,
+            //     //             '" title="', escape(theFile.name), '"/>'].join('');
+            //     //             document.getElementById('list').insertBefore(span, null);
+            //     //
+            //     //             // TODO: This code will be used later to delete pictures prior to upload
+            //     //             var del = document.createElement('button');
+            //     //             del.className = 'btn btn-floating waves-effect waves-light red';
+            //     //             del.setAttribute('onclick', 'dele("' + escape(theFile.name) + '")')
+            //     //             del.id = escape(theFile.name) + 'del';
+            //     //             del.innerHTML = ['<i class="material-icons">clear</i>'];
+            //     //             document.getElementById('list').insertBefore(del, null);
+            //     //         };
+            //     //     })(f);
+            //     //
+            //     //     // Read in the image file as a data URL.
+            //     //     reader.readAsArrayBuffer(f);
+            //     // }
+            // }
+            // document.getElementById('add_pics').addEventListener('change', handleFileSelect, false);
+
+            // function dele(n) {
+            //     var d = document.getElementById(n);
+            //     var d_b = document.getElementById(n + 'del');
+            //     d.remove();
+            //     d_b.remove();
+            // }
         });
-    });
-    socket.on('retreat', function () {
-        console.log("Retreat!");
-        window.location.href = "http://www.moosen.im/";
-    });
-    socket.on('logout message', function(user){
-        $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">error outline</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
-        + user + ' logged out</span></a></li>');
-        if (canAuto) {
-            window.scrollTo(0,document.body.scrollHeight);
-        }
-    });
-
-    // socket.on('update online', function(users){
-    //     document.getElementById("online").style.display = "none";
-    //     $('#online').empty();
-    //     $('#online').append('<li class="collection-header">Online</li>');
-    //     for (var i = 0; i < users.length; i++) {
-    //         $('#online').append('<li class="collection-item">' + users[i] + '</li>');
-    //     }
-    //     if (canAuto) {
-    //         window.scrollTo(0,document.body.scrollHeight);
-    //     }
-    //     document.getElementById("online").style.display = "block";
-    // });
-    // function handleFileSelect(evt) {
-    //     console.log('In handleFileSelect');
-    //     var files = evt.target.files; // FileList object
-    //
-    //     for (var i = 0; i < files.length; i++) {
-    //         var name = files[i].name;
-    //         var type = files[i].type;
-    //         console.log("Filename: " + name + " , Type: " + type);
-    //         siofu.submitFiles([files[i]]);
-    //     }
-    //     // Loop through the FileList and render image files as thumbnails.
-    //     // for (var i = 0, f; f = files[i]; i++) {
-    //     //     console.log('In for loop turn ' + i);
-    //     //     console.log('File name: ' + f.name);
-    //     //     // Only process image files.
-    //     //     if (!f.type.match('image.*')) {
-    //     //         continue;
-    //     //     }
-    //     //
-    //     //     var reader = new FileReader();
-    //     //
-    //     //     Closure to capture the file information.
-    //     //     reader.onload = (function(theFile) {
-    //     //         return function(e) {
-    //     //
-    //     //             // TODO: Render thumbnail.
-    //     //             var span = document.createElement('span');
-    //     //             span.setAttribute('data-ondeleteId', escape(theFile.name));
-    //     //             span.innerHTML = ['<img id="', escape(theFile.name), '" class="thumb" src="', e.target.result,
-    //     //             '" title="', escape(theFile.name), '"/>'].join('');
-    //     //             document.getElementById('list').insertBefore(span, null);
-    //     //
-    //     //             // TODO: This code will be used later to delete pictures prior to upload
-    //     //             var del = document.createElement('button');
-    //     //             del.className = 'btn btn-floating waves-effect waves-light red';
-    //     //             del.setAttribute('onclick', 'dele("' + escape(theFile.name) + '")')
-    //     //             del.id = escape(theFile.name) + 'del';
-    //     //             del.innerHTML = ['<i class="material-icons">clear</i>'];
-    //     //             document.getElementById('list').insertBefore(del, null);
-    //     //         };
-    //     //     })(f);
-    //     //
-    //     //     // Read in the image file as a data URL.
-    //     //     reader.readAsArrayBuffer(f);
-    //     // }
-    // }
-    // document.getElementById('add_pics').addEventListener('change', handleFileSelect, false);
-
-    // function dele(n) {
-    //     var d = document.getElementById(n);
-    //     var d_b = document.getElementById(n + 'del');
-    //     d.remove();
-    //     d_b.remove();
-    // }
-});
-$(window).scroll(function() {
-    if($(window).scrollTop() + $(window).height() >= $(document).height() * .9) {
-        canAuto = true;
-    }
-    else {
-        canAuto = false;
-    }
-});
-
-$(window).resize(function () { //checking for window resize event
-    if($("#m").is(":focus")){
-        window.scrollTo(0,document.body.scrollHeight);
-        window.scrollTo(0,document.body.scrollHeight);
-    }
-});
-
-$(document).ready(function(){
-    $('.materialboxed').materialbox();
-});
-</script>
-
-<script>
-if (window.File && window.FileReader && window.FileList && window.Blob) {
-    // Great success! All the File APIs are supported.
-} else {
-    alert('The File APIs are not fully supported in this browser.');
-}
-</script>
-
-<script>
-//notification code
-document.addEventListener('DOMContentLoaded', function () {
-    if (!Notification) {
-        alert('dis broke as shit');
-        return;
-    }
-    if (Notification.permission !== "granted")
-    Notification.requestPermission();
-});
-
-function notifyMe(msg, pic) {
-    if (Notification.permission !== "granted")
-    Notification.requestPermission();
-    else {
-        var notification = new Notification('Moosen IM', {
-            icon: pic,
-            body: msg,
+        $(window).scroll(function () {
+            if ($(window).scrollTop() + $(window).height() >= $(document).height() * .9) {
+                canAuto = true;
+            }
+            else {
+                canAuto = false;
+            }
         });
-        notification.onclick = function () {
-            window.focus();
-        };
-    }
-}
 
-</script>
+        $(window).resize(function () { //checking for window resize event
+            if ($("#m").is(":focus")) {
+                window.scrollTo(0, document.body.scrollHeight);
+                window.scrollTo(0, document.body.scrollHeight);
+            }
+        });
+
+        $(document).ready(function () {
+            $('.materialboxed').materialbox();
+        });
+
+    </script>
+
+    <script>
+        if (window.File && window.FileReader && window.FileList && window.Blob) {
+            // Great success! All the File APIs are supported.
+        } else {
+            alert('The File APIs are not fully supported in this browser.');
+        }
+
+    </script>
+
+    <script>
+        //notification code
+        document.addEventListener('DOMContentLoaded', function () {
+            if (!Notification) {
+                alert('dis broke as shit');
+                return;
+            }
+            if (Notification.permission !== "granted")
+                Notification.requestPermission();
+        });
+
+        function notifyMe(msg, pic) {
+            if (Notification.permission !== "granted")
+                Notification.requestPermission();
+            else {
+                var notification = new Notification('Moosen IM', {
+                    icon: pic,
+                    body: msg,
+                });
+                notification.onclick = function () {
+                    window.focus();
+                };
+            }
+        }
+
+    </script>
 </body>
+
 </html>
