@@ -33,6 +33,10 @@
             color: #6EB7FF;
         }
 
+        #slide-out li {
+            color: #6EB7FF;
+        }
+
         nav.top-nav a.page-title {
             line-height: 10vh;
             font-size: 4em;
@@ -48,14 +52,19 @@
 
 <body style="background-color:#000000;">
     <header>
-        <nav class="top-nav center light-blue" style="height:10vh">
-            <div class="nav-wrapper">
-                <a class="brand-logo white-text">MoosenIM</a>
+        <nav class="top-nav light-blue" style="height:10vh">
+            <div class="container">
+                <div class="nav-wrapper"><a class="page-title white-text">MoosenIM</a></div>
             </div>
         </nav>
+        <!-- <nav class="top-nav">
+            <div class="container">
+                <div class="nav-wrapper"><a class="page-title white-text">MoosenIM</a></div>
+            </div>
+        </nav> -->
         <div class="container">
-            <a href="#" data-activates="nav-mobile" class="button-collapse white top-nav full hide-on-large-only">
-                <i class="material-icons">menu</i>
+            <a href="#" data-activates="slide-out" class="button-collapse white top-nav full hide-on-small-only">
+                <i class="material-icons white">menu</i>
             </a>
         </div>
         <!-- <nav class="top-nav center light-blue" style="height:10vh">
