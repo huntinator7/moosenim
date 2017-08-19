@@ -12,8 +12,9 @@ var login = require('./login.js');
 var username;
 var picture;
 //both index.js and things.js should be in same directory
-app.use('/chat', chat);
+app.use('/chat/main', chat);
 app.use('/', login);
+app.use("/images", express.static(__dirname + '/images'));
 // app.use('/index', index);
 
 var con = mysql.createConnection({
@@ -44,7 +45,7 @@ io.sockets.on('connection', function (socket) {
         });
 
         io.emit('login', displayName, email, photoURL, uid);
-        console.log(getrooms(uid));
+
     });
     socket.on('ping', function (name) {
         console.log('pong');
@@ -52,8 +53,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('associate', function (uid) {
         console.log('Associating ' + uid + ' with ' + socket.id);
         var match;
-        io.to(socket.id).emit('roomlist', getrooms(uid));
-        console.log(getrooms(uid));
+        socket.emit('roomlist', getrooms(uid));
         for (var i = 0; i < online.length; i++) {
             //console.log(i + ': ' + online[i].sid + ', uid ' + online[i].uid);
             if (online[i].uid == uid) {
@@ -63,7 +63,6 @@ io.sockets.on('connection', function (socket) {
         }
         if (match) {
             socket.emit('roomlist', getrooms(uid));
-            console.log(getrooms(uid));
             console.log('Replacing ' + online[match].sid + ' with ' + socket.id + ', match = ' + match);
             online[match].sid = socket.id;
         } else {
@@ -154,7 +153,7 @@ io.sockets.on('connection', function (socket) {
        // for (var i = 0; i < getrooms(uid).length - 1; i++) {
        //     console.log(getrooms(uid)[i]);
        // }
-        io.to(socket.id).emit('roomlist', getrooms(uid));
+        socket.emit('roomlist', getrooms(uid));
         
     });
 });
@@ -237,7 +236,12 @@ function showLastMessages(num, id) {
     con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [num], function (error, rows, results) {
         console.log("Getting messages...");
         if (error) throw error;
-       
+        // for (var i = 0; i < num-1; i++) {
+        //     con.query("SELECT * FROM users WHERE users.name = ?", [rows[i].username], function (error, row) {
+        //         var picture = row[0].profpic;
+        //     });
+        //     io.to(id).emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp, rows[i].id, picture);
+        // }
         rows.forEach(function(element) {
             con.query("SELECT * FROM users WHERE users.name = ?", [element.username], function (error, row) {
                 if (row[0]) {
@@ -259,19 +263,14 @@ function getrooms(uid) {
 
     var list = Array();
     list.push(0);
-    list.push(1);
-    list.push(2);
-    list.push(3);
-
     con.query("SELECT * FROM room_users WHERE users_id = ?", [uid], function (error, rows) {
        // for (var i = 0; i < rows.length - 1; i++) {
          //   list.push(rows[i]);
            // console.log("list =  " + list[i]);
-        // }
-        //list.push(rows[0].room_id)
-       
+       // }
+        return list[0];
     });
-    return list;
+
 
 }
 
