@@ -243,15 +243,20 @@ function showLastMessages(num, id) {
         //     });
         //     io.to(id).emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp, rows[i].id, picture);
         // }
-        rows.forEach(function(element) {
-            con.query("SELECT * FROM users WHERE users.name = ?", [element.username], function (error, row) {
-                if (row[0]) {
-                    io.to(id).emit('chat message', element.username, element.message, element.timestamp, element.id, row[0].profpic);
-                } else {
-                    io.to(id).emit('chat message', element.username, element.message, element.timestamp, element.id, "http://www.moosen.im/images/favicon.png");
-                }
+        try {
+            rows.forEach(function (element) {
+                con.query("SELECT * FROM users WHERE users.name = ?", [element.username], function (error, row) {
+                    if (row[0]) {
+                        io.to(id).emit('chat message', element.username, element.message, element.timestamp, element.id, row[0].profpic);
+                    } else {
+                        io.to(id).emit('chat message', element.username, element.message, element.timestamp, element.id, "http://www.moosen.im/images/favicon.png");
+                    }
+                });
             });
-        });
+        }
+        catch (e) {
+
+        }
     });
 }
 //chatrooms are gonna be fun. tl;Dr we need to have a sidebar that displays all chatrooms the user has access to.
