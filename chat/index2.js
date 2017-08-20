@@ -15,6 +15,7 @@ var picture;
 app.use('/chat/main', chat);
 app.use('/', login);
 app.use("/images", express.static(__dirname + '/images'));
+app.use("/uploads", express.static(__dirname + '/uploads'));
 // app.use('/index', index);
 
 var con = mysql.createConnection({
