@@ -237,13 +237,13 @@ function showLastMessages(num, id) {
     con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [num], function (error, rows, results) {
         console.log("Getting messages...");
         if (error) throw error;
-        // for (var i = 0; i < num-1; i++) {
-        //     con.query("SELECT * FROM users WHERE users.name = ?", [rows[i].username], function (error, row) {
-        //         var picture = row[0].profpic;
-        //     });
-        //     io.to(id).emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp, rows[i].id, picture);
-        // }
-        try {
+         for (var i = 0; i < num-1; i++) {
+             con.query("SELECT * FROM users WHERE users.name = ?", [rows[i].username], function (error, row) {
+                 var picture = row[0].profpic;
+             });
+            io.to(id).emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp, rows[i].id, picture);
+         }
+       /* try {
             rows.forEach(function (element) {
                 con.query("SELECT * FROM users WHERE users.name = ?", [element.username], function (error, row) {
                     if (row[0]) {
@@ -257,6 +257,7 @@ function showLastMessages(num, id) {
         catch (e) {
 
         }
+        */
     });
 }
 //chatrooms are gonna be fun. tl;Dr we need to have a sidebar that displays all chatrooms the user has access to.
