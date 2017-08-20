@@ -213,9 +213,11 @@
                 console.log("Received roomlist: " + list);
                 $('#chatrooms').empty();
                 $('#chatrooms').append('<li><h4 style="color:white">Chatrooms</h4></li>');
+                /*
                 list.forEach(function (element) {
                     $('#chatrooms').append('<li><h2 style="color:#6EB7FF">' + element + '</h2></li>');
                 });
+                */
             });
             socket.on('retreat', function () {
                 console.log("Retreat!");
