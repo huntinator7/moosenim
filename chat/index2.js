@@ -269,15 +269,15 @@ function showLastMessages(num, id) {
 function getrooms(uid) {
 
     var list = Array();
-    list.push(0);
+    
  
     con.query("SELECT * FROM room_users WHERE user_id = ?", [uid], function (error, row) {
-      for (var i = 0; i < row.length - 1; i++) {
-          list.push(row[i].room_id);
-            console.log("list =  " + row[i].room_id);
-        }
-       
-       
+      
+      row.forEach(function (e) {
+          list.push(e.room_id);
+          console.log("list =  " + e.room_id);
+        });
+      list.forEach(function (i) {console.log (i+ "list element") });
        
     });
 
