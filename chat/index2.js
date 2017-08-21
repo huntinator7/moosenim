@@ -281,7 +281,7 @@ function getrooms(uid) {
        
     });
 
-
+    return list;
 }
 
 
