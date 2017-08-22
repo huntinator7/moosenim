@@ -254,6 +254,7 @@ function showLastMessages(num, id) {
             rows.forEach(function (element) {
                 con.query("SELECT * FROM users WHERE users.name = ?", [element.username], function (error, row) {
                     if (row[0]) {
+                        console.log("Getting messages...");
                         io.to(id).emit('chat message', element.username, element.message, element.timestamp, element.id, row[0].profpic);
                     } else {
                         io.to(id).emit('chat message', element.username, element.message, element.timestamp, element.id, "http://www.moosen.im/images/favicon.png");
