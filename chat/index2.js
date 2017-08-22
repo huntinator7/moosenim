@@ -28,7 +28,7 @@ var con = mysql.createConnection({
 io.sockets.on('connection', function (socket) {
 
    // console.log('A user connected - index2.js');
-    showLastMessages(11,socket.id, 1);
+    
 
     // login process and recording.
     socket.on('login message', function (displayName, email, photoURL, uid) {
@@ -43,7 +43,7 @@ io.sockets.on('connection', function (socket) {
             }//addOnline(un,email,photo,uid)
             addOnline(displayName, email, photoURL, uid, socket.id,1);
         });
-
+        showLastMessages(11, socket.id, 1);
         io.emit('login', displayName, email, photoURL, uid);
 
     });
@@ -58,7 +58,6 @@ io.sockets.on('connection', function (socket) {
             //console.log(i + ': ' + online[i].sid + ', uid ' + online[i].uid);
             if (online[i].uid == uid) {
                 match = i;
-                //console.log('associate      match = ' + i);
             }
         }
         if (match) {
@@ -84,6 +83,7 @@ io.sockets.on('connection', function (socket) {
                 if (uid == "114575845000636952047") curroom = 2;
             }
         } 
+        showLastMessages(11, socket.id, curroom);
         console.log('chat message       End result of un: ' + un);
         // if(newun) un = newun.name;
         if(un == 'Error - Username Not Found') {
