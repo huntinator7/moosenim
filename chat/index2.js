@@ -281,11 +281,11 @@ function getrooms(uid) {
     con.query("SELECT * FROM room_users WHERE user_id = ?", [uid], function (error, row) {
       
       row.forEach(function (e) {
-          list.push(e.room_id);
+       
          
           con.query("SELECT name FROM rooms WHERE serialid = ?", [e.room_id], function (error, rows) {
-              
-              console.log("list =  " + rows[0]);
+              list.push(rows);
+              console.log("list =  " + rows);
           });
         });
       list.forEach(function (i) {console.log (i+ "list element") });
