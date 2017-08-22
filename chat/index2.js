@@ -9,8 +9,7 @@ var chat = require('./chat.js');
 var login = require('./login.js');
 
 
-var username;
-var picture;
+
 //both index.js and things.js should be in same directory
 app.use('/chat/main', chat);
 app.use('/', login);
@@ -29,7 +28,7 @@ var con = mysql.createConnection({
 io.sockets.on('connection', function (socket) {
 
    // console.log('A user connected - index2.js');
-    showLastMessages(11, socket.id);
+    showLastMessages(1, socket.id);
 
     // login process and recording.
     socket.on('login message', function (displayName, email, photoURL, uid) {
@@ -95,8 +94,10 @@ io.sockets.on('connection', function (socket) {
             } else if (msg.indexOf("*autistic screeching*") > -1) {
                 sendMessage(msg, un);
                 io.emit(getMessage(1));
-                sendMessage(un +" is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod");
-            } else if (msg.indexOf("!pepe") == 0) {
+                sendMessage(un + " is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod");
+            } else if (msg.indexOf("!myrooms") > -1) sendMessage("your rooms: " + getrooms(uid).toString(), un);
+            else if (msg.indexOf("!pepe") == 0) {
+                
                 sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un)
             } else if (msg.indexOf("nigger") > -1) {
                 var newmsg = msg.replace("nigger", "Basketball American");
@@ -216,9 +217,9 @@ function sendMessage(message, username,uid) {
     }
 }
 
-function getMessage() {
+function getMessage(chatid) {
     //will need to add chatroom_id at some point.
-    con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", function (error, rows, results) {
+    con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC",[chatid], function (error, rows, results) {
         console.log("Emitting message");
 
         if (error) throw error;
@@ -233,16 +234,22 @@ function getMessage() {
     });
 }
 
+//should be called when a user clicks on a different chatroom
+function updatechat(roomid) {
+    // TODO set a user variable "current Room" to the value specified. 
+    //reload page
+    showLastMessages(10, roomid);
+     
+
+
+}
+
+
 function showLastMessages(num, id) {
-    con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [num], function (error, rows, results) {
+    con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [id,num], function (error, rows, results) {
         console.log("Getting messages...");
         if (error) throw error;
-        // for (var i = 0; i < num-1; i++) {
-           //  con.query("SELECT * FROM users WHERE users.name = ?", [rows[i].username], function (error, row) {
-            //     var picture = row[0].profpic;
-           //  });
-           // io.to(id).emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp, rows[i].id, picture);
-        // }
+        
         try {
             rows.forEach(function (element) {
                 con.query("SELECT * FROM users WHERE users.name = ?", [element.username], function (error, row) {
