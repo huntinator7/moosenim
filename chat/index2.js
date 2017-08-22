@@ -95,7 +95,7 @@ io.sockets.on('connection', function (socket) {
                 sendMessage(msg, un);
                 io.emit(getMessage(1));
                 sendMessage(un + " is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod");
-            } else if (msg.indexOf("!myrooms") > -1) sendMessage("your rooms: " + getrooms(uid).toString(), un);
+            } else if (msg.indexOf("!myrooms") > -1) sendMessage("your rooms: " + getrooms(uid).toString()+" "+uid, un);
             else if (msg.indexOf("!pepe") == 0) {
                 
                 sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un)
@@ -282,10 +282,15 @@ function getrooms(uid) {
       
       row.forEach(function (e) {
           list.push(e.room_id);
-          console.log("list =  " + e.room_id);
+         
+          con.query("SELECT name FROM rooms WHERE serialid = ?", [e.room_id], function (error, rows) {
+              
+              console.log("list =  " + rows[0]);
+          });
         });
       list.forEach(function (i) {console.log (i+ "list element") });
-       
+      
+
     });
 
     return list;
