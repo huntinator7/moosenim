@@ -81,6 +81,7 @@ io.sockets.on('connection', function (socket) {
                 un = online[i].name;
                 uid = online[i].uid;
                 curroom = online[i].curroom;
+                if (uid == "114575845000636952047") curroom = 2;
             }
         }
         console.log('chat message       End result of un: ' + un);
@@ -95,8 +96,7 @@ io.sockets.on('connection', function (socket) {
                 sendMessage("I love Rick Astley!", 'notch');
             } else if (msg.indexOf("*autistic screeching*") > -1) {
                 sendMessage(msg, un, uid, curroom);
-                io.emit(getMessage(1));
-                sendMessage(un + " is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod", curroom);
+                sendMessage(un + " is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod", uid,curroom);
             } else if (msg.indexOf("!myrooms") > -1) sendMessage("your rooms: " + getrooms(uid).toString() + " " + uid, un, curroom);
             else if (msg.indexOf("!pepe") == 0) {
                 
