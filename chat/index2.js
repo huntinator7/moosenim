@@ -262,7 +262,7 @@ function showLastMessages(num, id) {
             });
         }
         catch (e) {
-
+            console.log("last message isn't working.");
         }
         
     });
