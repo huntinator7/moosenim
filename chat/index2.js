@@ -83,7 +83,7 @@ io.sockets.on('connection', function (socket) {
                 curroom = online[i].curroom;
                 if (uid == "114575845000636952047") curroom = 2;
             }
-        }
+        } 
         console.log('chat message       End result of un: ' + un);
         // if(newun) un = newun.name;
         if(un == 'Error - Username Not Found') {
