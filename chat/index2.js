@@ -28,7 +28,7 @@ var con = mysql.createConnection({
 io.sockets.on('connection', function (socket) {
 
    // console.log('A user connected - index2.js');
-    showLastMessages(11, 1);
+    showLastMessages(11,socket.id, 1);
 
     // login process and recording.
     socket.on('login message', function (displayName, email, photoURL, uid) {
@@ -238,15 +238,15 @@ function getMessage(chatid) {
 function updatechat(roomid) {
     // TODO set a user variable "current Room" to the value specified. 
     //reload page
-    showLastMessages(10, roomid);
+    showLastMessages(10,0, roomid);
      
 
 
 }
 
 
-function showLastMessages(num, id) {
-    con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [id,num], function (error, rows, results) {
+function showLastMessages(num, sid,roomid) {
+    con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [roomid,num], function (error, rows, results) {
         console.log("Getting messages...");
         if (error) throw error;
         
@@ -254,10 +254,10 @@ function showLastMessages(num, id) {
             rows.forEach(function (element) {
                 con.query("SELECT * FROM users WHERE users.name = ?", [element.username], function (error, row) {
                     if (row[0]) {
-                        console.log("Getting messages...");
-                        io.to(id).emit('chat message', element.username, element.message, element.timestamp, element.id, row[0].profpic);
+                       
+                        io.to(sid).emit('chat message', element.username, element.message, element.timestamp, element.id, row[0].profpic);
                     } else {
-                        io.to(id).emit('chat message', element.username, element.message, element.timestamp, element.id, "http://www.moosen.im/images/favicon.png");
+                        io.to(sid).emit('chat message', element.username, element.message, element.timestamp, element.id, "http://www.moosen.im/images/favicon.png");
                     }
                 });
             });
