@@ -97,7 +97,7 @@ io.sockets.on('connection', function (socket) {
             } else if (msg.indexOf("*autistic screeching*") > -1) {
                 sendMessage(msg, un, uid, curroom);
                 sendMessage(un + " is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod", uid,curroom);
-            } else if (msg.indexOf("!myrooms") > -1) sendMessage("your rooms: " + getrooms(uid).toString() + " " + uid, un, curroom);
+            } else if (msg.indexOf("!myrooms") > -1) sendMessage("your rooms: " + getrooms(uid).toString() + " " + curroom, un, curroom);
             else if (msg.indexOf("!pepe") == 0) {
                 
                 sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un)
