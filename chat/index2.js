@@ -17,9 +17,11 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-    // if (message.channel.id == ){
-
-    // }
+    if (msg.channel.id == 329020807487553537){
+        message.reply('Reply from http://moosen.im')
+        .then(msg => console.log(`Sent a reply to ${msg.author}`))
+        .catch(console.error);
+    }
     console.log(msg.channel.id);
     // TODO: Emit message as Discord user
 });
