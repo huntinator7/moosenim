@@ -4,6 +4,8 @@ var http = require('http').Server(express);
 var io = require('socket.io').listen(app.listen(80));
 var mysql = require('mysql');
 var siofu = require("socketio-file-upload");
+var Discord = require("discord.js");
+var client = new Discord.Client();
 
 var chat = require('./chat.js');
 var login = require('./login.js');
