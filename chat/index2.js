@@ -142,7 +142,7 @@ io.sockets.on('connection', function (socket) {
                     var res = msg.substring(ind + 4);
                     console.log(newmsg);
                     var newmsg = '<iframe style="width:64vw; height:36vw" src="https://clips.twitch.tv/embed?clip=' + res + '" scrolling="no" frameborder="0" autoplay=true muted=true allowfullscreen=true></iframe>';
-                    sendMessage(newmsg, un);
+                    sendMessage(newmsg, un, uid, curroom);
                 } else if (/\S*videos\S*/.test(msg)) { // Twitch VODs
                     console.log('Is Twitch VOD');
                     var ind = msg.search(/videos\//);
@@ -249,7 +249,7 @@ function getMessage(chatid) {
             }
             //send to Discord
             // client.sendMessage('329020807487553537', rows[0].username + ': ' + rows[0].message);
-            client.channels.get('329020807487553537').sendMessage(rows[0].username + ': ' + rows[0].message);
+            client.channels.get('329020807487553537').sendMessage(rows[0].username + ': ' + decodeURI(rows[0].message));
         });
     });
 }
