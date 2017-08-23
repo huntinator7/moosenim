@@ -41,7 +41,7 @@ io.sockets.on('connection', function (socket) {
                     if (error) console.log(error);
                 });
             }//addOnline(un,email,photo,uid)
-            addOnline(displayName, email, photoURL, uid, socket.id,1);
+            addOnline(displayName, email, photoURL, uid, socket.id, 1, getrooms(uid));
         });
         showLastMessages(11, socket.id, 1);
         io.emit('login', displayName, email, photoURL, uid);
@@ -97,7 +97,7 @@ io.sockets.on('connection', function (socket) {
             } else if (msg.indexOf("*autistic screeching*") > -1) {
                 sendMessage(msg, un, uid, curroom);
                 sendMessage(un + " is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod", uid,curroom);
-            } else if (msg.indexOf("!myrooms") > -1) sendMessage("your rooms: " + getrooms(uid).toString() + " " + curroom, un, curroom);
+            } else if (msg.indexOf("!myrooms") > -1) sendMessage("your rooms: " + getrooms(uid).toString() + " curroom" + curroom, un, curroom);
             else if (msg.indexOf("!pepe") == 0) {
                 
                 sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un)
@@ -153,10 +153,7 @@ io.sockets.on('connection', function (socket) {
     //getrooms is called when the user logs in, and then returns a roomlist array back to the client. 
     socket.on('getrooms', function (uid) {
         console.log("uid for chatrooms is " + uid);
-       // var rooms = getrooms(uid);
-       // for (var i = 0; i < getrooms(uid).length - 1; i++) {
-       //     console.log(getrooms(uid)[i]);
-       // }
+      
         socket.emit('roomlist', getrooms(uid));
         
     });
@@ -172,14 +169,15 @@ con.connect(function (err) {
 
 var online = [];
 
-function addOnline(un, email, photo, uid, sock,room) {
+function addOnline(un, email, photo, uid, sock,room,allrooms) {
     var user = {
         name: un,
         uid: uid,
         photo: photo,
         email: email,
         sid: sock,
-        curroom:room
+        curroom: room,
+        allrooms:allrooms
     };
     online.push(user);
 //    console.log('addOnline          Adding ' + un + ', id ' + uid + ', sid ' + sock);
@@ -282,12 +280,12 @@ function getrooms(uid) {
     var list = Array();
     
  
-    con.query("SELECT * FROM room_users WHERE user_id = ?", [uid], function (error, row) {
+    con.query("SELECT room_id FROM room_users WHERE user_id = ?", [uid], function (error, result) {
       
-      row.forEach(function (e) {
+      result.forEach(function (e) {
        
-         
-          con.query("SELECT name FROM rooms WHERE serialid = ?", [e.room_id], function (error, rows) {
+          console.log(result);
+          con.query("SELECT name FROM rooms WHERE serialid = ?", [e], function (error, rows) {
               list.push(rows);
               console.log("list =  " + rows);
           });
