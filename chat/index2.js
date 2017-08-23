@@ -235,7 +235,7 @@ function sendMessage(message, username, uid, chatid) {
 }
 
 function getMessage(chatid) {
-    //will need to add chatroom_id at some point.
+    //will need to add chatroom_id at some point
     con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", [chatid], function (error, rows, results) {
         console.log("Emitting message");
 
@@ -247,6 +247,8 @@ function getMessage(chatid) {
             } else {
                 io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id, row[0].profpic);
             }
+            //send to Discord
+            client.sendMessage('329020807487553537', rows[0].username + ': ' + rows[0].message);
         });
     });
 }
