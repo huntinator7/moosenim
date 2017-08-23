@@ -10,6 +10,7 @@ var client = new Discord.Client();
 var chat = require('./chat.js');
 var login = require('./login.js');
 
+client.login('MzQ5NjY0NDk0MjkwNzMxMDIw.DH9aSA.BsCBfINN4YTwtFzTqHJBQsARDGs');
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
