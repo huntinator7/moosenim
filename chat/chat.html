@@ -155,7 +155,7 @@
             // });
 
 
-            //roomList holds an array of all chatrooms a user has access to. 
+            //roomList holds an array of all chatrooms a user has access to.
             var roomList;
             var userid = "104635400788300812127";
             $('#mform').submit(function () {
@@ -213,9 +213,16 @@
                 console.log("Received roomlist: " + list);
                 $('#chatrooms').empty();
                 $('#chatrooms').append('<li><h4 style="color:white">Chatrooms</h4></li>');
-                list.forEach(function (element) {
-                    $('#chatrooms').append('<li><h2 style="color:#6EB7FF">' + element + '</h2></li>');
-                });
+                try {
+
+                    list.forEach(function (element) {
+                        $('#chatrooms').append('<li><h2 style="color:#6EB7FF">' + element + '</h2></li>');
+                    });
+
+                }
+                catch (e) {
+
+                }
             });
             socket.on('retreat', function () {
                 console.log("Retreat!");

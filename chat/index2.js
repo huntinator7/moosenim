@@ -10,19 +10,15 @@ var client = new Discord.Client();
 var chat = require('./chat.js');
 var login = require('./login.js');
 
+client.login('xt6lYmzadecfgCb3fS2QzzuX5r65PGTh');
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
 client.on('message', msg => {
-  if (msg.content === 'ping') {
-    msg.reply('Pong!');
-  }
+  // TODO: Emit message as Discord user
 });
-
-client.login('xt6lYmzadecfgCb3fS2QzzuX5r65PGTh');
-
 
 var username;
 var picture;
@@ -155,7 +151,7 @@ io.sockets.on('connection', function (socket) {
           sendMessage(newmsg, un);
         }
       } else {
-        sendMessage(msg, un,uid);
+        sendMessage(msg, un, uid);
       }
 
       io.emit(getMessage(1));
