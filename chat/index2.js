@@ -18,7 +18,7 @@ client.on('ready', () => {
 
 client.on('message', msg => {
     if (msg.channel.id == 329020807487553537){
-        message.reply('Reply from http://moosen.im')
+        msg.reply('Reply from http://moosen.im')
         .then(msg => console.log(`Sent a reply to ${msg.author}`))
         .catch(console.error);
     }
