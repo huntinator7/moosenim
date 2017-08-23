@@ -248,7 +248,8 @@ function getMessage(chatid) {
                 io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id, row[0].profpic);
             }
             //send to Discord
-            client.sendMessage('329020807487553537', rows[0].username + ': ' + rows[0].message);
+            // client.sendMessage('329020807487553537', rows[0].username + ': ' + rows[0].message);
+            client.channels.get('329020807487553537').sendMessage(rows[0].username + ': ' + rows[0].message);
         });
     });
 }
