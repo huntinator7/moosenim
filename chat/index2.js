@@ -17,7 +17,7 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-    if (msg.channel.id == 329020807487553537){
+    if (msg.channel.id == 329020807487553537 && !(msg.author.bot)){
         msg.reply('Reply from http://moosen.im')
         .then(msg => console.log(`Sent a reply to ${msg.author}`))
         .catch(console.error);
