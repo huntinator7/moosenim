@@ -4,13 +4,10 @@ var http = require('http').Server(express);
 var io = require('socket.io').listen(app.listen(80));
 var mysql = require('mysql');
 var siofu = require("socketio-file-upload");
-var Discord = require("discord.js");
-var client = new Discord.Client();
 
 var chat = require('./chat.js');
 var login = require('./login.js');
 
-client.login('xt6lYmzadecfgCb3fS2QzzuX5r65PGTh');
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
@@ -24,8 +21,6 @@ client.on('message', msg => {
     // TODO: Emit message as Discord user
 });
 
-var username;
-var picture;
 //both index.js and things.js should be in same directory
 app.use('/chat/main', chat);
 app.use('/', login);
@@ -44,7 +39,7 @@ var con = mysql.createConnection({
 io.sockets.on('connection', function (socket) {
 
     // console.log('A user connected - index2.js');
-    showLastMessages(11, socket.id);
+    showLastMessages(11, socket.id, 1);
 
     // login process and recording.
     socket.on('login message', function (displayName, email, photoURL, uid) {
@@ -57,7 +52,7 @@ io.sockets.on('connection', function (socket) {
                     if (error) console.log(error);
                 });
             }//addOnline(un,email,photo,uid)
-            addOnline(displayName, email, photoURL, uid, socket.id);
+            addOnline(displayName, email, photoURL, uid, socket.id, 1, getrooms(uid));
         });
 
         io.emit('login', displayName, email, photoURL, uid);
@@ -88,6 +83,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('chat message', function (msg) {
         var un = 'Error - Username Not Found';
         var uid;
+        var curroom;
         console.log('chat message       socket.id: ' + socket.id);
         for (var i = 0; i < online.length; i++) {
             console.log(i + ': ' + online[i].sid);
@@ -95,14 +91,10 @@ io.sockets.on('connection', function (socket) {
                 console.log("New message from " + online[i].name + ", pictureUrl: " + online[i].photo);
                 un = online[i].name;
                 uid = online[i].uid;
+                curroom = online[i].curroom;
+                if (uid == "114575845000636952047") curroom = 2;
             }
         }
-
-        //discord section
-
-
-
-
         console.log('chat message       End result of un: ' + un);
         // if(newun) un = newun.name;
         if (un == 'Error - Username Not Found') {
@@ -112,30 +104,31 @@ io.sockets.on('connection', function (socket) {
 
             console.log('chat message       un: ' + un + ' | message: ' + msg);
             if (msg.indexOf("lag") > -1) {
-                sendMessage("I love Rick Astley!", 'notch', uid);
+                sendMessage("I love Rick Astley!", 'notch');
             } else if (msg.indexOf("*autistic screeching*") > -1) {
-                sendMessage(msg, un, uid);
-                io.emit(getMessage(1));
-                sendMessage(un + " is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod", uid);
-            } else if (msg.indexOf("!pepe") == 0) {
-                sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un, uid)
+                sendMessage(msg, un, uid, curroom);
+                sendMessage(un + " is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod", uid, curroom);
+            } else if (msg.indexOf("!myrooms") > -1) sendMessage("your rooms: " + getrooms(uid).toString() + " curroom" + curroom, un, curroom);
+            else if (msg.indexOf("!pepe") == 0) {
+
+                sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un)
             } else if (msg.indexOf("nigger") > -1) {
                 var newmsg = msg.replace("nigger", "Basketball American");
-                sendMessage(newmsg, un + ', casual racist', uid);
+                sendMessage(newmsg, un + ', casual racist', uid, 2);
             } else if (msg.indexOf("<script") > -1) {
                 sendMessage("Stop right there, criminal scum! You violated my mother!", "AutoMod");
             } else if (/^http\S*\.(jpg|gif|png|svg)$/.test(msg)) {
-                sendMessage('<img class="materialboxed responsive-img initialized" src="' + msg + '" alt="' + msg + '">', un, uid);
+                sendMessage('<img class="materialboxed responsive-img initialized" src="' + msg + '" alt="' + msg + '">', un, uid, curroom);
             } else if (/http\S*youtube\S*/.test(msg)) {
                 var ind = msg.search(/watch\?v=\S*/);
                 var res = msg.substring(ind + 8, ind + 19);
                 var newmsg = '<div class="video-container"><iframe width="100%" src="//www.youtube.com/embed/' + res + '?rel=0" frameborder="0" allowfullscreen></iframe></div>';
-                sendMessage(newmsg, un, uid);
+                sendMessage(newmsg, un, uid, curroom);
             } else if (/http\S*youtu\.be\S*/.test(msg)) {
                 var ind = msg.search(/youtu\.be\//);
                 var res = msg.substring(ind + 9, ind + 20);
                 var newmsg = '<div class="video-container"><iframe width="100%" src="//www.youtube.com/embed/' + res + '?rel=0" frameborder="0" allowfullscreen></iframe></div>';
-                sendMessage(newmsg, un, uid);
+                sendMessage(newmsg, un, curroom);
             } else if (/\S*twitch\.tv\S*/.test(msg)) {
                 console.log('Is Twitch message');
                 if (/\S*clips\S*/.test(msg)) { // Twitch clips
@@ -144,37 +137,34 @@ io.sockets.on('connection', function (socket) {
                     var res = msg.substring(ind + 4);
                     console.log(newmsg);
                     var newmsg = '<iframe style="width:64vw; height:36vw" src="https://clips.twitch.tv/embed?clip=' + res + '" scrolling="no" frameborder="0" autoplay=true muted=true allowfullscreen=true></iframe>';
-                    sendMessage(newmsg, un, uid);
+                    sendMessage(newmsg, un);
                 } else if (/\S*videos\S*/.test(msg)) { // Twitch VODs
                     console.log('Is Twitch VOD');
                     var ind = msg.search(/videos\//);
                     var res = msg.substring(ind + 7);
                     var newmsg = '<div id="' + res + '"></div><script type="text/javascript"> var player = new Twitch.Player("' + res + '", { width: 100%, video: "' + res + '",});player.setVolume(0.5);</script>'
                     console.log(newmsg);
-                    sendMessage(newmsg, un, uid);
+                    sendMessage(newmsg, un, uid, curroom);
                 } else { // Twitch channel/stream
                     console.log('Is Twitch channel/stream');
                     var ind = msg.search(/\.tv\//);
                     var res = msg.substring(ind + 4);
                     var newmsg = '<div id="' + res + '"></div><script type="text/javascript"> var player = new Twitch.Player("' + res + '", { width:100% channel:"' + res + '"}); player.setVolume(0.5); </script>'
                     console.log(newmsg);
-                    sendMessage(newmsg, un, uid);
+                    sendMessage(newmsg, un, uid, curroom);
                 }
             } else {
-                sendMessage(msg, un, uid);
+                sendMessage(msg, un, uid, curroom);
             }
 
-            io.emit(getMessage(1));
+            io.emit(getMessage(curroom));
         }
     });
 
-    //getrooms is called when the user logs in, and then returns a roomlist array back to the client.
+    //getrooms is called when the user logs in, and then returns a roomlist array back to the client. 
     socket.on('getrooms', function (uid) {
         console.log("uid for chatrooms is " + uid);
-        // var rooms = getrooms(uid);
-        // for (var i = 0; i < getrooms(uid).length - 1; i++) {
-        //     console.log(getrooms(uid)[i]);
-        // }
+
         socket.emit('roomlist', getrooms(uid));
 
     });
@@ -190,13 +180,15 @@ con.connect(function (err) {
 
 var online = [];
 
-function addOnline(un, email, photo, uid, sock) {
+function addOnline(un, email, photo, uid, sock, room, allrooms) {
     var user = {
         name: un,
         uid: uid,
         photo: photo,
         email: email,
-        sid: sock
+        sid: sock,
+        curroom: room,
+        allrooms: allrooms
     };
     online.push(user);
     //    console.log('addOnline          Adding ' + un + ', id ' + uid + ', sid ' + sock);
@@ -223,9 +215,9 @@ function addOnline(un, email, photo, uid, sock) {
 //     io.emit('update online', names);
 // }
 
-function sendMessage(message, username, uid) {
+function sendMessage(message, username, uid, chatid) {
     try {
-        var chatid = 1;
+
         con.query("INSERT INTO messages (message, username, timestamp,chatroom_id,uid) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'),?,?)", [message, username, chatid, uid], function (error, results) {
             if (error) throw error;
         });
@@ -237,9 +229,9 @@ function sendMessage(message, username, uid) {
     }
 }
 
-function getMessage() {
+function getMessage(chatid) {
     //will need to add chatroom_id at some point.
-    con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", function (error, rows, results) {
+    con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", [chatid], function (error, rows, results) {
         console.log("Emitting message");
 
         if (error) throw error;
@@ -254,25 +246,38 @@ function getMessage() {
     });
 }
 
-function showLastMessages(num, id) {
-    con.query("SELECT * FROM ( SELECT * FROM messages ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [num], function (error, rows, results) {
+//should be called when a user clicks on a different chatroom
+function updatechat(roomid) {
+    // TODO set a user variable "current Room" to the value specified. 
+    //reload page
+    showLastMessages(10, 0, roomid);
+
+
+
+}
+
+
+function showLastMessages(num, sid, roomid) {
+    con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [roomid, num], function (error, rows, results) {
         console.log("Getting messages...");
         if (error) throw error;
-        // for (var i = 0; i < num-1; i++) {
-        //     con.query("SELECT * FROM users WHERE users.name = ?", [rows[i].username], function (error, row) {
-        //         var picture = row[0].profpic;
-        //     });
-        //     io.to(id).emit('chat message', rows[i].username, rows[i].message, rows[i].timestamp, rows[i].id, picture);
-        // }
-        rows.forEach(function (element) {
-            con.query("SELECT * FROM users WHERE users.name = ?", [element.username], function (error, row) {
-                if (row[0]) {
-                    io.to(id).emit('chat message', element.username, element.message, element.timestamp, element.id, row[0].profpic);
-                } else {
-                    io.to(id).emit('chat message', element.username, element.message, element.timestamp, element.id, "http://www.moosen.im/images/favicon.png");
-                }
+
+        try {
+            rows.forEach(function (element) {
+                con.query("SELECT * FROM users WHERE users.name = ?", [element.username], function (error, row) {
+                    if (row[0]) {
+
+                        io.to(sid).emit('chat message', element.username, element.message, element.timestamp, element.id, row[0].profpic);
+                    } else {
+                        io.to(sid).emit('chat message', element.username, element.message, element.timestamp, element.id, "http://www.moosen.im/images/favicon.png");
+                    }
+                });
             });
-        });
+        }
+        catch (e) {
+            console.log("last message isn't working.");
+        }
+
     });
 }
 //chatrooms are gonna be fun. tl;Dr we need to have a sidebar that displays all chatrooms the user has access to.
@@ -284,19 +289,24 @@ function showLastMessages(num, id) {
 function getrooms(uid) {
 
     var list = Array();
-    list.push(0);
 
-    con.query("SELECT * FROM room_users WHERE user_id = ?", [uid], function (error, row) {
-        for (var i = 0; i < row.length - 1; i++) {
-            list.push(row[i].room_id);
-            console.log("list =  " + row[i].room_id);
-        }
 
+    con.query("SELECT room_id FROM room_users WHERE user_id = ?", [uid], function (error, result) {
+
+        result.forEach(function (e) {
+
+            console.log(result);
+            con.query("SELECT name FROM rooms WHERE serialid = ?", [e], function (error, rows) {
+                list.push(rows);
+                console.log("list =  " + rows);
+            });
+        });
+        list.forEach(function (i) { console.log(i + "list element") });
 
 
     });
 
-
+    return list;
 }
 
 
