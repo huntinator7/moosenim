@@ -20,7 +20,7 @@ client.on('message', msg => {
     // if (message.channel.id == ){
 
     // }
-    console.log(message.channel.id);
+    console.log(msg.channel.id);
     // TODO: Emit message as Discord user
 });
 
