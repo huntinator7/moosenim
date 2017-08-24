@@ -315,14 +315,14 @@ function getrooms(uid) {
                   //  console.log("list =  " + rows);
                 });
             });
-            return result;
+            return row;
         }
         catch(exception){
             console.log("getrooms isn't working.");
             return null;
         }
         finally {
-            return result;
+            return row;
         }
 
 
