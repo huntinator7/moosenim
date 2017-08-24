@@ -310,7 +310,7 @@ function getrooms(uid) {
         try {
             row.forEach(function (e) {
                // list.push(e);
-                con.query("SELECT name FROM rooms WHERE serialid = ?", [1], function (error, rows) {
+                con.query("SELECT name FROM rooms WHERE serialid = ?", [e.room_id], function (error, rows) {
                     io.emit('getroomnames',rows[0]);
                     console.log("list =  " + rows[0].name);
                 });
