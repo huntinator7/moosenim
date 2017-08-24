@@ -247,7 +247,7 @@ function getMessage(chatid) {
             } else {
                 io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id, row[0].profpic);
                 //send to Discord
-                client.user.setAvatar(row[0].profpic);
+                // client.user.setAvatar(row[0].profpic);
                 client.channels.get('329020807487553537').sendMessage(rows[0].username + ': ' + decodeURI(rows[0].message));
             }
         });
@@ -255,7 +255,7 @@ function getMessage(chatid) {
 }
 
 function getMessageDiscord(un, msg, pic) {
-    io.emit('chat message', un, msg, moment(), 0, pic);
+    io.emit('chat message', un, msg, moment().format('h:mm:ss a'), 0, pic);
 }
 
 //should be called when a user clicks on a different chatroom
