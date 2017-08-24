@@ -304,13 +304,13 @@ function showLastMessages(num, sid, roomid) {
 
 function getrooms(uid) {
 
-    con.query("SELECT room_id FROM room_users WHERE user_id = ?", [uid], function (error, result) {
+    con.query("SELECT room_id FROM room_users WHERE user_id = ?", [uid], function (error, row) {
 
      
         try {
-            result.forEach(function (e) {
+            row.forEach(function (e) {
                // list.push(e);
-                con.query("SELECT name FROM rooms WHERE serialid = ?", [e], function (error, rows) {
+                con.query("SELECT name FROM rooms WHERE serialid = ?", [1], function (error, rows) {
                     io.emit('getroomnames',rows[0]);
                   //  console.log("list =  " + rows);
                 });
