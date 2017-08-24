@@ -72,7 +72,7 @@ io.sockets.on('connection', function (socket) {
         var match;
         socket.emit('roomlist', getrooms(uid));
         for (var i = 0; i < online.length; i++) {
-            //console.log(i + ': ' + online[i].sid + ', uid ' + online[i].uid);
+           console.log(online[i].allrooms);
             if (online[i].uid == uid) {
                 match = i;
                 //console.log('associate      match = ' + i);
@@ -307,13 +307,13 @@ function getrooms(uid) {
 
         result.forEach(function (e) {
 
-            console.log(result);
+            console.log(e);
             con.query("SELECT name FROM rooms WHERE serialid = ?", [e], function (error, rows) {
                 list.push(rows);
                 console.log("list =  " + rows);
             });
         });
-        list.forEach(function (i) { console.log(i + "list element") });
+       
 
 
     });
