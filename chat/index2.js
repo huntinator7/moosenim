@@ -173,6 +173,12 @@ io.sockets.on('connection', function (socket) {
         socket.emit('roomlist', getrooms(uid));
 
     });
+    var list = Array();
+    socket.on('getroomnames', function (name) {
+        list.push(name);
+        Console.log(name);
+    });
+
 });
 
 
@@ -295,11 +301,6 @@ function showLastMessages(num, sid, roomid) {
 //chatrooms are gonna be fun. tl;Dr we need to have a sidebar that displays all chatrooms the user has access to.
 //also have a "create" button for them to create one. as soon as one of these chatrooms is clicked, pull last (x) messages
 //and reload page to show only that user's chatroom.
-list = Array();
-socket.on('getroomnames', function(name){
-    list.push(name);
-    Console.log(name);
-});
 
 function getrooms(uid) {
 
