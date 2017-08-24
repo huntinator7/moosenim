@@ -295,22 +295,22 @@ function showLastMessages(num, sid, roomid) {
 //chatrooms are gonna be fun. tl;Dr we need to have a sidebar that displays all chatrooms the user has access to.
 //also have a "create" button for them to create one. as soon as one of these chatrooms is clicked, pull last (x) messages
 //and reload page to show only that user's chatroom.
-
-
+list = Array();
+socket.on('getroomnames', name){
+    list.push(name);
+    Console.log(name);
+});
 
 function getrooms(uid) {
 
-    var list = Array();
-
-
     con.query("SELECT room_id FROM room_users WHERE user_id = ?", [uid], function (error, result) {
 
-        list = result;
+     
         try {
             result.forEach(function (e) {
                // list.push(e);
                 con.query("SELECT name FROM rooms WHERE serialid = ?", [e], function (error, rows) {
-                   
+                    io.emit('getroomnames',rows[0]);
                   //  console.log("list =  " + rows);
                 });
             });
