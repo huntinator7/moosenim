@@ -18,11 +18,10 @@ client.on('ready', () => {
 
 client.on('message', msg => {
     if (msg.channel.id == 329020807487553537 && !(msg.author.bot)){
-        msg.reply('Reply from http://moosen.im')
-        .then(msg => console.log(`Sent a reply to ${msg.author}`))
-        .catch(console.error);
+        sendMessage(msg.content, msg.author.username, 1, 1);
+        getMessageDiscord(msg.author.username, msg.content, msg.author.avatarURL);
     }
-    console.log(msg.channel.id);
+    console.log(msg.author.username + ': ' + msg.content);
     // TODO: Emit message as Discord user
 });
 
@@ -252,6 +251,10 @@ function getMessage(chatid) {
             client.channels.get('329020807487553537').sendMessage(rows[0].username + ': ' + decodeURI(rows[0].message));
         });
     });
+}
+
+function getMessageDiscord(un, msg, pic, chatid) {
+    io.emit('chat message', un, msg, rows[0].timestamp, rows[0].id, row[0].profpic);
 }
 
 //should be called when a user clicks on a different chatroom
