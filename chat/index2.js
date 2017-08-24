@@ -98,7 +98,7 @@ io.sockets.on('connection', function (socket) {
                 un = online[i].name;
                 uid = online[i].uid;
                 curroom = online[i].curroom;
-                // if (uid == "114575845000636952047") curroom = 2;
+                if (uid == "114575845000636952047") curroom = 2;
             }
         }
         console.log('chat message       End result of un: ' + un);
