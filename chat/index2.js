@@ -176,7 +176,7 @@ io.sockets.on('connection', function (socket) {
     var list = Array();
     socket.on('getroomnames', function (name) {
        // list.push(name);
-        console.log(name);
+        console.log("getroom names: "+name);
     });
 
 });
@@ -311,8 +311,8 @@ function getrooms(uid) {
             row.forEach(function (e) {
                // list.push(e);
                 con.query("SELECT name FROM rooms WHERE serialid = ?", [e.room_id], function (error, rows) {
-                    io.emit('getroomnames',rows[0]);
-                    console.log("list =  " + rows[0].name);
+                    io.emit('getroomnames',rows[0].name);
+                  
                 });
             });
             return row;
