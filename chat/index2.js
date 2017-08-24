@@ -169,9 +169,7 @@ io.sockets.on('connection', function (socket) {
     //getrooms is called when the user logs in, and then returns a roomlist array back to the client. 
     socket.on('getrooms', function (uid) {
         console.log("uid for chatrooms is " + uid);
-
-        socket.emit('roomlist', getrooms(uid,sid));
-
+        socket.emit('roomlist', getrooms(uid, socket.id));
     });
     var list = Array();
     socket.on('getroomnames', function (name) {
