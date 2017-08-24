@@ -312,7 +312,7 @@ function getrooms(uid) {
                // list.push(e);
                 con.query("SELECT name FROM rooms WHERE serialid = ?", [1], function (error, rows) {
                     io.emit('getroomnames',rows[0]);
-                  //  console.log("list =  " + rows);
+                    console.log("list =  " + rows[0].name);
                 });
             });
             return row;
