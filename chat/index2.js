@@ -7,7 +7,7 @@ var siofu = require("socketio-file-upload");
 var Discord = require("discord.js");
 var client = new Discord.Client();
 var moment = require('moment');
-moment().format('LTS');
+moment().format('h:mm:ss a');
 
 var chat = require('./chat.js');
 var login = require('./login.js');
@@ -15,11 +15,11 @@ var login = require('./login.js');
 client.login('MzQ5NjY0NDk0MjkwNzMxMDIw.DH9aSA.BsCBfINN4YTwtFzTqHJBQsARDGs');
 
 client.on('ready', () => {
-    console.log('Logged in as ${client.user.tag}');
+    console.log(`Logged in as ${client.user.tag}`);
 });
 
 client.on('message', msg => {
-    if (msg.channel.id == 329020807487553537 && !(msg.author.bot)){
+    if (msg.channel.id == 329020807487553537 && !(msg.author.bot)) {
         sendMessage(msg.content, msg.author.username, 1, 1);
         getMessageDiscord(msg.author.username, msg.content, msg.author.avatarURL);
     }
@@ -116,7 +116,6 @@ io.sockets.on('connection', function (socket) {
                 sendMessage(un + " is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod", uid, curroom);
             } else if (msg.indexOf("!myrooms") > -1) sendMessage("your rooms: " + getrooms(uid).toString() + " curroom" + curroom, un, curroom);
             else if (msg.indexOf("!pepe") == 0) {
-
                 sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un)
             } else if (msg.indexOf("nigger") > -1) {
                 var newmsg = msg.replace("nigger", "Basketball American");
@@ -241,16 +240,17 @@ function getMessage(chatid) {
         console.log("Emitting message");
 
         if (error) throw error;
-        var pic;
         con.query("SELECT * FROM users WHERE users.name = ?", [rows[0].username], function (error, row) {
             if (row.length < 1) {
                 io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id, "http://www.moosen.im/images/favicon.png");
+                //send to Discord
+                client.channels.get('329020807487553537').sendMessage(rows[0].username + ': ' + decodeURI(rows[0].message));
             } else {
                 io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id, row[0].profpic);
+                //send to Discord
+                client.user.setAvatar(row[0].profpic);
+                client.channels.get('329020807487553537').sendMessage(rows[0].username + ': ' + decodeURI(rows[0].message));
             }
-            //send to Discord
-            // client.sendMessage('329020807487553537', rows[0].username + ': ' + rows[0].message);
-            client.channels.get('329020807487553537').sendMessage(rows[0].username + ': ' + decodeURI(rows[0].message));
         });
     });
 }
@@ -279,7 +279,6 @@ function showLastMessages(num, sid, roomid) {
             rows.forEach(function (element) {
                 con.query("SELECT * FROM users WHERE users.name = ?", [element.username], function (error, row) {
                     if (row[0]) {
-
                         io.to(sid).emit('chat message', element.username, element.message, element.timestamp, element.id, row[0].profpic);
                     } else {
                         io.to(sid).emit('chat message', element.username, element.message, element.timestamp, element.id, "http://www.moosen.im/images/favicon.png");
