@@ -34,7 +34,7 @@
         }
 
         #slide-out {
-            color: #6EB7FF;
+            background-color: black;
         }
 
         #slide-out li {
@@ -89,18 +89,16 @@
     </header>
     <div id="main">
         <div class="row" style="padding-top:5vh;">
-            <div class="col l2 show-on-large">
-                <ul id="rooms" class="collection black white-text">
-                    <li class="collection-header">
-                        <h3>Chatrooms</h3>
-                    </li>
-                    <li class="collection-item"><a href="#!">Alvin</a></li>
-                    <li class="collection-item"><a href="#!">Bruce</a></li>
-                    <li class="collection-item"><a href="#!">Charles</a></li>
-                    <li class="collection-item"><a href="#!">David</a></li>
+            <div class="col l3 hide-on-med-and-down">
+                <ul id="rooms" class="collection">
+                    <li class="collection-header black white-text">Chatrooms</li>
+                    <li class="collection-item black white-text"><a href="#!">Alvin</a></li>
+                    <li class="collection-item black white-text"><a href="#!">Bruce</a></li>
+                    <li class="collection-item black white-text"><a href="#!">Charles</a></li>
+                    <li class="collection-item black white-text"><a href="#!">David</a></li>
                 </ul>
             </div>
-            <div class="col s12 l10">
+            <div class="col s12 l9">
                 <ul class="collection with-header" id="messages" style="overflow-x:hidden"></ul>
                 <form id="mform" action="">
                     <input id="m" autocomplete="off" style="color:black; background-color:white; border:2px solid #6EB7FF; font-size:1.5em" type="text"
