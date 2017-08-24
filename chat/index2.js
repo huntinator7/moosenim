@@ -51,7 +51,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('login message', function (displayName, email, photoURL, uid) {
         console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id);
         con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
-            console.log(rows[0]);
+            // console.log(rows[0]);
             if (rows[0] == null) {
                 //show user as online and it add to DB
                 con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email) VALUES ( ?, ?, ?, 1,1,?)", [displayName, uid, photoURL, email], function (error, results) {
@@ -98,11 +98,10 @@ io.sockets.on('connection', function (socket) {
                 un = online[i].name;
                 uid = online[i].uid;
                 curroom = online[i].curroom;
-                if (uid == "114575845000636952047") curroom = 2;
+                // if (uid == "114575845000636952047") curroom = 2;
             }
         }
         console.log('chat message       End result of un: ' + un);
-        // if(newun) un = newun.name;
         if (un == 'Error - Username Not Found') {
             io.to(socket.id).emit('retreat');
             console.log('Retreating ' + socket.id);
