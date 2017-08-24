@@ -72,7 +72,7 @@ io.sockets.on('connection', function (socket) {
         var match;
         socket.emit('roomlist', getrooms(uid));
         for (var i = 0; i < online.length; i++) {
-           console.log(online[i].allrooms);
+             
             if (online[i].uid == uid) {
                 match = i;
                 //console.log('associate      match = ' + i);
@@ -175,7 +175,7 @@ io.sockets.on('connection', function (socket) {
     });
     var list = Array();
     socket.on('getroomnames', function (name) {
-       // list.push(name);
+      
         console.log("getroom names: "+name);
     });
 
@@ -309,20 +309,22 @@ function getrooms(uid) {
      
         try {
             row.forEach(function (e) {
-               // list.push(e);
+                // list.push(e);
+                io.emit('getroomnames', e.room_id);
+                console.log("room id:" + e.room_id);
                 con.query("SELECT name FROM rooms WHERE serialid = ?", [e.room_id], function (error, rows) {
-                    io.emit('getroomnames',rows[0].name);
+                    io.emit('getroomnames', rows[0].serialid);
                   
                 });
             });
-            return row;
+            return row.room_id;
         }
         catch(exception){
             console.log("getrooms isn't working.");
             return null;
         }
         finally {
-            return row;
+            return row.room_id;
         }
 
 
