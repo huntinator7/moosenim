@@ -155,6 +155,9 @@
                     // User is signed out.
                     // [START_EXCLUDE]
                     // document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
+                    try {
+                        $('go').remove();
+                    } catch (e) {}
                     var div = $('<h3>Signed Out</h3>');
                     $("#redirect").append(div);
                     document.getElementById('quickstart-sign-in').textContent = 'Sign in with Google';
