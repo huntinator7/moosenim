@@ -12,27 +12,28 @@ moment().format('h:mm:ss a');
 var chat = require('./chat.js');
 var login = require('./login.js');
 
+//Discord login with token from dev page
 client.login('MzQ5NjY0NDk0MjkwNzMxMDIw.DH9aSA.BsCBfINN4YTwtFzTqHJBQsARDGs');
 
+//Login message for Discord
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}`);
 });
 
+//Any time a Discord message is sent, bot checks to see if in moosen-im channel and if not sent by bot. If so, it adds the message to the DB and emits it
 client.on('message', msg => {
     if (msg.channel.id == 329020807487553537 && !(msg.author.bot)) {
         sendMessage(msg.content, msg.author.username, 1, 2);
         getMessageDiscord(msg.author.username, msg.content, msg.author.avatarURL);
     }
     console.log(msg.author.username + ': ' + msg.content);
-    // TODO: Emit message as Discord user
 });
 
-//both index.js and things.js should be in same directory
+//Associating .js files with URLs
 app.use('/chat/main', chat);
 app.use('/', login);
 app.use("/images", express.static(__dirname + '/images'));
 app.use("/uploads", express.static(__dirname + '/uploads'));
-// app.use('/index', index);
 
 var con = mysql.createConnection({
     host: "localhost",
@@ -41,41 +42,40 @@ var con = mysql.createConnection({
     database: "moosenim"
 });
 
-
+//Main socket.io listener
 io.sockets.on('connection', function (socket) {
+    //Show the last 10 messages to the user
+    showLastMessages(10, socket.id, 1);
 
-    // console.log('A user connected - index2.js');
-    showLastMessages(11, socket.id, 1);
-
-    // login process and recording.
+    //Login process and recording
     socket.on('login message', function (displayName, email, photoURL, uid) {
         console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id);
         con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
-            // console.log(rows[0]);
             if (rows[0] == null) {
-                //show user as online and it add to DB
+                //If no user, add to DB
                 con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email) VALUES ( ?, ?, ?, 1,1,?)", [displayName, uid, photoURL, email], function (error, results) {
                     if (error) console.log(error);
                 });
-            }//addOnline(un,email,photo,uid)
-            addOnline(displayName, email, photoURL, uid, socket.id, 1, getrooms(uid,socket.id));
+            }
+            addOnline(displayName, email, photoURL, uid, socket.id, 1, getrooms(uid, socket.id));
         });
-
         io.emit('login', displayName, email, photoURL, uid);
-
     });
+
+    //Test emit
     socket.on('ping', function (name) {
         console.log('pong');
     });
+
+    //Workaround for different login page
     socket.on('associate', function (uid) {
         console.log('Associating ' + uid + ' with ' + socket.id);
         var match;
-        socket.emit('roomlist', getrooms(uid,socket.id));
+        socket.emit('roomlist', getrooms(uid, socket.id));
+        //Replace the last entry in online[] with the current socket being checked. Prevents overwrite of multiple devices for single user.
         for (var i = 0; i < online.length; i++) {
-             
             if (online[i].uid == uid) {
                 match = i;
-                //console.log('associate      match = ' + i);
             }
         }
         if (match) {
@@ -86,6 +86,8 @@ io.sockets.on('connection', function (socket) {
             io.to(socket.id).emit('retreat');
         }
     });
+
+    //Generic message emit
     socket.on('chat message', function (msg) {
         var un = 'Error - Username Not Found';
         var uid;
@@ -106,7 +108,6 @@ io.sockets.on('connection', function (socket) {
             io.to(socket.id).emit('retreat');
             console.log('Retreating ' + socket.id);
         } else {
-
             console.log('chat message       un: ' + un + ' | message: ' + msg);
             if (msg.indexOf("lag") > -1) {
                 sendMessage("I love Rick Astley!", 'notch');
@@ -114,14 +115,14 @@ io.sockets.on('connection', function (socket) {
                 sendMessage(msg, un, uid, curroom);
                 io.emit(getMessage(curroom));
                 sendMessage(un + " is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod", uid, curroom);
-            } else if (msg.indexOf("!myrooms") > -1) sendMessage("your rooms: " + getrooms(uid).toString() + " curroom" + curroom, un ,uid,curroom);
+            } else if (msg.indexOf("!myrooms") > -1) sendMessage("your rooms: " + getrooms(uid).toString() + " curroom" + curroom, un, uid, curroom);
             else if (msg.indexOf("!pepe") == 0) {
                 sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un)
             } else if (msg.indexOf("nigger") > -1) {
                 var newmsg = msg.replace("nigger", "Basketball American");
                 sendMessage(newmsg, un + ', casual racist', uid, 2);
             } else if (msg.indexOf("<script") > -1) {
-                sendMessage("Stop right there, criminal scum! You violated my mother!", "AutoMod",uid,curroom);
+                sendMessage("Stop right there, criminal scum! You violated my mother!", "AutoMod", uid, curroom);
             } else if (/^http\S*\.(jpg|gif|png|svg)$/.test(msg)) {
                 sendMessage('<img class="materialboxed responsive-img initialized" src="' + msg + '" alt="' + msg + '">', un, uid, curroom);
             } else if (/http\S*youtube\S*/.test(msg)) {
@@ -161,7 +162,6 @@ io.sockets.on('connection', function (socket) {
             } else {
                 sendMessage(msg, un, uid, curroom);
             }
-
             io.emit(getMessage(curroom));
         }
     });
@@ -171,15 +171,12 @@ io.sockets.on('connection', function (socket) {
         console.log("uid for chatrooms is " + uid);
         socket.emit('roomlist', getrooms(uid, socket.id));
     });
-    var list = Array();
+
     socket.on('getroomnames', function (name) {
-      
-        console.log("getroom names: "+name);
+        console.log("getroom names: " + name);
     });
 
 });
-
-
 
 //connects to mysql database
 con.connect(function (err) {
@@ -188,7 +185,6 @@ con.connect(function (err) {
 });
 
 var online = [];
-
 function addOnline(un, email, photo, uid, sock, room, allrooms) {
     var user = {
         name: un,
@@ -226,7 +222,6 @@ function addOnline(un, email, photo, uid, sock, room, allrooms) {
 
 function sendMessage(message, username, uid, chatid) {
     try {
-
         con.query("INSERT INTO messages (message, username, timestamp,chatroom_id,uid) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'),?,?)", [message, username, chatid, uid], function (error, results) {
             if (error) throw error;
         });
@@ -242,7 +237,6 @@ function getMessage(chatid) {
     //will need to add chatroom_id at some point
     con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", [chatid], function (error, rows, results) {
         console.log("Emitting message");
-
         if (error) throw error;
         con.query("SELECT * FROM users WHERE users.name = ?", [rows[0].username], function (error, row) {
             if (row.length < 1) {
@@ -265,20 +259,15 @@ function getMessageDiscord(un, msg, pic) {
 
 //should be called when a user clicks on a different chatroom
 function updatechat(roomid) {
-    // TODO set a user variable "current Room" to the value specified. 
+    //TODO: set a user variable "current Room" to the value specified. 
     //reload page
     showLastMessages(10, 0, roomid);
-
-
-
 }
-
 
 function showLastMessages(num, sid, roomid) {
     con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [roomid, num], function (error, rows, results) {
         console.log("Getting messages...");
         if (error) throw error;
-
         try {
             rows.forEach(function (element) {
                 con.query("SELECT * FROM users WHERE users.name = ?", [element.username], function (error, row) {
@@ -293,50 +282,39 @@ function showLastMessages(num, sid, roomid) {
         catch (e) {
             console.log("last message isn't working.");
         }
-
     });
 }
+
 //chatrooms are gonna be fun. tl;Dr we need to have a sidebar that displays all chatrooms the user has access to.
 //also have a "create" button for them to create one. as soon as one of these chatrooms is clicked, pull last (x) messages
 //and reload page to show only that user's chatroom.
 
-function getrooms(uid,sid) {
-
+function getrooms(uid, sid) {
     con.query("SELECT room_id FROM room_users WHERE user_id = ?", [uid], function (error, row) {
-
-     
         try {
             row.forEach(function (e) {
                 // list.push(e);
                 io.to(sid).emit('getroomnames', e.room_id);
                 console.log("room id:" + e.room_id);
                 con.query("SELECT name FROM rooms WHERE serialid = ?", [e.room_id], function (error, rows) {
-                  //  io.emit('getroomnames', rows[0].serialid);
-                  
+                    //  io.emit('getroomnames', rows[0].serialid);
                 });
             });
             return row.room_id;
         }
-        catch(exception){
+        catch (exception) {
             console.log("getrooms isn't working.");
             return null;
         }
         finally {
             return row.room_id;
         }
-
-
     });
-
-    
 }
 
-
 function createChatroom(n, uid) {
-
     var roomid;
     var name = n;
-
     // get availible chatrooms from user SELECT room_id FROM room_users WHERE user_id = ? [user.uid]
     con.query("INSERT INTO rooms (name) VALUES(?)", [name], function (error) { });
     con.query("SELECT serialid FROM ( SELECT serialid FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC", function (error, rows, results) {
@@ -344,8 +322,6 @@ function createChatroom(n, uid) {
         console.log("last room id is" + roomid);
     });
     con.query("INSERT INTO room_users VALUES(?,?,1)", [roomid, uid]);
-
-
     //pretty sure we don't actually need this.
     var chatroom = {
         name: name,
@@ -354,6 +330,5 @@ function createChatroom(n, uid) {
 
 
 }
-
 
 console.log('listening on *:80');
