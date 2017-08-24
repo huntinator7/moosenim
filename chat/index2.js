@@ -305,12 +305,13 @@ function getrooms(uid) {
 
     con.query("SELECT room_id FROM room_users WHERE user_id = ?", [uid], function (error, result) {
 
+        list = result;
         try {
             result.forEach(function (e) {
-                list.push(e);
+               // list.push(e);
                 con.query("SELECT name FROM rooms WHERE serialid = ?", [e], function (error, rows) {
                    
-                    console.log("list =  " + rows);
+                  //  console.log("list =  " + rows);
                 });
             });
         }
