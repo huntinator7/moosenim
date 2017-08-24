@@ -70,7 +70,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('associate', function (uid) {
         console.log('Associating ' + uid + ' with ' + socket.id);
         var match;
-        socket.emit('roomlist', getrooms(uid));
+        socket.emit('roomlist', getrooms(uid,socket.id));
         for (var i = 0; i < online.length; i++) {
              
             if (online[i].uid == uid) {
