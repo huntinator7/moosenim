@@ -6,6 +6,8 @@ var mysql = require('mysql');
 var siofu = require("socketio-file-upload");
 var Discord = require("discord.js");
 var client = new Discord.Client();
+var moment = require('moment');
+moment().format('LTS');
 
 var chat = require('./chat.js');
 var login = require('./login.js');
@@ -13,7 +15,7 @@ var login = require('./login.js');
 client.login('MzQ5NjY0NDk0MjkwNzMxMDIw.DH9aSA.BsCBfINN4YTwtFzTqHJBQsARDGs');
 
 client.on('ready', () => {
-    console.log(`Logged in as ${client.user.tag}!`);
+    console.log('Logged in as ${client.user.tag}');
 });
 
 client.on('message', msg => {
@@ -253,8 +255,8 @@ function getMessage(chatid) {
     });
 }
 
-function getMessageDiscord(un, msg, pic, chatid) {
-    io.emit('chat message', un, msg, rows[0].timestamp, rows[0].id, row[0].profpic);
+function getMessageDiscord(un, msg, pic) {
+    io.emit('chat message', un, msg, moment(), 0, pic);
 }
 
 //should be called when a user clicks on a different chatroom
