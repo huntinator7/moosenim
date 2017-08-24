@@ -296,7 +296,7 @@ function showLastMessages(num, sid, roomid) {
 //also have a "create" button for them to create one. as soon as one of these chatrooms is clicked, pull last (x) messages
 //and reload page to show only that user's chatroom.
 list = Array();
-socket.on('getroomnames', name){
+socket.on('getroomnames', function(name){
     list.push(name);
     Console.log(name);
 });
