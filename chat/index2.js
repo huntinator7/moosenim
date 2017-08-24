@@ -58,7 +58,7 @@ io.sockets.on('connection', function (socket) {
                     if (error) console.log(error);
                 });
             }//addOnline(un,email,photo,uid)
-            addOnline(displayName, email, photoURL, uid, socket.id, 1, getrooms(uid));
+            addOnline(displayName, email, photoURL, uid, socket.id, 1, getrooms(uid,socket.id));
         });
 
         io.emit('login', displayName, email, photoURL, uid);
@@ -170,7 +170,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('getrooms', function (uid) {
         console.log("uid for chatrooms is " + uid);
 
-        socket.emit('roomlist', getrooms(uid));
+        socket.emit('roomlist', getrooms(uid,sid));
 
     });
     var list = Array();
@@ -302,7 +302,7 @@ function showLastMessages(num, sid, roomid) {
 //also have a "create" button for them to create one. as soon as one of these chatrooms is clicked, pull last (x) messages
 //and reload page to show only that user's chatroom.
 
-function getrooms(uid) {
+function getrooms(uid,sid) {
 
     con.query("SELECT room_id FROM room_users WHERE user_id = ?", [uid], function (error, row) {
 
@@ -310,10 +310,10 @@ function getrooms(uid) {
         try {
             row.forEach(function (e) {
                 // list.push(e);
-                io.emit('getroomnames', e.room_id);
+                io.to(sid).emit('getroomnames', e.room_id);
                 console.log("room id:" + e.room_id);
                 con.query("SELECT name FROM rooms WHERE serialid = ?", [e.room_id], function (error, rows) {
-                    io.emit('getroomnames', rows[0].serialid);
+                  //  io.emit('getroomnames', rows[0].serialid);
                   
                 });
             });
