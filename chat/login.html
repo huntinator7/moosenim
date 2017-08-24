@@ -143,12 +143,12 @@
 
                     socket.emit('login message', displayName, email, photoURL, uid);
 
-                    // document.getElementById('quickstart-sign-in-status').innerHTML = "<a href='" + url + "'>Click to Chat</a>";
+                    document.getElementById('redirect').innerHTML = '<button id="go_b" onclick="location.href = ' + url + '"class="btn waves-effect waves-light light-blue white-text">Click To Chat</button>';
                     // var div = $('');
                     // $("#redirect").append(div);
-                    $("go").submit(function () {
-                        window.location.href = url;
-                    });
+                    // $("go").submit(function () {
+                    //     window.location.href = url;
+                    // });
                     // document.getElementById('quickstart-sign-in-continue').onClick = function() {
                     //     window.location.href = url;
                     // };
@@ -239,9 +239,6 @@
             <button disabled id="quickstart-sign-in" class="btn waves-effect waves-light light-blue white-text">Sign In with Google</button>
         </div>
         <div id="redirect" style="text-align:center" class="row col s12 xl12 center">
-            <form id="go">
-                <button id="go_b" class="btn waves-effect waves-light light-blue white-text">Click To Chat</button>
-            </form>
         </div>
     </div>
     <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-header">
