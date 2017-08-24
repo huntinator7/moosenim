@@ -147,8 +147,11 @@
                 socket.emit('login message', displayName, email, photoURL, uid);
 
                 // document.getElementById('quickstart-sign-in-status').innerHTML = "<a href='" + url + "'>Click to Chat</a>";
-                var div = $('<button id="quickstart-sign-in-new" on-click="window.location.href = ' + url + '" class="btn waves-effect waves-light light-blue white-text">Click to Chat</button>');
+                var div = $('<button id="quickstart-sign-in-continue" class="btn waves-effect waves-light light-blue white-text">Click to Chat</button>');
                 $("#redirect").append(div);
+                $("quickstart-sign-in-continue").click(function() {
+                    window.location.href = url;
+                });
                 document.getElementById('quickstart-sign-in-status').innerHTML = "<a href='" + url + "'>Click to Chat</a>";
                 document.getElementById('quickstart-sign-in-status').style.display = "inline";
                 document.getElementById('quickstart-sign-in-status').style.textAlign = "center";
