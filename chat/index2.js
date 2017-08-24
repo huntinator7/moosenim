@@ -175,8 +175,8 @@ io.sockets.on('connection', function (socket) {
     });
     var list = Array();
     socket.on('getroomnames', function (name) {
-        list.push(name);
-        Console.log(name);
+       // list.push(name);
+        console.log(name);
     });
 
 });
