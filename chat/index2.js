@@ -114,14 +114,14 @@ io.sockets.on('connection', function (socket) {
                 sendMessage(msg, un, uid, curroom);
                 io.emit(getMessage(curroom));
                 sendMessage(un + " is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod", uid, curroom);
-            } else if (msg.indexOf("!myrooms") > -1) sendMessage("your rooms: " + getrooms(uid).toString() + " curroom" + curroom, un, curroom);
+            } else if (msg.indexOf("!myrooms") > -1) sendMessage("your rooms: " + getrooms(uid).toString() + " curroom" + curroom, un, ,uid,curroom);
             else if (msg.indexOf("!pepe") == 0) {
                 sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un)
             } else if (msg.indexOf("nigger") > -1) {
                 var newmsg = msg.replace("nigger", "Basketball American");
                 sendMessage(newmsg, un + ', casual racist', uid, 2);
             } else if (msg.indexOf("<script") > -1) {
-                sendMessage("Stop right there, criminal scum! You violated my mother!", "AutoMod");
+                sendMessage("Stop right there, criminal scum! You violated my mother!", "AutoMod",uid,curroom);
             } else if (/^http\S*\.(jpg|gif|png|svg)$/.test(msg)) {
                 sendMessage('<img class="materialboxed responsive-img initialized" src="' + msg + '" alt="' + msg + '">', un, uid, curroom);
             } else if (/http\S*youtube\S*/.test(msg)) {
@@ -314,15 +314,20 @@ function getrooms(uid) {
                   //  console.log("list =  " + rows);
                 });
             });
+            return result;
         }
         catch(exception){
             console.log("getrooms isn't working.");
+            return null;
+        }
+        finally {
+            return result;
         }
 
 
     });
 
-    return list;
+    
 }
 
 
