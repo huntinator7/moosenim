@@ -142,7 +142,7 @@
                     // [START_EXCLUDE]
 
                     socket.emit('login message', displayName, email, photoURL, uid);
-                    var div = $('<a href = "' + url + '" id="go" class="btn waves-effect waves-light light-blue white-text">Click To Chat</button>');
+                    var div = $('<a href = "' + url + '" id="go" class="btn go waves-effect waves-light light-blue white-text">Click To Chat</button>');
                     $("#redirect").append(div);
                     document.getElementById('quickstart-sign-in-status').innerHTML = "<a href='" + url + "'>Click to Chat</a>";
                     document.getElementById('quickstart-sign-in-status').style.display = "inline";
@@ -156,7 +156,7 @@
                     // [START_EXCLUDE]
                     // document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
                     try {
-                        $('go').remove();
+                        $('#go').remove();
                     } catch (e) {}
                     var div = $('<h3>Signed Out</h3>');
                     $("#redirect").append(div);
