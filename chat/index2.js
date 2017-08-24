@@ -20,7 +20,7 @@ client.on('ready', () => {
 
 client.on('message', msg => {
     if (msg.channel.id == 329020807487553537 && !(msg.author.bot)) {
-        sendMessage(msg.content, msg.author.username, 1, 1);
+        sendMessage(msg.content, msg.author.username, 1, 2);
         getMessageDiscord(msg.author.username, msg.content, msg.author.avatarURL);
     }
     console.log(msg.author.username + ': ' + msg.content);
@@ -112,6 +112,7 @@ io.sockets.on('connection', function (socket) {
                 sendMessage("I love Rick Astley!", 'notch');
             } else if (msg.indexOf("*autistic screeching*") > -1) {
                 sendMessage(msg, un, uid, curroom);
+                io.emit(getMessage(curroom));
                 sendMessage(un + " is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod", uid, curroom);
             } else if (msg.indexOf("!myrooms") > -1) sendMessage("your rooms: " + getrooms(uid).toString() + " curroom" + curroom, un, curroom);
             else if (msg.indexOf("!pepe") == 0) {
