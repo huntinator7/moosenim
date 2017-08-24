@@ -114,7 +114,7 @@ io.sockets.on('connection', function (socket) {
                 sendMessage(msg, un, uid, curroom);
                 io.emit(getMessage(curroom));
                 sendMessage(un + " is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod", uid, curroom);
-            } else if (msg.indexOf("!myrooms") > -1) sendMessage("your rooms: " + getrooms(uid).toString() + " curroom" + curroom, un, ,uid,curroom);
+            } else if (msg.indexOf("!myrooms") > -1) sendMessage("your rooms: " + getrooms(uid).toString() + " curroom" + curroom, un ,uid,curroom);
             else if (msg.indexOf("!pepe") == 0) {
                 sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un)
             } else if (msg.indexOf("nigger") > -1) {
