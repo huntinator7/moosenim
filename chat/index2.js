@@ -305,15 +305,18 @@ function getrooms(uid) {
 
     con.query("SELECT room_id FROM room_users WHERE user_id = ?", [uid], function (error, result) {
 
-        result.forEach(function (e) {
-
-            console.log(e);
-            con.query("SELECT name FROM rooms WHERE serialid = ?", [e], function (error, rows) {
-                list.push(rows);
-                console.log("list =  " + rows);
+        try {
+            result.forEach(function (e) {
+                list.push(e);
+                con.query("SELECT name FROM rooms WHERE serialid = ?", [e], function (error, rows) {
+                   
+                    console.log("list =  " + rows);
+                });
             });
-        });
-       
+        }
+        catch(exception){
+            console.log("getrooms isn't working.");
+        }
 
 
     });
