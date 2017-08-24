@@ -142,16 +142,8 @@
                     // [START_EXCLUDE]
 
                     socket.emit('login message', displayName, email, photoURL, uid);
-
-                    document.getElementById('redirect').innerHTML = '<button id="go_b" onclick="location.href = ' + url + '"class="btn waves-effect waves-light light-blue white-text">Click To Chat</button>';
-                    // var div = $('');
-                    // $("#redirect").append(div);
-                    // $("go").submit(function () {
-                    //     window.location.href = url;
-                    // });
-                    // document.getElementById('quickstart-sign-in-continue').onClick = function() {
-                    //     window.location.href = url;
-                    // };
+                    var div = $('<a href = "' + url + '" id="go" class="btn waves-effect waves-light light-blue white-text">Click To Chat</button>');
+                    $("#redirect").append(div);
                     document.getElementById('quickstart-sign-in-status').innerHTML = "<a href='" + url + "'>Click to Chat</a>";
                     document.getElementById('quickstart-sign-in-status').style.display = "inline";
                     document.getElementById('quickstart-sign-in-status').style.textAlign = "center";
