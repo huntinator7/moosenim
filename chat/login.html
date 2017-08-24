@@ -5,6 +5,7 @@
 
 <head>
 
+    <link rel="icon" href="http://www.moosen.im/images/favicon.png">
     <meta charset=utf-8 />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moosen IM sign in</title>
@@ -147,11 +148,12 @@
                 socket.emit('login message', displayName, email, photoURL, uid);
 
                 // document.getElementById('quickstart-sign-in-status').innerHTML = "<a href='" + url + "'>Click to Chat</a>";
-                var div = $('<button id="quickstart-sign-in-continue" onclick="window.location.href = ' + url + '"class="btn waves-effect waves-light light-blue white-text">Click to Chat</button>');
+                var div = $('<form id="go"><button id="go_b" class="btn waves-effect waves-light light-blue white-text">Click To Chat</button></form>');
                 $("#redirect").append(div);
-                // $("quickstart-sign-in-continue").click(function() {
-                //     window.location.href = url;
-                // });
+                $("go").submit(function() {
+                    window.location.href = url;
+                });
+                
                 // document.getElementById('quickstart-sign-in-continue').onClick = function() {
                 //     window.location.href = url;
                 // };
