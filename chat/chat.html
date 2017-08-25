@@ -21,13 +21,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
         #messages {
-            padding-left: 15vw;
             list-style-type: none;
             margin: 0;
-        }
-
-        .main {
-            margin-left: 200px;
         }
 
         #side-nav {
@@ -66,6 +61,12 @@
             height: 200px;
             border: 1px solid #000;
             text-align: center
+        }
+
+        @media only screen and (min-width: 768px) {
+            #center-container {
+                margin-left: 16vw;
+            }
         }
     </style>
 </head>
@@ -112,7 +113,7 @@
         </ul> -->
     </header>
     <div id="main">
-        <div class="row" style="padding-top:5vh; margin-left: 300px">
+        <div class="row" id="center-container" style="padding-top:5vh;">
             <div class="col s12">
                 <ul class="collection with-header" id="messages" style="overflow-x:hidden"></ul>
                 <form id="mform" action="">
