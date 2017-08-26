@@ -26,10 +26,10 @@
         }
 
         #side-nav {
-            background-color: #333;
+            background-color: #181818;
         }
 
-        #side-nav li{
+        #side-nav li {
             color: #6EB7FF;
         }
 
@@ -42,17 +42,6 @@
             color: #6EB7FF;
         }
 
-        .chatroom {
-            color: #6EB7FF;
-        }
-
-        /* #rooms {
-            background-color: #333333;
-        } */
-        /* #rooms li {
-            color: white;
-        } */
-
         #slide-out {
             background-color: black;
         }
@@ -64,10 +53,6 @@
         nav.top-nav a.page-title {
             line-height: 10vh;
             font-size: 4em;
-        }
-
-        ul.nav-mobile a.test {
-            color: #6EB7FF;
         }
 
         .thumb {
@@ -89,15 +74,15 @@
         <nav class="top-nav center light-blue" style="height:10vh">
             <!-- <a class="page-title white-text">MoosenIM</a>
             <br> -->
-            <a id="test_button" class="page-title white-text"><i class="material-icons">add</i></a>
+            <a id="test_button" class="page-title white-text">MoosenIM</a>
         </nav>
-        <ul id="nav-mobile" class="side-nav fixed hide-on-med-and-down grey darken-4" style="transform: translateX(0%);">
+        <!-- <ul id="nav-mobile" class="side-nav fixed hide-on-med-and-down grey darken-4" style="transform: translateX(0%);">
             <li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>
             <li><a style="color: #6EB7FF" href="#!">Alvin</a></li>
             <li><a style="color: #6EB7FF" href="#!">Bruce</a></li>
             <li><a style="color: #6EB7FF" href="#!">Charles</a></li>
             <li><a style="color: #6EB7FF" href="#!">David</a></li>
-        </ul>
+        </ul> -->
         <ul id="slide-out" class="side-nav black white-text hide-on-large-only">
             <li>
                 <div class="user-view">
@@ -369,6 +354,16 @@
                 };
             }
         }
+
+        $('.button-collapse').sideNav({
+            menuWidth: 300, // Default is 300
+            edge: 'right', // Choose the horizontal origin
+            closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+            draggable: true, // Choose whether you can drag to open on touch screens,
+            // onOpen: function (el) {}, // A function to be called when sideNav is opened
+            // onClose: function (el) {} // A function to be called when sideNav is closed
+        });
+
     </script>
 </body>
 

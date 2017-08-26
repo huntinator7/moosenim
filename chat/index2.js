@@ -44,8 +44,6 @@ var con = mysql.createConnection({
 
 //Main socket.io listener
 io.sockets.on('connection', function (socket) {
-    //Show the last 10 messages to the user
-    showLastMessages(10, socket.id, 1);
 
     //Login process and recording
     socket.on('login message', function (displayName, email, photoURL, uid) {
@@ -82,6 +80,8 @@ io.sockets.on('connection', function (socket) {
             socket.emit('roomlist', getrooms(uid));
             console.log('Replacing ' + online[match].sid + ' with ' + socket.id + ', match = ' + match);
             online[match].sid = socket.id;
+            //Show the last 10 messages to the user
+            showLastMessages(10, socket.id, 1);
         } else {
             io.to(socket.id).emit('retreat');
         }
