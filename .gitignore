@@ -2,4 +2,5 @@
 chat/config.json
 chat/config.js
 
-uploads/
+chat/uploads/
+chat/node_modules/
