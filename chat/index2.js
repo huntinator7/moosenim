@@ -171,18 +171,18 @@ io.sockets.on('connection', function (socket) {
 
 });
 
-var con = mysql.createConnection({
+var con = {
     host: "localhost",
     user: "root",
     password: "raspberry",
     database: "moosenim"
-});
+};
 
 //connects to mysql database
-con.connect(function (err) {
-    if (err) throw err;
-    console.log("Connected!");
-});
+// con.connect(function (err) {
+//     if (err) throw err;
+//     console.log("Connected!");
+// });
 
 var connection;
 
