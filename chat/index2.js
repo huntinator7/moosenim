@@ -335,7 +335,7 @@ function getrooms(uid, sid) {
 }
 
 function getChatrooms(sid) {
-    con.query("SELECT name FROM rooms", [], function (error, row) {
+    con.query("SELECT * FROM rooms", [], function (error, row) {
         io.to(sid).emit('roomlist', row);
     });
 }
