@@ -7,7 +7,6 @@ var siofu = require("socketio-file-upload");
 var Discord = require("discord.js");
 var client = new Discord.Client();
 var moment = require('moment');
-moment().format('h:mm:ss a');
 
 var chat = require('./chat.js');
 var login = require('./login.js');
@@ -93,7 +92,6 @@ io.sockets.on('connection', function (socket) {
                 un = online[i].name;
                 uid = online[i].uid;
                 curroom = online[i].curroom;
-                // if (uid == "114575845000636952047") curroom = 2;
             }
         }
         console.log('chat message       End result of un: ' + un);
@@ -108,12 +106,13 @@ io.sockets.on('connection', function (socket) {
                 sendMessage(msg, un, uid, curroom);
                 io.emit(getMessage(curroom));
                 sendMessage(un + " is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod", uid, curroom);
-            } else if (msg.indexOf("!myrooms") > -1) sendMessage("your rooms: " + getrooms(uid).toString() + " curroom" + curroom, un, uid, curroom);
-            else if (msg.indexOf("!pepe") == 0) {
+            } else if (msg.indexOf("!myrooms") > -1) {
+                sendMessage("your rooms: " + getrooms(uid).toString() + " curroom" + curroom, un, uid, curroom);
+            } else if (msg.indexOf("!pepe") == 0) {
                 sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un)
             } else if (msg.indexOf("nigger") > -1) {
                 var newmsg = msg.replace("nigger", "Basketball American");
-                sendMessage(newmsg, un + ', casual racist', uid, 2);
+                sendMessage(newmsg, un + ', casual racist', uid, curroom);
             } else if (msg.indexOf("<script") > -1) {
                 sendMessage("Stop right there, criminal scum! You violated my mother!", "AutoMod", uid, curroom);
             } else if (/^http\S*\.(jpg|gif|png|svg)$/.test(msg)) {
@@ -167,6 +166,25 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('getroomnames', function (name) {
         console.log("getroom names: " + name);
+    });
+
+    //file upload
+    var uploader = new siofu();
+    uploader.dir = __dirname + '/uploads';
+    uploader.listen(socket);
+
+    uploader.on("start", function(event){
+        console.log('Starting upload to ' + event.file.name + ' of type ' + event.file.type + ' to ' + uploader.dir);
+    });
+    uploader.on("saved", function(event){
+        console.log(event.file.name + ' successfully saved.');
+        var user = { name:"AutoMod" };
+        user = online.filter(function( obj ) {
+            return obj.sid === socket.id;
+        })[0];
+        var msg = '<img class="materialboxed" style="height:20vh" src="http://moosen.im/chat/uploads/' + event.file.name + '" alt="Mighty Moosen">';
+        sendMessage(msg, user.name, uid, curroom);
+        io.emit(getMessage(curroom));
     });
 
 });
@@ -276,7 +294,7 @@ function getMessage(chatid) {
 }
 
 function getMessageDiscord(un, msg, pic) {
-    io.emit('chat message', un, msg, moment(), 0, pic);
+    io.emit('chat message', un, msg, moment().format('h:mm:ss a'), 0, pic);
 }
 
 //should be called when a user clicks on a different chatroom
