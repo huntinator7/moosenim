@@ -74,7 +74,7 @@
         <nav class="top-nav center light-blue" style="height:10vh">
             <!-- <a class="page-title white-text">MoosenIM</a>
             <br> -->
-            <a id="test_button" class="button page-title white-text">MoosenIM</a>
+            <button id="test_button" class="button page-title white-text">MoosenIM</button>
         </nav>
         <ul id="nav-mobile" class="side-nav fixed hide-on-med-and-down grey darken-4" style="transform: translateX(0%);">
             <li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>
@@ -213,6 +213,7 @@
                 $('#nav-mobile').append('<li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>');
                 try {
                     list.forEach(function (element) {
+                        console.log(element);
                         $('#nav-mobile').append('<li><a style="color: #6EB7FF" href="#!">' + element + '</a></li>');
                     });
                 } catch (e) {}
