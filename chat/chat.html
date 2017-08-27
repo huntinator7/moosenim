@@ -74,7 +74,7 @@
         <nav class="top-nav center light-blue" style="height:10vh">
             <!-- <a class="page-title white-text">MoosenIM</a>
             <br> -->
-            <button id="test_button" class="button page-title white-text">MoosenIM</button>
+            <a href="#" data-activates="slide-out" class="button-collapse page-title white-text">MoosenIM</a>
         </nav>
         <ul id="nav-mobile" class="side-nav fixed hide-on-med-and-down grey darken-4" style="transform: translateX(0%);">
             <li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>
@@ -83,24 +83,26 @@
             <li><a style="color: #6EB7FF" href="#!">Charles</a></li>
             <li><a style="color: #6EB7FF" href="#!">David</a></li>
         </ul>
-        <ul id="slide-out" class="side-nav black white-text hide-on-large-only">
+        <ul id="slide-out" class="side-nav">
             <li>
                 <div class="user-view">
                     <div class="background">
-                        <img style="height:10vh" src="/images/favicon.png">
+                        <img src="images/office.jpg">
                     </div>
+                    <a href="#!user"><img class="circle" src="images/yuna.jpg"></a>
                     <a href="#!name"><span class="white-text name">John Doe</span></a>
                     <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
                 </div>
             </li>
-            <li><a style="color:white" href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
-            <li><a style="color:white" href="#!">Second Link</a></li>
+            <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
+            <li><a href="#!">Second Link</a></li>
             <li>
                 <div class="divider"></div>
             </li>
-            <li><a style="color:white" class="subheader">Subheader</a></li>
-            <li><a style="color:white" class="waves-effect white" href="#!">Third Link With Waves</a></li>
+            <li><a class="subheader">Subheader</a></li>
+            <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
         </ul>
+        <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
         <!-- <ul id="nav-mobile" class="side-nav fixed grey darken-4" style="transform: translateX(0px);">
             <li class="logo"><a id="logo-container" href="http://www.moosen.im/" class="brand-logo">
                 <svg id="front-page-logo" preserveAspectRatio="xMidYMid meet" viewbox="0 0 100 100" data="/images/moosen.svg">Your browser does not support SVG</object></a></li>
@@ -116,8 +118,7 @@
             <div class="col s12">
                 <ul class="collection with-header" id="messages" style="overflow-x:hidden"></ul>
                 <form id="mform" action="">
-                    <input id="m" autocomplete="off" style="color:black; background-color:white; font-size:1.5em" type="text"
-                        placeholder="Message">
+                    <input id="m" autocomplete="off" style="color:black; background-color:white; font-size:1.5em" type="text" placeholder="Message">
                     <br>
                     <button id="mbut" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
                 </form>
@@ -216,7 +217,7 @@
                         console.log(element);
                         $('#nav-mobile').append('<li><a style="color: #6EB7FF" href="#!">' + element.name + '</a></li>');
                     });
-                } catch (e) {}
+                } catch (e) { }
             });
             socket.on('retreat', function () {
                 console.log("Retreat!");
@@ -359,7 +360,6 @@
             // onOpen: function (el) {}, // A function to be called when sideNav is opened
             // onClose: function (el) {} // A function to be called when sideNav is closed
         });
-
     </script>
 </body>
 

@@ -70,7 +70,7 @@ io.sockets.on('connection', function (socket) {
             }
         }
         if (match) {
-            socket.emit('roomlist', getChatrooms(socket.id));
+            io.to(socket.id).emit('roomlist', getChatrooms(socket.id));
             console.log('Replacing ' + online[match].sid + ' with ' + socket.id + ', match = ' + match);
             online[match].sid = socket.id;
             //Show the last 10 messages to the user
