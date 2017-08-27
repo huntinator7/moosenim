@@ -3,7 +3,8 @@ var app = express();
 var http = require('http').Server(express);
 var io = require('socket.io').listen(app.listen(80));
 var mysql = require('mysql');
-var siofu = require("socketio-file-upload");
+var SocketIOFile = require('socket.io-file');
+// var siofu = require("socketio-file-upload");
 var Discord = require("discord.js");
 var client = new Discord.Client();
 var moment = require('moment');
@@ -169,22 +170,55 @@ io.sockets.on('connection', function (socket) {
     });
 
     //file upload
-    var uploader = new siofu();
-    uploader.dir = __dirname + '/uploads';
-    uploader.listen(socket);
+    // var uploader = new siofu();
+    // uploader.dir = __dirname + '/uploads';
+    // uploader.listen(socket);
 
-    uploader.on("start", function(event){
-        console.log('Starting upload to ' + event.file.name + ' of type ' + event.file.type + ' to ' + uploader.dir);
+    // uploader.on("start", function(event){
+    //     console.log('Starting upload to ' + event.file.name + ' of type ' + event.file.type + ' to ' + uploader.dir);
+    // });
+    // uploader.on("saved", function(event){
+    //     console.log(event.file.name + ' successfully saved.');
+    //     var user = { name:"AutoMod" };
+    //     user = online.filter(function( obj ) {
+    //         return obj.sid === socket.id;
+    //     })[0];
+    //     var msg = '<img class="materialboxed" style="height:20vh" src="http://moosen.im/chat/uploads/' + event.file.name + '" alt="Mighty Moosen">';
+    //     sendMessage(msg, user.name, uid, curroom);
+    //     io.emit(getMessage(curroom));
+    // });
+
+    //file upload
+    var uploader = new SocketIOFile(socket, {
+        uploadDir: 'uploads',						// simple directory 
+        maxFileSize: 33554432, 						// 32 MB. default is undefined(no limit) 
+        chunkSize: 10240,							// default is 10240(1KB) 
+        transmissionDelay: 0,						// delay of each transmission, higher value saves more cpu resources, lower upload speed. default is 0(no delay) 
+        overwrite: true 							// overwrite file if exists, default is true. 
     });
-    uploader.on("saved", function(event){
-        console.log(event.file.name + ' successfully saved.');
-        var user = { name:"AutoMod" };
-        user = online.filter(function( obj ) {
-            return obj.sid === socket.id;
-        })[0];
-        var msg = '<img class="materialboxed" style="height:20vh" src="http://moosen.im/chat/uploads/' + event.file.name + '" alt="Mighty Moosen">';
-        sendMessage(msg, user.name, uid, curroom);
-        io.emit(getMessage(curroom));
+    uploader.on('start', (fileInfo) => {
+        console.log('Start uploading');
+        console.log(fileInfo);
+    });
+    uploader.on('stream', (fileInfo) => {
+        console.log(`${fileInfo.wrote} / ${fileInfo.size} byte(s)`);
+    });
+    uploader.on('complete', (fileInfo) => {
+        console.log('Upload Complete.');
+        console.log(fileInfo);
+        // var user = { name:"AutoMod" };
+        // user = online.filter(function( obj ) {
+        //     return obj.sid === socket.id;
+        // })[0];
+        // var msg = '<img class="materialboxed" style="height:20vh" src="http://moosen.im/chat/uploads/' + event.file.name + '" alt="Mighty Moosen">';
+        // sendMessage(msg, user.name, uid, curroom);
+        // io.emit(getMessage(curroom));
+    });
+    uploader.on('error', (err) => {
+        console.log('Error!', err);
+    });
+    uploader.on('abort', (fileInfo) => {
+        console.log('Aborted: ', fileInfo);
     });
 
 });

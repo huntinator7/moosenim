@@ -11,12 +11,8 @@
     <!-- <script src="/js/materialize.js"></script> -->
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
-    <script src="node_modules/socketio-file-upload/client.js"></script>
-    <script src="/node_modules/socketio-file-upload/client.js"></script>
-    <script src="http://moosen.im/node_modules/socketio-file-upload/client.js"></script>
-    <script src="siofu/client.js"></script>
-    <script src="/siofu/client.js"></script>
-    <script src="http://moosen.im/siofu/client.js"></script>
+    <!-- <script src="/siofu/client.js"></script> -->
+    <script src="socket.io-file-client.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
     <script src="http://player.twitch.tv/js/embed/v1.js"></script>
@@ -115,10 +111,14 @@
                     <br>
                     <button id="mbut" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
                 </form>
-                <!-- <button id="post" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button> -->
+                <!-- <button id="post" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
                 <label name="files[]" id="add_pics" class="btn btn-floating btn-file multiple waves-effect waves-light light-blue">
                         <i class="material-icons">add</i><input style="display: none;" type="file" multiple>
-                </label>
+                </label> -->
+                <form id="form">
+                    <input type="file" id="file" multiple />
+                    <input type="submit" value="Upload" />
+                </form>
             </div>
         </div>
     </div>
@@ -127,13 +127,7 @@
     <script>
         $(function () {
             canAuto = false;
-            // last_id = 0;
             var socket = io();
-            var siofu = new SocketIOFileUpload(socket);
-            siofu.addEventListener("start", function(event){
-                event.file.meta.filetype = event.file.type;
-            });
-
 
             //roomList holds an array of all chatrooms a user has access to. 
             // var roomList;
@@ -214,68 +208,105 @@
                 }
             });
 
-            function handleFileSelect(evt) {
-                console.log('In handleFileSelect');
-                var files = evt.target.files; // FileList object
+            // var siofu = new SocketIOFileUpload(socket);
+            // siofu.addEventListener("start", function(event){
+            //     event.file.meta.filetype = event.file.type;
+            // });
 
-                files.forEach (function(f) {
-                    var name = f.name;
-                    var type = f.type;
-                    console.log("Filename: " + name + " , Type: " + type);
-                    siofu.submitFiles(f);
-                });
+            // function handleFileSelect(evt) {
+            //     console.log('In handleFileSelect');
+            //     var files = evt.target.files; // FileList object
 
-                // for (var i = 0; i < files.length; i++) {
-                //     var name = files[i].name;
-                //     var type = files[i].type;
-                //     console.log("Filename: " + name + " , Type: " + type);
-                //     siofu.submitFiles([files[i]]);
-                // }    
+            //     files.forEach (function(f) {
+            //         var name = f.name;
+            //         var type = f.type;
+            //         console.log("Filename: " + name + " , Type: " + type);
+            //         siofu.submitFiles(f);
+            //     });
 
-                // Loop through the FileList and render image files as thumbnails.
-                // for (var i = 0, f; f = files[i]; i++) {
-                //     console.log('In for loop turn ' + i);
-                //     console.log('File name: ' + f.name);
-                //     // Only process image files.
-                //     if (!f.type.match('image.*')) {
-                //         continue;
-                //     }
-                
-                //     var reader = new FileReader();
-                
-                //     // Closure to capture the file information.
-                //     reader.onload = (function(theFile) {
-                //         return function(e) {
-                
-                //             // TODO: Render thumbnail.
-                //             var span = document.createElement('span');
-                //             span.setAttribute('data-ondeleteId', escape(theFile.name));
-                //             span.innerHTML = ['<img id="', escape(theFile.name), '" class="thumb" src="', e.target.result,
-                //             '" title="', escape(theFile.name), '"/>'].join('');
-                //             document.getElementById('list').insertBefore(span, null);
-                
-                //             // TODO: This code will be used later to delete pictures prior to upload
-                //             var del = document.createElement('button');
-                //             del.className = 'btn btn-floating waves-effect waves-light red';
-                //             del.setAttribute('onclick', 'dele("' + escape(theFile.name) + '")')
-                //             del.id = escape(theFile.name) + 'del';
-                //             del.innerHTML = ['<i class="material-icons">clear</i>'];
-                //             document.getElementById('list').insertBefore(del, null);
-                //         };
-                //     })(f);
-                
-                //     // Read in the image file as a data URL.
-                //     reader.readAsArrayBuffer(f);
-                // }
-            }
-            document.getElementById('add_pics').addEventListener('change', handleFileSelect, false);
+            //     // for (var i = 0; i < files.length; i++) {
+            //     //     var name = files[i].name;
+            //     //     var type = files[i].type;
+            //     //     console.log("Filename: " + name + " , Type: " + type);
+            //     //     siofu.submitFiles([files[i]]);
+            //     // }    
 
-            function dele(n) {
-                var d = document.getElementById(n);
-                var d_b = document.getElementById(n + 'del');
-                d.remove();
-                d_b.remove();
-            }
+            //     // Loop through the FileList and render image files as thumbnails.
+            //     // for (var i = 0, f; f = files[i]; i++) {
+            //     //     console.log('In for loop turn ' + i);
+            //     //     console.log('File name: ' + f.name);
+            //     //     // Only process image files.
+            //     //     if (!f.type.match('image.*')) {
+            //     //         continue;
+            //     //     }
+
+            //     //     var reader = new FileReader();
+
+            //     //     // Closure to capture the file information.
+            //     //     reader.onload = (function(theFile) {
+            //     //         return function(e) {
+
+            //     //             // TODO: Render thumbnail.
+            //     //             var span = document.createElement('span');
+            //     //             span.setAttribute('data-ondeleteId', escape(theFile.name));
+            //     //             span.innerHTML = ['<img id="', escape(theFile.name), '" class="thumb" src="', e.target.result,
+            //     //             '" title="', escape(theFile.name), '"/>'].join('');
+            //     //             document.getElementById('list').insertBefore(span, null);
+
+            //     //             // TODO: This code will be used later to delete pictures prior to upload
+            //     //             var del = document.createElement('button');
+            //     //             del.className = 'btn btn-floating waves-effect waves-light red';
+            //     //             del.setAttribute('onclick', 'dele("' + escape(theFile.name) + '")')
+            //     //             del.id = escape(theFile.name) + 'del';
+            //     //             del.innerHTML = ['<i class="material-icons">clear</i>'];
+            //     //             document.getElementById('list').insertBefore(del, null);
+            //     //         };
+            //     //     })(f);
+
+            //     //     // Read in the image file as a data URL.
+            //     //     reader.readAsArrayBuffer(f);
+            //     // }
+            // }
+            // document.getElementById('add_pics').addEventListener('change', handleFileSelect, false);
+
+            // function dele(n) {
+            //     var d = document.getElementById(n);
+            //     var d_b = document.getElementById(n + 'del');
+            //     d.remove();
+            //     d_b.remove();
+            // }
+
+            var uploader = new SocketIOFileClient(socket);
+            var form = document.getElementById('form');
+
+            uploader.on('start', function (fileInfo) {
+                console.log('Start uploading', fileInfo);
+            });
+            uploader.on('stream', function (fileInfo) {
+                console.log('Streaming... sent ' + fileInfo.sent + ' bytes.');
+            });
+            uploader.on('complete', function (fileInfo) {
+                console.log('Upload Complete', fileInfo);
+            });
+            uploader.on('error', function (err) {
+                console.log('Error!', err);
+            });
+            uploader.on('abort', function (fileInfo) {
+                console.log('Aborted: ', fileInfo);
+            });
+
+            form.onsubmit = function (ev) {
+                ev.preventDefault();
+
+                var fileEl = document.getElementById('file');
+                var uploadIds = uploader.upload(fileEl);
+
+                // setTimeout(function() { 
+                // uploader.abort(uploadIds[0]); 
+                // console.log(uploader.getUploadInfo()); 
+                // }, 1000); 
+            };
+
         });
         $(window).scroll(function () {
             if ($(window).scrollTop() + $(window).height() >= $(document).height() * .9) {
