@@ -11,7 +11,7 @@ moment().format('h:mm:ss a');
 
 var chat = require('./chat.js');
 var login = require('./login.js');
-var config = require('./config.js');
+var config = require('./config');
 
 //Discord login with token from dev page
 client.login(config.token);
