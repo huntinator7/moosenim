@@ -74,7 +74,7 @@
         <nav class="top-nav center light-blue" style="height:10vh">
             <!-- <a class="page-title white-text">MoosenIM</a>
             <br> -->
-            <a id="test_button" class="page-title white-text">MoosenIM</a>
+            <a id="test_button" class="button page-title white-text">MoosenIM</a>
         </nav>
         <ul id="nav-mobile" class="side-nav fixed hide-on-med-and-down grey darken-4" style="transform: translateX(0%);">
             <li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>
@@ -209,18 +209,13 @@
             });
             socket.on('roomlist', function (list) {
                 console.log("Received roomlist: " + list);
-                $('#chatrooms').empty();
-                $('#chatrooms').append('<li><h4 style="color:white">Chatrooms</h4></li>');
+                $('#nav-mobile').empty();
+                $('#nav-mobile').append('<li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>');
                 try {
-
                     list.forEach(function (element) {
-                        $('#chatrooms').append('<li><h2 style="color:#6EB7FF">' + element + '</h2></li>');
+                        $('#nav-mobile').append('<li><a style="color: #6EB7FF" href="#!">' + element + '</a></li>');
                     });
-
-                }
-                catch (e) {
-
-                }
+                } catch (e) {}
             });
             socket.on('retreat', function () {
                 console.log("Retreat!");

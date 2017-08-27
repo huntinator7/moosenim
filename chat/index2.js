@@ -63,7 +63,6 @@ io.sockets.on('connection', function (socket) {
     socket.on('associate', function (uid) {
         console.log('Associating ' + uid + ' with ' + socket.id);
         var match;
-        socket.emit('roomlist', getrooms(uid, socket.id));
         //Replace the last entry in online[] with the current socket being checked. Prevents overwrite of multiple devices for single user.
         for (var i = 0; i < online.length; i++) {
             if (online[i].uid == uid) {
@@ -71,7 +70,7 @@ io.sockets.on('connection', function (socket) {
             }
         }
         if (match) {
-            socket.emit('roomlist', getrooms(uid));
+            socket.emit('roomlist', getChatrooms(socket.id));
             console.log('Replacing ' + online[match].sid + ' with ' + socket.id + ', match = ' + match);
             online[match].sid = socket.id;
             //Show the last 10 messages to the user
@@ -223,9 +222,6 @@ function addOnline(un, email, photo, uid, sock, room, allrooms) {
         allrooms: allrooms
     };
     online.push(user);
-    //    console.log('addOnline          Adding ' + un + ', id ' + uid + ', sid ' + sock);
-    //console.log(online);
-    // updateOnline();
 }
 
 // function removeOnline(uid) {
@@ -335,6 +331,12 @@ function getrooms(uid, sid) {
         finally {
             return row.room_id;
         }
+    });
+}
+
+function getChatrooms(sid) {
+    con.query("SELECT name FROM rooms", [], function (error, row) {
+        io.to(sid).emit('roomlist', row);
     });
 }
 
