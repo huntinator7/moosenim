@@ -179,10 +179,10 @@ var con = mysql.createConnection({
 });
 
 //connects to mysql database
-// con.connect(function (err) {
-//     if (err) throw err;
-//     console.log("Connected!");
-// });
+con.connect(function (err) {
+    if (err) throw err;
+    console.log("Connected!");
+});
 
 var connection;
 
