@@ -13,7 +13,7 @@ var chat = require('./chat.js');
 var login = require('./login.js');
 
 //Discord login with token from dev page
-client.login('MzQ5NjY0NDk0MjkwNzMxMDIw.DH9aSA.BsCBfINN4YTwtFzTqHJBQsARDGs');
+client.login('MzQ5NjY0NDk0MjkwNzMxMDIw.DIOilA.d8WYIqNuasmF156FSnY71b2JDuE');
 
 //Login message for Discord
 client.on('ready', () => {
@@ -178,6 +178,12 @@ var con = mysql.createConnection({
     database: "moosenim"
 });
 
+//connects to mysql database
+con.connect(function (err) {
+    if (err) throw err;
+    console.log("Connected!");
+});
+
 var connection;
 
 function handleDisconnect() {
@@ -202,12 +208,6 @@ function handleDisconnect() {
 }
 
 handleDisconnect();
-
-//connects to mysql database
-con.connect(function (err) {
-    if (err) throw err;
-    console.log("Connected!");
-});
 
 var online = [];
 function addOnline(un, email, photo, uid, sock, room, allrooms) {
