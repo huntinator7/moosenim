@@ -74,7 +74,8 @@
         <nav class="top-nav center light-blue" style="height:10vh">
             <!-- <a class="page-title white-text">MoosenIM</a>
             <br> -->
-            <a href="#" data-activates="slide-out" class="button-collapse page-title white-text">MoosenIM</a>
+            <a class="page-title white-text">MoosenIM</a>
+            <a href="#" data-activates="slide-out" class="button-collapse white"><i class="material-icons">menu</i></a>
         </nav>
         <ul id="nav-mobile" class="side-nav fixed hide-on-med-and-down grey darken-4" style="transform: translateX(0%);">
             <li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>
@@ -84,25 +85,12 @@
             <li><a style="color: #6EB7FF" href="#!">David</a></li>
         </ul>
         <ul id="slide-out" class="side-nav">
-            <li>
-                <div class="user-view">
-                    <div class="background">
-                        <img src="images/office.jpg">
-                    </div>
-                    <a href="#!user"><img class="circle" src="images/yuna.jpg"></a>
-                    <a href="#!name"><span class="white-text name">John Doe</span></a>
-                    <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
-                </div>
-            </li>
-            <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
-            <li><a href="#!">Second Link</a></li>
-            <li>
-                <div class="divider"></div>
-            </li>
-            <li><a class="subheader">Subheader</a></li>
-            <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+            <li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>
+            <li><a style="color: #6EB7FF" href="#!">Alvin</a></li>
+            <li><a style="color: #6EB7FF" href="#!">Bruce</a></li>
+            <li><a style="color: #6EB7FF" href="#!">Charles</a></li>
+            <li><a style="color: #6EB7FF" href="#!">David</a></li>
         </ul>
-        <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
         <!-- <ul id="nav-mobile" class="side-nav fixed grey darken-4" style="transform: translateX(0px);">
             <li class="logo"><a id="logo-container" href="http://www.moosen.im/" class="brand-logo">
                 <svg id="front-page-logo" preserveAspectRatio="xMidYMid meet" viewbox="0 0 100 100" data="/images/moosen.svg">Your browser does not support SVG</object></a></li>
@@ -129,19 +117,6 @@
             </div>
         </div>
     </div>
-    <!-- <div class="container">
-    <div class="center row col s12">
-    <img style="height:10vh" src="http://moosen.im/images/banner.png" alt="Mighty Moosen">
-</div>
-</div> -->
-
-    <!-- <div class="container">
-<div class="col hide-on-small-only s2">
-<div class="toc-wrapper pinned">
-<ul class="collection with-header" id="online" style="overflow-x:hidden"></ul>
-</div>
-</div>
-</div> -->
 
     <!-- Socket.io -->
     <script>
@@ -156,7 +131,7 @@
 
 
             //roomList holds an array of all chatrooms a user has access to. 
-            var roomList;
+            // var roomList;
             var userid = "104635400788300812127";
             $('#mform').submit(function () {
                 var message = $('#m').val();
@@ -211,11 +186,14 @@
             socket.on('roomlist', function (list) {
                 console.log("Received roomlist: " + list);
                 $('#nav-mobile').empty();
+                $('#slide-out').empty();
                 $('#nav-mobile').append('<li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>');
+                $('#slide-out').append('<li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>');
                 try {
                     list.forEach(function (element) {
                         console.log(element);
                         $('#nav-mobile').append('<li><a style="color: #6EB7FF" href="#!">' + element.name + '</a></li>');
+                        $('#slide-out').append('<li><a style="color: #6EB7FF" href="#!">' + element.name + '</a></li>');
                     });
                 } catch (e) { }
             });
