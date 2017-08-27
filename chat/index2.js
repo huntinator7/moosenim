@@ -11,9 +11,10 @@ moment().format('h:mm:ss a');
 
 var chat = require('./chat.js');
 var login = require('./login.js');
+var config = require('./config.json');
 
 //Discord login with token from dev page
-client.login('MzQ5NjY0NDk0MjkwNzMxMDIw.DIOilA.d8WYIqNuasmF156FSnY71b2JDuE');
+client.login(config.token);
 
 //Login message for Discord
 client.on('ready', () => {
@@ -23,7 +24,7 @@ client.on('ready', () => {
 //Any time a Discord message is sent, bot checks to see if in moosen-im channel and if not sent by bot. If so, it adds the message to the DB and emits it
 client.on('message', msg => {
     if (msg.channel.id == 329020807487553537 && !(msg.author.bot)) {
-        sendMessage(msg.content, msg.author.username, 1, 2);
+        sendMessage(msg.content, msg.author.username, 1, 1);
         getMessageDiscord(msg.author.username, msg.content, msg.author.avatarURL);
     }
     console.log(msg.author.username + ': ' + msg.content);
@@ -93,7 +94,7 @@ io.sockets.on('connection', function (socket) {
                 un = online[i].name;
                 uid = online[i].uid;
                 curroom = online[i].curroom;
-                if (uid == "114575845000636952047") curroom = 2;
+                // if (uid == "114575845000636952047") curroom = 2;
             }
         }
         console.log('chat message       End result of un: ' + un);
@@ -187,16 +188,17 @@ var connect = {
 var con;
 
 function handleDisconnect() {
-  con = mysql.createConnection(connect); // Recreate the connection, since
-                                                  // the old one cannot be reused.
+  con = mysql.createConnection(connect);            // Recreate the connection, since the old one cannot be reused.
 
-  con.connect(function(err) {              // The server is either down
-    if(err) {                                     // or restarting (takes a while sometimes).
+  con.connect(function(err) {             // The server is either down
+    if(err) {                             // or restarting (takes a while sometimes).
       console.log('error when connecting to db:', err);
       setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
-    }                                     // to avoid a hot loop, and to allow our node script to
-  });                                     // process asynchronous requests in the meantime.
-                                          // If you're also serving http, display a 503 error.
+    } else {                              // to avoid a hot loop, and to allow our node script to
+        console.log("Connected!");        // process asynchronous requests in the meantime.
+    }                                     // If you're also serving http, display a 503 error.
+  });
+
   con.on('error', function(err) {
     console.log('db error', err);
     if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
