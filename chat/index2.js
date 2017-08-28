@@ -45,6 +45,7 @@ app.use("/uploads", express.static(__dirname + '/uploads'));
 //Main socket.io listener
 io.sockets.on('connection', function (socket) {
 
+    console.log(Object.keys(io.sockets.sockets));
     //Login process and recording
     socket.on('login message', function (displayName, email, photoURL, uid) {
         console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id);
