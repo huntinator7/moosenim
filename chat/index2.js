@@ -24,7 +24,13 @@ client.on('ready', () => {
 //Any time a Discord message is sent, bot checks to see if in moosen-im channel and if not sent by bot. If so, it adds the message to the DB and emits it
 client.on('message', msg => {
     if (msg.channel.id == 329020807487553537 && !(msg.author.bot)) {
-        console.log(msg.channel.members);
+        msg.channel.members.forEach(function (element){
+            try {
+                console.log(element.user.id);
+            } catch (e) {
+                console.log('Didn\'t work');
+            }
+        });
         sendMessage(msg.content, msg.author.username, 1, 1);
         getMessageDiscord(msg.author.username, msg.content, msg.author.avatarURL);
         if (msg.attachments) {
@@ -34,7 +40,7 @@ client.on('message', msg => {
                 sendMessage(message, msg.author.username, 1, 1);
                 getMessageDiscord(msg.author.username, message, msg.author.avatarURL);
             } catch (e) {
-                console.log(e);
+                console.log('Message attachment has no url');
             }
         }
         console.log(msg.author.username + ': ' + msg.content);
