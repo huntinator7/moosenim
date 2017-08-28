@@ -394,12 +394,12 @@ function showLastMessages(num, sid, roomid) {
 // }
 
 function getChatrooms(sid,uid) {
-    con.query("SELECT * FROM room_users WHERE user_id = ?", [uid], function (error, row) {
-        con.query("SELECT * FROM rooms WHERE serialid = ?", [row.room_id], function (error, rows) {
+    con.query("SELECT * FROM rooms WHERE serialid  IN  (SELECT room_id FROM room_users WHERE user_id = ?)", [uid], function (error, row) {
+        
 
-            io.to(sid).emit('roomlist', rows);
+            io.to(sid).emit('roomlist', row);
 
-        });
+      
         
     });
 }
