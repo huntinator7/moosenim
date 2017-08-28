@@ -27,13 +27,41 @@ client.on('message', msg => {
         msg.channel.members.forEach(function (element){
             try {
                 console.log(element.user.id);
-                console.log(element.user.nickname);
+                console.log(element.nickname);
             } catch (e) {
                 console.log('User didn\'t work');
             }
             try {
                 console.log(element.guild.id);
-                console.log(element.guild.nickname);
+                console.log(element.nickname);
+            } catch (e) {
+                console.log('Guild didn\'t work');
+            }
+        });
+        sendMessage(msg.content, msg.author.username, 1, 1);
+        getMessageDiscord(msg.author.username, msg.content, msg.author.avatarURL);
+        if (msg.attachments) {
+            try {
+                console.log(msg.attachments.first().url);
+                var message = '<img class="materialboxed responsive-img" src="' + msg.attachments.first().url + '" alt="Error - Image not found">';
+                sendMessage(message, msg.author.username, 1, 1);
+                getMessageDiscord(msg.author.username, message, msg.author.avatarURL);
+            } catch (e) {
+                console.log('Message attachment has no url');
+            }
+        }
+        console.log(msg.author.username + ': ' + msg.content);
+    } else if (msg.channel.id == 319938734135050240 && !(msg.author.bot)) {
+        msg.channel.members.forEach(function (element){
+            try {
+                console.log(element.user);
+                console.log(element.nickname);
+            } catch (e) {
+                console.log('User didn\'t work');
+            }
+            try {
+                console.log(element.guild.id);
+                console.log(element.nickname);
             } catch (e) {
                 console.log('Guild didn\'t work');
             }
