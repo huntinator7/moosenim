@@ -29,8 +29,8 @@ client.on('message', msg => {
         }
         sendMessage(msg.content, msg.author.username, 1, 1);
         getMessageDiscord(msg.author.username, msg.content, msg.author.avatarURL);
+        console.log(msg.author.username + ': ' + msg.content);
     }
-    console.log(msg.author.username + ': ' + msg.content);
 });
 
 //Associating .js files with URLs

@@ -15,7 +15,7 @@
     <script src="socket.io-file-client.js"></script>
     <script src="/socket.io-file-client.js"></script>
     <script src="/socket.io-file/index.js"></script>
-    <source src="horse.mp3" type="audio/mpeg">
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
     <script src="http://player.twitch.tv/js/embed/v1.js"></script>
@@ -131,6 +131,7 @@
         $(function () {
             canAuto = false;
             var socket = io();
+            var audio = new Audio('/sounds/notification.mp3');
 
             //roomList holds an array of all chatrooms a user has access to. 
             // var roomList;
@@ -160,6 +161,7 @@
                 var m = decodeURI(msg);
                 if (document.hidden) {
                     notifyMe(m, pic);
+                    audio.play();
                 }
 
 
