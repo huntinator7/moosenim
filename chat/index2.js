@@ -391,7 +391,7 @@ function showLastMessages(num, sid, roomid) {
 // }
 
 function getChatrooms(sid,uid) {
-    con.query("SELECT * FROM rooms WHERE user_id = ?", [uid], function (error, row) {
+    con.query("SELECT * FROM room_users WHERE user_id = ?", [uid], function (error, row) {
         io.to(sid).emit('roomlist', row);
     });
 }
