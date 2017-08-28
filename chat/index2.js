@@ -27,10 +27,15 @@ client.on('message', msg => {
         sendMessage(msg.content, msg.author.username, 1, 1);
         getMessageDiscord(msg.author.username, msg.content, msg.author.avatarURL);
         if (msg.attachments) {
-            console.log(msg.attachments.first().url);
-            var message = '<img class="materialboxed responsive-img" src="' + msg.attachments.first().url + '" alt="Error - Image not found">';
-            sendMessage(message, msg.author.username, 1, 1);
-            getMessageDiscord(msg.author.username, message, msg.author.avatarURL);
+            try {
+                console.log(msg.attachments.first().url);
+                var message = '<img class="materialboxed responsive-img" src="' + msg.attachments.first().url + '" alt="Error - Image not found">';
+                sendMessage(message, msg.author.username, 1, 1);
+                getMessageDiscord(msg.author.username, message, msg.author.avatarURL);
+            } catch (e) {
+                console.log(e);
+            }
+            
         }
         console.log(msg.author.username + ': ' + msg.content);
     }
@@ -45,7 +50,7 @@ app.use("/uploads", express.static(__dirname + '/uploads'));
 //Main socket.io listener
 io.sockets.on('connection', function (socket) {
 
-    console.log(Object.keys(io.sockets.sockets));
+    console.log('Sockets: ' + Object.keys(io.sockets.sockets));
     //Login process and recording
     socket.on('login message', function (displayName, email, photoURL, uid) {
         console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id);
