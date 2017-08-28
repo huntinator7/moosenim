@@ -165,69 +165,6 @@ io.sockets.on('connection', function (socket) {
             io.emit(getMessage(curroom));
         }
     });
-
-    //getrooms is called when the user logs in, and then returns a roomlist array back to the client. 
-    // socket.on('getrooms', function (uid) {
-    //     console.log("uid for chatrooms is " + uid);
-    //     socket.emit('roomlist', getrooms(uid, socket.id));
-    // });
-
-    // socket.on('getroomnames', function (name) {
-    //     console.log("getroom names: " + name);
-    // });
-
-    //file upload
-    // var uploader = new siofu();
-    // uploader.dir = __dirname + '/uploads';
-    // uploader.listen(socket);
-
-    // uploader.on("start", function(event){
-    //     console.log('Starting upload to ' + event.file.name + ' of type ' + event.file.type + ' to ' + uploader.dir);
-    // });
-    // uploader.on("saved", function(event){
-    //     console.log(event.file.name + ' successfully saved.');
-    //     var user = { name:"AutoMod" };
-    //     user = online.filter(function( obj ) {
-    //         return obj.sid === socket.id;
-    //     })[0];
-    //     var msg = '<img class="materialboxed" style="height:20vh" src="http://moosen.im/chat/uploads/' + event.file.name + '" alt="Mighty Moosen">';
-    //     sendMessage(msg, user.name, uid, curroom);
-    //     io.emit(getMessage(curroom));
-    // });
-
-    //file upload
-    var uploader = new SocketIOFile(socket, {
-        uploadDir: 'uploads',						// simple directory 
-        maxFileSize: 33554432, 						// 32 MB. default is undefined(no limit) 
-        chunkSize: 10240,							// default is 10240(1KB) 
-        transmissionDelay: 0,						// delay of each transmission, higher value saves more cpu resources, lower upload speed. default is 0(no delay) 
-        overwrite: true 							// overwrite file if exists, default is true. 
-    });
-    uploader.on('start', (fileInfo) => {
-        console.log('Start uploading');
-        console.log(fileInfo);
-    });
-    uploader.on('stream', (fileInfo) => {
-        console.log(`${fileInfo.wrote} / ${fileInfo.size} byte(s)`);
-    });
-    uploader.on('complete', (fileInfo) => {
-        console.log('Upload Complete.');
-        console.log(fileInfo);
-        // var user = { name:"AutoMod" };
-        // user = online.filter(function( obj ) {
-        //     return obj.sid === socket.id;
-        // })[0];
-        // var msg = '<img class="materialboxed" style="height:20vh" src="http://moosen.im/chat/uploads/' + event.file.name + '" alt="Mighty Moosen">';
-        // sendMessage(msg, user.name, uid, curroom);
-        // io.emit(getMessage(curroom));
-    });
-    uploader.on('error', (err) => {
-        console.log('Error!', err);
-    });
-    uploader.on('abort', (fileInfo) => {
-        console.log('Aborted: ', fileInfo);
-    });
-
 });
 
 var connect = {
@@ -282,25 +219,6 @@ function addOnline(un, email, photo, uid, sock, room, allrooms) {
     };
     online.push(user);
 }
-
-// function removeOnline(uid) {
-//     console.log('Removing by id ' + uid);
-//     var newonline = online.filter(function( obj ) {
-//         return obj.id !== uid;
-//     });
-//     online = newonline;
-//     updateOnline();
-// }
-//
-// function updateOnline(un, add) {
-//     console.log('updateOnline');
-//     var names = [];
-//     for (var i = 0; i < online.length; i++) {
-//         names.push(online[i].name);
-//         console.log('online: ' + online[i].name);
-//     }
-//     io.emit('update online', names);
-// }
 
 function sendMessage(message, username, uid, chatid) {
     try {
@@ -365,33 +283,6 @@ function showLastMessages(num, sid, roomid) {
         }
     });
 }
-
-//chatrooms are gonna be fun. tl;Dr we need to have a sidebar that displays all chatrooms the user has access to.
-//also have a "create" button for them to create one. as soon as one of these chatrooms is clicked, pull last (x) messages
-//and reload page to show only that user's chatroom.
-
-// function getrooms(uid, sid) {
-//     con.query("SELECT room_id FROM room_users WHERE user_id = ?", [uid], function (error, row) {
-//         try {
-//             row.forEach(function (e) {
-//                 // list.push(e);
-//                 io.to(sid).emit('getroomnames', e.room_id);
-//                 console.log("room id:" + e.room_id);
-//                 con.query("SELECT name FROM rooms WHERE serialid = ?", [e.room_id], function (error, rows) {
-//                     //  io.emit('getroomnames', rows[0].serialid);
-//                 });
-//             });
-//             return row.room_id;
-//         }
-//         catch (exception) {
-//             console.log("getrooms isn't working.");
-//             return null;
-//         }
-//         finally {
-//             return row.room_id;
-//         }
-//     });
-// }
 
 function getChatrooms(sid, uid) {
     con.query("SELECT * FROM rooms WHERE serialid  IN  (SELECT room_id FROM room_users WHERE user_id = ?)", [uid], function (error, row) {
