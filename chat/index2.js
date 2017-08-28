@@ -74,7 +74,7 @@ io.sockets.on('connection', function (socket) {
             }
         }
         if (match) {
-            io.to(socket.id).emit('roomlist', getChatrooms(socket.id));
+            io.to(socket.id).emit('roomlist', getChatrooms(socket.id,uid));
             console.log('Replacing ' + online[match].sid + ' with ' + socket.id + ', match = ' + match);
             online[match].sid = socket.id;
             //Show the last 10 messages to the user
@@ -390,8 +390,8 @@ function showLastMessages(num, sid, roomid) {
 //     });
 // }
 
-function getChatrooms(sid) {
-    con.query("SELECT * FROM rooms", [], function (error, row) {
+function getChatrooms(sid,uid) {
+    con.query("SELECT * FROM rooms WHERE user_id = ?", [uid], function (error, row) {
         io.to(sid).emit('roomlist', row);
     });
 }
