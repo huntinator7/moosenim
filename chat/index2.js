@@ -24,8 +24,8 @@ client.on('ready', () => {
 //Any time a Discord message is sent, bot checks to see if in moosen-im channel and if not sent by bot. If so, it adds the message to the DB and emits it
 client.on('message', msg => {
     if (msg.channel.id == 329020807487553537 && !(msg.author.bot)) {
-        if (message.attachments) {
-            console.log(message.attachments);
+        if (msg.attachments) {
+            console.log(msg.attachments);
         }
         sendMessage(msg.content, msg.author.username, 1, 1);
         getMessageDiscord(msg.author.username, msg.content, msg.author.avatarURL);
@@ -52,7 +52,7 @@ io.sockets.on('connection', function (socket) {
                     if (error) console.log(error);
                 });
             }
-            addOnline(displayName, email, photoURL, uid, socket.id, 1, getrooms(uid, socket.id));
+            addOnline(displayName, email, photoURL, uid, socket.id, 1);//, getrooms(uid, socket.id));
         });
         io.emit('login', displayName, email, photoURL, uid);
     });
@@ -111,8 +111,8 @@ io.sockets.on('connection', function (socket) {
                 sendMessage(msg, un, uid, curroom);
                 io.emit(getMessage(curroom));
                 sendMessage(un + " is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod", uid, curroom);
-            } else if (msg.indexOf("!myrooms") > -1) {
-                sendMessage("your rooms: " + getrooms(uid).toString() + " curroom" + curroom, un, uid, curroom);
+            // } else if (msg.indexOf("!myrooms") > -1) {
+            //     sendMessage("your rooms: " + getrooms(uid).toString() + " curroom" + curroom, un, uid, curroom);
             } else if (msg.indexOf("!pepe") == 0) {
                 sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un)
             } else if (msg.indexOf("nigger") > -1) {
@@ -164,14 +164,14 @@ io.sockets.on('connection', function (socket) {
     });
 
     //getrooms is called when the user logs in, and then returns a roomlist array back to the client. 
-    socket.on('getrooms', function (uid) {
-        console.log("uid for chatrooms is " + uid);
-        socket.emit('roomlist', getrooms(uid, socket.id));
-    });
+    // socket.on('getrooms', function (uid) {
+    //     console.log("uid for chatrooms is " + uid);
+    //     socket.emit('roomlist', getrooms(uid, socket.id));
+    // });
 
-    socket.on('getroomnames', function (name) {
-        console.log("getroom names: " + name);
-    });
+    // socket.on('getroomnames', function (name) {
+    //     console.log("getroom names: " + name);
+    // });
 
     //file upload
     // var uploader = new siofu();
@@ -274,8 +274,8 @@ function addOnline(un, email, photo, uid, sock, room, allrooms) {
         photo: photo,
         email: email,
         sid: sock,
-        curroom: room,
-        allrooms: allrooms
+        curroom: room//,
+        //allrooms: allrooms
     };
     online.push(user);
 }
@@ -367,28 +367,28 @@ function showLastMessages(num, sid, roomid) {
 //also have a "create" button for them to create one. as soon as one of these chatrooms is clicked, pull last (x) messages
 //and reload page to show only that user's chatroom.
 
-function getrooms(uid, sid) {
-    con.query("SELECT room_id FROM room_users WHERE user_id = ?", [uid], function (error, row) {
-        try {
-            row.forEach(function (e) {
-                // list.push(e);
-                io.to(sid).emit('getroomnames', e.room_id);
-                console.log("room id:" + e.room_id);
-                con.query("SELECT name FROM rooms WHERE serialid = ?", [e.room_id], function (error, rows) {
-                    //  io.emit('getroomnames', rows[0].serialid);
-                });
-            });
-            return row.room_id;
-        }
-        catch (exception) {
-            console.log("getrooms isn't working.");
-            return null;
-        }
-        finally {
-            return row.room_id;
-        }
-    });
-}
+// function getrooms(uid, sid) {
+//     con.query("SELECT room_id FROM room_users WHERE user_id = ?", [uid], function (error, row) {
+//         try {
+//             row.forEach(function (e) {
+//                 // list.push(e);
+//                 io.to(sid).emit('getroomnames', e.room_id);
+//                 console.log("room id:" + e.room_id);
+//                 con.query("SELECT name FROM rooms WHERE serialid = ?", [e.room_id], function (error, rows) {
+//                     //  io.emit('getroomnames', rows[0].serialid);
+//                 });
+//             });
+//             return row.room_id;
+//         }
+//         catch (exception) {
+//             console.log("getrooms isn't working.");
+//             return null;
+//         }
+//         finally {
+//             return row.room_id;
+//         }
+//     });
+// }
 
 function getChatrooms(sid) {
     con.query("SELECT * FROM rooms", [], function (error, row) {
