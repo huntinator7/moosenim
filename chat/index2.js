@@ -77,7 +77,7 @@ io.sockets.on('connection', function (socket) {
             }
         }
         if (match) {
-            io.to(socket.id).emit('roomlist', getChatrooms(socket.id,uid));
+            io.to(socket.id).emit('roomlist', getChatrooms(socket.id, uid));
             console.log('Replacing ' + online[match].sid + ' with ' + socket.id + ', match = ' + match);
             online[match].sid = socket.id;
             //Show the last 10 messages to the user
@@ -114,8 +114,8 @@ io.sockets.on('connection', function (socket) {
                 sendMessage(msg, un, uid, curroom);
                 io.emit(getMessage(curroom));
                 sendMessage(un + " is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod", uid, curroom);
-            // } else if (msg.indexOf("!myrooms") > -1) {
-            //     sendMessage("your rooms: " + getrooms(uid).toString() + " curroom" + curroom, un, uid, curroom);
+                // } else if (msg.indexOf("!myrooms") > -1) {
+                //     sendMessage("your rooms: " + getrooms(uid).toString() + " curroom" + curroom, un, uid, curroom);
             } else if (msg.indexOf("!pepe") == 0) {
                 sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un)
             } else if (msg.indexOf("nigger") > -1) {
@@ -246,25 +246,25 @@ var connect = {
 var con;
 
 function handleDisconnect() {
-  con = mysql.createConnection(connect);            // Recreate the connection, since the old one cannot be reused.
+    con = mysql.createConnection(connect);            // Recreate the connection, since the old one cannot be reused.
 
-  con.connect(function(err) {             // The server is either down
-    if(err) {                             // or restarting (takes a while sometimes).
-      console.log('error when connecting to db:', err);
-      setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
-    } else {                              // to avoid a hot loop, and to allow our node script to
-        console.log("Connected!");        // process asynchronous requests in the meantime.
-    }                                     // If you're also serving http, display a 503 error.
-  });
+    con.connect(function (err) {             // The server is either down
+        if (err) {                             // or restarting (takes a while sometimes).
+            console.log('error when connecting to db:', err);
+            setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
+        } else {                              // to avoid a hot loop, and to allow our node script to
+            console.log("Connected!");        // process asynchronous requests in the meantime.
+        }                                     // If you're also serving http, display a 503 error.
+    });
 
-  con.on('error', function(err) {
-    console.log('db error', err);
-    if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
-      handleDisconnect();                         // lost due to either server restart, or a
-    } else {                                      // connnection idle timeout (the wait_timeout
-      throw err;                                  // server variable configures this)
-    }
-  });
+    con.on('error', function (err) {
+        console.log('db error', err);
+        if (err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
+            handleDisconnect();                         // lost due to either server restart, or a
+        } else {                                      // connnection idle timeout (the wait_timeout
+            throw err;                                  // server variable configures this)
+        }
+    });
 }
 
 handleDisconnect();
@@ -393,14 +393,14 @@ function showLastMessages(num, sid, roomid) {
 //     });
 // }
 
-function getChatrooms(sid,uid) {
+function getChatrooms(sid, uid) {
     con.query("SELECT * FROM rooms WHERE serialid  IN  (SELECT room_id FROM room_users WHERE user_id = ?)", [uid], function (error, row) {
-        
 
-            io.to(sid).emit('roomlist', row);
 
-      
-        
+        io.to(sid).emit('roomlist', row);
+
+
+
     });
 }
 
