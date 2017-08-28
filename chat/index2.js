@@ -25,7 +25,7 @@ client.on('ready', () => {
 client.on('message', msg => {
     if (msg.channel.id == 329020807487553537 && !(msg.author.bot)) {
         if (msg.attachments) {
-            console.log(msg.attachments.message);
+            console.log(msg.attachments[0].url);
         }
         sendMessage(msg.content, msg.author.username, 1, 1);
         getMessageDiscord(msg.author.username, msg.content, msg.author.avatarURL);
