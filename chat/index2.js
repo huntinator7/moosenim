@@ -27,8 +27,15 @@ client.on('message', msg => {
         msg.channel.members.forEach(function (element){
             try {
                 console.log(element.user.id);
+                console.log(element.user.nickname);
             } catch (e) {
-                console.log('Didn\'t work');
+                console.log('User didn\'t work');
+            }
+            try {
+                console.log(element.guild.id);
+                console.log(element.guild.nickname);
+            } catch (e) {
+                console.log('Guild didn\'t work');
             }
         });
         sendMessage(msg.content, msg.author.username, 1, 1);
