@@ -58,7 +58,7 @@ client.on('message', msg => {
     if (msg.content === 'show commands') {
         msg.channel.send('Okay'); 
         const filter = m => m.content.startsWith('yes') || m.content.startsWith('no');
-        channel.awaitMessages(filter, { max: 1, time: 60000, errors: ['time'] })
+        msg.channel.awaitMessages(filter, { max: 1, time: 60000, errors: ['time'] })
         .then(function(collected){
             console.log(collected);
             if (collected === 'yes'){
