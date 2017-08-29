@@ -29,9 +29,11 @@ client.on('message', msg => {
                 // console.log(element.user);
                 if (element.nickname) {
                     console.log(`Nickname: ${element.nickname}`);
-                    console.log(`Userame: ${element.username}`);
+                    console.log(`ID: ${element.user.id}`);
+                    console.log(`Userame: ${element.user.username}`);
                 } else {
-                    console.log(`Username: ${element.username}`);
+                    console.log(`ID: ${element.user.id}`);
+                    console.log(`Username: ${element.user.username}`);
                 }
             } catch (e) {
                 console.log('User didn\'t work');
@@ -40,6 +42,7 @@ client.on('message', msg => {
         sendMessage(msg.content, msg.author.username, 1, 1);
         getMessageDiscord(msg.author.username, msg.content, msg.author.avatarURL);
         if (msg.attachments) {
+            console.log(msg.attachments + ' ' + msg.attachments.array().length);
             try {
                 console.log(msg.attachments.first().url);
                 var message = '<img class="materialboxed responsive-img" src="' + msg.attachments.first().url + '" alt="Error - Image not found">';
