@@ -57,7 +57,7 @@ client.on('ready', () => {
 client.on('message', msg => {
     if (msg.content === 'show commands') {
         msg.channel.send('Okay agent 4. Type "rules" for the rules, type "stats" to show your stats, type "create tournament" to create a tournament. Do you need anything else?'); 
-        const filter = m => m.content.equals('yes') || m.content.equals('no');
+        const filter = m => m.content ==='yes' || m.content === 'no';
         msg.channel.awaitMessages(filter, { max: 1, time: 60000, errors: ['time'] })
         .then(function(collected){
             if (collected.first().content === 'yes'){
