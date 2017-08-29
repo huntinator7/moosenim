@@ -23,45 +23,21 @@ client.on('ready', () => {
 
 //Any time a Discord message is sent, bot checks to see if in moosen-im channel and if not sent by bot. If so, it adds the message to the DB and emits it
 client.on('message', msg => {
-    if (msg.channel.id == 329020807487553537 && !(msg.author.bot)) {
-        msg.channel.members.forEach(function (element){
-            try {
-                console.log(element.user.id);
-                console.log(element.nickname);
-            } catch (e) {
-                console.log('User didn\'t work');
-            }
-            try {
-                console.log(element.guild.id);
-                console.log(element.nickname);
-            } catch (e) {
-                console.log('Guild didn\'t work');
-            }
-        });
-        sendMessage(msg.content, msg.author.username, 1, 1);
-        getMessageDiscord(msg.author.username, msg.content, msg.author.avatarURL);
-        if (msg.attachments) {
-            try {
-                console.log(msg.attachments.first().url);
-                var message = '<img class="materialboxed responsive-img" src="' + msg.attachments.first().url + '" alt="Error - Image not found">';
-                sendMessage(message, msg.author.username, 1, 1);
-                getMessageDiscord(msg.author.username, message, msg.author.avatarURL);
-            } catch (e) {
-                console.log('Message attachment has no url');
-            }
-        }
-        console.log(msg.author.username + ': ' + msg.content);
-    } else if (msg.channel.id == 319938734135050240 && !(msg.author.bot)) {
+    if (msg.channel.id == 319938734135050240 && !(msg.author.bot)) {
         msg.channel.members.forEach(function (element){
             try {
                 console.log(element.user);
-                console.log(element.nickname);
+                if (element.nickname) {
+                    console.log(element.nickname);
+                } else {
+                    console.log(element.name);
+                }
             } catch (e) {
                 console.log('User didn\'t work');
             }
             try {
                 console.log(element.guild.id);
-                console.log(element.nickname);
+                console.log(element.name);
             } catch (e) {
                 console.log('Guild didn\'t work');
             }
@@ -81,6 +57,7 @@ client.on('message', msg => {
         console.log(msg.author.username + ': ' + msg.content);
     }
 });
+//329020807487553537
 
 //Associating .js files with URLs
 app.use('/chat/main', chat);

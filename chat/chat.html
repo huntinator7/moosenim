@@ -15,7 +15,7 @@
     <script src="/var/www/html/chat/node_modules/socket.io-file/index.js"></script>
     <script src="/socket.io-file-client.js"></script>
     <script src="/socket.io-file/index.js"></script>
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
     <script src="http://player.twitch.tv/js/embed/v1.js"></script>
@@ -135,6 +135,12 @@
 
             document.getElementById("main").style.display = "inline";
             socket.on('chat message', function (user, msg, time, id, pic) {
+                // if ($('#messages').last().id) {
+
+                // } else {
+
+                // }
+                console.log($('#messages').last().id);
                 document.title = user.substring(0, 3) + ": " + decodeURI(msg);
 
                 var m = decodeURI(msg);
@@ -142,13 +148,14 @@
                     notifyMe(m, pic);
                     audio.play();
                 }
-                $('#messages').append('<li class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
+                $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
                     + user + '</span><p>'
                     + decodeURI(msg) + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
                     + time + '</a></li>');
                 if (canAuto) {
                     window.scrollTo(0, document.body.scrollHeight);
                 }
+
             });
             socket.on('login', function (displayName, email, photoURL, uid) {
                 console.log("logging in " + displayName);
