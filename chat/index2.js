@@ -60,8 +60,8 @@ client.on('message', msg => {
         const filter = m => m.content.startsWith('yes') || m.content.startsWith('no');
         msg.channel.awaitMessages(filter, { max: 1, time: 60000, errors: ['time'] })
         .then(function(collected){
-            console.log(collected.content);
-            if (collected.content === 'yes'){
+            console.log(collected.message.content);
+            if (collected.message.content === 'yes'){
                 msg.channel.send('Yes');
             } else{
                 msg.channel.send('No');
