@@ -56,15 +56,14 @@ client.on('ready', () => {
 
 client.on('message', msg => {
     if (msg.content === 'show commands') {
-        msg.channel.send('Okay'); 
-        const filter = m => m.content.startsWith('yes') || m.content.startsWith('no');
+        msg.channel.send('Okay agent 4. Type "rules" for the rules, type "stats" to show your stats, type "create tournament" to create a tournament. Do you need anything else?'); 
+        const filter = m => m.content.equals('yes') || m.content.equals('no');
         msg.channel.awaitMessages(filter, { max: 1, time: 60000, errors: ['time'] })
         .then(function(collected){
-            console.log(collected.first().content);
             if (collected.first().content === 'yes'){
-                msg.channel.send('Yes');
-            } else{
-                msg.channel.send('No');
+                msg.channel.send('Ughh...come on, can I just suck your ink sprinkler?');
+            } else {
+                msg.channel.send('Okay, thank goodness, being popular is hard work.');
             }
         })
         .catch(collected => console.log(`No response after 1 minute`));
