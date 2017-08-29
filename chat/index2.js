@@ -26,20 +26,15 @@ client.on('message', msg => {
     if (msg.channel.id == 319938734135050240 && !(msg.author.bot)) {
         msg.channel.members.forEach(function (element){
             try {
-                console.log(element.user);
+                // console.log(element.user);
                 if (element.nickname) {
-                    console.log(element.nickname);
+                    console.log(`Nickname: ${element.nickname}`);
+                    console.log(`Userame: ${element.username}`);
                 } else {
-                    console.log(element.name);
+                    console.log(`Username: ${element.username}`);
                 }
             } catch (e) {
                 console.log('User didn\'t work');
-            }
-            try {
-                console.log(element.guild.id);
-                console.log(element.name);
-            } catch (e) {
-                console.log('Guild didn\'t work');
             }
         });
         sendMessage(msg.content, msg.author.username, 1, 1);
