@@ -26,14 +26,8 @@ client.on('message', msg => {
     if (msg.channel.id == 329020807487553537 && !(msg.author.bot)) {
         msg.channel.members.forEach(function (element){
             try {
-                // console.log(element.user);
-                if (element.nickname) {
-                    console.log(`Nickname: ${element.nickname}`);
-                    console.log(`ID: ${element.user.id}`);
-                } else {
-                    console.log(`Username: ${element.user.username}`);
-                    console.log(`ID: ${element.user.id}`);
-                }
+                console.log(`Username: ${element.displayName}`);
+                console.log(`ID: ${element.user.id}`);
             } catch (e) {
                 console.log('User didn\'t work');
             }
