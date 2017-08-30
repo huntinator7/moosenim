@@ -178,8 +178,8 @@
                 try {
                     list.forEach(function (element) {
                         console.log(element);
-                        $('#nav-mobile').append(`<li><a id ="room${element.serialid}" style="color: #6EB7FF" ">${element.name}</a></li>`);
-                        $('#slide-out').append(`<li><a id ="room${element.serialid}" style="color: #6EB7FF" ">${element.name}</a></li>`);
+                        $('#nav-mobile').append(`<li><a id ="room${element.serialid}" style="color: #6EB7FF">${element.name}</a></li>`);
+                        $('#slide-out').append(`<li><a id ="room${element.serialid}" style="color: #6EB7FF">${element.name}</a></li>`);
                         $(`#room${element.serialid}`).click(changeroom(element.id));
                     });
                     
