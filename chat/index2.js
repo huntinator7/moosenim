@@ -286,6 +286,7 @@ function showLastMessages(num, sid, roomid) {
                 con.query("SELECT * FROM users WHERE users.name = ?", [element.username], function (error, row) {
                     if (row[0]) {
                         io.to(sid).emit('chat message', element.username, element.message, element.timestamp, element.id, row[0].profpic);
+                        io.to(sid).emit('loadroom', 1, 1);
                     } else {
                         io.to(sid).emit('chat message', element.username, element.message, element.timestamp, element.id, "http://www.moosen.im/images/favicon.png");
                     }
