@@ -104,7 +104,7 @@ io.sockets.on('connection', function (socket) {
         showLastMessages(11, socket.id, roomid)
     });
     //Generic message emit
-    socket.on('chat message', function (msg,roomid) {
+    socket.on('chat message', function (msg, roomid) {
         console.log('socket.rooms: ' + Object.keys(socket.rooms) + ' END');
         var un = 'Error - Username Not Found';
         var uid;
@@ -239,12 +239,12 @@ function addOnline(un, email, photo, uid, sock, room, allrooms) {
 
 function sendMessage(message, username, uid, chatid) {
     try {
-        con.query("INSERT INTO messages (message, username, timestamp,chatroom_id,uid) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'),?,?)", [message, username, chatid, uid], function (error, results) {
+        con.query("INSERT INTO messages (message, username, timestamp, chatroom_id, uid) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'), ?, ?)", [message, username, chatid, uid], function (error, results) {
             if (error) throw error;
         });
     }
     catch (Exception) {
-        con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?,TIME_FORMAT(CURTIME(), '%h:%i:%s %p'))", ["error", username], function (error, results) {
+        con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'))", ["error", username], function (error, results) {
             if (error) throw error;
         });
     }
