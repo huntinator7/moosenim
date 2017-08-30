@@ -184,9 +184,9 @@
 
             $('#nav-mobile').on('click', 'a', function() {
                 console.log('Element in nav-mobile clicked');
-                // $('#messages').empty();
+                 $('#messages').empty();
                 console.log($(this.attributes.room).val());
-                // io.emit('changerooms', id);
+                io.emit('changerooms', $(this.attributes.room).val());
             });
 
             // function changeroom(id) {
