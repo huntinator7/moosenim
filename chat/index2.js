@@ -176,7 +176,7 @@ io.sockets.on('connection', function (socket) {
                 }
             } else {
                 console.log('In chat message, curroom: ' + curroom + ' roomid: ' + roomid);
-                sendMessage(msg, un, uid, curroom);
+                sendMessage(msg, un, uid, roomid);
             }
             io.emit(getMessage(curroom));
         }
