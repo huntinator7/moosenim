@@ -175,14 +175,14 @@
                 try {
                     list.forEach(function (element) {
                         console.log(element);
-                        $('#nav-mobile').append(`<li><a id="room" class="button waves-effect" room="${element.serialid}" style="color: #6EB7FF">${element.name}</a></li>`);
-                        $('#slide-out').append(`<li><a id="room" class="button waves-effect" room="${element.serialid}" style="color: #6EB7FF">${element.name}</a></li>`);
+                        $('#nav-mobile').append(`<li><a id="rooms" class="button waves-effect" room="${element.serialid}" style="color: #6EB7FF">${element.name}</a></li>`);
+                        $('#slide-out').append(`<li><a id="rooms" class="button waves-effect" room="${element.serialid}" style="color: #6EB7FF">${element.name}</a></li>`);
                     });
                     
                 } catch (e) { }
             });
 
-            $('#room').on(click, function() {
+            $('#nav-mobile').on('click', 'button', function() {
                 console.log('Element in nav-mobile clicked');
                 // $('#messages').empty();
                 console.log($('#room').attr('room'));
