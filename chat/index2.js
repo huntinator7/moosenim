@@ -104,10 +104,9 @@ io.sockets.on('connection', function (socket) {
         showLastMessages(11, socket.id, roomid)
     });
     //Generic message emit
-    socket.on('chat message', function (msg, roomid) {
+    socket.on('chat message', function (msg, curroom) {
         var un = 'Error - Username Not Found';
         var uid;
-        var curroom = roomid;
         console.log('chat message       socket.id: ' + socket.id);
         for (var i = 0; i < online.length; i++) {
             console.log(i + ': ' + online[i].sid);
@@ -175,8 +174,8 @@ io.sockets.on('connection', function (socket) {
                     sendMessage(newmsg, un, uid, curroom);
                 }
             } else {
-                console.log('In chat message, curroom: ' + curroom + ' roomid: ' + roomid);
-                sendMessage(msg, un, uid, roomid);
+                console.log('In chat message, curroom: ' + curroom);
+                sendMessage(msg, un, uid, curroom);
             }
             io.emit(getMessage(curroom));
         }
