@@ -256,11 +256,11 @@ function getMessage(chatid) {
         if (error) throw error;
         con.query("SELECT * FROM users WHERE users.name = ?", [rows[0].username], function (error, row) {
             if (row.length < 1) {
-                io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id, "http://www.moosen.im/images/favicon.png");
+                io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id, "http://www.moosen.im/images/favicon.png",rows[0].chatroom_id);
                 //send to Discord
                 client.channels.get('329020807487553537').send(rows[0].username + ': ' + decodeURI(rows[0].message));
             } else {
-                io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id, row[0].profpic);
+                io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id, row[0].profpic, rows[0].chatroom_id);
                 //send to Discord
                 client.channels.get('329020807487553537').send(rows[0].username + ': ' + decodeURI(rows[0].message));
             }
