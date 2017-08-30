@@ -182,10 +182,10 @@
                 } catch (e) { }
             });
 
-            $('#nav-mobile').on('click', 'a', 'room', function() {
+            $('#nav-mobile').on('click', 'a', function() {
                 console.log('Element in nav-mobile clicked');
                 // $('#messages').empty();
-                console.log(room);
+                console.log($(this.room));
                 // io.emit('changerooms', id);
             });
 
