@@ -176,7 +176,7 @@ io.sockets.on('connection', function (socket) {
                 }
             }
             else if (msg.indexOf("!motd") > -1) {
-                io.emit('motd update', msg.substring(4, msg.length - 1));
+                io.emit('motd update', msg.substring(5, msg.length));
             }
                 else {
                 console.log('In chat message, curroom: ' + curroom);
