@@ -131,7 +131,7 @@ io.sockets.on('connection', function (socket) {
                 // } else if (msg.indexOf("!myrooms") > -1) {
                 //     sendMessage("your rooms: " + getrooms(uid).toString() + " curroom" + curroom, un, uid, curroom);
             } else if (msg.indexOf("!pepe") == 0) {
-                sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un)
+                sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un, uid, curroom)
             } else if (msg.indexOf("nigger") > -1) {
                 var newmsg = msg.replace("nigger", "Basketball American");
                 sendMessage(newmsg, un + ', casual racist', uid, curroom);
@@ -148,7 +148,7 @@ io.sockets.on('connection', function (socket) {
                 var ind = msg.search(/youtu\.be\//);
                 var res = msg.substring(ind + 9, ind + 20);
                 var newmsg = '<div class="video-container"><iframe width="100%" src="//www.youtube.com/embed/' + res + '?rel=0" frameborder="0" allowfullscreen></iframe></div>';
-                sendMessage(newmsg, un, curroom);
+                sendMessage(newmsg, un, uid,curroom);
             } else if (/\S*twitch\.tv\S*/.test(msg)) {
                 console.log('Is Twitch message');
                 if (/\S*clips\S*/.test(msg)) { // Twitch clips
