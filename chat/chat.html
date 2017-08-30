@@ -117,6 +117,7 @@
                 var message = $('#m').val();
                 message = message.replace(/</g, '&lt;');
                 message = message.replace(/>/g, '&gt;');
+                console.log('curroom: ' + curroom);
                 socket.emit('chat message', encodeURI(message), curroom);
                 $('#m').val('');
                 return false;
@@ -187,7 +188,6 @@
                 console.log('Element in nav-mobile clicked');
                  $('#messages').empty();
                  curroom = $(this.attributes.room).val();
-                 console.log('curroom: ' + curroom);
                  socket.emit('changerooms', $(this.attributes.room).val());
             });
 
