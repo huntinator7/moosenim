@@ -262,7 +262,7 @@ function getMessage(chatid) {
                 //send to Discord
                 client.channels.get('319938734135050240').send(rows[0].username + ': ' + decodeURI(rows[0].message));
             } else {
-                io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id, row[0].profpic, rows[0].chatroom_id);
+                io.emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, row[0].profpic, rows[0].chatroom_id);
                 //send to Discord
                 client.channels.get('319938734135050240').send(rows[0].username + ': ' + decodeURI(rows[0].message));
             }
