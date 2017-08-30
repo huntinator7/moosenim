@@ -105,6 +105,7 @@ io.sockets.on('connection', function (socket) {
     });
     //Generic message emit
     socket.on('chat message', function (msg) {
+        console.log(Objects.keys(socket.rooms));
         var un = 'Error - Username Not Found';
         var uid;
         var curroom;
