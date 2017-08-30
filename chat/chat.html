@@ -155,6 +155,7 @@
                         + time + '</a></li>');
                     } catch (e) {
                         console.log(`Error decoding ${msg}`);
+                        msg = msg.replace(/%20/g, ' ');
                         document.title = user.substring(0, 3) + ": " + msg.substring(0, 10);
                         if (document.hidden) {
                             notifyMe(msg, pic);
