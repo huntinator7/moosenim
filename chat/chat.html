@@ -134,6 +134,7 @@
 
             document.getElementById("main").style.display = "inline";
             socket.on('chat message', function (user, msg, time, id, pic, room) {
+                console.log('Received chat message');
                 // if ($('#messages').last().id) {
 
                 // } else {
@@ -153,6 +154,7 @@
                         + user + '</span><p>'
                         + decodeURI(msg) + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
                         + time + '</a></li>');
+                        console.log('No error decoding message');
                     } catch (e) {
                         console.log(`Error decoding ${msg}`);
                         var m = msg.replace(/%20/g, ' ');
