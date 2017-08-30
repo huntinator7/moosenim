@@ -174,7 +174,11 @@ io.sockets.on('connection', function (socket) {
                     console.log(newmsg);
                     sendMessage(newmsg, un, uid, curroom);
                 }
-            } else {
+            }
+            else if (msg.indexOf("!motd") > -1) {
+                io.emit('motd update', msg.substring(4, msg.length - 1));
+            }
+                else {
                 console.log('In chat message, curroom: ' + curroom);
                 sendMessage(msg, un, uid, curroom);
             }
