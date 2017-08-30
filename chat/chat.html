@@ -127,7 +127,7 @@
 
             $(document).ready(function () {
                 var res = window.location.href.substring(31);
-                //  console.log(res);
+                console.log("cookie: " + document.cookie);
                 socket.emit('associate', res);
                 $(".button-collapse").sideNav();
                 $('.collapsible').collapsible();
