@@ -108,15 +108,15 @@ io.sockets.on('connection', function (socket) {
         var un = 'Error - Username Not Found';
         var uid;
         console.log('chat message       socket.id: ' + socket.id);
-        // for (var i = 0; i < online.length; i++) {
-        //     console.log(i + ': ' + online[i].sid);
-        //     if (online[i].sid == socket.id) {
-        //         console.log("New message from " + online[i].name);
-        //         un = online[i].name;
-        //         uid = online[i].uid;
-        //         curroom = online[i].curroom;
-        //     }
-        // }
+        for (var i = 0; i < online.length; i++) {
+            console.log(i + ': ' + online[i].sid);
+            if (online[i].sid == socket.id) {
+                console.log("New message from " + online[i].name);
+                un = online[i].name;
+                uid = online[i].uid;
+                // curroom = online[i].curroom;
+            }
+        }
         if (un == 'Error - Username Not Found') {
             io.to(socket.id).emit('retreat');
             console.log('Retreating ' + socket.id);
