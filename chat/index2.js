@@ -299,6 +299,28 @@ function showLastMessages(num, sid, roomid) {
     });
 }
 
+function showLastMessages(num, sid, roomid) {
+    con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [roomid, num], function (error, rows, results) {
+        console.log("Getting messages...");
+        if (error) throw error;
+        try {
+            rows.forEach(function (element) {
+                con.query("SELECT * FROM users WHERE users.name = ?", [element.username], function (error, row) {
+                    if (row[0]) {
+                        io.to(sid).emit('chat message', element.username, element.message, element.timestamp, element.id, row[0].profpic);
+                        
+                    } else {
+                        io.to(sid).emit('chat message', element.username, element.message, element.timestamp, element.id, "http://www.moosen.im/images/favicon.png");
+                    }
+                });
+            });
+        }
+        catch (e) {
+            console.log("last message isn't working.");
+        }
+    });
+}
+
 function getChatrooms(sid, uid) {
     con.query("SELECT * FROM rooms WHERE serialid  IN  (SELECT room_id FROM room_users WHERE user_id = ?)", [uid], function (error, row) {
 
