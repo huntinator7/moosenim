@@ -100,7 +100,7 @@ io.sockets.on('connection', function (socket) {
             io.to(socket.id).emit('retreat');
         }
     });
-
+    socket.on('changerooms',showLastMessages(11, socket.id, roomid));
     //Generic message emit
     socket.on('chat message', function (msg) {
         var un = 'Error - Username Not Found';
@@ -306,6 +306,9 @@ function getChatrooms(sid, uid) {
 
     });
 }
+
+
+
 
 function createChatroom(n, uid) {
     var roomid;
