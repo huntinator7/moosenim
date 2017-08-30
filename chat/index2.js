@@ -58,7 +58,7 @@ app.use("/uploads", express.static(__dirname + '/uploads'));
 //Main socket.io listener
 io.sockets.on('connection', function (socket) {
 
-    console.log('Sockets: ' + Object.keys(io.sockets.sockets));
+    // console.log('Sockets: ' + Object.keys(io.sockets.sockets));
     //Login process and recording
     socket.on('login message', function (displayName, email, photoURL, uid) {
         console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id);
@@ -105,7 +105,6 @@ io.sockets.on('connection', function (socket) {
     });
     //Generic message emit
     socket.on('chat message', function (msg, roomid) {
-        console.log('socket.rooms: ' + Object.keys(socket.rooms) + ' END');
         var un = 'Error - Username Not Found';
         var uid;
         var curroom = roomid;
@@ -113,18 +112,17 @@ io.sockets.on('connection', function (socket) {
         for (var i = 0; i < online.length; i++) {
             console.log(i + ': ' + online[i].sid);
             if (online[i].sid == socket.id) {
-                console.log("New message from " + online[i].name + ", pictureUrl: " + online[i].photo);
+                console.log("New message from " + online[i].name);
                 un = online[i].name;
                 uid = online[i].uid;
                 curroom = online[i].curroom;
             }
         }
-        console.log('chat message       End result of un: ' + un);
         if (un == 'Error - Username Not Found') {
             io.to(socket.id).emit('retreat');
             console.log('Retreating ' + socket.id);
         } else {
-            console.log('chat message       un: ' + un + ' | message: ' + msg);
+            console.log('message: ' + msg);
             if (msg.indexOf("lag") > -1) {
                 sendMessage("I love Rick Astley!", 'notch',uid,curroom);
             } else if (msg.indexOf("*autistic screeching*") > -1) {
@@ -238,6 +236,7 @@ function addOnline(un, email, photo, uid, sock, room, allrooms) {
 }
 
 function sendMessage(message, username, uid, chatid) {
+    console.log('In sendMessage, chatid: ' + chatid);
     try {
         con.query("INSERT INTO messages (message, username, timestamp, chatroom_id, uid) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'), ?, ?)", [message, username, chatid, uid], function (error, results) {
             if (error) throw error;
@@ -282,7 +281,7 @@ function updatechat(roomid) {
 
 function showLastMessages(num, sid, roomid) {
     con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [roomid, num], function (error, rows, results) {
-        console.log("Getting messages...");
+        // console.log("Getting messages...");
         if (error) throw error;
         try {
             rows.forEach(function (element) {
