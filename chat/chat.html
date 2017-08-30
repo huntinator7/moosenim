@@ -118,7 +118,7 @@
                 message = message.replace(/</g, '&lt;');
                 message = message.replace(/>/g, '&gt;');
                 console.log('curroom: ' + curroom);
-                socket.emit('chat message', encodeURIComponent(message), curroom);
+                socket.emit('chat message', message, curroom);
                 $('#m').val('');
                 return false;
             });
@@ -143,32 +143,15 @@
 
                 // console.log($('#messages').last());
                 if (curroom == room) {
-                    try {
-                        document.title = user.substring(0, 3) + ": " + decodeURIComponent(msg.substring(0, 10));
-                        var m = decodeURIComponent(msg);
-                        if (document.hidden) {
-                            notifyMe(m, pic);
-                            audio.play();
-                        }
-                        $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
-                        + user + '</span><p>'
-                        + decodeURIComponent(msg) + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
-                        + time + '</a></li>');
-                        console.log('No error decoding message');
-                    } catch (e) {
-                        console.log(`Error decoding ${msg}`);
-                        var m = msg.replace(/%20/g, ' ');
-                        console.log(`Now using m: ${m}`);
-                        document.title = user.substring(0, 3) + ": " + m.substring(0, 10);
-                        if (document.hidden) {
-                            notifyMe(m, pic);
-                            audio.play();
-                        }
-                        $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
-                        + user + '</span><p>'
-                        + m + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
-                        + time + '</a></li>');
+                    document.title = user.substring(0, 3) + ": " + msg.substring(0, 10);
+                    if (document.hidden) {
+                        notifyMe(msg, pic);
+                        audio.play();
                     }
+                    $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
+                    + user + '</span><p>'
+                    + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
+                    + time + '</a></li>');
                     if (canAuto) {
                         window.scrollTo(0, document.body.scrollHeight);
                     }

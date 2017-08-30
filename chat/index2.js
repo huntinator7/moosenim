@@ -238,8 +238,9 @@ function addOnline(un, email, photo, uid, sock, room, allrooms) {
 
 function sendMessage(message, username, uid, chatid) {
     console.log(`In sendMessage, chatid: ${chatid}\nmsg: ${message}`);
+    var msg = encodeURI(message);
     try {
-        con.query("INSERT INTO messages (message, username, timestamp, chatroom_id, uid) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'), ?, ?)", [message, username, chatid, uid], function (error, results) {
+        con.query("INSERT INTO messages (message, username, timestamp, chatroom_id, uid) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'), ?, ?)", [msg, username, chatid, uid], function (error, results) {
             if (error) throw error;
         });
     }
@@ -257,7 +258,7 @@ function getMessage(chatid) {
         if (error) throw error;
         con.query("SELECT * FROM users WHERE users.name = ?", [rows[0].username], function (error, row) {
             if (row.length < 1) {
-                io.emit('chat message', rows[0].username, rows[0].message, rows[0].timestamp, rows[0].id, "http://www.moosen.im/images/favicon.png", rows[0].chatroom_id);
+                io.emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, "http://www.moosen.im/images/favicon.png", rows[0].chatroom_id);
                 //send to Discord
                 client.channels.get('319938734135050240').send(rows[0].username + ': ' + decodeURI(rows[0].message));
             } else {
@@ -270,7 +271,7 @@ function getMessage(chatid) {
 }
 
 function getMessageDiscord(un, msg, pic) {
-    io.emit('chat message', un, msg, moment().format('h:mm:ss a'), 0, pic, 1);
+    io.emit('chat message', un, decodeURI(msg), moment().format('h:mm:ss a'), 0, pic, 1);
 }
 
 //should be called when a user clicks on a different chatroom
@@ -288,10 +289,10 @@ function showLastMessages(num, sid, roomid) {
             rows.forEach(function (element) {
                 con.query("SELECT * FROM users WHERE users.name = ?", [element.username], function (error, row) {
                     if (row[0]) {
-                        io.to(sid).emit('chat message', element.username, element.message, element.timestamp, element.id, row[0].profpic, element.chatroom_id);
+                        io.to(sid).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, row[0].profpic, element.chatroom_id);
                         
                     } else {
-                        io.to(sid).emit('chat message', element.username, element.message, element.timestamp, element.id, "http://www.moosen.im/images/favicon.png", element.chatroom_id);
+                        io.to(sid).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, "http://www.moosen.im/images/favicon.png", element.chatroom_id);
                     }
                 });
             });
