@@ -123,7 +123,7 @@ io.sockets.on('connection', function (socket) {
         } else {
             console.log('chat message       un: ' + un + ' | message: ' + msg);
             if (msg.indexOf("lag") > -1) {
-                sendMessage("I love Rick Astley!", 'notch');
+                sendMessage("I love Rick Astley!", 'notch',uid,curroom);
             } else if (msg.indexOf("*autistic screeching*") > -1) {
                 sendMessage(msg, un, uid, curroom);
                 io.emit(getMessage(curroom));
@@ -286,7 +286,7 @@ function showLastMessages(num, sid, roomid) {
                 con.query("SELECT * FROM users WHERE users.name = ?", [element.username], function (error, row) {
                     if (row[0]) {
                         io.to(sid).emit('chat message', element.username, element.message, element.timestamp, element.id, row[0].profpic);
-                        io.to(sid).emit('loadroom', 1, 1);
+                        
                     } else {
                         io.to(sid).emit('chat message', element.username, element.message, element.timestamp, element.id, "http://www.moosen.im/images/favicon.png");
                     }
@@ -302,10 +302,7 @@ function showLastMessages(num, sid, roomid) {
 function getChatrooms(sid, uid) {
     con.query("SELECT * FROM rooms WHERE serialid  IN  (SELECT room_id FROM room_users WHERE user_id = ?)", [uid], function (error, row) {
 
-
         io.to(sid).emit('roomlist', row);
-
-
 
     });
 }
