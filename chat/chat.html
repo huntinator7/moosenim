@@ -112,11 +112,12 @@
 
             //roomList holds an array of all chatrooms a user has access to. 
             // var roomList;
+            var curroom = 1;
             $('#mform').submit(function () {
                 var message = $('#m').val();
                 message = message.replace(/</g, '&lt;');
                 message = message.replace(/>/g, '&gt;');
-                socket.emit('chat message', encodeURI(message));
+                socket.emit('chat message', encodeURI(message),curroom);
                 $('#m').val('');
                 return false;
             });
@@ -185,7 +186,7 @@
             $('#nav-mobile').on('click', 'a', function() {
                 console.log('Element in nav-mobile clicked');
                  $('#messages').empty();
-                 console.log($(this.attributes.room).val());
+                 curroom = $(this.attributes.room).val();
                  socket.emit('changerooms', $(this.attributes.room).val());
             });
 

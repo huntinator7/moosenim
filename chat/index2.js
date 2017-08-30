@@ -104,11 +104,11 @@ io.sockets.on('connection', function (socket) {
         showLastMessages(11, socket.id, roomid)
     });
     //Generic message emit
-    socket.on('chat message', function (msg) {
+    socket.on('chat message', function (msg,roomid) {
         console.log('socket.rooms: ' + Object.keys(socket.rooms) + ' END');
         var un = 'Error - Username Not Found';
         var uid;
-        var curroom;
+        var curroom = roomid;
         console.log('chat message       socket.id: ' + socket.id);
         for (var i = 0; i < online.length; i++) {
             console.log(i + ': ' + online[i].sid);
