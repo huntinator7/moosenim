@@ -204,6 +204,14 @@ var connect = {
 
 var con;
 
+
+
+function getMotd(roomid) {
+    con.query('SELECT * FROM rooms WHERE serialid = ?', [roomid], function (error, row) {
+        return row[0].roomid;
+    });
+}
+
 function handleDisconnect() {
     con = mysql.createConnection(connect);            // Recreate the connection, since the old one cannot be reused.
 
@@ -289,6 +297,7 @@ function updatechat(roomid) {
 
 function showLastMessages(num, sid, roomid) {
     con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [roomid, num], function (error, rows, results) {
+        io.to(sid).emit('motd update', getMotd(roomid));
         // console.log("Getting messages...");
         if (error) throw error;
         try {
@@ -296,6 +305,7 @@ function showLastMessages(num, sid, roomid) {
                 con.query("SELECT * FROM users WHERE users.name = ?", [element.username], function (error, row) {
                     if (row[0]) {
                         io.to(sid).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, row[0].profpic, element.chatroom_id);
+                       
                         
                     } else {
                         io.to(sid).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, "http://www.moosen.im/images/favicon.png", element.chatroom_id);
