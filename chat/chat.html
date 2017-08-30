@@ -142,17 +142,29 @@
 
                 // console.log($('#messages').last());
                 if (curroom == room) {
-                    document.title = user.substring(0, 3) + ": " + decodeURI(msg.substring(0, 10));
-
-                    var m = decodeURI(msg);
-                    if (document.hidden) {
-                        notifyMe(m, pic);
-                        audio.play();
-                    }
-                    $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
+                    try {
+                        document.title = user.substring(0, 3) + ": " + decodeURI(msg.substring(0, 10));
+                        var m = decodeURI(msg);
+                        if (document.hidden) {
+                            notifyMe(m, pic);
+                            audio.play();
+                        }
+                        $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
                         + user + '</span><p>'
                         + decodeURI(msg) + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
                         + time + '</a></li>');
+                    } catch (e) {
+                        console.log(`Error decoding ${msg}`);
+                        document.title = user.substring(0, 3) + ": " + msg.substring(0, 10);
+                        if (document.hidden) {
+                            notifyMe(msg, pic);
+                            audio.play();
+                        }
+                        $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
+                        + user + '</span><p>'
+                        + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
+                        + time + '</a></li>');
+                    }
                     if (canAuto) {
                         window.scrollTo(0, document.body.scrollHeight);
                     }
