@@ -155,10 +155,11 @@
                         + time + '</a></li>');
                     } catch (e) {
                         console.log(`Error decoding ${msg}`);
-                        msg = msg.replace(/%20/g, ' ');
-                        document.title = user.substring(0, 3) + ": " + msg.substring(0, 10);
+                        var m = msg.replace(/%20/g, ' ');
+                        console.log(`Now using m: ${m}`);
+                        document.title = user.substring(0, 3) + ": " + m.substring(0, 10);
                         if (document.hidden) {
-                            notifyMe(msg, pic);
+                            notifyMe(m, pic);
                             audio.play();
                         }
                         $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
