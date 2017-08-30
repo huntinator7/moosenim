@@ -133,29 +133,30 @@
             });
 
             document.getElementById("main").style.display = "inline";
-            socket.on('chat message', function (user, msg, time, id, pic) {
+            socket.on('chat message', function (user, msg, time, id, pic, room) {
                 // if ($('#messages').last().id) {
 
                 // } else {
 
                 // }
-              
+
                 // console.log($('#messages').last());
-                document.title = user.substring(0, 3) + ": " + decodeURI(msg.substring(0,10));
+                document.title = user.substring(0, 3) + ": " + decodeURI(msg.substring(0, 10));
 
                 var m = decodeURI(msg);
                 if (document.hidden) {
                     notifyMe(m, pic);
                     audio.play();
                 }
-                $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
-                    + user + '</span><p>'
-                    + decodeURI(msg) + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
-                    + time + '</a></li>');
-                if (canAuto) {
-                    window.scrollTo(0, document.body.scrollHeight);
+                if (curroom == room) {
+                    $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
+                        + user + '</span><p>'
+                        + decodeURI(msg) + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
+                        + time + '</a></li>');
+                    if (canAuto) {
+                        window.scrollTo(0, document.body.scrollHeight);
+                    }
                 }
-
             });
             socket.on('login', function (displayName, email, photoURL, uid) {
                 console.log("logging in " + displayName);
@@ -180,22 +181,22 @@
                         $('#nav-mobile').append(`<li><a id="rooms" class="button waves-effect" room="${element.serialid}" style="color: #6EB7FF">${element.name}</a></li>`);
                         $('#slide-out').append(`<li><a id="rooms" class="button waves-effect" room="${element.serialid}" style="color: #6EB7FF">${element.name}</a></li>`);
                     });
-                    
+
                 } catch (e) { }
             });
 
-            $('#nav-mobile').on('click', 'a', function() {
+            $('#nav-mobile').on('click', 'a', function () {
                 console.log('Element in nav-mobile clicked');
-                 $('#messages').empty();
-                 curroom = $(this.attributes.room).val();
-                 socket.emit('changerooms', $(this.attributes.room).val());
+                $('#messages').empty();
+                curroom = $(this.attributes.room).val();
+                socket.emit('changerooms', $(this.attributes.room).val());
             });
 
             // function changeroom(id) {
             //     $('#messages').empty();
             //     io.emit('changerooms', id);
             // }
-          
+
             //called when a chatroom is clicked in the sidebar. 
             socket.on('loadroom', function (roomid, roomname) {
                 $('#messages').empty();
