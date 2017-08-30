@@ -117,8 +117,8 @@
             // var roomList;
             $('#mform').submit(function () {
                 var message = $('#m').val();
-                // message = message.replace(/</g, '&lt;');
-                // message = message.replace(/>/g, '&gt;');
+                message = message.replace(/</g, '&lt;');
+                message = message.replace(/>/g, '&gt;');
                 socket.emit('chat message', encodeURI(message));
                 $('#m').val('');
                 return false;
