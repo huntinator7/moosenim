@@ -176,7 +176,9 @@ io.sockets.on('connection', function (socket) {
                 }
             }
             else if (msg.indexOf("!motd") > -1) {
-                io.emit('motd update', msg.substring(5, msg.length));
+                var newmsg = msg.substring(5, msg.length);
+                io.emit('motd update', newmsg);
+                con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [newmsg, curroom], function (error) { if (error) throw error; });
             }
                 else {
                 console.log('In chat message, curroom: ' + curroom);
