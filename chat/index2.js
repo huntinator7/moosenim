@@ -208,7 +208,8 @@ var con;
 
 function getMotd(roomid) {
     con.query('SELECT * FROM rooms WHERE serialid = ?', [roomid], function (error, row) {
-        return row[0].roomid;
+        console.log("motd is" + row[0].motd);
+        return row[0].motd;
     });
 }
 
