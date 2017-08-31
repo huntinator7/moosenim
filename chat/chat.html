@@ -93,7 +93,7 @@
     <div id="main">
         <div class="row" id="center-container" style="padding-top:5vh;">
             <div class="col s12" id="motd" style="color:black; background-color:white;  text-align: center;"> MOTD div </div>
-            <div class="col s12"style="height:750px;overflow:scroll">
+            <div class="col s12" id="box "style="height:750px;overflow:scroll">
                 <ul class="collection with-header" id="messages" style="overflow-x:hidden; "></ul>
                
             </div>
@@ -124,7 +124,10 @@
                 $('#m').val('');
                 return false;
             });
-
+            function updateScroll() {
+                var element = document.getElementById("box");
+                element.scrollTop = element.scrollHeight;
+            }
 
             $(document).ready(function () {
                 var res = window.location.href.substring(22);
@@ -155,6 +158,7 @@
 
                 // console.log($('#messages').last());
                 if (curroom == room) {
+                    updateScroll();
                     document.title = user.substring(0, 3) + ": " + msg.substring(0, 10);
                     if (document.hidden) {
                         notifyMe(msg, pic);
