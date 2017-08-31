@@ -183,6 +183,7 @@ io.sockets.on('connection', function (socket) {
                 var newmsg = msg.substring(5, msg.length);
                 io.emit('motd update', newmsg);
                 con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [newmsg, curroom], function (error) { if (error) throw error; });
+                break;
             }
                 else {
                 console.log('In chat message, curroom: ' + curroom);
