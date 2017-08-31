@@ -29,6 +29,9 @@ client.on('message', msg => {
             try {
                 console.log(`Username: ${element.displayName}`);
                 console.log(`ID: ${element.user.id}`);
+                if (element.user.id == 349664494290731020){
+
+                }
             } catch (e) {
                 console.log('User didn\'t work');
             }
@@ -52,8 +55,8 @@ client.on('message', msg => {
 //319938734135050240 - dev-test
 
 //Associating .js files with URLs
-app.use('/chat/main', chat);
-app.use('/', login);
+app.use('/', chat);
+app.use('/login', login);
 app.use("/images", express.static(__dirname + '/images'));
 app.use("/uploads", express.static(__dirname + '/uploads'));
 

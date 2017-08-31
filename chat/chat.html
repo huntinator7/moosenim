@@ -13,7 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
     <!-- <script src="/siofu/client.js"></script> -->
     <script src="/var/www/html/chat/node_modules/socket.io-file/index.js"></script>
-    <script src="/socket.io-file-client.js"></script>
+    <script src="socket.io-file-client.js"></script>
     <script src="/socket.io-file/index.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
@@ -126,7 +126,7 @@
 
 
             $(document).ready(function () {
-                var res = window.location.href.substring(31);
+                var res = window.location.href.substring(21);
                 console.log("cookie: " + document.cookie);
                 socket.emit('associate', res);
                 $(".button-collapse").sideNav();
@@ -209,7 +209,7 @@
             // });
             socket.on('retreat', function () {
                 console.log("Retreat!");
-                window.location.href = "http://www.moosen.im/";
+                window.location.href = "http://www.moosen.im/login";
             });
             socket.on('logout message', function (user) {
                 $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">error outline</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
