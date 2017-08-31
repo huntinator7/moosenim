@@ -303,7 +303,7 @@ function updatechat(roomid) {
 function showLastMessages(num, sid, roomid) {
     con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [roomid, num], function (error, rows, results) {
         var m = getMotd(roomid);
-        Console.log(m);
+        console.log(m);
         io.emit('motd update', m);
         // console.log("Getting messages...");
         if (error) throw error;
