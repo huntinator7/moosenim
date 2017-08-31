@@ -128,7 +128,10 @@
 
             $(document).ready(function () {
                 var res = window.location.href.substring(22);
-                $('#box').scrollTop($('#box')[0].scrollHeight);
+
+                var d = $('#div1');
+                d.scrollTop(d.prop("scrollHeight"));
+
                 socket.emit('associate', res);
                 $(".button-collapse").sideNav();
                 $('.collapsible').collapsible();
@@ -155,7 +158,8 @@
 
                 // console.log($('#messages').last());
                 if (curroom == room) {
-                    $('#box').scrollTop($('#box')[0].scrollHeight);
+                    var d = $('#div1');
+                    d.scrollTop(d.prop("scrollHeight"));
                     document.title = user.substring(0, 3) + ": " + msg.substring(0, 10);
                     if (document.hidden) {
                         notifyMe(msg, pic);
