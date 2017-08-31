@@ -12,9 +12,8 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
     <!-- <script src="/siofu/client.js"></script> -->
-    <script src="/var/www/html/chat/node_modules/socket.io-file/index.js"></script>
-    <script src="socket.io-file-client.js"></script>
-    <script src="/socket.io-file/index.js"></script>
+    <script type="text/javascript" src="socket.io-file-client.js"></script>
+    <source id="ogg_src" src="/sounds/notification.mp3" type="video/ogg">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
@@ -93,6 +92,8 @@
     <div id="main">
         <div class="row" id="center-container" style="padding-top:5vh;">
             <div class="col s12" id="motd" style="color:black; background-color:white;  text-align: center;"> MOTD div </div>
+        </div>
+        <div class="row" id="center-container" style="padding-top:5vh;">
             <div class="col s12">
                 <ul class="collection with-header" id="messages" style="overflow-x:hidden"></ul>
                 <form id="mform" action="">
@@ -137,7 +138,7 @@
 
             socket.on('motd update', function (msg) {
                 console.log('Received MOTD');
-                $('#motd').html(" "+msg);
+                $('#motd').html(" " + msg);
 
             });
             function updatemotd(msg) {
@@ -145,7 +146,7 @@
             }
 
             socket.on('chat message', function (user, msg, time, id, pic, room) {
-                
+
                 // if ($('#messages').last().id) {
 
                 // } else {
@@ -160,9 +161,9 @@
                         audio.play();
                     }
                     $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
-                    + user + '</span><p>'
-                    + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
-                    + time + '</a></li>');
+                        + user + '</span><p>'
+                        + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
+                        + time + '</a></li>');
                     if (canAuto) {
                         window.scrollTo(0, document.body.scrollHeight);
                     }
