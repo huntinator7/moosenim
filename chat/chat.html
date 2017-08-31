@@ -158,7 +158,7 @@
 
                 // console.log($('#messages').last());
                 if (curroom == room) {
-                    updateScroll();
+                    $('#box').scrollTop($('#box')[0].scrollHeight);
                     document.title = user.substring(0, 3) + ": " + msg.substring(0, 10);
                     if (document.hidden) {
                         notifyMe(msg, pic);
