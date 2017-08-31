@@ -187,7 +187,7 @@
                 // $('#slide-out').append('<li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>');
                 try {
                     list.forEach(function (element) {
-                        $('#motd').html(element.motd);
+                        $('#motd').html("test");
                         $('#nav-mobile').append(`<li><a id="rooms" class="button waves-effect" room="${element.serialid}" style="color: #6EB7FF">${element.name}</a></li>`);
                         // $('#slide-out').append(`<li><a id="rooms" room="${element.serialid}" style="color: #6EB7FF">${element.name}</a></li>`);
                     });
