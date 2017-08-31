@@ -124,14 +124,11 @@
                 $('#m').val('');
                 return false;
             });
-            function updateScroll() {
-                var element = document.getElementById("box");
-                element.scrollTop = element.scrollHeight;
-            }
+          
 
             $(document).ready(function () {
                 var res = window.location.href.substring(22);
-                console.log("cookie: " + document.cookie);
+                $('#box').scrollTop($('#box')[0].scrollHeight);
                 socket.emit('associate', res);
                 $(".button-collapse").sideNav();
                 $('.collapsible').collapsible();
@@ -163,7 +160,9 @@
                     if (document.hidden) {
                         notifyMe(msg, pic);
                         audio.play();
+
                     }
+                    $('#box').scrollTop($('#box')[0].scrollHeight);
                     $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
                     + user + '</span><p>'
                     + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
