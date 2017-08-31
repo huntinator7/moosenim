@@ -102,6 +102,11 @@
                     <button id="mbut" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
                 </form>
             </div>
+            <form id="mform" action="">
+                <input id="m" autocomplete="off" style="color:black; background-color:white; font-size:1.5em" type="text" placeholder="Message">
+                <br>
+                <button id="mbut" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
+            </form>
         </div>
     </div>
 
@@ -119,16 +124,20 @@
                 var message = $('#m').val();
                 message = message.replace(/</g, '&lt;');
                 message = message.replace(/>/g, '&gt;');
-                console.log('curroom: ' + curroom);
+                var d = $('#center-container');
+                d.scrollTop(d.prop("scrollHeight"));
                 socket.emit('chat message', message, curroom);
                 $('#m').val('');
                 return false;
             });
-
+          
 
             $(document).ready(function () {
                 var res = window.location.href.substring(22);
-                console.log("cookie: " + document.cookie);
+
+                var d = $('#box');
+                d.scrollTop(d.prop("scrollHeight"));
+
                 socket.emit('associate', res);
                 $(".button-collapse").sideNav();
                 $('.collapsible').collapsible();
@@ -155,11 +164,15 @@
 
                 // console.log($('#messages').last());
                 if (curroom == room) {
+                    var d = $('#box');
+                    d.scrollTop(d.prop("scrollHeight"));
                     document.title = user.substring(0, 3) + ": " + msg.substring(0, 10);
                     if (document.hidden) {
                         notifyMe(msg, pic);
                         audio.play();
+
                     }
+                    $('#box').scrollTop($('#box')[0].scrollHeight);
                     $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
                         + user + '</span><p>'
                         + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
@@ -188,7 +201,7 @@
                 // $('#slide-out').append('<li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>');
                 try {
                     list.forEach(function (element) {
-                        updatemotd(element.motd);
+                        $('#motd').html("test");
                         $('#nav-mobile').append(`<li><a id="rooms" class="button waves-effect" room="${element.serialid}" style="color: #6EB7FF">${element.name}</a></li>`);
                         // $('#slide-out').append(`<li><a id="rooms" room="${element.serialid}" style="color: #6EB7FF">${element.name}</a></li>`);
                     });

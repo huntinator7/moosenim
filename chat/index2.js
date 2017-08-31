@@ -42,7 +42,7 @@ client.on('message', msg => {
             try {
                 console.log(msg.attachments.first().url);
                 var message = '<img class="materialboxed responsive-img" src="' + msg.attachments.first().url + '" alt="Error - Image not found">';
-                sendMessage(message, msg.author.username, 1, 1);
+                sendMessage(message, msg.author.username, 1, config.discordChannel);
                 getMessageDiscord(msg.author.username, message, msg.author.avatarURL);
             } catch (e) {
                 console.log('Message attachment has no url');
@@ -183,6 +183,7 @@ io.sockets.on('connection', function (socket) {
                 var newmsg = msg.substring(5, msg.length);
                 io.emit('motd update', newmsg);
                 con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [newmsg, curroom], function (error) { if (error) throw error; });
+                
             }
                 else {
                 console.log('In chat message, curroom: ' + curroom);
@@ -212,8 +213,9 @@ var con;
 
 function getMotd(roomid) {
     con.query('SELECT * FROM rooms WHERE serialid = ?', [roomid], function (error, row) {
-        console.log("motd is" + row[0].motd);
-        return encodeURI(row[0].motd);
+        console.log("motd is" + row[0].motd + " roomid = " + roomid);
+        io.emit('motd update', row[0].motd);
+        return row[0].motd;
     });
 }
 
@@ -271,7 +273,6 @@ function sendMessage(message, username, uid, chatid) {
 }
 
 function getMessage(chatid) {
-    //will need to add chatroom_id at some point
     con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", [chatid], function (error, rows, results) {
         console.log("Emitting message");
         if (error) throw error;
@@ -290,7 +291,10 @@ function getMessage(chatid) {
 }
 
 function getMessageDiscord(un, msg, pic) {
-    io.emit('chat message', un, decodeURI(msg), moment().format('h:mm:ss a'), 0, pic, 1);
+    //io.emit('chat message', un, decodeURI(msg), moment().format('h:mm:ss a'), 0, pic, 1);
+    con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", [config.discordChannel], function (error, rows, results) {
+        io.emit('chat message', un, decodeURI(rows[0].message), moment().format('h:mm:ss a'), rows[0].id, pic, config.discordChannel);
+    });
 }
 
 //should be called when a user clicks on a different chatroom
@@ -302,7 +306,9 @@ function updatechat(roomid) {
 
 function showLastMessages(num, sid, roomid) {
     con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [roomid, num], function (error, rows, results) {
-        io.to(sid).emit('motd update', getMotd(roomid));
+        var m = getMotd(roomid);
+        console.log(m);
+        io.emit('motd update', m);
         // console.log("Getting messages...");
         if (error) throw error;
         try {
