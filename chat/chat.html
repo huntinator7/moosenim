@@ -119,7 +119,8 @@
                 var message = $('#m').val();
                 message = message.replace(/</g, '&lt;');
                 message = message.replace(/>/g, '&gt;');
-                console.log('curroom: ' + curroom);
+                var d = $('#box');
+                d.scrollTop(d.prop("scrollHeight"));
                 socket.emit('chat message', message, curroom);
                 $('#m').val('');
                 return false;
