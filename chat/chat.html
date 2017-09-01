@@ -75,13 +75,13 @@
 <body style="background-color:#000000;">
     <header>
         <nav class="top-nav center light-blue" style="height:10vh">
-            <a class="button-collapse page-title white-text">MoosenIM</a>
+            <a class="chat online page-title white-text">MoosenIM</a>
         </nav>
-        <ul id="nav-mobile" class="side-nav fixed hide-on-med-and-down grey darken-4" style="transform: translateX(0%);">
+        <ul id="nav-mobile" class="side-nav chat hide-on-med-and-down grey darken-4" style="transform: translateX(0%);">
             <li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>
             <li><a id="room" class="button waves-effect" room="2" style="color: #6EB7FF">test</a></li>
         </ul>
-        <ul id="slide-out" class="side-nav">
+        <ul id="nav-mobile" class="side-nav online hide-on-med-and-down grey darken-4" style="transform: translateX(0%);">
             <li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>
             <li><a style="color: #6EB7FF" href="#!">Alvin</a></li>
             <li><a style="color: #6EB7FF" href="#!">Bruce</a></li>
@@ -90,13 +90,21 @@
         </ul>
     </header>
     <div id="main">
-        <div class="row" id="center-container" style="padding-top:5vh;">
-            <div class="col s12" id="motd" style="color:black; background-color:white;  text-align: center;"> MOTD div </div>
-        </div>
-        <div class="row" style="top:10vh; height:5vh;">
+        <div class="row">
             <div class="col s12">
-                <ul class="collection with-header" id="messages" style="overflow-x:hidden"></ul>
-                <form id="mform" action="">
+                <div class="pinned" id="motd" style="color:black; z-index:2; text-align:center;">
+                    <h5 class="white red-text">MOTD div</h5>
+                </div>
+            </div>
+        </div>
+<<<<<<< HEAD
+        <div class="row" style="top:10vh; height:5vh;">
+=======
+        <div class="row">
+>>>>>>> 57199bee18ef6c0d3208cb30c8009e37aad53498
+            <div class="col s12">
+                <ul class="collection with-header" id="messages" style="overflow-x:hidden; z-index:1"></ul>
+                <form id="mform" class="section scrollspy" action="">
                     <input id="m" autocomplete="off" style="color:black; background-color:white; font-size:1.5em" type="text" placeholder="Message">
                     <br>
                     <button id="mbut" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
@@ -136,6 +144,7 @@
                 socket.emit('associate', res);
                 $(".button-collapse").sideNav();
                 $('.collapsible').collapsible();
+                $('.scrollspy').scrollSpy();
             });
 
             document.getElementById("main").style.display = "inline";
@@ -167,7 +176,7 @@
                         audio.play();
 
                     }
-                    
+
                     $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
                         + user + '</span><p>'
                         + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
@@ -285,11 +294,20 @@
 
         $('.collapsible').collapsible();
 
-        $('.button-collapse').sideNav({
+        $('.chat').sideNav({
             menuWidth: 300, // Default is 300
             edge: 'left', // Choose the horizontal origin
-            closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
-            draggable: true, // Choose whether you can drag to open on touch screens,
+            // closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+            // draggable: true, // Choose whether you can drag to open on touch screens,
+            // onOpen: function (el) {}, // A function to be called when sideNav is opened
+            // onClose: function (el) {} // A function to be called when sideNav is closed
+        });
+
+        $('.online').sideNav({
+            menuWidth: 300, // Default is 300
+            edge: 'right', // Choose the horizontal origin
+            // closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+            // draggable: true, // Choose whether you can drag to open on touch screens,
             // onOpen: function (el) {}, // A function to be called when sideNav is opened
             // onClose: function (el) {} // A function to be called when sideNav is closed
         });
