@@ -77,11 +77,11 @@
         <nav class="top-nav center light-blue" style="height:10vh">
             <a class="button-collapse page-title white-text">MoosenIM</a>
         </nav>
-        <ul id="nav-mobile" class="side-nav fixed hide-on-med-and-down grey darken-4" style="transform: translateX(0%);">
+        <ul id="nav-mobile" class="side-nav chat fixed hide-on-med-and-down grey darken-4" style="transform: translateX(0%);">
             <li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>
             <li><a id="room" class="button waves-effect" room="2" style="color: #6EB7FF">test</a></li>
         </ul>
-        <ul id="slide-out" class="side-nav">
+        <ul id="nav-mobile" class="side-nav online fixed hide-on-med-and-down grey darken-4">
             <li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>
             <li><a style="color: #6EB7FF" href="#!">Alvin</a></li>
             <li><a style="color: #6EB7FF" href="#!">Bruce</a></li>
@@ -91,28 +91,16 @@
     </header>
     <div id="main">
         <div class="row" id="center-container" style="padding-top:5vh;">
-            <div class="col s12 m9 l10" id="motd" style="color:black; background-color:white;  text-align: center;"> MOTD div </div>
+            <div class="col s12" id="motd" style="color:black; background-color:white;  text-align: center;"> MOTD div </div>
         </div>
         <div class="row" id="center-container" style="top:10vh; height:5vh;">
-            <div class="col s12 l10">
+            <div class="col s12">
                 <ul class="collection with-header" id="messages" style="overflow-x:hidden"></ul>
                 <form id="mform" class="section scrollspy" action="">
                     <input id="m" autocomplete="off" style="color:black; background-color:white; font-size:1.5em" type="text" placeholder="Message">
                     <br>
                     <button id="mbut" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
                 </form>
-            </div>
-            <div class="col hide-on-med-and-down l2">
-                <div class="toc-wrapper grey darken-4" style="top: 10vh;">
-                    <div style="height: 1px;">
-                        <ul class="section table-of-contents">
-                            <li><a href="#mform" class="">mform</a></li>
-                            <li><a href="#structure" class="active">Structure</a></li>
-                            <li><a href="#initialization">Intialization</a></li>
-                            <li><a href="#options">Options</a></li>
-                        </ul>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -298,7 +286,16 @@
 
         $('.collapsible').collapsible();
 
-        $('.button-collapse').sideNav({
+        $('.chat').sideNav({
+            menuWidth: 300, // Default is 300
+            edge: 'left', // Choose the horizontal origin
+            closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+            draggable: true, // Choose whether you can drag to open on touch screens,
+            // onOpen: function (el) {}, // A function to be called when sideNav is opened
+            // onClose: function (el) {} // A function to be called when sideNav is closed
+        });
+
+        $('.online').sideNav({
             menuWidth: 300, // Default is 300
             edge: 'left', // Choose the horizontal origin
             closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
