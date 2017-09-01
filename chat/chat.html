@@ -94,13 +94,25 @@
             <div class="col s12" id="motd" style="color:black; background-color:white;  text-align: center;"> MOTD div </div>
         </div>
         <div class="row" id="center-container" style="top:10vh; height:5vh;">
-            <div class="col s12">
+            <div class="col s12 m9 l10">
                 <ul class="collection with-header" id="messages" style="overflow-x:hidden"></ul>
                 <form id="mform" action="">
                     <input id="m" autocomplete="off" style="color:black; background-color:white; font-size:1.5em" type="text" placeholder="Message">
                     <br>
                     <button id="mbut" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
                 </form>
+            </div>
+            <div class="col hide-on-small-only m3 l2">
+                <div class="toc-wrapper pinned" style="top: 0px;">
+                    <div style="height: 1px;">
+                        <ul class="section table-of-contents">
+                            <li><a href="#introduction" class="">Introduction</a></li>
+                            <li><a href="#structure" class="active">Structure</a></li>
+                            <li><a href="#initialization">Intialization</a></li>
+                            <li><a href="#options">Options</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -167,7 +179,7 @@
                         audio.play();
 
                     }
-                    
+
                     $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
                         + user + '</span><p>'
                         + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
