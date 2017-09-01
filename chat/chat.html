@@ -130,7 +130,7 @@
             $(document).ready(function () {
                 var res = window.location.href.substring(22);
 
-                var d = $('#box');
+                // var d = $('#box');
                 d.scrollTop(d.prop("scrollHeight"));
 
                 socket.emit('associate', res);
@@ -159,8 +159,8 @@
 
                 // console.log($('#messages').last());
                 if (curroom == room) {
-                    var d = $('#box');
-                    d.scrollTop(d.prop("scrollHeight"));
+                    // var d = $('#box');
+                    // d.scrollTop(d.prop("scrollHeight"));
                     document.title = user.substring(0, 3) + ": " + msg.substring(0, 10);
                     if (document.hidden) {
                         notifyMe(msg, pic);
