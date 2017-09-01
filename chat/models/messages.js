@@ -1,6 +1,6 @@
 
 
-var db = require('/RESTmessages');
+var db = require('../RESTmessages');
 
 var messages = {
 

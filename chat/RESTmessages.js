@@ -1,6 +1,6 @@
 
 
-var sql = =require('mysql');
+var sql =require('mysql');
 var connect = {
     host: "localhost",
     user: "root",
