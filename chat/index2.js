@@ -40,6 +40,8 @@ app.use('/messages', messages);
 app.use('/login', login);
 app.use("/images", express.static(__dirname + '/images'));
 app.use("/uploads", express.static(__dirname + '/uploads'));
+app.use("/sounds", express.static(__dirname + '/sounds'));
+app.use("/node_modules", express.static(__dirname + '/node_modules'));
 
 //Discord login with token from dev page
 client.login(config.token);
