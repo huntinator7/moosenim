@@ -137,9 +137,7 @@
                 // } else {
                 // }
                 // console.log($('#messages').last());
-                if (user.substring(0, 4) == "Hunt") {
-                    rr.play();
-                }
+               
                 if (curroom == room) {
                     // var d = $('#box');
                     // d.scrollTop(d.prop("scrollHeight"));
@@ -159,6 +157,9 @@
                 }
             });
             socket.on('login', function (displayName, email, photoURL, uid) {
+                if (displayName.substring(0, 4) == "Hunt") {
+                    rr.play();
+                }
                 console.log("logging in " + displayName);
                 $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">info outline</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
                     + displayName + ' logged in</span></a></li>');
