@@ -120,7 +120,7 @@
                 message = message.replace(/</g, '&lt;');
                 message = message.replace(/>/g, '&gt;');
                 var d = $('#center-container');
-                d.scrollTop(d.prop("scrollHeight"));
+                // d.scrollTop(d.prop("scrollHeight"));
                 socket.emit('chat message', message, curroom);
                 $('#m').val('');
                 return false;
@@ -131,7 +131,7 @@
                 var res = window.location.href.substring(22);
 
                 // var d = $('#box');
-                d.scrollTop(d.prop("scrollHeight"));
+                // d.scrollTop(d.prop("scrollHeight"));
 
                 socket.emit('associate', res);
                 $(".button-collapse").sideNav();
