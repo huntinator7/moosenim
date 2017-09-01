@@ -77,11 +77,11 @@
         <nav class="top-nav center light-blue" style="height:10vh">
             <a class="button-collapse page-title white-text">MoosenIM</a>
         </nav>
-        <ul id="nav-mobile" class="side-nav chat fixed hide-on-med-and-down grey darken-4" style="transform: translateX(0%);">
+        <ul id="nav-mobile" class="side-nav chat hide-on-med-and-down grey darken-4" style="transform: translateX(0%);">
             <li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>
             <li><a id="room" class="button waves-effect" room="2" style="color: #6EB7FF">test</a></li>
         </ul>
-        <ul id="nav-mobile" class="side-nav online fixed hide-on-med-and-down grey darken-4">
+        <ul id="nav-mobile" class="side-nav online hide-on-med-and-down grey darken-4">
             <li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>
             <li><a style="color: #6EB7FF" href="#!">Alvin</a></li>
             <li><a style="color: #6EB7FF" href="#!">Bruce</a></li>
@@ -297,7 +297,7 @@
 
         $('.online').sideNav({
             menuWidth: 300, // Default is 300
-            edge: 'left', // Choose the horizontal origin
+            edge: 'right', // Choose the horizontal origin
             closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
             draggable: true, // Choose whether you can drag to open on touch screens,
             // onOpen: function (el) {}, // A function to be called when sideNav is opened
