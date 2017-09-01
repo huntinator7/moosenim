@@ -27,43 +27,34 @@
             list-style-type: none;
             margin: 0;
         }
-
         #side-nav {
             background-color: #181818;
         }
-
         #side-nav li {
             color: #6EB7FF;
         }
-
         #nav-mobile {
             width: 15vw;
             padding-top: 15vh;
         }
-
         #nav-mobile li {
             color: #6EB7FF;
         }
-
         #slide-out {
             background-color: black;
         }
-
         #slide-out li {
             color: #6EB7FF;
         }
-
         nav.top-nav a.page-title {
             line-height: 10vh;
             font-size: 4em;
         }
-
         .thumb {
             height: 200px;
             border: 1px solid #000;
             text-align: center
         }
-
         @media only screen and (min-width: 992px) {
             #center-container {
                 margin-left: 16vw;
@@ -75,13 +66,13 @@
 <body style="background-color:#000000;">
     <header>
         <nav class="top-nav center light-blue" style="height:10vh">
-            <a class="chat online page-title white-text">MoosenIM</a>
+            <a class="button-collapse page-title white-text">MoosenIM</a>
         </nav>
-        <ul id="nav-mobile" class="side-nav chat hide-on-med-and-down grey darken-4" style="transform: translateX(0%);">
+        <ul id="nav-mobile" class="side-nav fixed hide-on-med-and-down grey darken-4" style="transform: translateX(0%);">
             <li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>
             <li><a id="room" class="button waves-effect" room="2" style="color: #6EB7FF">test</a></li>
         </ul>
-        <ul id="nav-mobile" class="side-nav online hide-on-med-and-down grey darken-4" style="transform: translateX(0%);">
+        <ul id="slide-out" class="side-nav">
             <li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>
             <li><a style="color: #6EB7FF" href="#!">Alvin</a></li>
             <li><a style="color: #6EB7FF" href="#!">Bruce</a></li>
@@ -90,21 +81,13 @@
         </ul>
     </header>
     <div id="main">
-        <div class="row">
-            <div class="col s12">
-                <div class="pinned" id="motd" style="color:black; z-index:2; text-align:center;">
-                    <h5 class="white red-text">MOTD div</h5>
-                </div>
-            </div>
+        <div class="row" id="center-container" style="padding-top:5vh;">
+            <div class="col s12" id="motd" style="color:black; background-color:white;  text-align: center;"> MOTD div </div>
         </div>
-<<<<<<< HEAD
-        <div class="row" style="top:10vh; height:5vh;">
-=======
-        <div class="row">
->>>>>>> 57199bee18ef6c0d3208cb30c8009e37aad53498
+        <div class="row" id="center-container" style="top:10vh; height:5vh;">
             <div class="col s12">
-                <ul class="collection with-header" id="messages" style="overflow-x:hidden; z-index:1"></ul>
-                <form id="mform" class="section scrollspy" action="">
+                <ul class="collection with-header" id="messages" style="overflow-x:hidden"></ul>
+                <form id="mform" action="">
                     <input id="m" autocomplete="off" style="color:black; background-color:white; font-size:1.5em" type="text" placeholder="Message">
                     <br>
                     <button id="mbut" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
@@ -119,7 +102,6 @@
             canAuto = false;
             var socket = io();
             var audio = new Audio('/sounds/notification.mp3');
-
             //roomList holds an array of all chatrooms a user has access to. 
             // var roomList;
             var curroom = 1;
@@ -127,45 +109,32 @@
                 var message = $('#m').val();
                 message = message.replace(/</g, '&lt;');
                 message = message.replace(/>/g, '&gt;');
-                var d = $('#center-container');
+                // var d = $('#center-container');
                 // d.scrollTop(d.prop("scrollHeight"));
                 socket.emit('chat message', message, curroom);
                 $('#m').val('');
                 return false;
             });
-
-
             $(document).ready(function () {
                 var res = window.location.href.substring(22);
-
-                // var d = $('#box');
+                var d = $('#box');
                 // d.scrollTop(d.prop("scrollHeight"));
-
                 socket.emit('associate', res);
                 $(".button-collapse").sideNav();
                 $('.collapsible').collapsible();
-                $('.scrollspy').scrollSpy();
             });
-
             document.getElementById("main").style.display = "inline";
-
             socket.on('motd update', function (msg) {
                 console.log('Received MOTD');
                 $('#motd').html(" " + msg);
-
             });
             function updatemotd(msg) {
                 $('#motd').html(msg);
             }
-
             socket.on('chat message', function (user, msg, time, id, pic, room) {
-
                 // if ($('#messages').last().id) {
-
                 // } else {
-
                 // }
-
                 // console.log($('#messages').last());
                 if (curroom == room) {
                     // var d = $('#box');
@@ -174,9 +143,8 @@
                     if (document.hidden) {
                         notifyMe(msg, pic);
                         audio.play();
-
                     }
-
+                    
                     $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
                         + user + '</span><p>'
                         + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
@@ -209,17 +177,14 @@
                         $('#nav-mobile').append(`<li><a id="rooms" class="button waves-effect" room="${element.serialid}" style="color: #6EB7FF">${element.name}</a></li>`);
                         // $('#slide-out').append(`<li><a id="rooms" room="${element.serialid}" style="color: #6EB7FF">${element.name}</a></li>`);
                     });
-
                 } catch (e) { }
             });
-
             $('#nav-mobile').on('click', 'a', function () {
                 console.log('Element in nav-mobile clicked');
                 $('#messages').empty();
                 curroom = $(this.attributes.room).val();
                 socket.emit('changerooms', $(this.attributes.room).val());
             });
-
             //called when a chatroom is clicked in the sidebar. 
             // socket.on('loadroom', function (roomid, roomname) {
             //     $('#messages').empty();
@@ -237,7 +202,6 @@
                 }
             });
         });
-
         $(window).scroll(function () {
             if ($(window).scrollTop() + $(window).height() >= $(document).height() * .9) {
                 canAuto = true;
@@ -246,14 +210,12 @@
                 canAuto = false;
             }
         });
-
         $(window).resize(function () { //checking for window resize event
             if ($("#m").is(":focus")) {
                 window.scrollTo(0, document.body.scrollHeight);
                 window.scrollTo(0, document.body.scrollHeight);
             }
         });
-
         $(document).ready(function () {
             $('.materialboxed').materialbox();
         });
@@ -277,7 +239,6 @@
             if (Notification.permission !== "granted")
                 Notification.requestPermission();
         });
-
         function notifyMe(msg, pic) {
             if (Notification.permission !== "granted")
                 Notification.requestPermission();
@@ -291,23 +252,12 @@
                 };
             }
         }
-
         $('.collapsible').collapsible();
-
-        $('.chat').sideNav({
+        $('.button-collapse').sideNav({
             menuWidth: 300, // Default is 300
             edge: 'left', // Choose the horizontal origin
-            // closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
-            // draggable: true, // Choose whether you can drag to open on touch screens,
-            // onOpen: function (el) {}, // A function to be called when sideNav is opened
-            // onClose: function (el) {} // A function to be called when sideNav is closed
-        });
-
-        $('.online').sideNav({
-            menuWidth: 300, // Default is 300
-            edge: 'right', // Choose the horizontal origin
-            // closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
-            // draggable: true, // Choose whether you can drag to open on touch screens,
+            closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+            draggable: true, // Choose whether you can drag to open on touch screens,
             // onOpen: function (el) {}, // A function to be called when sideNav is opened
             // onClose: function (el) {} // A function to be called when sideNav is closed
         });
