@@ -34,6 +34,13 @@ var chat = require('./chat.js');
 var login = require('./login.js');
 var config = require('./config');
 
+//Associating .js files with URLs
+app.use('/', chat);
+app.use('/messages', messages);
+app.use('/login', login);
+app.use("/images", express.static(__dirname + '/images'));
+app.use("/uploads", express.static(__dirname + '/uploads'));
+
 //Discord login with token from dev page
 client.login(config.token);
 
@@ -74,13 +81,6 @@ client.on('message', msg => {
 });
 //329020807487553537 - moosen-im
 //319938734135050240 - dev-test
-
-//Associating .js files with URLs
-app.use('/', chat);
-app.use('/messages', messages);
-app.use('/login', login);
-app.use("/images", express.static(__dirname + '/images'));
-app.use("/uploads", express.static(__dirname + '/uploads'));
 
 //Main socket.io listener
 io.sockets.on('connection', function (socket) {
