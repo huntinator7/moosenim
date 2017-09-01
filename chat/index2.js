@@ -8,7 +8,6 @@ var SocketIOFile = require('socket.io-file');
 //api test
 var path = require('path');
 var cors = require('cors');
-//var routes = require('routes/');
 var messages = require('./routes/messages');
 var bodyParser = require('body-parser'); 
 
@@ -82,7 +81,7 @@ client.on('message', msg => {
 
 //Associating .js files with URLs
 app.use('/', chat);
-app.use('/messages', messages);
+//app.use('/messages', messages);
 app.use('/login', login);
 app.use("/images", express.static(__dirname + '/images'));
 app.use("/uploads", express.static(__dirname + '/uploads'));
