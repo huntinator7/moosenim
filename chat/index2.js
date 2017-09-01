@@ -6,7 +6,7 @@ var mysql = require('mysql');
 var SocketIOFile = require('socket.io-file');
 
 //api test
-var path = require('path');
+//var path = require('path');
 var cors = require('cors');
 var messages = require('./routes/messages');
 var bodyParser = require('body-parser'); 
@@ -16,17 +16,13 @@ var bodyParser = require('body-parser');
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
+a//pp.use(bodyParser.urlencoded({
 
-    extended: false
+  //  extended: false
 
-})); 
+//})); 
 
-app.use(function (req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-}); 
+
 //end api test requirements
 
 // var siofu = require("socketio-file-upload");
@@ -81,7 +77,7 @@ client.on('message', msg => {
 
 //Associating .js files with URLs
 app.use('/', chat);
-//app.use('/messages', messages);
+app.use('/messages', messages);
 app.use('/login', login);
 app.use("/images", express.static(__dirname + '/images'));
 app.use("/uploads", express.static(__dirname + '/uploads'));
