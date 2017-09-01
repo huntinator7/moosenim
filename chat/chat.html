@@ -103,7 +103,7 @@
                 </form>
             </div>
             <div class="col hide-on-small-only m3 l2">
-                <div class="toc-wrapper pinned" style="top: 0px;">
+                <div class="toc-wrapper pinned grey darken-4" style="top: 10vh;">
                     <div style="height: 1px;">
                         <ul class="section table-of-contents">
                             <li><a href="#introduction" class="">Introduction</a></li>
@@ -148,6 +148,7 @@
                 socket.emit('associate', res);
                 $(".button-collapse").sideNav();
                 $('.collapsible').collapsible();
+                $('.scrollspy').scrollSpy();
             });
 
             document.getElementById("main").style.display = "inline";
