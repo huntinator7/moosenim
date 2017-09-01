@@ -81,7 +81,7 @@
             <li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>
             <li><a id="room" class="button waves-effect" room="2" style="color: #6EB7FF">test</a></li>
         </ul>
-        <ul id="nav-mobile" class="side-nav online hide-on-med-and-down grey darken-4">
+        <ul id="nav-mobile" class="side-nav online hide-on-med-and-down grey darken-4" style="transform: translateX(0%);">
             <li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>
             <li><a style="color: #6EB7FF" href="#!">Alvin</a></li>
             <li><a style="color: #6EB7FF" href="#!">Bruce</a></li>
@@ -90,10 +90,10 @@
         </ul>
     </header>
     <div id="main">
-        <div class="row" id="center-container" style="padding-top:5vh;">
+        <div class="row" id="center-container">
             <div class="col s12" id="motd" style="color:black; background-color:white;  text-align: center;"> MOTD div </div>
         </div>
-        <div class="row" id="center-container" style="top:10vh; height:5vh;">
+        <div class="row" id="center-container">
             <div class="col s12">
                 <ul class="collection with-header" id="messages" style="overflow-x:hidden"></ul>
                 <form id="mform" class="section scrollspy" action="">
@@ -289,8 +289,8 @@
         $('.chat').sideNav({
             menuWidth: 300, // Default is 300
             edge: 'left', // Choose the horizontal origin
-            closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
-            draggable: true, // Choose whether you can drag to open on touch screens,
+            // closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+            // draggable: true, // Choose whether you can drag to open on touch screens,
             // onOpen: function (el) {}, // A function to be called when sideNav is opened
             // onClose: function (el) {} // A function to be called when sideNav is closed
         });
@@ -298,8 +298,8 @@
         $('.online').sideNav({
             menuWidth: 300, // Default is 300
             edge: 'right', // Choose the horizontal origin
-            closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
-            draggable: true, // Choose whether you can drag to open on touch screens,
+            // closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+            // draggable: true, // Choose whether you can drag to open on touch screens,
             // onOpen: function (el) {}, // A function to be called when sideNav is opened
             // onClose: function (el) {} // A function to be called when sideNav is closed
         });
