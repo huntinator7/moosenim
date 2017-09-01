@@ -3,7 +3,7 @@
 var express = require('express');
 var path = require('path');  
 var cors = require('cors');
-var routes = require('routes/');
+//var routes = require('routes/');
 var messages = require('./routes/messages');
 var bodyParser = require('body-parser'); 
 var app = express();
@@ -13,12 +13,14 @@ app.set('view engine', 'jade');
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-    extended: false
+app.use(bodyParser.urlencoded({
+
+    extended: false
+
 })); 
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/', routes);
+//app.use('/', routes);
 app.use('/messages', messages);
 
 
