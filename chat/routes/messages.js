@@ -13,6 +13,9 @@ router.get('/:id?', function (req, res, next) {
         });
     }
 });
+router.get('/', function (req, res) {
+    res.sendFile('chat.html');
+});
 
 
 module.exports = router;

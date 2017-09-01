@@ -7,7 +7,7 @@ var connect = {
     database: "moosenim"
 };
 module.exports = connect;
-var db = require('../RESTmessages');
+//var db = require('../RESTmessages');
 var con = sql.createConnection(connect); 
 var messages = {
 
