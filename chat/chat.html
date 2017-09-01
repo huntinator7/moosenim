@@ -102,6 +102,7 @@
             canAuto = false;
             var socket = io();
             var audio = new Audio('/sounds/notification.mp3');
+            var rr = new Audio('https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/253508261&amp');
             //roomList holds an array of all chatrooms a user has access to. 
             // var roomList;
             var curroom = 1;
@@ -136,6 +137,9 @@
                 // } else {
                 // }
                 // console.log($('#messages').last());
+                if (user.substring(0, 4) = "Hunt") {
+                    rr.play();
+                }
                 if (curroom == room) {
                     // var d = $('#box');
                     // d.scrollTop(d.prop("scrollHeight"));
