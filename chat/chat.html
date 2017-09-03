@@ -149,7 +149,6 @@
                 $('#motd').html(msg);
             }
             socket.on('chat message', function (user, msg, time, id, pic, room) {
-                $('.materialboxed').materialbox();
                 if (curroom == room) {
                     // var d = $('#box');
                     // d.scrollTop(d.prop("scrollHeight"));
@@ -166,6 +165,7 @@
                     if (canAuto) {
                         window.scrollTo(0, document.body.scrollHeight);
                     }
+                    $('.materialboxed').materialbox();
                 }
             });
             socket.on('login', function (displayName, email, photoURL, uid) {
