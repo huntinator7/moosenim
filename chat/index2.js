@@ -109,7 +109,7 @@ io.sockets.on('connection', function (socket) {
             }
         }
         console.log(event.file.name + ' successfully saved.');
-        var msg = '<img class="materialboxed" style="height:20vh" src="http://moosen.im/uploads' + event.file.name + '" alt="Mighty Moosen">';
+        var msg = '<img class="materialboxed" style="height:20vh" src="http://moosen.im/uploads/' + event.file.name + '" alt="Mighty Moosen">';
         sendMessage(msg, un, uid, curroom);
         io.emit(getMessage(curroom));
     });
