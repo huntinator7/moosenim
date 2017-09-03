@@ -161,7 +161,6 @@ io.sockets.on('connection', function (socket) {
     });
     //Generic message emit
     socket.on('chat message', function (msg, curroom) {
-        $('.materialboxed').materialbox();
         var un = 'Error - Username Not Found';
         var uid;
         console.log('chat message       socket.id: ' + socket.id);

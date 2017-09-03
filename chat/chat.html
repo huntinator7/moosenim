@@ -150,11 +150,7 @@
                 $('#motd').html(msg);
             }
             socket.on('chat message', function (user, msg, time, id, pic, room) {
-                // if ($('#messages').last().id) {
-                // } else {
-                // }
-                // console.log($('#messages').last());
-
+                $('.materialboxed').materialbox();
                 if (curroom == room) {
                     // var d = $('#box');
                     // d.scrollTop(d.prop("scrollHeight"));
