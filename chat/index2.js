@@ -71,7 +71,7 @@ client.on('message', msg => {
         if (msg.attachments.array().length) {
             try {
                 console.log(msg.attachments.first().url);
-                var message = '<img class="materialboxed responsive-img initialized" src="' + msg.attachments.first().url + '" alt="Error - Image not found">';
+                var message = '<img class="materialboxed responsive-img" src="' + msg.attachments.first().url + '" alt="Error - Image not found">';
                 sendMessage(message, msg.author.username, 1, config.discordChannel);
                 getMessageDiscord(msg.author.username, message, msg.author.avatarURL);
             } catch (e) {
@@ -109,7 +109,7 @@ io.sockets.on('connection', function (socket) {
             }
         }
         console.log(event.file.name + ' successfully saved.');
-        var msg = '<img class="materialboxed responsive-img initialized" style="height:20vh" src="http://moosen.im/uploads/' + event.file.name + '" alt="Mighty Moosen">';
+        var msg = '<img class="materialboxed responsive-img" style="height:20vh" src="http://moosen.im/uploads/' + event.file.name + '" alt="Mighty Moosen">';
         sendMessage(msg, un, uid, curroom);
         io.emit(getMessage(curroom));
     });
@@ -194,7 +194,7 @@ io.sockets.on('connection', function (socket) {
             } else if (msg.indexOf("<script") > -1) {
                 sendMessage("Stop right there, criminal scum! You violated my mother!", "AutoMod", uid, curroom);
             } else if (/^http\S*\.(jpg|gif|png|svg)$/.test(msg)) {
-                sendMessage('<img class="materialboxed responsive-img initialized" src="' + msg + '" alt="' + msg + '">', un, uid, curroom);
+                sendMessage('<img class="materialboxed responsive-img" src="' + msg + '" alt="' + msg + '">', un, uid, curroom);
             } else if (/http\S*youtube\S*/.test(msg)) {
                 var ind = msg.search(/watch\?v=\S*/);
                 var res = msg.substring(ind + 8, ind + 19);
