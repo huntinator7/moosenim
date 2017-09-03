@@ -94,7 +94,7 @@
         </div>
         <div class="row" id="center-container" style="top:10vh; height:5vh;">
             <div class="col s12">
-                <img class="materialboxed responsive-img" style="height:20vh" src="http://moosen.im/uploads/20170616174750_1.jpg" alt="Error - Image not found">
+                <img class="materialboxed responsive-img initialized" style="height:20vh" src="http://moosen.im/uploads/20170616174750_1.jpg" alt="Error - Image not found">
                 <ul class="collection with-header" id="messages" style="overflow-x:hidden"></ul>
                 <form id="mform" action="">
                     <input id="m" autocomplete="off" style="color:black; background-color:white; font-size:1.5em" type="text" placeholder="Message">
@@ -134,11 +134,12 @@
             });
             $(document).ready(function () {
                 var res = window.location.href.substring(22);
-                var d = $('#box');
+                // var d = $('#box');
                 // d.scrollTop(d.prop("scrollHeight"));
                 socket.emit('associate', res);
                 $(".button-collapse").sideNav();
                 $('.collapsible').collapsible();
+                $('.materialboxed').materialbox();
             });
             document.getElementById("main").style.display = "inline";
             socket.on('motd update', function (msg) {
@@ -251,9 +252,6 @@
                 window.scrollTo(0, document.body.scrollHeight);
                 window.scrollTo(0, document.body.scrollHeight);
             }
-        });
-        $(document).ready(function () {
-            $('.materialboxed').materialbox();
         });
     </script>
 
