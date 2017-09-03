@@ -87,6 +87,33 @@ client.on('message', msg => {
 //Main socket.io listener
 io.sockets.on('connection', function (socket) {
 
+    var uploader = new siofu();
+    uploader.dir = __dirname + '/uploads';
+    uploader.listen(socket);
+
+    uploader.on("start", function(event){
+        console.log('Starting upload to ' + event.file.name + ' of type ' + event.file.meta.filetype + ' to ' + uploader.dir);
+    });
+    uploader.on("saved", function(event){
+        var un = 'Error - Username Not Found';
+        var uid;
+        var curroom = 1;
+        console.log('chat message       socket.id: ' + socket.id);
+        for (var i = 0; i < online.length; i++) {
+            console.log(i + ': ' + online[i].sid);
+            if (online[i].sid == socket.id) {
+                console.log("New message from " + online[i].name);
+                un = online[i].name;
+                uid = online[i].uid;
+                // curroom = online[i].curroom;
+            }
+        }
+        console.log(event.file.name + ' successfully saved.');
+        var msg = '<img class="materialboxed" style="height:20vh" src="http://moosen.im/uploads' + event.file.name + '" alt="Mighty Moosen">';
+        sendMessage(msg, un, uid, curroom);
+        io.emit(getMessage(curroom));
+    });
+
     // console.log('Sockets: ' + Object.keys(io.sockets.sockets));
     //Login process and recording
     socket.on('login message', function (displayName, email, photoURL, uid) {
