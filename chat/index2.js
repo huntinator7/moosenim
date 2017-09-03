@@ -4,27 +4,6 @@ var http = require('http').Server(express);
 var io = require('socket.io').listen(app.listen(80));
 var mysql = require('mysql');
 var SocketIOFile = require('socket.io-file');
-
-//api test
-//var path = require('path');
-var cors = require('cors');
-var messages = require('./routes/messages');
-var bodyParser = require('body-parser'); 
-
-//app.set('views', path.join(__dirname, 'views'));
-//app.set('view engine', 'jade');
-
-app.use(cors());
-app.use(bodyParser.json());
-//app.use(bodyParser.urlencoded({
-
-  //  extended: false
-
-//})); 
-
-
-//end api test requirements
-
 // var siofu = require("socketio-file-upload");
 var Discord = require("discord.js");
 var client = new Discord.Client();
@@ -33,15 +12,6 @@ var moment = require('moment');
 var chat = require('./chat.js');
 var login = require('./login.js');
 var config = require('./config');
-
-//Associating .js files with URLs
-app.use('/', chat);
-app.use('/messages', messages);
-app.use('/login', login);
-app.use("/images", express.static(__dirname + '/images'));
-app.use("/uploads", express.static(__dirname + '/uploads'));
-app.use("/sounds", express.static(__dirname + '/sounds'));
-app.use("/node_modules", express.static(__dirname + '/node_modules'));
 
 //Discord login with token from dev page
 client.login(config.token);
@@ -83,6 +53,12 @@ client.on('message', msg => {
 });
 //329020807487553537 - moosen-im
 //319938734135050240 - dev-test
+
+//Associating .js files with URLs
+app.use('/', chat);
+app.use('/login', login);
+app.use("/images", express.static(__dirname + '/images'));
+app.use("/uploads", express.static(__dirname + '/uploads'));
 
 //Main socket.io listener
 io.sockets.on('connection', function (socket) {
@@ -233,8 +209,6 @@ var connect = {
 
 var con;
 
-
-
 function getMotd(roomid) {
     con.query('SELECT * FROM rooms WHERE serialid = ?', [roomid], function (error, row) {
         console.log("motd is" + row[0].motd + " roomid = " + roomid);
@@ -303,13 +277,13 @@ function getMessage(chatid) {
         con.query("SELECT * FROM users WHERE users.name = ?", [rows[0].username], function (error, row) {
             if (row.length < 1) {
                 io.emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, "http://www.moosen.im/images/favicon.png", rows[0].chatroom_id);
+                //send to Discord
+                client.channels.get('329020807487553537').send(rows[0].username + ': ' + decodeURI(rows[0].message));
             } else {
                 io.emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, row[0].profpic, rows[0].chatroom_id);
-            }
-			if (chatid == 1) {
-				//send to Discord
+                //send to Discord
                 client.channels.get('329020807487553537').send(rows[0].username + ': ' + decodeURI(rows[0].message));
-			}
+            }
         });
     });
 }
