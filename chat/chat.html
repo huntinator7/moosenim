@@ -12,8 +12,6 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
     <script src="/siofu/client.js"></script>
-    <script type="text/javascript" src="socket.io-file-client.js"></script>
-    <script type="text/javascript" src="/node_modules/socket.io-file/index.js"></script>
     <source id="ogg_src" src="/sounds/notification.mp3" type="video/ogg">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
@@ -28,34 +26,43 @@
             list-style-type: none;
             margin: 0;
         }
+
         #side-nav {
             background-color: #181818;
         }
+
         #side-nav li {
             color: #6EB7FF;
         }
+
         #nav-mobile {
             width: 15vw;
             padding-top: 15vh;
         }
+
         #nav-mobile li {
             color: #6EB7FF;
         }
+
         #slide-out {
             background-color: black;
         }
+
         #slide-out li {
             color: #6EB7FF;
         }
+
         nav.top-nav a.page-title {
             line-height: 10vh;
             font-size: 4em;
         }
+
         .thumb {
             height: 200px;
             border: 1px solid #000;
             text-align: center
         }
+
         @media only screen and (min-width: 992px) {
             #center-container {
                 margin-left: 16vw;
@@ -93,6 +100,9 @@
                     <br>
                     <button id="mbut" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
                 </form>
+                <label name="files[]" id="add_pics" class="btn btn-floating btn-file multiple waves-effect waves-light light-blue">
+                    <i class="material-icons">add</i><input style="display: none;" type="file" multiple>
+                </label>
             </div>
         </div>
     </div>
@@ -102,6 +112,10 @@
         $(function () {
             canAuto = false;
             var socket = io();
+            var siofu = new SocketIOFileUpload(socket);
+            siofu.addEventListener("start", function (event) {
+                event.file.meta.filetype = event.file.type;
+            });
             var audio = new Audio('/sounds/notification.mp3');
             var rr = new Audio('/sounds/rr.mp3');
             //roomList holds an array of all chatrooms a user has access to. 
@@ -138,7 +152,7 @@
                 // } else {
                 // }
                 // console.log($('#messages').last());
-               
+
                 if (curroom == room) {
                     // var d = $('#box');
                     // d.scrollTop(d.prop("scrollHeight"));
@@ -147,7 +161,7 @@
                         notifyMe(msg, pic);
                         audio.play();
                     }
-                    
+
                     $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
                         + user + '</span><p>'
                         + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
@@ -191,15 +205,18 @@
                 curroom = $(this.attributes.room).val();
                 socket.emit('changerooms', $(this.attributes.room).val());
             });
+
             //called when a chatroom is clicked in the sidebar. 
             // socket.on('loadroom', function (roomid, roomname) {
             //     $('#messages').empty();
             //
             // });
+
             socket.on('retreat', function () {
                 console.log("Retreat!");
                 window.location.href = "http://www.moosen.im/login";
             });
+
             socket.on('logout message', function (user) {
                 $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">error outline</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
                     + user + ' logged out</span></a></li>');
@@ -207,6 +224,18 @@
                     window.scrollTo(0, document.body.scrollHeight);
                 }
             });
+
+            function handleFileSelect(evt) {
+                console.log('In handleFileSelect');
+                var files = evt.target.files; // FileList object
+                for (var i = 0; i < files.length; i++) {
+                    var name = files[i].name;
+                    var type = files[i].type;
+                    console.log("Filename: " + name + " , Type: " + type);
+                    siofu.submitFiles([files[i]]);
+                }
+            }
+            document.getElementById('add_pics').addEventListener('change', handleFileSelect, false);
         });
         $(window).scroll(function () {
             if ($(window).scrollTop() + $(window).height() >= $(document).height() * .9) {
