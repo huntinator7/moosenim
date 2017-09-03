@@ -3,7 +3,7 @@ var app = express();
 var http = require('http').Server(express);
 var io = require('socket.io').listen(app.listen(80));
 var mysql = require('mysql');
-var SocketIOFile = require('socket.io-file');
+var siofu = require("socketio-file-upload");
 
 //api test
 //var path = require('path');
