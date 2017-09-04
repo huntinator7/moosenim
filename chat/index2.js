@@ -54,7 +54,6 @@ client.on('ready', () => {
 //Any time a Discord message is sent, bot checks to see if in moosen-im channel and if not sent by bot. If so, it adds the message to the DB and emits it
 client.on('message', msg => {
     // client.user.setAvatar('./images/discord.png');
-    console.log(msg.guild.id);
     if (msg.channel.id == 329020807487553537 && !(msg.author.bot)) {
         msg.channel.members.forEach(function (element){
             try {
@@ -343,20 +342,7 @@ function getMessage(chatid, isEmbed) {
             }
 			if (chatid == 1 && !isEmbed) {
                 //send to Discord
-                // client.guild.me.setNickname("nickname");
-                // client.channels.get('329020807487553537').members.forEach(function (element){
-                //     try {
-                //         if (element.user.id == 349664494290731020){
-                //             console.log('test');
-                //         } else if (element.user.id == '349664494290731020'){
-                //             console.log('test2');
-                //         }
-                //     } catch (e) {
-                //         console.log('User didn\'t work');
-                //     }
-                // });
-
-
+                client.guilds.get('176031369191882754').me.setNickname(rows[0].username);
                 client.channels.get('329020807487553537').send(rows[0].username + ': ' + decodeURI(rows[0].message));
 			}
         });
