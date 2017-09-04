@@ -105,13 +105,13 @@ io.sockets.on('connection', function (socket) {
                 console.log("New message from " + online[i].name);
                 un = online[i].name;
                 uid = online[i].uid;
-                // curroom = online[i].curroom;
+                curroom = online[i].curroom;
             }
         }
         console.log(event.file.name + ' successfully saved.');
         var msg = '<img class="materialboxed responsive-img" style="height:20vh" src="http://moosen.im/uploads/' + event.file.name + '" alt="Mighty Moosen">';
         sendMessage(msg, un, uid, curroom);
-        io.emit(getMessage(curroom));
+        io.emit(getMessage(curroom, true));
         client.channels.get('329020807487553537').send(un, {files: [('./uploads/' + event.file.name)]});
     });
 
@@ -164,6 +164,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('chat message', function (msg, curroom) {
         var un = 'Error - Username Not Found';
         var uid;
+        var isEmbed = false;
         console.log('chat message       socket.id: ' + socket.id);
         for (var i = 0; i < online.length; i++) {
             console.log(i + ': ' + online[i].sid);
@@ -171,7 +172,7 @@ io.sockets.on('connection', function (socket) {
                 console.log("New message from " + online[i].name);
                 un = online[i].name;
                 uid = online[i].uid;
-                // curroom = online[i].curroom;
+                online[i].curroom = curroom;
             }
         }
         if (un == 'Error - Username Not Found') {
@@ -183,12 +184,13 @@ io.sockets.on('connection', function (socket) {
                 sendMessage("I love Rick Astley!", 'notch', uid, curroom);
             } else if (msg.indexOf("*autistic screeching*") > -1) {
                 sendMessage(msg, un, uid, curroom);
-                io.emit(getMessage(curroom));
+                io.emit(getMessage(curroom, isEmbed));
                 sendMessage(un + " is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod", uid, curroom);
                 // } else if (msg.indexOf("!myrooms") > -1) {
                 //     sendMessage("your rooms: " + getrooms(uid).toString() + " curroom" + curroom, un, uid, curroom);
             } else if (msg.indexOf("!pepe") == 0) {
                 sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un, uid, curroom)
+                isEmbed = true;
             } else if (msg.indexOf("nigger") > -1) {
                 var newmsg = msg.replace("nigger", "Basketball American");
                 sendMessage(newmsg, un + ', casual racist', uid, curroom);
@@ -196,15 +198,18 @@ io.sockets.on('connection', function (socket) {
                 sendMessage("Stop right there, criminal scum! You violated my mother!", "AutoMod", uid, curroom);
             } else if (/^http\S*\.(jpg|gif|png|svg)$/.test(msg)) {
                 sendMessage('<img class="materialboxed responsive-img" src="' + msg + '" alt="' + msg + '">', un, uid, curroom);
+                isEmbed = true;
             } else if (/http\S*youtube\S*/.test(msg)) {
                 var ind = msg.search(/watch\?v=\S*/);
                 var res = msg.substring(ind + 8, ind + 19);
                 var newmsg = '<div class="video-container"><iframe width="100%" src="//www.youtube.com/embed/' + res + '?rel=0" frameborder="0" allowfullscreen></iframe></div>';
+                isEmbed = true;
                 sendMessage(newmsg, un, uid, curroom);
             } else if (/http\S*youtu\.be\S*/.test(msg)) {
                 var ind = msg.search(/youtu\.be\//);
                 var res = msg.substring(ind + 9, ind + 20);
                 var newmsg = '<div class="video-container"><iframe width="100%" src="//www.youtube.com/embed/' + res + '?rel=0" frameborder="0" allowfullscreen></iframe></div>';
+                isEmbed = true;
                 sendMessage(newmsg, un, uid,curroom);
             } else if (/\S*twitch\.tv\S*/.test(msg)) {
                 console.log('Is Twitch message');
@@ -214,12 +219,14 @@ io.sockets.on('connection', function (socket) {
                     var res = msg.substring(ind + 4);
                     console.log(newmsg);
                     var newmsg = '<iframe style="width:64vw; height:36vw" src="https://clips.twitch.tv/embed?clip=' + res + '" scrolling="no" frameborder="0" autoplay=true muted=true allowfullscreen=true></iframe>';
+                    isEmbed = true;
                     sendMessage(newmsg, un, uid, curroom);
                 } else if (/\S*videos\S*/.test(msg)) { // Twitch VODs
                     console.log('Is Twitch VOD');
                     var ind = msg.search(/videos\//);
                     var res = msg.substring(ind + 7);
                     var newmsg = '<div id="' + res + '"></div><script type="text/javascript"> var player = new Twitch.Player("' + res + '", { width: 100%, video: "' + res + '",});player.setVolume(0.5);</script>'
+                    isEmbed = true;
                     console.log(newmsg);
                     sendMessage(newmsg, un, uid, curroom);
                 } else { // Twitch channel/stream
@@ -227,6 +234,7 @@ io.sockets.on('connection', function (socket) {
                     var ind = msg.search(/\.tv\//);
                     var res = msg.substring(ind + 4);
                     var newmsg = '<div id="' + res + '"></div><script type="text/javascript"> var player = new Twitch.Player("' + res + '", { width:100% channel:"' + res + '"}); player.setVolume(0.5); </script>'
+                    isEmbed = true;
                     console.log(newmsg);
                     sendMessage(newmsg, un, uid, curroom);
                 }
@@ -241,7 +249,7 @@ io.sockets.on('connection', function (socket) {
                 console.log('In chat message, curroom: ' + curroom);
                 sendMessage(msg, un, uid, curroom);
             }
-            io.emit(getMessage(curroom));
+            io.emit(getMessage(curroom, isEmbed));
         }
     });
 });
@@ -322,7 +330,7 @@ function sendMessage(message, username, uid, chatid) {
     }
 }
 
-function getMessage(chatid) {
+function getMessage(chatid, isEmbed) {
     con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", [chatid], function (error, rows, results) {
         console.log("Emitting message");
         if (error) throw error;
@@ -332,7 +340,7 @@ function getMessage(chatid) {
             } else {
                 io.emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, row[0].profpic, rows[0].chatroom_id);
             }
-			if (chatid == 1) {
+			if (chatid == 1 && !isEmbed) {
 				//send to Discord
                 client.channels.get('329020807487553537').send(rows[0].username + ': ' + decodeURI(rows[0].message));
 			}
