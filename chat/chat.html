@@ -240,10 +240,6 @@
             }
             document.getElementById('add_pics').addEventListener('change', handleFileSelect, false);
 
-            function retrievePrevious() {
-                console.log('Retrieve previous');
-            }
-            
             var last_scroll_position = 0;
             $(window).scroll(function () {
                 if ($(window).scrollTop() + $(window).height() >= $(document).height() * .9) {
@@ -252,7 +248,7 @@
                     canAuto = false;
                 }
                 if ($(window).scrollTop() == 0 && $(window).scrollTop() - last_scroll_position < 0) {
-                    retrievePrevious();
+                    console.log('Retrieve previous');
                 }
                 last_scroll_position = $(window).scrollTop();
             });
