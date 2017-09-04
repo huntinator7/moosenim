@@ -162,14 +162,12 @@
                         audio.play();
                     }
                     if (!first_id) {
-                        console.log('firstid false');
                         first_id = id;
                         $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
                             + user + '</span><p>'
                             + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
                             + time + '</a></li>');
                     } else {
-                        console.log('firstid true');
                         insertMessage('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
                             + user + '</span><p>'
                             + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
@@ -178,7 +176,7 @@
                             first_id = id;
                         }
                     }
-                    console.log('id: ' + id + ' first_id: ' + first_id);
+                    // console.log('id: ' + id + ' first_id: ' + first_id);
                     $('.materialboxed').materialbox();
                 }
             });
