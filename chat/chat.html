@@ -109,10 +109,11 @@
 
     <!-- Socket.io -->
     <script>
+        var retrievePrevious = false;
         $(function () {
             var last_id;
             canAuto = false;
-            retrievePrevious = true;
+            
             var socket = io();
             var siofu = new SocketIOFileUpload(socket);
             siofu.addEventListener("start", function (event) {
