@@ -343,7 +343,7 @@ function getMessage(chatid, isEmbed) {
 			if (chatid == 1 && !isEmbed) {
                 //send to Discord
                 client.guilds.get('176031369191882754').me.setNickname(rows[0].username);
-                client.channels.get('329020807487553537').send(rows[0].username + ': ' + decodeURI(rows[0].message));
+                client.channels.get('329020807487553537').send(decodeURI(rows[0].message));
 			}
         });
     });
