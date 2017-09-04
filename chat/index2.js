@@ -123,10 +123,13 @@ io.sockets.on('connection', function (socket) {
                     if (error) console.log(error);
                 });
             }
+            else{
 
-            con.query("SELECT profpic FROM users WHERE uid = ?", [uid], function (error, row, results) {
-                if (row[0].profpic != photoURL) {
-                    con.query("UPDATE users SET profpic = ? ", [photoURL]);
+                con.query("SELECT profpic FROM users WHERE uid = ?", [uid], function (error, row, results) {
+                    if (row[0].profpic != photoURL) {
+                        con.query("UPDATE users SET profpic = ? ", [photoURL]);
+                    }
+
                 }
             });
 
@@ -270,11 +273,7 @@ io.sockets.on('connection', function (socket) {
 
 var connect = config.db;
 
-//connects to mysql database
-// con.connect(function (err) {
-//     if (err) throw err;
-//     console.log("Connected!");
-// });
+
 
 var con;
 
