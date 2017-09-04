@@ -355,8 +355,8 @@ function sleep(ms) {
 async function sendToDiscord(un, msg) {
     console.log('Taking a break...');
     client.guilds.get('176031369191882754').me.setNickname(un);
-    await sleep(2000);
-    console.log('Two second later');
+    await sleep(1000);
+    console.log('One second later');
     client.channels.get('329020807487553537').send(msg);
 }
 
