@@ -357,7 +357,7 @@ async function sendToDiscord(un, msg) {
     client.guilds.get('176031369191882754').me.setNickname(un);
     await sleep(1000);
     console.log('One second later');
-    client.channels.get('329020807487553537').send(msg);
+    client.channels.get('329020807487553537').send(un + ': ' + msg);
 }
 
 function getMessageDiscord(un, msg, pic) {
