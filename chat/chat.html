@@ -234,7 +234,7 @@
             function insertMessage(msg, id) {
                 var wasInserted = false;
                 $('#messages li').each(function () {
-                    console.log(`${id}: ${this.id}`);
+                    // console.log(`${id}: ${this.id}`);
                     if (id < this.id && !wasInserted) {
                         $(msg).insertBefore(this);
                         wasInserted = true;
@@ -244,7 +244,7 @@
                     }
                 });
                 if (!wasInserted) {
-                    console.log(`Not found, appending ${msg}`);
+                    console.log(`Not found, appending`);
                     $('#messages').append(msg);
                     if (canAuto) {
                         window.scrollTo(0, document.body.scrollHeight);
