@@ -9,7 +9,7 @@ var siofu = require("socketio-file-upload");
 //var path = require('path');
 var cors = require('cors');
 var messages = require('./routes/messages');
-var bodyParser = require('body-parser'); 
+var bodyParser = require('body-parser');
 
 //app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'jade');
@@ -18,7 +18,7 @@ app.use(cors());
 app.use(bodyParser.json());
 //app.use(bodyParser.urlencoded({
 
-  //  extended: false
+//  extended: false
 
 //})); 
 
@@ -55,11 +55,11 @@ client.on('ready', () => {
 client.on('message', msg => {
     // client.user.setAvatar('./images/discord.png');
     if (msg.channel.id == 329020807487553537 && !(msg.author.bot)) {
-        msg.channel.members.forEach(function (element){
+        msg.channel.members.forEach(function (element) {
             try {
                 console.log(`Username: ${element.displayName}`);
                 console.log(`ID: ${element.user.id}`);
-                if (element.user.id == 349664494290731020){
+                if (element.user.id == 349664494290731020) {
 
                 }
             } catch (e) {
@@ -91,10 +91,10 @@ io.sockets.on('connection', function (socket) {
     uploader.dir = __dirname + '/uploads';
     uploader.listen(socket);
 
-    uploader.on("start", function(event){
+    uploader.on("start", function (event) {
         console.log('Starting upload to ' + event.file.name + ' of type ' + event.file.meta.filetype + ' to ' + uploader.dir);
     });
-    uploader.on("saved", function(event){
+    uploader.on("saved", function (event) {
         var un = 'Error - Username Not Found';
         var uid;
         var curroom = 1;
@@ -112,7 +112,7 @@ io.sockets.on('connection', function (socket) {
         var msg = '<img class="materialboxed responsive-img" style="height:20vh" src="http://moosen.im/uploads/' + event.file.name + '" alt="Mighty Moosen">';
         sendMessage(msg, un, uid, curroom);
         io.emit(getMessage(curroom, true));
-        client.channels.get('329020807487553537').send(un, {files: [('./uploads/' + event.file.name)]});
+        client.channels.get('329020807487553537').send(un, { files: [('./uploads/' + event.file.name)] });
     });
 
     // console.log('Sockets: ' + Object.keys(io.sockets.sockets));
@@ -210,7 +210,7 @@ io.sockets.on('connection', function (socket) {
                 var res = msg.substring(ind + 9, ind + 20);
                 var newmsg = '<div class="video-container"><iframe width="100%" src="//www.youtube.com/embed/' + res + '?rel=0" frameborder="0" allowfullscreen></iframe></div>';
                 isEmbed = true;
-                sendMessage(newmsg, un, uid,curroom);
+                sendMessage(newmsg, un, uid, curroom);
             } else if (/\S*twitch\.tv\S*/.test(msg)) {
                 console.log('Is Twitch message');
                 if (/\S*clips\S*/.test(msg)) { // Twitch clips
@@ -243,9 +243,9 @@ io.sockets.on('connection', function (socket) {
                 var newmsg = msg.substring(5, msg.length);
                 io.emit('motd update', newmsg);
                 con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [newmsg, curroom], function (error) { if (error) throw error; });
-                
+
             }
-                else {
+            else {
                 console.log('In chat message, curroom: ' + curroom);
                 sendMessage(msg, un, uid, curroom);
             }
@@ -340,13 +340,24 @@ function getMessage(chatid, isEmbed) {
             } else {
                 io.emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, row[0].profpic, rows[0].chatroom_id);
             }
-			if (chatid == 1 && !isEmbed) {
+            if (chatid == 1 && !isEmbed) {
                 //send to Discord
-                client.guilds.get('176031369191882754').me.setNickname(rows[0].username);
-                client.channels.get('329020807487553537').send(decodeURI(rows[0].message));
-			}
+                sendToDiscord(rows[0].username, decodeURI(rows[0].message));
+            }
         });
     });
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function sendToDiscord(un, msg) {
+    console.log('Taking a break...');
+    client.guilds.get('176031369191882754').me.setNickname(un);
+    await sleep(2000);
+    console.log('Two second later');
+    client.channels.get('329020807487553537').send(msg);
 }
 
 function getMessageDiscord(un, msg, pic) {
