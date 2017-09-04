@@ -166,7 +166,7 @@
                         $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
                             + user + '</span><p>'
                             + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
-                            + time + '</a></li>', id);
+                            + time + '</a></li>');
                     } else {
                         insertMessage('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
                             + user + '</span><p>'
@@ -244,7 +244,7 @@
                     }
                 });
                 if (!wasInserted) {
-                    console.log(`Not found, appending`);
+                    console.log(`Not found, appending ${msg}`);
                     $('#messages').append(msg);
                     if (canAuto) {
                         window.scrollTo(0, document.body.scrollHeight);
