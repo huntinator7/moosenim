@@ -54,25 +54,22 @@ client.on('ready', () => {
 //Any time a Discord message is sent, bot checks to see if in moosen-im channel and if not sent by bot. If so, it adds the message to the DB and emits it
 client.on('message', msg => {
     // client.user.setAvatar('./images/discord.png');
-    if (msg.channel.id == 329020807487553537 && !(msg.author.bot)) {
-        msg.channel.members.forEach(function (element) {
-            try {
-                console.log(`Username: ${element.displayName}`);
-                console.log(`ID: ${element.user.id}`);
-                if (element.user.id == 349664494290731020) {
-
-                }
-            } catch (e) {
-                console.log('User didn\'t work');
-            }
-        });
+    if (msg.channel.id == config.discord.moosen && !(msg.author.bot)) {
+        // msg.channel.members.forEach(function (element) {
+        //     try {
+        //         console.log(`Username: ${element.displayName}`);
+        //         console.log(`ID: ${element.user.id}`);
+        //     } catch (e) {
+        //         console.log('User didn\'t work');
+        //     }
+        // });
         sendMessage(msg.content, msg.author.username, 1, 1);
         getMessageDiscord(msg.author.username, msg.content, msg.author.avatarURL);
         if (msg.attachments.array().length) {
             try {
                 console.log(msg.attachments.first().url);
                 var message = '<img class="materialboxed responsive-img" src="' + msg.attachments.first().url + '" alt="Error - Image not found">';
-                sendMessage(message, msg.author.username, 1, config.discordChannel);
+                sendMessage(message, msg.author.username, config.discord.uid, config.discord.sendChannel);
                 getMessageDiscord(msg.author.username, message, msg.author.avatarURL);
             } catch (e) {
                 console.log('Message attachment has no url');
@@ -112,7 +109,7 @@ io.sockets.on('connection', function (socket) {
         var msg = '<img class="materialboxed responsive-img" style="height:20vh" src="http://moosen.im/uploads/' + event.file.name + '" alt="Mighty Moosen">';
         sendMessage(msg, un, uid, curroom);
         io.emit(getMessage(curroom, true));
-        client.channels.get('329020807487553537').send(un, { files: [('./uploads/' + event.file.name)] });
+        client.channels.get(config.discord.moosen.toString()).send(un, { files: [('./uploads/' + event.file.name)] });
     });
 
     // console.log('Sockets: ' + Object.keys(io.sockets.sockets));
@@ -264,12 +261,7 @@ io.sockets.on('connection', function (socket) {
     });
 });
 
-var connect = {
-    host: "localhost",
-    user: "root",
-    password: "raspberry",
-    database: "moosenim"
-};
+var connect = config.db;
 
 //connects to mysql database
 // con.connect(function (err) {
@@ -296,7 +288,7 @@ function handleDisconnect() {
             setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
         } else {                              // to avoid a hot loop, and to allow our node script to
             console.log("Connected!");        // process asynchronous requests in the meantime.
-        }                                     // If you're also serving http, display a 503 error.
+        }
     });
 
     con.on('error', function (err) {
@@ -350,7 +342,7 @@ function getMessage(chatid, isEmbed) {
             } else {
                 io.emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, row[0].profpic, rows[0].chatroom_id);
             }
-            if (chatid == 1 && !isEmbed) {
+            if (chatid == config.discord.sendChannel && !isEmbed) {
                 //send to Discord
                 sendToDiscord(rows[0].username, decodeURI(rows[0].message), row[0].profpic);
             }
@@ -364,16 +356,16 @@ function sleep(ms) {
 
 async function sendToDiscord(un, msg, pic) {
     console.log('Taking a break...');
-    client.guilds.get('176031369191882754').me.setNickname(un);
+    client.guilds.get(config.discord.guild.toString()).me.setNickname(un);
     // client.user.setAvatar(pic);
     await sleep(1000);
     console.log('One second later');
-    client.channels.get('329020807487553537').send(msg);
+    client.channels.get(config.discord.moosen.toString()).send(msg);
 }
 
 function getMessageDiscord(un, msg, pic) {
-    con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", [config.discordChannel], function (error, rows, results) {
-        io.emit('chat message', un, decodeURI(rows[0].message), moment().format('h:mm:ss a'), rows[0].id, pic, config.discordChannel);
+    con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", [config.discord.sendChannel], function (error, rows, results) {
+        io.emit('chat message', un, decodeURI(rows[0].message), moment().format('h:mm:ss a'), rows[0].id, pic, config.discord.sendChannel);
     });
 }
 
@@ -431,7 +423,7 @@ function showPreviousMessages(num, previous, sid, roomid) {
 }
 
 function getChatrooms(sid, uid) {
-    con.query("SELECT * FROM rooms WHERE serialid  IN  (SELECT room_id FROM room_users WHERE user_id = ?)", [uid], function (error, row) {
+    con.query("SELECT * FROM rooms WHERE serialid IN (SELECT room_id FROM room_users WHERE user_id = ?)", [uid], function (error, row) {
         io.to(sid).emit('roomlist', row);
     });
 }
@@ -451,8 +443,6 @@ function createChatroom(n, uid) {
         name: name,
         adminid: uid
     };
-
-
 }
 
 console.log('listening on *:80');
