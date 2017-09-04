@@ -162,17 +162,18 @@
                         audio.play();
                     }
 
-                    $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
+                    insertMessage('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
                         + user + '</span><p>'
                         + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
-                        + time + '</a></li>');
+                        + time + '</a></li>', id);
                     if (canAuto) {
                         window.scrollTo(0, document.body.scrollHeight);
                     }
-                    console.log('id: ' + document.getElementById('messages').lastChild.id);
-                    last_id = document.getElementById('messages').lastChild.id;
-                    if (!first_id || first_id > last_id) first_id = last_id;
-                    console.log('last_id: ' + last_id + ' first_id: ' + first_id);
+
+                    if (!first_id || first_id > id) {
+                        first_id = id;
+                    }
+                    console.log('id: ' + id + ' first_id: ' + first_id);
                     $('.materialboxed').materialbox();
                 }
             });
@@ -229,6 +230,16 @@
                     window.scrollTo(0, document.body.scrollHeight);
                 }
             });
+
+            function insertMessage(msg, id) {
+                $('#messages').forEach(function (element) {
+                    console.log(`${id}: ${element.id}`);
+                    if (id < element.id) {
+                        $(msg).insertBefore(element);
+                        break;
+                    }
+                });
+            }
 
             function handleFileSelect(evt) {
                 console.log('In handleFileSelect');
