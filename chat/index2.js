@@ -343,18 +343,18 @@ function getMessage(chatid, isEmbed) {
             }
 			if (chatid == 1 && !isEmbed) {
                 //send to Discord
-                client.guild.me.setNickname("nickname");
-                client.channels.get('329020807487553537').members.forEach(function (element){
-                    try {
-                        if (element.user.id == 349664494290731020){
-                            console.log('test');
-                        } else if (element.user.id == '349664494290731020'){
-                            console.log('test2');
-                        }
-                    } catch (e) {
-                        console.log('User didn\'t work');
-                    }
-                });
+                // client.guild.me.setNickname("nickname");
+                // client.channels.get('329020807487553537').members.forEach(function (element){
+                //     try {
+                //         if (element.user.id == 349664494290731020){
+                //             console.log('test');
+                //         } else if (element.user.id == '349664494290731020'){
+                //             console.log('test2');
+                //         }
+                //     } catch (e) {
+                //         console.log('User didn\'t work');
+                //     }
+                // });
 
 
                 client.channels.get('329020807487553537').send(rows[0].username + ': ' + decodeURI(rows[0].message));
