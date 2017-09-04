@@ -256,7 +256,7 @@
             } else {
                 retrievePrevious = false;
             }
-            last_scroll_position = currentScroll;
+            last_scroll_position = $(window).scrollTop();
         });
         $(window).resize(function () { //checking for window resize event
             if ($("#m").is(":focus")) {
