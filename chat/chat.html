@@ -233,7 +233,7 @@
 
             function insertMessage(msg, id) {
                 var wasInserted = false;
-                $('#messages').each(function () {
+                $('#messages li').each(function () {
                     console.log(`${id}: ${this.id}`);
                     if (id < this.id && !wasInserted) {
                         $(msg).insertBefore(this);
