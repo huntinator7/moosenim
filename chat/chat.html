@@ -112,6 +112,7 @@
         var event
         $(function () {
             var last_id;
+            var first_id;
             canAuto = false;
             var retrievePrevious = false;
             var socket = io();
@@ -170,7 +171,8 @@
                     }
                     console.log('id: ' + document.getElementById('messages').lastChild.id);
                     last_id = document.getElementById('messages').lastChild.id;
-                    console.log('last_id: ' + document.getElementById('messages').lastChild.id);
+                    if (!first_id) first_id = last_id;
+                    console.log('last_id: ' + last_id);
                     $('.materialboxed').materialbox();
                 }
             });
