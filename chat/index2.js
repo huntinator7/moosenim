@@ -69,7 +69,7 @@ client.on('message', msg => {
         if (msg.attachments.array().length) {
             try {
                 console.log(msg.attachments.first().url);
-                var message = '<img class="materialboxed responsive-img" src="' + msg.attachments.first().url + '" alt="Error - Image not found">';
+                var message = '<img class="materialboxed responsive-img" style="height:20vh" src="' + msg.attachments.first().url + '" alt="Error - Image not found">';
                 sendMessage(message, msg.author.username, config.discord.uid, config.discord.sendChannel);
                 getMessageDiscord(msg.author.username, message, msg.author.avatarURL);
             } catch (e) {
