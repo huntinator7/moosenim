@@ -112,6 +112,7 @@
         $(function () {
             var last_id;
             canAuto = false;
+            retrievePrevious = false;
             var socket = io();
             var siofu = new SocketIOFileUpload(socket);
             siofu.addEventListener("start", function (event) {
@@ -238,7 +239,7 @@
             }
             document.getElementById('add_pics').addEventListener('change', handleFileSelect, false);
 
-            function retrievePrevious(){
+            if (retreivePrevious) {
                 console.log('Retrieve previous');
             }
         });
@@ -251,7 +252,9 @@
                 canAuto = false;
             }
             if ($(window).scrollTop() == 0 && currentScroll - last_scroll_position < 0) {
-                retrievePrevious();
+                retrievePrevious = true;
+            } else {
+                retrievePrevious = false;
             }
             last_scroll_position = currentScroll;
         });
