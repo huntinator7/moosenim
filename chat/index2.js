@@ -157,9 +157,15 @@ io.sockets.on('connection', function (socket) {
             io.to(socket.id).emit('retreat');
         }
     });
+
     socket.on('changerooms', function (roomid) {
-        showLastMessages(11, socket.id, roomid)
+        showLastMessages(10, socket.id, roomid)
     });
+
+    socket.on('retPre', function (num, previous, roomid) {
+        showPreviousMessages(10, previous, socket.id, roomid)
+    });
+
     //Generic message emit
     socket.on('chat message', function (msg, curroom) {
         var un = 'Error - Username Not Found';
@@ -189,16 +195,16 @@ io.sockets.on('connection', function (socket) {
                 // } else if (msg.indexOf("!myrooms") > -1) {
                 //     sendMessage("your rooms: " + getrooms(uid).toString() + " curroom" + curroom, un, uid, curroom);
             } else if (msg.indexOf("!pepe") == 0) {
-                sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un, uid, curroom)
                 isEmbed = true;
+                sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un, uid, curroom)
             } else if (msg.indexOf("nigger") > -1) {
                 var newmsg = msg.replace("nigger", "Basketball American");
                 sendMessage(newmsg, un + ', casual racist', uid, curroom);
             } else if (msg.indexOf("<script") > -1) {
                 sendMessage("Stop right there, criminal scum! You violated my mother!", "AutoMod", uid, curroom);
             } else if (/^http\S*\.(jpg|gif|png|svg)$/.test(msg)) {
-                sendMessage('<img class="materialboxed responsive-img" src="' + msg + '" alt="' + msg + '">', un, uid, curroom);
                 isEmbed = true;
+                sendMessage('<img class="materialboxed responsive-img" src="' + msg + '" alt="' + msg + '">', un, uid, curroom);
             } else if (/http\S*youtube\S*/.test(msg)) {
                 var ind = msg.search(/watch\?v=\S*/);
                 var res = msg.substring(ind + 8, ind + 19);
@@ -243,13 +249,13 @@ io.sockets.on('connection', function (socket) {
                 var newmsg = msg.substring(5, msg.length);
                 io.emit('motd update', newmsg);
                 con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [newmsg, curroom], function (error) { if (error) throw error; });
-
             }
             else {
                 console.log('In chat message, curroom: ' + curroom);
                 sendMessage(msg, un, uid, curroom);
             }
             io.emit(getMessage(curroom, isEmbed));
+            if (isEmbed) sendToDiscord(un, msg);
         }
     });
 });
@@ -361,7 +367,6 @@ async function sendToDiscord(un, msg) {
 }
 
 function getMessageDiscord(un, msg, pic) {
-    //io.emit('chat message', un, decodeURI(msg), moment().format('h:mm:ss a'), 0, pic, 1);
     con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", [config.discordChannel], function (error, rows, results) {
         io.emit('chat message', un, decodeURI(rows[0].message), moment().format('h:mm:ss a'), rows[0].id, pic, config.discordChannel);
     });
@@ -394,6 +399,28 @@ function showLastMessages(num, sid, roomid) {
         }
         catch (e) {
             console.log("last message isn't working.");
+        }
+    });
+}
+
+function showPreviousMessages(num, previous, sid, roomid) {
+    con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? AND id < ? ORDER BY id DESC LIMIT ?) sub ORDER BY id ASC", [roomid, previous, num], function (error, rows, results) {
+        console.log(`Getting previous ${num} messages from ${previous}...`);
+        if (error) throw error;
+        try {
+            rows.forEach(function (element) {
+                con.query("SELECT * FROM users WHERE users.name = ?", [element.username], function (error, row) {
+                    if (row[0]) {
+                        io.to(sid).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, row[0].profpic, element.chatroom_id);
+                    } else {
+                        io.to(sid).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, "http://www.moosen.im/images/favicon.png", element.chatroom_id);
+                    }
+                    console.log(element.id);
+                });
+            });
+        }
+        catch (e) {
+            console.log("Previous message isn't working.");
         }
     });
 }
