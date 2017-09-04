@@ -55,6 +55,7 @@ client.on('ready', () => {
 client.on('message', msg => {
     // client.user.setAvatar('./images/discord.png');
     if (msg.channel.id == config.discord.moosen && !(msg.author.bot)) {
+        console.log('msg.channel.id == config.discord.moosen');
         // msg.channel.members.forEach(function (element) {
         //     try {
         //         console.log(`Username: ${element.displayName}`);
@@ -109,7 +110,7 @@ io.sockets.on('connection', function (socket) {
         var msg = '<img class="materialboxed responsive-img" style="height:20vh" src="http://moosen.im/uploads/' + event.file.name + '" alt="Mighty Moosen">';
         sendMessage(msg, un, uid, curroom);
         io.emit(getMessage(curroom, true));
-        client.channels.get(config.discord.moosen.toString()).send({ files: [('./uploads/' + event.file.name)] });
+        client.channels.get(config.discord.moosen).send({ files: [('./uploads/' + event.file.name)] });
     });
 
     // console.log('Sockets: ' + Object.keys(io.sockets.sockets));
@@ -358,12 +359,11 @@ function sleep(ms) {
 
 async function sendToDiscord(un, msg, pic) {
     console.log('Taking a break...');
-    console.log(client.guilds);
     client.guilds.get(config.discord.guild).me.setNickname(un);
     // client.user.setAvatar(pic);
     await sleep(1000);
     console.log('One second later');
-    client.channels.get(config.discord.moosen.toString()).send(msg);
+    client.channels.get(config.discord.moosen).send(msg);
 }
 
 function getMessageDiscord(un, msg, pic) {
