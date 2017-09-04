@@ -233,11 +233,10 @@
 
             function insertMessage(msg, id) {
                 var wasInserted = false;
-                var messages = $('#messages');
-                messages.forEach(function (element) {
-                    console.log(`${id}: ${element.id}`);
-                    if (id < element.id && !wasInserted) {
-                        $(msg).insertBefore(element);
+                $('#messages').each(function () {
+                    console.log(`${id}: ${this.id}`);
+                    if (id < this.id && !wasInserted) {
+                        $(msg).insertBefore(this);
                         wasInserted = true;
                         if (canAuto) {
                             window.scrollTo(0, document.body.scrollHeight);
