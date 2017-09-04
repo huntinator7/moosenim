@@ -363,6 +363,7 @@ function sleep(ms) {
 
 async function sendToDiscord(un, msg, pic) {
     console.log('Taking a break...');
+    console.log(config.discord.guild.toString());
     client.guilds.get(config.discord.guild.toString()).me.setNickname(un);
     // client.user.setAvatar(pic);
     await sleep(1000);
