@@ -171,6 +171,7 @@ io.sockets.on('connection', function (socket) {
         var un = 'Error - Username Not Found';
         var uid;
         var isEmbed = false;
+        var send = true;
         console.log('chat message       socket.id: ' + socket.id);
         for (var i = 0; i < online.length; i++) {
             console.log(i + ': ' + online[i].sid);
@@ -249,13 +250,16 @@ io.sockets.on('connection', function (socket) {
                 var newmsg = msg.substring(5, msg.length);
                 io.emit('motd update', newmsg);
                 con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [newmsg, curroom], function (error) { if (error) throw error; });
+                send = false;
             }
             else {
                 console.log('In chat message, curroom: ' + curroom);
                 sendMessage(msg, un, uid, curroom);
             }
-            io.emit(getMessage(curroom, isEmbed));
-            if (isEmbed) sendToDiscord(un, msg);
+            if (send) {
+                io.emit(getMessage(curroom, isEmbed));
+                if (isEmbed) sendToDiscord(un, msg);
+            }
         }
     });
 });
