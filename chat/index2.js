@@ -109,7 +109,7 @@ io.sockets.on('connection', function (socket) {
         var msg = '<img class="materialboxed responsive-img" style="height:20vh" src="http://moosen.im/uploads/' + event.file.name + '" alt="Mighty Moosen">';
         sendMessage(msg, un, uid, curroom);
         io.emit(getMessage(curroom, true));
-        client.channels.get(config.discord.moosen.toString()).send(un, { files: [('./uploads/' + event.file.name)] });
+        client.channels.get(config.discord.moosen.toString()).send({ files: [('./uploads/' + event.file.name)] });
     });
 
     // console.log('Sockets: ' + Object.keys(io.sockets.sockets));
