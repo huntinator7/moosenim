@@ -358,8 +358,8 @@ function sleep(ms) {
 
 async function sendToDiscord(un, msg, pic) {
     console.log('Taking a break...');
-    console.log(config.discord.guild.toString());
-    client.guilds.get(config.discord.guild.toString()).me.setNickname(un);
+    console.log(client.guilds);
+    client.guilds.get(config.discord.guild).me.setNickname(un);
     // client.user.setAvatar(pic);
     await sleep(1000);
     console.log('One second later');
