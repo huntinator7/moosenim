@@ -162,7 +162,7 @@ io.sockets.on('connection', function (socket) {
         showLastMessages(10, socket.id, roomid)
     });
 
-    socket.on('retPre', function (num, previous, roomid) {
+    socket.on('retPre', function (previous, roomid) {
         showPreviousMessages(10, previous, socket.id, roomid)
     });
 
@@ -405,7 +405,7 @@ function showLastMessages(num, sid, roomid) {
 
 function showPreviousMessages(num, previous, sid, roomid) {
     con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? AND id < ? ORDER BY id DESC LIMIT ?) sub ORDER BY id ASC", [roomid, previous, num], function (error, rows, results) {
-        console.log(`Getting previous ${num} messages from ${previous}...`);
+        console.log(`Getting previous ${num} messages from ${previous} in room ${roomid}...`);
         if (error) throw error;
         try {
             rows.forEach(function (element) {
