@@ -126,6 +126,13 @@ io.sockets.on('connection', function (socket) {
                     if (error) console.log(error);
                 });
             }
+
+            con.query("SELECT profpic FROM users WHERE uid = ?", [uid], function (error, row, results) {
+                if (row[0].profpic != photoURL) {
+                    con.query("UPDATE users SET profpic = ? ", [photoURL]);
+                }
+            });
+
             addOnline(displayName, email, photoURL, uid, socket.id, 1);//, getrooms(uid, socket.id));
         });
         io.emit('login', displayName, email, photoURL, uid);
