@@ -341,7 +341,8 @@ function getMessage(chatid, isEmbed) {
                 io.emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, row[0].profpic, rows[0].chatroom_id);
             }
 			if (chatid == 1 && !isEmbed) {
-				//send to Discord
+                //send to Discord
+                client.channels.get('329020807487553537').members.get('349664494290731020').nickname = rows[0].username;
                 client.channels.get('329020807487553537').send(rows[0].username + ': ' + decodeURI(rows[0].message));
 			}
         });
@@ -374,8 +375,6 @@ function showLastMessages(num, sid, roomid) {
                 con.query("SELECT * FROM users WHERE users.name = ?", [element.username], function (error, row) {
                     if (row[0]) {
                         io.to(sid).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, row[0].profpic, element.chatroom_id);
-                       
-                        
                     } else {
                         io.to(sid).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, "http://www.moosen.im/images/favicon.png", element.chatroom_id);
                     }
