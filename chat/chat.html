@@ -110,6 +110,7 @@
     <!-- Socket.io -->
     <script>
         $(function () {
+            var last_id;
             canAuto = false;
             var socket = io();
             var siofu = new SocketIOFileUpload(socket);
@@ -166,7 +167,7 @@
                         window.scrollTo(0, document.body.scrollHeight);
                     }
                     console.log('a: ' + document.getElementById('messages').lastChild.id);
-                    console.log('b: ' + $('#messages').last().atrributes);
+                    last_id = document.getElementById('messages').lastChild.id;
                     $('.materialboxed').materialbox();
                 }
             });
