@@ -248,7 +248,6 @@ io.sockets.on('connection', function (socket) {
             }
             else if (msg.indexOf("!motd") > -1) {
                 send = false;
-                console.log('send motd: ' + send);
                 var newmsg = msg.substring(5, msg.length);
                 io.emit('motd update', newmsg);
                 con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [newmsg, curroom], function (error) { if (error) throw error; });
@@ -258,7 +257,6 @@ io.sockets.on('connection', function (socket) {
                 sendMessage(msg, un, uid, curroom);
             }
             if (send) {
-                console.log('send emit: ' + send);
                 io.emit(getMessage(curroom, isEmbed));
                 if (isEmbed) sendToDiscord(un, msg);
             }
