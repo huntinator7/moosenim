@@ -152,7 +152,8 @@
                 if (curroom == room) {
                     // var d = $('#box');
                     // d.scrollTop(d.prop("scrollHeight"));
-                    console.log($('#messages').last().id);
+                    console.log('a: ' + document.getElementById('messages').lastChild);
+                    console.log('b: ' + $('#messages').lastChild);
                     document.title = user.substring(0, 3) + ": " + msg.substring(0, 10);
                     if (document.hidden) {
                         notifyMe(msg, pic);
