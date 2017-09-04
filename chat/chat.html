@@ -235,16 +235,16 @@
                 var wasInserted = false;
                 $('#messages').forEach(function (element) {
                     console.log(`${id}: ${element.id}`);
-                    if (id < element.id) {
+                    if (id < element.id && !wasInserted) {
                         $(msg).insertBefore(element);
                         wasInserted = true;
                         if (canAuto) {
                             window.scrollTo(0, document.body.scrollHeight);
                         }
-                        break;
                     }
                 });
                 if (!wasInserted) {
+                    console.log(`Not found, appending`);
                     $('#messages').append(msg);
                     if (canAuto) {
                         window.scrollTo(0, document.body.scrollHeight);
