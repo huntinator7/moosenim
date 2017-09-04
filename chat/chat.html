@@ -109,6 +109,7 @@
 
     <!-- Socket.io -->
     <script>
+        var event
         $(function () {
             var last_id;
             canAuto = false;
@@ -239,30 +240,28 @@
             }
             document.getElementById('add_pics').addEventListener('change', handleFileSelect, false);
 
-            if (retrievePrevious) {
+            function retrievePrevious() {
                 console.log('Retrieve previous');
             }
-        });
-        var last_scroll_position = 0;
-        $(window).scroll(function () {
-            if ($(window).scrollTop() + $(window).height() >= $(document).height() * .9) {
-                canAuto = true;
-            } else {
-                canAuto = false;
-            }
-            if ($(window).scrollTop() == 0 && $(window).scrollTop() - last_scroll_position < 0) {
-                retrievePrevious = true;
-                console.log('retPre is true');
-            } else {
-                retrievePrevious = false;
-            }
-            last_scroll_position = $(window).scrollTop();
-        });
-        $(window).resize(function () { //checking for window resize event
-            if ($("#m").is(":focus")) {
-                window.scrollTo(0, document.body.scrollHeight);
-                window.scrollTo(0, document.body.scrollHeight);
-            }
+            
+            var last_scroll_position = 0;
+            $(window).scroll(function () {
+                if ($(window).scrollTop() + $(window).height() >= $(document).height() * .9) {
+                    canAuto = true;
+                } else {
+                    canAuto = false;
+                }
+                if ($(window).scrollTop() == 0 && $(window).scrollTop() - last_scroll_position < 0) {
+                    retrievePrevious();
+                }
+                last_scroll_position = $(window).scrollTop();
+            });
+            $(window).resize(function () { //checking for window resize event
+                if ($("#m").is(":focus")) {
+                    window.scrollTo(0, document.body.scrollHeight);
+                    window.scrollTo(0, document.body.scrollHeight);
+                }
+            });
         });
 
         if (window.File && window.FileReader && window.FileList && window.Blob) {
