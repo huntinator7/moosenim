@@ -152,8 +152,6 @@
                 if (curroom == room) {
                     // var d = $('#box');
                     // d.scrollTop(d.prop("scrollHeight"));
-                    console.log('a: ' + document.getElementById('messages').lastChild.id);
-                    console.log('b: ' + $('#messages').last().atrributes);
                     document.title = user.substring(0, 3) + ": " + msg.substring(0, 10);
                     if (document.hidden) {
                         notifyMe(msg, pic);
@@ -167,6 +165,8 @@
                     if (canAuto) {
                         window.scrollTo(0, document.body.scrollHeight);
                     }
+                    console.log('a: ' + document.getElementById('messages').lastChild.id);
+                    console.log('b: ' + $('#messages').last().atrributes);
                     $('.materialboxed').materialbox();
                 }
             });
