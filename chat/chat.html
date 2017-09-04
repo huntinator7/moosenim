@@ -233,7 +233,8 @@
 
             function insertMessage(msg, id) {
                 var wasInserted = false;
-                $('#messages').forEach(function (element) {
+                var messages = $('#messages');
+                messages.forEach(function (element) {
                     console.log(`${id}: ${element.id}`);
                     if (id < element.id && !wasInserted) {
                         $(msg).insertBefore(element);
