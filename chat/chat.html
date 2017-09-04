@@ -161,17 +161,17 @@
                         notifyMe(msg, pic);
                         audio.play();
                     }
-
-                    insertMessage('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
-                        + user + '</span><p>'
-                        + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
-                        + time + '</a></li>', id);
-                    if (canAuto) {
-                        window.scrollTo(0, document.body.scrollHeight);
-                    }
-
                     if (!first_id || first_id > id) {
                         first_id = id;
+                        $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
+                            + user + '</span><p>'
+                            + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
+                            + time + '</a></li>', id);
+                    } else {
+                        insertMessage('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
+                            + user + '</span><p>'
+                            + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
+                            + time + '</a></li>', id);
                     }
                     console.log('id: ' + id + ' first_id: ' + first_id);
                     $('.materialboxed').materialbox();
@@ -232,13 +232,24 @@
             });
 
             function insertMessage(msg, id) {
+                var wasInserted = false;
                 $('#messages').forEach(function (element) {
                     console.log(`${id}: ${element.id}`);
                     if (id < element.id) {
                         $(msg).insertBefore(element);
+                        wasInserted = true;
+                        if (canAuto) {
+                            window.scrollTo(0, document.body.scrollHeight);
+                        }
                         break;
                     }
                 });
+                if (!wasInserted) {
+                    $('#messages').append(msg);
+                    if (canAuto) {
+                        window.scrollTo(0, document.body.scrollHeight);
+                    }
+                }
             }
 
             function handleFileSelect(evt) {
