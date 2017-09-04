@@ -352,7 +352,7 @@ function getMessage(chatid, isEmbed) {
             }
             if (chatid == 1 && !isEmbed) {
                 //send to Discord
-                sendToDiscord(rows[0].username, decodeURI(rows[0].message));
+                sendToDiscord(rows[0].username, decodeURI(rows[0].message), row[0].profpic);
             }
         });
     });
@@ -362,9 +362,10 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function sendToDiscord(un, msg) {
+async function sendToDiscord(un, msg, pic) {
     console.log('Taking a break...');
     client.guilds.get('176031369191882754').me.setNickname(un);
+    client.user.setAvatar(pic);
     await sleep(1000);
     console.log('One second later');
     client.channels.get('329020807487553537').send(msg);
