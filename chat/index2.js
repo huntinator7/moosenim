@@ -112,6 +112,7 @@ io.sockets.on('connection', function (socket) {
         var msg = '<img class="materialboxed responsive-img" style="height:20vh" src="http://moosen.im/uploads/' + event.file.name + '" alt="Mighty Moosen">';
         sendMessage(msg, un, uid, curroom);
         io.emit(getMessage(curroom));
+        client.channels.get('329020807487553537').send(rows[0].username, new Attachment('./uploads/' + event.file.name));
     });
 
     // console.log('Sockets: ' + Object.keys(io.sockets.sockets));
