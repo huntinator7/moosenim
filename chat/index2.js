@@ -342,7 +342,9 @@ function getMessage(chatid, isEmbed) {
             }
 			if (chatid == 1 && !isEmbed) {
                 //send to Discord
+                console.log(client.channels.get('329020807487553537').members.get('349664494290731020').nickname);
                 client.channels.get('329020807487553537').members.get('349664494290731020').nickname = rows[0].username;
+                console.log(client.channels.get('329020807487553537').members.get('349664494290731020').nickname);
                 client.channels.get('329020807487553537').send(rows[0].username + ': ' + decodeURI(rows[0].message));
 			}
         });
