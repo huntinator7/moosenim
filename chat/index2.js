@@ -443,8 +443,9 @@ function createChatroom(n, uid) {
     con.query("SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC", function (error, row, results) {
         roomid = row[0].serialid;
         console.log("last room id is" + roomid);
+        con.query("INSERT INTO room_users VALUES(?,?,1)", [row[0].serialid, uid]);
     });
-    con.query("INSERT INTO room_users VALUES(?,?,1)", [roomid, uid]);
+    
     
    
 }
