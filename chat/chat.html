@@ -239,6 +239,7 @@
                 $('#messages li').each(function () {
                     // console.log(`${id}: ${this.id}`);
                     if (id < this.id && !wasInserted) {
+                        console.log(this);
                         $(msg).insertBefore(this);
                         wasInserted = true;
                         if (canAuto) {
