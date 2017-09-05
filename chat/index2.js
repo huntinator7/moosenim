@@ -441,13 +441,19 @@ function createChatroom(n, uid) {
     // get availible chatrooms from user SELECT room_id FROM room_users WHERE user_id = ? [user.uid]
     con.query("INSERT INTO rooms (name) VALUES(?)", [name], function (error) { });
     con.query("SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC", function (error, row, results) {
-        roomid = row[0].serialid;
-        console.log("last room id is" + roomid);
+        
         con.query("INSERT INTO room_users VALUES(?,?,1)", [row[0].serialid, uid]);
-    });
-    
-    
+    });  
    
+}
+
+function searchUsers(email) {
+
+}
+
+function addToRoom(email,roomid,isAdmin) {
+
+
 }
 
 console.log('listening on *:80');
