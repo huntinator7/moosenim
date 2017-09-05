@@ -363,11 +363,11 @@ function sleep(ms) {
 
 async function sendToDiscord(un, msg, pic) {
     console.log('Taking a break...');
-    client.guilds.get(config.discord.guild).me.setNickname(un);
+    client.guilds.get(config.discord.guild).me.setNickname('moosen-im');
     // client.user.setAvatar(pic);
     await sleep(100);
     console.log('One second later');
-    client.channels.get(config.discord.moosen).send(msg);
+    client.channels.get(config.discord.moosen).send(un + ': ' + msg);
 }
 
 function getMessageDiscord(un, msg, pic) {
