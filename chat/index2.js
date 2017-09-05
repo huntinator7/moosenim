@@ -199,7 +199,11 @@ io.sockets.on('connection', function (socket) {
                 sendMessage(un + " is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod", uid, curroom);
                 // } else if (msg.indexOf("!myrooms") > -1) {
                 //     sendMessage("your rooms: " + getrooms(uid).toString() + " curroom" + curroom, un, uid, curroom);
-            } else if (msg.indexOf("!pepe") == 0) {
+            } else if (msg.indexOf("!createroom") > -1) {
+                
+                createChatroom("newRoom", uid);
+            }
+            else if (msg.indexOf("!pepe") == 0) {
                 isEmbed = true;
                 sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un, uid, curroom)
             } else if (msg.indexOf("nigger") > -1) {
@@ -441,11 +445,8 @@ function createChatroom(n, uid) {
         console.log("last room id is" + roomid);
     });
     con.query("INSERT INTO room_users VALUES(?,?,1)", [roomid, uid]);
-    //pretty sure we don't actually need this.
-    var chatroom = {
-        name: name,
-        adminid: uid
-    };
+    
+   
 }
 
 console.log('listening on *:80');
