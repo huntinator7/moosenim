@@ -443,10 +443,17 @@ function createChatroom(n, uid) {
     con.query("SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC", function (error, row, results) {
         
         con.query("INSERT INTO room_users VALUES(?,?,1)", [row[0].serialid, uid]);
-    });
-    
-    
+    });  
    
+}
+
+function searchUsers(email) {
+
+}
+
+function addToRoom(email,roomid,isAdmin) {
+
+
 }
 
 console.log('listening on *:80');
