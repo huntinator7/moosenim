@@ -213,10 +213,17 @@
                 $('#nav-mobile').append('<li><a id="nav-button" class="button waves-effect" style="color: #6EB7FF">This is a button</a></li>');
             });
             $('#nav-mobile').on('click', 'a', function () {
+                console.log($(this.attributes.id).val());
+                // if ( == ) {
+
+                // } else {
+
+                // }
                 console.log('Element in nav-mobile clicked');
                 $('#messages').empty();
                 curroom = $(this.attributes.room).val();
                 socket.emit('changerooms', $(this.attributes.room).val());
+
             });
 
             //called when a chatroom is clicked in the sidebar. 
@@ -244,7 +251,7 @@
                     // console.log($(this.children[1]).text());
                     if (id < this.id && !wasInserted) {
                         $(msg).insertBefore(this);
-                        try { 
+                        try {
                             console.log($(this.previousElementSibling.children[1]).text());
                         } catch (e) {
                             console.log('Couldn\'t print');
