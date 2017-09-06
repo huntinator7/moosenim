@@ -100,7 +100,7 @@
                         <h4>Modal Header</h4>
                         <p>Enter the email of the person you wish to invite</p>
                         <form id="email">
-                            <input type="text">
+                            <input type="text" placeholder="email">
                             <button type="submit"> Add To Room </button>
                         </form>
 
@@ -139,6 +139,12 @@
             //roomList holds an array of all chatrooms a user has access to. 
             // var roomList;
             var curroom = 1;
+
+            $('#email').submit(function () {
+                console.log("form submitted");
+
+            });
+
             $('#mform').submit(function () {
                 var message = $('#m').val();
                 message = message.replace(/</g, '&lt;');
