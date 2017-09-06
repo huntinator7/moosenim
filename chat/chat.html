@@ -81,12 +81,20 @@
             <li><a id="room" class="button waves-effect" room="2" style="color: #6EB7FF">test</a></li>
         </ul>
         <ul id="slide-out" class="side-nav">
-            <li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>
-            <li><a style="color: #6EB7FF" href="#!">Alvin</a></li>
-            <li><a style="color: #6EB7FF" href="#!">Bruce</a></li>
-            <li><a style="color: #6EB7FF" href="#!">Charles</a></li>
-            <li><a style="color: #6EB7FF" href="#!">David</a></li>
-        </ul>
+            <li><div class="user-view">
+              <div class="background">
+                <img src="images/office.jpg">
+              </div>
+              <a href="#!user"><img class="circle" src="images/yuna.jpg"></a>
+              <a href="#!name"><span class="white-text name">John Doe</span></a>
+              <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
+            </div></li>
+            <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
+            <li><a href="#!">Second Link</a></li>
+            <li><div class="divider"></div></li>
+            <li><a class="subheader">Subheader</a></li>
+            <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+          </ul>
     </header>
     <div id="main">
         <div class="row" id="center-container" style="padding-top:5vh;">
@@ -95,7 +103,7 @@
         <div class="row" id="center-container" style="top:10vh; height:5vh;">
             <div class="col s12">
                 <ul class="collection with-header" id="messages" style="overflow-x:hidden"></ul>
-                
+
                 <!-- Modal Structure -->
                 <div id="modal1" class="modal">
                     <div class="modal-content">
@@ -106,7 +114,7 @@
                         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
                     </div>
                 </div>
-
+                <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
                 <form id="mform" action="">
                     <input id="m" autocomplete="off" style="color:black; background-color:white; font-size:1.5em" type="text" placeholder="Message">
                     <br>
