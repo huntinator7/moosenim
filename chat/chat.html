@@ -240,7 +240,11 @@
                     // console.log(`${id}: ${this.id}`);
                     if (id < this.id && !wasInserted) {
                         // console.log(this.find('span.title'));
-                        $(msg).insertBefore(this);
+                        try { 
+                            $(msg).insertBefore(this[0].children);
+                        } catch (e) {
+                            console.log('Couldn\'t print');
+                        }
                         wasInserted = true;
                         if (canAuto) {
                             window.scrollTo(0, document.body.scrollHeight);
