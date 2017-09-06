@@ -239,9 +239,9 @@
                 $('#messages li').each(function () {
                     // console.log(`${id}: ${this.id}`);
                     if (id < this.id && !wasInserted) {
-                        $(msg).insertBefore(this.children);
+                        $(msg).insertBefore(this);
                         try { 
-                            console.log($(msg).insertBefore(this));
+                            console.log($(msg).insertBefore(this.children));
                         } catch (e) {
                             console.log('Couldn\'t print');
                         }
