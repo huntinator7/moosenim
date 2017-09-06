@@ -91,19 +91,23 @@
     <div id="main">
         <div class="row" id="center-container" style="padding-top:5vh;">
             <div class="col s12" id="motd" style="color:black; background-color:white;  text-align: center;"> MOTD div </div>
-            <div id="modal1" class="modal">
-                <div class="modal-content">
-                    <h4>Modal Header</h4>
-                    <p>A bunch of text</p>
-                </div>
-                <div class="modal-footer">
-                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-                </div>
-            </div>
         </div>
         <div class="row" id="center-container" style="top:10vh; height:5vh;">
             <div class="col s12">
                 <ul class="collection with-header" id="messages" style="overflow-x:hidden"></ul>
+                <!-- Modal Trigger -->
+                <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
+
+                <!-- Modal Structure -->
+                <div id="modal1" class="modal">
+                    <div class="modal-content">
+                        <h4>Modal Header</h4>
+                        <p>A bunch of text</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+                    </div>
+                </div>
                 <form id="mform" action="">
                     <input id="m" autocomplete="off" style="color:black; background-color:white; font-size:1.5em" type="text" placeholder="Message">
                     <br>
@@ -228,9 +232,6 @@
                     curroom = $(this.attributes.room).val();
                     socket.emit('changerooms', $(this.attributes.room).val());
                 }
-                // } else {
-                //     console.log('IT WORKED');
-                // }
             });
 
             //called when a chatroom is clicked in the sidebar. 
