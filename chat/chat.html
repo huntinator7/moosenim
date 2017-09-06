@@ -91,6 +91,15 @@
     <div id="main">
         <div class="row" id="center-container" style="padding-top:5vh;">
             <div class="col s12" id="motd" style="color:black; background-color:white;  text-align: center;"> MOTD div </div>
+            <div id="modal1" class="modal">
+                <div class="modal-content">
+                    <h4>Modal Header</h4>
+                    <p>A bunch of text</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+                </div>
+            </div>
         </div>
         <div class="row" id="center-container" style="top:10vh; height:5vh;">
             <div class="col s12">
@@ -210,7 +219,7 @@
                 } catch (e) { }
                 $('#nav-mobile').append('<li><br></li>');
                 $('#nav-mobile').append('<li><br></li>');
-                $('#nav-mobile').append('<li><a id="nav-button" class="button waves-effect" style="color: #6EB7FF">This is a button. Dear God...</a></li>');
+                $('#nav-mobile').append('<li><a id="nav-button" class="button waves-effect modal-trigger" href="#modal1" style="color: #6EB7FF">This is a button. Dear God...</a></li>');
             });
             $('#nav-mobile').on('click', 'a', function () {
                 if ($(this.attributes.id).val() == 'rooms') {
@@ -218,9 +227,10 @@
                     $('#messages').empty();
                     curroom = $(this.attributes.room).val();
                     socket.emit('changerooms', $(this.attributes.room).val());
-                } else {
-                    console.log('IT WORKED');
                 }
+                // } else {
+                //     console.log('IT WORKED');
+                // }
             });
 
             //called when a chatroom is clicked in the sidebar. 
