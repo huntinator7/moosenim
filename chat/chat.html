@@ -210,20 +210,17 @@
                 } catch (e) { }
                 $('#nav-mobile').append('<li><br></li>');
                 $('#nav-mobile').append('<li><br></li>');
-                $('#nav-mobile').append('<li><a id="nav-button" class="button waves-effect" style="color: #6EB7FF">This is a button</a></li>');
+                $('#nav-mobile').append('<li><a id="nav-button" class="button waves-effect" style="color: #6EB7FF">This is a button. Dear God...</a></li>');
             });
             $('#nav-mobile').on('click', 'a', function () {
-                console.log($(this.attributes.id).val());
-                // if ( == ) {
-
-                // } else {
-
-                // }
-                console.log('Element in nav-mobile clicked');
-                $('#messages').empty();
-                curroom = $(this.attributes.room).val();
-                socket.emit('changerooms', $(this.attributes.room).val());
-
+                if ($(this.attributes.id).val() == 'rooms') {
+                    console.log('Element in nav-mobile clicked');
+                    $('#messages').empty();
+                    curroom = $(this.attributes.room).val();
+                    socket.emit('changerooms', $(this.attributes.room).val());
+                } else {
+                    console.log('IT WORKED');
+                }
             });
 
             //called when a chatroom is clicked in the sidebar. 
