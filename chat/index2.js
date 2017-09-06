@@ -172,6 +172,11 @@ io.sockets.on('connection', function (socket) {
 
     });
 
+    socket.on('searchusers', function (email) {
+        //maybe make this variable do something...
+        var id = searchUsers(email);
+    });
+
     socket.on('retPre', function (previous, roomid) {
         showPreviousMessages(10, previous, socket.id, roomid)
     });
@@ -436,7 +441,7 @@ function getChatrooms(sid, uid) {
     con.query("SELECT * FROM rooms WHERE serialid IN (SELECT room_id FROM room_users WHERE user_id = ?)", [uid], function (error, row) {
         io.to(sid).emit('roomlist', row);
     });
-}
+} 
 
 function createChatroom(n, uid) {
     var roomid;
@@ -453,13 +458,14 @@ function createChatroom(n, uid) {
 function searchUsers(email) {
 
     con.query("SELECT * FROM users WHERE email = ?", [email], function(error, rows) {
-       //add something here
+        return rows[0].uid;
     });
 }
 
 
 
-function addToRoom(email,roomid,isAdmin) {
+function addToRoom(email, roomid, isAdmin) {
+   
     con.query("SELECT uid FROM users WHERE email = ?"[email], function (error, rows, result) {      
         con.query("INSERT INTO room_users VALUES(?,?,?)"[roomid, rows[0].uid, isAdmin]);
         console.log("user " + rows[0].username + " was added to room " + roomid);
