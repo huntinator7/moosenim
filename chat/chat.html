@@ -161,6 +161,7 @@
                         notifyMe(msg, pic);
                         audio.play();
                     }
+                    console.log('last element: ' + $('#messages').last);
                     if (!first_id) {
                         first_id = id;
                         $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
@@ -241,7 +242,7 @@
                     if (id < this.id && !wasInserted) {
                         $(msg).insertBefore(this);
                         try { 
-                            console.log($(this.previousElementSibling));
+                            console.log($(this.previousElementSibling.children[1]).text());
                         } catch (e) {
                             console.log('Couldn\'t print');
                         }
