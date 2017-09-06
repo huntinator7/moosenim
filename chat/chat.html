@@ -208,6 +208,9 @@
                         // $('#slide-out').append(`<li><a id="rooms" room="${element.serialid}" style="color: #6EB7FF">${element.name}</a></li>`);
                     });
                 } catch (e) { }
+                $('#nav-mobile').append('<li><br></li>');
+                $('#nav-mobile').append('<li><br></li>');
+                $('#nav-mobile').append('<li><a id="nav-button" class="button waves-effect" style="color: #6EB7FF">This is a button</a></li>');
             });
             $('#nav-mobile').on('click', 'a', function () {
                 console.log('Element in nav-mobile clicked');
