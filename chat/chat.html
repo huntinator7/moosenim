@@ -237,11 +237,11 @@
             function insertMessage(msg, id) {
                 var wasInserted = false;
                 $('#messages li').each(function () {
-                    console.log($(this));
+                    console.log($(this[0]));
                     if (id < this.id && !wasInserted) {
                         $(msg).insertBefore(this);
                         try { 
-                            console.log(this);
+                            // console.log(this);
                         } catch (e) {
                             console.log('Couldn\'t print');
                         }
