@@ -64,8 +64,17 @@ client.on('message', msg => {
         //         console.log('User didn\'t work');
         //     }
         // });
-        sendMessage(msg.content, msg.author.username, 1, 1);
-        getMessageDiscord(msg.author.username, msg.content, msg.author.avatarURL);
+        var newmsg = msg.content;
+        if (/<@(&277296480245514240|!207214113191886849|!89758327621296128|!185934787679092736|!147143598301773824|!81913971979849728)>(?!\S)/g.test(newmsg)) {
+            /<@&277296480245514240>/g[Symbol.replace](newmsg, '@Moosen');
+            /<@!207214113191886849> /g[Symbol.replace](newmsg, '@Noah');
+            /<@!89758327621296128>/g[Symbol.replace](newmsg, '@Hunter');
+            /<@!185934787679092736>/g[Symbol.replace](newmsg, '@Nick');
+            /<@!147143598301773824>/g[Symbol.replace](newmsg, '@Kyle');
+            /<@!81913971979849728>/g[Symbol.replace](newmsg, '@Lane');
+        }
+        sendMessage(newmsg, msg.author.username, 1, 1);
+        getMessageDiscord(msg.author.username, newmsg, msg.author.avatarURL);
         if (msg.attachments.array().length) {
             try {
                 console.log(msg.attachments.first().url);
@@ -77,6 +86,7 @@ client.on('message', msg => {
             }
         }
         console.log(msg.author.username + ': ' + msg.content);
+        console.log('Newmsg: ' + newmsg);
     }
 });
 //329020807487553537 - moosen-im
@@ -373,7 +383,7 @@ function sleep(ms) {
 }
 
 async function sendToDiscord(un, msg) {
-    if (/@((m|M)oosen|(n|N)oah|(l|L)ane|(h|H)unter|(n|N)ick|(k|K)yle)/g.test(msg)) {
+    if (/@((m|M)oosen|(n|N)oah|(l|L)ane|(h|H)unter|(n|N)ick|(k|K)yle)(?!\S)/g.test(msg)) {
         /@(m|M)oosen/g[Symbol.replace](msg, '<@&277296480245514240>');
         /@(n|N)oah/g[Symbol.replace](msg, '<@!207214113191886849>');
         /@(h|H)unter/g[Symbol.replace](msg, '<@!89758327621296128>');
