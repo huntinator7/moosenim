@@ -138,7 +138,7 @@
 
             $('#email').submit(function () {
 
-                //socket.emit('adduser', $('#e').val(), curroom,0);
+                socket.emit('adduser', $('#e').val(), curroom,0);
                 console.log("form submitted "+$('#e').val() );
                 return false;
             });
