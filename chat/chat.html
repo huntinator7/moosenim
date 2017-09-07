@@ -123,7 +123,7 @@
         $(function () {
             var last_id;
             var first_id;
-            var canScroll = true;
+            var canScroll = 10;
             canAuto = false;
             var retrievePrevious = false;
 
@@ -280,7 +280,6 @@
 
             async function insertMessage(msg, id) {
                 var wasInserted = false;
-                canScroll = false;
                 $('#messages li').each(function () {
                     // console.log($(this.children[1]).text());
                     if (id < this.id && !wasInserted) {
@@ -306,7 +305,7 @@
                     }
                 }
                 await sleep(500);
-                canScroll = true;
+                canScroll += 1;
             }
 
             function handleFileSelect(evt) {
@@ -330,7 +329,8 @@
                 }
                 if ($(window).scrollTop() == 0 && $(window).scrollTop() - last_scroll_position < 0) {
                     window.scrollTo(0, 1);
-                    if (canScroll) {
+                    if (canScroll >= 10) {
+                        canScroll = 0;
                         console.log('Retrieve previous');
                         socket.emit('retPre', first_id, curroom);
                     } else {
