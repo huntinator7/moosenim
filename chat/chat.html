@@ -138,8 +138,8 @@
 
             $('#email').submit(function () {
 
-                //socket.emit('adduser', $('#e'), curroom,0);
-                console.log("form submitted "+$('#e') );
+                //socket.emit('adduser', $('#e').val(), curroom,0);
+                console.log("form submitted "+$('#e').val() );
                 return false;
             });
 
