@@ -315,6 +315,7 @@
                 if ($(window).scrollTop() == 0 && $(window).scrollTop() - last_scroll_position < 0) {
                     console.log('Retrieve previous');
                     socket.emit('retPre', first_id, curroom);
+                    window.scrollTo(0, 5);
                 }
                 last_scroll_position = $(window).scrollTop();
             });
