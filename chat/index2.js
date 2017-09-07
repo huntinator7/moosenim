@@ -69,7 +69,7 @@ client.on('message', msg => {
             console.log('here');
             newmsg = /<@&277296480245514240>/[Symbol.replace](newmsg, '@Moosen');
             newmsg = /<@!207214113191886849> /[Symbol.replace](newmsg, '@Noah');
-            newmsg = newmsg.replace(/<@!89758327621296128>/, '@Hunter');
+            newmsg = /<@!89758327621296128>/[Symbol.replace](newmsg, '@Hunter');
             newmsg = /<@!185934787679092736>/[Symbol.replace](newmsg, '@Nick');
             newmsg = /<@!147143598301773824>/[Symbol.replace](newmsg, '@Kyle');
             newmsg = /<@!81913971979849728>/[Symbol.replace](newmsg, '@Lane');
@@ -384,11 +384,11 @@ function sleep(ms) {
 }
 
 async function sendToDiscord(un, msg) {
-    if (/@((m|M)oosen|(n|N)oah|(l|L)ane|(h|H)unter|(n|N)ick|(k|K)yle)/g.test(msg)) {
+    if (/@((m|M)oosen|(n|N)oah|(l|L)ane|(h|H)unter|(n|N)ick|(k|K)yle)(?!\S)/g.test(msg)) {
         console.log('sendToDiscord str detected');
         msg = /@(m|M)oosen/[Symbol.replace](msg, '<@&277296480245514240>');
         msg = /@(n|N)oah/[Symbol.replace](msg, '<@!207214113191886849>');
-        msg = msg.replace(/@(h|H)unter/g, '<@!89758327621296128>');
+        msg = /@(h|H)unter/[Symbol.replace](msg, '<@!89758327621296128>');
         msg = /@(n|N)ick/[Symbol.replace](msg, '<@!185934787679092736>');
         msg = /@(k|K)yle/[Symbol.replace](msg, '<@!147143598301773824>');
         msg = /@(l|L)ane/[Symbol.replace](msg, '<@!81913971979849728>');
