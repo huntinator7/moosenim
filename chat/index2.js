@@ -486,13 +486,17 @@ function searchUsers(email) {
 function addToRoom(email, roomid, isAdmin) {
 
     
-    con.query("SELECT uid FROM users WHERE email = '?'"[email], function (error, rows, result) { 
+    con.query("SELECT * FROM users WHERE email = '?'"[email], function (error, rows, result) { 
         try {
-           // con.query("INSERT INTO room_users VALUES(?,?,?)"[roomid, rows[0].uid, isAdmin]);
-            console.log("user " + result+ " was added to room " + roomid);
+            // con.query("INSERT INTO room_users VALUES(?,?,?)"[roomid, rows[0].uid, isAdmin]);
+            rows.forEach(function (element) {
+                console.log("user " + element.uid + " was added to room " + roomid)
+            });
+          ;
         }
         catch (e) {
             console.log(e);
+            console.log("user not found");
         }
     });
 
