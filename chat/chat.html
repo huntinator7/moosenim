@@ -73,7 +73,7 @@
 
 <body style="background-color:#000000;">
     <header>
-        <nav class="top-nav center light-blue" style="height:10vh">
+        <nav class="top-nav center light-blue" style="height:10vh; position:absolute">
             <a class="button-collapse page-title white-text">MoosenIM</a>
         </nav>
         <ul id="nav-mobile" class="side-nav fixed hide-on-med-and-down grey darken-4" style="transform: translateX(0%);">
@@ -88,7 +88,7 @@
     </header>
     <div id="main">
         <div class="row" id="center-container" style="padding-top:5vh;">
-            <div class="col s12" id="motd" style="color:black; background-color:white;  text-align: center;"> MOTD div </div>
+            <div class="col s12" id="motd" style="color:black; background-color:white;  position:absolute; text-align: center;"> MOTD div </div>
         </div>
         <div class="row" id="center-container" style="top:10vh; height:5vh;">
             <div class="col s12">
@@ -140,6 +140,7 @@
 
                 socket.emit('adduser', $('#e').val(), curroom, 0);
                 console.log("form submitted " + curroom);
+                $('#e').val() = "";
                 return false;
             });
 
