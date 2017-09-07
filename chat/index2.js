@@ -179,7 +179,7 @@ io.sockets.on('connection', function (socket) {
 
     //for adduser function. Email is entered by the user, rid is caled from chat.html, isAdmin should just default to 0 for now. 
     socket.on('adduser', function (email, rid, isAdmin) {
-        addToRoom(email, rid, isAdmin);
+        addToRoom(email, rid, 0);
 
     });
 
@@ -485,9 +485,11 @@ function searchUsers(email) {
 
 function addToRoom(email, roomid, isAdmin) {
    
-    con.query("SELECT * FROM users WHERE email = ?"[email], function (error, rows, result) {      
-        con.query("INSERT INTO room_users VALUES(?,?,?)"[roomid, rows[0].uid, isAdmin]);
-        console.log("user " + rows[0].username + " was added to room " + roomid);
+    con.query("SELECT * FROM users WHERE email = ?"[email], function (error, rows, result) { 
+        if (rows[0] != null) {
+            con.query("INSERT INTO room_users VALUES(?,?,?)"[roomid, rows[0].uid, isAdmin]);
+            console.log("user " + rows[0].username + " was added to room " + roomid);
+        }
     });
 
    
