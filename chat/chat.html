@@ -334,7 +334,7 @@
                         console.log('Retrieve previous');
                         socket.emit('retPre', first_id, curroom);
                     } else {
-                        console.log('Couldn\'t scroll');
+                        console.log('Couldn\'t scroll: ' + canScroll);
                     }
                 }
                 last_scroll_position = $(window).scrollTop();
