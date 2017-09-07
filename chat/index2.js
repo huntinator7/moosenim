@@ -66,12 +66,13 @@ client.on('message', msg => {
         // });
         var newmsg = msg.content;
         if (/<@(&277296480245514240|!207214113191886849|!89758327621296128|!185934787679092736|!147143598301773824|!81913971979849728)>(?!\S)/g.test(newmsg)) {
-            /<@&277296480245514240>/g[Symbol.replace](newmsg, '@Moosen');
-            /<@!207214113191886849> /g[Symbol.replace](newmsg, '@Noah');
-            /<@!89758327621296128>/g[Symbol.replace](newmsg, '@Hunter');
-            /<@!185934787679092736>/g[Symbol.replace](newmsg, '@Nick');
-            /<@!147143598301773824>/g[Symbol.replace](newmsg, '@Kyle');
-            /<@!81913971979849728>/g[Symbol.replace](newmsg, '@Lane');
+            console.log('here');
+            /<@&277296480245514240>/[Symbol.replace](newmsg, '@Moosen');
+            /<@!207214113191886849> /[Symbol.replace](newmsg, '@Noah');
+            /<@!89758327621296128>/[Symbol.replace](newmsg, '@Hunter');
+            /<@!185934787679092736>/[Symbol.replace](newmsg, '@Nick');
+            /<@!147143598301773824>/[Symbol.replace](newmsg, '@Kyle');
+            /<@!81913971979849728>/[Symbol.replace](newmsg, '@Lane');
         }
         sendMessage(newmsg, msg.author.username, 1, 1);
         getMessageDiscord(msg.author.username, newmsg, msg.author.avatarURL);
@@ -384,12 +385,12 @@ function sleep(ms) {
 
 async function sendToDiscord(un, msg) {
     if (/@((m|M)oosen|(n|N)oah|(l|L)ane|(h|H)unter|(n|N)ick|(k|K)yle)(?!\S)/g.test(msg)) {
-        /@(m|M)oosen/g[Symbol.replace](msg, '<@&277296480245514240>');
-        /@(n|N)oah/g[Symbol.replace](msg, '<@!207214113191886849>');
-        /@(h|H)unter/g[Symbol.replace](msg, '<@!89758327621296128>');
-        /@(n|N)ick/g[Symbol.replace](msg, '<@!185934787679092736>');
-        /@(k|K)yle/g[Symbol.replace](msg, '<@!147143598301773824>');
-        /@(l|L)ane/g[Symbol.replace](msg, '<@!81913971979849728>');
+        /@(m|M)oosen/[Symbol.replace](msg, '<@&277296480245514240>');
+        /@(n|N)oah/[Symbol.replace](msg, '<@!207214113191886849>');
+        /@(h|H)unter/[Symbol.replace](msg, '<@!89758327621296128>');
+        /@(n|N)ick/[Symbol.replace](msg, '<@!185934787679092736>');
+        /@(k|K)yle/[Symbol.replace](msg, '<@!147143598301773824>');
+        /@(l|L)ane/[Symbol.replace](msg, '<@!81913971979849728>');
     }
     await sleep(100);
     client.channels.get(config.discord.moosen).send(un + ': ' + msg);
