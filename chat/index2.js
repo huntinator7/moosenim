@@ -95,7 +95,6 @@ client.on('message', msg => {
 
 //Main socket.io listener
 io.sockets.on('connection', function (socket) {
-
     var uploader = new siofu();
     uploader.dir = __dirname + '/uploads';
     uploader.listen(socket);
@@ -103,6 +102,7 @@ io.sockets.on('connection', function (socket) {
     uploader.on("start", function (event) {
         console.log('Starting upload to ' + event.file.name + ' of type ' + event.file.meta.filetype + ' to ' + uploader.dir);
     });
+    
     uploader.on("saved", function (event) {
         var un = 'Error - Username Not Found';
         var uid;
@@ -180,7 +180,6 @@ io.sockets.on('connection', function (socket) {
     //for adduser function. Email is entered by the user, rid is caled from chat.html, isAdmin should just default to 0 for now. 
     socket.on('adduser', function (email, rid, isAdmin) {
         addToRoom(email, rid, 0);
-
     });
 
     socket.on('searchusers', function (email) {
@@ -222,10 +221,9 @@ io.sockets.on('connection', function (socket) {
                 // } else if (msg.indexOf("!myrooms") > -1) {
                 //     sendMessage("your rooms: " + getrooms(uid).toString() + " curroom" + curroom, un, uid, curroom);
             } else if (msg.indexOf("!createroom") > -1) {
-                
                 createChatroom("newRoom", uid);
-            }
-            else if (msg.indexOf("!pepe") == 0) {
+                send = false;
+            } else if (msg.indexOf("!pepe") == 0) {
                 isEmbed = true;
                 sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un, uid, curroom)
             } else if (msg.indexOf("nigger") > -1) {
@@ -295,9 +293,6 @@ io.sockets.on('connection', function (socket) {
 });
 
 var connect = config.db;
-
-
-
 var con;
 
 function getMotd(roomid) {
@@ -309,23 +304,23 @@ function getMotd(roomid) {
 }
 
 function handleDisconnect() {
-    con = mysql.createConnection(connect);            // Recreate the connection, since the old one cannot be reused.
+    con = mysql.createConnection(connect);
 
-    con.connect(function (err) {             // The server is either down
-        if (err) {                             // or restarting (takes a while sometimes).
+    con.connect(function (err) {
+        if (err) {
             console.log('error when connecting to db:', err);
-            setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
-        } else {                              // to avoid a hot loop, and to allow our node script to
-            console.log("Connected!");        // process asynchronous requests in the meantime.
+            setTimeout(handleDisconnect, 2000);
+        } else {
+            console.log("Connected!");
         }
     });
 
     con.on('error', function (err) {
         console.log('db error', err);
-        if (err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
-            handleDisconnect();                         // lost due to either server restart, or a
-        } else {                                      // connnection idle timeout (the wait_timeout
-            throw err;                                  // server variable configures this)
+        if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+            handleDisconnect();
+        } else {
+            throw err;
         }
     });
 }
@@ -353,8 +348,7 @@ function sendMessage(message, username, uid, chatid) {
         con.query("INSERT INTO messages (message, username, timestamp, chatroom_id, uid) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'), ?, ?)", [msg, username, chatid, uid], function (error, results) {
             if (error) throw error;
         });
-    }
-    catch (Exception) {
+    } catch (Exception) {
         con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'))", ["error", username], function (error, results) {
             if (error) throw error;
         });
@@ -427,8 +421,7 @@ function showLastMessages(num, sid, roomid) {
                     }
                 });
             });
-        }
-        catch (e) {
+        } catch (e) {
             console.log("last message isn't working.");
         }
     });
@@ -449,8 +442,7 @@ function showPreviousMessages(num, previous, sid, roomid) {
                     console.log(element.id);
                 });
             });
-        }
-        catch (e) {
+        } catch (e) {
             console.log("Previous message isn't working.");
         }
     });
@@ -468,41 +460,28 @@ function createChatroom(n, uid) {
     // get availible chatrooms from user SELECT room_id FROM room_users WHERE user_id = ? [user.uid]
     con.query("INSERT INTO rooms (name) VALUES(?)", [name], function (error) { });
     con.query("SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC", function (error, row, results) {
-        
         con.query("INSERT INTO room_users VALUES(?,?,1)", [row[0].serialid, uid]);
     });  
-   
 }
 
 function searchUsers(email) {
-
     con.query("SELECT * FROM users WHERE email = ?", [email], function(error, rows) {
         return rows[0].uid;
     });
 }
 
-
-
 function addToRoom(email, roomid, isAdmin) {
-
-    
     con.query("SELECT * FROM users WHERE email = ?", [email], function (error, rows, result) { 
         try {
-            
            rows.forEach(function (element) {
                con.query("INSERT INTO room_users VALUES(?,?,?)",[roomid, element.uid, isAdmin]);
                 console.log("user " + element.uid + " was added to room " + roomid)
             });
-          ;
-        }
-        catch (e) {
+        } catch (e) {
             console.log(e);
             console.log("user not found");
         }
     });
-
-   
-
 }
 
 console.log('listening on *:80');
