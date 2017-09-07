@@ -137,6 +137,8 @@
             var curroom = 1;
 
             $('#email').submit(function () {
+
+                socket.emit('adduser',$('#e'));
                 console.log("form submitted");
                 return false;
             });
