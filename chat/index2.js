@@ -362,7 +362,7 @@ function getMessage(chatid, isEmbed) {
             }
             if (chatid == config.discord.sendChannel && !isEmbed) {
                 //send to Discord
-                client.channels.get(config.discord.moosen).send(rows[0].username + ': ' + decodeURI(rows[0].message));
+                sendToDiscord(rows[0].username, decodeURI(rows[0].message));
             }
         });
     });
@@ -372,10 +372,17 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function sendToDiscord(un, msg, pic) {
-    console.log('Taking a break...');
+async function sendToDiscord(un, msg) {
+    if (/@((m|M)oosen|(n|N)oah|(l|L)ane|(h|H)unter|(n|N)ick|(k|K)yle)/g.test(msg)) {
+        /@(m|M)oosen/g[Symbol.replace](msg, '<@&277296480245514240>');
+        /@(n|N)oah/g[Symbol.replace](msg, '<@!207214113191886849>');
+        /@(h|H)unter/g[Symbol.replace](msg, '<@!89758327621296128>');
+        /@(n|N)ick/g[Symbol.replace](msg, '<@!185934787679092736>');
+        /@(k|K)yle/g[Symbol.replace](msg, '<@!147143598301773824>');
+        /@(l|L)ane/g[Symbol.replace](msg, '<@!81913971979849728>');
+    }
     await sleep(100);
-    console.log('One second later');
+    client.channels.get(config.discord.moosen).send(un + ': ' + msg);
 }
 
 function getMessageDiscord(un, msg, pic) {
