@@ -490,7 +490,7 @@ function addToRoom(email, roomid, isAdmin) {
         try {
             
            rows.forEach(function (element) {
-               con.query("INSERT INTO room_users VALUES(?,?,?)"[roomid, element.uid, isAdmin]);
+               con.query("INSERT INTO room_users VALUES(?,?,?)",[roomid, element.uid, isAdmin]);
                 console.log("user " + element.uid + " was added to room " + roomid)
             });
           ;
