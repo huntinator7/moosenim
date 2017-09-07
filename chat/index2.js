@@ -65,7 +65,7 @@ client.on('message', msg => {
         //     }
         // });
         var newmsg = msg.content;
-        if (/<@(&277296480245514240|!207214113191886849|!89758327621296128|!185934787679092736|!147143598301773824|!81913971979849728)>(?!\S)/g.test(newmsg)) {
+        if (/<@(&277296480245514240|!207214113191886849|!89758327621296128|!185934787679092736|!147143598301773824|!81913971979849728)>/g.test(newmsg)) {
             console.log('here');
             /<@&277296480245514240>/[Symbol.replace](newmsg, '@Moosen');
             /<@!207214113191886849> /[Symbol.replace](newmsg, '@Noah');
@@ -384,7 +384,8 @@ function sleep(ms) {
 }
 
 async function sendToDiscord(un, msg) {
-    if (/@((m|M)oosen|(n|N)oah|(l|L)ane|(h|H)unter|(n|N)ick|(k|K)yle)(?!\S)/g.test(msg)) {
+    if (/@((m|M)oosen|(n|N)oah|(l|L)ane|(h|H)unter|(n|N)ick|(k|K)yle)/g.test(msg)) {
+        console.log('sendToDiscord str detected');
         /@(m|M)oosen/[Symbol.replace](msg, '<@&277296480245514240>');
         /@(n|N)oah/[Symbol.replace](msg, '<@!207214113191886849>');
         /@(h|H)unter/[Symbol.replace](msg, '<@!89758327621296128>');
