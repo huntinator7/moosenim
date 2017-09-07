@@ -486,7 +486,7 @@ function searchUsers(email) {
 function addToRoom(email, roomid, isAdmin) {
 
     
-    con.query("SELECT * FROM users WHERE email = ?", ['noahr2012@gmail.com'], function (error, rows, result) { 
+    con.query("SELECT * FROM users WHERE email = ?", [email], function (error, rows, result) { 
         try {
             // con.query("INSERT INTO room_users VALUES(?,?,?)"[roomid, rows[0].uid, isAdmin]);
             rows.forEach(function (element) {
