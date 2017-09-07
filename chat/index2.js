@@ -484,11 +484,15 @@ function searchUsers(email) {
 
 
 function addToRoom(email, roomid, isAdmin) {
-   
+
+    console.log("email = " + email);
     con.query("SELECT * FROM users WHERE email = ?"[email], function (error, rows, result) { 
-        if (rows[0] != null) {
+        try {
             con.query("INSERT INTO room_users VALUES(?,?,?)"[roomid, rows[0].uid, isAdmin]);
             console.log("user " + rows[0].username + " was added to room " + roomid);
+        }
+        catch (e) {
+            console.log("fuck you");
         }
     });
 
