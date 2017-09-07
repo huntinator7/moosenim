@@ -130,8 +130,8 @@
             siofu.addEventListener("start", function (event) {
                 event.file.meta.filetype = event.file.type;
             });
-            var audio = new Audio('/sounds/notification.mp3');
-            var rr = new Audio('/sounds/rr.mp3');
+            var login = new Audio('/sounds/notification.mp3');
+            var audio = new Audio('/sounds/login3.mp3');
             //roomList holds an array of all chatrooms a user has access to. 
             // var roomList;
             var curroom = 1;
@@ -178,7 +178,7 @@
                         notifyMe(msg, pic);
                         audio.play();
                     }
-                    console.log('last element: ' + $('#messages').last());
+                    console.log('last element: ' + $('#messages li').last());
                     if (!first_id) {
                         first_id = id;
                         $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
@@ -199,14 +199,15 @@
                 }
             });
             socket.on('login', function (displayName, email, photoURL, uid) {
-                if (displayName.substring(0, 4) == "Hunt") {
-                    //rr.play();
-                }
+
                 console.log("logging in " + displayName);
                 $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">info outline</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
                     + displayName + ' logged in</span></a></li>');
                 if (canAuto) {
                     window.scrollTo(0, document.body.scrollHeight);
+                }
+                if (document.hidden) {
+                    login.play();
                 }
             });
             socket.on('test', function (name) {
