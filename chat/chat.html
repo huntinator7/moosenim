@@ -245,6 +245,7 @@
 
             $('#nav-mobile').on('click', 'a', function () {
                 if ($(this.attributes.id).val() == 'rooms') {
+                    canScroll = 10;
                     console.log('Element in nav-mobile clicked');
                     $('#messages').empty();
                     curroom = $(this.attributes.room).val();
@@ -254,6 +255,7 @@
 
             $('#slide-out').on('click', 'a', function () {
                 if ($(this.attributes.id).val() == 'rooms') {
+                    canScroll = 10;
                     console.log('Element in slide-out clicked');
                     $('#messages').empty();
                     curroom = $(this.attributes.room).val();
