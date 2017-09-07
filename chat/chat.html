@@ -126,11 +126,14 @@
             var canScroll = true;
             canAuto = false;
             var retrievePrevious = false;
+
             var socket = io();
+
             var siofu = new SocketIOFileUpload(socket);
             siofu.addEventListener("start", function (event) {
                 event.file.meta.filetype = event.file.type;
             });
+
             var login = new Audio('/sounds/notification.mp3');
             var audio = new Audio('/sounds/login3.mp3');
             //roomList holds an array of all chatrooms a user has access to. 
@@ -155,6 +158,7 @@
                 $('#m').val('');
                 return false;
             });
+
             $(document).ready(function () {
                 var res = window.location.href.substring(22);
                 // var d = $('#box');
@@ -165,25 +169,26 @@
                 $('.materialboxed').materialbox();
                 $('.modal').modal();
             });
+
             document.getElementById("main").style.display = "inline";
+
             socket.on('motd update', function (msg) {
                 console.log('Received MOTD');
                 $('#motd').html(" " + msg);
             });
+
             function updatemotd(msg) {
                 $('#motd').html(msg);
             }
+
             socket.on('chat message', function (user, msg, time, id, pic, room) {
                 if (curroom == room) {
-                    canScroll = false;
-                    // var d = $('#box');
-                    // d.scrollTop(d.prop("scrollHeight"));
                     document.title = user.substring(0, 3) + ": " + msg.substring(0, 10);
                     if (document.hidden) {
                         notifyMe(msg, pic);
                         audio.play();
                     }
-                    console.log('last element: ' + $('#messages li').last());
+                    // console.log('last element: ' + $('#messages li').last());
                     if (!first_id) {
                         first_id = id;
                         $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
@@ -201,9 +206,9 @@
                     }
                     // console.log('id: ' + id + ' first_id: ' + first_id);
                     $('.materialboxed').materialbox();
-                    canScroll = true;
                 }
             });
+
             socket.on('login', function (displayName, email, photoURL, uid) {
 
                 console.log("logging in " + displayName);
@@ -216,9 +221,11 @@
                     login.play();
                 }
             });
+
             socket.on('test', function (name) {
                 console.log(name + "asdasd");
             });
+
             socket.on('roomlist', function (list) {
                 console.log("Received roomlist: " + list);
                 $('#nav-mobile').empty();
@@ -235,6 +242,7 @@
                 $('#nav-mobile').append('<li><br></li><li><br></li><li><a id="nav-button" class="button waves-effect modal-trigger" href="#modal1" style="color: #6EB7FF">This is a button. Dear God...</a></li>');
                 $('#slide-out').append('<li><br></li><li><br></li><li><a id="nav-button" class="button waves-effect modal-trigger" href="#modal1" style="color: #6EB7FF">This is a button. Dear God...</a></li>');
             });
+
             $('#nav-mobile').on('click', 'a', function () {
                 if ($(this.attributes.id).val() == 'rooms') {
                     console.log('Element in nav-mobile clicked');
@@ -253,12 +261,6 @@
                 }
             });
 
-            //called when a chatroom is clicked in the sidebar. 
-            // socket.on('loadroom', function (roomid, roomname) {
-            //     $('#messages').empty();
-            //
-            // });
-
             socket.on('retreat', function () {
                 console.log("Retreat!");
                 window.location.href = "http://www.moosen.im/login";
@@ -272,23 +274,29 @@
                 }
             });
 
-            function insertMessage(msg, id) {
+            function sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+
+            async function insertMessage(msg, id) {
                 var wasInserted = false;
+                canScroll = false;
                 $('#messages li').each(function () {
                     // console.log($(this.children[1]).text());
                     if (id < this.id && !wasInserted) {
                         $(msg).insertBefore(this);
-                        try {
-                            console.log($(this.previousElementSibling.children[1]).text());
-                        } catch (e) {
-                            console.log('Couldn\'t print');
-                        }
+                        // try {
+                        //     console.log($(this.previousElementSibling.children[1]).text());
+                        // } catch (e) {
+                        //     console.log('Couldn\'t print');
+                        // }
                         wasInserted = true;
                         if (canAuto) {
                             window.scrollTo(0, document.body.scrollHeight);
                         }
                     }
                 });
+
                 if (!wasInserted) {
                     console.log($('#messages li').last());
                     console.log(`Not found, appending`);
@@ -297,6 +305,8 @@
                         window.scrollTo(0, document.body.scrollHeight);
                     }
                 }
+                await sleep(500);
+                canScroll = true;
             }
 
             function handleFileSelect(evt) {
@@ -329,6 +339,7 @@
                 }
                 last_scroll_position = $(window).scrollTop();
             });
+
             $(window).resize(function () { //checking for window resize event
                 if ($("#m").is(":focus")) {
                     window.scrollTo(0, document.body.scrollHeight);
@@ -366,12 +377,12 @@
             }
         }
         $('.button-collapse').sideNav({
-            menuWidth: 300, // Default is 300
-            edge: 'left', // Choose the horizontal origin
-            closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
-            draggable: true, // Choose whether you can drag to open on touch screens,
-            // onOpen: function (el) {}, // A function to be called when sideNav is opened
-            // onClose: function (el) {} // A function to be called when sideNav is closed
+            menuWidth: 300,
+            edge: 'left',
+            closeOnClick: true,
+            draggable: true,
+            // onOpen: function (el) {},
+            // onClose: function (el) {}
         });
     </script>
 </body>
