@@ -390,7 +390,7 @@ async function sendToDiscord(un, msg) {
         /@(n|N)oah/[Symbol.replace](msg, '<@!207214113191886849>');
         if(/@(h|H)unter/g.test(msg)) {
             console.log('Before: ' + msg);
-            msg.replace(/@(h|H)unter/g, '<@!89758327621296128>');
+            msg = msg.replace(/@(h|H)unter/g, '<@!89758327621296128>');
             console.log('After: ' + msg);
         }
         /@(n|N)ick/[Symbol.replace](msg, '<@!185934787679092736>');
