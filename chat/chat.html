@@ -219,7 +219,7 @@
                         var curtext = parseInt($("a[room='"+room+"']").first().children().text());
                         console.log(curtext);
                         curtext = curtext + 1
-                        console.log(curtext + 1);
+                        console.log(curtext);
                         curtext = curtext.toString();
                         console.log(curtext);
                         $("a[room='"+room+"']").children().text(curtext);
@@ -266,7 +266,9 @@
                     if ($(this.children[0])) {
                         console.log('test');
                         console.log($(this.children[0]));
-                        $(this.children[0]).remove();
+                        $(this.children[0]).removeClass('new badge deep-orange darken-3');
+                        $(this.children[0]).addClass('none');
+                        $(this.children[0]).text('');
                     }
                     canScroll = 10;
                     console.log('Element in nav-mobile clicked');
