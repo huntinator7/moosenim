@@ -245,8 +245,9 @@
             });
 
             $('#nav-mobile').on('click', 'a', function () {
-                console.log($(this.children[1]));
                 if ($(this.attributes.id).val() == 'rooms') {
+                    console.log($(this));
+                    console.log($(this.children[1]));
                     canScroll = 10;
                     console.log('Element in nav-mobile clicked');
                     $('#messages').empty();
@@ -301,8 +302,8 @@
                 });
 
                 if (!wasInserted) {
-                    console.log($('#messages li').last());
-                    console.log(`Not found, appending`);
+                    // console.log($('#messages li').last());
+                    // console.log(`Not found, appending`);
                     $('#messages').append(msg);
                     if (canAuto) {
                         window.scrollTo(0, document.body.scrollHeight);
