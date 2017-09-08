@@ -142,7 +142,6 @@
             var curroom = 1;
 
             $('#email').submit(function () {
-
                 socket.emit('adduser', $('#e').val(), curroom, 0);
                 console.log("form submitted " + curroom);
                 //$('#e').val() = "";
@@ -207,11 +206,12 @@
                     }
                     // console.log('id: ' + id + ' first_id: ' + first_id);
                     $('.materialboxed').materialbox();
+                } else {
+                    console.log($(`[room=${id}]`));
                 }
             });
 
             socket.on('login', function (displayName, email, photoURL, uid) {
-
                 console.log("logging in " + displayName);
                 $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">info outline</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
                     + displayName + ' logged in</span></a></li>');
