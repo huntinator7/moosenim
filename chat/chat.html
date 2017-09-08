@@ -215,10 +215,10 @@
                         $("a[room='"+room+"']").children().addClass('new badge deep-orange darken-3');
                         $("a[room='"+room+"']").children().text('1');
                     } else {
-                        console.log($("a[room='"+room+"']").first());
-                        // var curtext = parseInt($("a[room='"+room+"']").children().text());
-                        // console.log(curtext);
-                        // console.log(curtext + 1);
+                        // console.log($("a[room='"+room+"']").first());
+                        var curtext = parseInt($("a[room='"+room+"']").first().children().text());
+                        console.log(curtext);
+                        console.log(curtext + 1);
                         // $("a[room='"+room+"']").children().text(curtext);
                     }
                 }
