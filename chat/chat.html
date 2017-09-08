@@ -209,7 +209,9 @@
                 } else {
                     //'<span class="new badge deep-orange darken-3">1</span>'
                     console.log($("a[room='"+room+"']").children());
-                    console.log($("a[room='"+room+"']").children().hasClass('none'));
+                    if ($("a[room='"+room+"']").children().hasClass('none')) {
+                        console.log('true');
+                    }
                     console.log($("a[room='"+room+"']").parent());
                 }
             });
