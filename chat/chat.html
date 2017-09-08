@@ -214,8 +214,9 @@
                         $("a[room='"+room+"']").children().removeClass('none');
                         $("a[room='"+room+"']").children().addClass('new badge deep-orange darken-3');
                         $("a[room='"+room+"']").children().text('1');
+                    } else {
+                        $("a[room='"+room+"']").children().text($("a[room='"+room+"']").children().text() + 1);
                     }
-                    console.log($("a[room='"+room+"']").parent());
                 }
             });
 
