@@ -215,7 +215,10 @@
                         $("a[room='"+room+"']").children().addClass('new badge deep-orange darken-3');
                         $("a[room='"+room+"']").children().text('1');
                     } else {
-                        $("a[room='"+room+"']").children().text($("a[room='"+room+"']").children().text() + 1);
+                        var curtext = $("a[room='"+room+"']").children().text();
+                        console.log(curtext);
+                        console.log(curtext + 1);
+                        // $("a[room='"+room+"']").children().( + 1);
                     }
                 }
             });
