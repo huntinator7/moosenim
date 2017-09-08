@@ -262,8 +262,6 @@
             $('#nav-mobile').on('click', 'a', function () {
                 if ($(this.attributes.id).val() == 'rooms') {
                     if ($(this.children[0])) {
-                        console.log('test');
-                        console.log($(this.children[0]));
                         $(this.children[0]).removeClass('new badge deep-orange darken-3');
                         $(this.children[0]).addClass('none');
                         $(this.children[0]).text('');
@@ -273,14 +271,13 @@
                     $('#messages').empty();
                     curroom = $(this.attributes.room).val();
                     socket.emit('changerooms', $(this.attributes.room).val());
+                    window.scrollTo(0, document.body.scrollHeight);
                 }
             });
 
             $('#slide-out').on('click', 'a', function () {
                 if ($(this.attributes.id).val() == 'rooms') {
                     if ($(this.children[0])) {
-                        console.log('test');
-                        console.log($(this.children[0]));
                         $(this.children[0]).removeClass('new badge deep-orange darken-3');
                         $(this.children[0]).addClass('none');
                         $(this.children[0]).text('');
@@ -290,6 +287,7 @@
                     $('#messages').empty();
                     curroom = $(this.attributes.room).val();
                     socket.emit('changerooms', $(this.attributes.room).val());
+                    window.scrollTo(0, document.body.scrollHeight);
                 }
             });
 
