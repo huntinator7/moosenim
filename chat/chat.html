@@ -245,7 +245,7 @@
             });
 
             $('#nav-mobile').on('click', 'a', function () {
-                console.log($(this));
+                console.log($(this.children[1]));
                 if ($(this.attributes.id).val() == 'rooms') {
                     canScroll = 10;
                     console.log('Element in nav-mobile clicked');
