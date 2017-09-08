@@ -231,7 +231,7 @@ io.sockets.on('connection', function (socket) {
                 sendMessage(newmsg, un + ', casual racist', uid, curroom);
             } else if (msg.indexOf("<script") > -1) {
                 sendMessage("Stop right there, criminal scum! You violated my mother!", "AutoMod", uid, curroom);
-            } else if (/^http\S*\.(jpg|gif|png|svg)$/.test(msg)) {
+            } else if (/^http\S*\.(jpg|gif|png|svg)\S*/.test(msg)) {
                 isEmbed = true;
                 sendMessage('<img class="materialboxed responsive-img" src="' + msg + '" alt="' + msg + '">', un, uid, curroom);
             } else if (/http\S*youtube\S*/.test(msg)) {
@@ -253,7 +253,7 @@ io.sockets.on('connection', function (socket) {
                     var ind = msg.search(/\.tv\//);
                     var res = msg.substring(ind + 4);
                     console.log(newmsg);
-                    var newmsg = '<iframe style="width:64vw; height:36vw" src="https://clips.twitch.tv/embed?clip=' + res + '" scrolling="no" frameborder="0" autoplay=true muted=true allowfullscreen=true></iframe>';
+                    var newmsg = '<iframe style="width:64vw; height:36vw" src="https://clips.twitch.tv/embed?clip=' + res + '" scrolling="no" frameborder="0" autoplay=false muted=true allowfullscreen=true></iframe>';
                     isEmbed = true;
                     sendMessage(newmsg, un, uid, curroom);
                 } else if (/\S*videos\S*/.test(msg)) { // Twitch VODs
