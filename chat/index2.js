@@ -233,7 +233,7 @@ io.sockets.on('connection', function (socket) {
                 sendMessage("Stop right there, criminal scum! You violated my mother!", "AutoMod", uid, curroom);
             } else if (/^http\S*\.(jpg|gif|png|svg)\S*/.test(msg)) {
                 isEmbed = true;
-                sendMessage('<img class="materialboxed responsive-img" src="' + msg + '" alt="' + msg + '">', un, uid, curroom);
+                sendMessage(msg + '<br><img class="materialboxed responsive-img" src="' + msg + '" alt="' + msg + '">', un, uid, curroom);
             } else if (/http\S*youtube\S*/.test(msg)) {
                 var ind = msg.search(/watch\?v=\S*/);
                 var res = msg.substring(ind + 8, ind + 19);
