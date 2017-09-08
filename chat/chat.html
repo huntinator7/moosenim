@@ -247,7 +247,7 @@
             $('#nav-mobile').on('click', 'a', function () {
                 if ($(this.attributes.id).val() == 'rooms') {
                     console.log($(this));
-                    console.log($(this.children[0].outerHTML));
+                    console.log($(this.children[0]).toggleClass("new badge"));
                     canScroll = 10;
                     console.log('Element in nav-mobile clicked');
                     $('#messages').empty();
