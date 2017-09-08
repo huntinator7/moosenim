@@ -409,7 +409,6 @@ function showLastMessages(num, sid, roomid) {
         var m = getMotd(roomid);
         console.log(m);
         io.emit('motd update', m);
-        // console.log("Getting messages...");
         if (error) throw error;
         try {
             rows.forEach(function (element) {
