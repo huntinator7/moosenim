@@ -236,8 +236,8 @@
                 try {
                     list.forEach(function (element) {
                         $('#motd').html("test");
-                        $('#nav-mobile').append(`<li><a id="rooms" class="button waves-effect" room="${element.serialid}" style="color: #6EB7FF">${element.name}<span class="new badge orange">4</span></a></li>`);
-                        $('#slide-out').append(`<li><a id="rooms" room="${element.serialid}" style="color: #6EB7FF">${element.name}<span class="new badge orange">4</span></a></li>`);
+                        $('#nav-mobile').append(`<li><a id="rooms" class="button waves-effect" room="${element.serialid}" style="color: #6EB7FF">${element.name}<span class="new badge deep-orange darken-3">4</span></a></li>`);
+                        $('#slide-out').append(`<li><a id="rooms" room="${element.serialid}" style="color: #6EB7FF">${element.name}<span class="new badge deep-orange darken-3">4</span></a></li>`);
                     });
                 } catch (e) { }
                 $('#nav-mobile').append('<li><br></li><li><br></li><li><a id="nav-button" class="button waves-effect modal-trigger" href="#modal1" style="color: #6EB7FF">This is a button. Dear God...</a></li>');
