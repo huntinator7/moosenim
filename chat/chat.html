@@ -218,8 +218,7 @@
                         // console.log($("a[room='"+room+"']").first());
                         var curtext = parseInt($("a[room='"+room+"']").first().children().text());
                         console.log(curtext);
-                        curtext = curtext + 1
-                        console.log(curtext);
+                        curtext = curtext + 1;
                         curtext = curtext.toString();
                         console.log(curtext);
                         $("a[room='"+room+"']").children().text(curtext);
@@ -262,7 +261,6 @@
 
             $('#nav-mobile').on('click', 'a', function () {
                 if ($(this.attributes.id).val() == 'rooms') {
-                    console.log($(this));
                     if ($(this.children[0])) {
                         console.log('test');
                         console.log($(this.children[0]));
@@ -280,6 +278,13 @@
 
             $('#slide-out').on('click', 'a', function () {
                 if ($(this.attributes.id).val() == 'rooms') {
+                    if ($(this.children[0])) {
+                        console.log('test');
+                        console.log($(this.children[0]));
+                        $(this.children[0]).removeClass('new badge deep-orange darken-3');
+                        $(this.children[0]).addClass('none');
+                        $(this.children[0]).text('');
+                    }
                     canScroll = 10;
                     console.log('Element in slide-out clicked');
                     $('#messages').empty();
