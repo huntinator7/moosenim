@@ -502,5 +502,3 @@ function addToRoom(email, roomid, isAdmin) {
         }
     });
 }
-
-console.log('listening on *:80');
