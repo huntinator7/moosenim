@@ -136,9 +136,9 @@
                     var isAnonymous = user.isAnonymous;
                     var providerData = user.providerData;
                     var uid = providerData[0].uid;
-                    console.log(user);
-                    // document.cookie = "token=" + user.stsTokenManager.refreshToken;
-                    // console.log(document.cookie);
+                    console.log(user.refreshToken);
+                    document.cookie = "token=" + user.refreshToken;
+                    console.log(document.cookie);
                     // socket.emit('login message', displayName, email, photoURL, uid, user.stsTokenManager.refreshToken);
                     // socket.emit('tokenSend', uid, user.stsTokenManager.refreshToken);
                     // var url = 'https://www.moosen.im/?' + uid;
