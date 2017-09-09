@@ -161,10 +161,12 @@
             });
 
             $(document).ready(function () {
-                var res = window.location.href.substring(23);
+                console.log(document.cookie);
+                socket.emit('tokenAuth', document.cookie);
+                // var res = window.location.href.substring(23);
                 // var d = $('#box');
                 // d.scrollTop(d.prop("scrollHeight"));
-                socket.emit('associate', res);
+                // socket.emit('associate', res);
                 // $(".button-collapse").sideNav();
                 $('.collapsible').collapsible();
                 $('.materialboxed').materialbox();
@@ -292,10 +294,10 @@
                 }
             });
 
-            socket.on('retreat', function () {
-                console.log("Retreat!");
-                window.location.href = "https://www.moosen.im/login";
-            });
+            // socket.on('retreat', function () {
+            //     console.log("Retreat!");
+            //     window.location.href = "https://www.moosen.im/login";
+            // });
 
             socket.on('logout message', function (user) {
                 $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">error outline</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'

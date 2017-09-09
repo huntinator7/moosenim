@@ -2,9 +2,10 @@ var fs = require('fs');
 var https = require('https');
 
 var express = require('express');
+var cookie = require('cookie');
 var app = express();
 
-var options= {
+var options = {
     key: fs.readFileSync('./certs/domain.key'),
     cert: fs.readFileSync('./certs/www.moosen.im.crt')
 }
@@ -13,7 +14,7 @@ var serverPort = 443;
 var server = https.createServer(options, app);
 var io = require('socket.io')(server);
 
-server.listen(serverPort, function() {
+server.listen(serverPort, function () {
     console.log('server up and running at %s port', serverPort);
 });
 
@@ -121,21 +122,22 @@ io.sockets.on('connection', function (socket) {
     uploader.on("start", function (event) {
         console.log('Starting upload to ' + event.file.name + ' of type ' + event.file.meta.filetype + ' to ' + uploader.dir);
     });
-    
+
     uploader.on("saved", function (event) {
         var un = 'Error - Username Not Found';
         var uid;
         var curroom = 1;
         console.log('chat message       socket.id: ' + socket.id);
-        for (var i = 0; i < online.length; i++) {
-            console.log(i + ': ' + online[i].sid);
-            if (online[i].sid == socket.id) {
-                console.log("New message from " + online[i].name);
-                un = online[i].name;
-                uid = online[i].uid;
-                curroom = online[i].curroom;
+        users.forEach(function (user) {
+            if (user.sid == socket.id) {
+                con.query("SELECT * FROM users WHERE uid = ?", [user.uid], function (error, rows, results) {
+                    un = rows[0].name;
+                });
+                console.log("New message from " + un);
+                uid = user.uid;
+                user.curroom = curroom;
             }
-        }
+        });
         console.log(event.file.name + ' successfully saved.');
         var msg = '<img class="materialboxed responsive-img" style="height:20vh" src="https://moosen.im/uploads/' + event.file.name + '" alt="Mighty Moosen">';
         sendMessage(msg, un, uid, curroom);
@@ -145,8 +147,8 @@ io.sockets.on('connection', function (socket) {
 
     // console.log('Sockets: ' + Object.keys(io.sockets.sockets));
     //Login process and recording
-    socket.on('login message', function (displayName, email, photoURL, uid) {
-        console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id);
+    socket.on('login message', function (displayName, email, photoURL, uid, token) {
+        console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id + " token: " + token);
         con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
             if (rows[0] == null) {
                 //If no user, add to DB
@@ -160,31 +162,46 @@ io.sockets.on('connection', function (socket) {
                     }
                 });
             }
-            addOnline(displayName, email, photoURL, uid, socket.id, 1);//, getrooms(uid, socket.id));
+            // addOnline(displayName, email, photoURL, uid, socket.id, 1);
+            addToUsers(uid, token, socket.id, 1);
         });
         io.emit('login', displayName, email, photoURL, uid);
     });
 
-    //Test emit
-    socket.on('ping', function (name) {
-        console.log('pong');
-        console.log(Object.keys(io.sockets.sockets));
-    });
+    // Workaround for different login page
+    // socket.on('associate', function (uid) {
+    //     console.log('Associating ' + uid + ' with ' + socket.id);
+    //     var match;
+    //     //Replace the last entry in online[] with the current socket being checked. Prevents overwrite of multiple devices for single user.
+    //     for (var i = 0; i < online.length; i++) {
+    //         if (online[i].uid == uid) {
+    //             match = i;
+    //         }
+    //     }
+    //     if (match) {
+    //         io.to(socket.id).emit('roomlist', getChatrooms(socket.id, uid));
+    //         console.log('Replacing ' + online[match].sid + ' with ' + socket.id + ', match = ' + match);
+    //         online[match].sid = socket.id;
+    //         //Show the last 10 messages to the user
+    //         showLastMessages(10, socket.id, 1);
+    //     } else {
+    //         io.to(socket.id).emit('retreat');
+    //     }
+    // });
 
     //Workaround for different login page
-    socket.on('associate', function (uid) {
-        console.log('Associating ' + uid + ' with ' + socket.id);
+    socket.on('tokenAuth', function (token) {
+        var tokenObj = cookie.parse(token);
+        console.log('Authenticating token ' + tokenObj.token + ' for socket ' + socket.id);
         var match;
         //Replace the last entry in online[] with the current socket being checked. Prevents overwrite of multiple devices for single user.
-        for (var i = 0; i < online.length; i++) {
-            if (online[i].uid == uid) {
-                match = i;
-            }
-        }
+        users.forEach(function (user, ind) {
+            if (user.token == tokenObj.token) match = ind;
+        });
         if (match) {
-            io.to(socket.id).emit('roomlist', getChatrooms(socket.id, uid));
-            console.log('Replacing ' + online[match].sid + ' with ' + socket.id + ', match = ' + match);
-            online[match].sid = socket.id;
+            io.to(socket.id).emit('roomlist', getChatrooms(socket.id, users[match].uid));
+            console.log('Replacing ' + users[match].sid + ' with ' + socket.id + ', match = ' + match);
+            users[match].sid = socket.id;
             //Show the last 10 messages to the user
             showLastMessages(10, socket.id, 1);
         } else {
@@ -217,15 +234,25 @@ io.sockets.on('connection', function (socket) {
         var isEmbed = false;
         var send = true;
         console.log('chat message       socket.id: ' + socket.id);
-        for (var i = 0; i < online.length; i++) {
-            console.log(i + ': ' + online[i].sid);
-            if (online[i].sid == socket.id) {
-                console.log("New message from " + online[i].name);
-                un = online[i].name;
-                uid = online[i].uid;
-                online[i].curroom = curroom;
+        // for (var i = 0; i < online.length; i++) {
+        //     console.log(i + ': ' + online[i].sid);
+        //     if (online[i].sid == socket.id) {
+        //         console.log("New message from " + online[i].name);
+        //         un = online[i].name;
+        //         uid = online[i].uid;
+        //         online[i].curroom = curroom;
+        //     }
+        // }
+        users.forEach(function (user) {
+            if (user.sid == socket.id) {
+                con.query("SELECT * FROM users WHERE uid = ?", [user.uid], function (error, rows, results) {
+                    un = rows[0].name;
+                });
+                console.log("New message from " + un);
+                uid = user.uid;
+                user.curroom = curroom;
             }
-        }
+        });
         if (un == 'Error - Username Not Found') {
             io.to(socket.id).emit('retreat');
             console.log('Retreating ' + socket.id);
@@ -346,18 +373,31 @@ function handleDisconnect() {
 
 handleDisconnect();
 
-var online = [];
-function addOnline(un, email, photo, uid, sock, room, allrooms) {
+// var online = [];
+// function addOnline(un, email, photo, uid, sock, room, allrooms) {
+//     var user = {
+//         name: un,
+//         uid: uid,
+//         photo: photo,
+//         email: email,
+//         sid: sock,
+//         curroom: room//,
+//         //allrooms: allrooms
+//     };
+//     online.push(user);
+// }
+
+var users = [];
+function addToUsers(uid, token, sock, room) {
     var user = {
-        name: un,
         uid: uid,
-        photo: photo,
-        email: email,
+        token: token,
         sid: sock,
-        curroom: room//,
-        //allrooms: allrooms
+        curroom: room
     };
-    online.push(user);
+    users.push(user);
+    // console.log(user);
+    // console.log(users);
 }
 
 function sendMessage(message, username, uid, chatid) {
@@ -470,7 +510,7 @@ function getChatrooms(sid, uid) {
     con.query("SELECT * FROM rooms WHERE serialid IN (SELECT room_id FROM room_users WHERE user_id = ?)", [uid], function (error, row) {
         io.to(sid).emit('roomlist', row);
     });
-} 
+}
 
 function createChatroom(n, uid) {
     var roomid;
@@ -479,20 +519,20 @@ function createChatroom(n, uid) {
     con.query("INSERT INTO rooms (name) VALUES(?)", [name], function (error) { });
     con.query("SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC", function (error, row, results) {
         con.query("INSERT INTO room_users VALUES(?,?,1)", [row[0].serialid, uid]);
-    });  
+    });
 }
 
 function searchUsers(email) {
-    con.query("SELECT * FROM users WHERE email = ?", [email], function(error, rows) {
+    con.query("SELECT * FROM users WHERE email = ?", [email], function (error, rows) {
         return rows[0].uid;
     });
 }
 
 function addToRoom(email, roomid, isAdmin) {
-    con.query("SELECT * FROM users WHERE email = ?", [email], function (error, rows, result) { 
+    con.query("SELECT * FROM users WHERE email = ?", [email], function (error, rows, result) {
         try {
-           rows.forEach(function (element) {
-               con.query("INSERT INTO room_users VALUES(?,?,?)",[roomid, element.uid, isAdmin]);
+            rows.forEach(function (element) {
+                con.query("INSERT INTO room_users VALUES(?,?,?)", [roomid, element.uid, isAdmin]);
                 console.log("user " + element.uid + " was added to room " + roomid)
             });
         } catch (e) {
