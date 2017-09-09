@@ -47,7 +47,6 @@
             var URL_SERVER = 'https://localhost:443';
             var socket = io.connect(URL_SERVER);
         });
-
     </script>
     <script type="text/javascript">
         /**
@@ -137,9 +136,10 @@
                     var isAnonymous = user.isAnonymous;
                     var providerData = user.providerData;
                     var uid = providerData[0].uid;
-                    document.cookie = "token=" + user.stsTokenManager.refreshToken;
-                    console.log(document.cookie);
-                    socket.emit('login message', displayName, email, photoURL, uid, user.stsTokenManager.refreshToken);
+                    console.log(user);
+                    // document.cookie = "token=" + user.stsTokenManager.refreshToken;
+                    // console.log(document.cookie);
+                    // socket.emit('login message', displayName, email, photoURL, uid, user.stsTokenManager.refreshToken);
                     // socket.emit('tokenSend', uid, user.stsTokenManager.refreshToken);
                     // var url = 'https://www.moosen.im/?' + uid;
                     // console.log(url);
