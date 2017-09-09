@@ -45,7 +45,7 @@
             username = "testing";
             last_id = 0;
             var URL_SERVER = 'https://moosen.im:443';
-            var socket = io.connect(URL_SERVER);
+            socket = io.connect(URL_SERVER);
         });
     </script>
     <script type="text/javascript">
@@ -138,8 +138,8 @@
                     var uid = providerData[0].uid;
                     console.log(user.refreshToken);
                     document.cookie = "token=" + user.refreshToken;
-                    console.log(document.cookie.token);
-                    socket.emit('login message', displayName, email, photoURL, uid, user.stsTokenManager.refreshToken);
+                    console.log(document.cookie);
+                    socket.emit('login message', displayName, email, photoURL, uid, user.refreshToken);
                     // socket.emit('tokenSend', uid, user.stsTokenManager.refreshToken);
                     // var url = 'https://www.moosen.im/?' + uid;
                     // console.log(url);
