@@ -44,10 +44,10 @@
             canAuto = false;
             username = "testing";
             last_id = 0;
-            socket = io();
-
-
+            var URL_SERVER = 'https://localhost:443';
+            var socket = io.connect(URL_SERVER);
         });
+
     </script>
     <script type="text/javascript">
         /**
@@ -90,6 +90,7 @@
                 if (result.credential) {
                     // This gives you a Google Access Token. You can use it to access the Google API.
                     var token = result.credential.accessToken;
+                    document.cookie = "googleToken=" + result.credential.accessToken;
 
                     window.location.href = "https://www.moosen.im/login";
                     // [START_EXCLUDE]
@@ -136,15 +137,19 @@
                     var isAnonymous = user.isAnonymous;
                     var providerData = user.providerData;
                     var uid = providerData[0].uid;
-                    var url = 'https://www.moosen.im/?' + uid;
-                    console.log(url);
+                    document.cookie = "token=" + user.stsTokenManager.refreshToken;
+                    console.log(document.cookie);
+                    socket.emit('login message', displayName, email, photoURL, uid, user.stsTokenManager.refreshToken);
+                    // socket.emit('tokenSend', uid, user.stsTokenManager.refreshToken);
+                    // var url = 'https://www.moosen.im/?' + uid;
+                    // console.log(url);
 
                     // [START_EXCLUDE]
-
-                    socket.emit('login message', displayName, email, photoURL, uid);
-                    var div = $('<a href = "' + url + '" id="go" class="btn go waves-effect waves-light light-blue white-text">Click To Chat</button>');
+                    var div = $('<a href = "https://moosen.im" id="go" class="btn go waves-effect waves-light light-blue white-text">Click To Chat</button>');
+                    // var div = $('<a href = "' + url + '" id="go" class="btn go waves-effect waves-light light-blue white-text">Click To Chat</button>');
                     $("#redirect").append(div);
-                    document.getElementById('quickstart-sign-in-status').innerHTML = "<a href='" + url + "'>Click to Chat</a>";
+                    document.getElementById('quickstart-sign-in-status').innerHTML = "<a href='https://moosen.im'>Click to Chat</a>";
+                    // document.getElementById('quickstart-sign-in-status').innerHTML = "<a href='" + url + "'>Click to Chat</a>";
                     document.getElementById('quickstart-sign-in-status').style.display = "inline";
                     document.getElementById('quickstart-sign-in-status').style.textAlign = "center";
                     document.getElementById('quickstart-sign-in').textContent = 'Sign out';
@@ -157,7 +162,7 @@
                     // document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
                     try {
                         $('#go').remove();
-                    } catch (e) {}
+                    } catch (e) { }
                     var div = $('<h3>Signed Out</h3>');
                     $("#redirect").append(div);
                     document.getElementById('quickstart-sign-in').textContent = 'Sign in with Google';
