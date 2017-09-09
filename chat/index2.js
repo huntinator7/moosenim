@@ -193,7 +193,10 @@ io.sockets.on('connection', function (socket) {
     //Workaround for different login page
     socket.on('tokenAuth', function (token) {
         var tokenObj = cookie.parse(token);
-        console.log('Authenticating token ' + tokenObj.token + ' for socket ' + socket.id);
+        console.log(tokenObj.token);
+        console.log(tokenObj);
+        console.log(token);
+        // console.log('Authenticating token ' + tokenObj.token + ' for socket ' + socket.id);
         var match;
         //Replace the last entry in online[] with the current socket being checked. Prevents overwrite of multiple devices for single user.
         users.forEach(function (user, ind) {
