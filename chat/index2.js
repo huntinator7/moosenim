@@ -1,11 +1,24 @@
+var fs = require('fs');
+var https = require('https');
+
 var express = require('express');
 var app = express();
-var http = require('http').Server(express);
-// var privateKey = fs.readFileSync('domain.key').toString();
-// var certificate = fs.readFileSync('domain.com.crt').toString();
-// var dad = fs.readFileSync('gd_bundle.crt').toString();
-// var app = express.createServer({key: privateKey, cert: certificate, ca: dad});
-var io = require('socket.io').listen(app.listen(80));
+
+var options= {
+    key: fs.readFileSync('./certs/domain.key'),
+    cert: fs.readFileSync('./certs/www.moosen.im.crt')
+}
+var serverPort = 443;
+
+var server = https.createServer(options, app);
+var io = require('socket.io')(server);
+
+server.listen(serverPort, function() {
+    console.log('server up and running at %s port', serverPort);
+});
+
+// var http = require('http').Server(express);
+// var io = require('socket.io').listen(app.listen(80));
 var mysql = require('mysql');
 var siofu = require("socketio-file-upload");
 
@@ -43,6 +56,7 @@ var config = require('./config');
 app.use('/', chat);
 app.use('/messages', messages);
 app.use('/login', login);
+app.use('/certs', express.static(__dirname + '/certs'));
 app.use('/.well-known/pki-validation/', express.static(__dirname + '/.well-known/pki-validation/'));
 app.use("/images", express.static(__dirname + '/images'));
 app.use("/uploads", express.static(__dirname + '/uploads'));
