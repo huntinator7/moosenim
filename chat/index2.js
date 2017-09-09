@@ -2,6 +2,7 @@ var fs = require('fs');
 var https = require('https');
 
 var express = require('express');
+var cookie = require('cookie');
 var app = express();
 
 var options = {
@@ -191,11 +192,12 @@ io.sockets.on('connection', function (socket) {
 
     //Workaround for different login page
     socket.on('tokenAuth', function (token) {
-        console.log('Authenticating token ' + token + ' for socket ' + socket.id);
+        var tokenObj = cookie.parse(token);
+        console.log('Authenticating token ' + tokenObj.token + ' for socket ' + socket.id);
         var match;
         //Replace the last entry in online[] with the current socket being checked. Prevents overwrite of multiple devices for single user.
         users.forEach(function (user, ind) {
-            if (user.token == token) match = ind;
+            if (user.token == tokenObj.token) match = ind;
         });
         if (match) {
             io.to(socket.id).emit('roomlist', getChatrooms(socket.id, uid));
