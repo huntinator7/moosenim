@@ -397,8 +397,8 @@ function addToUsers(uid, token, sock, room) {
         curroom: room
     };
     users.push(user);
-    console.log(user);
-    console.log(users);
+    // console.log(user);
+    // console.log(users);
 }
 
 function sendMessage(message, username, uid, chatid) {
