@@ -1,6 +1,10 @@
 var express = require('express');
 var app = express();
 var http = require('http').Server(express);
+// var privateKey = fs.readFileSync('domain.key').toString();
+// var certificate = fs.readFileSync('domain.com.crt').toString();
+// var dad = fs.readFileSync('gd_bundle.crt').toString();
+// var app = express.createServer({key: privateKey, cert: certificate, ca: dad});
 var io = require('socket.io').listen(app.listen(80));
 var mysql = require('mysql');
 var siofu = require("socketio-file-upload");
@@ -33,11 +37,13 @@ var moment = require('moment');
 var chat = require('./chat.js');
 var login = require('./login.js');
 var config = require('./config');
+var ssl = require('./.well-known/pki-validation/E24DBA4BA8C2EF5EB57B3D3D1E5DD8F0.txt');
 
 //Associating .js files with URLs
 app.use('/', chat);
 app.use('/messages', messages);
 app.use('/login', login);
+app.use('/.well-known/pki-validation/E24DBA4BA8C2EF5EB57B3D3D1E5DD8F0.txt', ssl);
 app.use("/images", express.static(__dirname + '/images'));
 app.use("/uploads", express.static(__dirname + '/uploads'));
 app.use("/sounds", express.static(__dirname + '/sounds'));
@@ -226,8 +232,8 @@ io.sockets.on('connection', function (socket) {
             } else if (msg.indexOf("!pepe") == 0) {
                 isEmbed = true;
                 sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un, uid, curroom)
-            } else if (msg.indexOf("nigger") > -1) {
-                var newmsg = msg.replace("nigger", "Basketball American");
+            } else if (/nigger/ig.test(msg)) {
+                var newmsg = /nigger/ig[Symbol.replace](msg, 'Basketball American');
                 sendMessage(newmsg, un + ', casual racist', uid, curroom);
             } else if (msg.indexOf("<script") > -1) {
                 sendMessage("Stop right there, criminal scum! You violated my mother!", "AutoMod", uid, curroom);
