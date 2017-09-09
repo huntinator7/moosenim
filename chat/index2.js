@@ -149,7 +149,7 @@ io.sockets.on('connection', function (socket) {
     // console.log('Sockets: ' + Object.keys(io.sockets.sockets));
     //Login process and recording
     socket.on('login message', function (displayName, email, photoURL, uid, token) {
-        console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id);
+        console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id + " token: " + token);
         con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
             if (rows[0] == null) {
                 //If no user, add to DB
@@ -397,6 +397,8 @@ function addToUsers(uid, token, sock, room) {
         curroom: room
     };
     users.push(user);
+    console.log(user);
+    console.log(users);
 }
 
 function sendMessage(message, username, uid, chatid) {
