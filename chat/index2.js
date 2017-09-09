@@ -5,7 +5,7 @@ var http = require('http').Server(express);
 // var certificate = fs.readFileSync('domain.com.crt').toString();
 // var dad = fs.readFileSync('gd_bundle.crt').toString();
 // var app = express.createServer({key: privateKey, cert: certificate, ca: dad});
-var io = require('socket.io').listen(app.listen(443));
+var io = require('socket.io').listen(app.listen(80));
 var mysql = require('mysql');
 var siofu = require("socketio-file-upload");
 
