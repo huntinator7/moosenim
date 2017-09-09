@@ -200,7 +200,7 @@ io.sockets.on('connection', function (socket) {
             if (user.token == tokenObj.token) match = ind;
         });
         if (match) {
-            io.to(socket.id).emit('roomlist', getChatrooms(socket.id, uid));
+            io.to(socket.id).emit('roomlist', getChatrooms(socket.id, users[match].uid));
             console.log('Replacing ' + users[match].sid + ' with ' + socket.id + ', match = ' + match);
             users[match].sid = socket.id;
             //Show the last 10 messages to the user
