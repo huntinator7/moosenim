@@ -296,8 +296,8 @@ io.sockets.on('connection', function (socket) {
             else if (msg.indexOf("!motd") > -1) {
                 send = false;
                 var newmsg = msg.substring(5, msg.length);
-                io.emit('motd update', newmsg);
                 con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [newmsg, curroom], function (error) { if (error) throw error; });
+                io.emit('motd update', getMotd(curroom));
             }
             else {
                 console.log('In chat message, curroom: ' + curroom);
@@ -317,7 +317,7 @@ var con;
 function getMotd(roomid) {
     con.query('SELECT * FROM rooms WHERE serialid = ?', [roomid], function (error, row) {
         console.log("motd is" + row[0].motd + " roomid = " + roomid);
-        io.emit('motd update', row[0].motd);
+        // io.emit('motd update', row[0].motd);
         return row[0].motd;
     });
 }
@@ -427,7 +427,7 @@ function showLastMessages(num, sid, roomid) {
     con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [roomid, num], function (error, rows, results) {
         var m = getMotd(roomid);
         console.log(m);
-        io.emit('motd update', m);
+        io.to(sid).emit('motd update', m);
         if (error) throw error;
         try {
             rows.forEach(function (element) {
