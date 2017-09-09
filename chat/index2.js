@@ -37,13 +37,13 @@ var moment = require('moment');
 var chat = require('./chat.js');
 var login = require('./login.js');
 var config = require('./config');
-var ssl = require('./.well-known/pki-validation/E24DBA4BA8C2EF5EB57B3D3D1E5DD8F0.txt');
+// var ssl = require('./.well-known/pki-validation/E24DBA4BA8C2EF5EB57B3D3D1E5DD8F0.txt');
 
 //Associating .js files with URLs
 app.use('/', chat);
 app.use('/messages', messages);
 app.use('/login', login);
-app.use('/.well-known/pki-validation/E24DBA4BA8C2EF5EB57B3D3D1E5DD8F0.txt', ssl);
+app.use('/.well-known/pki-validation/', express.static(__dirname + '/.well-known/pki-validation/'));
 app.use("/images", express.static(__dirname + '/images'));
 app.use("/uploads", express.static(__dirname + '/uploads'));
 app.use("/sounds", express.static(__dirname + '/sounds'));
