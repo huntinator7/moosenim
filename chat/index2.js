@@ -126,7 +126,7 @@ io.sockets.on('connection', function (socket) {
         var un = 'Error - Username Not Found';
         var uid;
         var curroom = 1;
-        console.log('chat message       socket.id: ' + socket.id);
+        console.log('upload     socket.id: ' + socket.id);
         for (var i = 0; i < online.length; i++) {
             console.log(i + ': ' + online[i].sid);
             if (online[i].sid == socket.id) {
@@ -148,7 +148,7 @@ io.sockets.on('connection', function (socket) {
         }
         sendMessage(msg, un, uid, curroom);
         io.emit(getMessage(curroom, true));
-        client.channels.get(config.discord.moosen).send({ files: [('./uploads/' + event.file.name)] });
+        // client.channels.get(config.discord.moosen).send({ files: [('./uploads/' + event.file.name)] });
     });
 
     // console.log('Sockets: ' + Object.keys(io.sockets.sockets));
