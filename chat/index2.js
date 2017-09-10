@@ -137,7 +137,9 @@ io.sockets.on('connection', function (socket) {
             }
         }
         console.log(event.file.name + ' successfully saved.');
+        console.log(event.file);
         var msg = '<img class="materialboxed responsive-img" style="height:20vh" src="https://moosen.im/uploads/' + event.file.name + '" alt="Mighty Moosen">';
+        // var msg = '<div class="video-container"><iframe width="100%" src="https://moosen.im/uploads/'+ event.file.name + '" frameborder="0" allowfullscreen></iframe></div>';
         sendMessage(msg, un, uid, curroom);
         io.emit(getMessage(curroom, true));
         client.channels.get(config.discord.moosen).send({ files: [('./uploads/' + event.file.name)] });
@@ -231,7 +233,7 @@ io.sockets.on('connection', function (socket) {
             console.log('Retreating ' + socket.id);
         } else {
             console.log('message: ' + msg);
-            if (msg.indexOf("lag") > -1) {
+            if (/\slag\s/ig.test(msg)) {
                 sendMessage("I love Rick Astley!", 'notch', uid, curroom);
             } else if (msg.indexOf("*autistic screeching*") > -1) {
                 sendMessage(msg, un, uid, curroom);
@@ -245,6 +247,9 @@ io.sockets.on('connection', function (socket) {
             } else if (msg.indexOf("!pepe") == 0) {
                 isEmbed = true;
                 sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un, uid, curroom)
+            } else if (msg.indexOf("!brisk") == 0) {
+                isEmbed = true;
+                sendMessage("<img style=\"height:10vh\" src='https://www.pepsicobeveragefacts.com/content/image/products/Brisk_TeaWatermelLemonade_1L.png?r=20170824' alt=\"Mighty Moosen\">", un, uid, curroom)
             } else if (/nigger/ig.test(msg)) {
                 var newmsg = /nigger/ig[Symbol.replace](msg, 'Basketball American');
                 sendMessage(newmsg, un + ', casual racist', uid, curroom);
@@ -297,7 +302,7 @@ io.sockets.on('connection', function (socket) {
                 send = false;
                 var newmsg = msg.substring(5, msg.length);
                 con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [newmsg, curroom], function (error) { if (error) throw error; });
-                io.emit('motd update', getMotd(curroom));
+                io.emit('motd update', getMotd(curroom), curroom);
             }
             else {
                 console.log('In chat message, curroom: ' + curroom);
@@ -427,7 +432,7 @@ function showLastMessages(num, sid, roomid) {
     con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [roomid, num], function (error, rows, results) {
         var m = getMotd(roomid);
         console.log(m);
-        io.to(sid).emit('motd update', m);
+        io.to(sid).emit('motd update', m, roomid);
         if (error) throw error;
         try {
             rows.forEach(function (element) {
