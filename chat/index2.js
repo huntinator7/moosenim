@@ -137,9 +137,15 @@ io.sockets.on('connection', function (socket) {
             }
         }
         console.log(event.file.name + ' successfully saved.');
-        console.log(event.file);
-        var msg = '<img class="materialboxed responsive-img" style="height:20vh" src="https://moosen.im/uploads/' + event.file.name + '" alt="Mighty Moosen">';
-        // var msg = '<div class="video-container"><iframe width="100%" src="https://moosen.im/uploads/'+ event.file.name + '" frameborder="0" allowfullscreen></iframe></div>';
+        console.log(event.file.meta.filetype);
+        var msg;
+        if(/video/g.test(event.file.meta.filetype)){
+            msg = '<div class="video-container"><iframe width="100%" src="https://moosen.im/uploads/'+ event.file.name + '" frameborder="0" allowfullscreen></iframe></div>';
+        } else if (/image/g.test(event.file.meta.filetype)) {
+            msg = '<img class="materialboxed responsive-img" style="height:20vh" src="https://moosen.im/uploads/' + event.file.name + '" alt="Mighty Moosen">';
+        } else {
+            msg = '<a href="/uploads/' + event.file.name + '" download="' + event.file.name + '">' + event.file.name + '</a>'
+        }
         sendMessage(msg, un, uid, curroom);
         io.emit(getMessage(curroom, true));
         client.channels.get(config.discord.moosen).send({ files: [('./uploads/' + event.file.name)] });
