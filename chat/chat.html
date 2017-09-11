@@ -143,7 +143,7 @@
             var curroom = 1;
 
             $('#email').submit(function () {
-                socket.emit('adduser', $('#e').val(), curroom, 0);
+                socket.to(curroom).emit('adduser', $('#e').val(), curroom, 0);
                 console.log("form submitted " + curroom);
                 //$('#e').val() = "";
                 return false;
