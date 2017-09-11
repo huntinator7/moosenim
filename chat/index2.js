@@ -169,27 +169,6 @@ io.sockets.on('connection', function (socket) {
         io.emit('login', displayName, email, photoURL, uid);
     });
 
-    // Workaround for different login page
-    // socket.on('associate', function (uid) {
-    //     console.log('Associating ' + uid + ' with ' + socket.id);
-    //     var match;
-    //     //Replace the last entry in online[] with the current socket being checked. Prevents overwrite of multiple devices for single user.
-    //     for (var i = 0; i < online.length; i++) {
-    //         if (online[i].uid == uid) {
-    //             match = i;
-    //         }
-    //     }
-    //     if (match) {
-    //         io.to(socket.id).emit('roomlist', getChatrooms(socket.id, uid));
-    //         console.log('Replacing ' + online[match].sid + ' with ' + socket.id + ', match = ' + match);
-    //         online[match].sid = socket.id;
-    //         //Show the last 10 messages to the user
-    //         showLastMessages(10, socket.id, 1);
-    //     } else {
-    //         io.to(socket.id).emit('retreat');
-    //     }
-    // });
-
     //Workaround for different login page
     socket.on('tokenAuth', function (token) {
         var tokenObj = cookie.parse(token);
@@ -197,9 +176,14 @@ io.sockets.on('connection', function (socket) {
         var match;
         //Replace the last entry in online[] with the current socket being checked. Prevents overwrite of multiple devices for single user.
         users.forEach(function (user, ind) {
-            if (user.token == tokenObj.token) match = ind;
+            console.log('user: ' + user);
+            if (user.token == tokenObj.token) {
+                match = ind;
+                console.log('matched ' + ind);
+            }
         });
         if (match) {
+            console.log('match: ' + match);
             io.to(socket.id).emit('roomlist', getChatrooms(socket.id, users[match].uid));
             console.log('Replacing ' + users[match].sid + ' with ' + socket.id + ', match = ' + match);
             users[match].sid = socket.id;
@@ -235,21 +219,15 @@ io.sockets.on('connection', function (socket) {
         var isEmbed = false;
         var send = true;
         console.log('chat message       socket.id: ' + socket.id);
-        // for (var i = 0; i < online.length; i++) {
-        //     console.log(i + ': ' + online[i].sid);
-        //     if (online[i].sid == socket.id) {
-        //         console.log("New message from " + online[i].name);
-        //         un = online[i].name;
-        //         uid = online[i].uid;
-        //         online[i].curroom = curroom;
-        //     }
-        // }
         users.forEach(function (user) {
+            console.log('chat message       user.sid: ' + user.sid);
             if (user.sid == socket.id) {
                 con.query("SELECT * FROM users WHERE uid = ?", [user.uid], function (error, rows, results) {
+                    console.log(rows[0]);
                     un = rows[0].name;
                 });
-                console.log("New message from " + un);
+                // console.log("New message from " + un);
+                console.log('final un: ' + un);
                 uid = user.uid;
                 user.curroom = curroom;
             }
