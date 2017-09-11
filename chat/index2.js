@@ -172,7 +172,7 @@ io.sockets.on('connection', function (socket) {
     //Workaround for different login page
     socket.on('tokenAuth', function (token) {
         console.log('token: ' + token + '\n');
-        console.log(cookie.parse(token) + '\n\n');
+        console.log($(cookie.parse(token)) + '\n\n');
         var tokenObj = cookie.parse(token);
         console.log('Authenticating token ' + tokenObj.token + ' for socket ' + socket.id);
         var match;
