@@ -153,16 +153,7 @@
                 return false;
             });
 
-            $('#mform').submit(function () {
-                var message = $('#m').val();
-                message = message.replace(/</g, '&lt;');
-                message = message.replace(/>/g, '&gt;');
-                // var d = $('#center-container');
-                // d.scrollTop(d.prop("scrollHeight"));
-                io.to(curroom).emit('chat message', message, curroom);
-                $('#m').val('');
-                return false;
-            });
+            
 
             $(document).ready(function () {
                 var res = window.location.href.substring(23);
@@ -185,6 +176,18 @@
                     if (curroom == room || room == 0) {
                         $('#motd').html(" " + msg);
                     }
+                });
+
+
+                $('#mform').submit(function () {
+                    var message = $('#m').val();
+                    message = message.replace(/</g, '&lt;');
+                    message = message.replace(/>/g, '&gt;');
+                    // var d = $('#center-container');
+                    // d.scrollTop(d.prop("scrollHeight"));
+                    io.to(curroom).emit('chat message', message, curroom);
+                    $('#m').val('');
+                    return false;
                 });
 
                 socket.on('chat message', function (user, msg, time, id, pic, room) {
