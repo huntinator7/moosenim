@@ -129,11 +129,7 @@
             var retrievePrevious = false;
             var URL_SERVER = 'https://moosen.im:443';
             var socket = io.connect(URL_SERVER);
-
-
-             var socket = io();
-
-
+            // var socket = io();
 
             var siofu = new SocketIOFileUpload(socket);
             siofu.addEventListener("start", function (event) {
@@ -159,7 +155,7 @@
                 message = message.replace(/>/g, '&gt;');
                 // var d = $('#center-container');
                 // d.scrollTop(d.prop("scrollHeight"));
-                io.to(curroom).emit('chat message', message, curroom);
+                socket.emit('chat message', message, curroom);
                 $('#m').val('');
                 return false;
             });
@@ -176,123 +172,95 @@
             });
 
             document.getElementById("main").style.display = "inline";
-            io.on('connection', function (socket) {
-                socket.join(curroom);
 
-
-                socket.on('motd update', function (msg, room) {
-                    console.log('Received MOTD');
-                    if (curroom == room || room == 0) {
-                        $('#motd').html(" " + msg);
-                    }
-                });
-
-                socket.on('chat message', function (user, msg, time, id, pic, room) {
-                    if (curroom == room) {
-                        document.title = user.substring(0, 3) + ": " + msg.substring(0, 10);
-                        if (document.hidden) {
-                            notifyMe(msg, pic);
-                            login.play();
-                        }
-                        // console.log('last element: ' + $('#messages li').last());
-                        if (!first_id) {
-                            first_id = id;
-                            $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
-                                + user + '</span><p>'
-                                + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
-                                + time + '</a></li>');
-                        } else {
-                            insertMessage('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
-                                + user + '</span><p>'
-                                + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
-                                + time + '</a></li>', id);
-                            if (first_id > id) {
-                                first_id = id;
-                            }
-                        }
-                        // console.log('id: ' + id + ' first_id: ' + first_id);
-                        $('.materialboxed').materialbox();
-                    } else {
-                        //'<span class="new badge deep-orange darken-3">1</span>'
-                        console.log($("a[room='" + room + "']").children());
-                        if ($("a[room='" + room + "']").children().hasClass('none')) {
-                            console.log('true');
-                            $("a[room='" + room + "']").children().removeClass('none');
-                            $("a[room='" + room + "']").children().addClass('new badge deep-orange accent-3');
-                            $("a[room='" + room + "']").children().text('1');
-                        } else {
-                            // console.log($("a[room='"+room+"']").first());
-                            var curtext = parseInt($("a[room='" + room + "']").first().children().text());
-                            console.log(curtext);
-                            curtext = curtext + 1;
-                            curtext = curtext.toString();
-                            console.log(curtext);
-                            $("a[room='" + room + "']").children().text(curtext);
-                        }
-                    }
-                });
-
-                socket.on('login', function (displayName, email, photoURL, uid) {
-                    console.log("logging in " + displayName);
-                    $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">info outline</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
-                        + displayName + ' logged in</span></a></li>');
-                    if (canAuto) {
-                        window.scrollTo(0, document.body.scrollHeight);
-                    }
-                    if (document.hidden) {
-                        login.play();
-                    }
-                });
-
-                socket.on('test', function (name) {
-                    console.log(name + "asdasd");
-                });
-
-                socket.on('roomlist', function (list) {
-                    console.log("Received roomlist: " + list);
-                    $('#nav-mobile').empty();
-                    $('#slide-out').empty();
-                    $('#nav-mobile').append('<li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>');
-                    $('#slide-out').append('<li><img src="images/favicon.png"></li><li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>');
-                    try {
-                        list.forEach(function (element) {
-                            $('#nav-mobile').append(`<li><a id="rooms" class="button waves-effect" room="${element.serialid}" style="color: #6EB7FF">${element.name}<span class="none"></span></a></li>`);
-                            $('#slide-out').append(`<li><a id="rooms" room="${element.serialid}" style="color: #6EB7FF">${element.name}<span class="none"></span></a></li>`);
-                        });
-                    } catch (e) { }
-                    $('#motd').html("test");
-                    $('#nav-mobile').append('<li><br></li><li><br></li><li><a id="nav-button" class="button waves-effect modal-trigger" href="#modal1" style="color: #6EB7FF">This is a button. Dear God...</a></li>');
-                    $('#slide-out').append('<li><br></li><li><br></li><li><a id="nav-button" class="button waves-effect modal-trigger" href="#modal1" style="color: #6EB7FF">This is a button. Dear God...</a></li>');
-                });
-
-
-                socket.on('retreat', function () {
-                    console.log("Retreat!");
-                    window.location.href = "https://www.moosen.im/login";
-                });
-
-                socket.on('logout message', function (user) {
-                    $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">error outline</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
-                        + user + ' logged out</span></a></li>');
-                    if (canAuto) {
-                        window.scrollTo(0, document.body.scrollHeight);
-                    }
-                });
-
-
-
+            socket.on('motd update', function (msg, room) {
+                console.log('Received MOTD');
+                if (curroom == room || room == 0) {
+                    $('#motd').html(" " + msg);
+                }
             });
-           
 
             function updatemotd(msg) {
                 $('#motd').html(msg);
             }
 
-     
+            socket.on('chat message', function (user, msg, time, id, pic, room) {
+                if (curroom == room) {
+                    document.title = user.substring(0, 3) + ": " + msg.substring(0, 10);
+                    if (document.hidden) {
+                        notifyMe(msg, pic);
+                        login.play();
+                    }
+                    // console.log('last element: ' + $('#messages li').last());
+                    if (!first_id) {
+                        first_id = id;
+                        $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
+                            + user + '</span><p>'
+                            + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
+                            + time + '</a></li>');
+                    } else {
+                        insertMessage('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
+                            + user + '</span><p>'
+                            + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
+                            + time + '</a></li>', id);
+                        if (first_id > id) {
+                            first_id = id;
+                        }
+                    }
+                    // console.log('id: ' + id + ' first_id: ' + first_id);
+                    $('.materialboxed').materialbox();
+                } else {
+                    //'<span class="new badge deep-orange darken-3">1</span>'
+                    console.log($("a[room='" + room + "']").children());
+                    if ($("a[room='" + room + "']").children().hasClass('none')) {
+                        console.log('true');
+                        $("a[room='" + room + "']").children().removeClass('none');
+                        $("a[room='" + room + "']").children().addClass('new badge deep-orange accent-3');
+                        $("a[room='" + room + "']").children().text('1');
+                    } else {
+                        // console.log($("a[room='"+room+"']").first());
+                        var curtext = parseInt($("a[room='" + room + "']").first().children().text());
+                        console.log(curtext);
+                        curtext = curtext + 1;
+                        curtext = curtext.toString();
+                        console.log(curtext);
+                        $("a[room='" + room + "']").children().text(curtext);
+                    }
+                }
+            });
 
-           
+            socket.on('login', function (displayName, email, photoURL, uid) {
+                console.log("logging in " + displayName);
+                $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">info outline</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
+                    + displayName + ' logged in</span></a></li>');
+                if (canAuto) {
+                    window.scrollTo(0, document.body.scrollHeight);
+                }
+                if (document.hidden) {
+                    login.play();
+                }
+            });
 
-          
+            socket.on('test', function (name) {
+                console.log(name + "asdasd");
+            });
+
+            socket.on('roomlist', function (list) {
+                console.log("Received roomlist: " + list);
+                $('#nav-mobile').empty();
+                $('#slide-out').empty();
+                $('#nav-mobile').append('<li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>');
+                $('#slide-out').append('<li><img src="images/favicon.png"></li><li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>');
+                try {
+                    list.forEach(function (element) {
+                        $('#nav-mobile').append(`<li><a id="rooms" class="button waves-effect" room="${element.serialid}" style="color: #6EB7FF">${element.name}<span class="none"></span></a></li>`);
+                        $('#slide-out').append(`<li><a id="rooms" room="${element.serialid}" style="color: #6EB7FF">${element.name}<span class="none"></span></a></li>`);
+                    });
+                } catch (e) { }
+                $('#motd').html("test");
+                $('#nav-mobile').append('<li><br></li><li><br></li><li><a id="nav-button" class="button waves-effect modal-trigger" href="#modal1" style="color: #6EB7FF">This is a button. Dear God...</a></li>');
+                $('#slide-out').append('<li><br></li><li><br></li><li><a id="nav-button" class="button waves-effect modal-trigger" href="#modal1" style="color: #6EB7FF">This is a button. Dear God...</a></li>');
+            });
 
             $('#nav-mobile').on('click', 'a', function () {
                 if ($(this.attributes.id).val() == 'rooms') {
@@ -326,6 +294,18 @@
                 }
             });
 
+            socket.on('retreat', function () {
+                console.log("Retreat!");
+                window.location.href = "https://www.moosen.im/login";
+            });
+
+            socket.on('logout message', function (user) {
+                $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">error outline</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
+                    + user + ' logged out</span></a></li>');
+                if (canAuto) {
+                    window.scrollTo(0, document.body.scrollHeight);
+                }
+            });
 
             function sleep(ms) {
                 return new Promise(resolve => setTimeout(resolve, ms));
