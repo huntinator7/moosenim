@@ -242,6 +242,8 @@ io.sockets.on('connection', function (socket) {
             } else if (msg.indexOf("!pepe") == 0) {
                 isEmbed = true;
                 sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un, uid, curroom)
+            } else if (msg.indexOf("!thicc") == 0) {
+                sendMessage("乇乂ㄒ尺卂 ㄒ卄丨匚匚", un, uid, curroom)
             } else if (msg.indexOf("!brisk") == 0) {
                 isEmbed = true;
                 sendMessage("<img style=\"height:10vh\" src='https://www.pepsicobeveragefacts.com/content/image/products/Brisk_TeaWatermelLemonade_1L.png?r=20170824' alt=\"Mighty Moosen\">", un, uid, curroom)
