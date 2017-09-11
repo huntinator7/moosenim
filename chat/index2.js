@@ -106,7 +106,7 @@ io.sockets.on('connection', function (socket) {
     var uploader = new siofu();
     uploader.dir = __dirname + '/uploads';
     uploader.listen(socket);
-    socket.join(2);
+    socket.join(1);
 
 
     uploader.on("start", function (event) {
@@ -236,7 +236,7 @@ io.sockets.on('connection', function (socket) {
                 sendMessage("I love Rick Astley!", 'notch', uid, curroom);
             } else if (msg.indexOf("*autistic screeching*") > -1) {
                 sendMessage(msg, un, uid, curroom);
-                io.emit(getMessage(curroom, isEmbed));
+                io.to(curroom).emit(getMessage(curroom, isEmbed));
                 sendMessage(un + " is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod", uid, curroom);
                 // } else if (msg.indexOf("!myrooms") > -1) {
                 //     sendMessage("your rooms: " + getrooms(uid).toString() + " curroom" + curroom, un, uid, curroom);
@@ -301,7 +301,7 @@ io.sockets.on('connection', function (socket) {
                 send = false;
                 var newmsg = msg.substring(5, msg.length);
                 con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [newmsg, curroom], function (error) { if (error) throw error; });
-                io.emit('motd update', getMotd(curroom), curroom);
+                io.to(curroom).emit('motd update', getMotd(curroom), curroom);
             }
             else {
                 console.log('In chat message, curroom: ' + curroom);
@@ -384,9 +384,9 @@ function getMessage(chatid, isEmbed) {
         if (error) throw error;
         con.query("SELECT * FROM users WHERE users.name = ?", [rows[0].username], function (error, row) {
             if (row.length < 1) {
-                io.emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, "https://www.moosen.im/images/favicon.png", rows[0].chatroom_id);
+                io.to(chatid).emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, "https://www.moosen.im/images/favicon.png", rows[0].chatroom_id);
             } else {
-                io.emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, row[0].profpic, rows[0].chatroom_id);
+                io.to(chatid).emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, row[0].profpic, rows[0].chatroom_id);
             }
             if (chatid == config.discord.sendChannel && !isEmbed) {
                 //send to Discord
