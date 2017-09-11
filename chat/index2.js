@@ -149,7 +149,7 @@ io.sockets.on('connection', function (socket) {
     // console.log('Sockets: ' + Object.keys(io.sockets.sockets));
     //Login process and recording
     socket.on('login message', function (displayName, email, photoURL, uid, token) {
-        console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id + " token: " + token);
+        console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id);
         con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
             if (rows[0] == null) {
                 //If no user, add to DB
@@ -171,6 +171,8 @@ io.sockets.on('connection', function (socket) {
 
     //Workaround for different login page
     socket.on('tokenAuth', function (token) {
+        console.log('token: ' + token + '\n');
+        console.log(cookie.parse(token) + '\n\n');
         var tokenObj = cookie.parse(token);
         console.log('Authenticating token ' + tokenObj.token + ' for socket ' + socket.id);
         var match;
