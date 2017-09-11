@@ -106,7 +106,7 @@ io.sockets.on('connection', function (socket) {
     var uploader = new siofu();
     uploader.dir = __dirname + '/uploads';
     uploader.listen(socket);
-    socket.join(1);
+    socket.join(2);
 
 
     uploader.on("start", function (event) {
