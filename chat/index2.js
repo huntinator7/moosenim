@@ -1,17 +1,27 @@
 var fs = require('fs');
 var https = require('https');
-
 var express = require('express');
 var app = express();
-
 var options = {
     key: fs.readFileSync('./certs/domain.key'),
     cert: fs.readFileSync('./certs/www.moosen.im.crt')
 }
 var serverPort = 443;
-
 var server = https.createServer(options, app);
 var io = require('socket.io')(server);
+var cors = require('cors');
+var messages = require('./routes/messages');
+var bodyParser = require('body-parser');
+var mysql = require('mysql');
+var siofu = require("socketio-file-upload");
+var moment = require('moment');
+
+var Discord = require("discord.js");
+var client = new Discord.Client();
+
+var chat = require('./chat.js');
+var login = require('./login.js');
+var config = require('./config');
 
 server.listen(serverPort, function () {
     console.log('server up and running at %s port', serverPort);
@@ -19,39 +29,18 @@ server.listen(serverPort, function () {
 
 // var http = require('http').Server(express);
 // var io = require('socket.io').listen(app.listen(80));
-var mysql = require('mysql');
-var siofu = require("socketio-file-upload");
-
-//api test
-//var path = require('path');
-var cors = require('cors');
-var messages = require('./routes/messages');
-var bodyParser = require('body-parser');
-
-//app.set('views', path.join(__dirname, 'views'));
-//app.set('view engine', 'jade');
-
-app.use(cors());
-app.use(bodyParser.json());
-//app.use(bodyParser.urlencoded({
-
+// api test
+// var path = require('path');
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'jade');
+// app.use(bodyParser.urlencoded({
 //  extended: false
-
-//})); 
-
-
-//end api test requirements
-
-// var siofu = require("socketio-file-upload");
-var Discord = require("discord.js");
-var client = new Discord.Client();
-var moment = require('moment');
-
-var chat = require('./chat.js');
-var login = require('./login.js');
-var config = require('./config');
+// })); 
+// end api test requirements
 
 //Associating .js files with URLs
+app.use(cors());
+app.use(bodyParser.json());
 app.use('/', chat);
 app.use('/messages', messages);
 app.use('/login', login);
@@ -168,7 +157,7 @@ io.sockets.on('connection', function (socket) {
                     }
                 });
             }
-            addOnline(displayName, email, photoURL, uid, socket.id, 1);//, getrooms(uid, socket.id));
+            addOnline(displayName, email, photoURL, uid, socket.id, 1);
         });
         io.emit('login', displayName, email, photoURL, uid);
     });
