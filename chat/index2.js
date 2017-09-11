@@ -106,6 +106,8 @@ io.sockets.on('connection', function (socket) {
     var uploader = new siofu();
     uploader.dir = __dirname + '/uploads';
     uploader.listen(socket);
+    socket.join(1);
+
 
     uploader.on("start", function (event) {
         console.log('Starting upload to ' + event.file.name + ' of type ' + event.file.meta.filetype + ' to ' + uploader.dir);
@@ -190,7 +192,9 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('changerooms', function (roomid) {
+        socket.join(roomid);
         showLastMessages(10, socket.id, roomid)
+
     });
 
     //for adduser function. Email is entered by the user, rid is caled from chat.html, isAdmin should just default to 0 for now. 

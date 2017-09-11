@@ -156,7 +156,7 @@
                 // var d = $('#center-container');
                 // d.scrollTop(d.prop("scrollHeight"));
                 try {
-                    socket.to(curroom).emit('chat message', message, curroom);
+                    socket.emit('chat message', message, curroom);
 
                 } catch (e) {
                     console.log(e);
