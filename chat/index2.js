@@ -308,7 +308,7 @@ io.sockets.on('connection', function (socket) {
                 sendMessage(msg, un, uid, curroom);
             }
             if (send) {
-                io.emit(getMessage(curroom, isEmbed));
+                io.socket.on(curroom).emit(getMessage(curroom, isEmbed));
                 if (isEmbed) sendToDiscord(un, msg);
             }
         }
