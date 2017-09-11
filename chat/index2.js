@@ -302,7 +302,7 @@ io.sockets.on('connection', function (socket) {
                 send = false;
                 var newmsg = msg.substring(5, msg.length);
                 con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [newmsg, curroom], function (error) { if (error) throw error; });
-                io.to(curroom).emit('motd update', getMotd(curroom), curroom);
+                io.emit('motd update', getMotd(curroom), curroom);
             }
             else {
                 console.log('In chat message, curroom: ' + curroom);
