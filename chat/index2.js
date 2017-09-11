@@ -194,7 +194,8 @@ io.sockets.on('connection', function (socket) {
     socket.on('changerooms', function (roomid) {
         socket.join(roomid);
         showLastMessages(10, socket.id, roomid)
-
+        var room = io.sockets.adapter.rooms[roomid];
+        console.log("room user amount: "+room.length);
     });
 
     //for adduser function. Email is entered by the user, rid is caled from chat.html, isAdmin should just default to 0 for now. 
