@@ -155,7 +155,12 @@
                 message = message.replace(/>/g, '&gt;');
                 // var d = $('#center-container');
                 // d.scrollTop(d.prop("scrollHeight"));
-                socket.to(curroom).emit('chat message', message, curroom);
+                try {
+                    io.to(curroom).emit('chat message', message, curroom);
+
+                } catch (e) {
+                    console.log(e);
+                }
                 $('#m').val('');
                 return false;
             });
