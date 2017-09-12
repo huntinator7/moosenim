@@ -1,9 +1,10 @@
 var fs = require('fs');
 var https = require('https');
-
 var express = require('express');
 var cookie = require('cookie');
 var app = express();
+var moment = require('moment');
+var Discord = require("discord.js");
 
 var options = {
     key: fs.readFileSync('./certs/domain.key'),
@@ -12,14 +13,14 @@ var options = {
 var serverPort = 443;
 
 var server = https.createServer(options, app);
-var io = require('socket.io')(server);
+var io = require('socket.io')(server),
+    sessionStore = require('awesomeSessionStore'), // find a working session store (have a look at the readme)
+    passportSocketIo = require("passport.socketio");
 
 server.listen(serverPort, function () {
     console.log('server up and running at %s port', serverPort);
 });
 
-// var http = require('http').Server(express);
-// var io = require('socket.io').listen(app.listen(80));
 var mysql = require('mysql');
 var siofu = require("socketio-file-upload");
 
@@ -29,31 +30,13 @@ var cors = require('cors');
 var messages = require('./routes/messages');
 var bodyParser = require('body-parser');
 
-//app.set('views', path.join(__dirname, 'views'));
-//app.set('view engine', 'jade');
-
 app.use(cors());
 app.use(bodyParser.json());
-//app.use(bodyParser.urlencoded({
 
-//  extended: false
-
-//})); 
-
-
-//end api test requirements
-
-// var siofu = require("socketio-file-upload");
-var Discord = require("discord.js");
-var client = new Discord.Client();
-var moment = require('moment');
-
+//Associating .js files with URLs
 var chat = require('./chat.js');
 var login = require('./login.js');
 var config = require('./config');
-// var ssl = require('./.well-known/pki-validation/E24DBA4BA8C2EF5EB57B3D3D1E5DD8F0.txt');
-
-//Associating .js files with URLs
 app.use('/', chat);
 app.use('/messages', messages);
 app.use('/login', login);
@@ -63,6 +46,65 @@ app.use("/images", express.static(__dirname + '/images'));
 app.use("/uploads", express.static(__dirname + '/uploads'));
 app.use("/sounds", express.static(__dirname + '/sounds'));
 app.use("/siofu", express.static(__dirname + '/node_modules/socketio-file-upload'));
+
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
+
+passport.use(new GoogleStrategy({
+    clientID: '333736509560-id8si5cbuim26d3e67s4l7oscjfsakat.apps.googleusercontent.com',
+    clientSecret: 'ZCMQ511PhvMEQqozMGd5bmRH',
+    callbackURL: "https://moosen.im/auth/google/oauth2callback"
+},
+    function (accessToken, refreshToken, profile, cb) {
+        User.findOrCreate({ googleId: profile.id }, function (err, user) {
+            return cb(err, user);
+        });
+    }
+));
+
+app.get('/auth/google',
+    passport.authenticate('google', { scope: ['profile'] })
+);
+
+app.get('/auth/google/oauth2callback',
+    passport.authenticate('google', { failureRedirect: '/login' }),
+    function (req, res) {
+        // Successful authentication, redirect home.
+        res.redirect('/');
+    }
+);
+
+// initialize our modules
+
+// //With Socket.io >= 1.0
+// io.use(passportSocketIo.authorize({
+//     cookieParser: cookieParser,       // the same middleware you registrer in express
+//     key: 'express.sid',       // the name of the cookie where express/connect stores its session_id
+//     secret: 'session_secret',    // the session_secret to parse the cookie
+//     store: sessionStore,        // we NEED to use a sessionstore. no memorystore please
+//     success: onAuthorizeSuccess,  // *optional* callback on success - read more below
+//     fail: onAuthorizeFail,     // *optional* callback on fail/error - read more below
+// }));
+
+// function onAuthorizeSuccess(data, accept) {
+//     console.log('successful connection to socket.io');
+
+//     // The accept-callback still allows us to decide whether to
+//     // accept the connection or not.
+//     accept(null, true);
+// }
+
+// function onAuthorizeFail(data, message, error, accept) {
+//     if (error)
+//         throw new Error(message);
+//     console.log('failed connection to socket.io:', message);
+
+//     // We use this callback to log all of our failed connections.
+//     accept(null, false);
+// }
+
+//------------DISCORD------------\\
+
+var client = new Discord.Client();
 
 //Discord login with token from dev page
 client.login(config.token);
@@ -163,8 +205,6 @@ io.sockets.on('connection', function (socket) {
                     }
                 });
             }
-            // addOnline(displayName, email, photoURL, uid, socket.id, 1);
-            addToUsers(uid, token, socket.id, 1);
         });
         io.emit('login', displayName, email, photoURL, uid);
     });
@@ -353,33 +393,6 @@ function handleDisconnect() {
 }
 
 handleDisconnect();
-
-// var online = [];
-// function addOnline(un, email, photo, uid, sock, room, allrooms) {
-//     var user = {
-//         name: un,
-//         uid: uid,
-//         photo: photo,
-//         email: email,
-//         sid: sock,
-//         curroom: room//,
-//         //allrooms: allrooms
-//     };
-//     online.push(user);
-// }
-
-var users = [];
-function addToUsers(uid, token, sock, room) {
-    var user = {
-        uid: uid,
-        token: token,
-        sid: sock,
-        curroom: room
-    };
-    users.push(user);
-    // console.log(user);
-    // console.log(users);
-}
 
 function sendMessage(message, username, uid, chatid) {
     console.log(`In sendMessage, chatid: ${chatid}\nmsg: ${message}`);
