@@ -168,19 +168,19 @@ io.sockets.on('connection', function (socket) {
 
     uploader.on("saved", function (event) {
         var un = 'Error - Username Not Found';
-        var uid;
+        var uid = 0;
         var curroom = 1;
         console.log('chat message       socket.id: ' + socket.id);
-        users.forEach(function (user) {
-            if (user.sid == socket.id) {
-                con.query("SELECT * FROM users WHERE uid = ?", [user.uid], function (error, rows, results) {
-                    un = rows[0].name;
-                });
-                console.log("New message from " + un);
-                uid = user.uid;
-                user.curroom = curroom;
-            }
-        });
+        // users.forEach(function (user) {
+        //     if (user.sid == socket.id) {
+        //         con.query("SELECT * FROM users WHERE uid = ?", [user.uid], function (error, rows, results) {
+        //             un = rows[0].name;
+        //         });
+        //         console.log("New message from " + un);
+        //         uid = user.uid;
+        //         user.curroom = curroom;
+        //     }
+        // });
         console.log(event.file.name + ' successfully saved.');
         var msg = '<img class="materialboxed responsive-img" style="height:20vh" src="https://moosen.im/uploads/' + event.file.name + '" alt="Mighty Moosen">';
         sendMessage(msg, un, uid, curroom);
@@ -210,31 +210,24 @@ io.sockets.on('connection', function (socket) {
     });
 
     //Workaround for different login page
-    socket.on('tokenAuth', function (token) {
-        console.log('token: ' + token + '\n');
-        console.log(cookie.parse(token).token + '\n\n');
-        var tokenObj = cookie.parse(token);
-        console.log('Authenticating token ' + tokenObj.token + ' for socket ' + socket.id);
-        var match;
-        //Replace the last entry in online[] with the current socket being checked. Prevents overwrite of multiple devices for single user.
-        users.forEach(function (user, ind) {
-            console.log('user: ' + user);
-            if (user.token == tokenObj.token) {
-                match = ind;
-                console.log('matched ' + ind);
-            }
-        });
-        if (match) {
-            console.log('match: ' + match);
-            io.to(socket.id).emit('roomlist', getChatrooms(socket.id, users[match].uid));
-            console.log('Replacing ' + users[match].sid + ' with ' + socket.id + ', match = ' + match);
-            users[match].sid = socket.id;
-            //Show the last 10 messages to the user
-            showLastMessages(10, socket.id, 1);
-        } else {
-            io.to(socket.id).emit('retreat');
-        }
-    });
+    // socket.on('tokenAuth', function (token) {
+    //     console.log('token: ' + token + '\n');
+    //     console.log(cookie.parse(token).token + '\n\n');
+    //     var tokenObj = cookie.parse(token);
+    //     console.log('Authenticating token ' + tokenObj.token + ' for socket ' + socket.id);
+    //     var match;
+    //     //Replace the last entry in online[] with the current socket being checked. Prevents overwrite of multiple devices for single user.
+    //     if (match) {
+    //         console.log('match: ' + match);
+    //         io.to(socket.id).emit('roomlist', getChatrooms(socket.id, users[match].uid));
+    //         console.log('Replacing ' + users[match].sid + ' with ' + socket.id + ', match = ' + match);
+    //         users[match].sid = socket.id;
+    //         //Show the last 10 messages to the user
+    //         showLastMessages(10, socket.id, 1);
+    //     } else {
+    //         io.to(socket.id).emit('retreat');
+    //     }
+    // });
 
     socket.on('changerooms', function (roomid) {
         showLastMessages(10, socket.id, roomid)
@@ -261,19 +254,6 @@ io.sockets.on('connection', function (socket) {
         var isEmbed = false;
         var send = true;
         console.log('chat message       socket.id: ' + socket.id);
-        users.forEach(function (user) {
-            console.log('chat message       user.sid: ' + user.sid);
-            if (user.sid == socket.id) {
-                con.query("SELECT * FROM users WHERE uid = ?", [user.uid], function (error, rows, results) {
-                    console.log(rows[0]);
-                    un = rows[0].name;
-                });
-                // console.log("New message from " + un);
-                console.log('final un: ' + un);
-                uid = user.uid;
-                user.curroom = curroom;
-            }
-        });
         if (un == 'Error - Username Not Found') {
             io.to(socket.id).emit('retreat');
             console.log('Retreating ' + socket.id);
