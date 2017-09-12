@@ -2,9 +2,15 @@ var fs = require('fs');
 var https = require('https');
 var express = require('express');
 var cookie = require('cookie');
-var app = express();
 var moment = require('moment');
-var Discord = require("discord.js");
+var Discord = require('discord.js');
+var passport = require('passport');
+var mysql = require('mysql');
+var siofu = require("socketio-file-upload");
+var cors = require('cors');
+var messages = require('./routes/messages');
+var bodyParser = require('body-parser');
+var app = express();
 
 var options = {
     key: fs.readFileSync('./certs/domain.key'),
@@ -20,15 +26,6 @@ var io = require('socket.io')(server);//,
 server.listen(serverPort, function () {
     console.log('server up and running at %s port', serverPort);
 });
-
-var mysql = require('mysql');
-var siofu = require("socketio-file-upload");
-
-//api test
-//var path = require('path');
-var cors = require('cors');
-var messages = require('./routes/messages');
-var bodyParser = require('body-parser');
 
 app.use(cors());
 app.use(bodyParser.json());
