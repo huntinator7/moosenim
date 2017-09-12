@@ -13,9 +13,9 @@ var options = {
 var serverPort = 443;
 
 var server = https.createServer(options, app);
-var io = require('socket.io')(server),
-    sessionStore = require('awesomeSessionStore'), // find a working session store (have a look at the readme)
-    passportSocketIo = require("passport.socketio");
+var io = require('socket.io')(server);//,
+//     sessionStore = require('connect-firebase'), // find a working session store (have a look at the readme)
+//     passportSocketIo = require("passport.socketio");
 
 server.listen(serverPort, function () {
     console.log('server up and running at %s port', serverPort);
