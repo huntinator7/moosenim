@@ -307,7 +307,7 @@ io.sockets.on('connection', function (socket) {
             }
             else {
                 console.log('In chat message, curroom: ' + curroom);
-                sendMessage(msg, "Sammy", uid, curroom);
+                sendMessage(msg, un, uid, curroom);
             }
             if (send) {
                 io.to(curroom).emit(getMessage(curroom, isEmbed));
