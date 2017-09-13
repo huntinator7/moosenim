@@ -27,7 +27,7 @@ var server = https.createServer(options, app);
 //------------PASSPORT-SOCKETIO------------\\
 var sessionStoreApp = require('connect-firebase');
 
-app.use(session({
+app.use(expressSession({
     key: 'session_id',
     store: sessionStoreApp,
     secret: 'whatsyurfavoritebrandofpencil'
