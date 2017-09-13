@@ -153,10 +153,10 @@ io.sockets.on('connection', function (socket) {
                     if (error) console.log(error);
                 });
             } else {
-                con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid]);
-                con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid]);
+               
             }
-       
+            con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid]);
+            con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid]);
             addOnline(displayName, email, photoURL, uid, socket.id, 1);
         });
         io.emit('login', displayName, email, photoURL, uid);
