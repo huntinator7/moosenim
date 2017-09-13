@@ -180,15 +180,12 @@
             document.getElementById("main").style.display = "inline";
 
             socket.on('motd update', function (msg, room) {
-                console.log('Received MOTD');
+                console.log('Received MOTD'+ msg);
                // if (curroom == room || room == 0) {
                     $('#motd').html(" " + msg);
                 //}
             });
 
-            function updatemotd(msg) {
-                $('#motd').html(msg);
-            }
 
             socket.on('chat message', function (user, msg, time, id, pic, room) {
                 if (curroom == room) {
