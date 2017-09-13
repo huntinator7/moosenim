@@ -181,9 +181,9 @@
 
             socket.on('motd update', function (msg, room) {
                 console.log('Received MOTD');
-                if (curroom == room || room == 0) {
+               // if (curroom == room || room == 0) {
                     $('#motd').html(" " + msg);
-                }
+                //}
             });
 
             function updatemotd(msg) {
