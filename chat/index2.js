@@ -12,16 +12,37 @@ var messages = require('./routes/messages');
 var bodyParser = require('body-parser');
 // var connectFirebase = require('connect-firebase');
 // var passportSocketIo = require('passport.socketio');
-var expressSession = require('express-session');
+// var expressSession = require('express-session');
 var app = express();
 
 var options = {
     key: fs.readFileSync('./certs/domain.key'),
     cert: fs.readFileSync('./certs/www.moosen.im.crt')
 }
-var serverPort = 443;
 
+var serverPort = 443;
 var server = https.createServer(options, app);
+server.listen(serverPort, function () {
+    console.log('server up and running at %s port', serverPort);
+});
+
+//Associating .js files with URLs
+var chat = require('./chat.js');
+var login = require('./login.js');
+var config = require('./config');
+app.use('/', chat);
+app.use('/messages', messages);
+// app.use('/login', login);
+app.use('/certs', express.static(__dirname + '/certs'));
+app.use('/.well-known/pki-validation/', express.static(__dirname + '/.well-known/pki-validation/'));
+app.use("/images", express.static(__dirname + '/images'));
+app.use("/uploads", express.static(__dirname + '/uploads'));
+app.use("/sounds", express.static(__dirname + '/sounds'));
+app.use("/siofu", express.static(__dirname + '/node_modules/socketio-file-upload'));
+app.use(cors());
+app.use(bodyParser.json());
+
+//------------CORE------------\\
 
 
 //------------PASSPORT-SOCKETIO------------\\
@@ -57,30 +78,6 @@ function onAuthorizeFail(data, message, error, accept) {
 }
 
 //------------PASSPORT-SOCKETIO------------\\
-
-//------------CORE------------\\
-
-server.listen(serverPort, function () {
-    console.log('server up and running at %s port', serverPort);
-});
-
-//Associating .js files with URLs
-var chat = require('./chat.js');
-var login = require('./login.js');
-var config = require('./config');
-app.use('/', chat);
-app.use('/messages', messages);
-// app.use('/login', login);
-app.use('/certs', express.static(__dirname + '/certs'));
-app.use('/.well-known/pki-validation/', express.static(__dirname + '/.well-known/pki-validation/'));
-app.use("/images", express.static(__dirname + '/images'));
-app.use("/uploads", express.static(__dirname + '/uploads'));
-app.use("/sounds", express.static(__dirname + '/sounds'));
-app.use("/siofu", express.static(__dirname + '/node_modules/socketio-file-upload'));
-app.use(cors());
-app.use(bodyParser.json());
-
-//------------CORE------------\\
 
 //------------PASSPORT-GOOGLE-OAUTH20------------\\
 
@@ -178,6 +175,10 @@ client.on('message', msg => {
 });
 //329020807487553537 - moosen-im
 //319938734135050240 - dev-test
+
+//------------DISCORD------------\\
+
+//------------SOCKET.IO------------\\
 
 //Main socket.io listener
 io.sockets.on('connection', function (socket) {
