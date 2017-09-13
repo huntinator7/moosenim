@@ -253,7 +253,7 @@ io.sockets.on('connection', function (socket) {
                 sendMessage("<img style=\"height:10vh\" src='https://www.pepsicobeveragefacts.com/content/image/products/Brisk_TeaWatermelLemonade_1L.png?r=20170824' alt=\"Mighty Moosen\">", un, uid, curroom)
             } else if (/nigger/ig.test(msg)) {
                 var newmsg = /nigger/ig[Symbol.replace](msg, 'Basketball American');
-                sendMessage(newmsg, 'PEWWWWDIEPIEEEE', uid, curroom);
+                sendMessage(newmsg, un + ', casual racist', uid, curroom);
             } else if (msg.indexOf("<script") > -1) {
                 sendMessage("Stop right there, criminal scum! You violated my mother!", "AutoMod", uid, curroom);
             } else if (/^http\S*\.(jpg|gif|png|svg)\S*/.test(msg)) {
