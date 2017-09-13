@@ -10,8 +10,8 @@ var siofu = require("socketio-file-upload");
 var cors = require('cors');
 var messages = require('./routes/messages');
 var bodyParser = require('body-parser');
-var sessionStore = require('connect-firebase');
-var passportSocketIo = require('passport.socketio');
+// var sessionStore = require('connect-firebase');
+// var passportSocketIo = require('passport.socketio');
 var passportSocketIo = require('express-session');
 var app = express();
 
@@ -27,8 +27,8 @@ var server = https.createServer(options, app);
 //------------PASSPORT-SOCKETIO------------\\
 
 var io = require('socket.io')(server),
-    sessionStore = sessionStore, // find a working session store (have a look at the readme)
-    passportSocketIo = passportSocketIo;
+    sessionStore = require('connect-firebase'), // find a working session store (have a look at the readme)
+    passportSocketIo = require("passport.socketio");
 
 io.use(passportSocketIo.authorize({
     cookieParser: cookieParser,       // the same middleware you registrer in express
