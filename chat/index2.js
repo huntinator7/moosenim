@@ -34,9 +34,9 @@ app.use(bodyParser.json());
 var chat = require('./chat.js');
 var login = require('./login.js');
 var config = require('./config');
-app.use('/auth/google/oauth2callback', chat);
+app.use('/', chat);
 app.use('/messages', messages);
-app.use('/login', login);
+// app.use('/login', login);
 app.use('/certs', express.static(__dirname + '/certs'));
 app.use('/.well-known/pki-validation/', express.static(__dirname + '/.well-known/pki-validation/'));
 app.use("/images", express.static(__dirname + '/images'));
@@ -49,7 +49,7 @@ var GoogleStrategy = require('passport-google-oauth20').Strategy;
 passport.use(new GoogleStrategy({
     clientID: '333736509560-id8si5cbuim26d3e67s4l7oscjfsakat.apps.googleusercontent.com',
     clientSecret: 'ZCMQ511PhvMEQqozMGd5bmRH',
-    callbackURL: "https://moosen.im/auth/google/oauth2callback"
+    callbackURL: "https://moosen.im/"
 },
     function (accessToken, refreshToken, profile, cb) {
         User.findOrCreate({ googleId: profile.id }, function (err, user) {
@@ -58,11 +58,11 @@ passport.use(new GoogleStrategy({
     }
 ));
 
-app.get('/auth/google',
+app.get('/login',
     passport.authenticate('google', { scope: ['profile'] })
 );
 
-app.get('/auth/google/oauth2callback',
+app.get('/',
     passport.authenticate('google', { failureRedirect: '/login' }),
     function (req, res) {
         // Successful authentication, redirect home.
