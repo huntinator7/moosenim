@@ -10,7 +10,7 @@ var siofu = require("socketio-file-upload");
 var cors = require('cors');
 var messages = require('./routes/messages');
 var bodyParser = require('body-parser');
-// var sessionStore = require('connect-firebase');
+// var connectFirebase = require('connect-firebase');
 // var passportSocketIo = require('passport.socketio');
 var expressSession = require('express-session');
 var app = express();
@@ -25,6 +25,13 @@ var server = https.createServer(options, app);
 
 
 //------------PASSPORT-SOCKETIO------------\\
+var sessionStoreApp = require('connect-firebase');
+
+app.use(session({
+    key: 'session_id',
+    store: sessionStoreApp,
+    secret: 'whatsyurfavoritebrandofpencil'
+  }));
 
 var io = require('socket.io')(server),
     sessionStore = require('connect-firebase'), // find a working session store (have a look at the readme)
@@ -44,7 +51,7 @@ function onAuthorizeSuccess(data, accept) {
 
     // The accept-callback still allows us to decide whether to
     // accept the connection or not.
-    accept(null, true);
+    accept();
 }
 
 function onAuthorizeFail(data, message, error, accept) {
@@ -53,7 +60,7 @@ function onAuthorizeFail(data, message, error, accept) {
     console.log('failed connection to socket.io:', message);
 
     // We use this callback to log all of our failed connections.
-    accept(null, false);
+    accept(new Error('optional reason'));
 }
 
 //------------PASSPORT-SOCKETIO------------\\
