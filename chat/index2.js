@@ -1,7 +1,7 @@
 var fs = require('fs');
 var https = require('https');
 var express = require('express');
-var cookie = require('cookie');
+var cookieParser = require('cookie-parser');
 var moment = require('moment');
 var Discord = require('discord.js');
 var passport = require('passport');
@@ -10,6 +10,8 @@ var siofu = require("socketio-file-upload");
 var cors = require('cors');
 var messages = require('./routes/messages');
 var bodyParser = require('body-parser');
+var sessionStore = require('connect-firebase');
+var passportSocketIo = require("passport.socketio");
 var app = express();
 
 var options = {
@@ -19,16 +21,47 @@ var options = {
 var serverPort = 443;
 
 var server = https.createServer(options, app);
-var io = require('socket.io')(server);//,
-//     sessionStore = require('connect-firebase'), // find a working session store (have a look at the readme)
-//     passportSocketIo = require("passport.socketio");
+
+
+//------------PASSPORT-SOCKETIO------------\\
+
+var io = require('socket.io')(server),
+    sessionStore = sessionStore, // find a working session store (have a look at the readme)
+    passportSocketIo = passportSocketIo;
+
+io.use(passportSocketIo.authorize({
+    cookieParser: cookieParser,       // the same middleware you registrer in express
+    key: 'session_id',       // the name of the cookie where express/connect stores its session_id
+    secret: 'whatsyurfavoritebrandofpencil',    // the session_secret to parse the cookie
+    store: sessionStore,        // we NEED to use a sessionstore. no memorystore please
+    success: onAuthorizeSuccess,  // *optional* callback on success - read more below
+    fail: onAuthorizeFail,     // *optional* callback on fail/error - read more below
+}));
+
+function onAuthorizeSuccess(data, accept) {
+    console.log('successful connection to socket.io');
+
+    // The accept-callback still allows us to decide whether to
+    // accept the connection or not.
+    accept(null, true);
+}
+
+function onAuthorizeFail(data, message, error, accept) {
+    if (error)
+        throw new Error(message);
+    console.log('failed connection to socket.io:', message);
+
+    // We use this callback to log all of our failed connections.
+    accept(null, false);
+}
+
+//------------PASSPORT-SOCKETIO------------\\
+
+//------------CORE------------\\
 
 server.listen(serverPort, function () {
     console.log('server up and running at %s port', serverPort);
 });
-
-app.use(cors());
-app.use(bodyParser.json());
 
 //Associating .js files with URLs
 var chat = require('./chat.js');
@@ -43,6 +76,13 @@ app.use("/images", express.static(__dirname + '/images'));
 app.use("/uploads", express.static(__dirname + '/uploads'));
 app.use("/sounds", express.static(__dirname + '/sounds'));
 app.use("/siofu", express.static(__dirname + '/node_modules/socketio-file-upload'));
+app.use(cors());
+app.use(bodyParser.json());
+app.use(express.session({ store: sessionStore }));
+
+//------------CORE------------\\
+
+//------------PASSPORT-GOOGLE-OAUTH20------------\\
 
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
 
@@ -70,34 +110,28 @@ app.get('/',
     }
 );
 
-// initialize our modules
+//------------PASSPORT-GOOGLE-OAUTH20------------\\
 
-// //With Socket.io >= 1.0
-// io.use(passportSocketIo.authorize({
-//     cookieParser: cookieParser,       // the same middleware you registrer in express
-//     key: 'express.sid',       // the name of the cookie where express/connect stores its session_id
-//     secret: 'session_secret',    // the session_secret to parse the cookie
-//     store: sessionStore,        // we NEED to use a sessionstore. no memorystore please
-//     success: onAuthorizeSuccess,  // *optional* callback on success - read more below
-//     fail: onAuthorizeFail,     // *optional* callback on fail/error - read more below
-// }));
+//------------CONNECT-FIREBASE------------\\
 
-// function onAuthorizeSuccess(data, accept) {
-//     console.log('successful connection to socket.io');
+var firebaseOptions = {
+    // The URL you were given when you created your Firebase
+    host: 'moosenim.firebaseapp.com',
+    // Optional. How often expired sessions should be cleaned up.
+    reapInterval: 21600000
+};
 
-//     // The accept-callback still allows us to decide whether to
-//     // accept the connection or not.
-//     accept(null, true);
-// }
+var session = require('express-session'),
+    FirebaseStore = require('connect-firebase')(session);
 
-// function onAuthorizeFail(data, message, error, accept) {
-//     if (error)
-//         throw new Error(message);
-//     console.log('failed connection to socket.io:', message);
+app.use(session({
+    store: new FirebaseStore(firebaseOptions),
+    secret: 'whatsyurfavoritebrandofpencil',
+    resave: true,
+    saveUninitialized: true
+}));
 
-//     // We use this callback to log all of our failed connections.
-//     accept(null, false);
-// }
+//------------CONNECT-FIREBASE------------\\
 
 //------------DISCORD------------\\
 
@@ -116,14 +150,6 @@ client.on('message', msg => {
     // client.user.setAvatar('./images/discord.png');
     if (msg.channel.id == config.discord.moosen && !(msg.author.bot)) {
         console.log('msg.channel.id == config.discord.moosen');
-        // msg.channel.members.forEach(function (element) {
-        //     try {
-        //         console.log(`Username: ${element.displayName}`);
-        //         console.log(`ID: ${element.user.id}`);
-        //     } catch (e) {
-        //         console.log('User didn\'t work');
-        //     }
-        // });
         var newmsg = msg.content;
         if (/<@(&?277296480245514240|!?207214113191886849|!?89758327621296128|!?185934787679092736|!?147143598301773824|!?81913971979849728)>/g.test(newmsg)) {
             console.log('here');
@@ -168,16 +194,6 @@ io.sockets.on('connection', function (socket) {
         var uid = 0;
         var curroom = 1;
         console.log('chat message       socket.id: ' + socket.id);
-        // users.forEach(function (user) {
-        //     if (user.sid == socket.id) {
-        //         con.query("SELECT * FROM users WHERE uid = ?", [user.uid], function (error, rows, results) {
-        //             un = rows[0].name;
-        //         });
-        //         console.log("New message from " + un);
-        //         uid = user.uid;
-        //         user.curroom = curroom;
-        //     }
-        // });
         console.log(event.file.name + ' successfully saved.');
         var msg = '<img class="materialboxed responsive-img" style="height:20vh" src="https://moosen.im/uploads/' + event.file.name + '" alt="Mighty Moosen">';
         sendMessage(msg, un, uid, curroom);
