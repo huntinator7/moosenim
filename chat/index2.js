@@ -155,10 +155,11 @@ io.sockets.on('connection', function (socket) {
             } else {
                
             }
-            con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid]);
-            con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid]);
+            
             addOnline(displayName, email, photoURL, uid, socket.id, 1);
         });
+        con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid]);
+        con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid]);
         io.emit('login', displayName, email, photoURL, uid);
     });
 
@@ -302,7 +303,7 @@ io.sockets.on('connection', function (socket) {
                 send = false;
                 var newmsg = msg.substring(5, msg.length);
                 con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [newmsg, curroom], function (error) { if (error) throw error; });
-                io.emit('motd update', getMotd(curroom), curroom);
+                io.to(curroom).emit('motd update', getMotd(curroom), curroom);
             }
             else {
                 console.log('In chat message, curroom: ' + curroom);
