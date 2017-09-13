@@ -12,7 +12,7 @@ var messages = require('./routes/messages');
 var bodyParser = require('body-parser');
 // var sessionStore = require('connect-firebase');
 // var passportSocketIo = require('passport.socketio');
-var passportSocketIo = require('express-session');
+var expressSession = require('express-session');
 var app = express();
 
 var options = {
