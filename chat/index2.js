@@ -25,13 +25,6 @@ var server = https.createServer(options, app);
 
 
 //------------PASSPORT-SOCKETIO------------\\
-var sessionStoreApp = require('connect-firebase');
-
-app.use(expressSession({
-    key: 'session_id',
-    store: sessionStoreApp,
-    secret: 'whatsyurfavoritebrandofpencil'
-  }));
 
 var io = require('socket.io')(server),
     sessionStore = require('connect-firebase'), // find a working session store (have a look at the readme)
@@ -86,7 +79,6 @@ app.use("/sounds", express.static(__dirname + '/sounds'));
 app.use("/siofu", express.static(__dirname + '/node_modules/socketio-file-upload'));
 app.use(cors());
 app.use(bodyParser.json());
-app.use(expressSession({ store: sessionStore }));
 
 //------------CORE------------\\
 
