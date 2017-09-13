@@ -34,7 +34,7 @@ app.use(bodyParser.json());
 var chat = require('./chat.js');
 var login = require('./login.js');
 var config = require('./config');
-app.use('/', chat);
+app.use('/auth/google/oauth2callback', chat);
 app.use('/messages', messages);
 app.use('/login', login);
 app.use('/certs', express.static(__dirname + '/certs'));
