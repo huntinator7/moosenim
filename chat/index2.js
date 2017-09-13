@@ -11,7 +11,8 @@ var cors = require('cors');
 var messages = require('./routes/messages');
 var bodyParser = require('body-parser');
 var sessionStore = require('connect-firebase');
-var passportSocketIo = require("passport.socketio");
+var passportSocketIo = require('passport.socketio');
+var passportSocketIo = require('express-session');
 var app = express();
 
 var options = {
@@ -78,7 +79,7 @@ app.use("/sounds", express.static(__dirname + '/sounds'));
 app.use("/siofu", express.static(__dirname + '/node_modules/socketio-file-upload'));
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.session({ store: sessionStore }));
+app.use(expressSession({ store: sessionStore }));
 
 //------------CORE------------\\
 
