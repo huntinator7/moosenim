@@ -308,7 +308,7 @@ io.sockets.on('connection', function (socket) {
                 sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un, uid, curroom)
             } else if (/nigger/ig.test(msg)) {
                 var newmsg = /nigger/ig[Symbol.replace](msg, 'Basketball American');
-                sendMessage(newmsg, un + ', casual racist', uid, curroom);
+                sendMessage(newmsg, 'PEWWWDIEPIEEE', uid, curroom);
             } else if (msg.indexOf("<script") > -1) {
                 sendMessage("Stop right there, criminal scum! You violated my mother!", "AutoMod", uid, curroom);
             } else if (/^http\S*\.(jpg|gif|png|svg)\S*/.test(msg)) {
