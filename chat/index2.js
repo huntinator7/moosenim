@@ -1,4 +1,5 @@
 var fs = require('fs');
+var http = require('http');
 var https = require('https');
 var express = require('express');
 var cookieParser = require('cookie-parser');
@@ -15,14 +16,30 @@ var bodyParser = require('body-parser');
 // var expressSession = require('express-session');
 var app = express();
 
+app.all('*', ensureSecure); // at top of routing calls
+
+function ensureSecure(req, res, next) {
+    if (req.secure) {
+        // OK, continue
+        return next();
+    };
+    res.redirect('https://' + req.hostname + req.url); // express 4.x
+}
+// function ensureSecure(req, res, next) {
+//     if (req.headers['x-forwarded-proto'] === 'https') { // OK, continue 
+//         return next()
+//     };
+//     res.redirect('https://' + req.headers.host)
+// }
+
 var options = {
     key: fs.readFileSync('./certs/domain.key'),
     cert: fs.readFileSync('./certs/www.moosen.im.crt')
 }
 
-var serverPort = 443;
+http.createServer(app).listen(80);
 var server = https.createServer(options, app);
-server.listen(serverPort, function () {
+server.listen(443, function () {
     console.log('server up and running at %s port', serverPort);
 });
 
@@ -41,6 +58,8 @@ app.use("/sounds", express.static(__dirname + '/sounds'));
 app.use("/siofu", express.static(__dirname + '/node_modules/socketio-file-upload'));
 app.use(cors());
 app.use(bodyParser.json());
+
+
 
 //------------CORE------------\\
 
