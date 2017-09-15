@@ -13,9 +13,9 @@ var Discord = require("discord.js");
 var app = express();
 var io = require('socket.io')(server);
 
-http.createServer(app, function (req, res) {
-    res.redirect('https://www.moosen.im');
-}).listen(80);
+// http.createServer(app, function (req, res) {
+//     res.redirect('https://www.moosen.im');
+// }).listen(80);
 
 var options = {
     key: fs.readFileSync('./certs/domain.key'),
