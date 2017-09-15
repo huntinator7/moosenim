@@ -40,7 +40,7 @@ var options = {
 http.createServer(app).listen(80);
 var server = https.createServer(options, app);
 server.listen(443, function () {
-    console.log('server up and running at %s port', serverPort);
+    console.log('server up and running at port 443');
 });
 
 //Associating .js files with URLs
