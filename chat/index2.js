@@ -2,6 +2,17 @@ var fs = require('fs');
 var https = require('https');
 var express = require('express');
 var app = express();
+
+app.all('*', ensureSecure); // at top of routing calls
+
+function ensureSecure(req, res, next) {
+    if (req.secure) {
+        // OK, continue
+        return next();
+    };
+    res.redirect('https://' + req.hostname + req.url); // express 4.x
+}
+
 var options = {
     key: fs.readFileSync('./certs/domain.key'),
     cert: fs.readFileSync('./certs/www.moosen.im.crt')
