@@ -3,7 +3,6 @@ var https = require('https');
 var express = require('express');
 var app = express();
 
-http.createServer(app).listen(80);
 app.all('*', ensureSecure); // at top of routing calls
 
 function ensureSecure(req, res, next) {
@@ -18,10 +17,8 @@ var options = {
     key: fs.readFileSync('./certs/domain.key'),
     cert: fs.readFileSync('./certs/www.moosen.im.crt')
 }
-var server = https.createServer(options, app).listen(443, function () {
-    console.log('server up and running at port 443');
-});
-
+var serverPort = 443;
+var server = https.createServer(options, app);
 var io = require('socket.io')(server);
 var cors = require('cors');
 var messages = require('./routes/messages');
@@ -37,7 +34,9 @@ var chat = require('./chat.js');
 var login = require('./login.js');
 var config = require('./config');
 
-
+server.listen(serverPort, function () {
+    console.log('server up and running at %s port', serverPort);
+});
 
 // var http = require('http').Server(express);
 // var io = require('socket.io').listen(app.listen(80));
@@ -142,8 +141,8 @@ io.sockets.on('connection', function (socket) {
         console.log(event.file.name + ' successfully saved.');
         console.log(event.file.meta.filetype);
         var msg;
-        if (/video/g.test(event.file.meta.filetype)) {
-            msg = '<div class="video-container"><iframe style="width:64vw; height:36vw" src="https://moosen.im/uploads/' + event.file.name + '" frameborder="0" allowfullscreen></iframe></div>';
+        if(/video/g.test(event.file.meta.filetype)){
+            msg = '<div class="video-container"><iframe style="width:64vw; height:36vw" src="https://moosen.im/uploads/'+ event.file.name + '" frameborder="0" allowfullscreen></iframe></div>';
         } else if (/image/g.test(event.file.meta.filetype)) {
             msg = '<img class="materialboxed responsive-img" style="height:20vh" src="https://moosen.im/uploads/' + event.file.name + '" alt="Mighty Moosen">';
         } else {
@@ -165,9 +164,9 @@ io.sockets.on('connection', function (socket) {
                     if (error) console.log(error);
                 });
             } else {
-
+               
             }
-
+            
             addOnline(displayName, email, photoURL, uid, socket.id, 1);
         });
         con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid]);
@@ -207,7 +206,7 @@ io.sockets.on('connection', function (socket) {
         showLastMessages(10, socket.id, roomid)
         var room = io.sockets.adapter.rooms[roomid];
         console.log("room user amount: " + room.length);
-        setCurroom(roomid, socket.id);
+        setCurroom(roomid,socket.id);
 
     });
 
@@ -385,7 +384,7 @@ function addOnline(un, email, photo, uid, sock, room, allrooms) {
 }
 
 function sendMessage(message, username, uid, chatid) {
-    // console.log(`In sendMessage, chatid: ${chatid}\nmsg: ${message}`);
+   // console.log(`In sendMessage, chatid: ${chatid}\nmsg: ${message}`);
     var msg = encodeURI(message);
     try {
         con.query("INSERT INTO messages (message, username, timestamp, chatroom_id, uid) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'), ?, ?)", [msg, username, chatid, uid], function (error, results) {
@@ -448,13 +447,13 @@ function updatechat(roomid) {
 }
 
 //these function will keep track of the last room the user was in, and return them to that room when they relog. 
-function setCurroom(roomid, uid) {
+function setCurroom(roomid,uid) {
 
 }
 function getCurroom(uid) {
 
 
-    //return roomid
+//return roomid
 }
 function showLastMessages(num, sid, roomid) {
     con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [roomid, num], function (error, rows, results) {
