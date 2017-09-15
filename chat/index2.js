@@ -66,7 +66,7 @@ app.use(bodyParser.json());
 
 //------------PASSPORT-SOCKETIO------------\\
 
-// var io = require('socket.io')(server),
+var io = require('socket.io')(server);//,
 //     sessionStore = require('connect-firebase'), // find a working session store (have a look at the readme)
 //     passportSocketIo = require("passport.socketio");
 
