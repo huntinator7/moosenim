@@ -3,7 +3,7 @@ var https = require('https');
 var express = require('express');
 var app = express();
 
-<<<<<<< HEAD
+
 app.all('*', ensureSecure); // at top of routing calls
 
 function ensureSecure(req, res, next) {
@@ -13,11 +13,11 @@ function ensureSecure(req, res, next) {
     };
     res.redirect('https://' + req.hostname + req.url); // express 4.x
 }
-=======
+
 // http.createServer(app, function (req, res) {
 //     res.redirect('https://www.moosen.im');
 // }).listen(80);
->>>>>>> origin/master
+
 
 var options = {
     key: fs.readFileSync('./certs/domain.key'),
