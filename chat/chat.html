@@ -163,7 +163,7 @@
 
             $('#roomname').submit(function () {
                 socket.emit('addroom', $('#e').val());//need to add uid eventually
-                console.log("add room form submitted " + curroom);
+                console.log("add room form submitted " + $('#e').val());
                 //$('#e').val() = "";
                 return false;
             });

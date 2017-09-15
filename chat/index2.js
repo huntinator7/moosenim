@@ -202,6 +202,7 @@ io.sockets.on('connection', function (socket) {
         addToRoom(email, rid, 0);
     });
     socket.on('addroom', function (name) {
+        console.log("new room name is " + name);
         createChatroom(name, "104635400788300812127");
     });
 
