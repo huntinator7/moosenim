@@ -66,35 +66,35 @@ app.use(bodyParser.json());
 
 //------------PASSPORT-SOCKETIO------------\\
 
-var io = require('socket.io')(server),
-    sessionStore = require('connect-firebase'), // find a working session store (have a look at the readme)
-    passportSocketIo = require("passport.socketio");
+// var io = require('socket.io')(server),
+//     sessionStore = require('connect-firebase'), // find a working session store (have a look at the readme)
+//     passportSocketIo = require("passport.socketio");
 
-io.use(passportSocketIo.authorize({
-    cookieParser: cookieParser,       // the same middleware you registrer in express
-    key: 'session_id',       // the name of the cookie where express/connect stores its session_id
-    secret: 'whatsyurfavoritebrandofpencil',    // the session_secret to parse the cookie
-    store: sessionStore,        // we NEED to use a sessionstore. no memorystore please
-    success: onAuthorizeSuccess,  // *optional* callback on success - read more below
-    fail: onAuthorizeFail,     // *optional* callback on fail/error - read more below
-}));
+// io.use(passportSocketIo.authorize({
+//     cookieParser: cookieParser,       // the same middleware you registrer in express
+//     key: 'session_id',       // the name of the cookie where express/connect stores its session_id
+//     secret: 'whatsyurfavoritebrandofpencil',    // the session_secret to parse the cookie
+//     store: sessionStore,        // we NEED to use a sessionstore. no memorystore please
+//     success: onAuthorizeSuccess,  // *optional* callback on success - read more below
+//     fail: onAuthorizeFail,     // *optional* callback on fail/error - read more below
+// }));
 
-function onAuthorizeSuccess(data, accept) {
-    console.log('successful connection to socket.io');
+// function onAuthorizeSuccess(data, accept) {
+//     console.log('successful connection to socket.io');
 
-    // The accept-callback still allows us to decide whether to
-    // accept the connection or not.
-    accept();
-}
+//     // The accept-callback still allows us to decide whether to
+//     // accept the connection or not.
+//     accept();
+// }
 
-function onAuthorizeFail(data, message, error, accept) {
-    if (error)
-        throw new Error(message);
-    console.log('failed connection to socket.io:', message);
+// function onAuthorizeFail(data, message, error, accept) {
+//     if (error)
+//         throw new Error(message);
+//     console.log('failed connection to socket.io:', message);
 
-    // We use this callback to log all of our failed connections.
-    accept(new Error('optional reason'));
-}
+//     // We use this callback to log all of our failed connections.
+//     accept(new Error('optional reason'));
+// }
 
 //------------PASSPORT-SOCKETIO------------\\
 
