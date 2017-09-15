@@ -75,7 +75,7 @@
 <body style="background-color:#000000;">
     <header>
         <nav class="top-nav center light-blue" style="height:10vh; position: fixed;  z-index: 3000;">
-            <a class="button-collapse page-title white-text">MoosenIM</a>
+            <a class="button-collapse page-title white-text" id="roomtitle">MoosenIM</a>
             MoosenIM
         </nav>
         <ul id="nav-mobile" class="side-nav fixed hide-on-med-and-down grey darken-4" style="transform: translateX(0%);">
@@ -185,7 +185,7 @@
             });
 
             $(document).ready(function () {
-                var res = window.location.href.substring(23);
+              //  var res = window.location.href.substring(23);
                 // var d = $('#box');
                 // d.scrollTop(d.prop("scrollHeight"));
                 socket.emit('associate', res);

@@ -194,7 +194,9 @@ io.sockets.on('connection', function (socket) {
         socket.join(roomid);
         showLastMessages(10, socket.id, roomid)
         var room = io.sockets.adapter.rooms[roomid];
-        console.log("room user amount: "+room.length);
+        console.log("room user amount: " + room.length);
+        setCurroom(roomid,socket.id);
+
     });
 
     //for adduser function. Email is entered by the user, rid is caled from chat.html, isAdmin should just default to 0 for now. 
@@ -371,7 +373,7 @@ function addOnline(un, email, photo, uid, sock, room, allrooms) {
 }
 
 function sendMessage(message, username, uid, chatid) {
-    console.log(`In sendMessage, chatid: ${chatid}\nmsg: ${message}`);
+   // console.log(`In sendMessage, chatid: ${chatid}\nmsg: ${message}`);
     var msg = encodeURI(message);
     try {
         con.query("INSERT INTO messages (message, username, timestamp, chatroom_id, uid) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'), ?, ?)", [msg, username, chatid, uid], function (error, results) {
@@ -433,6 +435,15 @@ function updatechat(roomid) {
     showLastMessages(10, 0, roomid);
 }
 
+//these function will keep track of the last room the user was in, and return them to that room when they relog. 
+function setCurroom(roomid,uid) {
+
+}
+function getCurroom(uid) {
+
+
+//return roomid
+}
 function showLastMessages(num, sid, roomid) {
     con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [roomid, num], function (error, rows, results) {
         var m = getMotd(roomid);
