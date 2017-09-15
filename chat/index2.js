@@ -201,6 +201,9 @@ io.sockets.on('connection', function (socket) {
     socket.on('adduser', function (email, rid, isAdmin) {
         addToRoom(email, rid, 0);
     });
+    socket.on('addroom', function (name) {
+        createChatroom(name, "104635400788300812127");
+    });
 
     socket.on('searchusers', function (email) {
         //maybe make this variable do something...

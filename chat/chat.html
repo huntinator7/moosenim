@@ -113,7 +113,7 @@
                         <h4>Create new Room</h4>
                         <p>Room Name</p>
                         <form id="roomname" action="">
-                            <input type="text" id="roomname" placeholder="room name">
+                            <input type="text" id="rn" placeholder="room name">
                             <button class="btn waves-effect waves-light modal-close light-blue white-text"> Create Room </button>
                         </form>
                     </div>
@@ -157,6 +157,13 @@
             $('#email').submit(function () {
                 socket.to(curroom).emit('adduser', $('#e').val(), curroom, 0);
                 console.log("form submitted " + curroom);
+                //$('#e').val() = "";
+                return false;
+            });
+
+            $('#roomname').submit(function () {
+                socket.to(curroom).emit('addroom', $('#rn').val());//need to add uid eventually
+                console.log("add room form submitted " + curroom);
                 //$('#e').val() = "";
                 return false;
             });
