@@ -162,7 +162,7 @@
             });
 
             $('#roomname').submit(function () {
-                socket.to(curroom).emit('addroom', "test");//need to add uid eventually
+                socket.emit('addroom', $('#e').val());//need to add uid eventually
                 console.log("add room form submitted " + curroom);
                 //$('#e').val() = "";
                 return false;
