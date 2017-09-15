@@ -13,12 +13,9 @@ var Discord = require("discord.js");
 var app = express();
 var io = require('socket.io')(server);
 
-var httpserver = http.createServer(app).listen(80);
-
-// set up a route to redirect http to https
-httpserver.get('*',function(req,res){  
+http.createServer(function (req, res) {
     res.redirect('https://www.moosen.im');
-})
+}).listen(80);
 
 var options = {
     key: fs.readFileSync('./certs/domain.key'),
