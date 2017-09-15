@@ -117,6 +117,8 @@ io.sockets.on('connection', function (socket) {
     var uploader = new siofu();
     uploader.dir = __dirname + '/uploads';
     uploader.listen(socket);
+    socket.join(1);
+
 
     uploader.on("start", function (event) {
         console.log('Starting upload to ' + event.file.name + ' of type ' + event.file.meta.filetype + ' to ' + uploader.dir);
@@ -162,14 +164,13 @@ io.sockets.on('connection', function (socket) {
                     if (error) console.log(error);
                 });
             } else {
-                con.query("SELECT profpic FROM users WHERE uid = ?", [uid], function (error, row, results) {
-                    if (row[0].profpic != photoURL) {
-                        con.query("UPDATE users SET profpic = ? ", [photoURL]);
-                    }
-                });
+               
             }
+            
             addOnline(displayName, email, photoURL, uid, socket.id, 1);
         });
+        con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid]);
+        con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid]);
         io.emit('login', displayName, email, photoURL, uid);
     });
 
@@ -201,12 +202,21 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('changerooms', function (roomid) {
+        socket.join(roomid);
         showLastMessages(10, socket.id, roomid)
+        var room = io.sockets.adapter.rooms[roomid];
+        console.log("room user amount: " + room.length);
+        setCurroom(roomid,socket.id);
+
     });
 
     //for adduser function. Email is entered by the user, rid is caled from chat.html, isAdmin should just default to 0 for now. 
     socket.on('adduser', function (email, rid, isAdmin) {
         addToRoom(email, rid, 0);
+    });
+    socket.on('addroom', function (name) {
+        console.log("new room name is " + name);
+        createChatroom(name, "104635400788300812127");
     });
 
     socket.on('searchusers', function (email) {
@@ -243,7 +253,7 @@ io.sockets.on('connection', function (socket) {
                 sendMessage("I love Rick Astley!", 'notch', uid, curroom);
             } else if (msg.indexOf("*autistic screeching*") > -1) {
                 sendMessage(msg, un, uid, curroom);
-                io.emit(getMessage(curroom, isEmbed));
+                io.to(curroom).emit(getMessage(curroom, isEmbed));
                 sendMessage(un + " is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod", uid, curroom);
                 // } else if (msg.indexOf("!myrooms") > -1) {
                 //     sendMessage("your rooms: " + getrooms(uid).toString() + " curroom" + curroom, un, uid, curroom);
@@ -310,14 +320,14 @@ io.sockets.on('connection', function (socket) {
                 send = false;
                 var newmsg = msg.substring(5, msg.length);
                 con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [newmsg, curroom], function (error) { if (error) throw error; });
-                io.emit('motd update', getMotd(curroom), curroom);
+                io.to(curroom).emit('motd update', getMotd(curroom), curroom);
             }
             else {
                 console.log('In chat message, curroom: ' + curroom);
                 sendMessage(msg, un, uid, curroom);
             }
             if (send) {
-                io.emit(getMessage(curroom, isEmbed));
+                io.to(curroom).emit(getMessage(curroom, isEmbed));
                 if (isEmbed) sendToDiscord(un, msg);
             }
         }
@@ -374,7 +384,7 @@ function addOnline(un, email, photo, uid, sock, room, allrooms) {
 }
 
 function sendMessage(message, username, uid, chatid) {
-    console.log(`In sendMessage, chatid: ${chatid}\nmsg: ${message}`);
+   // console.log(`In sendMessage, chatid: ${chatid}\nmsg: ${message}`);
     var msg = encodeURI(message);
     try {
         con.query("INSERT INTO messages (message, username, timestamp, chatroom_id, uid) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'), ?, ?)", [msg, username, chatid, uid], function (error, results) {
@@ -393,9 +403,9 @@ function getMessage(chatid, isEmbed) {
         if (error) throw error;
         con.query("SELECT * FROM users WHERE users.name = ?", [rows[0].username], function (error, row) {
             if (row.length < 1) {
-                io.emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, "https://www.moosen.im/images/favicon.png", rows[0].chatroom_id);
+                io.to(chatid).emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, "https://www.moosen.im/images/favicon.png", rows[0].chatroom_id);
             } else {
-                io.emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, row[0].profpic, rows[0].chatroom_id);
+                io.to(chatid).emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, row[0].profpic, rows[0].chatroom_id);
             }
             if (chatid == config.discord.sendChannel && !isEmbed) {
                 //send to Discord
@@ -436,6 +446,15 @@ function updatechat(roomid) {
     showLastMessages(10, 0, roomid);
 }
 
+//these function will keep track of the last room the user was in, and return them to that room when they relog. 
+function setCurroom(roomid,uid) {
+
+}
+function getCurroom(uid) {
+
+
+//return roomid
+}
 function showLastMessages(num, sid, roomid) {
     con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [roomid, num], function (error, rows, results) {
         var m = getMotd(roomid);
