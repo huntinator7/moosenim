@@ -1,7 +1,17 @@
 var fs = require('fs');
+var http = require('http');
 var https = require('https');
 var express = require('express');
+var cors = require('cors');
+var messages = require('./routes/messages');
+var bodyParser = require('body-parser');
+var mysql = require('mysql');
+var siofu = require("socketio-file-upload");
+var moment = require('moment');
+var Discord = require("discord.js");
+
 var app = express();
+var io = require('socket.io')(server);
 
 http.createServer(app).listen(80);
 app.all('*', ensureSecure); // at top of routing calls
@@ -22,22 +32,11 @@ var server = https.createServer(options, app).listen(443, function () {
     console.log('server up and running at port 443');
 });
 
-var io = require('socket.io')(server);
-var cors = require('cors');
-var messages = require('./routes/messages');
-var bodyParser = require('body-parser');
-var mysql = require('mysql');
-var siofu = require("socketio-file-upload");
-var moment = require('moment');
-
-var Discord = require("discord.js");
 var client = new Discord.Client();
 
 var chat = require('./chat.js');
 var login = require('./login.js');
 var config = require('./config');
-
-
 
 // var http = require('http').Server(express);
 // var io = require('socket.io').listen(app.listen(80));
