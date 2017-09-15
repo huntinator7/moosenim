@@ -21,7 +21,7 @@ function ensureSecure(req, res, next) {
         // OK, continue
         return next();
     };
-    res.redirect('https://' + req.hostname + req.url); // express 4.x
+    res.redirect('https://www.moosen.im/login'); // express 4.x
 }
 
 var options = {
