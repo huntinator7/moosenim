@@ -13,7 +13,7 @@ var Discord = require("discord.js");
 var app = express();
 var io = require('socket.io')(server);
 
-http.createServer(function (req, res) {
+http.createServer(app, function (req, res) {
     res.redirect('https://www.moosen.im');
 }).listen(80);
 
