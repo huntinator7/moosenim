@@ -1,29 +1,27 @@
 var fs = require('fs');
+var http = require('http');
 var https = require('https');
 var express = require('express');
 var app = express();
+var app2 = express();
 
 
-app.all('*', ensureSecure); // at top of routing calls
+app2.all('*', ensureSecure); // at top of routing calls
 
 function ensureSecure(req, res, next) {
     if (req.secure) {
         // OK, continue
         return next();
     };
-    res.redirect('https://' + req.hostname + req.url); // express 4.x
+    res.redirect('https://www.moosen.im'); // express 4.x
 }
-
-// http.createServer(app, function (req, res) {
-//     res.redirect('https://www.moosen.im');
-// }).listen(80);
-
 
 var options = {
     key: fs.readFileSync('./certs/domain.key'),
     cert: fs.readFileSync('./certs/www.moosen.im.crt')
 }
-var serverPort = 443;
+
+var httpServer = http.createServer(app2).listen(80);
 var server = https.createServer(options, app);
 var io = require('socket.io')(server);
 var cors = require('cors');
@@ -40,8 +38,8 @@ var chat = require('./chat.js');
 var login = require('./login.js');
 var config = require('./config');
 
-server.listen(serverPort, function () {
-    console.log('server up and running at %s port', serverPort);
+server.listen(443, function () {
+    console.log('server up and running at port 443');
 });
 
 // var http = require('http').Server(express);
