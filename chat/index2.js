@@ -244,7 +244,7 @@ io.sockets.on('connection', function (socket) {
                 io.to(curroom).emit(getMessage(curroom, isEmbed));
                 msg = un + " is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>";
                 un = "Automod";
-            } else if (msg.indexOf("!createroom") > -1) {
+            } else if (msg.indexOf("!createroom") == 0) {
                 createChatroom("newRoom", uid);
                 send = false;
             } else if (msg.indexOf("!pepe") == 0) {
