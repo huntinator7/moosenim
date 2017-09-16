@@ -2,10 +2,16 @@ var fs = require('fs');
 var http = require('http');
 var https = require('https');
 var express = require('express');
+var bodyParser = require('body-parser');
+var mysql = require('mysql');
+var siofu = require("socketio-file-upload");
+var moment = require('moment');
+var Discord = require("discord.js");
+var cors = require('cors');
 var app = express();
 var app2 = express();
 
-
+//http redirect
 app2.all('*', ensureSecure); // at top of routing calls
 
 function ensureSecure(req, res, next) {
@@ -20,38 +26,18 @@ var options = {
     key: fs.readFileSync('./certs/domain.key'),
     cert: fs.readFileSync('./certs/www.moosen.im.crt')
 }
+var httpServer = http.createServer(app2).listen(80, function () {
+    console.log('http redirect server up and running at port 80');
+});
+var server = https.createServer(options, app).listen(443, function () {
+    console.log('server up and running at port 443');
+});
 
-var httpServer = http.createServer(app2).listen(80);
-var server = https.createServer(options, app);
 var io = require('socket.io')(server);
-var cors = require('cors');
-var messages = require('./routes/messages');
-var bodyParser = require('body-parser');
-var mysql = require('mysql');
-var siofu = require("socketio-file-upload");
-var moment = require('moment');
-
-var Discord = require("discord.js");
-var client = new Discord.Client();
 
 var chat = require('./chat.js');
 var login = require('./login.js');
 var config = require('./config');
-
-server.listen(443, function () {
-    console.log('server up and running at port 443');
-});
-
-// var http = require('http').Server(express);
-// var io = require('socket.io').listen(app.listen(80));
-// api test
-// var path = require('path');
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade');
-// app.use(bodyParser.urlencoded({
-//  extended: false
-// })); 
-// end api test requirements
 
 //Associating .js files with URLs
 app.use(cors());
@@ -65,8 +51,10 @@ app.use("/images", express.static(__dirname + '/images'));
 app.use("/uploads", express.static(__dirname + '/uploads'));
 app.use("/sounds", express.static(__dirname + '/sounds'));
 app.use("/siofu", express.static(__dirname + '/node_modules/socketio-file-upload'));
+var messages = require('./routes/messages');
 
 //Discord login with token from dev page
+var client = new Discord.Client();
 client.login(config.token);
 
 //Login message for Discord
