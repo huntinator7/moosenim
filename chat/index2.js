@@ -8,6 +8,7 @@ var siofu = require("socketio-file-upload");
 var moment = require('moment');
 var Discord = require("discord.js");
 var cors = require('cors');
+var messages = require('./routes/messages');
 var app = express();
 var app2 = express();
 
@@ -51,7 +52,6 @@ app.use("/images", express.static(__dirname + '/images'));
 app.use("/uploads", express.static(__dirname + '/uploads'));
 app.use("/sounds", express.static(__dirname + '/sounds'));
 app.use("/siofu", express.static(__dirname + '/node_modules/socketio-file-upload'));
-var messages = require('./routes/messages');
 
 //Discord login with token from dev page
 var client = new Discord.Client();
