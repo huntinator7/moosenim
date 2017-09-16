@@ -141,7 +141,6 @@
             var retrievePrevious = false;
             var URL_SERVER = 'https://moosen.im:443';
             var socket = io.connect(URL_SERVER);
-            // var socket = io();
 
             var siofu = new SocketIOFileUpload(socket);
             siofu.addEventListener("start", function (event) {
@@ -203,7 +202,6 @@
                     $('#motd').html(" " + msg);
                 //}
             });
-
 
             socket.on('chat message', function (user, msg, time, id, pic, room) {
                 if (curroom == room) {
