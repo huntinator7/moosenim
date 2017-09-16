@@ -16,10 +16,6 @@ var app2 = express();
 app2.all('*', ensureSecure); // at top of routing calls
 
 function ensureSecure(req, res, next) {
-    if (req.secure) {
-        // OK, continue
-        return next();
-    };
     res.redirect('https://www.moosen.im'); // express 4.x
 }
 
@@ -79,7 +75,7 @@ client.on('message', msg => {
         if (/<@(&?277296480245514240|!?207214113191886849|!?89758327621296128|!?185934787679092736|!?147143598301773824|!?81913971979849728)>/g.test(newmsg)) {
             console.log('here');
             newmsg = /<@&?277296480245514240>/g[Symbol.replace](newmsg, '@Moosen');
-            newmsg = /<@!?207214113191886849> /g[Symbol.replace](newmsg, '@Noah');
+            newmsg = /<@!?207214113191886849>/g[Symbol.replace](newmsg, '@Noah');
             newmsg = /<@!?89758327621296128>/g[Symbol.replace](newmsg, '@Hunter');
             newmsg = /<@!?185934787679092736>/g[Symbol.replace](newmsg, '@Nick');
             newmsg = /<@!?147143598301773824>/g[Symbol.replace](newmsg, '@Kyle');
@@ -242,70 +238,64 @@ io.sockets.on('connection', function (socket) {
         } else {
             console.log('message: ' + msg);
             if (/\slag\s/ig.test(msg)) {
-                sendMessage("I love Rick Astley!", 'notch', uid, curroom);
+                msg = "I love Rick Astley!";
             } else if (msg.indexOf("*autistic screeching*") > -1) {
                 sendMessage(msg, un, uid, curroom);
                 io.to(curroom).emit(getMessage(curroom, isEmbed));
-                sendMessage(un + " is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod", uid, curroom);
-                // } else if (msg.indexOf("!myrooms") > -1) {
-                //     sendMessage("your rooms: " + getrooms(uid).toString() + " curroom" + curroom, un, uid, curroom);
+                msg = un + " is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>";
+                un = "Automod";
             } else if (msg.indexOf("!createroom") > -1) {
                 createChatroom("newRoom", uid);
                 send = false;
             } else if (msg.indexOf("!pepe") == 0) {
                 isEmbed = true;
-                sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un, uid, curroom)
+                msg = "<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">";
             } else if (msg.indexOf("!thicc") == 0) {
-                sendMessage("乇乂ㄒ尺卂 ㄒ卄丨匚匚", un, uid, curroom)
+                msg = "乇乂ㄒ尺卂 ㄒ卄丨匚匚";
+            } else if (msg.indexOf("!lenny") == 0) {
+                msg = "( ͡° ͜ʖ ͡°)";
             } else if (msg.indexOf("!brisk") == 0) {
                 isEmbed = true;
-                sendMessage("<img style=\"height:10vh\" src='https://www.pepsicobeveragefacts.com/content/image/products/Brisk_TeaWatermelLemonade_1L.png?r=20170824' alt=\"Mighty Moosen\">", un, uid, curroom)
+                msg = "<img style=\"height:10vh\" src='https://www.pepsicobeveragefacts.com/content/image/products/Brisk_TeaWatermelLemonade_1L.png?r=20170824' alt=\"Mighty Moosen\">";
             } else if (/nigger/ig.test(msg)) {
-                var newmsg = /nigger/ig[Symbol.replace](msg, 'Basketball American');
-                sendMessage(newmsg, un + ', casual racist', uid, curroom);
+                un = un + ', casual racist';
             } else if (msg.indexOf("<script") > -1) {
-                sendMessage("Stop right there, criminal scum! You violated my mother!", "AutoMod", uid, curroom);
+                msg = "Stop right there, criminal scum! You violated my mother!";
+                un = "AutoMod";
             } else if (/^http\S*\.(jpg|gif|png|svg)\S*/.test(msg)) {
                 isEmbed = true;
-                sendMessage(msg + '<br><img class="materialboxed responsive-img" src="' + msg + '" alt="' + msg + '">', un, uid, curroom);
+                msg = msg + '<br><img class="materialboxed responsive-img" src="' + msg + '" alt="' + msg + '">';
             } else if (/http\S*youtube\S*/.test(msg)) {
                 var ind = msg.search(/watch\?v=\S*/);
                 var res = msg.substring(ind + 8, ind + 19);
-                var newmsg = '<div class="video-container"><iframe width="100%" src="//www.youtube.com/embed/' + res + '?rel=0" frameborder="0" allowfullscreen></iframe></div>';
+                msg = '<div class="video-container"><iframe width="100%" src="//www.youtube.com/embed/' + res + '?rel=0" frameborder="0" allowfullscreen></iframe></div>';
                 isEmbed = true;
-                sendMessage(newmsg, un, uid, curroom);
             } else if (/http\S*youtu\.be\S*/.test(msg)) {
                 var ind = msg.search(/youtu\.be\//);
                 var res = msg.substring(ind + 9, ind + 20);
-                var newmsg = '<div class="video-container"><iframe width="100%" src="//www.youtube.com/embed/' + res + '?rel=0" frameborder="0" allowfullscreen></iframe></div>';
+                msg = '<div class="video-container"><iframe width="100%" src="//www.youtube.com/embed/' + res + '?rel=0" frameborder="0" allowfullscreen></iframe></div>';
                 isEmbed = true;
-                sendMessage(newmsg, un, uid, curroom);
             } else if (/\S*twitch\.tv\S*/.test(msg)) {
                 console.log('Is Twitch message');
                 if (/\S*clips\S*/.test(msg)) { // Twitch clips
                     console.log('Is Twitch clip');
                     var ind = msg.search(/\.tv\//);
                     var res = msg.substring(ind + 4);
-                    console.log(newmsg);
-                    var newmsg = '<iframe style="width:64vw; height:36vw" src="https://clips.twitch.tv/embed?clip=' + res + '" scrolling="no" frameborder="0" autoplay=false muted=true allowfullscreen=true></iframe>';
+                    console.log(msg);
+                    msg = '<iframe style="width:64vw; height:36vw" src="https://clips.twitch.tv/embed?clip=' + res + '" scrolling="no" frameborder="0" autoplay=false muted=true allowfullscreen=true></iframe>';
                     isEmbed = true;
-                    sendMessage(newmsg, un, uid, curroom);
                 } else if (/\S*videos\S*/.test(msg)) { // Twitch VODs
                     console.log('Is Twitch VOD');
                     var ind = msg.search(/videos\//);
                     var res = msg.substring(ind + 7);
-                    var newmsg = '<div id="' + res + '"></div><script type="text/javascript"> var player = new Twitch.Player("' + res + '", { width: 100%, video: "' + res + '",});player.setVolume(0.5);</script>'
+                    msg = '<div id="' + res + '"></div><script type="text/javascript"> var player = new Twitch.Player("' + res + '", { width: 100%, video: "' + res + '",});player.setVolume(0.5);</script>'
                     isEmbed = true;
-                    console.log(newmsg);
-                    sendMessage(newmsg, un, uid, curroom);
                 } else { // Twitch channel/stream
                     console.log('Is Twitch channel/stream');
                     var ind = msg.search(/\.tv\//);
                     var res = msg.substring(ind + 4);
-                    var newmsg = '<div id="' + res + '"></div><script type="text/javascript"> var player = new Twitch.Player("' + res + '", { width:100% channel:"' + res + '"}); player.setVolume(0.5); </script>'
+                    msg = '<div id="' + res + '"></div><script type="text/javascript"> var player = new Twitch.Player("' + res + '", { width:100% channel:"' + res + '"}); player.setVolume(0.5); </script>'
                     isEmbed = true;
-                    console.log(newmsg);
-                    sendMessage(newmsg, un, uid, curroom);
                 }
             }
             else if (msg.indexOf("!motd") > -1) {
@@ -316,9 +306,13 @@ io.sockets.on('connection', function (socket) {
             }
             else {
                 console.log('In chat message, curroom: ' + curroom);
-                sendMessage(msg, un, uid, curroom);
+                // sendMessage(msg, un, uid, curroom);
             }
+            msg = /nigger/ig[Symbol.replace](msg, 'Basketball American');
+            msg = /retard/ig[Symbol.replace](msg, 'Trump Supporter');
+            msg = /shit(?=\s)/ig[Symbol.replace](msg, 'gay lubricant');
             if (send) {
+                sendMessage(msg, un, uid, curroom);
                 io.to(curroom).emit(getMessage(curroom, isEmbed));
                 if (isEmbed) sendToDiscord(un, msg);
             }
