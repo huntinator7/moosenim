@@ -229,7 +229,8 @@ io.sockets.on('connection', function (socket) {
             console.log('regex: ' + config.regex);
             config.regex.matches.forEach(function (element) {
                 var re = new RegExp(element.regex, 'ig');
-                console.log(re.replace(msg));
+                console.log(re);
+                // console.log(re.replace(msg));
                 // console.log(element.regex + ': ' + element.replace);
                 // if (element.whole) {
                 //     console.log('Will replace whole');
