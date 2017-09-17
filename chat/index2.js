@@ -237,7 +237,7 @@ io.sockets.on('connection', function (socket) {
             var matches = config.regex.matches;
             console.log('regex: ' + matches);
             matches.forEach(function (element) {
-                console.log(element.regex);
+                console.log(element[1]);
             });
             if (send) {
                 sendMessage(msg, un, uid, curroom);
