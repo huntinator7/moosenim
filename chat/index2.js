@@ -62,7 +62,6 @@ client.on('ready', () => {
 client.on('message', msg => {
     // client.user.setAvatar('./images/discord.png');
     if (msg.channel.id == config.discord.moosen && !(msg.author.bot)) {
-        console.log('msg.channel.id == config.discord.moosen');
         var newmsg = msg.content;
         if (/<@(&?277296480245514240|!?207214113191886849|!?89758327621296128|!?185934787679092736|!?147143598301773824|!?81913971979849728)>/g.test(newmsg)) {
             console.log('here');
@@ -207,6 +206,7 @@ io.sockets.on('connection', function (socket) {
 
     //Generic message emit
     socket.on('chat message', function (msg, curroom) {
+        var ogMsg = msg;
         var un = 'Error - Username Not Found';
         var uid;
         var isEmbed = false;
@@ -218,7 +218,6 @@ io.sockets.on('connection', function (socket) {
                 console.log("New message from " + online[i].name);
                 un = online[i].name;
                 uid = online[i].uid;
-                online[i].curroom = curroom;
             }
         }
         if (un == 'Error - Username Not Found') {
@@ -229,12 +228,17 @@ io.sockets.on('connection', function (socket) {
             console.log('regex: ' + config.regex);
             config.regex.matches.forEach(function (element) {
                 var re = new RegExp(element.regex, 'ig');
-                // console.log(re);
-                msg = msg.replace(re, element.replace);
-                // console.log(element.regex + ': ' + element.replace);
-                // if (element.whole) {
-                //     console.log('Will replace whole');
-                // }
+                if (re.test(msg)) {
+                    if (element.whole) {
+                        msg = element.replace;
+                    } else {
+                        msg = msg.replace(re, element.replace);
+                    }
+                    if (element.embed) {
+                        console.log('isEmbed');
+                        isEmbed = true;
+                    }
+                }
             });
             if (msg.substr(0,1) == "!"){
                 console.log('Is a command');
@@ -252,7 +256,7 @@ io.sockets.on('connection', function (socket) {
             if (send) {
                 sendMessage(msg, un, uid, curroom);
                 io.to(curroom).emit(getMessage(curroom, isEmbed));
-                if (isEmbed) sendToDiscord(un, msg);
+                if (isEmbed && curroom == 1) sendToDiscord(un, ogMsg);
             }
         }
     });
