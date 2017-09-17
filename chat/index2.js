@@ -234,13 +234,19 @@ io.sockets.on('connection', function (socket) {
                     console.log('Will replace whole');
                 }
             });
-            config.regex.commands.forEach(function (element) {
-                console.log(element);
-                console.log(element.command + ': ' + element.replace);
-                if (element.embed) {
-                    console.log('isEmbed');
-                }
-            });
+            if (msg.substr(0,1) == "!"){
+                console.log('Is a command');
+                config.regex.commands.forEach(function (element) {
+                    if(msg.substr(1) == element.command) {
+                        console.log(element.command + ': ' + element.replace);
+                        msg = element.replace;
+                        if (element.embed) {
+                            console.log('isEmbed');
+                            isEmbed = true;
+                        }
+                    }
+                });
+            }
             if (send) {
                 sendMessage(msg, un, uid, curroom);
                 io.to(curroom).emit(getMessage(curroom, isEmbed));
