@@ -234,7 +234,8 @@ io.sockets.on('connection', function (socket) {
             // commandsEmbed.forEach(function (element) {
             //     console.log(element);
             // });
-            var matches = config.matches.regex;
+            var matches = config.regex;
+            console.log('regex: ' + matches);
             matches.forEach(function (element) {
                 console.log(element);
             });
