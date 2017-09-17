@@ -226,19 +226,20 @@ io.sockets.on('connection', function (socket) {
             console.log('Retreating ' + socket.id);
         } else {
             console.log('message: ' + msg);
-            // var commands = config.commands;
-            // commands.forEach(function (element) {
-            //     console.log(element);
-            // });
-            // var commandsEmbed = config.commandsEmbedImage;
-            // commandsEmbed.forEach(function (element) {
-            //     console.log(element);
-            // });
-            var matches = config.regex.matches;
-            console.log('regex: ' + matches);
-            matches.forEach(function (element) {
+            console.log('regex: ' + config.regex);
+            config.regex.matches.forEach(function (element) {
                 console.log(element);
                 console.log(element.regex + ': ' + element.replace);
+                if (element.whole) {
+                    console.log('Will replace whole');
+                }
+            });
+            config.regex.commands.forEach(function (element) {
+                console.log(element);
+                console.log(element.command + ': ' + element.replace);
+                if (element.embed) {
+                    console.log('isEmbed');
+                }
             });
             if (send) {
                 sendMessage(msg, un, uid, curroom);
