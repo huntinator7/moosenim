@@ -225,7 +225,6 @@ io.sockets.on('connection', function (socket) {
             console.log('Retreating ' + socket.id);
         } else {
             console.log('message: ' + msg);
-            console.log('regex: ' + config.regex);
             config.regex.matches.forEach(function (element) {
                 var re = new RegExp(element.regex, 'ig');
                 if (re.test(msg)) {
@@ -238,6 +237,7 @@ io.sockets.on('connection', function (socket) {
                         console.log('isEmbed');
                         isEmbed = true;
                     }
+                    console.log(msg);
                 }
             });
             if (msg.substr(0,1) == "!"){
