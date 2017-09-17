@@ -226,6 +226,7 @@ io.sockets.on('connection', function (socket) {
             console.log('Retreating ' + socket.id);
         } else {
             console.log('message: ' + msg);
+            console.log('config commands: ' + config.commands);
             config.commands.forEach(function (element) {
                 console.log(element);
             });
