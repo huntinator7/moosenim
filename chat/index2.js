@@ -234,10 +234,9 @@ io.sockets.on('connection', function (socket) {
             // commandsEmbed.forEach(function (element) {
             //     console.log(element);
             // });
-            var matches = config.matches;
+            var matches = config.matches.regex;
             matches.forEach(function (element) {
-                console.log(element.regex);
-                console.log(element.replace);
+                console.log(element);
             });
             if (send) {
                 sendMessage(msg, un, uid, curroom);
