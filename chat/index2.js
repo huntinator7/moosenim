@@ -226,14 +226,16 @@ io.sockets.on('connection', function (socket) {
             console.log('Retreating ' + socket.id);
         } else {
             console.log('message: ' + msg);
-            console.log('config commands: ' + config.commands);
-            config.commands.forEach(function (element) {
+            var commands = config.commands;
+            commands.forEach(function (element) {
                 console.log(element);
             });
-            config.commandsEmbedImage.forEach(function (element) {
+            var commandsEmbed = config.commandsEmbedImage;
+            commandsEmbed.forEach(function (element) {
                 console.log(element);
             });
-            config.matches.forEach(function (element) {
+            var matches = config.matches;
+            matches.forEach(function (element) {
                 console.log(element.regex);
                 console.log(element.replace);
             });
