@@ -118,8 +118,8 @@ io.sockets.on('connection', function (socket) {
         console.log(event.file.name + ' successfully saved.');
         console.log(event.file.meta.filetype);
         var msg;
-        if(/video/g.test(event.file.meta.filetype)){
-            msg = '<div class="video-container"><iframe style="width:64vw; height:36vw" src="https://moosen.im/uploads/'+ event.file.name + '" frameborder="0" allowfullscreen></iframe></div>';
+        if (/video/g.test(event.file.meta.filetype)) {
+            msg = '<div class="video-container"><iframe style="width:64vw; height:36vw" src="https://moosen.im/uploads/' + event.file.name + '" frameborder="0" allowfullscreen></iframe></div>';
         } else if (/image/g.test(event.file.meta.filetype)) {
             msg = '<img class="materialboxed responsive-img" style="height:20vh" src="https://moosen.im/uploads/' + event.file.name + '" alt="Mighty Moosen">';
         } else {
@@ -140,9 +140,9 @@ io.sockets.on('connection', function (socket) {
                     if (error) console.log(error);
                 });
             } else {
-               
+
             }
-            
+
             addOnline(displayName, email, photoURL, uid, socket.id, 1);
         });
         con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid]);
@@ -182,7 +182,7 @@ io.sockets.on('connection', function (socket) {
         showLastMessages(10, socket.id, roomid)
         var room = io.sockets.adapter.rooms[roomid];
         console.log("room user amount: " + room.length);
-        setCurroom(roomid,socket.id);
+        setCurroom(roomid, socket.id);
 
     });
 
@@ -225,31 +225,54 @@ io.sockets.on('connection', function (socket) {
             console.log('Retreating ' + socket.id);
         } else {
             console.log('message: ' + msg);
-            config.regex.matches.forEach(function (element) {
-                var re = new RegExp(element.regex, 'ig');
-                if (re.test(msg)) {
-                    if (element.whole) {
-                        msg = element.replace;
-                    } else {
-                        msg = msg.replace(re, element.replace);
-                    }
-                    if (element.embed) {
-                        console.log('isEmbed');
-                        isEmbed = true;
-                    }
-                    console.log(msg);
-                }
-            });
-            if (msg.substr(0,1) == "!"){
+            if (msg.substr(0, 1) == "!") {
                 console.log('Is a command');
+                var command = /\S*/i.exec(msg.substr(1));
                 config.regex.commands.forEach(function (element) {
-                    if(msg.substr(1) == element.command) {
+                    if (command[0] == element.command) {
+                        console.log('element.action: ' + element.action);
+                        switch (element.action) {
+                            case "replace":
+                                msg = element.message;
+                                break;
+                            case "replaceEmbed":
+                                msg = element.message;
+                                isEmbed = true;
+                                break;
+                            case "function":
+                                send = false;
+                                var message = /(\S*)\s((\S*\s?)*)/i.exec(msg.substr(1));
+                                var params = [socket, un, uid, curroom, message[2]];
+                                var fn = global[message[1]];
+                                if (typeof fn === "function") {
+                                    fn.apply(null, params);
+                                }
+                                break;
+                            default:
+                                break;
+                        }
                         console.log(element.command + ': ' + element.replace);
                         msg = element.replace;
                         if (element.embed) {
                             console.log('isEmbed');
                             isEmbed = true;
                         }
+                    }
+                });
+            } else {
+                config.regex.matches.forEach(function (element) {
+                    var re = new RegExp(element.regex, 'ig');
+                    if (re.test(msg)) {
+                        if (element.whole) {
+                            msg = element.replace;
+                        } else {
+                            msg = msg.replace(re, element.replace);
+                        }
+                        if (element.embed) {
+                            console.log('isEmbed');
+                            isEmbed = true;
+                        }
+                        console.log(msg);
                     }
                 });
             }
@@ -261,6 +284,17 @@ io.sockets.on('connection', function (socket) {
         }
     });
 });
+
+function motd(socket, un, uid, curroom, msg) {
+    console.log('In motd');
+    // con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [msg, curroom], function (error) { if (error) throw error; });
+    // io.to(curroom).emit('motd update', getMotd(curroom), curroom);
+}
+
+function createroom(socket, un, uid, curroom, msg) {
+    console.log('In createroom');
+    // createChatroom(msg, uid);
+}
 
 var connect = config.db;
 var con;
@@ -312,7 +346,7 @@ function addOnline(un, email, photo, uid, sock, room, allrooms) {
 }
 
 function sendMessage(message, username, uid, chatid) {
-   // console.log(`In sendMessage, chatid: ${chatid}\nmsg: ${message}`);
+    // console.log(`In sendMessage, chatid: ${chatid}\nmsg: ${message}`);
     var msg = encodeURI(message);
     try {
         con.query("INSERT INTO messages (message, username, timestamp, chatroom_id, uid) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'), ?, ?)", [msg, username, chatid, uid], function (error, results) {
@@ -375,14 +409,16 @@ function updatechat(roomid) {
 }
 
 //these function will keep track of the last room the user was in, and return them to that room when they relog. 
-function setCurroom(roomid,uid) {
+function setCurroom(roomid, uid) {
 
 }
+
 function getCurroom(uid) {
 
 
-//return roomid
+    //return roomid
 }
+
 function showLastMessages(num, sid, roomid) {
     con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [roomid, num], function (error, rows, results) {
         var m = getMotd(roomid);
