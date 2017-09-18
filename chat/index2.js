@@ -302,6 +302,7 @@ function getMotd(roomid) {
         // io.emit('motd update', row[0].motd);
         return " penis";
     });
+    return "paenes";
 }
 
 function handleDisconnect() {
