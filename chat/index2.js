@@ -231,7 +231,6 @@ io.sockets.on('connection', function (socket) {
                 config.regex.commands.forEach(function (element) {
                     if (command[0] == element.command) {
                         console.log('element.action: ' + element.action);
-                        console.log('element.message: ' + element.message);
                         switch (element.action) {
                             case "replace":
                                 msg = element.message;
@@ -245,9 +244,6 @@ io.sockets.on('connection', function (socket) {
                                 var message = /(\S*)\s((\S*\s?)*)/i.exec(msg.substr(1));
                                 var params = [socket, un, uid, curroom, message[2]];
                                 var fn = userRegexParse[message[1]];
-                                console.log('message[1]: ' + message[1]);
-                                console.log('message[2]: ' + message[2]);
-                                console.log('fn: ' + fn);
                                 if (typeof fn === "function") {
                                     console.log('Is function');
                                     fn.apply(null, params);
@@ -271,7 +267,6 @@ io.sockets.on('connection', function (socket) {
                             console.log('isEmbed');
                             isEmbed = true;
                         }
-                        console.log(msg);
                     }
                 });
             }
@@ -286,18 +281,13 @@ io.sockets.on('connection', function (socket) {
 
 var userRegexParse = {};
 userRegexParse.motd = function (socket, un, uid, curroom, msg) {
-    console.log('In userRegexParse motd');
-}
-
-function motd(socket, un, uid, curroom, msg) {
     console.log('In motd');
-    // con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [msg, curroom], function (error) { if (error) throw error; });
-    // io.to(curroom).emit('motd update', getMotd(curroom), curroom);
+    con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [msg, curroom], function (error) { if (error) throw error; });
+    io.to(curroom).emit('motd update', getMotd(curroom), curroom);
 }
-
-function createroom(socket, un, uid, curroom, msg) {
+userRegexParse.createroom = function(socket, un, uid, curroom, msg) {
     console.log('In createroom');
-    // createChatroom(msg, uid);
+    createChatroom(msg, uid);
 }
 
 var connect = config.db;
