@@ -245,7 +245,10 @@ io.sockets.on('connection', function (socket) {
                                 var message = /(\S*)\s((\S*\s?)*)/i.exec(msg.substr(1));
                                 var params = [socket, un, uid, curroom, message[2]];
                                 var fn = global[message[1]];
+                                console.log('message[1]: ' + message[1]);
+                                console.log('message[2]: ' + message[2]);
                                 if (typeof fn === "function") {
+                                    console.log('Is function');
                                     fn.apply(null, params);
                                 }
                                 break;
