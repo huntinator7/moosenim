@@ -297,12 +297,13 @@ var connect = config.db;
 var con;
 
 function getMotd(roomid) {
+    var m;
     con.query('SELECT * FROM rooms WHERE serialid = ?', [roomid], function (error, row) {
         console.log("motd is" + row[0].motd + " roomid = " + roomid);
         // io.emit('motd update', row[0].motd);
-        return " penis";
+        m = row[0].motd;
     });
-    return "paenes";
+    return m;
 }
 
 function handleDisconnect() {
