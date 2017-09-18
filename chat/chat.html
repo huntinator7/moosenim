@@ -213,7 +213,7 @@
 
             socket.on('chat message', function (user, msg, time, id, pic, room) {
                 if (curroom == room) {
-                    $('#roomtitle').html ( room);
+                    
                     document.title = user.substring(0, 3) + ": " + msg.substring(0, 10);
                     if (document.hidden) {
                         notifyMe(msg, pic);
@@ -281,6 +281,7 @@
                 $('#slide-out').append('<li><img src="images/favicon.png"></li><li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>');
                 try {
                     list.forEach(function (element) {
+                        $('#roomtitle').html(element.name);
                         $('#nav-mobile').append(`<li><a id="rooms" class="button waves-effect" room="${element.serialid}" style="color: #6EB7FF">${element.name}<span class="none"></span></a></li>`);
                         $('#slide-out').append(`<li><a id="rooms" room="${element.serialid}" style="color: #6EB7FF">${element.name}<span class="none"></span></a></li>`);
                     });
