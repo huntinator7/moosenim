@@ -62,15 +62,6 @@ client.on('ready', () => {
 client.on('message', msg => {
     // client.user.setAvatar('./images/discord.png');
     if (msg.channel.id == config.discord.moosen && !(msg.author.bot)) {
-        console.log('msg.channel.id == config.discord.moosen');
-        // msg.channel.members.forEach(function (element) {
-        //     try {
-        //         console.log(`Username: ${element.displayName}`);
-        //         console.log(`ID: ${element.user.id}`);
-        //     } catch (e) {
-        //         console.log('User didn\'t work');
-        //     }
-        // });
         var newmsg = msg.content;
         if (/<@(&?277296480245514240|!?207214113191886849|!?89758327621296128|!?185934787679092736|!?147143598301773824|!?81913971979849728)>/g.test(newmsg)) {
             console.log('here');
@@ -97,8 +88,6 @@ client.on('message', msg => {
         console.log('Newmsg: ' + newmsg);
     }
 });
-//329020807487553537 - moosen-im
-//319938734135050240 - dev-test
 
 //Main socket.io listener
 io.sockets.on('connection', function (socket) {
@@ -129,8 +118,8 @@ io.sockets.on('connection', function (socket) {
         console.log(event.file.name + ' successfully saved.');
         console.log(event.file.meta.filetype);
         var msg;
-        if(/video/g.test(event.file.meta.filetype)){
-            msg = '<div class="video-container"><iframe style="width:64vw; height:36vw" src="https://moosen.im/uploads/'+ event.file.name + '" frameborder="0" allowfullscreen></iframe></div>';
+        if (/video/g.test(event.file.meta.filetype)) {
+            msg = '<div class="video-container"><iframe style="width:64vw; height:36vw" src="https://moosen.im/uploads/' + event.file.name + '" frameborder="0" allowfullscreen></iframe></div>';
         } else if (/image/g.test(event.file.meta.filetype)) {
             msg = '<img class="materialboxed responsive-img" style="height:20vh" src="https://moosen.im/uploads/' + event.file.name + '" alt="Mighty Moosen">';
         } else {
@@ -141,7 +130,6 @@ io.sockets.on('connection', function (socket) {
         client.channels.get(config.discord.moosen).send({ files: [('./uploads/' + event.file.name)] });
     });
 
-    // console.log('Sockets: ' + Object.keys(io.sockets.sockets));
     //Login process and recording
     socket.on('login message', function (displayName, email, photoURL, uid) {
         console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id);
@@ -152,9 +140,9 @@ io.sockets.on('connection', function (socket) {
                     if (error) console.log(error);
                 });
             } else {
-               
+
             }
-            
+
             addOnline(displayName, email, photoURL, uid, socket.id, 1);
         });
         con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid]);
@@ -194,7 +182,7 @@ io.sockets.on('connection', function (socket) {
         showLastMessages(10, socket.id, roomid)
         var room = io.sockets.adapter.rooms[roomid];
         console.log("room user amount: " + room.length);
-        setCurroom(roomid,socket.id);
+        setCurroom(roomid, socket.id);
 
     });
 
@@ -218,6 +206,7 @@ io.sockets.on('connection', function (socket) {
 
     //Generic message emit
     socket.on('chat message', function (msg, curroom) {
+        var ogMsg = msg;
         var un = 'Error - Username Not Found';
         var uid;
         var isEmbed = false;
@@ -229,7 +218,6 @@ io.sockets.on('connection', function (socket) {
                 console.log("New message from " + online[i].name);
                 un = online[i].name;
                 uid = online[i].uid;
-                online[i].curroom = curroom;
             }
         }
         if (un == 'Error - Username Not Found') {
@@ -237,88 +225,70 @@ io.sockets.on('connection', function (socket) {
             console.log('Retreating ' + socket.id);
         } else {
             console.log('message: ' + msg);
-            if (/\slag\s/ig.test(msg)) {
-                msg = "I love Rick Astley!";
-            } else if (msg.indexOf("*autistic screeching*") > -1) {
-                sendMessage(msg, un, uid, curroom);
-                io.to(curroom).emit(getMessage(curroom, isEmbed));
-                msg = un + " is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>";
-                un = "Automod";
-            } else if (msg.indexOf("!createroom") > -1) {
-                createChatroom("newRoom", uid);
-                send = false;
-            } else if (msg.indexOf("!pepe") == 0) {
-                isEmbed = true;
-                msg = "<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">";
-            } else if (msg.indexOf("!thicc") == 0) {
-                msg = "乇乂ㄒ尺卂 ㄒ卄丨匚匚";
-            } else if (msg.indexOf("!lenny") == 0) {
-                msg = "( ͡° ͜ʖ ͡°)";
-            } else if (msg.indexOf("!brisk") == 0) {
-                isEmbed = true;
-                msg = "<img style=\"height:10vh\" src='https://www.pepsicobeveragefacts.com/content/image/products/Brisk_TeaWatermelLemonade_1L.png?r=20170824' alt=\"Mighty Moosen\">";
-            } else if (/nigger/ig.test(msg)) {
-                un = un + ', casual racist';
-            } else if (msg.indexOf("<script") > -1) {
-                msg = "Stop right there, criminal scum! You violated my mother!";
-                un = "AutoMod";
-            } else if (/^http\S*\.(jpg|gif|png|svg)\S*/.test(msg)) {
-                isEmbed = true;
-                msg = msg + '<br><img class="materialboxed responsive-img" src="' + msg + '" alt="' + msg + '">';
-            } else if (/http\S*youtube\S*/.test(msg)) {
-                var ind = msg.search(/watch\?v=\S*/);
-                var res = msg.substring(ind + 8, ind + 19);
-                msg = '<div class="video-container"><iframe width="100%" src="//www.youtube.com/embed/' + res + '?rel=0" frameborder="0" allowfullscreen></iframe></div>';
-                isEmbed = true;
-            } else if (/http\S*youtu\.be\S*/.test(msg)) {
-                var ind = msg.search(/youtu\.be\//);
-                var res = msg.substring(ind + 9, ind + 20);
-                msg = '<div class="video-container"><iframe width="100%" src="//www.youtube.com/embed/' + res + '?rel=0" frameborder="0" allowfullscreen></iframe></div>';
-                isEmbed = true;
-            } else if (/\S*twitch\.tv\S*/.test(msg)) {
-                console.log('Is Twitch message');
-                if (/\S*clips\S*/.test(msg)) { // Twitch clips
-                    console.log('Is Twitch clip');
-                    var ind = msg.search(/\.tv\//);
-                    var res = msg.substring(ind + 4);
-                    console.log(msg);
-                    msg = '<iframe style="width:64vw; height:36vw" src="https://clips.twitch.tv/embed?clip=' + res + '" scrolling="no" frameborder="0" autoplay=false muted=true allowfullscreen=true></iframe>';
-                    isEmbed = true;
-                } else if (/\S*videos\S*/.test(msg)) { // Twitch VODs
-                    console.log('Is Twitch VOD');
-                    var ind = msg.search(/videos\//);
-                    var res = msg.substring(ind + 7);
-                    msg = '<div id="' + res + '"></div><script type="text/javascript"> var player = new Twitch.Player("' + res + '", { width: 100%, video: "' + res + '",});player.setVolume(0.5);</script>'
-                    isEmbed = true;
-                } else { // Twitch channel/stream
-                    console.log('Is Twitch channel/stream');
-                    var ind = msg.search(/\.tv\//);
-                    var res = msg.substring(ind + 4);
-                    msg = '<div id="' + res + '"></div><script type="text/javascript"> var player = new Twitch.Player("' + res + '", { width:100% channel:"' + res + '"}); player.setVolume(0.5); </script>'
-                    isEmbed = true;
-                }
+            if (msg.substr(0, 1) == "!") {
+                console.log('Is a command');
+                var command = /\S*/i.exec(msg.substr(1));
+                config.regex.commands.forEach(function (element) {
+                    if (command[0] == element.command) {
+                        console.log('element.action: ' + element.action);
+                        switch (element.action) {
+                            case "replace":
+                                msg = element.message;
+                                break;
+                            case "replaceEmbed":
+                                msg = element.message;
+                                isEmbed = true;
+                                break;
+                            case "function":
+                                send = false;
+                                var message = /(\S*)\s((\S*\s?)*)/i.exec(msg.substr(1));
+                                var params = [socket, un, uid, curroom, message[2]];
+                                var fn = userRegexParse[message[1]];
+                                if (typeof fn === "function") {
+                                    console.log('Is function');
+                                    fn.apply(null, params);
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+            } else {
+                config.regex.matches.forEach(function (element) {
+                    var re = new RegExp(element.regex, 'ig');
+                    if (re.test(msg)) {
+                        if (element.whole) {
+                            msg = element.replace;
+                        } else {
+                            msg = msg.replace(re, element.replace);
+                        }
+                        if (element.embed) {
+                            console.log('isEmbed');
+                            isEmbed = true;
+                        }
+                    }
+                });
             }
-            else if (msg.indexOf("!motd") > -1) {
-                send = false;
-                var newmsg = msg.substring(5, msg.length);
-                con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [newmsg, curroom], function (error) { if (error) throw error; });
-                io.to(curroom).emit('motd update', getMotd(curroom), curroom);
-            }
-            else {
-                console.log('In chat message, curroom: ' + curroom);
-                // sendMessage(msg, un, uid, curroom);
-            }
-            msg = /nigger/ig[Symbol.replace](msg, 'Basketball American');
-            msg = /retard/ig[Symbol.replace](msg, 'Trump Supporter');
-            msg = /shit(?=\s)/ig[Symbol.replace](msg, 'gay lubricant');
             if (send) {
                 sendMessage(msg, un, uid, curroom);
                 io.to(curroom).emit(getMessage(curroom, isEmbed));
-                if (isEmbed) sendToDiscord(un, msg);
+                if (isEmbed && curroom == 1) sendToDiscord(un, ogMsg);
             }
         }
     });
 });
+
+var userRegexParse = {};
+userRegexParse.motd = function (socket, un, uid, curroom, msg) {
+    console.log('In motd');
+    con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [msg, curroom], function (error) { if (error) throw error; });
+    io.to(curroom).emit('motd update', getMotd(curroom), curroom);
+}
+userRegexParse.createroom = function(socket, un, uid, curroom, msg) {
+    console.log('In createroom');
+    createChatroom(msg, uid);
+}
 
 var connect = config.db;
 var con;
@@ -370,7 +340,7 @@ function addOnline(un, email, photo, uid, sock, room, allrooms) {
 }
 
 function sendMessage(message, username, uid, chatid) {
-   // console.log(`In sendMessage, chatid: ${chatid}\nmsg: ${message}`);
+    // console.log(`In sendMessage, chatid: ${chatid}\nmsg: ${message}`);
     var msg = encodeURI(message);
     try {
         con.query("INSERT INTO messages (message, username, timestamp, chatroom_id, uid) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'), ?, ?)", [msg, username, chatid, uid], function (error, results) {
@@ -433,14 +403,16 @@ function updatechat(roomid) {
 }
 
 //these function will keep track of the last room the user was in, and return them to that room when they relog. 
-function setCurroom(roomid,uid) {
+function setCurroom(roomid, uid) {
 
 }
+
 function getCurroom(uid) {
 
 
-//return roomid
+    //return roomid
 }
+
 function showLastMessages(num, sid, roomid) {
     con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [roomid, num], function (error, rows, results) {
         var m = getMotd(roomid);
