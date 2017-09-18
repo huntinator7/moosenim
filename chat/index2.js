@@ -244,9 +244,10 @@ io.sockets.on('connection', function (socket) {
                                 send = false;
                                 var message = /(\S*)\s((\S*\s?)*)/i.exec(msg.substr(1));
                                 var params = [socket, un, uid, curroom, message[2]];
-                                var fn = global[message[1]];
+                                var fn = userRegexParse[message[1]];
                                 console.log('message[1]: ' + message[1]);
                                 console.log('message[2]: ' + message[2]);
+                                console.log('fn: ' + fn);
                                 if (typeof fn === "function") {
                                     console.log('Is function');
                                     fn.apply(null, params);
@@ -282,6 +283,11 @@ io.sockets.on('connection', function (socket) {
         }
     });
 });
+
+var userRegexParse = {};
+userRegexParse.motd = function (socket, un, uid, curroom, msg) {
+    console.log('In userRegexParse motd');
+}
 
 function motd(socket, un, uid, curroom, msg) {
     console.log('In motd');
