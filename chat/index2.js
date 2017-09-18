@@ -137,7 +137,10 @@ io.sockets.on('connection', function (socket) {
             if (rows[0] == null) {
                 //If no user, add to DB
                 con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email) VALUES ( ?, ?, ?, 1,1,?)", [displayName, uid, photoURL, email], function (error, results) {
+                    //add to general chatroom
+                    addToRoom(email, 1, 0);
                     if (error) console.log(error);
+
                 });
             } else {
 
