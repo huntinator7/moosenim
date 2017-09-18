@@ -272,7 +272,7 @@
             socket.on('test', function (name) {
                 console.log(name + "asdasd");
             });
-
+            roomnames = [];
             socket.on('roomlist', function (list) {
                 console.log("Received roomlist: " + list);
                 $('#nav-mobile').empty();
@@ -281,7 +281,12 @@
                 $('#slide-out').append('<li><img src="images/favicon.png"></li><li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>');
                 try {
                     list.forEach(function (element) {
-                        if (element.serialid == curroom) $('#roomtitle').html(element.name);
+                        var roomlist = {
+                            name: element.name,
+                            id: element.serialid
+                        };
+                        roomnames.push(roomlist);
+                       
                         $('#nav-mobile').append(`<li><a id="rooms" class="button waves-effect" room="${element.serialid}" style="color: #6EB7FF">${element.name}<span class="none"></span></a></li>`);
                         $('#slide-out').append(`<li><a id="rooms" room="${element.serialid}" style="color: #6EB7FF">${element.name}<span class="none"></span></a></li>`);
                     });
@@ -297,6 +302,10 @@
 
             $('#nav-mobile').on('click', 'a', function () {
                 if ($(this.attributes.id).val() == 'rooms') {
+                    roomnames.forEach(function (e) {
+                        if (e.id == curroom) $('#roomtitle').html(e.name);
+                    });
+                    
                     if ($(this.children[0])) {
                         $(this.children[0]).removeClass('new badge deep-orange darken-3');
                         $(this.children[0]).addClass('none');
