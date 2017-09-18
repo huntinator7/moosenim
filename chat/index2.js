@@ -231,6 +231,7 @@ io.sockets.on('connection', function (socket) {
                 config.regex.commands.forEach(function (element) {
                     if (command[0] == element.command) {
                         console.log('element.action: ' + element.action);
+                        console.log('element.message: ' + element.message);
                         switch (element.action) {
                             case "replace":
                                 msg = element.message;
@@ -250,12 +251,6 @@ io.sockets.on('connection', function (socket) {
                                 break;
                             default:
                                 break;
-                        }
-                        console.log(element.command + ': ' + element.replace);
-                        msg = element.replace;
-                        if (element.embed) {
-                            console.log('isEmbed');
-                            isEmbed = true;
                         }
                     }
                 });
