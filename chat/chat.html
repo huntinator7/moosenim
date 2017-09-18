@@ -205,9 +205,9 @@
             document.getElementById("main").style.display = "inline";
 
             socket.on('motd update', function (msg, room) {
-                console.log('Received MOTD'+ room);
+                console.log('Received MOTD'+ msg);
                // if (curroom == room || room == 0) {
-                    $('#motd').html(" " + msg);
+                    $('#motd').html(" motd update " + msg);
                 //}
             });
 
