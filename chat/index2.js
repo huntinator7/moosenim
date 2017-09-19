@@ -299,10 +299,11 @@ var con;
 function getMotd(roomid) {
     var m= "test case";
     con.query('SELECT * FROM rooms WHERE serialid = ?', [roomid], function (error, row) {
-        console.log("motd is " + row[0].motd + " roomid = " + roomid);
-        // io.emit('motd update', row[0].motd);
-       return row[0].motd+".";
         if (error) console.log(error);
+        console.log("motd is " + row[0].motd + " roomid = " + roomid);
+         io.to(roomid).emit('motd update', row[0].motd);
+       return row[0].motd+".";
+       
     });
     return m;
 }
