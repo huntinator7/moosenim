@@ -75,10 +75,10 @@
 <body style="background-color:#000000">
     <header>
         <div class="row" id="center-container">
-            <div class="col s12" id="roomtitle" style="color:white; background-color:#6EB7FF; position:fixed; height:5em; text-align:center; z-index:2000">
-                <h3 style="line-height:5em">Moosen IM</h3>
+            <div class="col s12" id="roomtitle" style="color:white; background-color:#6EB7FF; position:fixed; height:100px; text-align:center; z-index:2000">
+                <h3 style="line-height:100px">Moosen IM</h3>
             </div>
-            <div class="col s12" id="motd" style="color:black; background-color:white; line-height:7em; position:fixed; top:5em; text-align:center; height:7em; z-index:2000">
+            <div class="col s12" id="motd" style="color:black; background-color:white; line-height:7em; position:fixed; top:100px; text-align:center; height:7em; z-index:2000">
                 <h5>MOTD div</h5>
             </div>
         </div>
@@ -200,7 +200,7 @@
             socket.on('motd update', function (msg, room) {
                 console.log('Received MOTD' + msg);
                 roomnames.forEach(function (e) {
-                    if (e.id == curroom) $('#roomtitle').html('<h3 style="line-height:5em">' + e.name + '</h3>');
+                    if (e.id == curroom) $('#roomtitle').html('<h3 style="line-height:100px">' + e.name + '</h3>');
                 });
                 // if (curroom == room || room == 0) {
                 $('#motd').html("<h5>" + msg + "</h5>");
@@ -283,7 +283,7 @@
                         };
                         roomnames.push(roomlist);
 
-                        if (element.serialid == curroom) $('#roomtitle').html('<h3 style="line-height:5em">' + element.name + '</h3>');
+                        if (element.serialid == curroom) $('#roomtitle').html('<h3 style="line-height:100px">' + element.name + '</h3>');
 
                         $('#nav-mobile').append(`<li><a id="rooms" class="button waves-effect" room="${element.serialid}" style="color: #6EB7FF">${element.name}<span class="none"></span></a></li>`);
                         $('#slide-out').append(`<li><a id="rooms" room="${element.serialid}" style="color: #6EB7FF">${element.name}<span class="none"></span></a></li>`);
@@ -301,7 +301,7 @@
             $('#nav-mobile').on('click', 'a', function () {
                 if ($(this.attributes.id).val() == 'rooms') {
                     roomnames.forEach(function (e) {
-                        if (e.id == curroom) $('#roomtitle').html('<h3 style="line-height:5em">' + e.name + '</h3>');
+                        if (e.id == curroom) $('#roomtitle').html('<h3 style="line-height:100px">' + e.name + '</h3>');
                     });
 
                     if ($(this.children[0])) {
@@ -322,7 +322,7 @@
                 if ($(this.attributes.id).val() == 'rooms') {
 
                     roomnames.forEach(function (e) {
-                        if (e.id == curroom) $('#roomtitle').html('<h3 style="line-height:5em">' + e.name + '</h3>');
+                        if (e.id == curroom) $('#roomtitle').html('<h3 style="line-height:100px">' + e.name + '</h3>');
                     });
 
                     if ($(this.children[0])) {
