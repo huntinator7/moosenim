@@ -198,6 +198,9 @@
 
             socket.on('motd update', function (msg, room) {
                 console.log('Received MOTD' + msg);
+                roomnames.forEach(function (e) {
+                    if (e.id == curroom) $('#roomtitle').html(e.name);
+                });
                 // if (curroom == room || room == 0) {
                 $('#motd').html(" motd update " + msg);
                 //}
