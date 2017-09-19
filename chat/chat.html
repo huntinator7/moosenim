@@ -199,10 +199,10 @@
             socket.on('motd update', function (msg, room) {
                 console.log('Received MOTD' + msg);
                 roomnames.forEach(function (e) {
-                    if (e.id == curroom) $('#roomtitle').html(e.name);
+                    if (e.id == curroom) $('#roomtitle').html('<h3>' + e.name + '</h3>');
                 });
                 // if (curroom == room || room == 0) {
-                $('#motd').html(" motd update " + msg);
+                $('#motd').html("<h5>motd update " + msg + "</h5>");
                 //}
             });
 
@@ -321,7 +321,7 @@
                 if ($(this.attributes.id).val() == 'rooms') {
 
                     roomnames.forEach(function (e) {
-                        if (e.id == curroom) $('#roomtitle').html(e.name);
+                        if (e.id == curroom) $('#roomtitle').html('<h3>' + e.name + '</h3>');
                     });
 
                     if ($(this.children[0])) {
