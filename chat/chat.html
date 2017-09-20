@@ -209,7 +209,7 @@
 
             socket.on('chat message', function (user, msg, time, id, pic, room) {
                 if (curroom == room) {
-                    var first = $('#messages').children().first();
+                    var first = $('#messages').children().first().attr('id');
                     console.log(first);
                     document.title = user.substring(0, 3) + ": " + msg.substring(0, 10);
                     if (document.hidden) {
