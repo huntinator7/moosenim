@@ -425,12 +425,14 @@
 
             var last_scroll_position = 0;
             $(window).scroll(function () {
+                console.log($(window).scrollTop() + $(window).height() + ' documentheight * .9 ' + $(document).height() * .9 + ' documentheight * .5 ' + $(document).height() * .5);
                 if ($(window).scrollTop() + $(window).height() >= $(document).height() * .9) {
                     canAuto = true;
                 } else {
                     canAuto = false;
                 }
                 if ($(window).scrollTop() + $(window).height() <= $(document).height() * .5) {
+                    console.log('isTop');
                     isTop = true;
                 } else {
                     isTop = false;
