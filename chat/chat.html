@@ -209,8 +209,7 @@
 
             socket.on('chat message', function (user, msg, time, id, pic, room) {
                 if (curroom == room) {
-                    var first = $('#messages').children().first().attr('id');
-                    console.log(first);
+                    // $('#messages').children().first().attr('id')
                     document.title = user.substring(0, 3) + ": " + msg.substring(0, 10);
                     if (document.hidden) {
                         notifyMe(msg, pic);
@@ -319,9 +318,8 @@
                 }
             });
 
-            $('#slide-out').on('click', 'a', function () {
+            $('#slide-out').on('click', 'a', async function () {
                 if ($(this.attributes.id).val() == 'rooms') {
-
                     roomnames.forEach(function (e) {
                         if (e.id == curroom) $('#roomtitle').html('<h3>' + e.name + '</h3>');
                     });
@@ -331,12 +329,14 @@
                         $(this.children[0]).addClass('none');
                         $(this.children[0]).text('');
                     }
-                    canScroll = 10;
+                    canScroll = 0;
                     console.log('Element in slide-out clicked');
                     $('#messages').empty();
                     curroom = $(this.attributes.room).val();
                     socket.emit('changerooms', $(this.attributes.room).val());
                     window.scrollTo(0, document.body.scrollHeight);
+                    await sleep(500);
+                    canScroll = 10;
                 }
             });
 
