@@ -211,6 +211,7 @@
             socket.on('chat message', function (user, msg, time, id, pic, room) {
                 if (curroom == room) {
                     if (!retrieving) {
+                        retrieving = true;
                         pageJump($('#messages').children().first().attr('id'));
                     }
                     // $('#messages').children().first().attr('id')
@@ -396,6 +397,7 @@
                 await sleep(500);
                 console.log('Jumping...');
                 document.getElementById(id).scrollIntoView();
+                retrieving = false;
             }
 
             function handleFileSelect(evt) {
