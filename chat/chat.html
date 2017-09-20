@@ -209,7 +209,8 @@
 
             socket.on('chat message', function (user, msg, time, id, pic, room) {
                 if (curroom == room) {
-                    console.log($('#messages').children().first().id());
+                    var first = $('#messages').children().first();
+                    console.log(first.id);
                     document.title = user.substring(0, 3) + ": " + msg.substring(0, 10);
                     if (document.hidden) {
                         notifyMe(msg, pic);
