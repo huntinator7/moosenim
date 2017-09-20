@@ -136,6 +136,7 @@
         var event
         $(function () {
             var last_id;
+            var retrieving = false;
             var first_id;
             var canScroll = 10;
             canAuto = false;
@@ -209,6 +210,9 @@
 
             socket.on('chat message', function (user, msg, time, id, pic, room) {
                 if (curroom == room) {
+                    if (!retrieving) {
+                        pageJump($('#messages').children().first().attr('id'));
+                    }
                     // $('#messages').children().first().attr('id')
                     document.title = user.substring(0, 3) + ": " + msg.substring(0, 10);
                     if (document.hidden) {
@@ -385,6 +389,13 @@
                 }
                 await sleep(500);
                 canScroll += 1;
+            }
+
+            async function pageJump(id) {
+                console.log('id: ' + id);
+                await sleep(500);
+                console.log('Jumping...');
+                document.getElementById(id).scrollIntoView();
             }
 
             function handleFileSelect(evt) {
