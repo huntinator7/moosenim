@@ -381,7 +381,7 @@
                         if (canAuto) {
                             window.scrollTo(0, document.body.scrollHeight);
                         } else {
-                            window.scrollTo(saved_first);
+                            document.getElementById(saved_first).scrollIntoView();
                         }
                     }
                 });
@@ -393,7 +393,7 @@
                     if (canAuto) {
                         window.scrollTo(0, document.body.scrollHeight);
                     } else {
-                        window.scrollTo(saved_first);
+                        document.getElementById(saved_first).scrollIntoView();
                     }
                 }
                 await sleep(500);
