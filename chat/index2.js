@@ -301,7 +301,7 @@ function getMotd(roomid) {
     con.query('SELECT * FROM rooms WHERE serialid = ?', [roomid], function (error, row) {
         if (error) console.log(error);
         console.log("motd is " + row[0].motd + " roomid = " + roomid);
-         io.to(roomid).emit('motd update', row[0].motd);
+         io.to(roomid).emit('motd update', row[0].motd,roomid);
        return row[0].motd+".";
        
     });
