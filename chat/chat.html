@@ -95,19 +95,6 @@
     <div id="main">
         <div class="row" id="center-container" style="height:5vh; padding-top:9em;">
             <div class="col s12" style="padding:0">
-                <div class="preloader-wrapper small active center">
-                    <div class="spinner-layer spinner-blue-only center">
-                        <div class="circle-clipper left">
-                            <div class="circle"></div>
-                        </div>
-                        <div class="gap-patch">
-                            <div class="circle"></div>
-                        </div>
-                        <div class="circle-clipper right">
-                            <div class="circle"></div>
-                        </div>
-                    </div>
-                </div>
                 <ul class="collection with-header" id="messages" style="overflow-x:hidden"></ul>
                 <a href="#" data-activates="slide-out" style="display:none;" class="button-collapse"></a>
                 <!-- Modal add user -->
@@ -222,7 +209,7 @@
 
             socket.on('chat message', function (user, msg, time, id, pic, room) {
                 if (curroom == room) {
-
+                    console.log($('#messages').first());
                     document.title = user.substring(0, 3) + ": " + msg.substring(0, 10);
                     if (document.hidden) {
                         notifyMe(msg, pic);
