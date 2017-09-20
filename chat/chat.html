@@ -381,7 +381,9 @@
                         if (canAuto) {
                             window.scrollTo(0, document.body.scrollHeight);
                         } else {
-                            document.getElementById(saved_first).scrollIntoView();
+                            var top = document.getElementById(saved_first).offsetTop;
+                            console.log(top);
+                            window.scrollTo(0, top);
                         }
                     }
                 });
@@ -393,7 +395,9 @@
                     if (canAuto) {
                         window.scrollTo(0, document.body.scrollHeight);
                     } else {
-                        document.getElementById(saved_first).scrollIntoView();
+                        var top = document.getElementById(saved_first).offsetTop;
+                        console.log(top);
+                        window.scrollTo(0, top);
                     }
                 }
                 await sleep(500);
