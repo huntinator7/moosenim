@@ -82,7 +82,7 @@
                 <h5>MOTD div</h5>
             </div>
         </div>
-        <ul id="nav-mobile" class="side-nav fixed hide-on-med-and-down grey darken-4" style="transform: translateX(0%); z-index:3000">
+        <ul id="nav-mobile" class="side-nav fixed hide-on-med-and-down grey darken-4" style="transform: translateX(0%); z-index:3000; width:50vw">
             <li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>
             <li><a id="room" class="button waves-effect" room="2" style="color: #6EB7FF">test</a></li>
         </ul>
@@ -277,6 +277,7 @@
             socket.on('test', function (name) {
                 console.log(name + "asdasd");
             });
+
             roomnames = [];
             socket.on('roomlist', function (list) {
                 console.log("Received roomlist: " + list);
@@ -443,7 +444,7 @@
             });
 
             $(window).resize(function () { //checking for window resize event
-                if ($("#m").is(":focus")) {
+                if ($("#m").is(":visible")) {
                     window.scrollTo(0, document.body.scrollHeight);
                 }
             });
