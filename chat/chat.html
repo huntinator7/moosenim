@@ -138,6 +138,7 @@
             var last_id;
             var retrieving = false;
             var first_id;
+            var saved_first = "messages";
             var canScroll = 10;
             canAuto = false;
             var retrievePrevious = false;
@@ -212,7 +213,10 @@
                 if (curroom == room) {
                     if (!retrieving) {
                         retrieving = true;
-                        pageJump($('#messages').children().first().attr('id'));
+                        if ($('#messages').children().first().attr('id')) {
+                            saved_first = $('#messages').children().first().attr('id');
+                        }
+                        pageJump();
                     }
                     // $('#messages').children().first().attr('id')
                     document.title = user.substring(0, 3) + ": " + msg.substring(0, 10);
@@ -376,6 +380,8 @@
                         wasInserted = true;
                         if (canAuto) {
                             window.scrollTo(0, document.body.scrollHeight);
+                        } else {
+                            window.scrollTo(saved_first);
                         }
                     }
                 });
@@ -386,21 +392,17 @@
                     $('#messages').append(msg);
                     if (canAuto) {
                         window.scrollTo(0, document.body.scrollHeight);
+                    } else {
+                        window.scrollTo(saved_first);
                     }
                 }
                 await sleep(500);
                 canScroll += 1;
             }
 
-            async function pageJump(id) {
-                console.log('id: ' + id);
+            async function pageJump() {
                 await sleep(500);
-                console.log('Jumping...');
-                try {
-                    document.getElementById(id).scrollIntoView();
-                } catch (e) {
-                    console.log('Error: id undefined');
-                }
+                console.log('Resetting');
                 retrieving = false;
             }
 
@@ -438,7 +440,6 @@
 
             $(window).resize(function () { //checking for window resize event
                 if ($("#m").is(":focus")) {
-                    window.scrollTo(0, document.body.scrollHeight);
                     window.scrollTo(0, document.body.scrollHeight);
                 }
             });
