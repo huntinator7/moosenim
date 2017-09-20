@@ -141,7 +141,6 @@
             var saved_first = "messages";
             var canScroll = 10;
             canAuto = false;
-            isTop = false;
             var retrievePrevious = false;
             var URL_SERVER = 'https://moosen.im:443';
             var socket = io.connect(URL_SERVER);
@@ -381,7 +380,7 @@
                         wasInserted = true;
                         if (canAuto) {
                             window.scrollTo(0, document.body.scrollHeight);
-                        } else if (isTop) {
+                        } else {
                             var top = document.getElementById(saved_first).offsetTop;
                             console.log(top);
                             window.scrollTo(0, top);
@@ -395,7 +394,7 @@
                     $('#messages').append(msg);
                     if (canAuto) {
                         window.scrollTo(0, document.body.scrollHeight);
-                    } else if (isTop) {
+                    } else {
                         var top = document.getElementById(saved_first).offsetTop;
                         console.log(top);
                         window.scrollTo(0, top);
@@ -425,17 +424,10 @@
 
             var last_scroll_position = 0;
             $(window).scroll(function () {
-                console.log($(window).scrollTop() + $(window).height() + ' documentheight * .9 ' + $(document).height() * .9 + ' documentheight * .7 ' + $(document).height() * .7);
                 if ($(window).scrollTop() + $(window).height() >= $(document).height() * .9) {
                     canAuto = true;
                 } else {
                     canAuto = false;
-                }
-                if ($(window).scrollTop() + $(window).height() <= $(document).height() * .7) {
-                    console.log('isTop');
-                    isTop = true;
-                } else {
-                    isTop = false;
                 }
                 if ($(window).scrollTop() == 0 && $(window).scrollTop() - last_scroll_position < 0) {
                     window.scrollTo(0, 1);
