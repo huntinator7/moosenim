@@ -280,7 +280,7 @@ io.sockets.on('connection', function (socket) {
             }
         }
     });
-});
+});h
 
 var userRegexParse = {};
 userRegexParse.motd = function (socket, un, uid, curroom, msg) {
