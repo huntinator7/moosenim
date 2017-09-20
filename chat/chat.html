@@ -396,7 +396,11 @@
                 console.log('id: ' + id);
                 await sleep(500);
                 console.log('Jumping...');
-                document.getElementById(id).scrollIntoView();
+                try {
+                    document.getElementById(id).scrollIntoView();
+                } catch (e) {
+                    console.log('Error: id undefined');
+                }
                 retrieving = false;
             }
 
