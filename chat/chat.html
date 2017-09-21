@@ -446,7 +446,7 @@
 
             $(window).resize(function () { //checking for window resize event
                 console.log($(window).width() / $(window).height());
-                if ($("#m").is(":focus") && $(window).width() / $(window).height() < 1.2 && $(window).width() / $(window).height()) {
+                if ($("#m").is(":focus") && $(window).width() / $(window).height() < 1.4 && $(window).width() / $(window).height() > 0.8) {
                     window.scrollTo(0, document.body.scrollHeight);
                     socket.emit('log', 'resize event: hide | ' + $(window).width() / $(window).height());
                     document.getElementById("center-container").style.display = "none";
