@@ -76,7 +76,7 @@
                     var token = result.credential.accessToken;
                     console.log('token: ' + token);
                     socket.emit('log', token);
-                    window.location.href = "https://www.moosen.im/login";
+                    // window.location.href = "https://www.moosen.im/login";
                     document.getElementById('quickstart-oauthtoken').textContent = token;
                 }
                 else {
