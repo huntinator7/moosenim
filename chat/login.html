@@ -112,10 +112,11 @@
                     var providerData = user.providerData;
                     var uid = providerData[0].uid;
                     var url = 'https://www.moosen.im/?' + uid;
-                    console.log(url);
+                    // console.log(url);
+                    console.log(user);
 
-                    socket.emit('login message', displayName, email, photoURL, uid);
-                    var div = $('<a href = "' + url + '" id="go" class="btn go waves-effect waves-light light-blue white-text">Click To Chat</button>');
+                    // socket.emit('login message', displayName, email, photoURL, uid, );
+                    // var div = $('<a href = "' + url + '" id="go" class="btn go waves-effect waves-light light-blue white-text">Click To Chat</button>');
                     $("#redirect").append(div);
                     document.getElementById('quickstart-sign-in-status').innerHTML = "<a href='" + url + "'>Click to Chat</a>";
                     document.getElementById('quickstart-sign-in-status').style.display = "inline";
