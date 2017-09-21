@@ -131,7 +131,8 @@ io.sockets.on('connection', function (socket) {
     });
 
     //Login process and recording
-    socket.on('login message', function (displayName, email, photoURL, uid) {
+    socket.on('login message', function (displayName, email, photoURL, uid, token) {
+        console.log(token);
         console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id);
         con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
             if (rows[0] == null) {
