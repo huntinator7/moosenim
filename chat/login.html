@@ -9,7 +9,7 @@
     <meta charset=utf-8 />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moosen IM sign in</title>
-    <!-- Material Design Theming -->
+
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
@@ -23,12 +23,10 @@
     <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase-messaging.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    
     <script>
         // Initialize Firebase
-
         var config = {
             apiKey: "AIzaSyBuh7IwzTGDmuRJska03XsxROxHnXpgGss",
             authDomain: "moosenim.firebaseapp.com",
@@ -37,6 +35,7 @@
             storageBucket: "moosenim.appspot.com",
             messagingSenderId: "1083055405716"
         };
+
         firebase.initializeApp(config);
         var socket;
 
@@ -45,36 +44,22 @@
             username = "testing";
             last_id = 0;
             socket = io();
-
-
         });
     </script>
     <script type="text/javascript">
         /**
-    * Function called when clicking the Login/Logout button.
-    */
-        // [START buttoncallback]
+        * Function called when clicking the Login/Logout button.
+        */
         function toggleSignIn() {
             if (!firebase.auth().currentUser) {
-                // [START createprovider]
                 var provider = new firebase.auth.GoogleAuthProvider();
-                // [END createprovider]
-                // [START addscopes]
                 provider.addScope('https://www.googleapis.com/auth/plus.login');
-                // [END addscopes]
-                // [START signin]
                 firebase.auth().signInWithRedirect(provider);
-                // [END signin]
             } else {
-                // [START signout]
                 firebase.auth().signOut();
-                // [END signout]
             }
-            // [START_EXCLUDE]
             document.getElementById('quickstart-sign-in').disabled = true;
-            // [END_EXCLUDE]
         }
-        // [END buttoncallback]
         /**
         * initApp handles setting up UI event listeners and registering Firebase auth listeners:
         *  - firebase.auth().onAuthStateChanged: This listener is called when the user is signed in or
@@ -85,19 +70,15 @@
 
         function initApp() {
             // Result from Redirect auth flow.
-            // [START getidptoken]
             firebase.auth().getRedirectResult().then(function (result) {
                 if (result.credential) {
                     // This gives you a Google Access Token. You can use it to access the Google API.
                     var token = result.credential.accessToken;
-
                     window.location.href = "https://www.moosen.im/login";
-                    // [START_EXCLUDE]
                     document.getElementById('quickstart-oauthtoken').textContent = token;
                 }
                 else {
                     document.getElementById('quickstart-oauthtoken').textContent = 'null';
-                    // [END_EXCLUDE]
                 }
                 // The signed-in user info.
                 var user = result.user;
@@ -117,17 +98,11 @@
                 } else {
                     console.error(error);
                 }
-                // [END_EXCLUDE]
             });
 
-            // [END getidptoken]
-
             // Listening for auth state changes.
-
-            // [START authstatelistener]
             firebase.auth().onAuthStateChanged(function (user) {
                 if (user) {
-                    //send this information over socket.io in login message.
                     // User is signed in.
                     var displayName = user.displayName;
                     var email = user.email;
@@ -139,8 +114,6 @@
                     var url = 'https://www.moosen.im/?' + uid;
                     console.log(url);
 
-                    // [START_EXCLUDE]
-
                     socket.emit('login message', displayName, email, photoURL, uid);
                     var div = $('<a href = "' + url + '" id="go" class="btn go waves-effect waves-light light-blue white-text">Click To Chat</button>');
                     $("#redirect").append(div);
@@ -148,13 +121,9 @@
                     document.getElementById('quickstart-sign-in-status').style.display = "inline";
                     document.getElementById('quickstart-sign-in-status').style.textAlign = "center";
                     document.getElementById('quickstart-sign-in').textContent = 'Sign out';
-                    //change this to a link to the chat
                     document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
-                    // [END_EXCLUDE]
                 } else {
                     // User is signed out.
-                    // [START_EXCLUDE]
-                    // document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
                     try {
                         $('#go').remove();
                     } catch (e) { }
@@ -163,61 +132,19 @@
                     document.getElementById('quickstart-sign-in').textContent = 'Sign in with Google';
                     document.getElementById('quickstart-account-details').textContent = 'null';
                     document.getElementById('quickstart-oauthtoken').textContent = 'null';
-                    // [END_EXCLUDE]
                 }
-                // [START_EXCLUDE]
                 document.getElementById('quickstart-sign-in').disabled = false;
-                // [END_EXCLUDE]
             });
-            // [END authstatelistener]
             document.getElementById('quickstart-sign-in').addEventListener('click', toggleSignIn, false);
         }
 
         window.onload = function () {
             var socket = io();
-
             initApp();
-
         };
     </script>
 
 </head>
-
-<!-- <body>
-    <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-header">
-        Header section containing title
-        <header class="mdl-layout__header mdl-color-text--white mdl-color--light-blue-700">
-            <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
-                <div class="mdl-layout__header-row mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--8-col-desktop">
-                    <a href="/"></a><h3>Moosen IM</h3>
-                </div>
-            </div>
-        </header>
-        <main class="mdl-layout__content mdl-color--grey-100">
-            <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
-                Container for the demo
-                <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
-                    <div class="mdl-card__title mdl-color--light-blue-600 mdl-color-text--white">
-                        <h2 class="mdl-card__title-text">Login with Google</h2>
-                    </div>
-                    <div class="mdl-card__supporting-text mdl-color-text--grey-600">
-                        <p>Sign in with your Google account below.</p>
-                        Button that handles sign-in/sign-out
-                        <button disabled class="mdl-button mdl-js-button mdl-button--raised" id="quickstart-sign-in">Sign in with Google</button>
-                        Container where we'll display the user details
-                        <div class="quickstart-user-details-container">
-                            Firebase sign-in status: <span id="quickstart-sign-in-status">Unknown</span>
-                            <div>Firebase auth <code>currentUser</code> object value:</div>
-                            <pre><code id="quickstart-account-details">null</code></pre>
-                            <div>Google OAuth Access Token:</div>
-                            <pre><code id="quickstart-oauthtoken">null</code></pre>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
-</body> -->
 
 <body style="background-color:#000000;">
     <header>
