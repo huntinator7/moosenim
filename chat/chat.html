@@ -445,7 +445,7 @@
             });
 
             $(window).resize(function () { //checking for window resize event
-                console.log(document.body.clientWidth / document.body.clientHeight);
+                console.log(document.head.clientWidth / document.head.clientHeight);
                 if (window.outerWidth / window.outerHeight < 1.2 && window.outerWidth / window.outerHeight > 0.8) { //$("#m").is(":focus") && 
                     window.scrollTo(0, document.body.scrollHeight);
                     console.log('resize event: hide');
