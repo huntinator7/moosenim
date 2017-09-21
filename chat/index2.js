@@ -158,6 +158,17 @@ io.sockets.on('connection', function (socket) {
         console.log(Object.keys(io.sockets.sockets));
     });
 
+    //Disconnect
+    socket.on('disconnect', function () {
+        console.log('disconnect: ' + socket.id);
+    });
+
+    //Authentication from Google
+     socket.on('authSave', function (name, token, uid, photo, email) {
+        addAuth(name, token, uid, photo, email, socket.id, 1);
+        socket.
+    });
+
     //Emit for when on mobile and needing the logs
     socket.on('log', function (message) {
         console.log(socket.id + ': ' + message);
@@ -348,6 +359,20 @@ function addOnline(un, email, photo, uid, sock, room, allrooms) {
         //allrooms: allrooms
     };
     online.push(user);
+}
+
+var auth = [];
+function addAuth(un, email, token, photo, uid, sock, room) {
+    var user = {
+        name: un,
+        token: token,
+        uid: uid,
+        photo: photo,
+        email: email,
+        sid: sock,
+        curroom: room
+    };
+    auth.push(user);
 }
 
 function sendMessage(message, username, uid, chatid) {
