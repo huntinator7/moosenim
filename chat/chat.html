@@ -447,9 +447,11 @@
             $(window).resize(function () { //checking for window resize event
                 if ($("#m").is(":focus") && window.outerWidth() / window.outerHeight() < 1.2 && window.outerWidth() / window.outerHeight() > 0.8) {
                     window.scrollTo(0, document.body.scrollHeight);
+                    console.log('resize event: hide');
                     document.getElementById("center-container").style.display = "none";
                 } else {
                     document.getElementById("center-container").style.display = "inline";
+                    console.log('resize event: show');
                 }
             });
         });
