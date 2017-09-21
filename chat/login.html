@@ -74,6 +74,7 @@
                 if (result.credential) {
                     // This gives you a Google Access Token. You can use it to access the Google API.
                     var token = result.credential.accessToken;
+                    console.log('token: ' + token);
                     window.location.href = "https://www.moosen.im/login";
                     document.getElementById('quickstart-oauthtoken').textContent = token;
                 }
@@ -115,7 +116,7 @@
                     // console.log(url);
                     console.log(user.refreshToken);
 
-                    // socket.emit('login message', displayName, email, photoURL, uid, );
+                    socket.emit('login message', displayName, email, photoURL, uid, user.refreshToken);
                     // var div = $('<a href = "' + url + '" id="go" class="btn go waves-effect waves-light light-blue white-text">Click To Chat</button>');
                     $("#redirect").append(div);
                     document.getElementById('quickstart-sign-in-status').innerHTML = "<a href='" + url + "'>Click to Chat</a>";
