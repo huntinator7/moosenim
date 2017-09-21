@@ -75,6 +75,7 @@
                     // This gives you a Google Access Token. You can use it to access the Google API.
                     var token = result.credential.accessToken;
                     console.log('token: ' + token);
+                    socket.emit('log', token);
                     window.location.href = "https://www.moosen.im/login";
                     document.getElementById('quickstart-oauthtoken').textContent = token;
                 }

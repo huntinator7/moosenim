@@ -140,12 +140,10 @@ io.sockets.on('connection', function (socket) {
                     //add to general chatroom
                     addToRoom(email, 1, 0);
                     if (error) console.log(error);
-
                 });
             } else {
 
             }
-
             addOnline(displayName, email, photoURL, uid, socket.id, 1);
         });
         con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid]);
