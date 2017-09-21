@@ -159,6 +159,11 @@ io.sockets.on('connection', function (socket) {
         console.log(Object.keys(io.sockets.sockets));
     });
 
+    //Emit for when on mobile and needing the logs
+    socket.on('log', function (message) {
+        console.log(socket.id + ': ' + message);
+    });
+
     //Workaround for different login page
     socket.on('associate', function (uid) {
         console.log('Associating ' + uid + ' with ' + socket.id);
