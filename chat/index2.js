@@ -266,14 +266,26 @@ io.sockets.on('connection', function (socket) {
                 config.regex.matches.forEach(function (element) {
                     var re = new RegExp(element.regex, 'ig');
                     if (re.test(msg)) {
-                        if (element.whole) {
-                            msg = element.message;
-                        } else {
-                            msg = msg.replace(re, element.message);
-                        }
-                        if (element.embed) {
-                            console.log('isEmbed');
-                            isEmbed = true;
+                        switch (element.action) {
+                            case "replace":
+                                msg = msg.replace(re, element.message);
+                                break;
+                            case "replaceWhole":
+                                msg = element.message;
+                                break;
+                            case "replaceEmbed":
+                                msg = msg.replace(re, element.message);
+                                isEmbed = true;
+                                break;
+                            case "respond":
+                                sendMessage(msg, un, uid, curroom);
+                                io.to(curroom).emit(getMessage(curroom, isEmbed));
+                                msg = element.message;
+                                un = 'Automod';
+                                uid = '1';
+                                break;
+                            default:
+                                break;
                         }
                     }
                 });
@@ -293,22 +305,26 @@ userRegexParse.motd = function (socket, un, uid, curroom, msg) {
     con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [msg, curroom], function (error) { if (error) throw error; });
     io.to(curroom).emit('motd update', getMotd(curroom), curroom);
 }
-userRegexParse.createroom = function(socket, un, uid, curroom, msg) {
+userRegexParse.createroom = function (socket, un, uid, curroom, msg) {
     console.log('In createroom');
     createChatroom(msg, uid);
+}
+userRegexParse.refreshconfig = function (socket, un, uid, curroom, msg) {
+    config = require('./config');
+    console.log('In refreshconfig');
 }
 
 var connect = config.db;
 var con;
 
 function getMotd(roomid) {
-    var m= "test case";
+    var m = "test case";
     con.query('SELECT * FROM rooms WHERE serialid = ?', [roomid], function (error, row) {
         if (error) console.log(error);
         console.log("motd is " + row[0].motd + " roomid = " + roomid);
-         io.to(roomid).emit('motd update', row[0].motd,roomid);
-       return row[0].motd+".";
-       
+        io.to(roomid).emit('motd update', row[0].motd, roomid);
+        return row[0].motd + ".";
+
     });
     return m;
 }
@@ -428,7 +444,7 @@ function getCurroom(uid) {
 function showLastMessages(num, sid, roomid) {
     con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [roomid, num], function (error, rows, results) {
         var m = getMotd(roomid);
-        console.log("m=  " + getMotd(roomid)+roomid);
+        console.log("m=  " + getMotd(roomid) + roomid);
         io.emit('motd update', getMotd(roomid), roomid);
         if (error) throw error;
         try {
