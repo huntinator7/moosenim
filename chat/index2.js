@@ -267,9 +267,9 @@ io.sockets.on('connection', function (socket) {
                     var re = new RegExp(element.regex, 'ig');
                     if (re.test(msg)) {
                         if (element.whole) {
-                            msg = element.replace;
+                            msg = element.message;
                         } else {
-                            msg = msg.replace(re, element.replace);
+                            msg = msg.replace(re, element.message);
                         }
                         if (element.embed) {
                             console.log('isEmbed');
