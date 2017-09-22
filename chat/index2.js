@@ -458,7 +458,7 @@ function showLastMessages(num, sid, roomid) {
     con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [roomid, num], function (error, rows, results) {
         var m = getMotd(roomid);
         console.log("m=  " + getMotd(roomid) + roomid);
-        io.emit('motd update', getMotd(roomid), roomid);
+       // io.emit('motd update', getMotd(roomid), roomid);
         if (error) throw error;
         try {
             rows.forEach(function (element) {
