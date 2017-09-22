@@ -126,7 +126,8 @@ io.sockets.on('connection', function (socket) {
             msg = '<a href="/uploads/' + event.file.name + '" download="' + event.file.name + '">' + event.file.name + '</a>'
         }
         sendMessage(msg, un, uid, curroom);
-        io.emit(getMessage(curroom, true));
+        var pic;
+        io.emit(getMessage(curroom, true, pic));
         client.channels.get(config.discord.moosen).send({ files: [('./uploads/' + event.file.name)] });
     });
 
@@ -221,6 +222,7 @@ io.sockets.on('connection', function (socket) {
         var ogMsg = msg;
         var un = 'Error - Username Not Found';
         var uid;
+        var pic;
         var isEmbed = false;
         var send = true;
         console.log('chat message       socket.id: ' + socket.id);
@@ -289,6 +291,7 @@ io.sockets.on('connection', function (socket) {
                                 msg = element.message;
                                 un = 'Automod';
                                 if (element.un) un = element.un;
+                                if (element.pic) pic = element.pic;
                                 uid = '1';
                                 break;
                             default:
@@ -299,7 +302,7 @@ io.sockets.on('connection', function (socket) {
             }
             if (send) {
                 sendMessage(msg, un, uid, curroom);
-                io.to(curroom).emit(getMessage(curroom, isEmbed));
+                io.to(curroom).emit(getMessage(curroom, isEmbed, pic));
                 if (isEmbed && curroom == 1) sendToDiscord(un, ogMsg);
             }
         }
@@ -389,12 +392,14 @@ function sendMessage(message, username, uid, chatid) {
     }
 }
 
-function getMessage(chatid, isEmbed) {
+function getMessage(chatid, isEmbed, pic) {
     con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", [chatid], function (error, rows, results) {
         console.log("Emitting message");
         if (error) throw error;
         con.query("SELECT * FROM users WHERE users.name = ?", [rows[0].username], function (error, row) {
-            if (row.length < 1) {
+            if (pic) {
+                io.to(chatid).emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, pic, rows[0].chatroom_id);
+            } else if (row.length < 1) {
                 io.to(chatid).emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, "https://www.moosen.im/images/favicon.png", rows[0].chatroom_id);
             } else {
                 io.to(chatid).emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, row[0].profpic, rows[0].chatroom_id);
