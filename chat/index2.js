@@ -288,6 +288,7 @@ io.sockets.on('connection', function (socket) {
                                 io.to(curroom).emit(getMessage(curroom, isEmbed));
                                 msg = element.message;
                                 un = 'Automod';
+                                if (element.un) un = element.un;
                                 uid = '1';
                                 break;
                             default:
