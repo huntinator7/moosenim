@@ -257,7 +257,7 @@ io.sockets.on('connection', function (socket) {
                                 var newmsg;
                                 if (message) newmsg = message[2];
                                 var params = [socket, un, uid, curroom, newmsg];
-                                var fn = userRegexParse[message[1]];
+                                var fn = userRegexParse[command[0]];
                                 if (typeof fn === "function") {
                                     console.log('Is function');
                                     fn.apply(null, params);
