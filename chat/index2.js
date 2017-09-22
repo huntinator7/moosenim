@@ -133,7 +133,7 @@ io.sockets.on('connection', function (socket) {
 
     //Login process and recording
     socket.on('login message', function (displayName, email, photoURL, uid) {
-        console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id);
+        //console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id);
         con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
             if (rows[0] == null) {
                 //If no user, add to DB
@@ -151,7 +151,8 @@ io.sockets.on('connection', function (socket) {
         });
         con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid]);
         con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid]);
-        io.emit('login', displayName, email, photoURL, uid);
+        //change the 1 to the user's last room when i get that set up someday.
+        io.to(1).emit('login', displayName, email, photoURL, uid);
     });
 
     //Test emit
