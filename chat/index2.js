@@ -313,7 +313,7 @@ var userRegexParse = {};
 userRegexParse.motd = function (socket, un, uid, curroom, msg) {
     console.log('In motd');
     con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [msg, curroom], function (error) { if (error) throw error; });
-    getMotd(curroom);
+    getMotd(socket.id);
 }
 userRegexParse.createroom = function (socket, un, uid, curroom, msg) {
     console.log('In createroom');
@@ -451,7 +451,7 @@ function getCurroom(uid) {
 
 function showLastMessages(num, sid, roomid) {
     con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [roomid, num], function (error, rows, results) {
-         getMotd(roomid);
+         getMotd(sid);
        
        
         if (error) throw error;
