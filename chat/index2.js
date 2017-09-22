@@ -325,9 +325,8 @@ userRegexParse.refreshconfig = function (socket, un, uid, curroom, msg) {
     console.log('In refreshconfig');
 }
 userRegexParse.configchange = function (socket, un, uid, curroom, msg) {
-    delete require.cache[require.resolve('./config')];
-    config = require('./config');
-    console.log('In refreshconfig');
+    config.test = msg;
+    console.log('In configchange');
 }
 
 var connect = config.db;
