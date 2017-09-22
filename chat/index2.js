@@ -316,7 +316,7 @@ userRegexParse.createroom = function (socket, un, uid, curroom, msg) {
     createChatroom(msg, uid);
 }
 userRegexParse.refreshconfig = function (socket, un, uid, curroom, msg) {
-    delete require.cache['./config'];
+    delete require.cache[require.resolve('./config')];
     config = require('./config');
     console.log('In refreshconfig');
 }
