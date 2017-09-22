@@ -208,6 +208,10 @@ io.sockets.on('connection', function (socket) {
         var id = searchUsers(email);
     });
 
+    socket.on('disconnect', function () {
+        console.log(socket.id + ' disconnected')
+    });
+
     socket.on('retPre', function (previous, roomid) {
         showPreviousMessages(10, previous, socket.id, roomid)
     });
@@ -250,7 +254,9 @@ io.sockets.on('connection', function (socket) {
                             case "function":
                                 send = false;
                                 var message = /(\S*)\s((\S*\s?)*)/i.exec(msg.substr(1));
-                                var params = [socket, un, uid, curroom, message[2]];
+                                var newmsg;
+                                if (message) newmsg = message[2];
+                                var params = [socket, un, uid, curroom, newmsg];
                                 var fn = userRegexParse[message[1]];
                                 if (typeof fn === "function") {
                                     console.log('Is function');
