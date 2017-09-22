@@ -153,21 +153,19 @@
 
             var login = new Audio('/sounds/notification.mp3');
             var audio = new Audio('/sounds/login3.mp3');
-            //roomList holds an array of all chatrooms a user has access to. 
+            // roomList holds an array of all chatrooms a user has access to. 
             // var roomList;
             var curroom = 1;
 
             $('#email').submit(function () {
                 socket.emit('adduser', $('#e').val(), curroom, 0);
                 console.log("form submitted " + $('#e').val());
-                //$('#e').val() = "";
                 return false;
             });
 
             $('#roomname').submit(function () {
-                socket.emit('addroom', $('#rn').val());//need to add uid eventually
+                socket.emit('addroom', $('#rn').val()); //need to add uid eventually
                 console.log("add room form submitted " + $('#rn').val());
-                //$('#e').val() = "";
                 return false;
             });
 
@@ -175,8 +173,6 @@
                 var message = $('#m').val();
                 message = message.replace(/</g, '&lt;');
                 message = message.replace(/>/g, '&gt;');
-                // var d = $('#center-container');
-                // d.scrollTop(d.prop("scrollHeight"));
                 try {
                     socket.emit('chat message', message, curroom);
 
