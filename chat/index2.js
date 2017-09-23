@@ -10,14 +10,14 @@ var Discord = require("discord.js");
 var cors = require('cors');
 var messages = require('./routes/messages');
 var app = express();
-var app2 = express();
+// var app2 = express();
 
 //http redirect
-app2.all('*', ensureSecure); // at top of routing calls
+// app2.all('*', ensureSecure); // at top of routing calls
 
-function ensureSecure(req, res, next) {
-    res.redirect('https://www.moosen.im'); // express 4.x
-}
+// function ensureSecure(req, res, next) {
+//     res.redirect('https://www.moosen.im'); // express 4.x
+// }
 
 var options = {
     key: fs.readFileSync('./certs/domain.key'),
