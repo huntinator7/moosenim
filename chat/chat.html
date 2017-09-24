@@ -224,6 +224,7 @@
                     }
                     // console.log('last element: ' + $('#messages li').last());
                     if (!first_id) {
+                        console.log('!first_id, setting to ' + id);
                         first_id = id;
                         $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
                             + user + '</span><p>'
@@ -324,6 +325,7 @@
                     console.log('attr room val: ' + $(this.attributes.room).val());
                     socket.emit('changerooms', $(this.attributes.room).val());
                     console.log('curroom: ' + curroom);
+                    first_id = null;
                     window.scrollTo(0, document.body.scrollHeight);
                 }
             });
