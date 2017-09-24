@@ -318,15 +318,17 @@
                         $(this.children[0]).addClass('none');
                         $(this.children[0]).text('');
                     }
-                    canScroll = 10;
+                    canScroll = 0;
                     console.log('Element in nav-mobile clicked');
                     $('#messages').empty();
                     curroom = $(this.attributes.room).val();
-                    console.log('attr room val: ' + $(this.attributes.room).val());
                     socket.emit('changerooms', $(this.attributes.room).val());
-                    console.log('curroom: ' + curroom);
                     first_id = null;
                     window.scrollTo(0, document.body.scrollHeight);
+                    await sleep(500);
+                    console.log('here');
+                    canScroll = 10;
+                    console.log(canScroll);
                 }
             });
 
@@ -345,12 +347,12 @@
                     console.log('Element in slide-out clicked');
                     $('#messages').empty();
                     curroom = $(this.attributes.room).val();
-                    console.log('attr room val: ' + $(this.attributes.room).val());
                     socket.emit('changerooms', $(this.attributes.room).val());
-                    console.log('curroom: ' + curroom);
                     window.scrollTo(0, document.body.scrollHeight);
                     await sleep(500);
+                    console.log('here');
                     canScroll = 10;
+                    console.log(canScroll);
                 }
             });
 
