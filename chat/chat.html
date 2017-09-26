@@ -193,10 +193,7 @@
 
             $(document).ready(function () {
                 var res = window.location.href.substring(23);
-                // var d = $('#box');
-                // d.scrollTop(d.prop("scrollHeight"));
                 socket.emit('associate', res);
-                // $(".button-collapse").sideNav();
                 $('.collapsible').collapsible();
                 $('.materialboxed').materialbox();
                 $('.modal').modal();
@@ -221,7 +218,9 @@
                         retrieving = true;
                         if ($('#messages').children().first().attr('id')) {
                             saved_first = $('#messages').children().first().attr('id');
+                            console.log('saved_first set to ' + saved_first);
                         }
+                        console.log('no messages.children.first.id found');
                         pageJump();
                     }
                     // $('#messages').children().first().attr('id')
@@ -397,7 +396,7 @@
                             window.scrollTo(0, document.body.scrollHeight);
                         } else {
                             var top = document.getElementById(saved_first).offsetTop;
-                            console.log('was inserted, top: ' + top + ', saved_first: ' + saved_first);
+                            console.log('was inserted, top: ' + top + ', saved_first: ' + saved_first + ', scroll pos: ' + $(window).scrollTop() + $(window).height() >= $(document).height() * .9);
                             window.scrollTo(0, top);
                         }
                     }
@@ -411,7 +410,7 @@
                         window.scrollTo(0, document.body.scrollHeight);
                     } else {
                         var top = document.getElementById(saved_first).offsetTop;
-                        console.log('not inserted, top: ' + top + ', saved_first: ' + saved_first);
+                        console.log('not inserted, top: ' + top + ', saved_first: ' + saved_first + ', scroll pos: ' + $(window).scrollTop() + $(window).height() >= $(document).height() * .9);
                         window.scrollTo(0, top);
                     }
                 }
