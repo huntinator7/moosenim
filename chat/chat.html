@@ -124,10 +124,11 @@
                     <input id="m" autocomplete="off" style="color:black; background-color:white; font-size:1.5em" type="text" placeholder="Message">
                     <br>
                     <button id="mbut" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
+                    <label name="files[]" id="add_pics" class="btn btn-floating btn-file multiple waves-effect waves-light light-blue">
+                        <i class="material-icons">add</i><input style="display: none;" type="file" multiple>
+                    </label>
                 </form>
-                <label name="files[]" id="add_pics" class="btn btn-floating btn-file multiple waves-effect waves-light light-blue">
-                    <i class="material-icons">add</i><input style="display: none;" type="file" multiple>
-                </label>
+                
             </div>
         </div>
     </div>
@@ -171,15 +172,17 @@
 
             $('#mform').submit(function () {
                 var message = $('#m').val();
-                message = message.replace(/</g, '&lt;');
-                message = message.replace(/>/g, '&gt;');
-                try {
-                    socket.emit('chat message', message, curroom);
+                if (message) {
+                    message = message.replace(/</g, '&lt;');
+                    message = message.replace(/>/g, '&gt;');
+                    try {
+                        socket.emit('chat message', message, curroom);
 
-                } catch (e) {
-                    console.log(e);
+                    } catch (e) {
+                        console.log(e);
+                    }
+                    $('#m').val('');
                 }
-                $('#m').val('');
                 return false;
             });
             //for future use
@@ -394,7 +397,7 @@
                             window.scrollTo(0, document.body.scrollHeight);
                         } else {
                             var top = document.getElementById(saved_first).offsetTop;
-                            console.log(top);
+                            console.log('was inserted, top: ' + top + ', saved_first: ' + saved_first);
                             window.scrollTo(0, top);
                         }
                     }
@@ -408,7 +411,7 @@
                         window.scrollTo(0, document.body.scrollHeight);
                     } else {
                         var top = document.getElementById(saved_first).offsetTop;
-                        console.log(top);
+                        console.log('not inserted, top: ' + top + ', saved_first: ' + saved_first);
                         window.scrollTo(0, top);
                     }
                 }
