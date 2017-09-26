@@ -391,10 +391,12 @@
                         wasInserted = true;
                         if (canAuto) {
                             window.scrollTo(0, document.body.scrollHeight);
-                            console.log('can auto inserted, top: ' + top + ', saved_first: ' + saved_first + ', scroll pos: ' + $(window).scrollTop() + $(window).height() >= $(document).height() * .9);
+                            var test = $(window).scrollTop() + $(window).height() >= $(document).height() * .9;
+                            console.log(`can auto inserted, top: ${top}, saved_first: ${saved_first}, scroll pos: ${test}`);
                         } else {
                             var top = document.getElementById(saved_first).offsetTop;
-                            console.log('inserted, top: ' + top + ', saved_first: ' + saved_first + ', scroll pos: ' + $(window).scrollTop() + $(window).height() >= $(document).height() * .9);
+                            var test = $(window).scrollTop() + $(window).height() >= $(document).height() * .9;
+                            console.log(`inserted, top: ${top}, saved_first: ${saved_first}, scroll pos: ${test}`);
                             window.scrollTo(0, top);
                         }
                     }
@@ -406,10 +408,12 @@
                     $('#messages').append(msg);
                     if (canAuto) {
                         window.scrollTo(0, document.body.scrollHeight);
-                        console.log('can auto not inserted, top: ' + top + ', saved_first: ' + saved_first + ', scroll pos: ' + $(window).scrollTop() + $(window).height() >= $(document).height() * .9);
+                        var test = $(window).scrollTop() + $(window).height() >= $(document).height() * .9;
+                        console.log(`can auto not inserted, top: ${top}, saved_first: ${saved_first}, scroll pos: ${test}`);
                     } else {
                         var top = document.getElementById(saved_first).offsetTop;
-                        console.log('not inserted, top: ' + top + ', saved_first: ' + saved_first + ', scroll pos: ' + $(window).scrollTop() + $(window).height() >= $(document).height() * .9);
+                        var test = $(window).scrollTop() + $(window).height() >= $(document).height() * .9;
+                        console.log(`not inserted, top: ${top}, saved_first: ${saved_first}, scroll pos: ${test}`);
                         window.scrollTo(0, top);
                     }
                 }
