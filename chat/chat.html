@@ -182,6 +182,11 @@
                 $('#m').val('');
                 return false;
             });
+            //for future use
+            $('#room-settings').submit(function () {
+
+
+            });
 
             $(document).ready(function () {
                 var res = window.location.href.substring(23);
@@ -208,6 +213,7 @@
 
             socket.on('chat message', function (user, msg, time, id, pic, room) {
                 if (curroom == room) {
+                    console.log('id: ' + id);
                     if (!retrieving) {
                         retrieving = true;
                         if ($('#messages').children().first().attr('id')) {
@@ -223,6 +229,7 @@
                     }
                     // console.log('last element: ' + $('#messages li').last());
                     if (!first_id) {
+                        console.log('!first_id, setting to ' + id);
                         first_id = id;
                         $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
                             + user + '</span><p>'
@@ -305,7 +312,7 @@
 
             });
 
-            $('#nav-mobile').on('click', 'a', function () {
+            $('#nav-mobile').on('click', 'a', async function () {
                 if ($(this.attributes.id).val() == 'rooms') {
                     roomnames.forEach(function (e) {
                         if (e.id == curroom) $('#roomtitle').html('<h3>' + e.name + '</h3>');
@@ -316,12 +323,17 @@
                         $(this.children[0]).addClass('none');
                         $(this.children[0]).text('');
                     }
-                    canScroll = 10;
+                    canScroll = 0;
                     console.log('Element in nav-mobile clicked');
                     $('#messages').empty();
                     curroom = $(this.attributes.room).val();
                     socket.emit('changerooms', $(this.attributes.room).val());
+                    first_id = null;
                     window.scrollTo(0, document.body.scrollHeight);
+                    await sleep(500);
+                    console.log('here');
+                    canScroll = 10;
+                    console.log(canScroll);
                 }
             });
 
@@ -343,7 +355,9 @@
                     socket.emit('changerooms', $(this.attributes.room).val());
                     window.scrollTo(0, document.body.scrollHeight);
                     await sleep(500);
+                    console.log('here');
                     canScroll = 10;
+                    console.log(canScroll);
                 }
             });
 
@@ -431,7 +445,8 @@
                     window.scrollTo(0, 1);
                     if (canScroll >= 10) {
                         canScroll = 0;
-                        console.log('Retrieve previous');
+                        console.log('Retrieve previous, first_id: ' + first_id);
+                        console.log('curroom: ' + curroom);
                         socket.emit('retPre', first_id, curroom);
                     } else {
                         console.log('Couldn\'t scroll: ' + canScroll);

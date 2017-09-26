@@ -10,22 +10,22 @@ var Discord = require("discord.js");
 var cors = require('cors');
 var messages = require('./routes/messages');
 var app = express();
-var app2 = express();
+// var app2 = express();
 
 //http redirect
-app2.all('*', ensureSecure); // at top of routing calls
+// app2.all('*', ensureSecure); // at top of routing calls
 
-function ensureSecure(req, res, next) {
-    res.redirect('https://www.moosen.im'); // express 4.x
-}
+// function ensureSecure(req, res, next) {
+//     res.redirect('https://www.moosen.im'); // express 4.x
+// }
 
 var options = {
     key: fs.readFileSync('./certs/domain.key'),
     cert: fs.readFileSync('./certs/www.moosen.im.crt')
 }
-var httpServer = http.createServer(app2).listen(80, function () {
-    console.log('http redirect server up and running at port 80');
-});
+// var httpServer = http.createServer(app2).listen(80, function () {
+//     console.log('http redirect server up and running at port 80');
+// });
 var server = https.createServer(options, app).listen(443, function () {
     console.log('server up and running at port 443');
 });
@@ -133,7 +133,7 @@ io.sockets.on('connection', function (socket) {
 
     //Login process and recording
     socket.on('login message', function (displayName, email, photoURL, uid) {
-        console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id);
+        //console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id);
         con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
             if (rows[0] == null) {
                 //If no user, add to DB
@@ -151,7 +151,8 @@ io.sockets.on('connection', function (socket) {
         });
         con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid]);
         con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid]);
-        io.emit('login', displayName, email, photoURL, uid);
+        //change the 1 to the user's last room when i get that set up someday.
+        io.to(1).emit('login', displayName, email, photoURL, uid);
     });
 
     //Test emit
@@ -335,7 +336,7 @@ var con;
 function getMotd(roomid,sid) {
     con.query('SELECT * FROM rooms WHERE serialid = ?', [roomid], function (error, row) {
         if (error) console.log(error);
-        io.to(sid).emit('motd update', row[0].motd, roomid);
+        io.to(roomid).emit('motd update', row[0].motd, roomid);
     });
 }
 
