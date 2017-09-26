@@ -62,13 +62,22 @@
         .thumb {
             height: 200px;
             border: 1px solid #000;
-            text-align: center
+            text-align: center;
+        }
+
+        p {
+            font-family: "headliner" !important;
         }
 
         @media only screen and (min-width: 992px) {
             #center-container {
                 margin-left: 16vw;
             }
+        }
+
+        @font-face {
+            font-family: "headliner";
+            src: url("../fonts/headliner/headliner.ttf") format("truetype");
         }
     </style>
 </head>
@@ -128,7 +137,7 @@
                         <i class="material-icons">add</i><input style="display: none;" type="file" multiple>
                     </label>
                 </form>
-                
+
             </div>
         </div>
     </div>
@@ -253,7 +262,7 @@
                     //'<span class="new badge deep-orange darken-3">1</span>'
                     console.log($("a[room='" + room + "']").children());
                     if ($("a[room='" + room + "']").children().hasClass('none')) {
-                        console.log('true');
+                        console.log('has class none');
                         $("a[room='" + room + "']").children().removeClass('none');
                         $("a[room='" + room + "']").children().addClass('new badge deep-orange accent-3');
                         $("a[room='" + room + "']").children().text('1');
