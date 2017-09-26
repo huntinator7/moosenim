@@ -219,8 +219,9 @@
                         if ($('#messages').children().first().attr('id')) {
                             saved_first = $('#messages').children().first().attr('id');
                             console.log('saved_first set to ' + saved_first);
+                        } else {
+                            console.log('no messages.children.first.id found');
                         }
-                        console.log('no messages.children.first.id found');
                         pageJump();
                     }
                     // $('#messages').children().first().attr('id')
@@ -333,9 +334,7 @@
                     first_id = null;
                     window.scrollTo(0, document.body.scrollHeight);
                     await sleep(500);
-                    console.log('here');
                     canScroll = 10;
-                    console.log(canScroll);
                 }
             });
 
@@ -357,9 +356,7 @@
                     socket.emit('changerooms', $(this.attributes.room).val());
                     window.scrollTo(0, document.body.scrollHeight);
                     await sleep(500);
-                    console.log('here');
                     canScroll = 10;
-                    console.log(canScroll);
                 }
             });
 
@@ -394,9 +391,10 @@
                         wasInserted = true;
                         if (canAuto) {
                             window.scrollTo(0, document.body.scrollHeight);
+                            console.log('can auto inserted, top: ' + top + ', saved_first: ' + saved_first + ', scroll pos: ' + $(window).scrollTop() + $(window).height() >= $(document).height() * .9);
                         } else {
                             var top = document.getElementById(saved_first).offsetTop;
-                            console.log('was inserted, top: ' + top + ', saved_first: ' + saved_first + ', scroll pos: ' + $(window).scrollTop() + $(window).height() >= $(document).height() * .9);
+                            console.log('inserted, top: ' + top + ', saved_first: ' + saved_first + ', scroll pos: ' + $(window).scrollTop() + $(window).height() >= $(document).height() * .9);
                             window.scrollTo(0, top);
                         }
                     }
@@ -408,6 +406,7 @@
                     $('#messages').append(msg);
                     if (canAuto) {
                         window.scrollTo(0, document.body.scrollHeight);
+                        console.log('can auto not inserted, top: ' + top + ', saved_first: ' + saved_first + ', scroll pos: ' + $(window).scrollTop() + $(window).height() >= $(document).height() * .9);
                     } else {
                         var top = document.getElementById(saved_first).offsetTop;
                         console.log('not inserted, top: ' + top + ', saved_first: ' + saved_first + ', scroll pos: ' + $(window).scrollTop() + $(window).height() >= $(document).height() * .9);
@@ -420,7 +419,6 @@
 
             async function pageJump() {
                 await sleep(500);
-                console.log('Resetting');
                 retrieving = false;
             }
 
