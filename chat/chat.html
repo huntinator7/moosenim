@@ -260,10 +260,10 @@
                     } else {
                         // console.log($("a[room='"+room+"']").first());
                         var curtext = parseInt($("a[room='" + room + "']").first().children().text());
-                        console.log(curtext);
+                        console.log('curtext: ' + curtext);
                         curtext = curtext + 1;
                         curtext = curtext.toString();
-                        console.log(curtext);
+                        console.log('curtext: ' + curtext);
                         $("a[room='" + room + "']").children().text(curtext);
                     }
                 }
@@ -456,7 +456,7 @@
             });
 
             $(window).resize(function () { //checking for window resize event
-                console.log($(window).width() / $(window).height());
+                console.log('resize event: ' + $(window).width() / $(window).height());
                 if ($("#m").is(":focus") && $(window).width() / $(window).height() < 1.4 && $(window).width() / $(window).height() > 0.8) {
                     window.scrollTo(0, document.body.scrollHeight);
                     socket.emit('log', 'resize event: hide | ' + $(window).width() / $(window).height());
