@@ -25,9 +25,12 @@
     <style>
         @font-face {
             font-family: "headliner";
-            src: url("fonts/headliner/headliner.ttf") format("truetype");
+            src: local(headliner),
+            url("fonts/headliner/headliner.ttf") format("truetype"),
+            url("fonts/headliner/headliner.woff") format("woff");
+            font-weight: 700
         }
-        
+
         #messages {
             list-style-type: none;
             margin: 0;
