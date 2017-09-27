@@ -10,22 +10,22 @@ var Discord = require("discord.js");
 var cors = require('cors');
 var messages = require('./routes/messages');
 var app = express();
-// var app2 = express();
+var app2 = express();
 
-//http redirect
-// app2.all('*', ensureSecure); // at top of routing calls
+// http redirect
+app2.all('*', ensureSecure); // at top of routing calls
 
-// function ensureSecure(req, res, next) {
-//     res.redirect('https://www.moosen.im'); // express 4.x
-// }
+function ensureSecure(req, res, next) {
+    res.redirect('https://www.moosen.im'); // express 4.x
+}
 
 var options = {
     key: fs.readFileSync('./certs/domain.key'),
     cert: fs.readFileSync('./certs/www.moosen.im.crt')
 }
-// var httpServer = http.createServer(app2).listen(80, function () {
-//     console.log('http redirect server up and running at port 80');
-// });
+var httpServer = http.createServer(app2).listen(80, function () {
+    console.log('http redirect server up and running at port 80');
+});
 var server = https.createServer(options, app).listen(443, function () {
     console.log('server up and running at port 443');
 });
