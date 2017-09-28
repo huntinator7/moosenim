@@ -33,7 +33,7 @@ var server = https.createServer(options, app).listen(443, function () {
 var io = require('socket.io')(server);
 
 var chat = require('./chat.js');
-var head_woff = require('./fonts/headliner.woff');
+var head_woff = require('./fonts/headliner/headliner.woff');
 var login = require('./login.js');
 var config = require('./config');
 
