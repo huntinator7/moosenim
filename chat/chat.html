@@ -25,7 +25,12 @@
     <style>
         @font-face {
             font-family: 'headliner_no._45regular';
+<<<<<<< HEAD
             src: url('fonts/headliner-webfont.woff2') format('woff2'), url('fonts/headliner-webfont.woff') format('woff');
+=======
+            src: url('fonts/headliner-webfont.woff2') format('woff2'),
+            url('fonts/headliner-webfont.woff') format('woff');
+>>>>>>> origin/master
             font-weight: normal;
             font-style: normal;
         }
@@ -449,13 +454,15 @@
                     $('#messages').append(msg);
                     if (canAuto) {
                         var test = $(window).scrollTop() + $(window).height() >= $(document).height() * .9;
-                        console.log(`can auto not inserted, top: ${top}, saved_first: ${saved_first}, scroll pos: ${test}`);
-                        window.scrollTo(0, document.body.scrollHeight);
+                        console.log(`can auto not inserted, top: ${top}, saved_first: ${saved_first}, scroll pos: ${test}, ${$(window).height()}, ${$('#messages').height()}, ${$(document).height()}`);
+                        window.scrollTo(0, $(document).height());
+                        console.log($(window).height() + ', ' + window.scrollY);
                     } else {
                         var top = document.getElementById(saved_first).offsetTop;
                         var test = $(window).scrollTop() + $(window).height() >= $(document).height() * .9;
-                        console.log(`not inserted, top: ${top}, saved_first: ${saved_first}, scroll pos: ${test}`);
+                        console.log(`not inserted, top: ${top}, saved_first: ${saved_first}, scroll pos: ${test}, ${document.body.scrollHeight}`);
                         window.scrollTo(0, top);
+                        console.log(document.body.scrollHeight + ', ' + window.scrollY);
                     }
                 }
                 await sleep(500);
@@ -482,9 +489,13 @@
             var last_scroll_position = 0;
             $(window).scroll(function () {
                 if ($(window).scrollTop() + $(window).height() >= $(document).height() * .9) {
-                    canAuto = true;
-                } else {
+                    if (!canAuto) {
+                        canAuto = true;
+                        console.log('canAuto true');
+                    }
+                } else if (canAuto) {
                     canAuto = false;
+                    console.log('canAuto false');
                 }
                 if ($(window).scrollTop() == 0 && $(window).scrollTop() - last_scroll_position < 0) {
                     window.scrollTo(0, 1);
