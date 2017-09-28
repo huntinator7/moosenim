@@ -425,7 +425,7 @@
                     if (canAuto) {
                         var test = $(window).scrollTop() + $(window).height() >= $(document).height() * .9;
                         console.log(`can auto not inserted, top: ${top}, saved_first: ${saved_first}, scroll pos: ${test}, ${$(window).height()}, ${$('#messages').height()}, ${$(document).height()}`);
-                        window.scrollTo(0, $(window).height());
+                        window.scrollTo(0, $(document).height());
                         console.log($(window).height() + ', ' + window.scrollY);
                     } else {
                         var top = document.getElementById(saved_first).offsetTop;
