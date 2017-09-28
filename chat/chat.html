@@ -26,7 +26,7 @@
         @font-face {
             font-family: 'headliner_no._45regular';
             src: url('fonts/headliner-webfont.woff2') format('woff2'),
-                 url('fonts/headliner-webfont.woff') format('woff');
+            url('fonts/headliner-webfont.woff') format('woff');
             font-weight: normal;
             font-style: normal;
         }
@@ -66,6 +66,7 @@
             line-height: 5vh;
             font-size: 4em;
         }
+
         body {
             font-family: 'headliner_no._45regular';
         }
@@ -460,9 +461,13 @@
             var last_scroll_position = 0;
             $(window).scroll(function () {
                 if ($(window).scrollTop() + $(window).height() >= $(document).height() * .9) {
-                    canAuto = true;
-                } else {
+                    if (!canAuto) {
+                        canAuto = true;
+                        console.log('canAuto true');
+                    }
+                } else if (canAuto) {
                     canAuto = false;
+                    console.log('canAuto false');
                 }
                 if ($(window).scrollTop() == 0 && $(window).scrollTop() - last_scroll_position < 0) {
                     window.scrollTo(0, 1);
