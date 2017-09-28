@@ -35,7 +35,11 @@ process.stdin.resume();
 process.stdin.setEncoding('utf8');
 
 process.stdin.on('data', function (text) {
-  console.log('received data:', util.inspect(text));
+    var room = 1;
+    var msg = util.inspect(String.trim(text));
+    console.log('received data:', msg);
+    sendMessage(msg, '<span style="color:red">Admin</span>', 1, room);
+    io.to(room).emit(getMessage(room, false, 'https://i.imgur.com/CgVX6vv.png'));
 });
 
 var io = require('socket.io')(server);
@@ -327,7 +331,7 @@ var userRegexParse = {};
 userRegexParse.motd = function (socket, un, uid, curroom, msg) {
     console.log('In motd');
     con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [msg, curroom], function (error) { if (error) throw error; });
-    getMotd(curroom,socket.id);
+    getMotd(curroom, socket.id);
 }
 userRegexParse.createroom = function (socket, un, uid, curroom, msg) {
     console.log('In createroom');
@@ -346,7 +350,7 @@ userRegexParse.configchange = function (socket, un, uid, curroom, msg) {
 var connect = config.db;
 var con;
 
-function getMotd(roomid,sid) {
+function getMotd(roomid, sid) {
     con.query('SELECT * FROM rooms WHERE serialid = ?', [roomid], function (error, row) {
         if (error) console.log(error);
         io.to(roomid).emit('motd update', row[0].motd, roomid);
@@ -467,9 +471,9 @@ function getCurroom(uid) {
 
 function showLastMessages(num, sid, roomid) {
     con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [roomid, num], function (error, rows, results) {
-         getMotd(roomid,sid);
-       
-       
+        getMotd(roomid, sid);
+
+
         if (error) throw error;
         try {
             rows.forEach(function (element) {
