@@ -67,7 +67,7 @@
             line-height: 5vh;
             font-size: 4em;
         }
-        
+
         .thumb {
             height: 200px;
             border: 1px solid #000;
@@ -316,6 +316,10 @@
 
             socket.on('test', function (name) {
                 console.log(name + "asdasd");
+            });
+
+            socket.on('disconnect', function (name) {
+                location.reload();
             });
 
             roomnames = [];

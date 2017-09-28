@@ -215,7 +215,8 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('disconnect', function () {
-        console.log(socket.id + ' disconnected')
+        console.log(socket.id + ' disconnected');
+        io.to(socket.id).emit('disconnect');
     });
 
     socket.on('retPre', function (previous, roomid) {
