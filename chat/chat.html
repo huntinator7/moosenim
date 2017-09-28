@@ -399,42 +399,29 @@
                     // console.log($(this.children[1]).text());
                     if (id < this.id && !wasInserted) {
                         $(msg).insertBefore(this);
-                        // try {
-                        //     console.log($(this.previousElementSibling.children[1]).text());
-                        // } catch (e) {
-                        //     console.log('Couldn\'t print');
-                        // }
+                        try {
+                            console.log($(this.previousElementSibling.children[1]).text());
+                        } catch (e) {
+                            console.log('Couldn\'t print');
+                        }
                         wasInserted = true;
                         if (canAuto) {
-                            window.scrollTo(0, document.body.scrollHeight);
-                            var test = $(window).scrollTop() + $(window).height() >= $(document).height() * .9;
-                            console.log(`can auto inserted, top: ${top}, saved_first: ${saved_first}, scroll pos: ${test}`);
+                            window.scrollTo(0, $(document).height());
                         } else {
-                            var top = document.getElementById(saved_first).offsetTop;
-                            var test = $(window).scrollTop() + $(window).height() >= $(document).height() * .9;
-                            console.log(`inserted, top: ${top}, saved_first: ${saved_first}, scroll pos: ${test}`);
                             window.scrollTo(0, top);
                         }
                     }
                 });
 
                 if (!wasInserted) {
-                    // console.log($('#messages li').last());
-                    // console.log(`Not found, appending`);
                     $('#messages').append(msg);
                     if (canAuto) {
-                        var test = $(window).scrollTop() + $(window).height() >= $(document).height() * .9;
-                        console.log(`can auto not inserted, top: ${top}, saved_first: ${saved_first}, scroll pos: ${test}, ${$(window).height()}, ${$('#messages').height()}, ${$(document).height()}`);
                         window.scrollTo(0, $(document).height());
-                        console.log($(window).height() + ', ' + window.scrollY);
                     } else {
-                        var top = document.getElementById(saved_first).offsetTop;
-                        var test = $(window).scrollTop() + $(window).height() >= $(document).height() * .9;
-                        console.log(`not inserted, top: ${top}, saved_first: ${saved_first}, scroll pos: ${test}, ${document.body.scrollHeight}`);
-                        window.scrollTo(0, top);
-                        console.log(document.body.scrollHeight + ', ' + window.scrollY);
+                        window.scrollTo(0, document.getElementById(saved_first).offsetTop);
                     }
                 }
+
                 await sleep(500);
                 canScroll += 1;
             }
