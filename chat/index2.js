@@ -36,7 +36,7 @@ process.stdin.setEncoding('utf8');
 
 process.stdin.on('data', function (text) {
     var room = 1;
-    var msg = util.inspect(String.trim(text));
+    var msg = util.inspect(text.trim());
     console.log('received data:', msg);
     sendMessage(msg, '<span style="color:red">Admin</span>', 1, room);
     io.to(room).emit(getMessage(room, false, 'https://i.imgur.com/CgVX6vv.png'));
