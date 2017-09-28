@@ -421,15 +421,13 @@ function sleep(ms) {
 }
 
 async function sendToDiscord(un, msg) {
-    if (/@((m|M)oosen|(n|N)oah|(l|L)ane|(h|H)unter|(n|N)ick|(k|K)yle)(?!\S)/g.test(msg)) {
-        console.log('sendToDiscord str detected');
-        msg = /@(m|M)oosen/g[Symbol.replace](msg, '<@&277296480245514240>');
-        msg = /@(n|N)oah/g[Symbol.replace](msg, '<@!207214113191886849>');
-        msg = /@(h|H)unter/g[Symbol.replace](msg, '<@!89758327621296128>');
-        msg = /@(n|N)ick/g[Symbol.replace](msg, '<@!185934787679092736>');
-        msg = /@(k|K)yle/g[Symbol.replace](msg, '<@!147143598301773824>');
-        msg = /@(l|L)ane/g[Symbol.replace](msg, '<@!81913971979849728>');
-    }
+    msg = /@moosen/ig[Symbol.replace](msg, '<@&277296480245514240>');
+    msg = /@noah/ig[Symbol.replace](msg, '<@!207214113191886849>');
+    msg = /@hunter/ig[Symbol.replace](msg, '<@!89758327621296128>');
+    msg = /@nick/ig[Symbol.replace](msg, '<@!185934787679092736>');
+    msg = /@kyle/ig[Symbol.replace](msg, '<@!147143598301773824>');
+    msg = /@lane/ig[Symbol.replace](msg, '<@!81913971979849728>');
+    msg = /:fn:/ig[Symbol.replace](msg, '<:fNoah1:318887883291230219> <:fNoah2:318887791096365056> <:fNoah3:318887914530668544>');
     await sleep(100);
     client.channels.get(config.discord.moosen).send(un + ': ' + msg);
 }
