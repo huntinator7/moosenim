@@ -423,8 +423,9 @@
                     $('#messages').append(msg);
                     if (canAuto) {
                         var test = $(window).scrollTop() + $(window).height() >= $(document).height() * .9;
-                        console.log(`can auto not inserted, top: ${top}, saved_first: ${saved_first}, scroll pos: ${test}`);
+                        console.log(`can auto not inserted, top: ${top}, saved_first: ${saved_first}, scroll pos: ${test}, ${document.body.scrollHeight}`);
                         window.scrollTo(0, document.body.scrollHeight);
+                        console.log(document.body.scrollHeight + ', ' + window.scrollY);
                     } else {
                         var top = document.getElementById(saved_first).offsetTop;
                         var test = $(window).scrollTop() + $(window).height() >= $(document).height() * .9;
