@@ -33,7 +33,6 @@ var server = https.createServer(options, app).listen(443, function () {
 var io = require('socket.io')(server);
 
 var chat = require('./chat.js');
-var head_woff = require('./fonts/headliner/headliner.woff');
 var login = require('./login.js');
 var config = require('./config');
 
@@ -43,7 +42,7 @@ app.use(bodyParser.json());
 app.use('/', chat);
 app.use('/messages', messages);
 app.use('/login', login);
-app.use('/head_woff', head_woff);
+app.use('/head_woff', express.static(__dirname + '/fonts/headliner/headliner.woff'));
 app.use('/certs', express.static(__dirname + '/certs'));
 app.use('/.well-known/pki-validation/', express.static(__dirname + '/.well-known/pki-validation/'));
 app.use("/images", express.static(__dirname + '/images'));
