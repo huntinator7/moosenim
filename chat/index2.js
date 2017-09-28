@@ -7,7 +7,7 @@ var mysql = require('mysql');
 var siofu = require("socketio-file-upload");
 var moment = require('moment');
 var Discord = require("discord.js");
-// var cors = require('cors');
+var cors = require('cors');
 var messages = require('./routes/messages');
 var app = express();
 var app2 = express();
@@ -33,15 +33,17 @@ var server = https.createServer(options, app).listen(443, function () {
 var io = require('socket.io')(server);
 
 var chat = require('./chat.js');
+var head_woff = require('./fonts/headliner.woff');
 var login = require('./login.js');
 var config = require('./config');
 
 //Associating .js files with URLs
-// app.use(cors());
+app.use(cors());
 app.use(bodyParser.json());
 app.use('/', chat);
 app.use('/messages', messages);
 app.use('/login', login);
+app.use('/head_woff', head_woff);
 app.use('/certs', express.static(__dirname + '/certs'));
 app.use('/.well-known/pki-validation/', express.static(__dirname + '/.well-known/pki-validation/'));
 app.use("/images", express.static(__dirname + '/images'));
