@@ -37,7 +37,7 @@ var login = require('./login.js');
 var config = require('./config');
 
 //Associating .js files with URLs
-app.use(cors());
+// app.use(cors());
 app.use(bodyParser.json());
 app.use('/', chat);
 app.use('/messages', messages);
