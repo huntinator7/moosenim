@@ -494,12 +494,13 @@
             $(window).resize(function () { //checking for window resize event
                 console.log('resize event: ' + $(window).width() / $(window).height());
                 if ($("#m").is(":focus") && $(window).width() / $(window).height() < 1.4 && $(window).width() / $(window).height() > 0.8) {
-                    window.scrollTo(0, document.body.scrollHeight);
-                    socket.emit('log', 'resize event: hide | ' + $(window).width() / $(window).height());
+                    window.scrollTo(0, $(document).height());
+                    // socket.emit('log', 'resize event: hide | ' + $(window).width() / $(window).height());
                     document.getElementById("center-container").style.display = "none";
+                    window.scrollTo(0, $(document).height());
                 } else {
                     document.getElementById("center-container").style.display = "block";
-                    socket.emit('log', 'resize event: show | ' + $(window).width() / $(window).height());
+                    // socket.emit('log', 'resize event: show | ' + $(window).width() / $(window).height());
                 }
             });
         });

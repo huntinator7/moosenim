@@ -8,6 +8,7 @@ var siofu = require("socketio-file-upload");
 var moment = require('moment');
 var Discord = require("discord.js");
 var cors = require('cors');
+var util = require('util');
 var messages = require('./routes/messages');
 var app = express();
 var app2 = express();
@@ -28,6 +29,13 @@ var httpServer = http.createServer(app2).listen(80, function () {
 });
 var server = https.createServer(options, app).listen(443, function () {
     console.log('server up and running at port 443');
+});
+
+process.stdin.resume();
+process.stdin.setEncoding('utf8');
+
+process.stdin.on('data', function (text) {
+  console.log('received data:', util.inspect(text));
 });
 
 var io = require('socket.io')(server);
