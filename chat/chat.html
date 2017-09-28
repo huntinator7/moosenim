@@ -25,8 +25,7 @@
     <style>
         @font-face {
             font-family: 'headliner_no._45regular';
-            src: url('fonts/headliner-webfont.woff2') format('woff2'),
-                 url('fonts/headliner-webfont.woff') format('woff');
+            src: url('fonts/headliner-webfont.woff2') format('woff2'), url('fonts/headliner-webfont.woff') format('woff');
             font-weight: normal;
             font-style: normal;
         }
@@ -41,31 +40,32 @@
             width: 500px;
         }
 
-        #side-nav li {
-            color: #6EB7FF;
-        }
+            #side-nav li {
+                color: #6EB7FF;
+            }
 
         #nav-mobile {
             width: 15vw;
             padding-top: 15vh;
         }
 
-        #nav-mobile li {
-            color: #6EB7FF;
-        }
+            #nav-mobile li {
+                color: #6EB7FF;
+            }
 
         #slide-out {
             background-color: black;
         }
 
-        #slide-out li {
-            color: #6EB7FF;
-        }
+            #slide-out li {
+                color: #6EB7FF;
+            }
 
         nav.top-nav a.page-title {
             line-height: 5vh;
             font-size: 4em;
         }
+
         body {
             font-family: 'headliner_no._45regular';
         }
@@ -135,6 +135,30 @@
                         </form>
                     </div>
                 </div>
+                <!-- Room Settings Modal -->
+                <div id="rsModal" class="modal">
+                    <div class="modal-content">
+                        <h4>Room Settings</h4>
+                        <form id="room-settings">
+                            Room Settings <br>
+                            <fieldset>
+                                <legend>General </legend>
+                                Change Room Name: <input type="text" id="rs-g-name"> <br>
+                                public? <input type="checkbox" id="rs-g-public"><br>
+                            </fieldset>
+                            <fieldset>
+                                <legend> User settings </legend>
+                                Allow Nicknames: <input type="checkbox" id="rs-us-nick"><br>
+
+                            </fieldset>
+                            <fieldset>
+                                <legend> Advanced </legend>
+                                Advanced settings:
+
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
                 <form id="mform" action="">
                     <input id="m" autocomplete="off" style="color:black; background-color:white; font-size:1.5em" type="text" placeholder="Message">
                     <br>
@@ -169,7 +193,7 @@
 
             var login = new Audio('/sounds/notification.mp3');
             var audio = new Audio('/sounds/login3.mp3');
-            // roomList holds an array of all chatrooms a user has access to. 
+            // roomList holds an array of all chatrooms a user has access to.
             // var roomList;
             var curroom = 1;
 
@@ -327,6 +351,8 @@
 
                 $('#nav-mobile').append('<li><br></li><li><br></li><li><a id="nav-button" class="button waves-effect modal-trigger" href="#modal2" style="color: #6EB7FF">Create Room</a></li>');
                 $('#slide-out').append('<li><br></li><li><br></li><li><a id="nav-button" class="button waves-effect modal-trigger" href="#modal2" style="color: #6EB7FF">Create Room</a></li>');
+                $('#nav-mobile').append('<li><br></li><li><br></li><li><a id="nav-button" class="button waves-effect modal-trigger" href="#rsModal" style="color: #6EB7FF">Create Room</a></li>');
+                $('#slide-out').append('<li><br></li><li><br></li><li><a id="nav-button" class="button waves-effect modal-trigger" href="#rsModal" style="color: #6EB7FF">Create Room</a></li>');
 
             });
 
