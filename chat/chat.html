@@ -32,6 +32,15 @@
             font-style: normal;
         }
 
+        @font-face {
+            font-family: 'monofonto';
+            src: url('/monofonto_font_ttf') format('truetype'),
+            url('/monofonto_font_woff2') format('woff2'),
+            url('/monofonto_font_woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         #messages {
             list-style-type: none;
             margin: 0;
@@ -68,6 +77,11 @@
             font-size: 4em;
         }
 
+        body {
+            font-family: monofonto;
+            background-color:#000000;
+        }
+
         .thumb {
             height: 200px;
             border: 1px solid #000;
@@ -82,7 +96,7 @@
     </style>
 </head>
 
-<body style="background-color:#000000">
+<body>
     <header>
         <div class="row" id="center-container">
             <div class="col s12" id="roomtitle" style="color:white; background-color:#6EB7FF; position:fixed; height:6em; text-align:center; z-index:2000">
