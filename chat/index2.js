@@ -125,7 +125,8 @@ io.sockets.on('connection', function (socket) {
         var uid;
         var curroom = 1;
         console.log('upload     socket.id: ' + socket.id);
-        for (var i = 0; i < online.length; i++) {
+        for (var i = 0; i < online.length; i++) { 
+
             console.log(i + ': ' + online[i].sid);
             if (online[i].sid == socket.id) {
                 console.log("New message from " + online[i].name);
