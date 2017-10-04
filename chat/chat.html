@@ -152,8 +152,13 @@
                             Room Settings <br>
                             <fieldset>
                                 <legend>General </legend>
-                                Change Room Name: <input type="text" id="rs-g-name"> <br> public? <input type="checkbox"
-                                    id="rs-g-public"><br>
+                                Change Room Name: <input type="text" id="rs-g-name"> <br> 
+                                public? <input type="checkbox"id="rs-g-public"> <br>
+                                Change Color: <input type="color" id="rs-g-color" > <br>
+                                Remove user: <input type="text" id="rs-g-remove"> <br>
+
+
+                                    <br>
                             </fieldset>
                             <fieldset>
                                 <legend> User settings </legend>
@@ -364,8 +369,8 @@
 
                 $('#nav-mobile').append('<li><br></li><li><br></li><li><a id="nav-button" class="button waves-effect modal-trigger" href="#modal2" style="color: #6EB7FF">Create Room</a></li>');
                 $('#slide-out').append('<li><br></li><li><br></li><li><a id="nav-button" class="button waves-effect modal-trigger" href="#modal2" style="color: #6EB7FF">Create Room</a></li>');
-                $('#nav-mobile').append('<li><br></li><li><br></li><li><a id="nav-button" class="button waves-effect modal-trigger" href="#rsModal" style="color: #6EB7FF">Create Room</a></li>');
-                $('#slide-out').append('<li><br></li><li><br></li><li><a id="nav-button" class="button waves-effect modal-trigger" href="#rsModal" style="color: #6EB7FF">Create Room</a></li>');
+                $('#nav-mobile').append('<li><br></li><li><br></li><li><a id="nav-button" class="button waves-effect modal-trigger" href="#rsModal" style="color: #6EB7FF">Room Settings</a></li>');
+                $('#slide-out').append('<li><br></li><li><br></li><li><a id="nav-button" class="button waves-effect modal-trigger" href="#rsModal" style="color: #6EB7FF">Room Settings</a></li>');
 
             });
 
