@@ -110,11 +110,11 @@ client.on('message', msg => {
 
 //Main socket.io listener
 io.sockets.on('connection', function (socket) {
+    console.log('Connect: ' + socket.id);
     var uploader = new siofu();
     uploader.dir = __dirname + '/uploads';
     uploader.listen(socket);
     socket.join(1);
-
 
     uploader.on("start", function (event) {
         console.log('Starting upload to ' + event.file.name + ' of type ' + event.file.meta.filetype + ' to ' + uploader.dir);
@@ -231,8 +231,7 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('disconnect', function () {
-        console.log(socket.id + ' disconnected');
-        io.to(socket.id).emit('disconnect');
+        console.log('Disconnect: ' + socket.id);
     });
 
     socket.on('retPre', function (previous, roomid) {

@@ -27,8 +27,6 @@
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <!-- Rename symbols in the page before including other libraries -->
     <script>
-        var app = require('electron');
-        path = app.getAppPath();
         window.nodeRequire = require;
         delete window.require;
         delete window.exports;
@@ -39,6 +37,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+    <script>
+        const app = require('electron');
+        
+    </script>
     <script src= path + "/socketio-file-upload/client.js"></script>
     <source id="ogg_src" src="c:/Users/hunti/Desktop/Dev/electron-quick-start/sounds/notification.mp3" type="video/ogg">
 
