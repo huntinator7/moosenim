@@ -168,7 +168,8 @@ io.sockets.on('connection', function (socket) {
             } else {
                 lastRoom = rows[0].curroom;
             }
-
+            //redundancy for testing only. 
+            lastRoom = rows[0].curroom;
             addOnline(displayName, email, photoURL, uid, socket.id, lastRoom);
         });
 
@@ -212,7 +213,7 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('changerooms', function (roomid, uid) {
         console.log("changed rooms" + roomid + " " + uid);
-        con.query("UPDATE users SET curroom = ? WHERE uid = ?", [roomid, uid]);
+        con.query("UPDATE users SET curroom = 1 WHERE uid = ?", [uid]);
         socket.join(roomid);
         showLastMessages(10, socket.id, roomid)
         var room = io.sockets.adapter.rooms[roomid];
