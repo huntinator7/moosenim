@@ -169,7 +169,7 @@ io.sockets.on('connection', function (socket) {
                 lastRoom = rows[0].curroom;
             }
 
-            addOnline(displayName, email, photoURL, uid, socket.id, 1);
+            addOnline(displayName, email, photoURL, uid, socket.id, lastRoom);
         });
 
         con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid]);

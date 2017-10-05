@@ -393,7 +393,7 @@
                     console.log('Element in nav-mobile clicked');
                     $('#messages').empty();
                     curroom = $(this.attributes.room).val();
-                    socket.emit('changerooms', $(this.attributes.room).val());
+                    socket.emit('changerooms', $(this.attributes.room).val(),uid);
                     first_id = null;
                     window.scrollTo(0, document.body.scrollHeight);
                     await sleep(500);
