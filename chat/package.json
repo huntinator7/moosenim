@@ -1,7 +1,7 @@
 {
-  "name": "socket-chat",
-  "version": "0.0.1",
-  "description": "my first socket.io app",
+  "name": "moosen.im",
+  "version": "0.0.2",
+  "description": "Back-end for https://moosen.im/",
   "dependencies": {
     "bufferutil": "^3.0.2",
     "discord.js": "^11.1.0",
@@ -15,7 +15,6 @@
     "opusscript": "0.0.3",
     "safe-buffer": "^5.1.1",
     "socket.io": "^2.0.3",
-    "socket.io-file": "^2.0.14",
     "socketio-file-upload": "^0.6.0"
   }
 }

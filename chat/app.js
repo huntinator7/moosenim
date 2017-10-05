@@ -11,9 +11,11 @@ var siofu = require("socketio-file-upload");
 var cors = require('cors');
 var messages = require('./routes/messages');
 var bodyParser = require('body-parser');
-// var connectFirebase = require('connect-firebase');
-// var passportSocketIo = require('passport.socketio');
-// var expressSession = require('express-session');
+var redis = require("redis").createClient();
+var session = require('express-session');
+var RedisStore = require('connect-redis')(session);
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
+var socketioRedis = require("passport-socketio-redis");
 var app = express();
 
 app.all('*', ensureSecure); // at top of routing calls
@@ -25,12 +27,6 @@ function ensureSecure(req, res, next) {
     };
     res.redirect('https://' + req.hostname + req.url); // express 4.x
 }
-// function ensureSecure(req, res, next) {
-//     if (req.headers['x-forwarded-proto'] === 'https') { // OK, continue 
-//         return next()
-//     };
-//     res.redirect('https://' + req.headers.host)
-// }
 
 var options = {
     key: fs.readFileSync('./certs/domain.key'),
@@ -49,7 +45,6 @@ var login = require('./login.js');
 var config = require('./config');
 app.use('/', chat);
 app.use('/messages', messages);
-// app.use('/login', login);
 app.use('/certs', express.static(__dirname + '/certs'));
 app.use('/.well-known/pki-validation/', express.static(__dirname + '/.well-known/pki-validation/'));
 app.use("/images", express.static(__dirname + '/images'));
@@ -58,49 +53,27 @@ app.use("/sounds", express.static(__dirname + '/sounds'));
 app.use("/siofu", express.static(__dirname + '/node_modules/socketio-file-upload'));
 app.use(cors());
 app.use(bodyParser.json());
-
+var io = require('socket.io')(server);
 
 
 //------------CORE------------\\
 
 
-//------------PASSPORT-SOCKETIO------------\\
+//------------PASSPORT-SOCKETIO-REDIS------------\\
 
-var io = require('socket.io')(server);//,
-//     sessionStore = require('connect-firebase'), // find a working session store (have a look at the readme)
-//     passportSocketIo = require("passport.socketio");
+app.use(session({
+    secret: config.sessionSecret,
+    key:"connect.sid", 
+    store:new RedisStore({
+        host: 'localhost',
+        port: 6379,
+        client: redis
+    })
+}));
 
-// io.use(passportSocketIo.authorize({
-//     cookieParser: cookieParser,       // the same middleware you registrer in express
-//     key: 'session_id',       // the name of the cookie where express/connect stores its session_id
-//     secret: 'whatsyurfavoritebrandofpencil',    // the session_secret to parse the cookie
-//     store: sessionStore,        // we NEED to use a sessionstore. no memorystore please
-//     success: onAuthorizeSuccess,  // *optional* callback on success - read more below
-//     fail: onAuthorizeFail,     // *optional* callback on fail/error - read more below
-// }));
-
-// function onAuthorizeSuccess(data, accept) {
-//     console.log('successful connection to socket.io');
-
-//     // The accept-callback still allows us to decide whether to
-//     // accept the connection or not.
-//     accept();
-// }
-
-// function onAuthorizeFail(data, message, error, accept) {
-//     if (error)
-//         throw new Error(message);
-//     console.log('failed connection to socket.io:', message);
-
-//     // We use this callback to log all of our failed connections.
-//     accept(new Error('optional reason'));
-// }
-
-//------------PASSPORT-SOCKETIO------------\\
+//------------PASSPORT-SOCKETIO-REDIS------------\\
 
 //------------PASSPORT-GOOGLE-OAUTH20------------\\
-
-var GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 passport.use(new GoogleStrategy({
     clientID: '333736509560-id8si5cbuim26d3e67s4l7oscjfsakat.apps.googleusercontent.com',
