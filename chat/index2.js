@@ -170,12 +170,14 @@ io.sockets.on('connection', function (socket) {
             }
             //redundancy for testing only. 
             lastRoom = rows[0].curroom;
+            
             addOnline(displayName, email, photoURL, uid, socket.id, lastRoom);
         });
 
         con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid]);
         con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid]);
-        //change the 1 to the user's last room when i get that set up someday.
+        console.log("login message should trigger");
+        io.to(lastRoom).emit('changerooms', lastRoom, uid);
         io.to(lastRoom).emit('login', displayName, email, photoURL, uid, lastRoom);
     });
 
