@@ -217,7 +217,7 @@ io.sockets.on('connection', function (socket) {
         showLastMessages(10, socket.id, roomid)
         var room = io.sockets.adapter.rooms[roomid];
         console.log("room user amount: " + room.length);
-        setCurroom(roomid, socket.id);
+        
 
     });
 

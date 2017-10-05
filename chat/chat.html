@@ -325,9 +325,9 @@
                 }
             });
 
-            socket.on('login', function (displayName, email, photoURL, Uid, lastRoom) {
-                console.log("logging in " + displayName);
-                uid = Uid;
+            socket.on('login', function (displayName, email, photoURL, UserId, lastRoom) {
+                console.log("logging in " + uid);
+                uid = UserId;
                 $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">info outline</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
                     + displayName + ' logged in</span></a></li>');
                 if (canAuto) {
