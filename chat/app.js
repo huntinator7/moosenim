@@ -17,31 +17,40 @@ var RedisStore = require('connect-redis')(session);
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
 var socketioRedis = require("passport-socketio-redis");
 var app = express();
+var app2 = express();
 
-app.all('*', ensureSecure); // at top of routing calls
+// http redirect
+app2.all('*', ensureSecure); // at top of routing calls
 
 function ensureSecure(req, res, next) {
-    if (req.secure) {
-        // OK, continue
-        return next();
-    };
-    res.redirect('https://' + req.hostname + req.url); // express 4.x
+    res.redirect('https://www.moosen.im'); // express 4.x
 }
 
 var options = {
     key: fs.readFileSync('./certs/domain.key'),
     cert: fs.readFileSync('./certs/www.moosen.im.crt')
 }
-
-http.createServer(app).listen(80);
-var server = https.createServer(options, app);
-server.listen(443, function () {
+var httpServer = http.createServer(app2).listen(80, function () {
+    console.log('http redirect server up and running at port 80');
+});
+var server = https.createServer(options, app).listen(443, function () {
     console.log('server up and running at port 443');
+});
+
+process.stdin.resume();
+process.stdin.setEncoding('utf8');
+
+process.stdin.on('data', function (text) {
+    var room = 1;
+    var msg = util.inspect(text.trim());
+    console.log('received data:', msg);
+    sendMessage(msg, '<span style="color:red">Admin</span>', 1, room);
+    io.to(room).emit(getMessage(room, false, 'https://i.imgur.com/CgVX6vv.png'));
 });
 
 //Associating .js files with URLs
 var chat = require('./chat.js');
-var login = require('./login.js');
+// var login = require('./login.js');
 var config = require('./config');
 app.use('/', chat);
 app.use('/messages', messages);
@@ -49,8 +58,17 @@ app.use('/certs', express.static(__dirname + '/certs'));
 app.use('/.well-known/pki-validation/', express.static(__dirname + '/.well-known/pki-validation/'));
 app.use("/images", express.static(__dirname + '/images'));
 app.use("/uploads", express.static(__dirname + '/uploads'));
+app.use("/fonts", express.static(__dirname + '/fonts'));
 app.use("/sounds", express.static(__dirname + '/sounds'));
 app.use("/siofu", express.static(__dirname + '/node_modules/socketio-file-upload'));
+// Fonts
+app.use('/headliner_font_woff', express.static(__dirname + '/fonts/headliner/headliner.woff'));
+app.use('/headliner_font_woff2', express.static(__dirname + '/fonts/headliner/headliner.woff2'));
+app.use('/headliner_font_tff', express.static(__dirname + '/fonts/headliner/headliner.ttf'));
+app.use('/monofonto_font_woff', express.static(__dirname + '/fonts/monofonto/monofonto.woff'));
+app.use('/monofonto_font_woff2', express.static(__dirname + '/fonts/monofonto/monofonto.woff2'));
+app.use('/monofonto_font_tff', express.static(__dirname + '/fonts/monofonto/monofonto.ttf'));
+
 app.use(cors());
 app.use(bodyParser.json());
 var io = require('socket.io')(server);
@@ -70,6 +88,29 @@ app.use(session({
         client: redis
     })
 }));
+
+
+io.use(socketioRedis.authorize({
+   passport: passport,
+   cookieParser: cookieParser,
+   key:         'connect.sid',       
+   secret:      config.sessionSecret,    
+   store:       new RedisStore({ host: 'localhost', port: 6379, client: redis }),
+   success:     authorizeSuccess,  // *optional* callback on success - read more below 
+   fail:        authorizeFail     // *optional* callback on fail/error - read more below 
+}));
+
+function authorizeSuccess(data, accept)
+{
+   console.log('Authorized success');
+   accept();
+}
+
+function authorizeFail(data, message, error, accept)
+{
+   if(error)
+       accept(new Error(message));
+}
 
 //------------PASSPORT-SOCKETIO-REDIS------------\\
 
@@ -100,27 +141,6 @@ app.get('/',
 );
 
 //------------PASSPORT-GOOGLE-OAUTH20------------\\
-
-//------------CONNECT-FIREBASE------------\\
-
-var firebaseOptions = {
-    // The URL you were given when you created your Firebase
-    host: 'moosenim.firebaseapp.com',
-    // Optional. How often expired sessions should be cleaned up.
-    reapInterval: 21600000
-};
-
-var session = require('express-session'),
-    FirebaseStore = require('connect-firebase')(session);
-
-app.use(session({
-    store: new FirebaseStore(firebaseOptions),
-    secret: 'whatsyurfavoritebrandofpencil',
-    resave: true,
-    saveUninitialized: true
-}));
-
-//------------CONNECT-FIREBASE------------\\
 
 //------------DISCORD------------\\
 
@@ -177,6 +197,8 @@ io.sockets.on('connection', function (socket) {
     var uploader = new siofu();
     uploader.dir = __dirname + '/uploads';
     uploader.listen(socket);
+    socket.join(1);
+
 
     uploader.on("start", function (event) {
         console.log('Starting upload to ' + event.file.name + ' of type ' + event.file.meta.filetype + ' to ' + uploader.dir);
@@ -184,69 +206,117 @@ io.sockets.on('connection', function (socket) {
 
     uploader.on("saved", function (event) {
         var un = 'Error - Username Not Found';
-        var uid = 0;
+        var uid;
         var curroom = 1;
-        console.log('chat message       socket.id: ' + socket.id);
+        console.log('upload     socket.id: ' + socket.id);
+        for (var i = 0; i < online.length; i++) { 
+
+            console.log(i + ': ' + online[i].sid);
+            if (online[i].sid == socket.id) {
+                console.log("New message from " + online[i].name);
+                un = online[i].name;
+                uid = online[i].uid;
+                curroom = online[i].curroom;
+            }
+        }
         console.log(event.file.name + ' successfully saved.');
-        var msg = '<img class="materialboxed responsive-img" style="height:20vh" src="https://moosen.im/uploads/' + event.file.name + '" alt="Mighty Moosen">';
+        console.log(event.file.meta.filetype);
+        var msg;
+        if (/video/g.test(event.file.meta.filetype)) {
+            msg = '<div class="video-container"><iframe style="width:64vw; height:36vw" src="https://moosen.im/uploads/' + event.file.name + '" frameborder="0" allowfullscreen></iframe></div>';
+        } else if (/image/g.test(event.file.meta.filetype)) {
+            msg = '<img class="materialboxed responsive-img" style="height:20vh" src="https://moosen.im/uploads/' + event.file.name + '" alt="Mighty Moosen">';
+        } else {
+            msg = '<a href="/uploads/' + event.file.name + '" download="' + event.file.name + '">' + event.file.name + '</a>'
+        }
         sendMessage(msg, un, uid, curroom);
-        io.emit(getMessage(curroom, true));
+        var pic;
+        io.emit(getMessage(curroom, true, pic));
         client.channels.get(config.discord.moosen).send({ files: [('./uploads/' + event.file.name)] });
     });
 
-    // console.log('Sockets: ' + Object.keys(io.sockets.sockets));
     //Login process and recording
-    socket.on('login message', function (displayName, email, photoURL, uid, token) {
-        console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id);
+    socket.on('login message', function (displayName, email, photoURL, uid) {
+        //console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id);
         con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
             if (rows[0] == null) {
                 //If no user, add to DB
                 con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email) VALUES ( ?, ?, ?, 1,1,?)", [displayName, uid, photoURL, email], function (error, results) {
+                    //add to general chatroom
+                    addToRoom(email, 1, 0);
                     if (error) console.log(error);
+
                 });
             } else {
-                con.query("SELECT profpic FROM users WHERE uid = ?", [uid], function (error, row, results) {
-                    if (row[0].profpic != photoURL) {
-                        con.query("UPDATE users SET profpic = ? ", [photoURL]);
-                    }
-                });
+
             }
+
+            addOnline(displayName, email, photoURL, uid, socket.id, 1);
         });
-        io.emit('login', displayName, email, photoURL, uid);
+        con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid]);
+        con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid]);
+        //change the 1 to the user's last room when i get that set up someday.
+        io.to(1).emit('login', displayName, email, photoURL, uid);
+    });
+
+    //Test emit
+    socket.on('ping', function (name) {
+        console.log('pong');
+        console.log(Object.keys(io.sockets.sockets));
+    });
+
+    //Emit for when on mobile and needing the logs
+    socket.on('log', function (message) {
+        console.log(socket.id + ': ' + message);
     });
 
     //Workaround for different login page
-    // socket.on('tokenAuth', function (token) {
-    //     console.log('token: ' + token + '\n');
-    //     console.log(cookie.parse(token).token + '\n\n');
-    //     var tokenObj = cookie.parse(token);
-    //     console.log('Authenticating token ' + tokenObj.token + ' for socket ' + socket.id);
-    //     var match;
-    //     //Replace the last entry in online[] with the current socket being checked. Prevents overwrite of multiple devices for single user.
-    //     if (match) {
-    //         console.log('match: ' + match);
-    //         io.to(socket.id).emit('roomlist', getChatrooms(socket.id, users[match].uid));
-    //         console.log('Replacing ' + users[match].sid + ' with ' + socket.id + ', match = ' + match);
-    //         users[match].sid = socket.id;
-    //         //Show the last 10 messages to the user
-    //         showLastMessages(10, socket.id, 1);
-    //     } else {
-    //         io.to(socket.id).emit('retreat');
-    //     }
-    // });
+    socket.on('associate', function (uid) {
+        console.log('Associating ' + uid + ' with ' + socket.id);
+        var match;
+        //Replace the last entry in online[] with the current socket being checked. Prevents overwrite of multiple devices for single user.
+        for (var i = 0; i < online.length; i++) {
+            if (online[i].uid == uid) {
+                match = i;
+            }
+        }
+        if (match) {
+            io.to(socket.id).emit('roomlist', getChatrooms(socket.id, uid));
+            console.log('Replacing ' + online[match].sid + ' with ' + socket.id + ', match = ' + match);
+            online[match].sid = socket.id;
+            //Show the last 10 messages to the user
+            showLastMessages(10, socket.id, 1);
+        } else {
+            io.to(socket.id).emit('retreat');
+        }
+    });
 
     socket.on('changerooms', function (roomid) {
+        socket.join(roomid);
         showLastMessages(10, socket.id, roomid)
+        var room = io.sockets.adapter.rooms[roomid];
+        console.log("room user amount: " + room.length);
+        setCurroom(roomid, socket.id);
+
     });
 
     //for adduser function. Email is entered by the user, rid is caled from chat.html, isAdmin should just default to 0 for now. 
     socket.on('adduser', function (email, rid, isAdmin) {
         addToRoom(email, rid, 0);
     });
+    socket.on('addroom', function (name) {
+        console.log("new room name is " + name);
+        createChatroom(name, "104635400788300812127");
+    });
 
     socket.on('searchusers', function (email) {
         //maybe make this variable do something...
         var id = searchUsers(email);
+    });
+
+    socket.on('disconnect', function () {
+        console.log(socket.id + ' disconnected');
+        io.to(socket.id).emit('disconnect');
     });
 
     socket.on('retPre', function (previous, roomid) {
@@ -255,95 +325,115 @@ io.sockets.on('connection', function (socket) {
 
     //Generic message emit
     socket.on('chat message', function (msg, curroom) {
+        var ogMsg = msg;
         var un = 'Error - Username Not Found';
         var uid;
+        var pic;
         var isEmbed = false;
         var send = true;
         console.log('chat message       socket.id: ' + socket.id);
+        for (var i = 0; i < online.length; i++) {
+            console.log(i + ': ' + online[i].sid);
+            if (online[i].sid == socket.id) {
+                console.log("New message from " + online[i].name);
+                un = online[i].name;
+                uid = online[i].uid;
+            }
+        }
         if (un == 'Error - Username Not Found') {
             io.to(socket.id).emit('retreat');
             console.log('Retreating ' + socket.id);
         } else {
             console.log('message: ' + msg);
-            if (msg.indexOf("lag") > -1) {
-                sendMessage("I love Rick Astley!", 'notch', uid, curroom);
-            } else if (msg.indexOf("*autistic screeching*") > -1) {
-                sendMessage(msg, un, uid, curroom);
-                io.emit(getMessage(curroom, isEmbed));
-                sendMessage(un + " is a feckin normie <strong>REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</strong>", "AutoMod", uid, curroom);
-                // } else if (msg.indexOf("!myrooms") > -1) {
-                //     sendMessage("your rooms: " + getrooms(uid).toString() + " curroom" + curroom, un, uid, curroom);
-            } else if (msg.indexOf("!createroom") > -1) {
-                createChatroom("newRoom", uid);
-                send = false;
-            } else if (msg.indexOf("!pepe") == 0) {
-                isEmbed = true;
-                sendMessage("<img style=\"height:10vh\" src='https://tinyurl.com/yd62jfua' alt=\"Mighty Moosen\">", un, uid, curroom)
-            } else if (/nigger/ig.test(msg)) {
-                var newmsg = /nigger/ig[Symbol.replace](msg, 'Basketball American');
-                sendMessage(newmsg, un + ', casual racist', uid, curroom);
-            } else if (msg.indexOf("<script") > -1) {
-                sendMessage("Stop right there, criminal scum! You violated my mother!", "AutoMod", uid, curroom);
-            } else if (/^http\S*\.(jpg|gif|png|svg)\S*/.test(msg)) {
-                isEmbed = true;
-                sendMessage(msg + '<br><img class="materialboxed responsive-img" src="' + msg + '" alt="' + msg + '">', un, uid, curroom);
-            } else if (/http\S*youtube\S*/.test(msg)) {
-                var ind = msg.search(/watch\?v=\S*/);
-                var res = msg.substring(ind + 8, ind + 19);
-                var newmsg = '<div class="video-container"><iframe width="100%" src="//www.youtube.com/embed/' + res + '?rel=0" frameborder="0" allowfullscreen></iframe></div>';
-                isEmbed = true;
-                sendMessage(newmsg, un, uid, curroom);
-            } else if (/http\S*youtu\.be\S*/.test(msg)) {
-                var ind = msg.search(/youtu\.be\//);
-                var res = msg.substring(ind + 9, ind + 20);
-                var newmsg = '<div class="video-container"><iframe width="100%" src="//www.youtube.com/embed/' + res + '?rel=0" frameborder="0" allowfullscreen></iframe></div>';
-                isEmbed = true;
-                sendMessage(newmsg, un, uid, curroom);
-            } else if (/\S*twitch\.tv\S*/.test(msg)) {
-                console.log('Is Twitch message');
-                if (/\S*clips\S*/.test(msg)) { // Twitch clips
-                    console.log('Is Twitch clip');
-                    var ind = msg.search(/\.tv\//);
-                    var res = msg.substring(ind + 4);
-                    console.log(newmsg);
-                    var newmsg = '<iframe style="width:64vw; height:36vw" src="https://clips.twitch.tv/embed?clip=' + res + '" scrolling="no" frameborder="0" autoplay=false muted=true allowfullscreen=true></iframe>';
-                    isEmbed = true;
-                    sendMessage(newmsg, un, uid, curroom);
-                } else if (/\S*videos\S*/.test(msg)) { // Twitch VODs
-                    console.log('Is Twitch VOD');
-                    var ind = msg.search(/videos\//);
-                    var res = msg.substring(ind + 7);
-                    var newmsg = '<div id="' + res + '"></div><script type="text/javascript"> var player = new Twitch.Player("' + res + '", { width: 100%, video: "' + res + '",});player.setVolume(0.5);</script>'
-                    isEmbed = true;
-                    console.log(newmsg);
-                    sendMessage(newmsg, un, uid, curroom);
-                } else { // Twitch channel/stream
-                    console.log('Is Twitch channel/stream');
-                    var ind = msg.search(/\.tv\//);
-                    var res = msg.substring(ind + 4);
-                    var newmsg = '<div id="' + res + '"></div><script type="text/javascript"> var player = new Twitch.Player("' + res + '", { width:100% channel:"' + res + '"}); player.setVolume(0.5); </script>'
-                    isEmbed = true;
-                    console.log(newmsg);
-                    sendMessage(newmsg, un, uid, curroom);
-                }
-            }
-            else if (msg.indexOf("!motd") > -1) {
-                send = false;
-                var newmsg = msg.substring(5, msg.length);
-                io.emit('motd update', newmsg);
-                con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [newmsg, curroom], function (error) { if (error) throw error; });
-            }
-            else {
-                console.log('In chat message, curroom: ' + curroom);
-                sendMessage(msg, un, uid, curroom);
+            if (msg.substr(0, 1) == "!") {
+                console.log('Is a command');
+                var command = /\S*/i.exec(msg.substr(1));
+                config.regex.commands.forEach(function (element) {
+                    if (command[0] == element.command) {
+                        console.log('element.action: ' + element.action);
+                        switch (element.action) {
+                            case "replace":
+                                msg = element.message;
+                                break;
+                            case "replaceEmbed":
+                                msg = element.message;
+                                isEmbed = true;
+                                break;
+                            case "function":
+                                send = false;
+                                var message = /(\S*)\s((\S*\s?)*)/i.exec(msg.substr(1));
+                                var newmsg;
+                                if (message) newmsg = message[2];
+                                var params = [socket, un, uid, curroom, newmsg];
+                                var fn = userRegexParse[command[0]];
+                                if (typeof fn === "function") {
+                                    console.log('Is function');
+                                    fn.apply(null, params);
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+            } else {
+                config.regex.matches.forEach(function (element) {
+                    var re = new RegExp(element.regex, 'ig');
+                    if (re.test(msg)) {
+                        switch (element.action) {
+                            case "replace":
+                                msg = msg.replace(re, element.message);
+                                break;
+                            case "replaceWhole":
+                                msg = element.message;
+                                break;
+                            case "replaceEmbed":
+                                msg = msg.replace(re, element.message);
+                                isEmbed = true;
+                                break;
+                            case "respond":
+                                sendMessage(msg, un, uid, curroom);
+                                io.to(curroom).emit(getMessage(curroom, isEmbed));
+                                msg = element.message;
+                                un = 'Automod';
+                                if (element.un) un = element.un;
+                                if (element.pic) pic = element.pic;
+                                uid = '1';
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
             }
             if (send) {
-                io.emit(getMessage(curroom, isEmbed));
-                if (isEmbed) sendToDiscord(un, msg);
+                sendMessage(msg, un, uid, curroom);
+                io.to(curroom).emit(getMessage(curroom, isEmbed, pic));
+                if (isEmbed && curroom == 1) sendToDiscord(un, ogMsg);
             }
         }
     });
 });
+
+var userRegexParse = {};
+userRegexParse.motd = function (socket, un, uid, curroom, msg) {
+    console.log('In motd');
+    con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [msg, curroom], function (error) { if (error) throw error; });
+    getMotd(curroom, socket.id);
+}
+userRegexParse.createroom = function (socket, un, uid, curroom, msg) {
+    console.log('In createroom');
+    createChatroom(msg, uid);
+}
+userRegexParse.refreshconfig = function (socket, un, uid, curroom, msg) {
+    delete require.cache[require.resolve('./config')];
+    config = require('./config');
+    console.log('In refreshconfig');
+}
+userRegexParse.configchange = function (socket, un, uid, curroom, msg) {
+    config.test = msg;
+    console.log('In configchange');
+}
 
 var connect = config.db;
 var con;
