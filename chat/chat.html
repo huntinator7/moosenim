@@ -270,6 +270,7 @@
             socket.on('chat message', function (user, msg, time, id, pic, room) {
                 if (curroom == room) {
                     console.log('id: ' + id);
+                    uid = id;
                     if (!retrieving) {
                         retrieving = true;
                         if ($('#messages').children().first().attr('id')) {
