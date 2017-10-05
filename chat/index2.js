@@ -154,25 +154,28 @@ io.sockets.on('connection', function (socket) {
     //Login process and recording
     socket.on('login message', function (displayName, email, photoURL, uid) {
         //console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id);
+        var lastRoom;
         con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
             if (rows[0] == null) {
                 //If no user, add to DB
                 con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email) VALUES ( ?, ?, ?, 1,1,?)", [displayName, uid, photoURL, email], function (error, results) {
+                    lastRoom = 1;
                     //add to general chatroom
                     addToRoom(email, 1, 0);
                     if (error) console.log(error);
 
                 });
             } else {
-
+                lastRoom = rows[0].curroom;
             }
 
             addOnline(displayName, email, photoURL, uid, socket.id, 1);
         });
+
         con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid]);
         con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid]);
         //change the 1 to the user's last room when i get that set up someday.
-        io.to(1).emit('login', displayName, email, photoURL, uid);
+        io.to(lastRoom).emit('login', displayName, email, photoURL, uid, lastRoom);
     });
 
     //Test emit
@@ -207,7 +210,8 @@ io.sockets.on('connection', function (socket) {
         }
     });
 
-    socket.on('changerooms', function (roomid) {
+    socket.on('changerooms', function (roomid, uid) {
+        con.query("UPDATE users SET curroom = ? WHERE uid = ?", [roomid, uid]);
         socket.join(roomid);
         showLastMessages(10, socket.id, roomid)
         var room = io.sockets.adapter.rooms[roomid];

@@ -167,7 +167,9 @@
                             </fieldset>
                             <fieldset>
                                 <legend> Advanced </legend>
-                                Advanced settings:
+                                Advanced settings: <br>
+                                Edit word list: <br>
+
 
                             </fieldset>
                         </form>
@@ -199,6 +201,7 @@
             var retrievePrevious = false;
             var URL_SERVER = 'https://moosen.im:443';
             var socket = io.connect(URL_SERVER);
+            var uid;
 
             var siofu = new SocketIOFileUpload(socket);
             siofu.addEventListener("start", function (event) {
@@ -322,8 +325,9 @@
                 }
             });
 
-            socket.on('login', function (displayName, email, photoURL, uid) {
+            socket.on('login', function (displayName, email, photoURL, Uid, lastRoom) {
                 console.log("logging in " + displayName);
+                uid = Uid;
                 $('#messages').append('<li class="collection-item"><i style="color:#9F9F9F;" class="material-icons circle">info outline</i><span style="font-size:0.5em; color:#9F9F9F; float:right;" class="secondary-content">'
                     + displayName + ' logged in</span></a></li>');
                 if (canAuto) {
@@ -412,7 +416,7 @@
                     console.log('Element in slide-out clicked');
                     $('#messages').empty();
                     curroom = $(this.attributes.room).val();
-                    socket.emit('changerooms', $(this.attributes.room).val());
+                    socket.emit('changerooms', $(this.attributes.room).val(),uid);
                     window.scrollTo(0, document.body.scrollHeight);
                     await sleep(500);
                     canScroll = 10;
