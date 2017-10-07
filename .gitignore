@@ -1,6 +1,1 @@
-
-chat/config.json
-chat/config.js
-
-chat/uploads/
-chat/node_modules/
+node_modules

@@ -1,0 +1,34 @@
+{
+    "name": "moosen.im",
+    "version": "1.0.0",
+    "description": "The backbone for the moosen.im service",
+    "main": "index.js",
+    "scripts": {
+        "test": "mocha test",
+        "start": "node index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/huntinator7/moosenim.git"
+    },
+    "keywords": [
+        "moosen",
+        "moosen.im",
+        "instant",
+        "messanger",
+        "im",
+        "client"
+    ],
+    "author": "Hunter Arnell and Nick Beeson",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/huntinator7/moosenim/issues"
+    },
+    "homepage": "https://github.com/huntinator7/moosenim#readme",
+    "dependencies": {
+        "express": "^4.16.1"
+    },
+    "devDependencies": {
+        "mocha": "^4.0.1"
+    }
+}
