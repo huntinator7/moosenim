@@ -1,11 +1,14 @@
-const calc = require('./calc')
+const http = require('http')
+const port = 3000
 
-const numbersToAdd = [
-  3,
-  4,
-  10,
-  2
-]
+const requestHandler = (req, res) => {
+    console.log(req.url)
+    res.end('Hello Node.js server')
+}
 
-const result = calc.sum(numbersToAdd)
-console.log(`The result is: ${result}`)
+const server = http.createServer(requestHandler).listen(port, (err) => {
+    if (err) {
+        return console.log('Error in listen', err)
+    }
+    console.log(`Server is listening on port ${port}`)
+})
