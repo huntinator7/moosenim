@@ -229,8 +229,8 @@
             $('#mform').submit(function () {
                 var message = $('#m').val();
                 if (message) {
-                    message = message.replace(/</g, '&lt;');
-                    message = message.replace(/>/g, '&gt;');
+                    // message = message.replace(/</g, '&lt;');
+                    // message = message.replace(/>/g, '&gt;');
                     try {
                         socket.emit('chat message', message, curroom);
 
