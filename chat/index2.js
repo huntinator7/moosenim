@@ -46,6 +46,7 @@ var io = require('socket.io')(server);
 
 var chat = require('./chat.js');
 var login = require('./login.js');
+var voice = require('./voice.js');
 var config = require('./config');
 
 //Associating .js files with URLs
@@ -54,6 +55,7 @@ app.use(bodyParser.json());
 app.use('/', chat);
 app.use('/messages', messages);
 app.use('/login', login);
+app.use('/voicechat', voice);
 app.use('/headliner_font_woff', express.static(__dirname + '/fonts/headliner/headliner.woff'));
 app.use('/headliner_font_woff2', express.static(__dirname + '/fonts/headliner/headliner.woff2'));
 app.use('/headliner_font_tff', express.static(__dirname + '/fonts/headliner/headliner.ttf'));
@@ -108,8 +110,87 @@ client.on('message', msg => {
     }
 });
 
+var channels = {};
+var sockets = {};
+
 //Main socket.io listener
 io.sockets.on('connection', function (socket) {
+
+    socket.channels = {};
+    sockets[socket.id] = socket;
+
+    console.log("["+ socket.id + "] connection accepted");
+    socket.on('disconnect', function () {
+        for (var channel in socket.channels) {
+            part(channel);
+        }
+        console.log("["+ socket.id + "] disconnected");
+        delete sockets[socket.id];
+    });
+
+
+    socket.on('join', function (conf) {
+        console.log("["+ socket.id + "] join ", conf);
+        var channel = conf.channel;
+        var userdata = conf.userdata;
+
+        if (channel in socket.channels) {
+            console.log("["+ socket.id + "] ERROR: already joined ", channel);
+            return;
+        }
+
+        if (!(channel in channels)) {
+            channels[channel] = {};
+        }
+
+        for (id in channels[channel]) {
+            channels[channel][id].emit('addPeer', {'peer_id': socket.id, 'should_create_offer': false});
+            socket.emit('addPeer', {'peer_id': id, 'should_create_offer': true});
+        }
+
+        channels[channel][socket.id] = socket;
+        socket.channels[channel] = channel;
+    });
+
+    function part(channel) {
+        console.log("["+ socket.id + "] part ");
+
+        if (!(channel in socket.channels)) {
+            console.log("["+ socket.id + "] ERROR: not in ", channel);
+            return;
+        }
+
+        delete socket.channels[channel];
+        delete channels[channel][socket.id];
+
+        for (id in channels[channel]) {
+            channels[channel][id].emit('removePeer', {'peer_id': socket.id});
+            socket.emit('removePeer', {'peer_id': id});
+        }
+    }
+    socket.on('part', part);
+
+    socket.on('relayICECandidate', function(conf) {
+        var peer_id = conf.peer_id;
+        var ice_candidate = conf.ice_candidate;
+        console.log("["+ socket.id + "] relaying ICE candidate to [" + peer_id + "] ", ice_candidate);
+
+        if (peer_id in sockets) {
+            sockets[peer_id].emit('iceCandidate', {'peer_id': socket.id, 'ice_candidate': ice_candidate});
+        }
+    });
+
+    socket.on('relaySessionDescription', function(conf) {
+        var peer_id = conf.peer_id;
+        var session_description = conf.session_description;
+        console.log("["+ socket.id + "] relaying session description to [" + peer_id + "] ", session_description);
+
+        if (peer_id in sockets) {
+            sockets[peer_id].emit('sessionDescription', {'peer_id': socket.id, 'session_description': session_description});
+        }
+    });
+
+
     var uploader = new siofu();
     uploader.dir = __dirname + '/uploads';
     uploader.listen(socket);
@@ -238,10 +319,10 @@ io.sockets.on('connection', function (socket) {
         var id = searchUsers(email);
     });
 
-    socket.on('disconnect', function () {
-        console.log(socket.id + ' disconnected');
-        io.to(socket.id).emit('disconnect');
-    });
+    // socket.on('disconnect', function () {
+    //     console.log(socket.id + ' disconnected');
+    //     io.to(socket.id).emit('disconnect');
+    // });
 
     socket.on('retPre', function (previous, roomid) {
         showPreviousMessages(10, previous, socket.id, roomid)
