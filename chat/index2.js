@@ -503,8 +503,10 @@ function sendMessage(message, username, uid, chatid) {
 }
 
 function getMessage(chatid, isEmbed, pic) {
+    console.log(`In getMessage, chatid ${chatid}`);
     con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", [chatid], function (error, rows, results) {
         console.log("Emitting message");
+        console.log(rows);
         if (error) throw error;
         con.query("SELECT * FROM users WHERE users.name = ?", [rows[0].username], function (error, row) {
             if (pic) {
