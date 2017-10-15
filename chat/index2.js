@@ -213,7 +213,7 @@ io.sockets.on('connection', function (socket) {
                 console.log("New message from " + online[i].name);
                 un = online[i].name;
                 uid = online[i].uid;
-                curroom = online[i].curroom;
+                if (online[i].curroom) curroom = online[i].curroom;
             }
         }
         console.log(event.file.name + ' successfully saved.');
