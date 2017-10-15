@@ -5,7 +5,7 @@
         <!-- This adapter.js file de-prefixes the webkit* and moz* prefixed RTC
              methods. When RTC becomes a more solid standard, this adapter should no
              longer be necessary. -->
-        <!-- <script src="https://webrtc.googlecode.com/svn/trunk/samples/js/base/adapter.js"></script> -->
+        <script src="https://webrtc.googlecode.com/svn/trunk/samples/js/base/adapter.js"></script>
         <style>
             html, body { 
                 background-color: #333; 
@@ -20,9 +20,9 @@
         <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
         <script>
             /** CONFIG **/
-            var SIGNALING_SERVER = "https://www.moosen.im";
+            var SIGNALING_SERVER = "https://www.moosen.im/voicechat";
             var USE_AUDIO = true;
-            var USE_VIDEO = true;
+            var USE_VIDEO = false;
             var DEFAULT_CHANNEL = 'global';
             var MUTE_AUDIO_BY_DEFAULT = false;
 
@@ -50,7 +50,7 @@
                     setup_local_media(function() {
                         /* once the user has given us access to their
                          * microphone/camcorder, join the channel and start peering up */
-                        join_chat_channel(DEFAULT_CHANNEL, {'whatever-you-want-here': 'stuff'});
+                        join_chat_channel(DEFAULT_CHANNEL);
                     });
                 });
                 signaling_socket.on('disconnect', function() {
