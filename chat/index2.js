@@ -205,6 +205,8 @@ io.sockets.on('connection', function (socket) {
         var un = 'Error - Username Not Found';
         var uid;
         var curroom = 1;
+        console.log("room: " + event.file.meta.room);
+        curroom = event.file.meta.room;
         console.log('upload     socket.id: ' + socket.id);
         for (var i = 0; i < online.length; i++) { 
 
@@ -213,7 +215,6 @@ io.sockets.on('connection', function (socket) {
                 console.log("New message from " + online[i].name);
                 un = online[i].name;
                 uid = online[i].uid;
-                if (online[i].curroom) curroom = online[i].curroom;
             }
         }
         console.log(event.file.name + ' successfully saved.');

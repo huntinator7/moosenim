@@ -206,6 +206,7 @@
             var siofu = new SocketIOFileUpload(socket);
             siofu.addEventListener("start", function (event) {
                 event.file.meta.filetype = event.file.type;
+                event.file.meta.room = curroom;
             });
 
             var login = new Audio('/sounds/notification.mp3');
