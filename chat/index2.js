@@ -93,7 +93,7 @@ client.on('message', msg => {
             newmsg = /<@!?147143598301773824>/g[Symbol.replace](newmsg, '@Kyle');
             newmsg = /<@!?81913971979849728>/g[Symbol.replace](newmsg, '@Lane');
         }
-        sendMessage(newmsg, msg.author.username, 1, 1);
+        sendMessage(newmsg, msg.author.username, 1, config.discord.sendChannel);
         getMessageDiscord(msg.author.username, newmsg, msg.author.avatarURL);
         if (msg.attachments.array().length) {
             try {
@@ -414,7 +414,7 @@ io.sockets.on('connection', function (socket) {
             if (send) {
                 sendMessage(msg, un, uid, curroom);
                 io.to(curroom).emit(getMessage(curroom, isEmbed, pic));
-                if (isEmbed && curroom == 1) sendToDiscord(un, ogMsg);
+                if (isEmbed && curroom == config.discord.sendChannel) sendToDiscord(un, ogMsg);
             }
         }
     });
