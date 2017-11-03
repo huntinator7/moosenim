@@ -230,7 +230,9 @@ io.sockets.on('connection', function (socket) {
         sendMessage(msg, un, uid, curroom);
         var pic;
         io.emit(getMessage(curroom, true, pic));
-        client.channels.get(config.discord.moosen).send({ files: [('./uploads/' + event.file.name)] });
+        if (curroom == config.discord.sendChannel) {
+            client.channels.get(config.discord.moosen).send({ files: [('./uploads/' + event.file.name)] });
+        }
     });
 
     //Login process and recording
