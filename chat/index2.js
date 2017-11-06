@@ -507,7 +507,7 @@ function sendMessage(message, username, uid, chatid) {
 
 function getMessage(chatid, isEmbed, pic) {
     console.log(`In getMessage, chatid ${chatid}`);
-    con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", [chatid], function (error, rows, results) {
+    con.query("SELECT * FROM ( SELECT * FROM room? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", [chatid], function (error, rows, results) {
         console.log("Emitting message");
         console.log(rows);
         if (error) throw error;
@@ -544,7 +544,7 @@ async function sendToDiscord(un, msg) {
 }
 
 function getMessageDiscord(un, msg, pic) {
-    con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", [config.discord.sendChannel], function (error, rows, results) {
+    con.query("SELECT * FROM ( SELECT * FROM room? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", [config.discord.sendChannel], function (error, rows, results) {
         io.emit('chat message', un, decodeURI(rows[0].message), moment().format('h:mm:ss a'), rows[0].id, pic, config.discord.sendChannel);
     });
 }
@@ -568,7 +568,7 @@ function getCurroom(uid) {
 }
 
 function showLastMessages(num, sid, roomid) {
-    con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [roomid, num], function (error, rows, results) {
+    con.query("SELECT * FROM ( SELECT * FROM room? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [roomid, num], function (error, rows, results) {
         getMotd(roomid, sid);
 
 
@@ -590,7 +590,7 @@ function showLastMessages(num, sid, roomid) {
 }
 
 function showPreviousMessages(num, previous, sid, roomid) {
-    con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? AND id < ? ORDER BY id DESC LIMIT ?) sub ORDER BY id ASC", [roomid, previous, num], function (error, rows, results) {
+    con.query("SELECT * FROM ( SELECT * FROM room? AND id < ? ORDER BY id DESC LIMIT ?) sub ORDER BY id ASC", [roomid, previous, num], function (error, rows, results) {
         console.log(`Getting previous ${num} messages from ${previous} in room ${roomid}...`);
         if (error) throw error;
         try {
@@ -623,6 +623,7 @@ function createChatroom(n, uid) {
     con.query("INSERT INTO rooms (name) VALUES(?)", [name], function (error) { });
     con.query("SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC", function (error, row, results) {
         con.query("INSERT INTO room_users VALUES(?,?,1)", [row[0].serialid, uid]);
+        con.query("CREATE TABLE room? (id int AUTO_INCREMENT PRIMARY KEY, message text, username VARCHAR(100),timestamp VARCHAR(32),roomid int, uid VARCHAR(100))", [row[0].serialid]);
     });
 }
 
