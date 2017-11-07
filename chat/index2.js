@@ -571,6 +571,7 @@ function getCurroom(uid) {
 
 function showLastMessages(num, sid, roomid) {
     var nameString = 'room' + roomid;
+    console.log(nameString);
     con.query("SELECT * FROM ( SELECT * FROM ? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", ['room' + roomid, num], function (error, rows, results) {
         getMotd(roomid, sid);
 
@@ -594,6 +595,7 @@ function showLastMessages(num, sid, roomid) {
 
 function showPreviousMessages(num, previous, sid, roomid) {
     var nameString = 'room' + roomid;
+    console.log(nameString);
     con.query("SELECT * FROM ( SELECT * FROM ? AND id < ? ORDER BY id DESC LIMIT ?) sub ORDER BY id ASC", ['room' + roomid, previous, num], function (error, rows, results) {
       //  console.log(`Getting previous ${num} messages from ${previous} in room ${roomid}...`);
         if (error) throw error;
