@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 
 <html>
@@ -112,7 +112,7 @@
                     var providerData = user.providerData;
                     var uid = providerData[0].uid;
                     var url = 'https://www.moosen.im/?' + uid;
-                    console.log(url);
+                   // console.log(url);
 
                     socket.emit('login message', displayName, email, photoURL, uid);
                     var div = $('<a href = "' + url + '" id="go" class="btn go waves-effect waves-light light-blue white-text">Click To Chat</button>');

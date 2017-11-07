@@ -565,11 +565,6 @@ function updatechat(roomid) {
     showLastMessages(10, 0, roomid);
 }
 
-//these function will keep track of the last room the user was in, and return them to that room when they relog. 
-function setCurroom(roomid, uid) {
-
-}
-
 function getCurroom(uid) {
 
 
@@ -581,8 +576,6 @@ function showLastMessages(num, sid, roomid) {
     console.log(nameString);
     con.query("SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [nameString, num], function (error, rows, results) {
         getMotd(roomid, sid);
-
-
         if (error) throw error;
         try {
             rows.forEach(function (element) {
@@ -603,7 +596,7 @@ function showLastMessages(num, sid, roomid) {
 function showPreviousMessages(num, previous, sid, roomid) {
     var nameString = "room" + roomid;
     console.log(nameString);
-    con.query("SELECT * FROM ( SELECT * FROM ?? AND id < ? ORDER BY id DESC LIMIT ?) sub ORDER BY id ASC", [nameString, previous, num], function (error, rows, results) {
+    con.query("SELECT * FROM ( SELECT * FROM ?? WHERE id < ? ORDER BY id DESC LIMIT ?) sub ORDER BY id ASC", [nameString, previous, num], function (error, rows, results) {
       //  console.log(`Getting previous ${num} messages from ${previous} in room ${roomid}...`);
         if (error) throw error;
         try {
