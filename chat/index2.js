@@ -492,14 +492,15 @@ function addOnline(un, email, photo, uid, sock, room, allrooms) {
 }
 
 function sendMessage(message, username, uid, chatid) {
+    var nameString = "room" + chatid;
     // console.log(`In sendMessage, chatid: ${chatid}\nmsg: ${message}`);
     var msg = encodeURI(message);
     try {
-        con.query("INSERT INTO messages (message, username, timestamp, chatroom_id, uid) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'), ?, ?)", [msg, username, chatid, uid], function (error, results) {
+        con.query("INSERT INTO ?? (message, username, timestamp, roomid, uid) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'), ?, ?)", [nameString, msg, username, chatid, uid], function (error, results) {
             if (error) throw error;
         });
     } catch (Exception) {
-        con.query("INSERT INTO messages (message, username, timestamp) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'))", ["error", username], function (error, results) {
+        con.query("INSERT INTO ?? (message, username, timestamp) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'))", [nameString, "error", username], function (error, results) {
             if (error) throw error;
         });
     }
@@ -507,7 +508,7 @@ function sendMessage(message, username, uid, chatid) {
 
 function getMessage(chatid, isEmbed, pic) {
     console.log(`In getMessage, chatid ${chatid}`);
-    var nameString = 'room' + chatid;
+    var nameString = "room" + chatid;
     con.query("SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", [nameString], function (error, rows, results) {
         console.log("Emitting message");
         console.log(rows);
