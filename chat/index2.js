@@ -508,7 +508,7 @@ function sendMessage(message, username, uid, chatid) {
 function getMessage(chatid, isEmbed, pic) {
     console.log(`In getMessage, chatid ${chatid}`);
     var nameString = 'room' + chatid;
-    con.query("SELECT * FROM ( SELECT * FROM ? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", [nameString], function (error, rows, results) {
+    con.query("SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", [nameString], function (error, rows, results) {
         console.log("Emitting message");
         console.log(rows);
         if (error) throw error;
@@ -545,8 +545,8 @@ async function sendToDiscord(un, msg) {
 }
 
 function getMessageDiscord(un, msg, pic) {
-    var nameString = 'room' + config.discord.sendChannel;
-    con.query("SELECT * FROM ( SELECT * FROM ? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", [nameString], function (error, rows, results) {
+    var nameString = "room" + config.discord.sendChannel;
+    con.query("SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", [nameString], function (error, rows, results) {
         io.emit('chat message', un, decodeURI(rows[0].message), moment().format('h:mm:ss a'), rows[0].id, pic, config.discord.sendChannel);
     });
 }
@@ -572,7 +572,7 @@ function getCurroom(uid) {
 function showLastMessages(num, sid, roomid) {
     var nameString = "room" + roomid;
     console.log(nameString);
-    con.query("SELECT * FROM ( SELECT * FROM ? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [nameString, num], function (error, rows, results) {
+    con.query("SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [nameString, num], function (error, rows, results) {
         getMotd(roomid, sid);
 
 
@@ -596,7 +596,7 @@ function showLastMessages(num, sid, roomid) {
 function showPreviousMessages(num, previous, sid, roomid) {
     var nameString = "room" + roomid;
     console.log(nameString);
-    con.query("SELECT * FROM ( SELECT * FROM ? AND id < ? ORDER BY id DESC LIMIT ?) sub ORDER BY id ASC", [nameString, previous, num], function (error, rows, results) {
+    con.query("SELECT * FROM ( SELECT * FROM ?? AND id < ? ORDER BY id DESC LIMIT ?) sub ORDER BY id ASC", [nameString, previous, num], function (error, rows, results) {
       //  console.log(`Getting previous ${num} messages from ${previous} in room ${roomid}...`);
         if (error) throw error;
         try {
