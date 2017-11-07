@@ -289,10 +289,14 @@ io.sockets.on('connection', function (socket) {
         }
         if (match) {
             io.to(socket.id).emit('roomlist', getChatrooms(socket.id, uid));
+            var lastRoom;
+            con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
+                lastRoom = rows[0].curroom;
+            });
             console.log('Replacing ' + online[match].sid + ' with ' + socket.id + ', match = ' + match);
             online[match].sid = socket.id;
             //Show the last 10 messages to the user
-           // showLastMessages(10, socket.id, 1);
+            showLastMessages(10, socket.id, lastRoom);
         } else {
             io.to(socket.id).emit('retreat');
         }
