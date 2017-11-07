@@ -254,7 +254,7 @@ io.sockets.on('connection', function (socket) {
             }
             //redundancy for testing only. 
             lastRoom = rows[0].curroom;
-            console.log(lastRoom+ "; last room");
+            
             addOnline(displayName, email, photoURL, uid, socket.id, lastRoom);
             io.to(lastRoom).emit('changerooms', lastRoom, "Nick Beeson");
         });
@@ -292,7 +292,7 @@ io.sockets.on('connection', function (socket) {
             console.log('Replacing ' + online[match].sid + ' with ' + socket.id + ', match = ' + match);
             online[match].sid = socket.id;
             //Show the last 10 messages to the user
-            showLastMessages(10, socket.id, 1);
+           // showLastMessages(10, socket.id, 1);
         } else {
             io.to(socket.id).emit('retreat');
         }
