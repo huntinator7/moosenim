@@ -514,11 +514,11 @@ function getMessage(chatid, isEmbed, pic) {
         if (error) throw error;
         con.query("SELECT * FROM users WHERE users.name = ?", [rows[0].username], function (error, row) {
             if (pic) {
-                io.to(chatid).emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, pic, rows[0].chatroom_id);
+                io.to(chatid).emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, pic, rows[0].roomid);
             } else if (row.length < 1) {
-                io.to(chatid).emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, "https://www.moosen.im/images/favicon.png", rows[0].chatroom_id);
+                io.to(chatid).emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, "https://www.moosen.im/images/favicon.png", rows[0].roomid);
             } else {
-                io.to(chatid).emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, row[0].profpic, rows[0].chatroom_id);
+                io.to(chatid).emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, row[0].profpic, rows[0].roomid);
             }
             if (chatid == config.discord.sendChannel && !isEmbed) {
                 //send to Discord
@@ -583,7 +583,7 @@ function showLastMessages(num, sid, roomid) {
                     if (row[0]) {
                         io.to(sid).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, row[0].profpic, element.roomid);
                     } else {
-                        io.to(sid).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, "https://www.moosen.im/images/favicon.png", element.chatroom_id);
+                        io.to(sid).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, "https://www.moosen.im/images/favicon.png", element.roomid);
                     }
                 });
             });
@@ -603,9 +603,9 @@ function showPreviousMessages(num, previous, sid, roomid) {
             rows.forEach(function (element) {
                 con.query("SELECT * FROM users WHERE users.name = ?", [element.username], function (error, row) {
                     if (row[0]) {
-                        io.to(sid).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, row[0].profpic, element.chatroom_id);
+                        io.to(sid).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, row[0].profpic, element.roomid);
                     } else {
-                        io.to(sid).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, "https://www.moosen.im/images/favicon.png", element.chatroom_id);
+                        io.to(sid).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, "https://www.moosen.im/images/favicon.png", element.roomid);
                     }
                     console.log(element.id);
                 });
@@ -629,7 +629,7 @@ function createChatroom(n, uid) {
     con.query("INSERT INTO rooms (name) VALUES(?)", [name], function (error) { });
     con.query("SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC", function (error, row, results) {
         con.query("INSERT INTO room_users VALUES(?,?,1)", [row[0].serialid, uid]);
-        con.query("CREATE TABLE room? (id int AUTO_INCREMENT PRIMARY KEY, message text, username VARCHAR(100),timestamp VARCHAR(32),roomid int, uid VARCHAR(100))", [row[0].serialid]);
+        con.query("CREATE TABLE room?? (id int AUTO_INCREMENT PRIMARY KEY, message text, username VARCHAR(100),timestamp VARCHAR(32),roomid int, uid VARCHAR(100))", [row[0].serialid]);
     });
 }
 
