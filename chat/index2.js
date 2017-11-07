@@ -292,11 +292,12 @@ io.sockets.on('connection', function (socket) {
             var lastRoom;
             con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
                 lastRoom = rows[0].curroom;
+                showLastMessages(10, socket.id, rows[0].curroom);
             });
             console.log('Replacing ' + online[match].sid + ' with ' + socket.id + ', match = ' + match);
             online[match].sid = socket.id;
             //Show the last 10 messages to the user
-            showLastMessages(10, socket.id, lastRoom);
+            
         } else {
             io.to(socket.id).emit('retreat');
         }
