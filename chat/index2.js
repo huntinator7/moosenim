@@ -254,14 +254,15 @@ io.sockets.on('connection', function (socket) {
             }
             //redundancy for testing only. 
             lastRoom = rows[0].curroom;
-            
+            console.log(lastRoom+ "; last room");
             addOnline(displayName, email, photoURL, uid, socket.id, lastRoom);
+            io.to(lastRoom).emit('changerooms', lastRoom, "Nick Beeson");
         });
 
         con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid]);
         con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid]);
         console.log("login message should trigger");
-        io.to(lastRoom).emit('changerooms', lastRoom, "Nick Beeson");
+      
         io.to(lastRoom).emit('login', displayName, email, photoURL, uid, lastRoom);
     });
 
