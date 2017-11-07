@@ -261,7 +261,7 @@ io.sockets.on('connection', function (socket) {
         con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid]);
         con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid]);
         console.log("login message should trigger");
-        io.to(lastRoom).emit('changerooms', lastRoom, uid);
+        io.to(lastRoom).emit('changerooms', lastRoom, "Nick Beeson");
         io.to(lastRoom).emit('login', displayName, email, photoURL, uid, lastRoom);
     });
 
@@ -299,7 +299,7 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('changerooms', function (roomid, uid) {
         console.log("changed rooms" + roomid + " " + uid);
-        con.query("UPDATE users SET curroom = ? WHERE uid = ?", [roomid,uid]);
+        con.query("UPDATE users SET curroom = ? WHERE name = ?", [roomid,uid]);
         socket.join(roomid);
         showLastMessages(10, socket.id, roomid)
         var room = io.sockets.adapter.rooms[roomid];
