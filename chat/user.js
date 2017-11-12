@@ -7,9 +7,7 @@ function User(displayName, email, photoURL, uid) {
     this.uid = uid;
 
 
-    updatePhoto(newURL){
-        this.photoURL = newURL;
-    }
+   
 
 
 
