@@ -258,7 +258,7 @@ io.sockets.on('connection', function (socket) {
             }
             //redundancy for testing only. 
             lastRoom = rows[0].curroom;
-            var User = new user(displayName, email, photoURL, uid);
+          //  var User = new user(displayName, email, photoURL, uid);
             console.log("user object test: " + User.displayName);
             addOnline(displayName, email, photoURL, uid, socket.id, lastRoom);
             io.to(lastRoom).emit('changerooms', lastRoom, uid);
