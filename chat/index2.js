@@ -49,6 +49,9 @@ var login = require('./login.js');
 var voice = require('./voice.js');
 var config = require('./config');
 
+// object definitions 
+var user = require('./user.js');
+
 //Associating .js files with URLs
 app.use(cors());
 app.use(bodyParser.json());
@@ -239,6 +242,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('login message', function (displayName, email, photoURL, uid) {
         //console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id);
         var lastRoom;
+       
         con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
             if (rows[0] == null) {
                 //If no user, add to DB
@@ -254,7 +258,8 @@ io.sockets.on('connection', function (socket) {
             }
             //redundancy for testing only. 
             lastRoom = rows[0].curroom;
-            
+            var User = new user(displayName, email, photoURL, uid);
+            console.log("user object test: " + User.displayName);
             addOnline(displayName, email, photoURL, uid, socket.id, lastRoom);
             io.to(lastRoom).emit('changerooms', lastRoom, uid);
         });
