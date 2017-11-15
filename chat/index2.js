@@ -84,6 +84,7 @@ client.on('ready', () => {
 
 //Any time a Discord message is sent, bot checks to see if in moosen-im channel and if not sent by bot. If so, it adds the message to the DB and emits it
 client.on('message', msg => {
+    console.log(msg.channel.id);
     // client.user.setAvatar('./images/discord.png');
     if (msg.channel.id == config.discord.moosen && !(msg.author.bot)) {
         var newmsg = msg.content;
@@ -428,7 +429,10 @@ io.sockets.on('connection', function (socket) {
             if (send) {
                 sendMessage(msg, un, uid, curroom);
                 io.to(curroom).emit(getMessage(curroom, isEmbed, pic));
-                if (isEmbed && curroom == config.discord.sendChannel) sendToDiscord(un, ogMsg);
+                console.log(`config.discord.sendChannel = ${config.discord.sendChannel}`);
+                if (isEmbed && curroom == config.discord.sendChannel) {
+                    sendToDiscord(un, ogMsg);
+                }
             }
         }
     });
