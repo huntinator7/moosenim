@@ -89,7 +89,7 @@
 
         body {
             font-family: 'productsans';
-            background-color:#000000;
+            background-color: #000000;
         }
 
         .thumb {
@@ -101,6 +101,12 @@
         @media only screen and (min-width: 992px) {
             #center-container {
                 margin-left: 16vw;
+            }
+        }
+
+        @media only screen and (min-width: 0) {
+            html {
+                font-size: 18px;
             }
         }
     </style>
@@ -117,13 +123,23 @@
             </div>
         </div>
         <ul id="nav-mobile" class="side-nav fixed hide-on-med-and-down grey darken-4" style="transform: translateX(0%); z-index:3000">
-            <li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>
-            <li><a id="room" class="button waves-effect" room="2" style="color: #6EB7FF">test</a></li>
+            <li>
+                <a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a>
+            </li>
+            <li>
+                <a id="room" class="button waves-effect" room="2" style="color: #6EB7FF">test</a>
+            </li>
         </ul>
         <ul id="slide-out" class="side-nav" style="z-index: 3000; width:50vw">
-            <li><img src="images/favicon.png"></li>
-            <li><a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a></li>
-            <li><a id="room" class="button waves-effect" room="2" style="color: #6EB7FF">test</a></li>
+            <li>
+                <img src="images/favicon.png">
+            </li>
+            <li>
+                <a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a>
+            </li>
+            <li>
+                <a id="room" class="button waves-effect" room="2" style="color: #6EB7FF">test</a>
+            </li>
         </ul>
     </header>
     <div id="main">
@@ -158,26 +174,35 @@
                     <div class="modal-content">
                         <h4>Room Settings</h4>
                         <form id="room-settings">
-                            Room Settings <br>
+                            Room Settings
+                            <br>
                             <fieldset>
                                 <legend>General </legend>
-                                Change Room Name: <input type="text" id="rs-g-name"> <br> 
-                                public? <input type="checkbox"id="rs-g-public"> <br>
-                                Change Color: <input type="color" id="rs-g-color" > <br>
-                                Remove user: <input type="text" id="rs-g-remove"> <br>
+                                Change Room Name:
+                                <input type="text" id="rs-g-name">
+                                <br> public?
+                                <input type="checkbox" id="rs-g-public">
+                                <br> Change Color:
+                                <input type="color" id="rs-g-color">
+                                <br> Remove user:
+                                <input type="text" id="rs-g-remove">
+                                <br>
 
 
-                                    <br>
+                                <br>
                             </fieldset>
                             <fieldset>
                                 <legend> User settings </legend>
-                                Allow Nicknames: <input type="checkbox" id="rs-us-nick"><br>
+                                Allow Nicknames:
+                                <input type="checkbox" id="rs-us-nick">
+                                <br>
 
                             </fieldset>
                             <fieldset>
                                 <legend> Advanced </legend>
-                                Advanced settings: <br>
-                                Edit word list: <br>
+                                Advanced settings:
+                                <br> Edit word list:
+                                <br>
 
 
                             </fieldset>
@@ -187,9 +212,12 @@
                 <form id="mform" action="">
                     <input id="m" autocomplete="off" style="color:black; background-color:white; font-size:1.5em" type="text" placeholder=" Message">
                     <br>
-                    <button id="mbut" class="btn waves-effect waves-light light-blue white-text"><i class="material-icons">send</i></button>
+                    <button id="mbut" class="btn waves-effect waves-light light-blue white-text">
+                        <i class="material-icons">send</i>
+                    </button>
                     <label name="files[]" id="add_pics" class="btn btn-floating btn-file multiple waves-effect waves-light light-blue">
-                        <i class="material-icons">add</i><input style="display: none;" type="file" multiple>
+                        <i class="material-icons">add</i>
+                        <input style="display: none;" type="file" multiple>
                     </label>
                 </form>
 
@@ -404,7 +432,7 @@
                     console.log('Element in nav-mobile clicked');
                     $('#messages').empty();
                     curroom = $(this.attributes.room).val();
-                    socket.emit('changerooms', $(this.attributes.room).val(),uid);
+                    socket.emit('changerooms', $(this.attributes.room).val(), uid);
                     first_id = null;
                     window.scrollTo(0, document.body.scrollHeight);
                     await sleep(500);
@@ -427,7 +455,7 @@
                     console.log('Element in slide-out clicked');
                     $('#messages').empty();
                     curroom = $(this.attributes.room).val();
-                    socket.emit('changerooms', $(this.attributes.room).val(),uid);
+                    socket.emit('changerooms', $(this.attributes.room).val(), uid);
                     window.scrollTo(0, document.body.scrollHeight);
                     await sleep(500);
                     canScroll = 10;
