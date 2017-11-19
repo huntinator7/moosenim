@@ -82,20 +82,18 @@
             color: #6EB7FF;
         }
 
+        #title {
+            font-size: 18px;
+        }
+
         nav.top-nav a.page-title {
             line-height: 5vh;
             font-size: 4em;
         }
 
         body {
-            font-family: 'productsans';
+            font-family: productsans;
             background-color: #000000;
-        }
-
-        .thumb {
-            height: 200px;
-            border: 1px solid #000;
-            text-align: center;
         }
 
         @media only screen and (min-width: 992px) {
@@ -118,8 +116,8 @@
             <div class="col s12" id="roomtitle" style="color:white; background-color:#6EB7FF; position:fixed; height:6em; text-align:center; z-index:2000">
                 <h3>Moosen IM</h3>
             </div>
-            <div class="col s12" id="motd" style="color:black; background-color:white; position:fixed; border-bottom:3px solid black; top:6em; text-align:center; height:3.3em; z-index:2000">
-                <h5>MOTD div</h5>
+            <div class="col s12" id="motd" style="overflow: hidden; font-size: 1em; color:black; background-color:white; position:fixed; border-bottom:3px solid black; top:6em; text-align:center; height:3.3em; z-index:2000">
+                <div>MOTD div</div>
             </div>
         </div>
         <ul id="nav-mobile" class="side-nav fixed hide-on-med-and-down grey darken-4" style="transform: translateX(0%); z-index:3000">
@@ -300,9 +298,14 @@
                 roomnames.forEach(function (e) {
                     if (e.id == curroom) $('#roomtitle').html('<h3>' + e.name + '</h3>');
                 });
-                // if (curroom == room || room == 0) {
-                $('#motd').html("<h5>" + msg + "</h5>");
-                //}
+                $('#motd').html("<div>" + msg + "</div>");
+                $(function () {
+                    $('#motd div').css('font-size', '3.3em');
+
+                    while ($('#motd div').height() > $('#motd').height()) {
+                        $('#motd div').css('font-size', (parseInt($('#motd div').css('font-size')) - 1) + "px");
+                    }
+                });
             });
 
             socket.on('chat message', function (user, msg, time, id, pic, room) {
@@ -604,6 +607,7 @@
             // onOpen: function (el) {},
             // onClose: function (el) {}
         });
+
     </script>
 </body>
 
