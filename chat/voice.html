@@ -5,7 +5,7 @@
         <!-- This adapter.js file de-prefixes the webkit* and moz* prefixed RTC
              methods. When RTC becomes a more solid standard, this adapter should no
              longer be necessary. -->
-        <script src="https://webrtc.googlecode.com/svn/trunk/samples/js/base/adapter.js"></script>
+             <script src="http://webrtc.github.io/adapter/adapter-latest.js"></script>
         <style>
             html, body { 
                 background-color: #333; 
@@ -17,12 +17,12 @@
             }
         </style>
 
-        <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
         <script>
             /** CONFIG **/
             var SIGNALING_SERVER = "https://www.moosen.im/voicechat";
             var USE_AUDIO = true;
-            var USE_VIDEO = false;
+            var USE_VIDEO = true;
             var DEFAULT_CHANNEL = 'global';
             var MUTE_AUDIO_BY_DEFAULT = false;
 
@@ -43,7 +43,7 @@
             function init() {
                 console.log("Connecting to signaling server");
                 signaling_socket = io(SIGNALING_SERVER);
-                signaling_socket = io();
+                // signaling_socket = io();
 
                 signaling_socket.on('connect', function() {
                     console.log("Connected to signaling server");
