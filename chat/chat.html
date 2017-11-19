@@ -82,11 +82,7 @@
             color: #6EB7FF;
         }
 
-        title {
-            font-size: 18px;
-        }
-
-        .title {
+        #msgtitle {
             font-size: 18px;
         }
 
@@ -331,12 +327,12 @@
                     if (!first_id) {
                         console.log('!first_id, setting to ' + id);
                         first_id = id;
-                        $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
+                        $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title" id="msgtitle">'
                             + user + '</span><p>'
                             + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
                             + time + '</a></li>');
                     } else {
-                        insertMessage('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title">'
+                        insertMessage('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title" id="msgtitle">'
                             + user + '</span><p>'
                             + msg + '</p><span style="font-size:0.8em; color:#9F9F9F; float:right;" class="secondary-content">'
                             + time + '</a></li>', id);
