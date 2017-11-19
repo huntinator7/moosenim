@@ -36,7 +36,7 @@ process.stdin.setEncoding('utf8');
 
 process.stdin.on('data', function (text) {
     var room = 1;
-    var msg = util.inspect(text.trim());
+    var msg = util.inspect(text.trim().substr(1));
     console.log('received data:', msg);
     sendMessage(msg, '<span style="color:red">Admin</span>', 1, room);
     io.to(room).emit(getMessage(room, false, 'https://i.imgur.com/CgVX6vv.png'));
@@ -47,6 +47,7 @@ var io = require('socket.io')(server);
 var chat = require('./chat.js');
 var login = require('./login.js');
 var voice = require('./voice.js');
+var voicetest = require('./voicetest.js');
 var config = require('./config');
 
 // object definitions 
@@ -59,6 +60,7 @@ app.use('/', chat);
 app.use('/messages', messages);
 app.use('/login', login);
 app.use('/voicechat', voice);
+app.use('/voicetest', voicetest);
 app.use('/headliner_font_woff', express.static(__dirname + '/fonts/headliner/headliner.woff'));
 app.use('/headliner_font_woff2', express.static(__dirname + '/fonts/headliner/headliner.woff2'));
 app.use('/headliner_font_tff', express.static(__dirname + '/fonts/headliner/headliner.ttf'));
