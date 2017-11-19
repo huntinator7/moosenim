@@ -73,6 +73,7 @@ app.use("/images", express.static(__dirname + '/images'));
 app.use("/uploads", express.static(__dirname + '/uploads'));
 app.use("/fonts", express.static(__dirname + '/fonts'));
 app.use("/sounds", express.static(__dirname + '/sounds'));
+app.use("/js", express.static(__dirname + '/js'));
 app.use("/siofu", express.static(__dirname + '/node_modules/socketio-file-upload'));
 
 //Discord login with token from dev page
