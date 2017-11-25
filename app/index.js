@@ -46,7 +46,7 @@ client.get('test', function (err, reply) {
 // example does not have a database, the complete Facebook profile is serialized
 // and deserialized.
 passport.serializeUser(function (user, cb) {
-    client.set('users', user.id)
+    client.hmset('users', user)
     cb(null, user)
 })
 
