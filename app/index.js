@@ -46,7 +46,7 @@ client.get('test', function (err, reply) {
 // example does not have a database, the complete Facebook profile is serialized
 // and deserialized.
 passport.serializeUser(function (user, cb) {
-    client.set('uid', user.id)
+    client.set('users', user.id)
     cb(null, user)
 })
 
@@ -80,7 +80,7 @@ app.get('/login',
 app.get('/profile',
     require('connect-ensure-login').ensureLoggedIn(),
     function (req, res) {
-        client.get('uid', function (err, reply) {
+        client.hgetall('users', function (err, reply) {
             console.log(`uid reply: ${reply}`)
         })
         res.render('profile', { user: req.user })
