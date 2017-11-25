@@ -9,12 +9,11 @@ passport.use(new GoogleStrategy({
     clientID: '333736509560-id8si5cbuim26d3e67s4l7oscjfsakat.apps.googleusercontent.com',
     clientSecret: 'ZCMQ511PhvMEQqozMGd5bmRH',
     callbackURL: 'http://moosen.im:3000/auth/google/callback'
-  },
-  function(accessToken, refreshToken, profile, cb) {
-    User.findOrCreate({ googleId: profile.id }, function (err, user) {
-      return cb(err, user)
-    })
-  }
+},
+    function (accessToken, refreshToken, profile, cb) {
+        console.log(profile)
+        return cb(user)
+    }
 ))
 
 app.use((request, response, next) => {
