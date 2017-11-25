@@ -46,11 +46,11 @@ client.get('test', function (err, reply) {
 // example does not have a database, the complete Facebook profile is serialized
 // and deserialized.
 passport.serializeUser(function (user, cb) {
-    client.hmset('users', user.id,user.displayName)
+    client.set('users', user.id)
     cb(null, user)
 })
 
-passport.deserializeUser(function (obj, cb) {
+passport.deserializeUs  er(function (obj, cb) {
     cb(null, obj)
 })
 
@@ -80,7 +80,7 @@ app.get('/login',
 app.get('/profile',
     require('connect-ensure-login').ensureLoggedIn(),
     function (req, res) {
-        client.hgetall('users', function (err, reply) {
+        client.get('users', function (err, reply) {
             console.log(`uid reply: ${reply}`)
         })
         res.render('profile', { user: req.user })
