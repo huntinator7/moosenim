@@ -31,6 +31,17 @@ passport.use(new GoogleStrategy({
     }
 ))
 
+//redis setup and test
+var client = redis.createClient();
+client.on('connect', function() {
+    console.log("redis server connected");
+});
+client.set('test', 'successful');
+
+client.get('test', function (err, reply) {
+    console.log('reply');
+});
+
 // Configure Passport authenticated session persistence.
 //
 // In order to restore authentication state across HTTP requests, Passport needs
