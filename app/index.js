@@ -79,9 +79,7 @@ app.get('/',
 app.get('/login',
     function (req, res) {
         res.render('login')
-        if (req.session.key) {
-            console.log("session key= "+req.session.key);
-        }
+        
     }
 )
 
