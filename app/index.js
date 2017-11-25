@@ -25,7 +25,6 @@ passport.use(new GoogleStrategy({
     }
 ))
 
-
 //redis setup and test
 var client = redis.createClient()
 client.on('connect', function() {
