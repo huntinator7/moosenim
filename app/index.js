@@ -10,35 +10,35 @@ passport.use(new GoogleStrategy({
     clientSecret: 'ZCMQ511PhvMEQqozMGd5bmRH',
     callbackURL: 'http://moosen.im:3000/auth/google/callback'
 },
-    function (token, tokenSecret, profile, cb) {
-        User.findOrCreate({ googleId: profile.id }, function (err, user) {
-            return cb(err, user)
-        })
+    function (accessToken, refreshToken, profile, cb) {
+        console.log(profile)
+        cb()
     }
 ))
 
-// app.use((req, res, next) => {
-//     console.log(req.headers)
-//     next()
-// })
-
-app.get('/fail', (req, res) => {
-    app.post('Login failed')
+app.use((req, res, next) => {
+    console.log(req.headers)
+    next()
 })
 
-app.get('/auth/google',
-    passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] })
+app.get('/chance', (req, res) => {
+    res.json({
+        chance: req.chance
+    })
+})
+
+app.get('/fail', (req, res) => {
+    res.post('Login failed')
+})
+
+app.get('/',
+    passport.authenticate('google', { scope: ['profile'] })
 )
 
-// GET /auth/google/callback
-//   Use passport.authenticate() as route middleware to authenticate the
-//   request.  If authentication fails, the user will be redirected back to the
-//   login page.  Otherwise, the primary route function function will be called,
-//   which, in this example, will redirect the user to the home page.
 app.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: '/fail' }),
+    passport.authenticate('google', { failureRedirect: '/chance' }),
     function (req, res) {
-        res.redirect('/')
+        res.post('Logged in successfully')
     }
 )
 
