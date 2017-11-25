@@ -39,7 +39,7 @@ passport.deserializeUser(function (obj, cb) {
 })
 
 // Configure view engine to render EJS templates.
-app.set('views', __dirname + '/views')
+app.set('views', __dirname + '/../views')
 app.set('view engine', 'ejs')
 
 // Initialize Passport and restore authentication state, if any, from the
