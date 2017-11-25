@@ -33,7 +33,7 @@ client.on('connect', function() {
 client.set('test', 'successful');
 
 client.get('test', function (err, reply) {
-    console.log(reply);
+    console.log(`test reply: ${reply}`);
 });
 
 // Configure Passport authenticated session persistence.
@@ -46,16 +46,15 @@ client.get('test', function (err, reply) {
 // example does not have a database, the complete Facebook profile is serialized
 // and deserialized.
 passport.serializeUser(function (user, cb) {
-    cb(null, user);
-    client.set('uid', user.clientID);
+    cb(null, user)
+    client.set('uid', user.clientID)
 })
 
 passport.deserializeUser(function (obj, cb) {
-   
-
     client.get('uid', function (err, reply) {
-        console.log(reply);
-    cb(null, obj);
+        console.log(`uid reply: ${reply}`)
+    })
+    cb(null, obj)
 })
 
 // Configure view engine to render EJS templates.
