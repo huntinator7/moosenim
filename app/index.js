@@ -25,15 +25,15 @@ passport.deserializeUser(function (obj, cb) {
 })
 
 app.get('/fail', (req, res) => {
-    res.post('Login failed')
+    app.post('Login failed')
 })
 
-app.get('/',
+app.get('/auth/google',
     passport.authenticate('google', { scope: ['profile'] })
 )
 
 app.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: '/chance' }),
+    passport.authenticate('google', { failureRedirect: '/fail' }),
     function (req, res) {
         res.post('Logged in successfully')
     }
