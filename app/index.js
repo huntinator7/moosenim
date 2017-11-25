@@ -12,13 +12,7 @@ app.use(require('cookie-parser')())
 app.use(require('body-parser').urlencoded({ extended: true }))
 app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }))
 
-app.use(session({
-    secret: 'ssshhhhh',
-    // create new redis store.
-    store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl: 260 }),
-    saveUninitialized: false,
-    resave: false
-}));
+
 
 passport.use(new GoogleStrategy({
     clientID: '333736509560-id8si5cbuim26d3e67s4l7oscjfsakat.apps.googleusercontent.com',
