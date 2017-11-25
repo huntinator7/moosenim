@@ -19,4 +19,15 @@ app.get('/', (request, response) => {
     })
 })
 
+app.get('/auth/google',
+    passport.authenticate('google', { scope: ['profile'] })
+)
+
+app.get('/auth/google/callback',
+    passport.authenticate('google', { failureRedirect: '/login' }),
+    function (req, res) {
+        res.post('Logged in successfully')
+    }
+)
+
 app.listen(port)
