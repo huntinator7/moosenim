@@ -65,6 +65,7 @@ app.get('/profile',
     require('connect-ensure-login').ensureLoggedIn(),
     function (req, res) {
         res.render('profile', { user: req.user })
+        console.log(req.user)
     }
 )
 
@@ -73,9 +74,9 @@ app.get('/auth/google',
 )
 
 app.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: '/fail' }),
+    passport.authenticate('google', { failureRedirect: '/login' }),
     function (req, res) {
-        res.post('Logged in successfully')
+        res.render('profile', { user: req.user })
     }
 )
 

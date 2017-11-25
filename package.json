@@ -26,6 +26,7 @@
     },
     "homepage": "https://github.com/huntinator7/moosenim#readme",
     "dependencies": {
+        "connect-ensure-login": "^0.1.1",
         "express": "^4.16.1",
         "socket.io": "^2.0.3"
     },
