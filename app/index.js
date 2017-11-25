@@ -5,14 +5,51 @@ const app = express()
 const port = 3000
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 var redis = require("redis")
+var session = require('express-session')
+var sessionStore = require('connect-redis')(session)
 var client = redis.createClient()
+
+app.use(session({
+    key: 'keyboard cat',
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true
+}))
+
+// initialize our modules
+var io = require("socket.io")(server),
+    passportSocketIo = require("passport.socketio")
+
+function onAuthorizeSuccess(data, accept) {
+    console.log('successful connection to socket.io')
+    accept();
+}
+
+function onAuthorizeFail(data, message, error, accept) {
+    if (error) {
+        throw new Error(message)
+    }
+    console.log('failed connection to socket.io:', message)
+    // this error will be sent to the user as a special error-package
+    // see: http://socket.io/docs/client-api/#socket > error-object
+}
 
 app.use(require('morgan')('combined'))
 app.use(require('cookie-parser')())
 app.use(require('body-parser').urlencoded({ extended: true }))
-app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }))
 
+io.use(passportSocketIo.authorize({
+    cookieParser: cookieParser,       // the same middleware you registrer in express
+    key: 'keyboard cat',       // the name of the cookie where express/connect stores its session_id
+    secret: 'keyboard cat',    // the session_secret to parse the cookie
+    store: sessionStore,        // we NEED to use a sessionstore. no memorystore please
+    fail: onAuthorizeFail,     // *optional* callback on fail/error - read more below
+}))
 
+function onAuthorizeFail(data, message, error, accept) {
+    if (error) throw new Error(message);
+    return accept();
+}
 
 passport.use(new GoogleStrategy({
     clientID: '333736509560-id8si5cbuim26d3e67s4l7oscjfsakat.apps.googleusercontent.com',
@@ -27,7 +64,7 @@ passport.use(new GoogleStrategy({
 
 //redis setup and test
 var client = redis.createClient()
-client.on('connect', function() {
+client.on('connect', function () {
     console.log("redis server connected")
 })
 client.set('test', 'successful')
