@@ -7,7 +7,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 passport.use(new GoogleStrategy({
     clientID: '333736509560-id8si5cbuim26d3e67s4l7oscjfsakat.apps.googleusercontent.com',
-    clientSecret: ZCMQ511PhvMEQqozMGd5bmRH,
+    clientSecret: 'ZCMQ511PhvMEQqozMGd5bmRH',
     callbackURL: 'moosen.im:3000/login/google/return'
   },
   function(accessToken, refreshToken, profile, cb) {
