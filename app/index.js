@@ -12,7 +12,7 @@ passport.use(new GoogleStrategy({
 },
     function (accessToken, refreshToken, profile, cb) {
         console.log(profile)
-        return cb(user)
+        cb()
     }
 ))
 
