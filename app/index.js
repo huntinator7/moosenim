@@ -3,7 +3,12 @@ const express = require('express')
 const passport = require('passport')
 const app = express()
 const port = 3000
-const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
+
+app.use(require('morgan')('combined'))
+app.use(require('cookie-parser')())
+app.use(require('body-parser').urlencoded({ extended: true }))
+app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }))
 
 passport.use(new GoogleStrategy({
     clientID: '333736509560-id8si5cbuim26d3e67s4l7oscjfsakat.apps.googleusercontent.com',
@@ -27,31 +32,20 @@ passport.use(new GoogleStrategy({
 // and deserialized.
 passport.serializeUser(function (user, cb) {
     cb(null, user);
-});
+})
 
 passport.deserializeUser(function (obj, cb) {
     cb(null, obj);
-});
-
-
-// Create a new Express application.
-var app = express();
+})
 
 // Configure view engine to render EJS templates.
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
-
-// Use application-level middleware for common functionality, including
-// logging, parsing, and session handling.
-app.use(require('morgan')('combined'));
-app.use(require('cookie-parser')());
-app.use(require('body-parser').urlencoded({ extended: true }));
-app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
+app.set('views', __dirname + '/views')
+app.set('view engine', 'ejs')
 
 // Initialize Passport and restore authentication state, if any, from the
 // session.
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.initialize())
+app.use(passport.session())
 
 
 // Define routes.
