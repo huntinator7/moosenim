@@ -47,6 +47,7 @@ client.get('test', function (err, reply) {
 // and deserialized.
 passport.serializeUser(function (user, cb) {
     client.set('users', user.id)
+    client.sadd('online',user.displayName)
     cb(null, user)
 })
 
@@ -82,6 +83,9 @@ app.get('/profile',
     function (req, res) {
         client.get('users', function (err, reply) {
             console.log(`uid reply: ${reply}`)
+        })
+        client.smembers('online', function (err, reply) {
+            console.log(`users online: ${reply}`);
         })
         res.render('profile', { user: req.user })
         console.log(req.user)
