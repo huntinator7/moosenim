@@ -16,15 +16,19 @@ passport.use(new GoogleStrategy({
     }
 ))
 
-app.use((request, response, next) => {
-    console.log(request.headers)
+app.use((req, res, next) => {
+    console.log(req.headers)
     next()
 })
 
-app.get('/chance', (request, response) => {
-    response.json({
-        chance: request.chance
+app.get('/chance', (req, res) => {
+    res.json({
+        chance: req.chance
     })
+})
+
+app.get('/fail', (req, res) => {
+    res.post('Login failed')
 })
 
 app.get('/',
@@ -32,7 +36,7 @@ app.get('/',
 )
 
 app.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: '/' }),
+    passport.authenticate('google', { failureRedirect: '/chance' }),
     function (req, res) {
         res.post('Logged in successfully')
     }
