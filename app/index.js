@@ -8,7 +8,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 passport.use(new GoogleStrategy({
     clientID: '333736509560-id8si5cbuim26d3e67s4l7oscjfsakat.apps.googleusercontent.com',
     clientSecret: 'ZCMQ511PhvMEQqozMGd5bmRH',
-    callbackURL: 'moosen.im:3000/login/google/return'
+    callbackURL: 'moosen.im:3000/login/google/callback'
   },
   function(accessToken, refreshToken, profile, cb) {
     User.findOrCreate({ googleId: profile.id }, function (err, user) {
@@ -27,18 +27,18 @@ app.use((request, response, next) => {
     next()
 })
 
-app.get('/', (request, response) => {
+app.get('/chance', (request, response) => {
     response.json({
         chance: request.chance
     })
 })
 
-app.get('/auth/google',
+app.get('/',
     passport.authenticate('google', { scope: ['profile'] })
 )
 
 app.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: '/auth/google' }),
+    passport.authenticate('google', { failureRedirect: '/' }),
     function (req, res) {
         res.post('Logged in successfully')
     }
