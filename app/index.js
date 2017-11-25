@@ -50,7 +50,7 @@ passport.serializeUser(function (user, cb) {
     cb(null, user)
 })
 
-passport.deserializeUs  er(function (obj, cb) {
+passport.deserializeUser(function (obj, cb) {
     cb(null, obj)
 })
 
