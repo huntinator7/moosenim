@@ -4,8 +4,8 @@ const passport = require('passport')
 const app = express()
 const port = 3000
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
-var redis = require("redis");
-var client = redis.createClient();
+var redis = require("redis")
+var client = redis.createClient()
 
 app.use(require('morgan')('combined'))
 app.use(require('cookie-parser')())
@@ -26,15 +26,15 @@ passport.use(new GoogleStrategy({
 ))
 
 //redis setup and test
-var client = redis.createClient();
+var client = redis.createClient()
 client.on('connect', function() {
-    console.log("redis server connected");
-});
-client.set('test', 'successful');
+    console.log("redis server connected")
+})
+client.set('test', 'successful')
 
 client.get('test', function (err, reply) {
-    console.log(`test reply: ${reply}`);
-});
+    console.log(`test reply: ${reply}`)
+})
 
 // Configure Passport authenticated session persistence.
 //
@@ -51,9 +51,6 @@ passport.serializeUser(function (user, cb) {
 })
 
 passport.deserializeUser(function (obj, cb) {
-    client.get('uid', function (err, reply) {
-        console.log(`uid reply: ${reply}`)
-    })
     cb(null, obj)
 })
 
@@ -77,13 +74,15 @@ app.get('/',
 app.get('/login',
     function (req, res) {
         res.render('login')
-        
     }
 )
 
 app.get('/profile',
     require('connect-ensure-login').ensureLoggedIn(),
     function (req, res) {
+        client.get('uid', function (err, reply) {
+            console.log(`uid reply: ${reply}`)
+        })
         res.render('profile', { user: req.user })
         console.log(req.user)
     }
