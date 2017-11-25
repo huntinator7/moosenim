@@ -11,7 +11,7 @@ passport.use(new GoogleStrategy({
     callbackURL: 'http://moosen.im:3000/auth/google/callback'
   },
   function(accessToken, refreshToken, profile, cb) {
-    User.findOrCreate({ googleId: profile.id }, function (err, user) {
+    profile.findOrCreate({ googleId: profile.id }, function (err, user) {
       return cb(err, user)
     })
   }
