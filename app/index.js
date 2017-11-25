@@ -33,7 +33,7 @@ client.on('connect', function() {
 client.set('test', 'successful');
 
 client.get('test', function (err, reply) {
-    console.log('reply');
+    console.log(reply);
 });
 
 // Configure Passport authenticated session persistence.
@@ -47,9 +47,14 @@ client.get('test', function (err, reply) {
 // and deserialized.
 passport.serializeUser(function (user, cb) {
     cb(null, user);
+    client.set('uid', user.clientID);
 })
 
 passport.deserializeUser(function (obj, cb) {
+   
+
+    client.get('uid', function (err, reply) {
+        console.log(reply);
     cb(null, obj);
 })
 
