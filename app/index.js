@@ -16,15 +16,12 @@ passport.use(new GoogleStrategy({
     }
 ))
 
-app.use((req, res, next) => {
-    console.log(req.headers)
-    next()
+passport.serializeUser(function (user, cb) {
+    cb(null, user)
 })
 
-app.get('/chance', (req, res) => {
-    res.json({
-        chance: req.chance
-    })
+passport.deserializeUser(function (obj, cb) {
+    cb(null, obj)
 })
 
 app.get('/fail', (req, res) => {
