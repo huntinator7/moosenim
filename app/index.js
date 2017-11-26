@@ -16,7 +16,7 @@ app.use(session({
     saveUninitialized: true
 }))
 
-var server = https.createServer(app).listen(port, function () {
+var server = http.createServer(app).listen(port, function () {
     console.log(`server up and running at port ${port}`)
 })
 
