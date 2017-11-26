@@ -16,13 +16,17 @@ app.use(session({
     saveUninitialized: true
 }))
 
+var server = https.createServer(app).listen(port, function () {
+    console.log(`server up and running at port ${port}`)
+})
+
 // initialize our modules
 var io = require("socket.io")(server),
     passportSocketIo = require("passport.socketio")
 
 function onAuthorizeSuccess(data, accept) {
     console.log('successful connection to socket.io')
-    accept();
+    accept()
 }
 
 function onAuthorizeFail(data, message, error, accept) {
@@ -47,8 +51,8 @@ io.use(passportSocketIo.authorize({
 }))
 
 function onAuthorizeFail(data, message, error, accept) {
-    if (error) throw new Error(message);
-    return accept();
+    if (error) throw new Error(message)
+    return accept()
 }
 
 passport.use(new GoogleStrategy({
@@ -122,7 +126,7 @@ app.get('/profile',
             console.log(`uid reply: ${reply}`)
         })
         client.smembers('online', function (err, reply) {
-            console.log(`users online: ${reply}`);
+            console.log(`users online: ${reply}`)
         })
         res.render('profile', { user: req.user })
         console.log(req.user)
@@ -139,5 +143,3 @@ app.get('/auth/google/callback',
         res.redirect('/profile')
     }
 )
-
-app.listen(port)
