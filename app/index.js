@@ -7,7 +7,6 @@ const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 const redis = require("redis")
 const session = require('express-session')
 const sessionStore = require('connect-redis')(session)
-const client = redis.createClient()
 const cookieParser = require('cookie-parser')()
 
 app.use(session({
