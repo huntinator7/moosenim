@@ -4,10 +4,11 @@ const passport = require('passport')
 const app = express()
 const port = 3000
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
-var redis = require("redis")
-var session = require('express-session')
-var sessionStore = require('connect-redis')(session)
-var client = redis.createClient()
+const redis = require("redis")
+const session = require('express-session')
+const sessionStore = require('connect-redis')(session)
+const client = redis.createClient()
+const cookieParser = require('cookie-parser')()
 
 app.use(session({
     key: 'keyboard cat',
@@ -35,7 +36,7 @@ function onAuthorizeFail(data, message, error, accept) {
 }
 
 app.use(require('morgan')('combined'))
-app.use(require('cookie-parser')())
+app.use(cookieParser)
 app.use(require('body-parser').urlencoded({ extended: true }))
 
 io.use(passportSocketIo.authorize({
