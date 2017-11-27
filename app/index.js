@@ -94,6 +94,7 @@ passport.serializeUser(function (user, cb) {
 })
 
 passport.deserializeUser(function (obj, cb) {
+    io.connect('https://moosen.im')
     cb(null, obj)
 })
 
@@ -130,7 +131,7 @@ app.get('/profile',
             console.log(`users online: ${reply}`)
         })
         res.render('profile', { user: req.user })
-        io.connect('https://moosen.im')
+        
         //console.log(req.user)
     }
 )
