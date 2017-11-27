@@ -25,8 +25,7 @@ var io = require("socket.io")(server),
     passportSocketIo = require("passport.socketio")
 
 function onAuthorizeSuccess(data, accept) {
-    console.log('successful connection to socket.io')
-    io.connect('https://moosen.im')
+    console.log('success connection to socket.io')
     accept()
 }
 
@@ -94,7 +93,7 @@ passport.serializeUser(function (user, cb) {
 })
 
 passport.deserializeUser(function (obj, cb) {
-    io.connect('https://moosen.im')
+   
     cb(null, obj)
 })
 
