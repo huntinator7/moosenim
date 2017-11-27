@@ -78,6 +78,13 @@ client.get('test', function (err, reply) {
     console.log(`test reply: ${reply}`)
 })
 
+
+
+io.on('connection', function(){
+    console.log(socket.request.user)
+    console.log("socket request")
+
+})
 // Configure Passport authenticated session persistence.
 //
 // In order to restore authentication state across HTTP requests, Passport needs
@@ -94,7 +101,7 @@ passport.serializeUser(function (user, cb) {
 })
 
 passport.deserializeUser(function (obj, cb) {
-   
+    io.request.user.logged_in
     cb(null, obj)
 })
 
