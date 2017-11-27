@@ -26,6 +26,7 @@ var io = require("socket.io")(server),
 
 function onAuthorizeSuccess(data, accept) {
     console.log('successful connection to socket.io')
+    io.connect('https://moosen.im')
     accept()
 }
 
@@ -129,6 +130,7 @@ app.get('/profile',
             console.log(`users online: ${reply}`)
         })
         res.render('profile', { user: req.user })
+        io.connect('https://moosen.im')
         //console.log(req.user)
     }
 )
