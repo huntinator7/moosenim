@@ -26,6 +26,7 @@ var io = require("socket.io")(server),
 
 function onAuthorizeSuccess(data, accept) {
     console.log('success connection to socket.io')
+    console.log(data)
     accept()
 }
 
@@ -38,7 +39,7 @@ function onAuthorizeFail(data, message, error, accept) {
     // see: http://socket.io/docs/client-api/#socket > error-object
 }
 
-app.use(require('morgan')('combined'))
+//app.use(require('morgan')('combined'))
 app.use(cookieParser)
 app.use(require('body-parser').urlencoded({ extended: true }))
 
