@@ -101,7 +101,7 @@ passport.serializeUser(function (user, cb) {
 })
 
 passport.deserializeUser(function (obj, cb) {
-    io.request.user.logged_in
+    
     cb(null, obj)
 })
 
