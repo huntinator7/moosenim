@@ -61,7 +61,7 @@ passport.use(new GoogleStrategy({
     callbackURL: 'http://moosen.im:3000/auth/google/callback'
 },
     function (accessToken, refreshToken, profile, cb) {
-        console.log(profile)
+        //console.log(profile)
         return cb(null, profile)
     }
 ))
