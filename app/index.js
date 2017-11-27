@@ -129,7 +129,7 @@ app.get('/profile',
             console.log(`users online: ${reply}`)
         })
         res.render('profile', { user: req.user })
-        console.log(req.user)
+        //console.log(req.user)
     }
 )
 
