@@ -92,11 +92,14 @@ var socket
 io.on('connection', function(){
    // console.log(socket.request.user)
     console.log("socket request")
-    socket.emit('test', 'testing')
+    
     socket.on('test', function (s) {
         console.log(s)
     })
-})
+
+
+    socket.emit('test', 'testing')
+
 
 
 
@@ -122,6 +125,9 @@ passport.deserializeUser(function (obj, cb) {
     cb(null, obj)
 })
 
+
+
+})
 // Configure view engine to render EJS templates.
 app.set('views', __dirname + '/../views')
 app.set('view engine', 'ejs')
