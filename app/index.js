@@ -8,7 +8,7 @@ const redis = require("redis")
 const session = require('express-session')
 const sessionStore = require('connect-redis')(session)
 const cookieParser = require('cookie-parser')()
-import sio from 'socket.io-client'
+const sio = require('socket.io-client')
 
 app.use(session({
     key: 'keyboard cat',
