@@ -78,14 +78,18 @@ client.get('test', function (err, reply) {
     console.log(`test reply: ${reply}`)
 })
 
-io.listen(app).onconnection(function () {
-    console.log("socket request")
-})
+
 
 
 io.on('connection', function(){
     console.log(socket.request.user)
     console.log("socket request")
+
+})
+
+
+io.listen(app).set('authorization', function (data, accept) {
+    console.log('success '+data)
 
 })
 // Configure Passport authenticated session persistence.
