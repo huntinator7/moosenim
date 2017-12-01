@@ -92,10 +92,10 @@ var socket
 io.on('connection', function(){
    // console.log(socket.request.user)
     console.log("socket request")
-    
+    socket.emit('test', 'testing')
 })
 
-io.on('test', function (s){
+socket.on('test', function (s){
     console.log (s)
 })
 
@@ -140,6 +140,7 @@ app.get('/',
 
 app.get('/login',
     function (req, res) {
+        socket.emit('test', 'testing')
         res.render('login')
     }
 )
@@ -153,9 +154,7 @@ app.get('/profile',
         client.smembers('online', function (err, reply) {
             console.log(`users online: ${reply}`)
         })
-        res.render('profile', { user: req.user })
-        
-        socket.emit('test', 'testing')
+        res.render('profile', { user: req.user }) 
     }
 )
 
