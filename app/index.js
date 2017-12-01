@@ -84,7 +84,7 @@ var socket
 
     console.log('is this running?')
     var URL_SERVER = 'http://moosen.im:3000'
-    socket = sio.connect(URL_SERVER)
+    socket = sioc.connect(URL_SERVER)
    
 
 
