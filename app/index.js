@@ -79,7 +79,7 @@ client.get('test', function (err, reply) {
 })
 
 
-.io.on('connection', function(){
+io.on('connection', function(){
     console.log(socket.request.user)
     console.log("socket request")
 
