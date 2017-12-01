@@ -89,11 +89,11 @@ var socket
 
 
 
-io.on('connection', function(){
+socket.on('connection', function(){
    // console.log(socket.request.user)
     console.log("socket request")
     
-    io.on('test', function (s) {
+    socket.on('test', function (s) {
         console.log(s+'potato')
     })
 
