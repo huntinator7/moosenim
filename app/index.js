@@ -90,8 +90,9 @@ var socket
 
 
 io.on('connection', function(){
-    console.log(socket.request.user)
+   // console.log(socket.request.user)
     console.log("socket request")
+    io.emit('test', 'testing');
 })
 
 io.on('test', function (s){
