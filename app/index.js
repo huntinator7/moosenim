@@ -79,19 +79,17 @@ client.get('test', function (err, reply) {
 })
 
 
+io.listen(app).set('authorization', function (data, accept) {
+    console.log('success ' + data)
 
-
-io.on('connection', function(){
+}).io.on('connection', function(){
     console.log(socket.request.user)
     console.log("socket request")
 
 })
 
 
-io.listen(app).set('authorization', function (data, accept) {
-    console.log('success '+data)
 
-})
 // Configure Passport authenticated session persistence.
 //
 // In order to restore authentication state across HTTP requests, Passport needs
