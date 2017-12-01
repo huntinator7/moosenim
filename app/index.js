@@ -2,7 +2,7 @@ const http = require('http')
 const express = require('express')
 const passport = require('passport')
 const app = express()
-const port = 3001
+const port = 3000
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 const redis = require("redis")
 const session = require('express-session')
@@ -78,7 +78,9 @@ client.get('test', function (err, reply) {
     console.log(`test reply: ${reply}`)
 })
 
-app.listen(3001)
+io.listen(app).onconnection(function () {
+    console.log("socket request")
+})
 
 
 io.on('connection', function(){
