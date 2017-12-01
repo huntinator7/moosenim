@@ -93,12 +93,12 @@ io.on('connection', function(){
    // console.log(socket.request.user)
     console.log("socket request")
     
-    socket.on('test', function (s) {
+    io.on('test', function (s) {
         console.log(s)
     })
 
 
-    socket.emit('test', 'testing')
+    io.emit('test', 'testing')
 
 
 
