@@ -89,13 +89,13 @@ var socket
 
 
 
-sio.on('connection', function(){
+io.on('connection', function(){
    // console.log(socket.request.user)
     console.log("socket request")
     socket.emit('test', 'testing');
 })
 
-sio.on('test', function (s){
+io.on('test', function (s){
     console.log (s)
 })
 
