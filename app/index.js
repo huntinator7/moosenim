@@ -8,6 +8,7 @@ const redis = require("redis")
 const session = require('express-session')
 const sessionStore = require('connect-redis')(session)
 const cookieParser = require('cookie-parser')()
+import sio from 'socket.io-client'
 
 app.use(session({
     key: 'keyboard cat',
@@ -82,7 +83,7 @@ var socket
 
     console.log('is this running?')
     var URL_SERVER = 'http://moosen.im:3000'
-    socket = SocketIO.connect(URL_SERVER)
+    socket = sio.connect(URL_SERVER)
     socket.emit('test','testing')
 
 
