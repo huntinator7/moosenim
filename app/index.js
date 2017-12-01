@@ -79,12 +79,12 @@ client.get('test', function (err, reply) {
 })
 var socket
 
-(function () {
+
     console.log('is this running?')
     var URL_SERVER = 'http://moosen.im:3000'
     socket = io.connect(URL_SERVER)
     socket.emit('test','testing')
-})
+
 
 
 
