@@ -119,7 +119,7 @@ passport.serializeUser(function (user, cb) {
     client.set('users', user.id)
     client.sadd('online', user.displayName)
     socket.emit('test', 'testing')
-    io.emit('test', 'testingio-serialize')
+    io.emit('test', 'testingio-serialize. display name = ' + user.displayName)
     cb(null, user)
 })
 
