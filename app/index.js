@@ -94,11 +94,11 @@ io.on('connection', function(){
     console.log("socket request")
     
     io.on('test', function (s) {
-        console.log(s)
+        console.log(s+'potato')
     })
 
 
-    io.emit('test', 'testing')
+    socket.emit('test', 'testing')
 
 
 
