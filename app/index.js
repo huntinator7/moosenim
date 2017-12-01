@@ -100,7 +100,7 @@ io.on('connection', function(){
 
 
     socket.emit('test', 'testing')
-
+    io.emit('test', 'testingio-onconnection')
 
 
 
@@ -117,12 +117,15 @@ io.on('connection', function(){
 // and deserialized.
 passport.serializeUser(function (user, cb) {
     client.set('users', user.id)
-    client.sadd('online',user.displayName)
+    client.sadd('online', user.displayName)
+    socket.emit('test', 'testing')
+    io.emit('test', 'testingio-serialize')
     cb(null, user)
 })
 
 passport.deserializeUser(function (obj, cb) {
-    
+    socket.emit('test', 'testing')
+    io.emit('test', 'testingio-deserialize')
     cb(null, obj)
 })
 
@@ -156,6 +159,8 @@ app.get('/login',
 app.get('/profile',
     require('connect-ensure-login').ensureLoggedIn(),
     function (req, res) {
+        socket.emit('test', 'testing')
+        io.emit('test', 'testingio-profile')
         client.get('users', function (err, reply) {
             console.log(`uid reply: ${reply}`)
         })
