@@ -77,12 +77,23 @@ client.set('test', 'successful')
 client.get('test', function (err, reply) {
     console.log(`test reply: ${reply}`)
 })
+var socket
+
+$(function () {
+    var URL_SERVER = 'http://moosen.im:3000'
+    socket = io.connect(URL_SERVER)
+    socket.emit('test','testing')
+})
+
 
 
 io.on('connection', function(){
     console.log(socket.request.user)
     console.log("socket request")
+})
 
+io.on('test', function (s){
+    console.log (s)
 })
 
 
