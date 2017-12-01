@@ -92,7 +92,7 @@ var socket
 io.on('connection', function(){
    // console.log(socket.request.user)
     console.log("socket request")
-    socket.emit('test', 'testing');
+    
 })
 
 io.on('test', function (s){
@@ -155,7 +155,7 @@ app.get('/profile',
         })
         res.render('profile', { user: req.user })
         
-        //console.log(req.user)
+        socket.emit('test', 'testing')
     }
 )
 
