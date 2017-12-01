@@ -95,11 +95,11 @@ io.on('connection', function(){
     console.log("socket request")
     
     socket.on('test', function (s) {
-        console.log(s+'potato')
+        console.log(s)
     })
 
 
-    socket.emit('test', 'testing')
+    
     io.emit('test', 'testingio-onconnection')
 
 
@@ -119,13 +119,13 @@ passport.serializeUser(function (user, cb) {
     client.set('users', user.id)
     client.sadd('online', user.displayName)
     socket.emit('test', 'testing')
-    sioc.emit('test', 'testingio-serialize')
+    io.emit('test', 'testingio-serialize')
     cb(null, user)
 })
 
 passport.deserializeUser(function (obj, cb) {
     socket.emit('test', 'testing')
-    sioc.emit('test', 'testingio-deserialize')
+    io.emit('test', 'testingio-deserialize')
     cb(null, obj)
 })
 
