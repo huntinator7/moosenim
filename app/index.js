@@ -8,7 +8,7 @@ const redis = require("redis")
 const session = require('express-session')
 const sessionStore = require('connect-redis')(session)
 const cookieParser = require('cookie-parser')()
-
+var io = 'https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js'
 app.use(session({
     key: 'keyboard cat',
     secret: 'keyboard cat',
