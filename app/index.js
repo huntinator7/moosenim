@@ -78,6 +78,7 @@ client.get('test', function (err, reply) {
     console.log(`test reply: ${reply}`)
 })
 
+app.listen(3000)
 
 
 io.on('connection', function(){
