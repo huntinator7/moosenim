@@ -84,18 +84,18 @@ var socket
     console.log('is this running?')
     var URL_SERVER = 'http://moosen.im:3000'
     socket = sio.connect(URL_SERVER)
-    socket.emit('test','testing')
+   
 
 
 
 
-io.on('connection', function(){
+sio.on('connection', function(){
    // console.log(socket.request.user)
     console.log("socket request")
-    io.emit('test', 'testing');
+    socket.emit('test', 'testing');
 })
 
-io.on('test', function (s){
+sio.on('test', function (s){
     console.log (s)
 })
 
