@@ -41,7 +41,7 @@ function onAuthorizeFail(data, message, error, accept) {
 }
 
 //app.use(require('morgan')('combined'))
-app.use(cookieParser)
+//app.use(cookieParser)
 app.use(require('body-parser').urlencoded({ extended: true }))
 
 io.use(passportSocketIo.authorize({
