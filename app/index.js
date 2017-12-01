@@ -79,10 +79,7 @@ client.get('test', function (err, reply) {
 })
 
 
-io.listen(app).set('authorization', function (data, accept) {
-    console.log('success ' + data)
-
-}).io.on('connection', function(){
+.io.on('connection', function(){
     console.log(socket.request.user)
     console.log("socket request")
 
