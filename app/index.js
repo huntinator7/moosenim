@@ -8,7 +8,8 @@ const redis = require("redis")
 const session = require('express-session')
 const sessionStore = require('connect-redis')(session)
 const cookieParser = require('cookie-parser')()
-const sio = require('socket.io-client')
+const sioc = require('socket.io-client')
+const sio = require('socket.io')
 
 app.use(session({
     key: 'keyboard cat',
@@ -93,12 +94,12 @@ io.on('connection', function(){
    // console.log(socket.request.user)
     console.log("socket request")
     
-    sio.on('test', function (s) {
+    socket.on('test', function (s) {
         console.log(s+'potato')
     })
 
 
-    sio.emit('test', 'testing')
+    socket.emit('test', 'testing')
 
 
 
