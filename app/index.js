@@ -2,7 +2,7 @@ const http = require('http')
 const express = require('express')
 const passport = require('passport')
 const app = express()
-const port = 3000
+const port = 3001
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 const redis = require("redis")
 const session = require('express-session')
@@ -83,7 +83,7 @@ var socket
 
 
     console.log('is this running?')
-    var URL_SERVER = 'http://moosen.im:3000'
+    var URL_SERVER = 'http://moosen.im:3001'
     socket = sioc.connect(URL_SERVER)
    
 
