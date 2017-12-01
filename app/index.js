@@ -89,16 +89,16 @@ var socket
 
 
 
-socket.on('connection', function(){
+io.on('connection', function(){
    // console.log(socket.request.user)
     console.log("socket request")
     
-    socket.on('test', function (s) {
+    sio.on('test', function (s) {
         console.log(s+'potato')
     })
 
 
-    socket.emit('test', 'testing')
+    sio.emit('test', 'testing')
 
 
 
