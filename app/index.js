@@ -1,18 +1,22 @@
 const http = require('http')
-const express = require('express')
+var express = require('express')
 const passport = require('passport')
-const app = express()
+
 const port = 3000
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 const redis = require("redis")
 const session = require('express-session')
 const sessionStore = require('connect-redis')(session)
 const cookieParser = require('socket.io-cookie-parser')()
+var cookieParser2 = require('cookie-parser')()
 const sioc = require('socket.io-client')
 const sio = require('socket.io')
 
-
+var app = express()
 app.use(cookieParser)
+app.use(cookieParser2)
+
+
 app.use(session({
     key: 'keyboard cat',
     secret: 'keyboard cat',
