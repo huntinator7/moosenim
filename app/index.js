@@ -11,6 +11,8 @@ const cookieParser = require('socket.io-cookie-parser')()
 const sioc = require('socket.io-client')
 const sio = require('socket.io')
 
+
+app.use(cookieParser)
 app.use(session({
     key: 'keyboard cat',
     secret: 'keyboard cat',
@@ -44,7 +46,7 @@ function onAuthorizeFail(data, message, error, accept) {
 }
 
 //app.use(require('morgan')('combined'))
-app.use(cookieParser)
+
 app.use(require('body-parser').urlencoded({ extended: true }))
 
 io.use(passportSocketIo.authorize({
