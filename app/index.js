@@ -98,7 +98,8 @@ io.on('connection', function(){
         console.log(s)
     })
 
-
+    console.log(socket.request.user.logged_in)
+    
     
     io.emit('test', 'testingio-onconnection')
 
@@ -157,7 +158,7 @@ app.get('/login',
 )
 
 app.get('/profile',
-    require('connect-ensure-login').ensureLoggedIn(),
+    require('connect-en  sure-login').ensureLoggedIn(),
     function (req, res) {
         socket.emit('test', 'testing')
         io.emit('test', 'testingio-profile')
