@@ -158,7 +158,7 @@ app.get('/login',
 )
 
 app.get('/profile',
-    require('connect-en  sure-login').ensureLoggedIn(),
+    require('connect-ensure-login').ensureLoggedIn(),
     function (req, res) {
         socket.emit('test', 'testing')
         io.emit('test', 'testingio-profile')
