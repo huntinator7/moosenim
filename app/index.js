@@ -7,7 +7,7 @@ const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 const redis = require("redis")
 const session = require('express-session')
 const sessionStore = require('connect-redis')(session)
-const cookieParser = require('cookie-parser')()
+const cookieParser = require('socket.io-cookie-parser')()
 const sioc = require('socket.io-client')
 const sio = require('socket.io')
 
@@ -44,11 +44,11 @@ function onAuthorizeFail(data, message, error, accept) {
 }
 
 //app.use(require('morgan')('combined'))
-//app.use(cookieParser)
+app.use(cookieParser)
 app.use(require('body-parser').urlencoded({ extended: true }))
 
 io.use(passportSocketIo.authorize({
-   cookieParser: express.cookieParser,       // the same middleware you registrer in express
+   cookieParser: cookieParser,       // the same middleware you registrer in express
     key: 'keyboard cat',       // the name of the cookie where express/connect stores its session_id
     secret: 'keyboard cat',    // the session_secret to parse the cookie
     store: sessionStore,        // we NEED to use a sessionstore. no memorystore please
