@@ -6,7 +6,9 @@ const port = 3000
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 const redis = require("redis")
 const session = require('express-session')
-const sessionStore = require('connect-redis')(session)
+var redisStore = require('connect-redis')(session)
+var client = redis.createClient();
+const sessionStore = new redisStore(options)
 const cookieParser = require('socket.io-cookie-parser')()
 var cookieParser2 = require('cookie-parser')()
 const sioc = require('socket.io-client')
@@ -21,7 +23,8 @@ app.use(session({
     key: 'keyboard cat',
     secret: 'keyboard cat',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    store: new redisStore({host : localhost, port : 6379, client : client, ttl : 260})
 }))
 
 var server = http.createServer(app).listen(port, function () {
@@ -50,16 +53,13 @@ function onAuthorizeFail(data, message, error, accept) {
 }
 
 //app.use(require('morgan')('combined'))
-function cookieWrap(socket, next) {
-   // cookieParser2(socket.request, {}, next)
-}
 app.use(require('body-parser').urlencoded({ extended: true }))
 
 io.use(passportSocketIo.authorize({
    cookieParser: require('cookie-parser'),       // the same middleware you registrer in express
     key: 'keyboard cat',       // the name of the cookie where express/connect stores its session_id
     secret: 'keyboard cat',    // the session_secret to parse the cookie
-    store: sessionStore,        // we NEED to use a sessionstore. no memorystore please
+    store: new redisStore({ host: localhost, port: 6379, client: client, ttl: 260 })      // we NEED to use a sessionstore. no memorystore please
     fail: onAuthorizeFail,     // *optional* callback on fail/error - read more below
 }))
 
