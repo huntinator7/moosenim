@@ -51,12 +51,12 @@ function onAuthorizeFail(data, message, error, accept) {
 
 //app.use(require('morgan')('combined'))
 function cookieWrap(socket, next) {
-    cookieParser2(socket.request, {}, next)
+   // cookieParser2(socket.request, {}, next)
 }
 app.use(require('body-parser').urlencoded({ extended: true }))
 
 io.use(passportSocketIo.authorize({
-   cookieParser: cookieWrap,       // the same middleware you registrer in express
+   cookieParser: require('cookie-parser'),       // the same middleware you registrer in express
     key: 'keyboard cat',       // the name of the cookie where express/connect stores its session_id
     secret: 'keyboard cat',    // the session_secret to parse the cookie
     store: sessionStore,        // we NEED to use a sessionstore. no memorystore please
