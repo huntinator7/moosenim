@@ -1,7 +1,7 @@
 const http = require('http')
 var express = require('express')
 const passport = require('passport')
-
+var mysql = require('mysql')
 const port = 3000
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 const redis = require("redis")
@@ -17,14 +17,21 @@ const sio = require('socket.io')
 var app = express()
 //app.use(cookieParser)
 app.use(cookieParser2)
+var pool = mysql.createPool({
+    connectionLimit: 100,
+    host: 'localhost',
+    user: 'root',
+    password: 'raspberry',
+    database: moosenim
 
+})
 
 app.use(session({
     key: 'keyboard cat',
     secret: 'keyboard cat',
     resave: true,
     saveUninitialized: true,
-    store: new redisStore({host : 'localhost', port : 6379, client : client, ttl : 260})
+    store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl: 260 })
 }))
 
 var server = http.createServer(app).listen(port, function () {
@@ -56,7 +63,7 @@ function onAuthorizeFail(data, message, error, accept) {
 app.use(require('body-parser').urlencoded({ extended: true }))
 
 io.use(passportSocketIo.authorize({
-   cookieParser: require('cookie-parser'),       // the same middleware you registrer in express
+    cookieParser: require('cookie-parser'),       // the same middleware you registrer in express
     key: 'keyboard cat',       // the name of the cookie where express/connect stores its session_id
     secret: 'keyboard cat',    // the session_secret to parse the cookie
     store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl: 260 }),      // we NEED to use a sessionstore. no memorystore please
@@ -91,57 +98,85 @@ client.get('test', function (err, reply) {
 })
 var socket
 
+var URL_SERVER = 'http://moosen.im:3000'
+socket = sioc.connect(URL_SERVER)
 
-    console.log('is this running?')
-    var URL_SERVER = 'http://moosen.im:3000'
-    socket = sioc.connect(URL_SERVER)
-   
+function handle_database(req, type, callback) {
+    async.waterfall([
+        function (callback) {
+            pool.getConnection(function (err, connection) {
+                if (err) {
+                    callback(true)
+                    
+                }
+                else {
+                    callback(null, connection)
+                }
+            })
 
+        }, 
+        function (connection, callback) {
+            var sqlquery
+            switch (type) {
+                case 'login':
+                    sqlquery = "SELECT * FROM users WHERE email = '"+req.body.user_email+"'"
+                    break
+                case 'checkEmail':
+                    sqlquery = "SELECT email FROM users WHERE email = '" + req.body.user_email + "'"
+                    break
+                case 'register':
+                    sqlquery = "INSERT INTO users (name, uid,profpic,isonline,totalmessages,email,curroom ) VALUES ('" + req.session.key['user_name'] + "','" + req.session.key['user_id'] +"', 'profpic', true, 0, 'email', 'curroom'"
+                    break
+            }
+            callback(null, connection, sqlquery)
+        }, function (connection, sqlquery, callback) {
+            connection.query(sqlquery, function (err, rows) {
+                connection.release()
+                if (!err) {
+                    if (type == 'login') {
+                        callback(rows.length == ? false : rows[0])
+                    } else if (type == 'register') {
+                        callback(false)
+                    }
+                }
+                else {
+                    callback(true)
+                }
+            })
+        })
+    ],function (result) {
+        // This function gets call after every async task finished.
+        if (typeof (result) === "boolean" && result === true) {
+            callback(null)
+        } else {
+            callback(result)
+        }
+    }
 
+}
 
-
-io.on('connection', function(){
-   // console.log(socket.request.user)
+io.on('connection', function () {
+    // console.log(socket.request.user)
     console.log("socket request")
-    
+
     socket.on('test', function (s) {
         console.log(s)
     })
-
-   
-    
-    
     io.emit('test', 'testingio-onconnection')
 
+    passport.serializeUser(function (user, cb) {
+        client.set('users', user.id)
+        client.sadd('online', user.displayName)
+        socket.emit('test', 'testing')
+        io.emit('test', 'testingio-serialize. display name = ' + user.displayName)
+        cb(null, user)
+    })
 
-
-
-
-// Configure Passport authenticated session persistence.
-//
-// In order to restore authentication state across HTTP requests, Passport needs
-// to serialize users into and deserialize users out of the session.  In a
-// production-quality application, this would typically be as simple as
-// supplying the user ID when serializing, and querying the user record by ID
-// from the database when deserializing.  However, due to the fact that this
-// example does not have a database, the complete Facebook profile is serialized
-// and deserialized.
-passport.serializeUser(function (user, cb) {
-    client.set('users', user.id)
-    client.sadd('online', user.displayName)
-    socket.emit('test', 'testing')
-    io.emit('test', 'testingio-serialize. display name = ' + user.displayName)
-    cb(null, user)
-})
-
-passport.deserializeUser(function (obj, cb) {
-    socket.emit('test', 'testing')
-    io.emit('test', 'testingio-deserialize')
-    cb(null, obj)
-})
-
-
-
+    passport.deserializeUser(function (obj, cb) {
+        socket.emit('test', 'testing')
+        io.emit('test', 'testingio-deserialize')
+        cb(null, obj)
+    })
 })
 // Configure view engine to render EJS templates.
 app.set('views', __dirname + '/../views')
@@ -157,15 +192,13 @@ app.use(passport.session())
 app.get('/',
     function (req, res) {
         res.render('home', { user: req.user })
-    }
-)
+    })
 
 app.get('/login',
     function (req, res) {
         socket.emit('test', 'testing')
         res.render('login')
-    }
-)
+    })
 
 app.get('/profile',
     require('connect-ensure-login').ensureLoggedIn(),
@@ -178,9 +211,8 @@ app.get('/profile',
         client.smembers('online', function (err, reply) {
             console.log(`users online: ${reply}`)
         })
-        res.render('profile', { user: req.user }) 
-    }
-)
+        res.render('profile', { user: req.user })
+    })
 
 app.get('/auth/google',
     passport.authenticate('google', { scope: ['profile'] })
@@ -190,5 +222,4 @@ app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/login', failureFlash: true }),
     function (req, res) {
         res.redirect('/profile')
-    }
-)
+    })
