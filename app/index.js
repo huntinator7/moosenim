@@ -9,13 +9,13 @@ const session = require('express-session')
 var redisStore = require('connect-redis')(session)
 var client = redis.createClient();
 const sessionStore = new redisStore()
-const cookieParser = require('socket.io-cookie-parser')()
+//const cookieParser = require('socket.io-cookie-parser')()
 var cookieParser2 = require('cookie-parser')()
 const sioc = require('socket.io-client')
 const sio = require('socket.io')
 
 var app = express()
-app.use(cookieParser)
+//app.use(cookieParser)
 app.use(cookieParser2)
 
 
