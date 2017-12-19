@@ -108,7 +108,7 @@ io.on('connection', function(){
         console.log(s)
     })
 
-    console.log(socket.request.user.logged_in)
+   
     
     
     io.emit('test', 'testingio-onconnection')
