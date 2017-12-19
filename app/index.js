@@ -24,7 +24,7 @@ app.use(session({
     secret: 'keyboard cat',
     resave: true,
     saveUninitialized: true,
-    store: new redisStore({host : localhost, port : 6379, client : client, ttl : 260})
+    store: new redisStore({host : 'localhost', port : 6379, client : client, ttl : 260})
 }))
 
 var server = http.createServer(app).listen(port, function () {
@@ -59,7 +59,7 @@ io.use(passportSocketIo.authorize({
    cookieParser: require('cookie-parser'),       // the same middleware you registrer in express
     key: 'keyboard cat',       // the name of the cookie where express/connect stores its session_id
     secret: 'keyboard cat',    // the session_secret to parse the cookie
-    store: new redisStore({ host: localhost, port: 6379, client: client, ttl: 260 }),      // we NEED to use a sessionstore. no memorystore please
+    store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl: 260 }),      // we NEED to use a sessionstore. no memorystore please
     fail: onAuthorizeFail,     // *optional* callback on fail/error - read more below
 }))
 
