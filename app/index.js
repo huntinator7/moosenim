@@ -107,25 +107,25 @@ function handle_database(req, type, callback) {
             pool.getConnection(function (err, connection) {
                 if (err) {
                     callback(true)
-                    
+
                 }
                 else {
                     callback(null, connection)
                 }
             })
 
-        }, 
+        },
         function (connection, callback) {
             var sqlquery
             switch (type) {
                 case 'login':
-                    sqlquery = "SELECT * FROM users WHERE email = '"+req.body.user_email+"'"
+                    sqlquery = "SELECT * FROM users WHERE email = '" + req.body.user_email + "'"
                     break
                 case 'checkEmail':
                     sqlquery = "SELECT email FROM users WHERE email = '" + req.body.user_email + "'"
                     break
                 case 'register':
-                    sqlquery = "INSERT INTO users (name, uid,profpic,isonline,totalmessages,email,curroom ) VALUES ('" + req.session.key['user_name'] + "','" + req.session.key['user_id'] +"', 'profpic', true, 0, 'email', 'curroom'"
+                    sqlquery = "INSERT INTO users (name, uid,profpic,isonline,totalmessages,email,curroom ) VALUES ('" + req.session.key['user_name'] + "','" + req.session.key['user_id'] + "', 'profpic', true, 0, 'email', 'curroom'"
                     break
             }
             callback(null, connection, sqlquery)
@@ -143,15 +143,14 @@ function handle_database(req, type, callback) {
                     callback(true)
                 }
             })
-        })
-    ],function (result) {
-        // This function gets call after every async task finished.
-        if (typeof (result) === "boolean" && result === true) {
-            callback(null)
-        } else {
-            callback(result)
-        }
-    }
+        }, function (result) {
+            // This function gets call after every async task finished.
+            if (typeof (result) === "boolean" && result === true) {
+                callback(null)
+            } else {
+                callback(result)
+            }
+        }])
 
 }
 
