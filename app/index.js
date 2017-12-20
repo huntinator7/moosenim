@@ -13,6 +13,7 @@ const sessionStore = new redisStore()
 var cookieParser2 = require('cookie-parser')()
 const sioc = require('socket.io-client')
 const sio = require('socket.io')
+var async = require('async')
 
 var app = express()
 //app.use(cookieParser)
