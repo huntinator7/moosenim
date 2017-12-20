@@ -134,7 +134,7 @@ function handle_database(req, type, callback) {
                 connection.release()
                 if (!err) {
                     if (type == 'login') {
-                        callback(rows.length == ? false : rows[0])
+                        callback(rows.length == 0 ? false : rows[0])
                     } else if (type == 'register') {
                         callback(false)
                     }
