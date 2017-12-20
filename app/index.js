@@ -120,6 +120,7 @@ function handle_database(req, type, callback) {
             switch (type) {
                 case 'login':
                     sqlquery = "SELECT * FROM users WHERE email = '" + req.body.user_email + "'"
+                    console.log('query email ' + req.body.user_email)
                     break
                 case 'checkEmail':
                     sqlquery = "SELECT email FROM users WHERE email = '" + req.body.user_email + "'"
@@ -135,6 +136,7 @@ function handle_database(req, type, callback) {
                 if (!err) {
                     if (type == 'login') {
                         callback(rows.length == 0 ? false : rows[0])
+                        console.log('connection.query ' + rows[0])
                     } else if (type == 'register') {
                         callback(false)
                     }
@@ -206,6 +208,9 @@ app.get('/profile',
         io.emit('test', 'testingio-profile')
         client.get('users', function (err, reply) {
             console.log(`uid reply: ${reply}`)
+        })
+        handle_database(req, 'login', function (res) {
+            console.log('handle_database test: ' + res)
         })
         client.smembers('online', function (err, reply) {
             console.log(`users online: ${reply}`)
