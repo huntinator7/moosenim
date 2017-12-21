@@ -121,7 +121,7 @@ function handle_database(req, type, callback) {
             switch (type) {
                 case 'login':
                     sqlquery = "SELECT * FROM users WHERE email = '" + req.body.user_email + "'"
-                    console.log('query email ' + req.body.user_email)
+                    console.log('query email ' + req)
                     break
                 case 'checkEmail':
                     sqlquery = "SELECT email FROM users WHERE email = '" + req.body.user_email + "'"
