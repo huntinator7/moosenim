@@ -121,7 +121,8 @@
                     document.getElementById('quickstart-sign-in-status').style.display = "inline";
                     document.getElementById('quickstart-sign-in-status').style.textAlign = "center";
                     document.getElementById('quickstart-sign-in').textContent = 'Sign out';
-                    document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
+                    document.getElementById('quickstart-account-details').innerHTML('test');
+                    //document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
                 } else {
                     // User is signed out.
                     try {
