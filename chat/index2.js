@@ -2,6 +2,7 @@ var fs = require('fs');
 var http = require('http');
 var https = require('https');
 var express = require('express');
+const passport = require('passport');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var siofu = require("socketio-file-upload");
@@ -12,7 +13,83 @@ var util = require('util');
 var messages = require('./routes/messages');
 var app = express();
 var app2 = express();
+//new stuff
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
+const redis = require("redis")
+const session = require('express-session')
+var redisStore = require('connect-redis')(session)
+var client = redis.createClient();
+const sessionStore = new redisStore()
+var cookieParser2 = require('cookie-parser')()
+const sioc = require('socket.io-client')
+const sio = require('socket.io')
+var async = require('async')
 
+
+app.use(session({
+    key: 'keyboard cat',
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true,
+    store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl: 260 })
+}))
+function onAuthorizeSuccess(data, accept) {
+    console.log('success connection to socket.io')
+    console.log(data)
+    accept()
+}
+function onAuthorizeFail(data, message, error, accept) {
+    if (error) {
+        throw new Error(message)
+    }
+    console.log('failed connection to socket.io:', message)
+    // this error will be sent to the user as a special error-package
+    // see: http://socket.io/docs/client-api/#socket > error-object
+}
+app.use(require('body-parser').urlencoded({ extended: true }))
+
+io.use(passportSocketIo.authorize({
+    cookieParser: require('cookie-parser'),       // the same middleware you registrer in express
+    key: 'keyboard cat',       // the name of the cookie where express/connect stores its session_id
+    secret: 'keyboard cat',    // the session_secret to parse the cookie
+    store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl: 260 }),      // we NEED to use a sessionstore. no memorystore please
+    fail: onAuthorizeFail,     // *optional* callback on fail/error - read more below
+}))
+
+function onAuthorizeFail(data, message, error, accept) {
+    if (error) throw new Error(message)
+    return accept()
+}
+
+passport.use(new GoogleStrategy({
+    clientID: '333736509560-id8si5cbuim26d3e67s4l7oscjfsakat.apps.googleusercontent.com',
+    clientSecret: 'ZCMQ511PhvMEQqozMGd5bmRH',
+    callbackURL: 'http://moosen.im:3000/auth/google/callback'
+},
+    function (accessToken, refreshToken, profile, cb) {
+        //console.log(profile)
+        return cb(null, profile)
+    }
+))
+
+//redis setup and test
+var client = redis.createClient()
+client.on('connect', function () {
+    console.log("redis server connected test")
+})
+client.set('test', 'successful')
+
+client.get('test', function (err, reply) {
+    console.log(`test reply: ${reply}`)
+})
+var socket
+var URL_SERVER = 'http://moosen.im:3000'
+socket = sioc.connect(URL_SERVER)
+// Initialize Passport and restore authentication state, if any, from the
+// session.
+app.use(passport.initialize())
+app.use(passport.session())
+//TODO from new shit: debug copied code, redo views, DB interaction
 // http redirect
 app2.all('*', ensureSecure); // at top of routing calls
 
@@ -138,6 +215,21 @@ io.sockets.on('connection', function (socket) {
         delete sockets[socket.id];
     });
 
+    //new shit
+    passport.serializeUser(function (user, cb) {
+        client.set('users', user.id)
+        client.sadd('online', user.displayName)
+        socket.emit('test', 'testing')
+        io.emit('test', 'testingio-serialize. display name = ' + user.displayName)
+        cb(null, user)
+    })
+
+    passport.deserializeUser(function (obj, cb) {
+        socket.emit('test', 'testing')
+        io.emit('test', 'testingio-deserialize')
+        cb(null, obj)
+    })
+    // ned new shit
 
     socket.on('join', function (conf) {
         console.log("["+ socket.id + "] join ", conf);
@@ -464,7 +556,15 @@ userRegexParse.configchange = function (socket, un, uid, curroom, msg) {
     console.log('In configchange');
 }
 
-var connect = config.db;
+//var connect = config.db;
+var connect = mysql.createPool({
+    connectionLimit: 100,
+    host: 'localhost',
+    user: 'root',
+    password: 'raspberry',
+    database: 'moosenim'
+
+})
 var con;
 
 function getMotd(roomid, sid) {
