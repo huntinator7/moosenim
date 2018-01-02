@@ -146,8 +146,19 @@
             <div class="col s12" style="padding:0">
                 <ul class="collection with-header" id="messages" style="overflow-x:hidden"></ul>
                 <a href="#" data-activates="slide-out" style="display:none;" class="button-collapse"></a>
+                <!-- Modal tutorial -->
+                <div id="modaltutorial"  style="z-index: 3000;"class="modal">
+                    <div class="modal-content">
+                        <h4>Welcome to Moosen IM</h4>
+                        <p>Moosen IM is a instant messaging application made by a couple of friends who want more out of their messaging apps. </p>
+                        <p>
+                            To get started, click on 'create room' and give it a catchy name. Then, use 'add to room..' to invite other users to your room. 
+                        </p>
+                        DISCLAIMER: This is an MVP product, and is currently NOT completely secure. 
+                    </div>
+                </div>
                 <!-- Modal add user -->
-                <div id="modal1" class="modal">
+                <div id="modal1"  style="z-index: 3000;"class="modal">
                     <div class="modal-content">
                         <h4>Modal Header</h4>
                         <p>Enter the email of the person you wish to invite</p>
@@ -158,7 +169,7 @@
                     </div>
                 </div>
                 <!-- Modal create room -->
-                <div id="modal2" class="modal">
+                <div id="modal2"  style="z-index: 3000;"class="modal">
                     <div class="modal-content">
                         <h4>Create new Room</h4>
                         <p>Room Name</p>
@@ -169,7 +180,7 @@
                     </div>
                 </div>
                 <!-- Room Settings Modal -->
-                <div id="rsModal" class="modal">
+                <div id="rsModal"  style="z-index: 3000;"class="modal">
                     <div class="modal-content">
                         <h4>Room Settings</h4>
                         <form id="room-settings">
@@ -406,6 +417,9 @@
                     });
                 } catch (e) { }
                 $('#motd').html("test");
+                $('#nav-mobile').append('<li><br></li><li><br></li><li><a id="nav-button" class="button waves-effect modal-trigger" href="#modaltutorial" style="color: #6EB7FF">Getting Started</a></li>');
+                $('#slide-out').append('<li><br></li><li><br></li><li><a id="nav-button" class="button waves-effect modal-trigger" href="#modaltutorial" style="color: #6EB7FF">Getting Started</a></li>');
+
                 $('#nav-mobile').append('<li><br></li><li><br></li><li><a id="nav-button" class="button waves-effect modal-trigger" href="#modal1" style="color: #6EB7FF">Add to room..</a></li>');
                 $('#slide-out').append('<li><br></li><li><br></li><li><a id="nav-button" class="button waves-effect modal-trigger" href="#modal1" style="color: #6EB7FF">Add to room..</a></li>');
 
