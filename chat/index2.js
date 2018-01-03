@@ -448,7 +448,7 @@ var userRegexParse = {};
 userRegexParse.motd = function (socket, un, uid, curroom, msg) {
     console.log('In motd');
     con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [msg, curroom], function (error) { if (error) throw error; });
-    getMotd(curroom, socket.id);
+    getMotd(curroom);
 }
 userRegexParse.createroom = function (socket, un, uid, curroom, msg) {
     console.log('In createroom');
@@ -467,10 +467,17 @@ userRegexParse.configchange = function (socket, un, uid, curroom, msg) {
 var connect = config.db;
 var con;
 
-function getMotd(roomid, sid) {
+function getMotd(roomid) {
     con.query('SELECT * FROM rooms WHERE serialid = ?', [roomid], function (error, row) {
         if (error) console.log(error);
         io.to(roomid).emit('motd update', row[0].motd, roomid);
+    });
+}
+
+function singleGetMotd(roomid, sid) {
+    con.query('SELECT * FROM rooms WHERE serialid = ?', [roomid], function (error, row) {
+        if (error) console.log(error);
+        io.to(sid).emit('motd update', row[0].motd, roomid);
     });
 }
 
@@ -590,7 +597,7 @@ function showLastMessages(num, sid, roomid) {
     var nameString = "room" + roomid;
     console.log(nameString);
     con.query("SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [nameString, num], function (error, rows, results) {
-        getMotd(roomid, sid);
+        singleGetMotd(roomid, sid);
         if (error) throw error;
         try {
             rows.forEach(function (element) {
