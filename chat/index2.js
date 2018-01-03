@@ -331,10 +331,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('adduser', function (email, rid, isAdmin) {
         addToRoom(email, rid, 0);
     });
-    socket.on('addroom', function (name) {
-        console.log("new room name is " + name);
-        createChatroom(name, "104635400788300812127");
-    });
+
 
     socket.on('searchusers', function (email) {
         //maybe make this variable do something...
@@ -647,15 +644,19 @@ function getChatrooms(sid, uid) {
 
 function createChatroom(n, uid) {
     var roomid;
-    
-    var name = n;
-    // get availible chatrooms from user SELECT room_id FROM room_users WHERE user_id = ? [user.uid]
-    con.query("INSERT INTO rooms (name) VALUES(?)", [name], function (error) { });
-    con.query("SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC", function (error, row, results) {
-        con.query("INSERT INTO room_users VALUES(?,?,1)", [row[0].serialid, uid]);
-        
-        con.query("CREATE TABLE ?? (id int AUTO_INCREMENT PRIMARY KEY, message text, username VARCHAR(100),timestamp VARCHAR(32),roomid int, uid VARCHAR(100))", ["room"+row[0].serialid]);
-    });
+    try {
+        var name = n;
+        // get availible chatrooms from user SELECT room_id FROM room_users WHERE user_id = ? [user.uid]
+        con.query("INSERT INTO rooms (name) VALUES(?)", [name], function (error) { });
+        con.query("SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC", function (error, row, results) {
+            con.query("INSERT INTO room_users VALUES(?,?,1)", [row[0].serialid, uid]);
+
+            con.query("CREATE TABLE ?? (id int AUTO_INCREMENT PRIMARY KEY, message text, username VARCHAR(100),timestamp VARCHAR(32),roomid int, uid VARCHAR(100))", ["room" + row[0].serialid]);
+        });
+    }
+    catch (e){
+        console.log('error creating new room: ' + e);
+    }
 }
 
 function searchUsers(email) {

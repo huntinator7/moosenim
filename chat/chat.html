@@ -264,7 +264,7 @@
             });
 
             $('#roomname').submit(function () {
-                socket.emit('addroom', $('#rn').val()); //need to add uid eventually
+               // socket.emit('addroom', $('#rn').val()); //need to add uid eventually
                 console.log("add room form submitted " + $('#rn').val());
                 return false;
             });
