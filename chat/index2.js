@@ -47,6 +47,7 @@ var io = require('socket.io')(server);
 var chat = require('./chat.js');
 var login = require('./login.js');
 var voice = require('./voice.js');
+var vr = require('./vr.js');
 var voicetest = require('./voicetest.js');
 var config = require('./config');
 
@@ -61,6 +62,7 @@ app.use('/messages', messages);
 app.use('/login', login);
 app.use('/voicechat', voice);
 app.use('/voicetest', voicetest);
+app.use('/vr', vr);
 app.use('/headliner_font_woff', express.static(__dirname + '/fonts/headliner/headliner.woff'));
 app.use('/headliner_font_woff2', express.static(__dirname + '/fonts/headliner/headliner.woff2'));
 app.use('/headliner_font_tff', express.static(__dirname + '/fonts/headliner/headliner.ttf'));
