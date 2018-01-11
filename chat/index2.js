@@ -181,6 +181,11 @@ io.sockets.on('connection', function (socket) {
         }
     }
     socket.on('part', part);
+    //vr test code
+    socket.on('vrtest', function () {
+        io.emit('vrtestreply');
+        socket.emit('vrtestreply');
+    });
 
     socket.on('relayICECandidate', function(conf) {
         var peer_id = conf.peer_id;
