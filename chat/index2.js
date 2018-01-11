@@ -24,8 +24,8 @@ var options = {
     key: fs.readFileSync('./certs/domain.key'),
     cert: fs.readFileSync('./certs/www.moosen.im.crt')
 }
-var server = http.createServer(app).listen(80, function () {
-    console.log('http redirect server up and running at port 80');
+var server = http.createServer(app).listen(3000, function () {
+    console.log('http redirect server up and running at port 3000');
 });
 var httpServer = https.createServer(options, app2).listen(443, function () {
     console.log('server up and running at port 443');
