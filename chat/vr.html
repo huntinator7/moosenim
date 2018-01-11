@@ -36,7 +36,7 @@
                 var player = document.createElement('a-entity');
                
                 player.setAttribute('geometry', {
-                    primitive: 'box',
+                    primitive: 'cylinder',
                     height: 3,
                     width: 1
                 });
@@ -44,11 +44,6 @@
                 player.setAttribute('position', { x: iterate, y: 2, z: -3 });
                 sceneEl.appendChild(player);
             });
-
-
-
-
-
 
         });
         </script>
