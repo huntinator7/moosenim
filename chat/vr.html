@@ -4,7 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>WebVR Test</title>
-    <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script> <!--Aframe api main-->
+    <script src="https://unpkg.com/aframe-animation-component@3.2.1/dist/aframe-animation-component.min.js"></script> <!--Aframe animation API-->
+    <script src="https://unpkg.com/aframe-particle-system-component@1.0.x/dist/aframe-particle-system-component.min.js"></script> <!--Aframe particle system-->
+    <script src="https://unpkg.com/aframe-outline@%5E1.1.0/build/aframe-outline.min.js"></script>
     <style>
     </style>
 </head>
@@ -15,10 +18,17 @@
         <a-sky src='http://i0.kym-cdn.com/entries/icons/mobile/000/025/067/ugandanknuck.jpg' radius="30"></a-sky>
         <a-box src='http://i0.kym-cdn.com/entries/icons/mobile/000/025/067/ugandanknuck.jpg' position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
         <a-sphere  src='http://i0.kym-cdn.com/entries/icons/mobile/000/025/067/ugandanknuck.jpg'position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-        <a-cylinder  src='http://i0.kym-cdn.com/entries/icons/mobile/000/025/067/ugandanknuck.jpg' position = ""1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
+        <a-cylinder  src='http://i0.kym-cdn.com/entries/icons/mobile/000/025/067/ugandanknuck.jpg' position = "1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
         <a-plane  src='http://i0.kym-cdn.com/entries/icons/mobile/000/025/067/ugandanknuck.jpg' position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+        <a-entity particle-system="preset: snow; particleCount: 10000"></a-entity>
         <a-sky color="#ECECEC"></a-sky>
     </a-scene>
+    <form>
+        enter a name: 
+        <input type="text" /> 
+        <br />
+        <input type="submit" />
+    </form>
 </body>
 
 </html>
