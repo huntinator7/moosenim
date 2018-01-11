@@ -182,7 +182,8 @@ io.sockets.on('connection', function (socket) {
     }
     socket.on('part', part);
     //vr test code
-    socket.on('vrtest', function () {
+    socket.on('vrtest', function (message) {
+        console.log(message);
         io.emit('vrtestreply');
         socket.emit('vrtestreply');
     });

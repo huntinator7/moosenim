@@ -21,13 +21,15 @@
 <body>
     <script>
         var event
-    $(function () {   
-        var URL_SERVER = 'https://moosen.im:443';
-        var socket = io.connect(URL_SERVER);
-        var uid;
-        socket.emit('vrtest', "testFromClient");
-        socket.on('vrtestreply', function () { console.log("successful reply"); });
-    }
+        $(function () {
+            var URL_SERVER = 'https://moosen.im:443';
+            var socket = io.connect(URL_SERVER);
+            var uid;
+            socket.emit('vrtest', "testFromClient");
+            socket.on('vrtestreply', function () {
+                console.log("successful reply");
+            });
+        });
         </script>
             <a-scene>
                 <a-assets>
