@@ -192,7 +192,16 @@ io.sockets.on('connection', function (socket) {
          setPos(x, y) {
             this.x = x;
             this.y = y;
-    }
+        }
+         getPosX() {
+             return x;
+         }
+         getPosY() {
+             return y;
+         }
+         getUid() {
+             return uid;
+         }
     }
     var players = [];
     socket.on('vrconnection', function (uid, x, y) {
