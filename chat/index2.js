@@ -660,6 +660,11 @@ function showPreviousMessages(num, previous, sid, roomid) {
             console.log("Previous message isn't working.");
         }
     });
+
+
+    socket.on('disconnect', function () {
+        console.log('Got disconnect!');
+    });
 }
 
 function getChatrooms(sid, uid) {

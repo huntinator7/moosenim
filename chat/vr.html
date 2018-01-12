@@ -43,45 +43,13 @@
             var Ypos = Math.random(10)*10;
             var totalPlayers = [];
 
-            class player {
-                constructor(uid, x, y, color) {
-                    this.uid = uid;
-                    this.x = x;
-                    this.y = y;
-                    this.color = color;
-                    var avatar = document.createElement('a-entity');
-                    avatar.setAttribute('position', { x: x, y: 2, z: -3 });
-
-                    avatar.setAttribute('geometry', {
-                        primitive: 'cylinder',
-                        height: 1.5,
-                        radius: 0.5
-                    });
-                    avatar.setAttribute('material', 'color', color);
-                    sceneEl.appendChild(avatar);
-                }
-                setPos(x, y) {
-                    avatar.setAttribute('position', { x: x, y: 2, z: -3 });
-                    this.x = x;
-                    this.y = y;
-                }
-                getUid() {
-                    return uid;
-                }
-                getPosX() {
-                    return x;
-                }
-                getPosY() {
-                    return y;
-                }
-            }
          
 
             socket.emit('vrconnection', uid, Xpos, Ypos);
             var p = {x:Xpos, y:Ypos, uid:uid};
             var avatar = document.createElement('a-entity');
             avatar.setAttribute('position', { x: Xpos, y: Ypos, z: -5 });
-
+            uid = socket.id;
             avatar.setAttribute('geometry', {
                 primitive: 'cylinder',
                 height: 1.5,
@@ -90,9 +58,9 @@
             avatar.setAttribute('material', 'color', 'red');
           //  sceneEl.appendChild(avatar);
             
-            window.onmousemove = function (e) {
+           // window.onmousemove = function (e) {
                 socket.emit('vrconnection', uid, Xpos, Ypos);
-            }
+         //   }
                 socket.on('vrUpdatePos', function (players) {
 
                     console.log("successful reply");
