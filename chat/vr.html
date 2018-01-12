@@ -40,28 +40,70 @@
             var Xpos = Math.random(10);
             var Ypos = Math.random(10);
             var totalPlayers = [];
-            socket.emit('vrconnection',uid, Xpos,Ypos);
-            socket.on('vrUpdatePos', function () {
+
+            class player {
+                constructor(uid, x, y, color) {
+                    this.uid = uid;
+                    this.x = x;
+                    this.y = y;
+                    this.color = color;
+                    var avatar = document.createElement('a-entity');
+                    avatar.setAttribute('position', { x: x, y: 2, z: -3 });
+
+                    avatar.setAttribute('geometry', {
+                        primitive: 'cylinder',
+                        height: 1.5,
+                        radius: 0.5
+                    });
+                    player.setAttribute('material', 'color', color);
+                    sceneEl.appendChild(avatar);
+                }
+                setPos(x, y) {
+                    avatar.setAttribute('position', { x: x, y: 2, z: -3 });
+                    this.x = x;
+                    this.y = y;
+                }
+                getUid() {
+                    return uid;
+                }
+                getPosX() {
+                    return x;
+                }
+                getPosY() {
+                    return y;
+                }
+            }
+
+
+            socket.emit('vrconnection', uid, Xpos, Ypos);
+            totalPlayers += new player(uid, Xpos, Ypos);
+
+            socket.on('vrUpdatePos', function (players) {
                
                 console.log("successful reply");
-                if (totalPlayers.length != arguments.length) {
-                    totalPlayers = arguments;
+                if (totalPlayers.length != players.length && players.length > 0) {
+                    totalPlayers = players;
+
+                }
+                else if (totalPlayers.length == 0) {
+                    totalPlayers = players;
+                   
                 }
 
-                Array.prototype.slice.call(arguments).forEach(i => {
-                    totalPlayers.setAttribute('position', { x: arguments[i].x, y: arguments[i].y, z: -5 });
+                totalPlayers.forEach(i => {
+                    totalPlayers[i].setPos(players[i].getPosX, players[i].getPosY());
 
                 });
-                var player = document.createElement('a-entity');
+             //   var player = document.createElement('a-entity');
                 
-                player.setAttribute('geometry', {
-                    primitive: 'cylinder',
-                    height: 1.5,
-                    radius: 0.5
-                });
-                player.setAttribute('material', 'color', 'red');
-                player.setAttribute('position', { x: iterate, y: 2, z: -3 });
-                sceneEl.appendChild(player);
+               // player.setAttribute('geometry', {
+               //     primitive: 'cylinder',
+                //    height: 1.5,
+                //    radius: 0.5
+                //});
+                //player.setAttribute('material', 'color', 'red');
+                //player.setAttribute('position', { x: iterate, y: 2, z: -3 });
+               
             });
 
            
