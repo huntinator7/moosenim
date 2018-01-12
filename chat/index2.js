@@ -131,23 +131,23 @@ io.sockets.on('connection', function (socket) {
     socket.channels = {};
     sockets[socket.id] = socket;
 
-    console.log("["+ socket.id + "] connection accepted");
+    console.log("[" + socket.id + "] connection accepted");
     socket.on('disconnect', function () {
         for (var channel in socket.channels) {
             part(channel);
         }
-        console.log("["+ socket.id + "] disconnected");
+        console.log("[" + socket.id + "] disconnected");
         delete sockets[socket.id];
     });
 
 
     socket.on('join', function (conf) {
-        console.log("["+ socket.id + "] join ", conf);
+        console.log("[" + socket.id + "] join ", conf);
         var channel = conf.channel;
         var userdata = conf.userdata;
 
         if (channel in socket.channels) {
-            console.log("["+ socket.id + "] ERROR: already joined ", channel);
+            console.log("[" + socket.id + "] ERROR: already joined ", channel);
             return;
         }
 
@@ -156,8 +156,8 @@ io.sockets.on('connection', function (socket) {
         }
 
         for (id in channels[channel]) {
-            channels[channel][id].emit('addPeer', {'peer_id': socket.id, 'should_create_offer': false});
-            socket.emit('addPeer', {'peer_id': id, 'should_create_offer': true});
+            channels[channel][id].emit('addPeer', { 'peer_id': socket.id, 'should_create_offer': false });
+            socket.emit('addPeer', { 'peer_id': id, 'should_create_offer': true });
         }
 
         channels[channel][socket.id] = socket;
@@ -165,10 +165,10 @@ io.sockets.on('connection', function (socket) {
     });
 
     function part(channel) {
-        console.log("["+ socket.id + "] part ");
+        console.log("[" + socket.id + "] part ");
 
         if (!(channel in socket.channels)) {
-            console.log("["+ socket.id + "] ERROR: not in ", channel);
+            console.log("[" + socket.id + "] ERROR: not in ", channel);
             return;
         }
 
@@ -176,8 +176,8 @@ io.sockets.on('connection', function (socket) {
         delete channels[channel][socket.id];
 
         for (id in channels[channel]) {
-            channels[channel][id].emit('removePeer', {'peer_id': socket.id});
-            socket.emit('removePeer', {'peer_id': id});
+            channels[channel][id].emit('removePeer', { 'peer_id': socket.id });
+            socket.emit('removePeer', { 'peer_id': id });
         }
     }
     socket.on('part', part);
@@ -189,26 +189,27 @@ io.sockets.on('connection', function (socket) {
             this.y = y;
             this.color = color;
         }
-         setPos(x, y) {
+        setPos(x, y) {
             this.x = x;
             this.y = y;
         }
-         getPosX() {
-             return x;
-         }
-         getPosY() {
-             return y;
-         }
-         getUid() {
-             return uid;
-         }
+        getPosX() {
+            return x;
+        }
+        getPosY() {
+            return y;
+        }
+        getUid() {
+            return uid;
+        }
     }
     var players = [];
     socket.on('vrconnection', function (uid, x, y) {
         var p = { uid: uid, x: x, y: y, color: 'red' };
         players.push(p);
-        players.forEach(i => console.log('player'+i+' '+i.uid));
-        console.log(''+uid);
+        for (var i = 0; i < players.length; i++) {
+            console.log('player' + i + ' ' + i.uid);
+}
        
         socket.emit('vrUpdatePos',players);
     });
