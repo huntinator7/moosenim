@@ -103,9 +103,20 @@
 
                     for (var i = 0; i < totalPlayers.length; i++) {
                         totalPlayers[i].x = players[i].x;
-                        totalPlayers[i].y= players[i].y;
+                        totalPlayers[i].y = players[i].y;
+                        var avatar = document.createElement('a-entity');
+                        avatar.setAttribute('position', { x: players[i].x, y: players[i].y, z: -5 });
 
-                };
+                        avatar.setAttribute('geometry', {
+                            primitive: 'cylinder',
+                            height: 1.5,
+                            radius: 0.5
+                        });
+                        avatar.setAttribute('material', 'color', 'red');
+                        sceneEl.appendChild(avatar);
+
+                    };
+                   
              //   var player = document.createElement('a-entity');
                 
                // player.setAttribute('geometry', {
