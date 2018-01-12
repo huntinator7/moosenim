@@ -205,7 +205,8 @@ io.sockets.on('connection', function (socket) {
     }
     var players = [];
     socket.on('vrconnection', function (uid, x, y) {
-        players += new player(uid, x, y, 'red');
+        var p = { uid: uid, x: x, y: y, color: 'red' };
+        players.push(p);
 
         console.log(uid);
        

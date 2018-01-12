@@ -39,7 +39,7 @@
             var sceneEl = document.querySelector('a-scene');
             var Xpos = Math.random(10);
             var Ypos = Math.random(10);
-            var totalPlayers = player[];
+            var totalPlayers = [];
 
             class player {
                 constructor(uid, x, y, color) {
@@ -76,23 +76,25 @@
 
 
             socket.emit('vrconnection', uid, Xpos, Ypos);
-            //var person = {firstName:"John", lastName:"Doe", age:50, eyeColor:"blue"};
-            totalPlayers.push(new player(uid, Xpos, Ypos));
+            var p = {x:Xpos, y:Ypos, uid:uid};
+           
+            
 
             socket.on('vrUpdatePos', function (players) {
                
                 console.log("successful reply");
-                if (totalPlayers.length != players.length && players.length > 0) {
-                    totalPlayers = players;
+             //   if (totalPlayers.length != players.length && players.length > 0) {
+                  //  totalPlayers = players;
 
-                }
-                else if (totalPlayers.length == 0) {
+              //  }
+               // else if (totalPlayers.length == 0) {
                     totalPlayers = players;
-                   
-                }
+                   // totalPlayers.push(p);
+              //  }
 
-                for (var i = 0; i < totalPlayers.length; i++) {
-                    totalPlayers[i].setPos(Xpos,Ypos);
+                    for (var i = 0; i < totalPlayers.length; i++) {
+                        totalPlayers[i].x = players[i].x;
+                        totalPlayers[i].y= players[i].y;
 
                 };
              //   var player = document.createElement('a-entity');
