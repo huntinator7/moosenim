@@ -206,7 +206,7 @@ io.sockets.on('connection', function (socket) {
         players.forEach(i =>{
             if (i.uid == uid) {
                 i.setPos(x, y);
-                break;
+                
             }
 
         });
