@@ -76,7 +76,8 @@
 
 
             socket.emit('vrconnection', uid, Xpos, Ypos);
-            totalPlayers += new player(uid, Xpos, Ypos);
+            //var person = {firstName:"John", lastName:"Doe", age:50, eyeColor:"blue"};
+            totalPlayers.push(new player(uid, Xpos, Ypos));
 
             socket.on('vrUpdatePos', function (players) {
                
