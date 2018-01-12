@@ -37,8 +37,8 @@
             var socket = io.connect(URL_SERVER);
             var uid =  Math.random(100);
             var sceneEl = document.querySelector('a-scene');
-            var Xpos = Math.random(10);
-            var Ypos = Math.random(10);
+            var Xpos = Math.random(10)*10;
+            var Ypos = Math.random(10)*10;
             var totalPlayers = [];
 
             class player {
@@ -86,7 +86,7 @@
                 radius: 0.5
             });
             avatar.setAttribute('material', 'color', 'red');
-            sceneEl.appendChild(avatar);
+          //  sceneEl.appendChild(avatar);
             
 
             socket.on('vrUpdatePos', function (players) {
@@ -105,8 +105,7 @@
               //  }
 
                     for (var i = 0; i < players.length; i++) {
-                        totalPlayers[i].x = players[i].x;
-                        totalPlayers[i].y = players[i].y;
+                        
                         var avatar = document.createElement('a-entity');
                         avatar.setAttribute('position', { x: players[i].x, y: players[i].y, z: -5 });
 

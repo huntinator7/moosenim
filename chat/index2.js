@@ -188,7 +188,7 @@ io.sockets.on('connection', function (socket) {
         var p = { uid: uid, x: x, y: y, color: 'red' };
         players.push(p);
         for (var i = 0; i < players.length; i++) {
-            console.log('player' + i + ' ' + players[i].uid);
+            console.log('player' + i + ' ' + players[i].x);
 }
        
         socket.emit('vrUpdatePos',players);
