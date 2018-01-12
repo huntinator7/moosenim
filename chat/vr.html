@@ -31,10 +31,12 @@
 
 <body>
     <script>
-        var event
+        var URL_SERVER = 'https://moosen.im:443';
+        var socket = io.connect(URL_SERVER);
+        var event;
+     
         $(function () {
-            var URL_SERVER = 'https://moosen.im:443';
-            var socket = io.connect(URL_SERVER);
+         
             var uid =  Math.random(100);
             var sceneEl = document.querySelector('a-scene');
             var Xpos = Math.random(10)*10;
@@ -73,7 +75,7 @@
                     return y;
                 }
             }
-
+         
 
             socket.emit('vrconnection', uid, Xpos, Ypos);
             var p = {x:Xpos, y:Ypos, uid:uid};
@@ -88,24 +90,26 @@
             avatar.setAttribute('material', 'color', 'red');
           //  sceneEl.appendChild(avatar);
             
+            window.onmousemove = function (e) {
+                socket.emit('vrconnection', uid, Xpos, Ypos);
+            }
+                socket.on('vrUpdatePos', function (players) {
 
-            socket.on('vrUpdatePos', function (players) {
-               
-                console.log("successful reply");
-                console.log(players[0].x);
-                console.log(players.length+"player total");
+                    console.log("successful reply");
+                    console.log(players[0].x);
+                    console.log(players.length + "player total");
 
-             //   if (totalPlayers.length != players.length && players.length > 0) {
-                  //  totalPlayers = players;
+                    //   if (totalPlayers.length != players.length && players.length > 0) {
+                    //  totalPlayers = players;
 
-              //  }
-               // else if (totalPlayers.length == 0) {
-                   // totalPlayers = players;
-                   // totalPlayers.push(p);
-              //  }
+                    //  }
+                    // else if (totalPlayers.length == 0) {
+                    // totalPlayers = players;
+                    // totalPlayers.push(p);
+                    //  }
 
                     for (var i = 0; i < players.length; i++) {
-                        
+
                         var avatar = document.createElement('a-entity');
                         avatar.setAttribute('position', { x: players[i].x, y: players[i].y, z: -5 });
 
@@ -118,7 +122,7 @@
                         sceneEl.appendChild(avatar);
 
                     };
-                   
+                 
              //   var player = document.createElement('a-entity');
                 
                // player.setAttribute('geometry', {
