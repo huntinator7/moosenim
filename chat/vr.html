@@ -35,17 +35,25 @@
         $(function () {
             var URL_SERVER = 'https://moosen.im:443';
             var socket = io.connect(URL_SERVER);
-            var uid;
+            var uid =  Math.random(100);
             var sceneEl = document.querySelector('a-scene');
-            var iterate = 0;
-
-
-            socket.emit('vrtest', "testFromClient");
-            socket.on('vrtestreply', function () {
-                iterate += 1;
-                console.log("successful reply");
-                var player = document.createElement('a-entity');
+            var Xpos = Math.random(10);
+            var Ypos = Math.random(10);
+            var totalPlayers = [];
+            socket.emit('vrconnection',uid, Xpos,Ypos);
+            socket.on('vrUpdatePos', function () {
                
+                console.log("successful reply");
+                if (totalPlayers.length != arguments.length) {
+                    totalPlayers = arguments;
+                }
+
+                arguments.forEach(i => {
+                    totalPlayers.setAttribute('position', { x: arguments[i].x, y: arguments[i].y, z: -5 });
+
+                });
+                var player = document.createElement('a-entity');
+                
                 player.setAttribute('geometry', {
                     primitive: 'cylinder',
                     height: 1.5,
@@ -55,6 +63,8 @@
                 player.setAttribute('position', { x: iterate, y: 2, z: -3 });
                 sceneEl.appendChild(player);
             });
+
+           
 
         });
         </script>

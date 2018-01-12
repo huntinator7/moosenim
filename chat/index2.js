@@ -181,11 +181,37 @@ io.sockets.on('connection', function (socket) {
         }
     }
     socket.on('part', part);
-    //vr test code
-    socket.on('vrtest', function (message) {
-        console.log(message);
-        io.emit('vrtestreply');
-        socket.emit('vrtestreply');
+    //vr State Code
+    class player {
+        constructor(uid, x, y, color) {
+            this.uid = uid;
+            this.x = x;
+            this.y = y;
+            this.color = color;
+        }
+         setPos(x, y) {
+            this.x = x;
+            this.y = y;
+    }
+    }
+    var players = [];
+    socket.on('vrconnection', function (uid, x, y) {
+        players += new player(uid, x, y, 'red');
+
+        console.log(uid);
+       
+        socket.emit('vrUpdatePos',players);
+    });
+    socket.on('vrSyncPos', (uid, x, y) => {
+        players.forEach(i =>{
+            if (i.uid == uid) {
+                i.setPos(x, y);
+                break;
+            }
+
+        });
+
+
     });
 
     socket.on('relayICECandidate', function(conf) {
