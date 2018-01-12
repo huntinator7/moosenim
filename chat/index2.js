@@ -124,7 +124,7 @@ client.on('message', msg => {
 
 var channels = {};
 var sockets = {};
-
+var players = [];
 //Main socket.io listener
 io.sockets.on('connection', function (socket) {
 
@@ -203,7 +203,7 @@ io.sockets.on('connection', function (socket) {
             return uid;
         }
     }
-    var players = [];
+  
     socket.on('vrconnection', function (uid, x, y) {
         var p = { uid: uid, x: x, y: y, color: 'red' };
         players.push(p);
