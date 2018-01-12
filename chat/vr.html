@@ -37,7 +37,7 @@
      
         $(function () {
          
-            var uid =  Math.random(100);
+            var uid = socket.id;
             var sceneEl = document.querySelector('a-scene');
             var Xpos = Math.random(10)*10;
             var Ypos = Math.random(10)*10;
@@ -101,9 +101,11 @@
                 //player.setAttribute('material', 'color', 'red');
                 //player.setAttribute('position', { x: iterate, y: 2, z: -3 });
                
-            });
-
-           
+                });
+                document.body.onkeypress = function () {
+                    socket.emit('vrSyncPos', uid, x, y);
+                }
+               
 
         });
         </script>

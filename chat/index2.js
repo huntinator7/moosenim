@@ -196,10 +196,10 @@ io.sockets.on('connection', function (socket) {
     socket.on('vrSyncPos', (uid, x, y) => {
         players.forEach(i =>{
             if (i.uid == uid) {
-                i.setPos(x, y);
-                
+                i.x = x;
+                i.y = y;              
             }
-
+            socket.emit('vrUpdatePos', players);
         });
 
 
@@ -617,7 +617,7 @@ function getCurroom(uid) {
 }
 
 function showLastMessages(num, sid, roomid) {
-    io.emit('vrUpdatePos', players);
+
     var nameString = "room" + roomid;
     console.log(nameString);
     con.query("SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [nameString, num], function (error, rows, results) {
@@ -663,7 +663,7 @@ function showPreviousMessages(num, previous, sid, roomid) {
 
 
     socket.on('disconnect', function () {
-        console.log('Got disconnect!');
+        console.log('Got disconnect!');
     });
 }
 
