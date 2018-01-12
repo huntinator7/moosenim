@@ -182,33 +182,13 @@ io.sockets.on('connection', function (socket) {
     }
     socket.on('part', part);
     //vr State Code
-    class player {
-        constructor(uid, x, y, color) {
-            this.uid = uid;
-            this.x = x;
-            this.y = y;
-            this.color = color;
-        }
-        setPos(x, y) {
-            this.x = x;
-            this.y = y;
-        }
-        getPosX() {
-            return x;
-        }
-        getPosY() {
-            return y;
-        }
-        getUid() {
-            return uid;
-        }
-    }
+   
   
     socket.on('vrconnection', function (uid, x, y) {
         var p = { uid: uid, x: x, y: y, color: 'red' };
         players.push(p);
         for (var i = 0; i < players.length; i++) {
-            console.log('player' + i + ' ' + i.uid);
+            console.log('player' + i + ' ' + players[i].uid);
 }
        
         socket.emit('vrUpdatePos',players);
