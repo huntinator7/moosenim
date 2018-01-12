@@ -77,7 +77,16 @@
 
             socket.emit('vrconnection', uid, Xpos, Ypos);
             var p = {x:Xpos, y:Ypos, uid:uid};
-           
+            var avatar = document.createElement('a-entity');
+            avatar.setAttribute('position', { x: Xpos, y: Ypos, z: -5 });
+
+            avatar.setAttribute('geometry', {
+                primitive: 'cylinder',
+                height: 1.5,
+                radius: 0.5
+            });
+            avatar.setAttribute('material', 'color', 'red');
+            sceneEl.appendChild(avatar);
             
 
             socket.on('vrUpdatePos', function (players) {
