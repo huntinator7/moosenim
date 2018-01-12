@@ -48,7 +48,7 @@
                     totalPlayers = arguments;
                 }
 
-                arguments.forEach(i => {
+                Array.prototype.slice.call(arguments).forEach(i => {
                     totalPlayers.setAttribute('position', { x: arguments[i].x, y: arguments[i].y, z: -5 });
 
                 });
