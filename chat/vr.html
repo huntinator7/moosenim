@@ -7,11 +7,11 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112336897-1"></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
+        window.dataLayer = window.dataLayer || []
+        function gtag() { dataLayer.push(arguments) }
+        gtag('js', new Date())
 
-        gtag('config', 'UA-112336897-1');
+        gtag('config', 'UA-112336897-1')
     </script>
 
 
@@ -31,85 +31,90 @@
 
 <body>
     <script>
-        var URL_SERVER = 'https://moosen.im:443';
-        var socket = io.connect(URL_SERVER);
-        var event;
-        var camera = document.getElementById("controller").setAttribute('camera', 'active', true);
+        var URL_SERVER = 'https://moosen.im:443'
+        var socket = io.connect(URL_SERVER)
+        var event
+        var camera = document.getElementById("controller")
         $(function () {
          
-            var uid = socket.id;
-            var sceneEl = document.querySelector('a-scene');
-            var Xpos = Math.random(10)*10;
-            var Ypos = Math.random(10)*10;
-            var totalPlayers = [];
+            var uid = socket.id
+            var sceneEl = document.querySelector('a-scene')
+            var Xpos = Math.random(10)*10
+            var Ypos = Math.random(10)*10
+            var totalPlayers = []
 
          
 
-            socket.emit('vrconnection', uid, Xpos, Ypos);
-            var p = {x:Xpos, y:Ypos, uid:uid};
-            var avatar = document.createElement('a-entity');
-            avatar.setAttribute('position', { x: Xpos, y: Ypos, z: -5 });
-            uid = socket.id;
+            socket.emit('vrconnection', uid, Xpos, Ypos)
+            var p = {x:Xpos, y:Ypos, uid:uid}
+            var avatar = document.createElement('a-entity')
+            avatar.setAttribute('position', { x: Xpos, y: Ypos, z: -5 })
+            uid = socket.id
             avatar.setAttribute('geometry', {
                 primitive: 'cylinder',
                 height: 1.5,
                 radius: 0.5
-            });
-            avatar.setAttribute('material', 'color', 'red');
-          //  sceneEl.appendChild(avatar);
+            })
+            avatar.setAttribute('material', 'color', 'red')
+          //  sceneEl.appendChild(avatar)
             
            // window.onmousemove = function (e) {
-                socket.emit('vrconnection', uid, Xpos, Ypos);
+                socket.emit('vrconnection', uid, Xpos, Ypos)
          //   }
                 socket.on('vrUpdatePos', function (players) {
 
-                    console.log("successful reply");
-                    console.log(players[0].x);
-                    console.log(players.length + "player total");
+                    console.log("successful reply")
+                    console.log(players[0].x)
+                    console.log(players.length + "player total")
 
                     //   if (totalPlayers.length != players.length && players.length > 0) {
-                    //  totalPlayers = players;
+                    //  totalPlayers = players
 
                     //  }
                     // else if (totalPlayers.length == 0) {
-                    // totalPlayers = players;
-                    // totalPlayers.push(p);
+                    // totalPlayers = players
+                    // totalPlayers.push(p)
                     //  }
 
                     for (var i = 0; i < players.length; i++) {
 
-                        var avatar = document.createElement('a-entity');
-                        avatar.setAttribute('position', { x: players[i].x, y: players[i].y, z: -5 });
+                        var avatar = document.createElement('a-entity')
+                        avatar.setAttribute('position', { x: players[i].x, y: players[i].y, z: -5 })
 
                         avatar.setAttribute('geometry', {
                             primitive: 'cylinder',
                             height: 1.5,
                             radius: 0.5
-                        });
-                        avatar.setAttribute('material', 'color', 'red');
-                        sceneEl.appendChild(avatar);
+                        })
+                        avatar.setAttribute('material', 'color', 'red')
+                        sceneEl.appendChild(avatar)
 
-                    };
+                    }
                  
-             //   var player = document.createElement('a-entity');
+             //   var player = document.createElement('a-entity')
                 
                // player.setAttribute('geometry', {
                //     primitive: 'cylinder',
                 //    height: 1.5,
                 //    radius: 0.5
-                //});
-                //player.setAttribute('material', 'color', 'red');
-                //player.setAttribute('position', { x: iterate, y: 2, z: -3 });
+                //})
+                //player.setAttribute('material', 'color', 'red')
+                //player.setAttribute('position', { x: iterate, y: 2, z: -3 })
                
-                });
-                document.body.onkeypress = function () {
-                    
-                    socket.emit('vrSyncPos', uid, camera.position.x, camera.position.z);
-                    console.log('key pressed');
+                })
+                setInterval(updateServer, 1000)
+                var oldX = camera.position.x
+                var oldZ = camera.position.z
+
+                function updateServer(){
+                    if(camera.position.x != oldX || camera.position.z != oldZ) {
+                        socket.emit('vrSyncPos', uid, camera.position.x, camera.position.z);
+                    }
                 }
+
                
 
-        });
+        })
         </script>
 
             <a-scene>
@@ -126,10 +131,10 @@
                 </a-entity>
                 
                   <a-box src='http://i0.kym-cdn.com/entries/icons/mobile/000/025/067/ugandanknuck.jpg' position="-1 0.5 -3" rotation="0 45 0"></a-box>
-                    <a-sphere src='http://i0.kym-cdn.com/entries/icons/mobile/000/025/067/ugandanknuck.jpg' position="0 1.25 -5" radius="1.25" color="#EF2D5E" animation="property: scale; dir: alternate; dur: 600; to: 1.1 1.1 1.1; loop: true"></a-sphere>
+                    <a-sphere src='http://i0.kym-cdn.com/entries/icons/mobile/000/025/067/ugandanknuck.jpg' position="0 1.25 -5" radius="1.25" color="#EF2D5E" animation="property: scale dir: alternate dur: 600 to: 1.1 1.1 1.1 loop: true"></a-sphere>
                     <a-cylinder src='http://i0.kym-cdn.com/entries/icons/mobile/000/025/067/ugandanknuck.jpg' position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-                    <a-entity id="plane" geometry="primitive: plane; width: 10000; height: 10000" material="color: #333; src: #groundTexture; repeat: 10000 10000; transparent: true; metalness: 0.6; roughness: 0.4" rotation="-90 0 0"></a-entity>
-                    <a-entity particle-system="preset: snow; particleCount: 10000"></a-entity>
+                    <a-entity id="plane" geometry="primitive: plane width: 10000 height: 10000" material="color: #333 src: #groundTexture repeat: 10000 10000 transparent: true metalness: 0.6 roughness: 0.4" rotation="-90 0 0"></a-entity>
+                    <a-entity particle-system="preset: snow particleCount: 10000"></a-entity>
                     <a-sky color="#9bfcff"></a-sky>
     </a-scene>
                 <form>
