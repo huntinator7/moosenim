@@ -13,16 +13,18 @@
 
         gtag('config', 'UA-112336897-1')
     </script>
-
-
-    <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script> <!--Aframe api main-->
-    <script src="https://unpkg.com/aframe-animation-component@3.2.1/dist/aframe-animation-component.min.js"></script> <!--Aframe animation API-->
-    <script src="https://unpkg.com/aframe-particle-system-component@1.0.x/dist/aframe-particle-system-component.min.js"></script> <!--Aframe particle system-->
+    <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
+    <!--Aframe api main-->
+    <script src="https://unpkg.com/aframe-animation-component@3.2.1/dist/aframe-animation-component.min.js"></script>
+    <!--Aframe animation API-->
+    <script src="https://unpkg.com/aframe-particle-system-component@1.0.x/dist/aframe-particle-system-component.min.js"></script>
+    <!--Aframe particle system-->
     <script src="https://unpkg.com/aframe-outline@%5E1.1.0/build/aframe-outline.min.js"></script>
 
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script><!--socket.io and Ajax APIs-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
+    <!--socket.io and Ajax APIs-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
     <style>
     </style>
@@ -36,19 +38,16 @@
         var event
         var camera = document.getElementById("controller")
         $(function () {
-         
             var uid = socket.id
             var sceneEl = document.querySelector('a-scene')
-            var Xpos = Math.random(10)*10
-            var Ypos = Math.random(10)*10
+            var Xpos = Math.random(10) * 10
+            var Ypos = Math.random(10) * 10
             var totalPlayers = []
 
-         
-
             socket.emit('vrconnection', uid, Xpos, Ypos)
-            var p = {x:Xpos, y:Ypos, uid:uid}
+            var p = { x: Xpos, y: Ypos, uid: uid }
             var avatar = document.createElement('a-entity')
-            avatar.setAttribute('position', { x: Xpos, y: Ypos, z: -5 })
+            // avatar.setAttribute('position' , { x: Xpos, y: Ypos, z: -5 })
             uid = socket.id
             avatar.setAttribute('geometry', {
                 primitive: 'cylinder',
@@ -56,93 +55,78 @@
                 radius: 0.5
             })
             avatar.setAttribute('material', 'color', 'red')
-          //  sceneEl.appendChild(avatar)
-            
-           // window.onmousemove = function (e) {
-                socket.emit('vrconnection', uid, Xpos, Ypos)
-         //   }
-                socket.on('vrUpdatePos', function (players) {
 
-                    console.log("successful reply")
-                    console.log(players[0].x)
-                    console.log(players.length + "player total")
+            socket.emit('vrconnection', uid, Xpos, Ypos)
 
-                    //   if (totalPlayers.length != players.length && players.length > 0) {
-                    //  totalPlayers = players
+            socket.on('vrUpdatePos', function (players) {
+                console.log("successful reply")
+                console.log(players[0].x)
+                console.log(players.length + "player total")
+                for (var i = 0; i < players.length; i++) {
 
-                    //  }
-                    // else if (totalPlayers.length == 0) {
-                    // totalPlayers = players
-                    // totalPlayers.push(p)
-                    //  }
+                    var avatar = document.createElement('a-entity')
+                    avatar.setAttribute('position', { x: players[i].x, y: -3, z: players[i].y })
 
-                    for (var i = 0; i < players.length; i++) {
+                    avatar.setAttribute('geometry', {
+                        primitive: 'cylinder',
+                        height: 1.5,
+                        radius: 0.5
+                    })
+                    avatar.setAttribute('material', 'color', 'red')
+                    sceneEl.appendChild(avatar)
 
-                        var avatar = document.createElement('a-entity')
-                        avatar.setAttribute('position', { x: players[i].x, y: players[i].y, z: -5 })
+                }
+                //   var player = document.createElement('a-entity')
 
-                        avatar.setAttribute('geometry', {
-                            primitive: 'cylinder',
-                            height: 1.5,
-                            radius: 0.5
-                        })
-                        avatar.setAttribute('material', 'color', 'red')
-                        sceneEl.appendChild(avatar)
-
-                    }
-                 
-             //   var player = document.createElement('a-entity')
-                
-               // player.setAttribute('geometry', {
-               //     primitive: 'cylinder',
+                // player.setAttribute('geometry', {
+                //     primitive: 'cylinder',
                 //    height: 1.5,
                 //    radius: 0.5
                 //})
                 //player.setAttribute('material', 'color', 'red')
                 //player.setAttribute('position', { x: iterate, y: 2, z: -3 })
-               
-                })
-                setInterval(updateServer, 1000)
-                var oldX = camera.position.x
-                var oldZ = camera.position.z
 
-                function updateServer(){
-                    if(camera.position.x != oldX || camera.position.z != oldZ) {
-                        socket.emit('vrSyncPos', uid, camera.position.x, camera.position.z);
-                    }
+            })
+            setInterval(updateServer, 1000)
+            var oldX = camera.position.x
+            var oldZ = camera.position.z
+
+            function updateServer() {
+                if (camera.position.x != oldX || camera.position.z != oldZ) {
+                    socket.emit('vrSyncPos', uid, camera.position.x, camera.position.z)
                 }
-
-               
-
+            }
         })
-        </script>
+    </script>
 
-            <a-scene>
-                <a-assets>
-                    <img id="groundTexture" src="/images/grasstile.png">
-
+    <a-scene>
+        <a-assets>
+            <img id="groundTexture" src="/images/grasstile.png">
         </a-assets>
-                <a-entity hand-controls="left"></a-entity>
-                <a-entity hand-controls="right"></a-entity>
-                <a-entity id="controller" position ="0,-3,0 ">
-                    <a-camera></a-camera>
-                    <a-entity  wasd-controls></a-entity>
 
-                </a-entity>
-                
-                  <a-box src='http://i0.kym-cdn.com/entries/icons/mobile/000/025/067/ugandanknuck.jpg' position="-1 0.5 -3" rotation="0 45 0"></a-box>
-                    <a-sphere src='http://i0.kym-cdn.com/entries/icons/mobile/000/025/067/ugandanknuck.jpg' position="0 1.25 -5" radius="1.25" color="#EF2D5E" animation="property: scale dir: alternate dur: 600 to: 1.1 1.1 1.1 loop: true"></a-sphere>
-                    <a-cylinder src='http://i0.kym-cdn.com/entries/icons/mobile/000/025/067/ugandanknuck.jpg' position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-                    <a-entity id="plane" geometry="primitive: plane width: 10000 height: 10000" material="color: #333 src: #groundTexture repeat: 10000 10000 transparent: true metalness: 0.6 roughness: 0.4" rotation="-90 0 0"></a-entity>
-                    <a-entity particle-system="preset: snow particleCount: 10000"></a-entity>
-                    <a-sky color="#9bfcff"></a-sky>
+        <a-entity hand-controls="left"></a-entity>
+        <a-entity hand-controls="right"></a-entity>
+        <a-entity id="controller" position="0,-3,0 ">
+            <a-camera></a-camera>
+            <!--<a-entity  wasd-controls></a-entity>-->
+        </a-entity>
+
+        <a-box src='http://i0.kym-cdn.com/entries/icons/mobile/000/025/067/ugandanknuck.jpg' position="-1 0.5 -3" rotation="0 45 0"></a-box>
+        <a-sphere src='http://i0.kym-cdn.com/entries/icons/mobile/000/025/067/ugandanknuck.jpg' position="0 1.25 -5" radius="1.25"
+            color="#EF2D5E" animation="property: scale dir: alternate dur: 600 to: 1.1 1.1 1.1 loop: true"></a-sphere>
+        <a-cylinder src='http://i0.kym-cdn.com/entries/icons/mobile/000/025/067/ugandanknuck.jpg' position="1 0.75 -3" radius="0.5"
+            height="1.5" color="#FFC65D"></a-cylinder>
+        <a-entity id="plane" geometry="primitive: plane width: 10000 height: 10000" material="color: #333 src: #groundTexture repeat: 10000 10000 transparent: true metalness: 0.6 roughness: 0.4"
+            rotation="-90 0 0"></a-entity>
+        <a-entity particle-system="preset: snow particleCount: 10000"></a-entity>
+        <a-sky color="#9bfcff"></a-sky>
     </a-scene>
-                <form>
-                    enter a name:
+    <form>
+        enter a name:
         <input type="text" />
-                    <br />
-                    <input type="submit" />
-                </form>
+        <br />
+        <input type="submit" />
+    </form>
 </body>
 
-</html >
+</html>
