@@ -93,6 +93,8 @@
 
             function updateServer() {
                 if (camera.position.x != oldX || camera.position.z != oldZ) {
+                    oldX = camera.position.x
+                    oldZ = camera.position.z
                     socket.emit('vrSyncPos', uid, camera.position.x, camera.position.z)
                     console.log("Emitting position")
                 }
