@@ -76,18 +76,11 @@
                     sceneEl.appendChild(avatar)
 
                 }
-                //   var player = document.createElement('a-entity')
-
-                // player.setAttribute('geometry', {
-                //     primitive: 'cylinder',
-                //    height: 1.5,
-                //    radius: 0.5
-                //})
-                //player.setAttribute('material', 'color', 'red')
-                //player.setAttribute('position', { x: iterate, y: 2, z: -3 })
+              
 
             })
             setInterval(updateServer, 1000)
+            var camera = document.getElementById("controller")
             var oldX = camera.position.x
             var oldZ = camera.position.z
 
@@ -96,7 +89,6 @@
                     oldX = camera.position.x
                     oldZ = camera.position.z
                     socket.emit('vrSyncPos', uid, camera.position.x, camera.position.z)
-                    console.log("Emitting position")
                 }
             }
         })
@@ -123,13 +115,7 @@
             rotation="-90 0 0"></a-entity>
         <a-entity particle-system="preset: snow particleCount: 10000"></a-entity>
         <a-sky color="#9bfcff"></a-sky>
-    </a-scene>
-    <form>
-        enter a name:
-        <input type="text" />
-        <br />
-        <input type="submit" />
-    </form>
+    
 </body>
 
 </html>
