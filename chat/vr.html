@@ -41,11 +41,11 @@
             var uid = socket.id
             var sceneEl = document.querySelector('a-scene')
             var Xpos = Math.random(10) * 10
-            var Ypos = Math.random(10) * 10
+            var Zpos = Math.random(10) * 10
             var totalPlayers = []
 
-            socket.emit('vrconnection', uid, Xpos, Ypos)
-            var p = { x: Xpos, y: Ypos, uid: uid }
+            socket.emit('vrconnection', uid, Xpos, Zpos)
+            var p = { x: Xpos, z: Zpos, uid: uid }
             var avatar = document.createElement('a-entity')
             // avatar.setAttribute('position' , { x: Xpos, y: Ypos, z: -5 })
             uid = socket.id
@@ -56,7 +56,7 @@
             })
             avatar.setAttribute('material', 'color', 'red')
 
-            socket.emit('vrconnection', uid, Xpos, Ypos)
+            socket.emit('vrconnection', uid, Xpos, Zpos)
 
             socket.on('vrUpdatePos', function (players) {
                 console.log("successful reply")
@@ -65,7 +65,7 @@
                 for (var i = 0; i < players.length; i++) {
 
                     var avatar = document.createElement('a-entity')
-                    avatar.setAttribute('position', { x: players[i].x, y: -3, z: players[i].y })
+                    avatar.setAttribute('position', { x: players[i].x, y: 1, z: players[i].z })
 
                     avatar.setAttribute('geometry', {
                         primitive: 'cylinder',
