@@ -40,6 +40,7 @@
         var socket = io.connect(URL_SERVER)
         var event
         var camera = document.getElementById("controller")
+       
         var theBox = document.getElementById("theBox")
        // var ground = document.getElementById("ground")
         $(function () {
@@ -87,21 +88,26 @@
             console.log("before")
 
 
-            var camera = document.getElementById("controller")
-            var oldX = camera.object3D.position.x
-            var oldZ = camera.object3D.position.z
+            
+            
             console.log("after")
             socket.on('vrTest', function () {
+                var theBox = document.getElementById("theBox")
+                var camera = document.getElementById("controller")
+                var pos = document.querySelector('#camera').getAttribute('position')
                 try {
+                    var oldX = camera.object3D.position.x
+                    var oldZ = camera.object3D.position.z
                     oldX = camera.object3D.position.x
                     oldZ = camera.object3D.position.z
                     theBox.object3D.position.x = oldX
                     theBox.object3D.position.z = oldZ
-                    theBox.setAttribute('position', { x: oldX, y: 1, z: oldZ })
+                    theBox.setAttribute('position', { x: pos.x, y: 1, z: pos.z })
+                    
                     console.log('box x: ' + theBox.object3D.position.x + ' box z: ' + theBox.object3D.position.z)
                     // socket.emit('vrSyncPos', uid, camera.position.x, camera.position.z)
                 } catch (e) {
-                    consoel.log("waiting to define theBox")
+                    console.log("waiting to define theBox")
                 }
                 
             })
@@ -115,8 +121,9 @@
 
         <a-entity hand-controls="left"></a-entity>
         <a-entity hand-controls="right"></a-entity>
+        <a-camera id="camera"></a-camera>
         <a-entity id="controller" position="0,-3,0 ">
-            <a-camera></a-camera>
+            
             <!--<a-entity  wasd-controls></a-entity>-->
         </a-entity>
 
@@ -125,8 +132,8 @@
             color="#EF2D5E" ></a-sphere>
         <a-cylinder  position="1 0.75 -3" radius="0.5"
             height="1.5" color="#FFC65D"></a-cylinder>
-        <a-plane id="ground"  width = "10000" height = "10000"  material=" repeat: 100 100 metalness: 0.6 roughness: 0.4" rotation="-90 0 0"></a-plane>
-        <a-entity particle-system="preset: snow particleCount: 10000"></a-entity>
+        <a-plane id="ground"   color="#003711" width = "10000" height = "10000"  material=" repeat: 100 100 metalness: 0.6 roughness: 0.4" rotation="-90 0 0"></a-plane>
+        <!--<a-entity particle-system="preset: snow particleCount: 10"></a-entity>-->
         <a-sky color="#9bfcff"></a-sky>
 
     
