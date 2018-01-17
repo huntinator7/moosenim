@@ -48,7 +48,7 @@
             var Xpos = Math.random(10) * 10
             var Zpos = Math.random(10) * 10
             var totalPlayers = []
-           // ground.Three.Color = new Three.Color(0x003711)
+            // ground.Three.Color = new Three.Color(0x003711)
             socket.emit('vrconnection', uid, Xpos, Zpos)
             var p = { x: Xpos, z: Zpos, uid: uid }
             var avatar = document.createElement('a-entity')
@@ -65,8 +65,8 @@
 
             socket.on('vrUpdatePos', function (players) {
                 console.log("successful reply")
-               // console.log(players[0].x)
-               // console.log(players.length + "player total")
+                // console.log(players[0].x)
+                // console.log(players.length + "player total")
                 for (var i = 0; i < players.length; i++) {
 
                     var avatar = document.createElement('a-entity')
@@ -81,17 +81,17 @@
                     sceneEl.appendChild(avatar)
 
                 }
-              
+
 
             })
             console.log("before")
-           
-            
+
+
             var camera = document.getElementById("controller")
             var oldX = camera.object3D.position.x
             var oldZ = camera.object3D.position.z
             console.log("after")
-          socket.on('vrTest', function() {
+            socket.on('vrTest', function () {
                 if (camera.object3D.position.x != oldX || camera.object3D.position.z != oldZ) {
                     oldX = camera.object3D.position.x
                     oldZ = camera.object3D.position.z
@@ -101,7 +101,7 @@
                     socket.emit('vrSyncPos', uid, camera.position.x, camera.position.z)
                 }
             })
-        
+        }
     </script>
 
     <a-scene>
