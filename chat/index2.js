@@ -201,9 +201,14 @@ io.sockets.on('connection', function (socket) {
             }
             socket.emit('vrUpdatePos', players);
         });
-
-
     });
+
+    setInterval(updateClient, 1000)
+    function updateClient() {
+        socet.emit('vrTest')
+        console.log('emitting vrTest')
+    }
+
     socket.emit('vrUpdatePos', players);
     socket.on('relayICECandidate', function(conf) {
         var peer_id = conf.peer_id;
@@ -662,8 +667,10 @@ function showPreviousMessages(num, previous, sid, roomid) {
     });
 
 
-    socket.on('disconnect', function () {
-        console.log('Got disconnect!');
+    socket.on('disconnect', function () {
+
+        console.log('Got disconnect!');
+
     });
 }
 

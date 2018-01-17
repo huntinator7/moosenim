@@ -41,13 +41,14 @@
         var event
         var camera = document.getElementById("controller")
         var theBox = document.getElementById("theBox")
+       // var ground = document.getElementById("ground")
         $(function () {
             var uid = socket.id
             var sceneEl = document.querySelector('a-scene')
             var Xpos = Math.random(10) * 10
             var Zpos = Math.random(10) * 10
             var totalPlayers = []
-
+           // ground.Three.Color = new Three.Color(0x003711)
             socket.emit('vrconnection', uid, Xpos, Zpos)
             var p = { x: Xpos, z: Zpos, uid: uid }
             var avatar = document.createElement('a-entity')
@@ -64,8 +65,8 @@
 
             socket.on('vrUpdatePos', function (players) {
                 console.log("successful reply")
-                console.log(players[0].x)
-                console.log(players.length + "player total")
+               // console.log(players[0].x)
+               // console.log(players.length + "player total")
                 for (var i = 0; i < players.length; i++) {
 
                     var avatar = document.createElement('a-entity')
@@ -83,12 +84,14 @@
               
 
             })
-            setInterval(updateServer, 1000)
+            console.log("before")
+           
+            
             var camera = document.getElementById("controller")
             var oldX = camera.object3D.position.x
             var oldZ = camera.object3D.position.z
-
-            function updateServer() {
+            console.log("after")
+          socket.on('vrTest', function() {
                 if (camera.object3D.position.x != oldX || camera.object3D.position.z != oldZ) {
                     oldX = camera.object3D.position.x
                     oldZ = camera.object3D.position.z
@@ -97,13 +100,13 @@
                     console.log('box x: ' + theBox.object3D.position.x + ' box z: ' + theBox.object3D.position.z)
                     socket.emit('vrSyncPos', uid, camera.position.x, camera.position.z)
                 }
-            }
-        })
+            })
+        
     </script>
 
     <a-scene>
         <a-assets>
-            <img id="groundTexture" src="/images/grasstile.png">
+            
         </a-assets>
 
         <a-entity hand-controls="left"></a-entity>
@@ -118,7 +121,7 @@
             color="#EF2D5E" ></a-sphere>
         <a-cylinder  position="1 0.75 -3" radius="0.5"
             height="1.5" color="#FFC65D"></a-cylinder>
-        <a-plane id="ground"  width = "10000" height = "10000" material="color: #009A5A repeat: 100 100 metalness: 0.6 roughness: 0.4" rotation="-90 0 0"></a-plane>
+        <a-plane id="ground"  width = "10000" height = "10000"  material=" repeat: 100 100 metalness: 0.6 roughness: 0.4" rotation="-90 0 0"></a-plane>
         <a-entity particle-system="preset: snow particleCount: 10000"></a-entity>
         <a-sky color="#9bfcff"></a-sky>
 
