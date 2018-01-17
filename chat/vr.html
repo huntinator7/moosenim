@@ -92,19 +92,21 @@
             
             
             console.log("after")
-            socket.on('vrTest', function () {
+            socket.on('vrTest', function (players) {
                 var theBox = document.getElementById("theBox")
                 var camera = document.getElementById("controller")
                 var pos = document.querySelector('#camera').getAttribute('position')
                 try {
                    
+                        console.log(players)
+                   
                    
                     theBox.setAttribute('position', { x: pos.x, y: 1, z: pos.z })
                     
                     console.log('box x: ' + theBox.object3D.position.x + ' box z: ' + theBox.object3D.position.z)
-                    // socket.emit('vrSyncPos', uid, camera.position.x, camera.position.z)
+                   //  socket.emit('vrSyncPos', uid, pos.x, pos.z)
                 } catch (e) {
-                    console.log("waiting to define theBox")
+                    console.log(e)
                 }
                 
             })

@@ -187,12 +187,13 @@ io.sockets.on('connection', function (socket) {
     socket.on('vrconnection', function (uid, x, y) {
         var p = { uid: uid, x: x, y: y, color: 'red' };
         players.push(p);
-        for (var i = 0; i < players.length; i++) {
-            console.log('player' + i + ' ' + players[i].x);
-}
+//        for (var i = 0; i < players.length; i++) {
+//            console.log('player' + i + ' ' + players[i].x);
+//}
        
-        socket.emit('vrUpdatePos',players);
-    });
+//        socket.emit('vrUpdatePos',players);
+        //    });
+        console.log(players[0].x, players[0].y)
     socket.on('vrSyncPos', (uid, x, y) => {
         players.forEach(i =>{
             if (i.uid == uid) {
@@ -205,7 +206,7 @@ io.sockets.on('connection', function (socket) {
 
     setInterval(updateClient, 1000)
     function updateClient() {
-        socket.emit('vrTest')
+        socket.emit('vrTest',players)
         console.log('emitting vrTest')
     }
 
