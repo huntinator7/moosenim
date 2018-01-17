@@ -66,8 +66,7 @@
 
             socket.on('vrUpdatePos', function (players) {
                 console.log("successful reply")
-                // console.log(players[0].x)
-                // console.log(players.length + "player total")
+           
                 for (var i = 0; i < players.length; i++) {
 
                     var avatar = document.createElement('a-entity')
@@ -80,6 +79,7 @@
                     })
                     avatar.setAttribute('material', 'color', 'red')
                     sceneEl.appendChild(avatar)
+                    totalPlayers.push(avatar)
 
                 }
 
@@ -97,14 +97,14 @@
                 var camera = document.getElementById("controller")
                 var pos = document.querySelector('#camera').getAttribute('position')
                 try {
-                   
-                        console.log(players)
-                   
+                    for (var i = 0; i < totalPlayers.length; i++) {
+                        totalPlayers[i].setAttribute('position', { x: players.x, y: 1, z: players.y })
+                    }
                    
                     theBox.setAttribute('position', { x: pos.x, y: 1, z: pos.z })
                     
                     console.log('box x: ' + theBox.object3D.position.x + ' box z: ' + theBox.object3D.position.z)
-                   //  socket.emit('vrSyncPos', uid, pos.x, pos.z)
+                     socket.emit('vrlocalPos', uid, pos.x, pos.z)
                 } catch (e) {
                     console.log(e)
                 }

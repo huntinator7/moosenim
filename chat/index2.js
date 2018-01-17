@@ -193,6 +193,7 @@ io.sockets.on('connection', function (socket) {
 
         //        socket.emit('vrUpdatePos',players);
         //    });
+        socket.emit('vrUpdatePos', players);
         console.log(players[0].x, players[0].y);
         socket.on('vrSyncPos', (uid, x, y) => {
             players.forEach(i => {
@@ -209,8 +210,17 @@ io.sockets.on('connection', function (socket) {
             socket.emit('vrTest', players)
             console.log('emitting vrTest')
         }
+        socket.on('vrlocalPos', function (uid, x, y) {
+            for(var i = 0; i < players.length;i++){
+                if (uid = players[i].uid) {
+                    players[i].x = x
+                    players[i].y = y
+                    break
+                }
 
-        socket.emit('vrUpdatePos', players);
+            }
+        })
+        
         socket.on('relayICECandidate', function (conf) {
             var peer_id = conf.peer_id;
             var ice_candidate = conf.ice_candidate;
