@@ -87,7 +87,8 @@
             })
             console.log("before")
 
-
+            var oldX = 0
+            var oldZ = 0
             
             
             console.log("after")
@@ -96,12 +97,8 @@
                 var camera = document.getElementById("controller")
                 var pos = document.querySelector('#camera').getAttribute('position')
                 try {
-                    var oldX = camera.object3D.position.x
-                    var oldZ = camera.object3D.position.z
-                    oldX = camera.object3D.position.x
-                    oldZ = camera.object3D.position.z
-                    theBox.object3D.position.x = oldX
-                    theBox.object3D.position.z = oldZ
+                   
+                   
                     theBox.setAttribute('position', { x: pos.x, y: 1, z: pos.z })
                     
                     console.log('box x: ' + theBox.object3D.position.x + ' box z: ' + theBox.object3D.position.z)
