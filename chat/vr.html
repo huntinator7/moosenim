@@ -40,6 +40,7 @@
         var socket = io.connect(URL_SERVER)
         var event
         var camera = document.getElementById("controller")
+        var theBox = document.getElementById("theBox")
         $(function () {
             var uid = socket.id
             var sceneEl = document.querySelector('a-scene')
@@ -91,6 +92,8 @@
                 if (camera.object3D.position.x != oldX || camera.object3D.position.z != oldZ) {
                     oldX = camera.object3D.position.x
                     oldZ = camera.object3D.position.z
+                    theBox.object3D.position.x = oldX
+                    theBox.object3D.position.x = oldZ
                     socket.emit('vrSyncPos', uid, camera.position.x, camera.position.z)
                 }
             }
@@ -109,7 +112,7 @@
             <!--<a-entity  wasd-controls></a-entity>-->
         </a-entity>
 
-        <a-box  position="-1 0.5 -3" rotation="0 45 0"></a-box>
+        <a-box  id = "theBox" position="-1 0.5 -3" rotation="0 45 0"></a-box>
         <a-sphere  position="0 1.25 -5" radius="1.25"
             color="#EF2D5E" ></a-sphere>
         <a-cylinder  position="1 0.75 -3" radius="0.5"
