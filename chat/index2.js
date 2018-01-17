@@ -205,7 +205,7 @@ io.sockets.on('connection', function (socket) {
 
     setInterval(updateClient, 1000)
     function updateClient() {
-        socet.emit('vrTest')
+        socket.emit('vrTest')
         console.log('emitting vrTest')
     }
 
