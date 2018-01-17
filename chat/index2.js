@@ -187,31 +187,18 @@ io.sockets.on('connection', function (socket) {
     socket.on('vrconnection', function (uid, x, y) {
         var p = { uid: uid, x: x, y: y, color: 'red' };
         players.push(p);
-        //        for (var i = 0; i < players.length; i++) {
-        //            console.log('player' + i + ' ' + players[i].x);
-        //}
-
-        //        socket.emit('vrUpdatePos',players);
-        //    });
+       
         socket.emit('vrUpdatePos', players);
-        console.log(players[0].x, players[0].y);
-        socket.on('vrSyncPos', (uid, x, y) => {
-            players.forEach(i => {
-                if (i.uid == uid) {
-                    i.x = x;
-                    i.y = y;
-                }
-                socket.emit('vrUpdatePos', players);
-            });
+        
         });
 
         setInterval(updateClient, 1000)
         function updateClient() {
             socket.emit('vrTest', players)
-            
+
         }
         socket.on('vrlocalPos', function (uid, x, y) {
-            for(var i = 0; i < players.length;i++){
+            for (var i = 0; i < players.length; i++) {
                 if (uid = players[i].uid) {
                     players[i].x = x
                     players[i].y = y
@@ -220,7 +207,7 @@ io.sockets.on('connection', function (socket) {
 
             }
         })
-        
+    })
         socket.on('relayICECandidate', function (conf) {
             var peer_id = conf.peer_id;
             var ice_candidate = conf.ice_candidate;
@@ -727,4 +714,3 @@ io.sockets.on('connection', function (socket) {
             }
         });
     }
-})

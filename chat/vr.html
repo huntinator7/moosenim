@@ -52,15 +52,9 @@
             // ground.Three.Color = new Three.Color(0x003711)
             socket.emit('vrconnection', uid, Xpos, Zpos)
             var p = { x: Xpos, z: Zpos, uid: uid }
-            var avatar = document.createElement('a-entity')
-            // avatar.setAttribute('position' , { x: Xpos, y: Ypos, z: -5 })
+           
             uid = socket.id
-            avatar.setAttribute('geometry', {
-                primitive: 'cylinder',
-                height: 1.5,
-                radius: 0.5
-            })
-            avatar.setAttribute('material', 'color', 'red')
+           
 
             socket.emit('vrconnection', uid, Xpos, Zpos)
 
