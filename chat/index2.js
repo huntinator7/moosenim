@@ -192,7 +192,7 @@ io.sockets.on('connection', function (socket) {
 
     });
 
-    setInterval(updateClient, 1000)
+    setInterval(updateClient, 33)
     function updateClient() {
         socket.emit('vrTest', players)
 
