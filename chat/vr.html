@@ -93,7 +93,8 @@
                     oldX = camera.object3D.position.x
                     oldZ = camera.object3D.position.z
                     theBox.object3D.position.x = oldX
-                    theBox.object3D.position.x = oldZ
+                    theBox.object3D.position.z = oldZ
+                    console.log('box x: ' + theBox.object3D.position.x + ' box z: ' + theBox.object3D.position.z)
                     socket.emit('vrSyncPos', uid, camera.position.x, camera.position.z)
                 }
             }
