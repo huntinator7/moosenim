@@ -208,7 +208,7 @@ io.sockets.on('connection', function (socket) {
         setInterval(updateClient, 1000)
         function updateClient() {
             socket.emit('vrTest', players)
-            console.log('emitting vrTest')
+            
         }
         socket.on('vrlocalPos', function (uid, x, y) {
             for(var i = 0; i < players.length;i++){

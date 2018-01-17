@@ -97,11 +97,12 @@
                 var camera = document.getElementById("controller")
                 var pos = document.querySelector('#camera').getAttribute('position')
                 try {
-                    for (var i = 0; i < totalPlayers.length; i++) {
-                        totalPlayers[i].setAttribute('position', { x: players.x, y: 1, z: players.y })
+                    for (var i = 0; i < players.length; i++) {
+                        console.log('players x '+players[i].x)
+                        totalPlayers[i].setAttribute('position', { x: players[i].x, y: 1, z: players[i].y })
                     }
                    
-                    theBox.setAttribute('position', { x: pos.x, y: 1, z: pos.z })
+                   // theBox.setAttribute('position', { x: pos.x, y: 1, z: pos.z })
                     
                     console.log('box x: ' + theBox.object3D.position.x + ' box z: ' + theBox.object3D.position.z)
                      socket.emit('vrlocalPos', uid, pos.x, pos.z)
