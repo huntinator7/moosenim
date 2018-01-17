@@ -27,7 +27,7 @@
     <!--socket.io and Ajax APIs-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
 
-    <script src="js/three.min.js"></script>
+
     <style>
     </style>
 </head>
@@ -118,8 +118,8 @@
             color="#EF2D5E" ></a-sphere>
         <a-cylinder  position="1 0.75 -3" radius="0.5"
             height="1.5" color="#FFC65D"></a-cylinder>
-        <a-entity id="plane" geometry="primitive: plane width: 10000 height: 10000" material="color: #33300 repeat: 10000 10000 transparent: true metalness: 0.6 roughness: 0.4" rotation="-90 0 0"></a-entity>
-        <a-entity particle-system="preset: snow particleCount: 10000"></a-entity>
+        <a-entity id="ground"  width = "10000" height = "10000" material="color: #33300 repeat: 10000 10000 transparent: true metalness: 0.6 roughness: 0.4" rotation="-90 0 0"></a-entity>
+        <a-plane particle-system="preset: snow particleCount: 10000"></a-plane>
         <a-sky color="#9bfcff"></a-sky>
 
     
