@@ -357,6 +357,7 @@ io.sockets.on('connection', function (socket) {
 
     //for adduser function. Email is entered by the user, rid is caled from chat.html, isAdmin should just default to 0 for now.
     socket.on('adduser', function (email, rid, isAdmin) {
+      console.log('add user called')
         addToRoom(email, rid, 0);
     });
 

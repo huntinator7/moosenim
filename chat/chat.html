@@ -162,7 +162,7 @@
                         <h4>Welcome to Moosen IM</h4>
                         <p>Moosen IM is a instant messaging application made by a couple of friends who want more out of their messaging apps. </p>
                         <p>
-                            To get started, click on 'create room' and give it a catchy name. Then, use 'add to room..' to invite other users to your room. 
+                            To get started, click on 'create room' and give it a catchy name. Then, use 'add to room..' to invite other users to your room.
                         </p>
                         DISCLAIMER: This is an MVP product, and is currently NOT completely secure. Please be mindful of the information posted.
                     </div>
@@ -239,7 +239,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Socket.io -->
     <script>
         var event
@@ -274,7 +274,7 @@
             });
 
             $('#roomname').submit(function () {
-               // socket.emit('addroom', $('#rn').val()); //need to add uid eventually
+                socket.emit('addroom', $('#rn').val()); //need to add uid eventually
                 console.log("add room form submitted " + $('#rn').val());
                 return false;
             });
@@ -629,7 +629,7 @@
         });
 
     </script>
-    
+
 </body>
 
 </html>
