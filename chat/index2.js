@@ -51,7 +51,7 @@ var vr = require('./vr.js');
 var voicetest = require('./voicetest.js');
 var config = require('./config');
 
-// object definitions 
+// object definitions
 var user = require('./user.js');
 
 //Associating .js files with URLs
@@ -292,7 +292,7 @@ io.sockets.on('connection', function (socket) {
             } else {
                 lastRoom = rows[0].curroom;
             }
-            //redundancy for testing only. 
+            //redundancy for testing only.
             lastRoom = rows[0].curroom;
             //  var User = new user(displayName, email, photoURL, uid);
 
@@ -355,7 +355,7 @@ io.sockets.on('connection', function (socket) {
 
     });
 
-    //for adduser function. Email is entered by the user, rid is caled from chat.html, isAdmin should just default to 0 for now. 
+    //for adduser function. Email is entered by the user, rid is caled from chat.html, isAdmin should just default to 0 for now.
     socket.on('adduser', function (email, rid, isAdmin) {
         addToRoom(email, rid, 0);
     });
@@ -608,7 +608,7 @@ function getMessageDiscord(un, msg, pic) {
 
 //should be called when a user clicks on a different chatroom
 function updatechat(roomid) {
-    //TODO: set a user variable "current Room" to the value specified. 
+    //TODO: set a user variable "current Room" to the value specified.
     //reload page
     showLastMessages(10, 0, roomid);
 }
@@ -665,11 +665,11 @@ function showPreviousMessages(num, previous, sid, roomid) {
     });
 
 
-    socket.on('disconnect', function () {
+    //socket.on('disconnect', function () {
 
-        console.log('Got disconnect!');
+      //  console.log('Got disconnect!');
 
-    });
+  //  });
 }
 
 function getChatrooms(sid, uid) {
