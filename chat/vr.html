@@ -108,7 +108,8 @@
 
     <a-scene>
         <a-assets>
-              <a-asset-item id="beach" src="images/scene.gltf">
+          <a-asset-item id="room" src="images/iscv2.obj"></a-asset-item>
+ <a-asset-item id="room" src="images/iscv2.mtl"></a-asset-item>
         </a-assets>
 
         <a-entity hand-controls="left"></a-entity>
@@ -118,7 +119,7 @@
 
             <!--<a-entity  wasd-controls></a-entity>-->
         </a-entity>
-        <a-entity gltf-model="#beach" scale="0.1 0.1 0.1"></a-entity>
+        <a-entity gltf-model="#room" scale="0.1 0.1 0.1"></a-entity>
         <a-box  id = "theBox" position="-1 0.5 -3" rotation="0 45 0"></a-box>
         <a-sphere  position="0 1.25 -5" radius="1.25"
             color="#EF2D5E" ></a-sphere>
