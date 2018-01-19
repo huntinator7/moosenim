@@ -136,11 +136,12 @@
                 <a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a>
             </li>
             <li>
-                <a id="room" class="button waves-effect" room="2" style="color: #6EB7FF">test</a>
+                <a id="room" class="button waves-effect"  room="2" style="background: linear-gradient(to right, #6EB7FF,white); border-right:1px solid black; color: white">test</a>
             </li>
         </ul>
         <ul id="slide-out" class="side-nav" style="z-index: 3000; width:50vw">
             <li>
+
                 <img src="images/favicon.png">
             </li>
             <li>
@@ -254,7 +255,7 @@
             var URL_SERVER = 'https://moosen.im:443';
             var socket = io.connect(URL_SERVER);
             var uid;
-
+            var curroom = 1;
             var siofu = new SocketIOFileUpload(socket);
             siofu.addEventListener("start", function (event) {
                 event.file.meta.filetype = event.file.type;
@@ -265,7 +266,7 @@
             var audio = new Audio('/sounds/login3.mp3');
             // roomList holds an array of all chatrooms a user has access to.
             // var roomList;
-            var curroom = 1;
+
 
             $('#email').submit(function () {
                 socket.emit('adduser', $('#e').val(), curroom, 0);

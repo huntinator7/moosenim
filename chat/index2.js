@@ -290,10 +290,11 @@ io.sockets.on('connection', function (socket) {
 
                 });
             } else {
-                lastRoom = rows[0].curroom;
+              //TODO FIX
+            //    lastRoom = rows[0].curroom;
             }
             //redundancy for testing only.
-            lastRoom = rows[0].curroom;
+          //  lastRoom = rows[0].curroom;
             //  var User = new user(displayName, email, photoURL, uid);
 
             addOnline(displayName, email, photoURL, uid, socket.id, lastRoom);
