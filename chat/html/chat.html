@@ -1,122 +1,51 @@
-﻿<!doctype html>
-<html>
+﻿<!DOCTYPE html>
+<html lang="en-US">
 
 <head>
     <link rel="icon" href="https://www.moosen.im/images/favicon.png">
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <title>Moosen Chat</title>
+
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112336897-1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-
         gtag('config', 'UA-112336897-1');
     </script>
 
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-    <!--Import jQuery before materialize.js-->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <!-- <script src="/js/materialize.js"></script> -->
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
-    <script src="/siofu/client.js"></script>
-    <source id="ogg_src" src="/sounds/notification.mp3" type="video/ogg">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
-    <!-- <script src="https://player.twitch.tv/js/embed/v1.js"></script> -->
-    <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script src="../siofu/client.js"></script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-material-design@4.0.0-beta.4/dist/js/bootstrap-material-design.js" integrity="sha384-3xciOSDAlaXneEmyOo0ME/2grfpqzhhTcM4cE32Ce9+8DW/04AGoTACzQpphYGYe"
+        crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () { $('body').bootstrapMaterialDesign(); });
+    </script>
+
+    <source id="ogg_src" src="../sounds/notification.mp3" type="video/ogg">
+
+    <link rel="stylesheet" type="text/css" href="../css/chat.css">
+    <!-- Material Design for Bootstrap fonts and icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <!-- Material Design for Bootstrap CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.0.0-beta.4/dist/css/bootstrap-material-design.min.css"
+        integrity="sha384-R80DC0KVBO4GSTw+wZ5x2zn2pu4POSErBkf8/fSFhPXHxvHJydT0CSgAP2Yo2r4I" crossorigin="anonymous">
+
+    <!--Import Google Font-->
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
     <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <style>
-        @font-face {
-            font-family: 'headliner';
-            src: url('/headliner_font_ttf') format('truetype'),
-            url('/headliner_font_woff2') format('woff2'),
-            url('/headliner_font_woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        @font-face {
-            font-family: 'monofonto';
-            src: url('/monofonto_font_ttf') format('truetype'),
-            url('/monofonto_font_woff2') format('woff2'),
-            url('/monofonto_font_woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        @font-face {
-            font-family: 'productsans';
-            src: url('/productsans_font_ttf') format('truetype'),
-            url('/productsans_font_woff2') format('woff2'),
-            url('/productsans_font_woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        #messages {
-            list-style-type: none;
-            margin: 0;
-        }
-
-        #side-nav {
-            background-color: #181818;
-            width: 500px;
-        }
-
-        #side-nav li {
-            color: #6EB7FF;
-        }
-
-        #nav-mobile {
-            width: 15vw;
-            padding-top: 15vh;
-        }
-
-        #nav-mobile li {
-            color: #6EB7FF;
-        }
-
-        #slide-out {
-            background-color: black;
-        }
-
-        #slide-out li {
-            color: #6EB7FF;
-        }
-
-        #msgtitle {
-            font-size: 12px;
-        }
-
-        nav.top-nav a.page-title {
-            line-height: 5vh;
-            font-size: 4em;
-        }
-
-        body {
-            font-family: productsans;
-             background: linear-gradient(to right, #6EB7FF, #23ffdd);
-        }
-
-        @media only screen and (min-width: 992px) {
-            #center-container {
-                margin-left: 16vw;
-            }
-        }
-
-        @media only screen and (min-width: 0) {
-            html {
-                font-size: 18px;
-            }
-        }
     </style>
 </head>
 
@@ -136,13 +65,12 @@
                 <a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a>
             </li>
             <li>
-                <a id="room" class="button waves-effect"  room="2" style="background: linear-gradient(to right, #6EB7FF,white); border-right:1px solid black; color: white">test</a>
+                <a id="room" class="button waves-effect" room="2" style="background: linear-gradient(to right, #6EB7FF,white); border-right:1px solid black; color: white">test</a>
             </li>
         </ul>
         <ul id="slide-out" class="side-nav" style="z-index: 3000; width:50vw">
             <li>
-
-                <img src="images/favicon.png">
+                <img src="../images/favicon.png">
             </li>
             <li>
                 <a style="color: #FFFFFF" style="font-size:1.2em">Chatrooms</a>
@@ -158,18 +86,20 @@
                 <ul class="collection with-header" id="messages" style="overflow-x:hidden"></ul>
                 <a href="#" data-activates="slide-out" style="display:none;" class="button-collapse"></a>
                 <!-- Modal tutorial -->
-                <div id="modaltutorial"  style="z-index: 4000; position:fixed;"class="modal">
+                <div id="modaltutorial" style="z-index: 4000; position:fixed;" class="modal">
                     <div class="modal-content">
                         <h4>Welcome to Moosen IM</h4>
-                        <p>Moosen IM is a instant messaging application made by a couple of friends who want more out of their messaging apps. </p>
+                        <p>Moosen IM is a instant messaging application made by a couple of friends who want more out of their
+                            messaging apps. </p>
                         <p>
-                            To get started, click on 'create room' and give it a catchy name. Then, use 'add to room..' to invite other users to your room.
+                            To get started, click on 'create room' and give it a catchy name. Then, use 'add to room..' to invite other users to your
+                            room.
                         </p>
                         DISCLAIMER: This is an MVP product, and is currently NOT completely secure. Please be mindful of the information posted.
                     </div>
                 </div>
                 <!-- Modal add user -->
-                <div id="modal1"  style="z-index: 3000;"class="modal">
+                <div id="modal1" style="z-index: 3000;" class="modal">
                     <div class="modal-content">
                         <h4>Modal Header</h4>
                         <p>Enter the email of the person you wish to invite</p>
@@ -180,7 +110,7 @@
                     </div>
                 </div>
                 <!-- Modal create room -->
-                <div id="modal2"  style="z-index: 3000;"class="modal">
+                <div id="modal2" style="z-index: 3000;" class="modal">
                     <div class="modal-content">
                         <h4>Create new Room</h4>
                         <p>Room Name</p>
@@ -191,7 +121,7 @@
                     </div>
                 </div>
                 <!-- Room Settings Modal -->
-                <div id="rsModal"  style="z-index: 3000;"class="modal">
+                <div id="rsModal" style="z-index: 3000;" class="modal">
                     <div class="modal-content">
                         <h4>Room Settings</h4>
                         <form id="room-settings">
@@ -262,8 +192,8 @@
                 event.file.meta.room = curroom;
             });
 
-            var login = new Audio('/sounds/notification.mp3');
-            var audio = new Audio('/sounds/login3.mp3');
+            var login = new Audio('../sounds/notification.mp3');
+            var audio = new Audio('../sounds/login3.mp3');
             // roomList holds an array of all chatrooms a user has access to.
             // var roomList;
 
@@ -297,8 +227,6 @@
             });
             //for future use
             $('#room-settings').submit(function () {
-
-
             });
 
             $(document).ready(function () {
@@ -582,12 +510,10 @@
                 console.log('resize event: ' + $(window).width() / $(window).height());
                 if ($("#m").is(":focus") && $(window).width() / $(window).height() < 1.4 && $(window).width() / $(window).height() > 0.8) {
                     window.scrollTo(0, $(document).height());
-                    // socket.emit('log', 'resize event: hide | ' + $(window).width() / $(window).height());
                     document.getElementById("center-container").style.display = "none";
                     window.scrollTo(0, $(document).height());
                 } else {
                     document.getElementById("center-container").style.display = "block";
-                    // socket.emit('log', 'resize event: show | ' + $(window).width() / $(window).height());
                 }
             });
         });
@@ -620,15 +546,6 @@
                 };
             }
         }
-        $('.button-collapse').sideNav({
-            menuWidth: 350,
-            edge: 'left',
-            closeOnClick: true,
-            draggable: true,
-            // onOpen: function (el) {},
-            // onClose: function (el) {}
-        });
-
     </script>
 
 </body>

@@ -2,7 +2,7 @@ var express = require('express');
 var path = require('path');  
 var cors = require('cors');
 //var routes = require('routes/');
-var messages = require('./routes/messages');
+var messages = require('../routes/messages');
 var bodyParser = require('body-parser'); 
 var app = express();
 

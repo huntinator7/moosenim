@@ -10,9 +10,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moosen IM sign in</title>
 
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/4.0.2/bootstrap-material-design.min.css">
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.orange-indigo.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
@@ -22,9 +22,8 @@
     <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase-messaging.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
-   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+
     <script>
         // Initialize Firebase
         var config = {
@@ -112,7 +111,7 @@
                     var providerData = user.providerData;
                     var uid = providerData[0].uid;
                     var url = 'https://www.moosen.im/?' + uid;
-                   // console.log(url);
+                    // console.log(url);
 
                     socket.emit('login message', displayName, email, photoURL, uid);
                     var div = $('<a href = "' + url + '" id="go" class="btn go waves-effect waves-light light-blue white-text">Click To Chat</button>');
@@ -122,7 +121,6 @@
                     document.getElementById('quickstart-sign-in-status').style.textAlign = "center";
                     document.getElementById('quickstart-sign-in').textContent = 'Sign out';
                     document.getElementById('quickstart-account-details').innerHTML('test');
-                    //document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
                 } else {
                     // User is signed out.
                     try {
@@ -173,9 +171,11 @@
                         <p>Sign in with your Google account below.</p>
                         <!-- Container where we'll display the user details -->
                         <div class="quickstart-user-details-container">
-                            Firebase sign-in status: <span id="quickstart-sign-in-status">Unknown</span>
-                            <div>Firebase auth <code>currentUser</code> object value:</div>
-                           <pre><code id="quickstart-account-details">null</code></pre>
+                            Firebase sign-in status:
+                            <span id="quickstart-sign-in-status">Unknown</span>
+                            <div>Firebase auth
+                                <code>currentUser</code> object value:</div>
+                            <pre><code id="quickstart-account-details">null</code></pre>
                             <div>Google OAuth Access Token:</div>
                             <pre><code id="quickstart-oauthtoken">null</code></pre>
                         </div>

@@ -10,7 +10,6 @@
         window.dataLayer = window.dataLayer || []
         function gtag() { dataLayer.push(arguments) }
         gtag('js', new Date())
-
         gtag('config', 'UA-112336897-1')
     </script>
     <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
@@ -26,8 +25,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
     <!--socket.io and Ajax APIs-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
-
-
     <style>
     </style>
 </head>
@@ -42,7 +39,7 @@
         var camera = document.getElementById("controller")
 
         var theBox = document.getElementById("theBox")
-       // var ground = document.getElementById("ground")
+        // var ground = document.getElementById("ground")
         $(function () {
             var uid = socket.id
             var sceneEl = document.querySelector('a-scene')
@@ -94,10 +91,10 @@
                         totalPlayers[i].setAttribute('position', { x: players[i].x, y: 1, z: players[i].y })
                     }
 
-                   // theBox.setAttribute('position', { x: pos.x, y: 1, z: pos.z })
+                    // theBox.setAttribute('position', { x: pos.x, y: 1, z: pos.z })
 
                     console.log('box x: ' + theBox.object3D.position.x + ' box z: ' + theBox.object3D.position.z)
-                     socket.emit('vrlocalPos', uid, pos.x, pos.z)
+                    socket.emit('vrlocalPos', uid, pos.x, pos.z)
                 } catch (e) {
                     console.log(e)
                 }
@@ -108,8 +105,8 @@
 
     <a-scene>
         <a-assets>
-          <a-asset-item id="room" src="images/iscv2.obj"></a-asset-item>
- <a-asset-item id="roommat" src="images/iscv2.mtl"></a-asset-item>
+            <a-asset-item id="room" src="../images/iscv2.obj"></a-asset-item>
+            <a-asset-item id="roommat" src="../images/iscv2.mtl"></a-asset-item>
         </a-assets>
 
         <a-entity hand-controls="left"></a-entity>
@@ -119,14 +116,13 @@
 
             <!--<a-entity  wasd-controls></a-entity>-->
         </a-entity>
-       <a-obj-model src="#room" mtl="#roommat"  position="0 0.1 4"rotation="-90 0 0" scale = "0.08 0.08 0.08"></a-obj-model>
-        <a-box  id = "theBox" position="-1 0.5 -3" rotation="0 45 0"></a-box
-      
-        <a-plane id="painting 1" width="1" height = "2" ></a-plane>
-        <a-plane id="ground"   color="#003711" width = "10000" height = "10000"  material=" repeat: 100 100 metalness: 0.6 roughness: 0.4" rotation="-90 0 0"></a-plane>
+        <a-obj-model src="#room" mtl="#roommat" position="0 0.1 4" rotation="-90 0 0" scale="0.08 0.08 0.08"></a-obj-model>
+        <a-box id="theBox" position="-1 0.5 -3" rotation="0 45 0"></a-box <a-plane id="painting 1" width="1" height="2"></a-plane>
+        <a-plane id="ground" color="#003711" width="10000" height="10000" material=" repeat: 100 100 metalness: 0.6 roughness: 0.4"
+            rotation="-90 0 0"></a-plane>
         <!--<a-entity particle-system="preset: snow particleCount: 10"></a-entity>-->
         <a-sky color="#9bfcff"></a-sky>
-
+    </a-scene>
 
 </body>
 

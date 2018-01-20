@@ -1,4 +1,3 @@
-
 function User(displayName, email, photoURL, uid) {
 
     this.displayName = displayName;

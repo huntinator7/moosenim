@@ -1,5 +1,3 @@
-
-
 var sql =require('mysql');
 var connect = {
     host: "localhost",
