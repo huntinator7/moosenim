@@ -6,9 +6,4 @@ function User(displayName, email, photoURL, uid) {
     this.photoURL = photoURL;
     this.uid = uid;
 
-
-   
-
-
-
 }

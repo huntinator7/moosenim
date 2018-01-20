@@ -1,5 +1,3 @@
-// Messages API test
-
 var express = require('express');
 var path = require('path');  
 var cors = require('cors');
