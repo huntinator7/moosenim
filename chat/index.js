@@ -85,7 +85,7 @@ app.use("/siofu", express.static(__dirname + '/node_modules/socketio-file-upload
 
 
 //passport Login
-passport.use(new GoogleStrategy({
+passport.use(new strategy({
     clientID: '333736509560-id8si5cbuim26d3e67s4l7oscjfsakat.apps.googleusercontent.com',
     clientSecret: 'ZCMQ511PhvMEQqozMGd5bmRH',
     callbackURL: 'https://moosen.im/auth/google/callback'
@@ -204,31 +204,10 @@ io.sockets.on('connection', function (socket) {
         }
     }
     socket.on('part', part)
-    //vr State Code
 
 
-    socket.on('vrconnection', function (uid, x, y) {
-        var p = { uid: uid, x: x, y: y, color: 'red' }
-        players.push(p)
 
-        socket.emit('vrUpdatePos', players)
 
-    })
-
-    setInterval(updateClient, 33)
-    function updateClient() {
-        socket.emit('vrTest', players)
-
-    }
-    socket.on('vrlocalPos', function (uid, x, y) {
-        players.forEach(function (player) {
-            if (uid == player.uid) {
-                player.x = x
-                player.y = y
-                
-            }
-        })
-    })
 
     socket.on('relayICECandidate', function (conf) {
         var peer_id = conf.peer_id
