@@ -81,7 +81,7 @@ app.use("/fonts", express.static(__dirname + '/fonts'))
 app.use("/sounds", express.static(__dirname + '/sounds'))
 app.use("/js", express.static(__dirname + '/js'))
 app.use("/html", express.static(__dirname + '/html'))
-app.use("/css", express.static(__dirname + '/css'))
+app.use("/css", express.static(__dirname + '/css/chat.css'))
 app.use("/siofu", express.static(__dirname + '/node_modules/socketio-file-upload'))
 
 
