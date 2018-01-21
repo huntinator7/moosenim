@@ -44,6 +44,10 @@ body {
     margin-right: .5rem;
 }
 
+.mm-side-image a{
+    line-height: 2.1rem;
+}
+
 .collection {
     list-style-type: none;
     padding: 0;
@@ -137,4 +141,19 @@ body {
 
 .circle {
     border-radius: 50%;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #6eb7ff;
+}
+
+.footer p {
+    color: white;
+    text-align: center;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 1.5em
 }
