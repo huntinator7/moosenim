@@ -128,13 +128,23 @@ textarea {
 .collection .collection-item {
     line-height: 1.5rem;
     padding: 10px 20px;
-    margin: 0;
+    margin: 3px 10px;
+    background-color: hsla(0, 0%, 31%, 0.445);
+    border-radius: 10px;
+}
+
+.collection :nth-child(odd) {
+    background-color: hsla(0, 0%, 100%, 0.589);
 }
 
 .collection .collection-item.avatar {
     min-height: 84px;
     padding-left: 72px;
     position: relative;
+}
+
+.collection .collection-item p {
+    background: none;
 }
 
 .collection .collection-item.avatar:not(.circle-clipper)>.circle, .collection .collection-item.avatar :not(.circle-clipper)>.circle {
@@ -172,7 +182,7 @@ textarea {
 }
 
 .collection .secondary-content {
-    color: #cfcfcf;
+    color: #555;
     font-size: 0.75em;
 }
 
