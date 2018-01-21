@@ -164,8 +164,6 @@ textarea {
 }
 
 .collection .collection-item.avatar .secondary-content {
-    position: absolute;
-    top: 16px;
     right: 16px;
 }
 
@@ -173,8 +171,9 @@ textarea {
     border-bottom: none;
 }
 
-.collection .collection-item.active .secondary-content {
-    color: #fff;
+.collection .secondary-content {
+    color: #cfcfcf;
+    font-size: 0.75em;
 }
 
 .collection a.collection-item {
@@ -200,11 +199,6 @@ textarea {
 
 .collection.with-header .collection-item.avatar {
     padding-left: 72px;
-}
-
-.secondary-content {
-    float: right;
-    color: #6eb7ff;
 }
 
 .circle {

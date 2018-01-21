@@ -97,13 +97,14 @@ passport.use(new strategy({
     }
 ))
 app.get('/auth/google',
-  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }))
+    passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }))
 
-  app.get('/auth/google/callback',
+app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/login' }),
-    function(req, res) {
-      res.redirect('/');
-    })
+    function (req, res) {
+        res.redirect('/')
+    }
+)
 
 //Discord login with token from dev page
 var client = new Discord.Client()
@@ -376,7 +377,7 @@ io.sockets.on('connection', function (socket) {
         var isEmbed = false
         var send = true
         console.log('chat message       socket.id: ' + socket.id)
-        online.forEach(function(element) {
+        online.forEach(function (element) {
             console.log(i + ': ' + element.sid)
             if (element.sid == socket.id) {
                 console.log("New message from " + element.name)
