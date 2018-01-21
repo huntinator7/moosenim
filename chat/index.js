@@ -225,7 +225,7 @@ io.sockets.on('connection', function (socket) {
             if (uid == player.uid) {
                 player.x = x
                 player.y = y
-                break
+                
             }
         })
     })
