@@ -5,8 +5,8 @@ router.get('/', function(req, res) {
 })
 
 router.get('/login', function(req, res){
-   //res.sendfile('chat/html/login.html', {'root': '../'})
-   res.send("fuck routes"+__dirname)
+   res.sendfile('chat/html/login.html', {'root': '../'})
+  
 });
 
 router.post('/', function(req, res){
