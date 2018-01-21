@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 router.get('/', function(req, res){
-   res.sendFile(__dirname + '../html/chat.html');
+   res.sendFile('../html/chat.html');
 });
 router.post('/', function(req, res){
    res.send('POST route on chat.');
