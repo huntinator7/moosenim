@@ -12,7 +12,8 @@ var util = require('util')
 var messages = require('./routes/messages')
 var app = express()
 var app2 = express()
-
+var passport = require('passport')
+var strategy = require('passport-google-oauth').OAuth2Strategy
 // http redirect
 app2.all('*', ensureSecure) // at top of routing calls
 
@@ -81,6 +82,27 @@ app.use("/sounds", express.static(__dirname + '/sounds'))
 app.use("/js", express.static(__dirname + '/js'))
 app.use("/html", express.static(__dirname + '/html'))
 app.use("/siofu", express.static(__dirname + '/node_modules/socketio-file-upload'))
+
+
+//passport Login
+passport.use(new GoogleStrategy({
+    clientID: '333736509560-id8si5cbuim26d3e67s4l7oscjfsakat.apps.googleusercontent.com',
+    clientSecret: 'ZCMQ511PhvMEQqozMGd5bmRH',
+    callbackURL: 'https://moosen.im/auth/google/callback'
+},
+    function (accessToken, refreshToken, profile, cb) {
+        //console.log(profile)
+        return cb(null, profile)
+    }
+))
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }))
+
+  app.get('/auth/google/callback',
+    passport.authenticate('google', { failureRedirect: '/login' }),
+    function(req, res) {
+      res.redirect('/');
+    })
 
 //Discord login with token from dev page
 var client = new Discord.Client()
