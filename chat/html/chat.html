@@ -428,6 +428,14 @@
                         $(this).css('font-size', (parseInt($(this).css('font-size')) - 1) + "px")
                     }
                 })
+
+                $.fn.textWidth = function () {
+                    var text = $(this).html()
+                    $(this).html('<span>' + text + '</span>')
+                    var width = $(this).find('span:first').width()
+                    $(this).html(text)
+                    return width
+                }
             })
         })
 
@@ -445,21 +453,13 @@
             }
         });
 
-        $.fn.textWidth = function () {
-            var text = $(this).html()
-            $(this).html('<span>' + text + '</span>')
-            var width = $(this).find('span:first').width()
-            $(this).html(text)
-            return width
-        }
-
-        $.fn.textHeight = function () {
-            var text = $(this).html()
-            $(this).html('<span>' + text + '</span>')
-            var height = $(this).find('span:first').height()
-            $(this).html(text)
-            return height
-        }
+        // $.fn.textWidth = function () {
+        //     var text = $(this).html()
+        //     $(this).html('<span>' + text + '</span>')
+        //     var width = $(this).find('span:first').width()
+        //     $(this).html(text)
+        //     return width
+        // }
 
         // function fitDocToWindow() {
         //     while ()
