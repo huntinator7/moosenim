@@ -420,6 +420,14 @@
         </div>
     </div>
     <script>
+        $.fn.textWidth = function () {
+            var text = $(this).html()
+            $(this).html('<span>' + text + '</span>')
+            var width = $(this).find('span:first').width()
+            $(this).html(text)
+            return width
+        }
+
         $(function () {
             $(document).ready(function () {
                 $('.mm-side-item-text').each(function (index) {
@@ -428,14 +436,6 @@
                         $(this).css('font-size', (parseInt($(this).css('font-size')) - 1) + "px")
                     }
                 })
-
-                $.fn.textWidth = function () {
-                    var text = $(this).html()
-                    $(this).html('<span>' + text + '</span>')
-                    var width = $(this).find('span:first').width()
-                    $(this).html(text)
-                    return width
-                }
             })
         })
 
@@ -452,18 +452,6 @@
                 return false;
             }
         });
-
-        // $.fn.textWidth = function () {
-        //     var text = $(this).html()
-        //     $(this).html('<span>' + text + '</span>')
-        //     var width = $(this).find('span:first').width()
-        //     $(this).html(text)
-        //     return width
-        // }
-
-        // function fitDocToWindow() {
-        //     while ()
-        // }
     </script>
 
     <!-- Socket.io -->

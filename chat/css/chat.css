@@ -13,6 +13,7 @@ textarea {
 #send-message {
     font-size: 1.5em;
     color: black;
+    padding-top: 1em;
 }
 
 .avatar {
@@ -108,7 +109,7 @@ textarea {
 .mm-form {
     width: 100%;
     margin: 5px 30px 5px 30px;
-    background: linear-gradient(to right, #6EB7FF, #0078f0);
+    background: linear-gradient(to right, hsla(210, 100%, 47%, 0), #ffffff);
 }
 
 #send-message {
