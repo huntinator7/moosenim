@@ -5,9 +5,9 @@ router.get('/login', function(req, res){
    //res.sendfile('chat/html/login.html', {'root': '../'})
    res.send("fuck routes")
 });
-express.get('/login', function(req, res){
+express.get('/', function(req, res){
    //res.sendfile('chat/html/login.html', {'root': '../'})
-   res.send("express fuck routes")
+   res.send("/ fuck routes")
 })
 router.post('/', function(req, res){
    res.send('POST route on login.');
