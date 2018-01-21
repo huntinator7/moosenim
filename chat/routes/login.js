@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router()
 
-router.get('/login', function(req, res){
+router.get('/', function(req, res){
    //res.sendfile('chat/html/login.html', {'root': '../'})
    res.send("fuck routes")
 });
