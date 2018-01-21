@@ -2,16 +2,54 @@ body {
     background: linear-gradient(to right, #6EB7FF, #23ffdd);
 }
 
+textarea {
+    border: none;
+    background-color: transparent;
+    resize: none;
+    outline: none;
+    overflow-y: hidden;
+}
+
+#send-message {
+    font-size: 1.5em;
+    color: black;
+}
+
 .avatar {
     z-index: 3;
 }
 
-.bd-navbar {
-    position: sticky;
+.main {
+    position: absolute;
+    top: 4rem;
+    height: calc(100vh - 4rem);
+    background: linear-gradient(to right, #6EB7FF, #23ffdd);
+}
+
+.navbar {
+    width: 100%;
+    position: absolute;
     top: 0;
     z-index: 1;
     min-height: 4rem;
     background: linear-gradient(to right, #6EB7FF, #23ffdd);
+}
+
+.navbar a{
+    color: white;
+}
+
+.navbar a i{
+    color: white;
+}
+
+.navbar-brand {
+    padding-top: 0px;
+}
+
+.mm-submit {
+    border: none !important;
+    margin: 0px;
 }
 
 .bd-sidebar {
@@ -29,6 +67,25 @@ body {
     background-color: black;
 }
 
+.mm-navbtn {
+    margin-bottom: 0;
+}
+
+.mm-navdd button {
+    float: right;
+    color: white !important;
+}
+
+.mm-navdd-items {
+    background-color: #6eb7ff;
+    z-index: 1;
+}
+
+.mm-navdd-items a {
+    color: white;
+    background-color: #6eb7ff
+}
+
 .mm-side-image {
     color: #6eb7ff;
     text-align: left;
@@ -38,20 +95,30 @@ body {
     font-size: 1.5rem;
 }
 
-.mm-side-image img{
+.mm-side-image img {
     float: left;
     max-height: 3rem;
     margin-right: .5rem;
 }
 
-.mm-side-image a{
+.mm-side-image a {
     line-height: 2.1rem;
+}
+
+.mm-form {
+    width: 100%;
+    margin: 5px 30px 5px 30px;
+    background: linear-gradient(to right, #6EB7FF, #0078f0);
+}
+
+#send-message {
+    background: none;
 }
 
 .collection {
     list-style-type: none;
     padding: 0;
-    margin: 0.5rem 0 1rem 0;
+    margin: 0.5rem 0 0 0;
     border-radius: 2px;
     overflow: hidden;
     position: relative;
