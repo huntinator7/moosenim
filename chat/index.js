@@ -96,6 +96,8 @@ passport.use(new strategy({
         return cb(null, profile)
     }
 ))
+app.use(passport.initialize())
+app.use(passport.session())
 app.get('/auth/google',
   passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }))
 
