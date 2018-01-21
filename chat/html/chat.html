@@ -140,29 +140,29 @@
                     <i class="material-icons">menu</i>
                 </button>
                 <a class="btn">Title</a>
-                <a class="btn">Title2</a>
+                <a class="btn" id="testingbtn">Title2</a>
                 <a class="btn" data-toggle="modal" data-target="#add-modal">Add To Room</a>
                 <a class="btn" data-toggle="modal" data-target="#welcome-modal">Welcome to Moosen</a>
                 <a class="btn">Title5</a>
             </div>
         </header>
         <div id="dw-s1" class="bmd-layout-drawer bg-faded mm-side">
-            <ul class="nav flex-column">
+            <ul class="nav flex-column" id="mm-side-list">
                 <li class="btn nav-item mm-side-image" href="#">
                     <img src="https://www.moosen.im/images/favicon.png" alt="" class="circle img-fluid">
-                    <a class="nav-link">Active</a>
+                    <a class="nav-link mm-side-item-text">Active</a>
                 </li>
                 <li class="btn nav-item mm-side-image" href="#">
                     <img src="https://www.moosen.im/images/favicon.png" alt="" class="circle img-fluid">
-                    <a class="nav-link">Link</a>
+                    <a class="nav-link mm-side-item-text">Link</a>
                 </li>
                 <li class="btn nav-item mm-side-image" href="#">
                     <img src="https://www.moosen.im/images/favicon.png" alt="" class="circle img-fluid">
-                    <a class="nav-link">Link</a>
+                    <a class="nav-link mm-side-item-text">Link</a>
                 </li>
                 <li class="btn nav-item mm-side-image" href="#">
                     <img src="https://www.moosen.im/images/favicon.png" alt="" class="circle img-fluid">
-                    <a class="nav-link">Disabled</a>
+                    <a class="nav-link mm-side-item-text">Disabled testing lond text</a>
                 </li>
             </ul>
         </div>
@@ -466,7 +466,7 @@
                 <div class="modal-body">
                     <p>Enter the email of the person you wish to invite</p>
                     <form id="email" action="">
-                        <input type="text" id="e" placeholder="email">
+                        <input class="form-control" type="text" id="e" placeholder="email">
                         <button class="btn" data-dismiss="modal"> Add To Room </button>
                     </form>
                 </div>
@@ -479,46 +479,37 @@
             <h4>Create new Room</h4>
             <p>Room Name</p>
             <form id="roomname" action="">
-                <input type="text" id="rn" placeholder="room name">
+                <input class="form-control" type="text" id="rn" placeholder="room name">
                 <button class="btn waves-effect waves-light modal-close light-blue white-text"> Create Room </button>
             </form>
         </div>
     </div>
-    <!-- Room Settings Modal -->
-    <div id="rsModal" style="z-index: 3000;" class="modal">
-        <div class="modal-content">
-            <h4>Room Settings</h4>
-            <form id="room-settings">
-                Room Settings
-                <br>
-                <fieldset>
-                    <legend>General </legend>
-                    Change Room Name:
-                    <input type="text" id="rs-g-name">
-                    <br> public?
-                    <input type="checkbox" id="rs-g-public">
-                    <br> Change Color:
-                    <input type="color" id="rs-g-color">
-                    <br> Remove user:
-                    <input type="text" id="rs-g-remove">
-                    <br>
-                    <br>
-                </fieldset>
-                <fieldset>
-                    <legend> User settings </legend>
-                    Allow Nicknames:
-                    <input type="checkbox" id="rs-us-nick">
-                    <br>
-                </fieldset>
-                <fieldset>
-                    <legend> Advanced </legend>
-                    Advanced settings:
-                    <br> Edit word list:
-                    <br>
-                </fieldset>
-            </form>
-        </div>
-    </div>
+    <script>
+        $(function () {
+            $('#testingbtn').click(function () {
+                alert("Hello")
+                $('.mm-side-item-text').each(function (index) {
+                    console.log('here')
+                    $(this).css('font-size', '32px')
+                    console.log($(this).textWidth())
+                    console.log($('#dw-s1').width())
+                    while ($(this).textWidth() > $('#dw-s1').width() * 0.65) {
+                        console.log($(this).textWidth())
+                        $(this).css('font-size', (parseInt($(this).css('font-size')) - 1) + "px")
+                        $(this).css('margin-top', (parseInt($(this).css('margin-top')) + 0.99))
+                    }
+                })
+            });
+        });
+
+        $.fn.textWidth = function () {
+            var text = $(this).html();
+            $(this).html('<span>' + text + '</span>');
+            var width = $(this).find('span:first').width();
+            $(this).html(text);
+            return width;
+        };
+    </script>
 
     <!-- Socket.io -->
     <!-- <script>
