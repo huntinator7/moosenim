@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 router.get('/', function(req, res){
-   res.sendFile(__dirname + '../html/login.html');
+   res.sendfile('chat/html/login.html', {'root': '../'})
 });
 router.post('/', function(req, res){
    res.send('POST route on login.');
