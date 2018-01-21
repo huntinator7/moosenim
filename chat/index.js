@@ -12,7 +12,8 @@ var util = require('util')
 var messages = require('./routes/messages')
 var app = express()
 var app2 = express()
-
+var passport = require('passport')
+var strategy = require('passport-google-oauth').OAuth2Strategy
 // http redirect
 app2.all('*', ensureSecure) // at top of routing calls
 
@@ -80,7 +81,29 @@ app.use("/fonts", express.static(__dirname + '/fonts'))
 app.use("/sounds", express.static(__dirname + '/sounds'))
 app.use("/js", express.static(__dirname + '/js'))
 app.use("/html", express.static(__dirname + '/html'))
+app.use("/css", express.static(__dirname + '/css'))
 app.use("/siofu", express.static(__dirname + '/node_modules/socketio-file-upload'))
+
+
+//passport Login
+passport.use(new strategy({
+    clientID: '333736509560-id8si5cbuim26d3e67s4l7oscjfsakat.apps.googleusercontent.com',
+    clientSecret: 'ZCMQ511PhvMEQqozMGd5bmRH',
+    callbackURL: 'https://moosen.im/auth/google/callback'
+},
+    function (accessToken, refreshToken, profile, cb) {
+        //console.log(profile)
+        return cb(null, profile)
+    }
+))
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }))
+
+  app.get('/auth/google/callback',
+    passport.authenticate('google', { failureRedirect: '/login' }),
+    function(req, res) {
+      res.redirect('/');
+    })
 
 //Discord login with token from dev page
 var client = new Discord.Client()
@@ -182,31 +205,10 @@ io.sockets.on('connection', function (socket) {
         }
     }
     socket.on('part', part)
-    //vr State Code
 
 
-    socket.on('vrconnection', function (uid, x, y) {
-        var p = { uid: uid, x: x, y: y, color: 'red' }
-        players.push(p)
 
-        socket.emit('vrUpdatePos', players)
 
-    })
-
-    setInterval(updateClient, 33)
-    function updateClient() {
-        socket.emit('vrTest', players)
-
-    }
-    socket.on('vrlocalPos', function (uid, x, y) {
-        players.forEach(function (player) {
-            if (uid == player.uid) {
-                player.x = x
-                player.y = y
-                break
-            }
-        })
-    })
 
     socket.on('relayICECandidate', function (conf) {
         var peer_id = conf.peer_id
