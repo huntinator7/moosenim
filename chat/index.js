@@ -61,8 +61,6 @@ passport.use(new strategy({
         return cb(null, profile)
     }
 ))
-app.use(passport.initialize())
-app.use(passport.session())
 app.use(session({
     key: 'keyboard cat',
     secret: 'keyboard cat',
@@ -70,6 +68,9 @@ app.use(session({
     saveUninitialized: true,
     store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl: 260 })
 }))
+app.use(passport.initialize())
+app.use(passport.session())
+
 
 var io = require('socket.io')(server)
 
