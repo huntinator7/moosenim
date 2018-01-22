@@ -100,6 +100,14 @@ app.get('/auth/google/callback',
     }
 )
 
+passport.serializeUser(function (user, cb) {
+    cb(null, user.id)
+})
+
+passport.deserializeUser(function (id, cb) {
+    cb(null, user)
+})
+
 //Discord login with token from dev page
 var client = new Discord.Client()
 client.login(config.token)
