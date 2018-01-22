@@ -116,17 +116,18 @@ app.get('/auth/google/callback',
 )
 
 passport.serializeUser(function (user, cb) {
-  var client = redis.createClient()
-  console.log(user.id + ": test serialize")
-  client.set('users', user.id)
-  client.sadd('online', user.displayName)
-loginUser(user.displayName,user.email, user.photoURL,user.id)
+    var client = redis.createClient()
+    console.log(user.id + ": test serialize")
+    client.set('users', user.id)
+    client.sadd('online', user.displayName)
+    loginUser(user.displayName, user.email, user.photoURL, user.id)
     cb(null, user.id)
 })
 
 passport.deserializeUser(function (id, cb) {
     console.log(id + ": deserialized user")
     User.findById(id, function (err, user) {
+        console.log(req.user);
         cb(err, user)
     })
 })
@@ -172,7 +173,7 @@ client.on('message', msg => {
     }
 })
 //Login process and recording
- function loginUser(displayName, email, photoURL, uid) {
+function loginUser(displayName, email, photoURL, uid) {
     //console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id)
     var lastRoom
 
@@ -189,7 +190,7 @@ client.on('message', msg => {
             })
         } else {
             //TODO FIX
-               rows[0].curroom  = lastRoom
+            rows[0].curroom = lastRoom
         }
         //redundancy for testing only.
         //  lastRoom = rows[0].curroom
