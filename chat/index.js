@@ -14,6 +14,12 @@ var app = express()
 var app2 = express()
 var passport = require('passport')
 var strategy = require('passport-google-oauth').OAuth2Strategy
+const redis = require("redis")
+const session = require('express-session')
+var redisStore = require('connect-redis')(session)
+var client = redis.createClient();
+const sessionStore = new redisStore()
+var cookieParser2 = require('cookie-parser')()
 // http redirect
 app2.all('*', ensureSecure) // at top of routing calls
 
@@ -90,6 +96,15 @@ passport.use(new strategy({
 ))
 app.use(passport.initialize())
 app.use(passport.session())
+app.use(session({
+    key: 'keyboard cat',
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true,
+    store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl: 260 })
+}))
+var client = redis.createClient()
+
 app.get('/auth/google',
     passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }))
 
@@ -102,6 +117,7 @@ app.get('/auth/google/callback',
 
 passport.serializeUser(function (user, cb) {
   console.log(user.id+"test serialize")
+loginUser(user.displayName,user.email, user.photoURL,user.id)
     cb(null, user.id)
 })
 
@@ -150,7 +166,40 @@ client.on('message', msg => {
         console.log('Newmsg: ' + newmsg)
     }
 })
+//Login process and recording
+ function loginUser(displayName, email, photoURL, uid) {
+    //console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id)
+    var lastRoom
 
+    con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
+        if (rows[0] == null) {
+            //If no user, add to DB
+            con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email) VALUES ( ?, ?, ?, 1,1,?)", [displayName, uid, photoURL, email], function (error, results) {
+                lastRoom = 1
+                //add to general and report bug chatrooms
+                addToRoom(email, 1, 0)
+                addToRoom(email, 16, 0)
+                if (error) console.log(error)
+
+            })
+        } else {
+            //TODO FIX
+                lastRoom = rows[0].curroom
+        }
+        //redundancy for testing only.
+        //  lastRoom = rows[0].curroom
+        //  var User = new user(displayName, email, photoURL, uid)
+
+        addOnline(displayName, email, photoURL, uid, socket.id, lastRoom)
+
+    })
+
+    con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid])
+    con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid])
+    console.log("login message should trigger")
+
+    io.to(lastRoom).emit('login', displayName, email, photoURL, uid, lastRoom)
+})
 var channels = {}
 var sockets = {}
 var players = []
@@ -280,40 +329,7 @@ io.sockets.on('connection', function (socket) {
         }
     })
 
-    //Login process and recording
-    socket.on('login message', function (displayName, email, photoURL, uid) {
-        //console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id)
-        var lastRoom
 
-        con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
-            if (rows[0] == null) {
-                //If no user, add to DB
-                con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email) VALUES ( ?, ?, ?, 1,1,?)", [displayName, uid, photoURL, email], function (error, results) {
-                    lastRoom = 1
-                    //add to general and report bug chatrooms
-                    addToRoom(email, 1, 0)
-                    addToRoom(email, 16, 0)
-                    if (error) console.log(error)
-
-                })
-            } else {
-                //TODO FIX
-                //    lastRoom = rows[0].curroom
-            }
-            //redundancy for testing only.
-            //  lastRoom = rows[0].curroom
-            //  var User = new user(displayName, email, photoURL, uid)
-
-            addOnline(displayName, email, photoURL, uid, socket.id, lastRoom)
-            io.to(lastRoom).emit('changerooms', lastRoom, uid)
-        })
-
-        con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid])
-        con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid])
-        console.log("login message should trigger")
-
-        io.to(lastRoom).emit('login', displayName, email, photoURL, uid, lastRoom)
-    })
 
     //Test emit
     socket.on('ping', function (name) {
