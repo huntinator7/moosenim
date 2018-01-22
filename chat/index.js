@@ -52,7 +52,7 @@ passport.use(new strategy({
     }
 ))
 app.use(session({
-    key: 'keyboard cat',
+    key: 'connect.sid',
     secret: 'richardnixon',
     resave: true,
     saveUninitialized: true,
@@ -79,8 +79,7 @@ io.use(passportSocketIO.authorize({
    store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl: 260 }),
    passport: passport,
    cookieParser: require('cookie-parser'),
-   success: onAuthorizeSuccess,
-   failure: onAuthorizeFail
+   
  }))
  passport.serializeUser(function (user, cb) {
       cb(null, user)
