@@ -199,7 +199,7 @@ client.on('message', msg => {
     console.log("login message should trigger")
 
     io.to(lastRoom).emit('login', displayName, email, photoURL, uid, lastRoom)
-})
+}
 var channels = {}
 var sockets = {}
 var players = []
