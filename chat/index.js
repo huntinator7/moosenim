@@ -88,7 +88,7 @@ io.use(passportSocketIO.authorize({
 
   passport.deserializeUser(function (user, cb) {
       console.log(user.id + ": deserialized user")
-      // loginUser(user.displayName, user.email, user.photoURL, user.id)
+       loginUser(user.displayName, user.email, user.photoURL, user.id)
           cb(null, user)
 
   })
@@ -125,26 +125,6 @@ app.use("/css", express.static(__dirname + '/css'))
 app.use("/siofu", express.static(__dirname + '/node_modules/socketio-file-upload'))
 
 
-//passport Login
-passport.use(new strategy({
-    clientID: '333736509560-id8si5cbuim26d3e67s4l7oscjfsakat.apps.googleusercontent.com',
-    clientSecret: 'ZCMQ511PhvMEQqozMGd5bmRH',
-    callbackURL: 'https://moosen.im/auth/google/callback'
-},
-    function (accessToken, refreshToken, profile, cb) {
-        //console.log(profile)
-        return cb(null, profile)
-    }
-))
-app.use(passport.initialize())
-app.use(passport.session())
-app.use(session({
-    key: 'keyboard cat',
-    secret: 'keyboard cat',
-    resave: true,
-    saveUninitialized: true,
-    store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl: 260 })
-}))
 
 
 app.get('/auth/google',
@@ -157,22 +137,7 @@ app.get('/auth/google/callback',
     }
 )
 
-passport.serializeUser(function (user, cb) {
-    var client = redis.createClient()
-    console.log(user.id + ": test serialize")
-    client.set('users', user.id)
-    client.sadd('online', user.displayName)
-    loginUser(user.displayName, user.email, user.photoURL, user.id)
-    cb(null, user.id)
-})
 
-passport.deserializeUser(function (id, cb) {
-    console.log(id + ": deserialized user")
-    User.findById(id, function (err, user) {
-        console.log(req.user);
-        cb(err, user)
-    })
-})
 
 //Login process and recording
 function loginUser(displayName, email, photoURL, uid) {
@@ -211,7 +176,7 @@ function loginUser(displayName, email, photoURL, uid) {
 
 //Main socket.io listener
 io.sockets.on('connection', function (socket) {
-    console.log('CONNECTED')
+    console.log('CONNECTED to socket io')
 
     //Test emit
     socket.on('ping', function (name) {
