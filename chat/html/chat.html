@@ -432,10 +432,10 @@
                 }
             })
 
-            socket.on('retreat', function () {
-                console.log("Retreat!")
-                window.location.href = "https://www.moosen.im/login"
-            })
+            // socket.on('retreat', function () {
+            //     console.log("Retreat!")
+            //     window.location.href = "https://www.moosen.im/login"
+            // })
 
             socket.on('logout message', function (user) {
                 $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title" id="msgtitle">'
