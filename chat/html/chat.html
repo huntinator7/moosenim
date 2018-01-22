@@ -419,6 +419,9 @@
             </form>
         </div>
     </div>
+
+
+    
     <script>
         var canAuto = false
         var canScroll = 10
@@ -473,7 +476,7 @@
                     canScroll = 0;
                     console.log('Retrieve previous, first_id: ' + first_id);
                     console.log('curroom: ' + curroom);
-                    socket.emit('retPre', first_id, curroom);
+                    // socket.emit('retPre', first_id, curroom);
                 } else {
                     console.log('Couldn\'t scroll: ' + canScroll);
                 }
