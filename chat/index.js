@@ -38,17 +38,6 @@ var server = https.createServer(options, app).listen(443, function () {
     console.log('server up and running at port 443')
 })
 
-process.stdin.resume()
-process.stdin.setEncoding('utf8')
-
-process.stdin.on('data', function (text) {
-    var room = 1
-    var msg = util.inspect(text.trim())
-    console.log('received data:', msg)
-    sendMessage(msg.substr(1, msg.length - 2), '<span style="color:red">Admin</span>', 1, room)
-    io.to(room).emit(getMessage(room, false, 'https://i.imgur.com/CgVX6vv.png'))
-})
-
 var io = require('socket.io')(server)
 //passport test 2
 passport.use(new strategy({
@@ -184,46 +173,6 @@ passport.deserializeUser(function (id, cb) {
     })
 })
 
-//Discord login with token from dev page
-var client = new Discord.Client()
-client.login(config.token)
-
-//Login message for Discord
-client.on('ready', () => {
-    console.log(`Logged in as ${client.user.tag}`)
-})
-
-//Any time a Discord message is sent, bot checks to see if in moosen-im channel and if not sent by bot. If so, it adds the message to the DB and emits it
-client.on('message', msg => {
-    console.log(msg.channel.id)
-    // client.user.setAvatar('./images/discord.png')
-    if (msg.channel.id == config.discord.moosen && !(msg.author.bot)) {
-        var newmsg = msg.content
-        if (/<@(&?277296480245514240|!?207214113191886849|!?89758327621296128|!?185934787679092736|!?147143598301773824|!?81913971979849728)>/g.test(newmsg)) {
-            console.log('here')
-            newmsg = /<@&?277296480245514240>/g[Symbol.replace](newmsg, '@Moosen')
-            newmsg = /<@!?207214113191886849>/g[Symbol.replace](newmsg, '@Noah')
-            newmsg = /<@!?89758327621296128>/g[Symbol.replace](newmsg, '@Hunter')
-            newmsg = /<@!?185934787679092736>/g[Symbol.replace](newmsg, '@Nick')
-            newmsg = /<@!?147143598301773824>/g[Symbol.replace](newmsg, '@Kyle')
-            newmsg = /<@!?81913971979849728>/g[Symbol.replace](newmsg, '@Lane')
-        }
-        sendMessage(newmsg, msg.author.username, 1, config.discord.sendChannel)
-        getMessageDiscord(msg.author.username, newmsg, msg.author.avatarURL)
-        if (msg.attachments.array().length) {
-            try {
-                console.log(msg.attachments.first().url)
-                var message = '<img class="materialboxed responsive-img" style="height:20vh" src="' + msg.attachments.first().url + '" alt="Error - Image not found">'
-                sendMessage(message, msg.author.username, config.discord.uid, config.discord.sendChannel)
-                getMessageDiscord(msg.author.username, message, msg.author.avatarURL)
-            } catch (e) {
-                console.log('Message attachment has no url')
-            }
-        }
-        console.log(msg.author.username + ': ' + msg.content)
-        console.log('Newmsg: ' + newmsg)
-    }
-})
 //Login process and recording
 function loginUser(displayName, email, photoURL, uid) {
     //console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id)
@@ -258,136 +207,10 @@ function loginUser(displayName, email, photoURL, uid) {
 
     io.to(1).emit('login', displayName, email, photoURL, uid, lastRoom)
 }
-var channels = {}
-var sockets = {}
-var players = []
+
 //Main socket.io listener
 io.sockets.on('connection', function (socket) {
     console.log('CONNECTED')
-
-    socket.channels = {}
-    sockets[socket.id] = socket
-
-    console.log("[" + socket.id + "] connection accepted")
-    socket.on('disconnect', function () {
-        for (var channel in socket.channels) {
-            part(channel)
-        }
-        console.log("[" + socket.id + "] disconnected")
-        delete sockets[socket.id]
-    })
-
-
-    socket.on('join', function (conf) {
-        console.log("[" + socket.id + "] join ", conf)
-        var channel = conf.channel
-        var userdata = conf.userdata
-
-        if (channel in socket.channels) {
-            console.log("[" + socket.id + "] ERROR: already joined ", channel)
-            return
-        }
-
-        if (!(channel in channels)) {
-            channels[channel] = {}
-        }
-
-        for (id in channels[channel]) {
-            channels[channel][id].emit('addPeer', { 'peer_id': socket.id, 'should_create_offer': false })
-            socket.emit('addPeer', { 'peer_id': id, 'should_create_offer': true })
-        }
-
-        channels[channel][socket.id] = socket
-        socket.channels[channel] = channel
-    })
-
-    function part(channel) {
-        console.log("[" + socket.id + "] part ")
-
-        if (!(channel in socket.channels)) {
-            console.log("[" + socket.id + "] ERROR: not in ", channel)
-            return
-        }
-
-        delete socket.channels[channel]
-        delete channels[channel][socket.id]
-
-        for (id in channels[channel]) {
-            channels[channel][id].emit('removePeer', { 'peer_id': socket.id })
-            socket.emit('removePeer', { 'peer_id': id })
-        }
-    }
-    socket.on('part', part)
-
-
-
-
-
-    socket.on('relayICECandidate', function (conf) {
-        var peer_id = conf.peer_id
-        var ice_candidate = conf.ice_candidate
-        console.log("[" + socket.id + "] relaying ICE candidate to [" + peer_id + "] ", ice_candidate)
-
-        if (peer_id in sockets) {
-            sockets[peer_id].emit('iceCandidate', { 'peer_id': socket.id, 'ice_candidate': ice_candidate })
-        }
-    })
-
-    socket.on('relaySessionDescription', function (conf) {
-        var peer_id = conf.peer_id
-        var session_description = conf.session_description
-        console.log("[" + socket.id + "] relaying session description to [" + peer_id + "] ", session_description)
-
-        if (peer_id in sockets) {
-            sockets[peer_id].emit('sessionDescription', { 'peer_id': socket.id, 'session_description': session_description })
-        }
-    })
-
-
-    var uploader = new siofu()
-    uploader.dir = __dirname + '/uploads'
-    uploader.listen(socket)
-    socket.join(1)
-
-
-    uploader.on("start", function (event) {
-        console.log('Starting upload to ' + event.file.name + ' of type ' + event.file.meta.filetype + ' to ' + uploader.dir)
-    })
-
-    uploader.on("saved", function (event) {
-        var un = 'Error - Username Not Found'
-        var uid
-        var curroom = 1
-        console.log("room: " + event.file.meta.room)
-        curroom = event.file.meta.room
-        console.log('upload     socket.id: ' + socket.id)
-        online.forEach(function (element, index) {
-            console.log(index + ': ' + element.sid)
-            if (element.sid == socket.id) {
-                console.log("New message from " + element.name)
-                un = element.name
-                uid = element.uid
-            }
-        })
-        console.log(event.file.name + ' successfully saved.')
-        console.log(event.file.meta.filetype)
-        var msg
-        if (/video/g.test(event.file.meta.filetype)) {
-            msg = '<div class="video-container"><iframe style="width:64vw height:36vw" src="https://moosen.im/uploads/' + event.file.name + '" frameborder="0" allowfullscreen></iframe></div>'
-        } else if (/image/g.test(event.file.meta.filetype)) {
-            msg = '<img class="materialboxed responsive-img" style="height:20vh" src="https://moosen.im/uploads/' + event.file.name + '" alt="Mighty Moosen">'
-        } else {
-            msg = '<a href="/uploads/' + event.file.name + '" download="' + event.file.name + '">' + event.file.name + '</a>'
-        }
-        sendMessage(msg, un, uid, curroom)
-        var pic
-        io.emit(getMessage(curroom, true, pic))
-        if (curroom == config.discord.sendChannel) {
-            client.channels.get(config.discord.moosen).send({ files: [('./uploads/' + event.file.name)] })
-        }
-    })
-
-
 
     //Test emit
     socket.on('ping', function (name) {
