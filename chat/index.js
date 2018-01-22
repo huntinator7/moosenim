@@ -87,7 +87,7 @@ io.use(passportSocketIO.authorize({
 
   passport.deserializeUser(function (user, cb) {
       console.log(user.id + ": deserialized user")
-       loginUser(user.id)
+      // loginUser(user.id)
           cb(null, user)
 
   })
@@ -160,11 +160,11 @@ function loginUser(uid) {
              lastRoom = rows[0].curroom
             displayName = rows[0].name
             photoURL = rows[0].profpic
-            email = rows[0].email
+           email = rows[0].email
 
-                con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid])
-                con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid])
-                console.log(profpic+email)
+              //  con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid])
+              //  con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid])
+              //  console.log(profpic+email)
 
                 io.emit('login', displayName, email, photoURL, uid, lastRoom)
         }
