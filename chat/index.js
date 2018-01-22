@@ -146,6 +146,7 @@ app.use("/css", express.static(__dirname + '/css'))
 app.use("/siofu", express.static(__dirname + '/node_modules/socketio-file-upload'))
 
 
+<<<<<<< HEAD
 
 
 app.get('/auth/google',
@@ -164,6 +165,8 @@ var httpServer = http.createServer(app2).listen(80, function () {
 var server = https.createServer(options, app).listen(443, function () {
     console.log('server up and running at port 443')
 })
+=======
+>>>>>>> a409252b41970359b646831ebecc6d144d31a842
 
 //Discord login with token from dev page
 var client = new Discord.Client()
