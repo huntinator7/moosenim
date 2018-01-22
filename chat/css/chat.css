@@ -1,5 +1,6 @@
 body {
     background: linear-gradient(to right, #6EB7FF, #23ffdd);
+    font-family: productsans;
 }
 
 textarea {
@@ -129,7 +130,7 @@ textarea {
     line-height: 1.5rem;
     padding: 10px 20px;
     margin: 3px 10px;
-    background-color: hsla(0, 0%, 31%, 0.445);
+    background-color: hsla(0, 0%, 0%, 0.411);
     border-radius: 10px;
 }
 
@@ -143,8 +144,9 @@ textarea {
     position: relative;
 }
 
-.collection .collection-item p {
+.collection .collection-item .message {
     background: none;
+    font-size: 1.3em;
 }
 
 .collection .collection-item.avatar:not(.circle-clipper)>.circle, .collection .collection-item.avatar :not(.circle-clipper)>.circle {
@@ -228,4 +230,31 @@ textarea {
     text-align: center;
     font-family: "Courier New", Courier, monospace;
     font-size: 1.5em
+}
+
+@font-face {
+    font-family: 'headliner';
+    src: url('/headliner_font_ttf') format('truetype'),
+    url('/headliner_font_woff2') format('woff2'),
+    url('/headliner_font_woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'monofonto';
+    src: url('/monofonto_font_ttf') format('truetype'),
+    url('/monofonto_font_woff2') format('woff2'),
+    url('/monofonto_font_woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'productsans';
+    src: url('/productsans_font_ttf') format('truetype'),
+    url('/productsans_font_woff2') format('woff2'),
+    url('/productsans_font_woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
