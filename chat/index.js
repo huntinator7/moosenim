@@ -187,7 +187,7 @@ client.on('message', msg => {
             })
         } else {
             //TODO FIX
-                lastRoom = rows[0].curroom
+               rows[0].curroom  = lastRoom
         }
         //redundancy for testing only.
         //  lastRoom = rows[0].curroom
