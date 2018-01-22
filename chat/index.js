@@ -55,31 +55,31 @@ var config = require('./config');
 var user = require('./user.js');
 
 //Associating .js files with URLs
-app.use(cors());
-app.use(bodyParser.json());
-app.use('/', chat);
-app.use('/messages', messages);
-app.use('/login', login);
-app.use('/voicechat', voice);
-app.use('/voicetest', voicetest);
-app.use('/vr', vr);
-app.use('/headliner_font_woff', express.static(__dirname + '/fonts/headliner/headliner.woff'));
-app.use('/headliner_font_woff2', express.static(__dirname + '/fonts/headliner/headliner.woff2'));
-app.use('/headliner_font_tff', express.static(__dirname + '/fonts/headliner/headliner.ttf'));
-app.use('/productsans_font_woff', express.static(__dirname + '/fonts/productsans/productsans.woff'));
-app.use('/productsans_font_woff2', express.static(__dirname + '/fonts/productsans/productsans.woff2'));
-app.use('/productsans_font_tff', express.static(__dirname + '/fonts/productsans/productsans.ttf'));
-app.use('/monofonto_font_woff', express.static(__dirname + '/fonts/monofonto/monofonto.woff'));
-app.use('/monofonto_font_woff2', express.static(__dirname + '/fonts/monofonto/monofonto.woff2'));
-app.use('/monofonto_font_tff', express.static(__dirname + '/fonts/monofonto/monofonto.ttf'));
-app.use('/certs', express.static(__dirname + '/certs'));
-app.use('/.well-known/pki-validation/', express.static(__dirname + '/.well-known/pki-validation/'));
-app.use("/images", express.static(__dirname + '/images'));
-app.use("/uploads", express.static(__dirname + '/uploads'));
-app.use("/fonts", express.static(__dirname + '/fonts'));
-app.use("/sounds", express.static(__dirname + '/sounds'));
-app.use("/js", express.static(__dirname + '/js'));
-app.use("/siofu", express.static(__dirname + '/node_modules/socketio-file-upload'));
+app.use(cors())
+app.use(bodyParser.json())
+app.use('/', routes)
+app.use('/messages', messages)
+app.use('/headliner_font_woff', express.static(__dirname + '/fonts/headliner/headliner.woff'))
+app.use('/headliner_font_woff2', express.static(__dirname + '/fonts/headliner/headliner.woff2'))
+app.use('/headliner_font_tff', express.static(__dirname + '/fonts/headliner/headliner.ttf'))
+app.use('/productsans_font_woff', express.static(__dirname + '/fonts/productsans/productsans.woff'))
+app.use('/productsans_font_woff2', express.static(__dirname + '/fonts/productsans/productsans.woff2'))
+app.use('/productsans_font_tff', express.static(__dirname + '/fonts/productsans/productsans.ttf'))
+app.use('/monofonto_font_woff', express.static(__dirname + '/fonts/monofonto/monofonto.woff'))
+app.use('/monofonto_font_woff2', express.static(__dirname + '/fonts/monofonto/monofonto.woff2'))
+app.use('/monofonto_font_tff', express.static(__dirname + '/fonts/monofonto/monofonto.ttf'))
+app.use('/certs', express.static(__dirname + '/certs'))
+app.use('/.well-known/pki-validation/', express.static(__dirname + '/.well-known/pki-validation/'))
+app.use("/images", express.static(__dirname + '/images'))
+app.use("/uploads", express.static(__dirname + '/uploads'))
+app.use("/fonts", express.static(__dirname + '/fonts'))
+app.use("/sounds", express.static(__dirname + '/sounds'))
+app.use("/js", express.static(__dirname + '/js'))
+app.use("/html", express.static(__dirname + '/html'))
+app.use("/css", express.static(__dirname + '/css'))
+app.use("/siofu", express.static(__dirname + '/node_modules/socketio-file-upload'))
+
+
 
 //Discord login with token from dev page
 var client = new Discord.Client();
