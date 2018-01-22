@@ -3,7 +3,7 @@ var http = require('http')
 var https = require('https')
 var express = require('express')
 var bodyParser = require('body-parser')
-var cookieParser = require('cookie-parser')()
+
 var mysql = require('mysql')
 var siofu = require("socketio-file-upload")
 var moment = require('moment')
@@ -21,7 +21,7 @@ var redisStore = require('connect-redis')(session)
 var passportSocketIO = require('passport.socketio')
 var client = redis.createClient()
 const sessionStore = new redisStore()
-app.use(cookieParser())
+
 // http redirect
 var options = {
     key: fs.readFileSync('./certs/domain.key'),
