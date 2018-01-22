@@ -139,7 +139,7 @@ app.get('/auth/google/callback',
 
 
 //Login process and recording
-function loginUser(uid) {
+function loginUser(uid,displayName,photoURL,email) {
     console.log("uid: " + uid )
     var lastRoom
 
@@ -181,7 +181,7 @@ function loginUser(uid) {
 //Main socket.io listener
 io.sockets.on('connection', function (socket) {
     console.log('CONNECTED to socket io: '+socket.request.user.id)
-
+loginUser(socket.request.user.id,socket.request.user.name,socket.request.user.photoURL,socket.request.user.email)
     //Test emit
     socket.on('ping', function (name) {
         console.log('pong')
