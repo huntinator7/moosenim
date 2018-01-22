@@ -94,13 +94,14 @@ io.use(passportSocketIO.authorize({
      console.log(user.id + ": test serialize")
      client.set('users', user.id)
      client.sadd('online', user.displayName)
-     loginUser(user.displayName, user.email, user.photoURL, user.id)
+
      cb(null, user.id)
  })
 
  passport.deserializeUser(function (id, cb) {
      console.log(id + ": deserialized user")
-     User.findById(id, function (err, user) {
+        loginUser(user.displayName, user.email, user.photoURL, user.id)
+     user.findById(id, function (err, user) {
          console.log(req.user);
          cb(err, user)
      })
