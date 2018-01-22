@@ -17,7 +17,7 @@ var strategy = require('passport-google-oauth').OAuth2Strategy
 const redis = require("redis")
 const session = require('express-session')
 var redisStore = require('connect-redis')(session)
-var client = redis.createClient();
+var client = redis.createClient()
 const sessionStore = new redisStore()
 var cookieParser2 = require('cookie-parser')()
 // http redirect
@@ -103,7 +103,7 @@ app.use(session({
     saveUninitialized: true,
     store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl: 260 })
 }))
-var client = redis.createClient()
+
 
 app.get('/auth/google',
     passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }))
@@ -116,6 +116,7 @@ app.get('/auth/google/callback',
 )
 
 passport.serializeUser(function (user, cb) {
+  var client = redis.createClient()
   console.log(user.id+"test serialize")
   client.set('users', user.id)
   client.sadd('online', user.displayName)
