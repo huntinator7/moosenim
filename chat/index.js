@@ -61,6 +61,7 @@ passport.use(new strategy({
         return cb(null, profile)
     }
 ))
+app.use(cookieParser())
 app.use(session({
     key: 'keyboard cat',
     secret: 'keyboard cat',
