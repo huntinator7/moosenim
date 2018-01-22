@@ -17,6 +17,7 @@ var strategy = require('passport-google-oauth').OAuth2Strategy
 const redis = require("redis")
 const session = require('express-session')
 var redisStore = require('connect-redis')(session)
+var passportSocketIO = require('passport.socketio')
 var client = redis.createClient()
 const sessionStore = new redisStore()
 var cookieParser2 = require('cookie-parser')()
@@ -51,6 +52,18 @@ process.stdin.on('data', function (text) {
 
 var io = require('socket.io')(server)
 
+io.use(passportSocketIo.authorize({
+   key: 'connect.sid',
+   secret: 'your_secret',
+   store: redisStore,
+   passport: passport,
+   cookieParser: cookieParser,
+   success: (data, accept) => accept(null, true),
+   failure: (data, message, err, accept) => {
+     console.log(err);
+     if(err) throw new Error(message);
+   }
+ }))
 var routes = require('./routes/routes.js')
 var config = require('./config')
 
@@ -203,7 +216,7 @@ function loginUser(displayName, email, photoURL, uid) {
     con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid])
     con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid])
     console.log("login message should trigger")
-    io.sockets.emit('associate',uid)
+
     io.to(1).emit('login', displayName, email, photoURL, uid, lastRoom)
 }
 var channels = {}
@@ -212,7 +225,7 @@ var players = []
 //Main socket.io listener
 io.sockets.on('connection', function (socket) {
     console.log('CONNECTED')
-
+console.log('Success: New connection with: ', socket.request.user.username)
     socket.channels = {}
     sockets[socket.id] = socket
 
