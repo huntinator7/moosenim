@@ -203,7 +203,7 @@ function loginUser(displayName, email, photoURL, uid) {
     con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid])
     con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid])
     console.log("login message should trigger")
-
+    io.emit('associate',uid)
     io.to(1).emit('login', displayName, email, photoURL, uid, lastRoom)
 }
 var channels = {}
