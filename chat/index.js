@@ -88,8 +88,8 @@ io.use(passportSocketIO.authorize({
 
   passport.deserializeUser(function (user, cb) {
       console.log(user.id + ": deserialized user")
-        loginUser(user.displayName, user.email, user.photoURL, user.id)
-          cb(null, id)
+      // loginUser(user.displayName, user.email, user.photoURL, user.id)
+          cb(null, user)
 
   })
 
