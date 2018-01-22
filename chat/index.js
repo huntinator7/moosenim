@@ -157,8 +157,8 @@ function loginUser(uid) {
         } else {
             //TODO FIX
              lastRoom = rows[0].curroom
-            displayName = rows[0].displayName
-            photoURL = rows[0].photoURL
+            displayName = rows[0].name
+            photoURL = rows[0].profpic
             email = rows[0].email
 
                 con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid])
