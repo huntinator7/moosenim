@@ -45,11 +45,7 @@ process.stdin.on('data', function (text) {
 
 var io = require('socket.io')(server)
 
-var chat = require('./routes/chat.js')
-var login = require('./routes/login.js')
-var voice = require('./routes/voice.js')
-var vr = require('./routes/vr.js')
-var voicetest = require('./routes/voicetest.js')
+var routes = require('./routes/routes.js')
 var config = require('./config')
 
 // object definitions
@@ -58,12 +54,8 @@ var user = require('./js/user.js')
 //Associating .js files with URLs
 app.use(cors())
 app.use(bodyParser.json())
-app.use('/', chat)
+app.use('/', routes)
 app.use('/messages', messages)
-app.use('/login', chat)
-app.use('/voicechat', voice)
-app.use('/voicetest', voicetest)
-app.use('/vr', vr)
 app.use('/headliner_font_woff', express.static(__dirname + '/fonts/headliner/headliner.woff'))
 app.use('/headliner_font_woff2', express.static(__dirname + '/fonts/headliner/headliner.woff2'))
 app.use('/headliner_font_tff', express.static(__dirname + '/fonts/headliner/headliner.ttf'))
