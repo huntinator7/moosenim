@@ -12,6 +12,7 @@ var util = require('util')
 var messages = require('./routes/messages')
 var app = express()
 var app2 = express()
+var passportSocketIO = require('passport.socketio')
 var passport = require('passport')
 var strategy = require('passport-google-oauth').OAuth2Strategy
 const redis = require("redis")
