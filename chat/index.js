@@ -140,7 +140,7 @@ app.get('/auth/google/callback',
 
 //Login process and recording
 function loginUser(uid) {
-    //console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id)
+    console.log("uid: " + uid )
     var lastRoom
 
     con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
