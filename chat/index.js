@@ -162,7 +162,7 @@ function loginUser(uid) {
         //  lastRoom = rows[0].curroom
         //  var User = new user(displayName, email, photoURL, uid)
 
-        addOnline(displayName, email, photoURL, uid, "socket.id", lastRoom)
+    //    addOnline(displayName, email, photoURL, uid, "socket.id", lastRoom)
 
     })
 
