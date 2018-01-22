@@ -23,12 +23,6 @@ var client = redis.createClient()
 const sessionStore = new redisStore()
 app.use(cookieParser())
 // http redirect
-app2.all('*', ensureSecure) // at top of routing calls
-
-function ensureSecure(req, res, next) {
-    res.redirect('https://www.moosen.im') // express 4.x
-}
-
 var options = {
     key: fs.readFileSync('./certs/domain.key'),
     cert: fs.readFileSync('./certs/www.moosen.im.crt')
@@ -103,6 +97,14 @@ io.use(passportSocketIO.authorize({
          cb(err, user)
      })
  })
+
+ app2.all('*', ensureSecure) // at top of routing calls
+
+ function ensureSecure(req, res, next) {
+     res.redirect('https://www.moosen.im') // express 4.x
+ }
+
+
 var routes = require('./routes/routes.js')
 var config = require('./config')
 
