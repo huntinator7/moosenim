@@ -146,6 +146,7 @@ var sockets = {}
 var players = []
 //Main socket.io listener
 io.sockets.on('connection', function (socket) {
+    console.log('CONNECTED')
 
     socket.channels = {}
     sockets[socket.id] = socket
