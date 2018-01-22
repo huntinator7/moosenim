@@ -82,7 +82,7 @@ io.use(passportSocketIO.authorize({
    secret: 'your_secret',
    store: redisStore,
    passport: passport,
-   cookieParser: cookieParser,
+   cookieParser: require('cookie-parser'),
    success: (data, accept) => accept(null, true),
    failure: (data, message, err, accept) => {
      console.log(err);
