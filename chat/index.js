@@ -63,6 +63,19 @@ app.use(session({
     saveUninitialized: true,
     store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl: 260 })
 }))
+function onAuthorizeSuccess(data, accept) {
+    console.log('success connection to socket.io')
+    console.log(data)
+    accept()
+}
+function onAuthorizeFail(data, message, error, accept) {
+    if (error) {
+        throw new Error(message)
+    }
+    console.log('failed connection to socket.io:', message)
+    // this error will be sent to the user as a special error-package
+    // see: http://socket.io/docs/client-api/#socket > error-object
+}
 app.use(passport.initialize())
 app.use(passport.session())
 
