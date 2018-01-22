@@ -3,6 +3,7 @@ var http = require('http')
 var https = require('https')
 var express = require('express')
 var bodyParser = require('body-parser')
+var cookieParser = require('cookie-parser')()
 var mysql = require('mysql')
 var siofu = require("socketio-file-upload")
 var moment = require('moment')
@@ -20,7 +21,7 @@ var redisStore = require('connect-redis')(session)
 var passportSocketIO = require('passport.socketio')
 var client = redis.createClient()
 const sessionStore = new redisStore()
-var cookieParser = require('cookie-parser')()
+
 // http redirect
 app2.all('*', ensureSecure) // at top of routing calls
 
@@ -49,6 +50,26 @@ process.stdin.on('data', function (text) {
     sendMessage(msg.substr(1, msg.length - 2), '<span style="color:red">Admin</span>', 1, room)
     io.to(room).emit(getMessage(room, false, 'https://i.imgur.com/CgVX6vv.png'))
 })
+//passport Login
+passport.use(new strategy({
+    clientID: '333736509560-id8si5cbuim26d3e67s4l7oscjfsakat.apps.googleusercontent.com',
+    clientSecret: 'ZCMQ511PhvMEQqozMGd5bmRH',
+    callbackURL: 'https://moosen.im/auth/google/callback'
+},
+    function (accessToken, refreshToken, profile, cb) {
+        //console.log(profile)
+        return cb(null, profile)
+    }
+))
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(session({
+    key: 'keyboard cat',
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true,
+    store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl: 260 })
+}))
 
 var io = require('socket.io')(server)
 
@@ -96,26 +117,6 @@ app.use("/css", express.static(__dirname + '/css'))
 app.use("/siofu", express.static(__dirname + '/node_modules/socketio-file-upload'))
 
 
-//passport Login
-passport.use(new strategy({
-    clientID: '333736509560-id8si5cbuim26d3e67s4l7oscjfsakat.apps.googleusercontent.com',
-    clientSecret: 'ZCMQ511PhvMEQqozMGd5bmRH',
-    callbackURL: 'https://moosen.im/auth/google/callback'
-},
-    function (accessToken, refreshToken, profile, cb) {
-        //console.log(profile)
-        return cb(null, profile)
-    }
-))
-app.use(passport.initialize())
-app.use(passport.session())
-app.use(session({
-    key: 'keyboard cat',
-    secret: 'keyboard cat',
-    resave: true,
-    saveUninitialized: true,
-    store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl: 260 })
-}))
 
 
 app.get('/auth/google',
