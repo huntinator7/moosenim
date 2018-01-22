@@ -402,7 +402,7 @@ io.sockets.on('connection', function (socket) {
         var send = true
         console.log('chat message       socket.id: ' + socket.id)
         online.forEach(function (element) {
-            console.log(i + ': ' + element.sid)
+            //console.log(i + ': ' + element.sid)
             if (element.sid == socket.id) {
                 console.log("New message from " + element.name)
                 un = element.name
