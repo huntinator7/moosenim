@@ -52,6 +52,7 @@ textarea {
 .mm-submit {
     border: none !important;
     margin: 0px;
+    outline: 0;
 }
 
 .bd-sidebar {

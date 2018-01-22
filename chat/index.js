@@ -105,7 +105,9 @@ passport.serializeUser(function (user, cb) {
 })
 
 passport.deserializeUser(function (id, cb) {
-    cb(null, user)
+    User.findById(id, function (err, user) {
+        cb(err, user)
+    })
 })
 
 //Discord login with token from dev page
