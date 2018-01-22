@@ -52,7 +52,7 @@ process.stdin.on('data', function (text) {
 
 var io = require('socket.io')(server)
 
-io.use(passportSocketIo.authorize({
+io.use(passportSocketIO.authorize({
    key: 'connect.sid',
    secret: 'your_secret',
    store: redisStore,
