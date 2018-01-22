@@ -117,6 +117,8 @@ app.get('/auth/google/callback',
 
 passport.serializeUser(function (user, cb) {
   console.log(user.id+"test serialize")
+  client.set('users', user.id)
+  client.sadd('online', user.displayName)
 loginUser(user.displayName,user.email, user.photoURL,user.id)
     cb(null, user.id)
 })
