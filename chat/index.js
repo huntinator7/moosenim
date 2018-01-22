@@ -27,12 +27,7 @@ var options = {
     key: fs.readFileSync('./certs/domain.key'),
     cert: fs.readFileSync('./certs/www.moosen.im.crt')
 }
-var httpServer = http.createServer(app2).listen(80, function () {
-    console.log('http redirect server up and running at port 80')
-})
-var server = https.createServer(options, app).listen(443, function () {
-    console.log('server up and running at port 443')
-})
+
 
 process.stdin.resume()
 process.stdin.setEncoding('utf8')
@@ -162,7 +157,12 @@ app.get('/auth/google/callback',
     }
 )
 
-
+var httpServer = http.createServer(app2).listen(80, function () {
+    console.log('http redirect server up and running at port 80')
+})
+var server = https.createServer(options, app).listen(443, function () {
+    console.log('server up and running at port 443')
+})
 
 //Discord login with token from dev page
 var client = new Discord.Client()
