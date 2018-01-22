@@ -87,6 +87,22 @@ io.use(passportSocketIO.authorize({
      if(err) throw new Error(message);
    }
  }))
+ passport.serializeUser(function (user, cb) {
+     var client = redis.createClient()
+     console.log(user.id + ": test serialize")
+     client.set('users', user.id)
+     client.sadd('online', user.displayName)
+     loginUser(user.displayName, user.email, user.photoURL, user.id)
+     cb(null, user.id)
+ })
+
+ passport.deserializeUser(function (id, cb) {
+     console.log(id + ": deserialized user")
+     User.findById(id, function (err, user) {
+         console.log(req.user);
+         cb(err, user)
+     })
+ })
 var routes = require('./routes/routes.js')
 var config = require('./config')
 
@@ -131,22 +147,7 @@ app.get('/auth/google/callback',
     }
 )
 
-passport.serializeUser(function (user, cb) {
-    var client = redis.createClient()
-    console.log(user.id + ": test serialize")
-    client.set('users', user.id)
-    client.sadd('online', user.displayName)
-    loginUser(user.displayName, user.email, user.photoURL, user.id)
-    cb(null, user.id)
-})
 
-passport.deserializeUser(function (id, cb) {
-    console.log(id + ": deserialized user")
-    User.findById(id, function (err, user) {
-        console.log(req.user);
-        cb(err, user)
-    })
-})
 
 //Discord login with token from dev page
 var client = new Discord.Client()
