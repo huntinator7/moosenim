@@ -146,8 +146,7 @@ textarea {
 }
 
 .collection .collection-item.login {
-    padding-left: 72px;
-    position: relative;
+    min-height: 0px;
 }
 
 .collection .collection-item .message {

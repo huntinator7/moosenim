@@ -365,7 +365,7 @@
             socket.on('login', function (displayName, email, photoURL, UserId, lastRoom) {
                 console.log("logging in " + uid)
                 uid = UserId
-                $('#messages').append('<li id="login" class="collection-item login"><p class="message">' + displayName + ' logged in</p></li>')
+                $('#messages').append('<li id="login" class="collection-item avatar login"><p class="message">' + displayName + ' logged in</p></li>')
                 if (canAuto) {
                     window.scrollTo(0, document.body.scrollHeight)
                 }
