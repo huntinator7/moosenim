@@ -50,6 +50,58 @@ process.stdin.on('data', function (text) {
 })
 
 var io = require('socket.io')(server)
+//passport test 2
+passport.use(new strategy({
+    clientID: '333736509560-id8si5cbuim26d3e67s4l7oscjfsakat.apps.googleusercontent.com',
+    clientSecret: 'ZCMQ511PhvMEQqozMGd5bmRH',
+    callbackURL: 'https://moosen.im/auth/google/callback'
+},
+    function (accessToken, refreshToken, profile, cb) {
+        //console.log(profile)
+        return cb(null, profile)
+    }
+))
+app.use(session({
+    key: 'keyboard cat',
+    secret: 'richardnixon',
+    resave: true,
+    saveUninitialized: true,
+    store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl: 260 })
+}))
+function onAuthorizeSuccess(data, accept) {
+    console.log('success connection to socket.io')
+    console.log(data)
+    accept()
+}
+function onAuthorizeFail(data, message, error, accept) {
+    if (error) {
+        throw new Error(message)
+    }
+    console.log('failed connection to socket.io:', message)
+    // this error will be sent to the user as a special error-package
+    // see: http://socket.io/docs/client-api/#socket > error-object
+}
+app.use(passport.initialize())
+app.use(passport.session())
+io.use(passportSocketIO.authorize({
+   key: 'connect.sid',
+   secret: 'richardnixon',
+   store: redisStore,
+   passport: passport,
+   cookieParser: require('cookie-parser'),
+   success: onAuthorizeSuccess,
+   failure: onAuthorizeFail
+ }))
+ passport.serializeUser(function (user, cb) {
+      cb(null, user)
+  })
+
+  passport.deserializeUser(function (user, cb) {
+      console.log(user.id + ": deserialized user")
+        loginUser(user.displayName, user.email, user.photoURL, user.id)
+          cb(null, id)
+
+  })
 
 var routes = require('./routes/routes.js')
 var config = require('./config')
