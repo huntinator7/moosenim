@@ -130,12 +130,12 @@ textarea {
     line-height: 1.5rem;
     padding: 10px 20px;
     margin: 3px 10px;
-    background-color: hsla(0, 0%, 0%, 0.411);
+    background-color: hsla(0, 0%, 0%, 0.253);
     border-radius: 10px;
 }
 
 .collection :nth-child(odd) {
-    background-color: hsla(0, 0%, 100%, 0.589);
+    background-color: hsla(0, 0%, 100%, 0.267);
 }
 
 .collection .collection-item.avatar {

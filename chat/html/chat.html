@@ -420,93 +420,32 @@
         </div>
     </div>
 
-
-    
-    <script>
-        var canAuto = false
-        var canScroll = 10
-
-        $.fn.textWidth = function () {
-            var text = $(this).html()
-            $(this).html('<span>' + text + '</span>')
-            var width = $(this).find('span:first').width()
-            $(this).html(text)
-            return width
-        }
-
-        $(function () {
-            $(document).ready(function () {
-                $('.mm-side-item-text').each(function (index) {
-                    $(this).css('font-size', '1em')
-                    while ($(this).textWidth() > $('#dw-s1').width() * 0.65) {
-                        $(this).css('font-size', (parseInt($(this).css('font-size')) - 1) + "px")
-                    }
-                })
-            })
-        })
-
-        autosize(document.querySelectorAll('textarea'))
-
-        $('#send-message').on('input', function () {
-            $(this).scrollTop($('.main')[0].scrollHeight - 10);
-        });
-
-        $('#send-message').keypress(function (e) {
-            if (e.which == 13 && !e.shiftKey) {
-                $(this).closest('form').submit()
-                e.preventDefault()
-                return false
-            }
-        });
-
-        // var last_scroll_position = 0
-        $(window).scroll(function () {
-            if ($(window).scrollTop() + $(window).height() >= $(document).height() * .9) {
-                if (!canAuto) {
-                    canAuto = true
-                    console.log('canAuto true')
-                }
-            } else if (canAuto) {
-                canAuto = false
-                console.log('canAuto false')
-            }
-            if ($(window).scrollTop() == 0 && $(window).scrollTop() - last_scroll_position < 0) {
-                window.scrollTo(0, 1);
-                if (canScroll >= 10) {
-                    canScroll = 0;
-                    console.log('Retrieve previous, first_id: ' + first_id);
-                    console.log('curroom: ' + curroom);
-                    // socket.emit('retPre', first_id, curroom);
-                } else {
-                    console.log('Couldn\'t scroll: ' + canScroll);
-                }
-            }
-            last_scroll_position = $(window).scrollTop();
-        });
-
-        $(window).resize(function () { //checking for window resize event
-            console.log('resize event: ' + $(window).width() / $(window).height());
-            if ($("#send-message").is(":focus") && $(window).width() / $(window).height() < 1.4 && $(window).width() / $(window).height() > 0.8) {
-                window.scrollTo(0, $(document).height());
-            }
-        });
-
-    </script>
+    <!-- ___HERE______________________ -->
 
     <!-- Socket.io -->
-    <!-- <script>
+    <script>
         var event
         $(function () {
             var last_id;
             var retrieving = false;
             var first_id;
             var saved_first = "messages";
-            
             var retrievePrevious = false;
             var URL_SERVER = 'https://moosen.im:443';
             var socket = io.connect(URL_SERVER);
             var uid;
             var curroom = 1;
+            var canAuto = false
+            var canScroll = 10
+
+            $.fn.textWidth = function () {
+                var text = $(this).html()
+                $(this).html('<span>' + text + '</span>')
+                var width = $(this).find('span:first').width()
+                $(this).html(text)
+                return width
+            }
+
             // var siofu = new SocketIOFileUpload(socket);
             // siofu.addEventListener("start", function (event) {
             //     event.file.meta.filetype = event.file.type;
@@ -531,31 +470,75 @@
                 return false;
             });
 
-            $('#mform').submit(function () {
-                var message = $('#m').val();
+            $('.mm-form').submit(function () {
+                var message = $('#send-message').val();
                 if (message) {
-                    // message = message.replace(/</g, '&lt;');
-                    // message = message.replace(/>/g, '&gt;');
+                    message = message.replace(/</g, '&lt;');
+                    message = message.replace(/>/g, '&gt;');
                     try {
                         socket.emit('chat message', message, curroom);
 
                     } catch (e) {
                         console.log(e);
                     }
-                    $('#m').val('');
+                    $('#send-message').val('');
                 }
                 return false;
             });
-            //for future use
-            $('#room-settings').submit(function () {
+
+            $('#send-message').on('input', function () {
+                $(this).scrollTop($('.main')[0].scrollHeight - 10);
+            });
+
+            $('#send-message').keypress(function (e) {
+                if (e.which == 13 && !e.shiftKey) {
+                    $(this).closest('form').submit()
+                    e.preventDefault()
+                    return false
+                }
             });
 
             $(document).ready(function () {
-                var res = window.location.href.substring(23);
-                socket.emit('associate', res);
-                $('.collapsible').collapsible();
-                $('.materialboxed').materialbox();
-                $('.modal').modal();
+                $('.mm-side-item-text').each(function (index) {
+                    $(this).css('font-size', '1em')
+                    while ($(this).textWidth() > $('#dw-s1').width() * 0.65) {
+                        $(this).css('font-size', (parseInt($(this).css('font-size')) - 1) + "px")
+                    }
+                })
+            });
+
+            autosize(document.querySelectorAll('textarea'))
+
+            // var last_scroll_position = 0
+            $(window).scroll(function () {
+                if ($(window).scrollTop() + $(window).height() >= $(document).height() * .9) {
+                    if (!canAuto) {
+                        canAuto = true
+                        console.log('canAuto true')
+                    }
+                } else if (canAuto) {
+                    canAuto = false
+                    console.log('canAuto false')
+                }
+                if ($(window).scrollTop() == 0 && $(window).scrollTop() - last_scroll_position < 0) {
+                    window.scrollTo(0, 1);
+                    if (canScroll >= 10) {
+                        canScroll = 0;
+                        console.log('Retrieve previous, first_id: ' + first_id);
+                        console.log('curroom: ' + curroom);
+                        // socket.emit('retPre', first_id, curroom);
+                    } else {
+                        console.log('Couldn\'t scroll: ' + canScroll);
+                    }
+                }
+                last_scroll_position = $(window).scrollTop();
+            });
+
+            $(window).resize(function () { //checking for window resize event
+                console.log('resize event: ' + $(window).width() / $(window).height());
+                if ($("#send-message").is(":focus") && $(window).width() / $(window).height() < 1.4 && $(window).width() / $(window).height() > 0.8) {
+                    window.scrollTo(0, $(document).height());
+                }
             });
 
             socket.on('motd update', function (msg, room) {
@@ -598,20 +581,18 @@
                         console.log('!first_id, setting to ' + id);
                         first_id = id;
                         $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title" id="msgtitle">'
-                            + user + '</span><p>'
-                            + msg + '</p><span  class="secondary-content">'
+                            + user + '</span><p class="message">'
+                            + msg + '</p><span class="secondary-content">'
                             + time + '</a></li>');
                     } else {
                         insertMessage('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title" id="msgtitle">'
-                            + user + '</span><p>'
-                            + msg + '</p><span  class="secondary-content">'
+                            + user + '</span><p class="message">'
+                            + msg + '</p><span class="secondary-content">'
                             + time + '</a></li>', id);
                         if (first_id > id) {
                             first_id = id;
                         }
                     }
-                    // console.log('id: ' + id + ' first_id: ' + first_id);
-                    $('.materialboxed').materialbox();
                 } else {
                     //'<span class="new badge deep-orange darken-3">1</span>'
                     console.log($("a[room='" + room + "']").children());
@@ -788,49 +769,50 @@
                 retrieving = false;
             }
 
-            function handleFileSelect(evt) {
-                console.log('In handleFileSelect');
-                var files = evt.target.files; // FileList object
-                for (var i = 0; i < files.length; i++) {
-                    var name = files[i].name;
-                    var type = files[i].type;
-                    console.log("Filename: " + name + " , Type: " + type);
-                    siofu.submitFiles([files[i]]);
+            //     function handleFileSelect(evt) {
+            //         console.log('In handleFileSelect');
+            //         var files = evt.target.files; // FileList object
+            //         for (var i = 0; i < files.length; i++) {
+            //             var name = files[i].name;
+            //             var type = files[i].type;
+            //             console.log("Filename: " + name + " , Type: " + type);
+            //             siofu.submitFiles([files[i]]);
+            //         }
+            //     }
+            //     document.getElementById('add_pics').addEventListener('change', handleFileSelect, false);
+
+            // });
+
+            // if (window.File && window.FileReader && window.FileList && window.Blob) {
+            //     // Great success! All the File APIs are supported.
+            // } else {
+            //     alert('The File APIs are not fully supported in this browser.');
+            // }
+
+            // notification code
+            document.addEventListener('DOMContentLoaded', function () {
+                if (!Notification) {
+                    alert('dis broke as shit');
+                    return;
+                }
+                if (Notification.permission !== "granted")
+                    Notification.requestPermission();
+            });
+            function notifyMe(msg, pic) {
+                if (Notification.permission !== "granted")
+                    Notification.requestPermission();
+                else {
+                    var notification = new Notification('Moosen IM', {
+                        icon: pic,
+                        body: msg,
+                    });
+                    notification.onclick = function () {
+                        window.focus();
+                    };
                 }
             }
-            document.getElementById('add_pics').addEventListener('change', handleFileSelect, false);
-
-        });
-
-        if (window.File && window.FileReader && window.FileList && window.Blob) {
-            // Great success! All the File APIs are supported.
-        } else {
-            alert('The File APIs are not fully supported in this browser.');
-        }
-
-        //notification code
-        // document.addEventListener('DOMContentLoaded', function () {
-        //     if (!Notification) {
-        //         alert('dis broke as shit');
-        //         return;
-        //     }
-        //     if (Notification.permission !== "granted")
-        //         Notification.requestPermission();
-        // });
-        // function notifyMe(msg, pic) {
-        //     if (Notification.permission !== "granted")
-        //         Notification.requestPermission();
-        //     else {
-        //         var notification = new Notification('Moosen IM', {
-        //             icon: pic,
-        //             body: msg,
-        //         });
-        //         notification.onclick = function () {
-        //             window.focus();
-        //         };
-        //     }
-        // }
-    </script> -->
+        })
+    </script>
 
 </body>
 
