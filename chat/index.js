@@ -79,7 +79,7 @@ io.use(passportSocketIO.authorize({
    store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl: 260 }),
    passport: passport,
    cookieParser: require('cookie-parser'),
-   
+
  }))
  passport.serializeUser(function (user, cb) {
       cb(null, user)
@@ -87,7 +87,7 @@ io.use(passportSocketIO.authorize({
 
   passport.deserializeUser(function (user, cb) {
       console.log(user.id + ": deserialized user")
-       loginUser(user.displayName, user.email, user.photoURL, user.id)
+       loginUser(user.id)
           cb(null, user)
 
   })
@@ -139,7 +139,7 @@ app.get('/auth/google/callback',
 
 
 //Login process and recording
-function loginUser(displayName, email, photoURL, uid) {
+function loginUser(uid) {
     //console.log("uid: " + uid + " displayName: " + displayName + " socket.id: " + socket.id)
     var lastRoom
 
@@ -170,7 +170,7 @@ function loginUser(displayName, email, photoURL, uid) {
     con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid])
     console.log("login message should trigger")
 
-    io.to(1).emit('login', displayName, email, photoURL, uid, lastRoom)
+    io.emit('login', displayName, email, photoURL, uid, lastRoom)
 }
 
 //Main socket.io listener
