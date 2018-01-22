@@ -20,7 +20,7 @@ var redisStore = require('connect-redis')(session)
 var passportSocketIO = require('passport.socketio')
 var client = redis.createClient()
 const sessionStore = new redisStore()
-var cookieParser2 = require('cookie-parser')()
+var cookieParser = require('cookie-parser')()
 // http redirect
 app2.all('*', ensureSecure) // at top of routing calls
 
