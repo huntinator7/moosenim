@@ -101,10 +101,10 @@ io.use(passportSocketIO.authorize({
  passport.deserializeUser(function (id, cb) {
      console.log(id + ": deserialized user")
         loginUser(user.displayName, user.email, user.photoURL, user.id)
-     user.findById(id, function (err, user) {
-         console.log(req.user);
+    // user.findById(id, function (err, user) {
+         console.log(req.user)
          cb(err, user)
-     })
+    // })
  })
 
  app2.all('*', ensureSecure) // at top of routing calls
