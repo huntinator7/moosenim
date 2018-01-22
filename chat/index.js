@@ -163,7 +163,7 @@ function loginUser(uid) {
 
                 con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid])
                 con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid])
-                console.log("login message should trigger")
+                console.log(displayName+email)
 
                 io.emit('login', displayName, email, photoURL, uid, lastRoom)
         }
