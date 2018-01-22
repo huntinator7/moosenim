@@ -156,7 +156,10 @@ function loginUser(uid) {
             })
         } else {
             //TODO FIX
-            rows[0].curroom = lastRoom
+             lastRoom = rows[0].curroom
+            displayName = rows[0].displayName
+            photoURL = rows[0].photoURL
+            email = rows[0].email 
         }
         //redundancy for testing only.
         //  lastRoom = rows[0].curroom
