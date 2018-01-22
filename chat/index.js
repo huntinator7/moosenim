@@ -103,7 +103,7 @@ io.use(passportSocketIO.authorize({
       //  loginUser(user.displayName, user.email, user.photoURL, user.id)
     // user.findById(id, function (err, user) {
          console.log(id)
-         cb(err, user)
+         cb(null, id)
     // })
  })
 
