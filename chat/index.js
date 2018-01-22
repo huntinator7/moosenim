@@ -159,7 +159,13 @@ function loginUser(uid) {
              lastRoom = rows[0].curroom
             displayName = rows[0].displayName
             photoURL = rows[0].photoURL
-            email = rows[0].email 
+            email = rows[0].email
+
+                con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid])
+                con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid])
+                console.log("login message should trigger")
+
+                io.emit('login', displayName, email, photoURL, uid, lastRoom)
         }
         //redundancy for testing only.
         //  lastRoom = rows[0].curroom
@@ -169,11 +175,6 @@ function loginUser(uid) {
 
     })
 
-    con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid])
-    con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid])
-    console.log("login message should trigger")
-
-    io.emit('login', displayName, email, photoURL, uid, lastRoom)
 }
 
 //Main socket.io listener
