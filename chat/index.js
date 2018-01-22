@@ -198,7 +198,7 @@ client.on('message', msg => {
     con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid])
     console.log("login message should trigger")
 
-    io.to(lastRoom).emit('login', displayName, email, photoURL, uid, lastRoom)
+    io.to(1).emit('login', displayName, email, photoURL, uid, lastRoom)
 }
 var channels = {}
 var sockets = {}
