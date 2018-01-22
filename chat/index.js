@@ -76,7 +76,7 @@ app.use(passport.session())
 io.use(passportSocketIO.authorize({
    key: 'connect.sid',
    secret: 'richardnixon',
-   store: redisStore,
+   store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl: 260 }),
    passport: passport,
    cookieParser: require('cookie-parser'),
    success: onAuthorizeSuccess,
