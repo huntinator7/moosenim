@@ -21,7 +21,7 @@ var redisStore = require('connect-redis')(session)
 var passportSocketIO = require('passport.socketio')
 var client = redis.createClient()
 const sessionStore = new redisStore()
-
+app.use(cookieParser())
 // http redirect
 app2.all('*', ensureSecure) // at top of routing calls
 
@@ -61,7 +61,7 @@ passport.use(new strategy({
         return cb(null, profile)
     }
 ))
-app.use(cookieParser())
+
 app.use(session({
     key: 'keyboard cat',
     secret: 'keyboard cat',
