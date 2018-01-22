@@ -146,6 +146,7 @@ function loginUser(uid) {
     con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
         if (rows[0] == null) {
             //If no user, add to DB
+            console.log('new user: '+uid)
             con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email) VALUES ( ?, ?, ?, 1,1,?)", [displayName, uid, photoURL, email], function (error, results) {
                 lastRoom = 1
                 //add to general and report bug chatrooms
@@ -155,7 +156,7 @@ function loginUser(uid) {
 
             })
         } else {
-            //TODO FIX
+
              lastRoom = rows[0].curroom
             displayName = rows[0].name
             photoURL = rows[0].profpic
@@ -163,7 +164,7 @@ function loginUser(uid) {
 
                 con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid])
                 con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid])
-                console.log(displayName+email)
+                console.log(profpic+email)
 
                 io.emit('login', displayName, email, photoURL, uid, lastRoom)
         }
@@ -179,7 +180,7 @@ function loginUser(uid) {
 
 //Main socket.io listener
 io.sockets.on('connection', function (socket) {
-    console.log('CONNECTED to socket io')
+    console.log('CONNECTED to socket io: '+socket.request.user)
 
     //Test emit
     socket.on('ping', function (name) {
