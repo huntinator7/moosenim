@@ -180,7 +180,7 @@ function loginUser(uid) {
 
 //Main socket.io listener
 io.sockets.on('connection', function (socket) {
-    console.log('CONNECTED to socket io: '+socket.request.user)
+    console.log('CONNECTED to socket io: '+socket.request.user.id)
 
     //Test emit
     socket.on('ping', function (name) {
