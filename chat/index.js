@@ -3,7 +3,6 @@ var http = require('http')
 var https = require('https')
 var express = require('express')
 var bodyParser = require('body-parser')
-
 var mysql = require('mysql')
 var siofu = require("socketio-file-upload")
 var moment = require('moment')
@@ -18,16 +17,26 @@ var strategy = require('passport-google-oauth').OAuth2Strategy
 const redis = require("redis")
 const session = require('express-session')
 var redisStore = require('connect-redis')(session)
-var passportSocketIO = require('passport.socketio')
 var client = redis.createClient()
 const sessionStore = new redisStore()
-
+var cookieParser2 = require('cookie-parser')()
 // http redirect
+app2.all('*', ensureSecure) // at top of routing calls
+
+function ensureSecure(req, res, next) {
+    res.redirect('https://www.moosen.im') // express 4.x
+}
+
 var options = {
     key: fs.readFileSync('./certs/domain.key'),
     cert: fs.readFileSync('./certs/www.moosen.im.crt')
 }
-
+var httpServer = http.createServer(app2).listen(80, function () {
+    console.log('http redirect server up and running at port 80')
+})
+var server = https.createServer(options, app).listen(443, function () {
+    console.log('server up and running at port 443')
+})
 
 process.stdin.resume()
 process.stdin.setEncoding('utf8')
@@ -39,80 +48,8 @@ process.stdin.on('data', function (text) {
     sendMessage(msg.substr(1, msg.length - 2), '<span style="color:red">Admin</span>', 1, room)
     io.to(room).emit(getMessage(room, false, 'https://i.imgur.com/CgVX6vv.png'))
 })
-//passport Login
-passport.use(new strategy({
-    clientID: '333736509560-id8si5cbuim26d3e67s4l7oscjfsakat.apps.googleusercontent.com',
-    clientSecret: 'ZCMQ511PhvMEQqozMGd5bmRH',
-    callbackURL: 'https://moosen.im/auth/google/callback'
-},
-    function (accessToken, refreshToken, profile, cb) {
-        //console.log(profile)
-        return cb(null, profile)
-    }
-))
-
-app.use(session({
-    key: 'keyboard cat',
-    secret: 'keyboard cat',
-    resave: true,
-    saveUninitialized: true,
-    store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl: 260 })
-}))
-function onAuthorizeSuccess(data, accept) {
-    console.log('success connection to socket.io')
-    console.log(data)
-    accept()
-}
-function onAuthorizeFail(data, message, error, accept) {
-    if (error) {
-        throw new Error(message)
-    }
-    console.log('failed connection to socket.io:', message)
-    // this error will be sent to the user as a special error-package
-    // see: http://socket.io/docs/client-api/#socket > error-object
-}
-app.use(passport.initialize())
-app.use(passport.session())
-
 
 var io = require('socket.io')(server)
-
-io.use(passportSocketIO.authorize({
-   key: 'connect.sid',
-   secret: 'your_secret',
-   store: redisStore,
-   passport: passport,
-   cookieParser: require('cookie-parser'),
-   success: (data, accept) => accept(null, true),
-   failure: (data, message, err, accept) => {
-     console.log(err);
-     if(err) throw new Error(message);
-   }
- }))
- passport.serializeUser(function (user, cb) {
-     var client = redis.createClient()
-     console.log(user.id + ": test serialize")
-     client.set('users', user.id)
-     client.sadd('online', user.displayName)
-
-     cb(null, user.id)
- })
-
- passport.deserializeUser(function (id, cb) {
-     console.log(id + ": deserialized user")
-      //  loginUser(user.displayName, user.email, user.photoURL, user.id)
-    // user.findById(id, function (err, user) {
-         console.log(id)
-         cb(null, id)
-    // })
- })
-
- app2.all('*', ensureSecure) // at top of routing calls
-
- function ensureSecure(req, res, next) {
-     res.redirect('https://www.moosen.im') // express 4.x
- }
-
 
 var routes = require('./routes/routes.js')
 var config = require('./config')
@@ -146,7 +83,26 @@ app.use("/css", express.static(__dirname + '/css'))
 app.use("/siofu", express.static(__dirname + '/node_modules/socketio-file-upload'))
 
 
-<<<<<<< HEAD
+//passport Login
+passport.use(new strategy({
+    clientID: '333736509560-id8si5cbuim26d3e67s4l7oscjfsakat.apps.googleusercontent.com',
+    clientSecret: 'ZCMQ511PhvMEQqozMGd5bmRH',
+    callbackURL: 'https://moosen.im/auth/google/callback'
+},
+    function (accessToken, refreshToken, profile, cb) {
+        //console.log(profile)
+        return cb(null, profile)
+    }
+))
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(session({
+    key: 'keyboard cat',
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true,
+    store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl: 260 })
+}))
 
 
 app.get('/auth/google',
@@ -159,14 +115,22 @@ app.get('/auth/google/callback',
     }
 )
 
-var httpServer = http.createServer(app2).listen(80, function () {
-    console.log('http redirect server up and running at port 80')
+passport.serializeUser(function (user, cb) {
+    var client = redis.createClient()
+    console.log(user.id + ": test serialize")
+    client.set('users', user.id)
+    client.sadd('online', user.displayName)
+    loginUser(user.displayName, user.email, user.photoURL, user.id)
+    cb(null, user.id)
 })
-var server = https.createServer(options, app).listen(443, function () {
-    console.log('server up and running at port 443')
+
+passport.deserializeUser(function (id, cb) {
+    console.log(id + ": deserialized user")
+    User.findById(id, function (err, user) {
+        console.log(req.user);
+        cb(err, user)
+    })
 })
-=======
->>>>>>> a409252b41970359b646831ebecc6d144d31a842
 
 //Discord login with token from dev page
 var client = new Discord.Client()
@@ -248,7 +212,7 @@ var players = []
 //Main socket.io listener
 io.sockets.on('connection', function (socket) {
     console.log('CONNECTED')
-console.log('Success: New connection with: ', socket.request.user.username)
+
     socket.channels = {}
     sockets[socket.id] = socket
 
