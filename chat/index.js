@@ -100,9 +100,9 @@ io.use(passportSocketIO.authorize({
 
  passport.deserializeUser(function (id, cb) {
      console.log(id + ": deserialized user")
-        loginUser(user.displayName, user.email, user.photoURL, user.id)
+      //  loginUser(user.displayName, user.email, user.photoURL, user.id)
     // user.findById(id, function (err, user) {
-         console.log(req.user)
+         console.log(id)
          cb(err, user)
     // })
  })
