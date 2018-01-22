@@ -101,11 +101,13 @@ app.get('/auth/google/callback',
 )
 
 passport.serializeUser(function (user, cb) {
+  console.log(user.id+"test serialize")
     cb(null, user.id)
 })
 
 passport.deserializeUser(function (id, cb) {
-    cb(null, user)
+  console.log(id+"deserialize id")
+    cb(null, id)
 })
 
 //Discord login with token from dev page
