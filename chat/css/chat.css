@@ -145,6 +145,11 @@ textarea {
     position: relative;
 }
 
+.collection .collection-item.login {
+    padding-left: 72px;
+    position: relative;
+}
+
 .collection .collection-item .message {
     background: none;
     font-size: 1.3em;
