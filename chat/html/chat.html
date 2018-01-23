@@ -364,7 +364,7 @@
             })
 
             socket.on('login', function (displayName, email, photoURL, UserId, lastRoom) {
-                console.log("logging in " + displayName)
+                console.log("logging in " + displayName+"email: "+email+UserId)
                 uid = UserId
                 $('#messages').append('<li id="login" class="collection-item avatar login"><p class="message">' + displayName + ' logged in</p></li>')
                 if (canAuto) {

@@ -184,6 +184,7 @@ function loginUser(uid,displayName,photoURL,email) {
 io.sockets.on('connection', function (socket) {
     console.log('CONNECTED to socket io: '+socket.request.user.toString())
     //loginUser(socket.request.user.id,socket.request.user.displayName,"socket.request.user.photoURL",socket.request.user.email)
+        io.emit('login', socket.request.user.displayName, socket.request.user.email, "photoURL", socket.request.user.email.id, 1)
     //Test emit
     socket.on('ping', function (name) {
         console.log('pong')
