@@ -392,6 +392,7 @@
                 socket.emit('changerooms', $(this.attributes.room).val())
                 canScroll = 0
                 $('#messages').empty()
+                $('#send-message').val('')
                 curroom = $(this.attributes.room).val()
                 first_id = null
                 window.scrollTo(0, document.body.scrollHeight)
