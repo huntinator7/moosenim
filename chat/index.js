@@ -47,7 +47,8 @@ passport.use(new strategy({
     callbackURL: 'https://moosen.im/auth/google/callback'
 },
     function (accessToken, refreshToken, profile, cb) {
-        console.log("id "+profile.id+"name "+profile.name+"displayName "+profile.displayName+"email "+profile.email+"picURL"+profile.picture+"gender "+profile.gender)
+        console.log("id "+profile.id+"name "+profile.name+"displayName "+profile.displayName+"email "+profile.email+"picURL"+profile.image.url+"gender "+profile.gender)
+        loginUser(profile.id,profile.displayName,profile.image.url,socket.request.user.email)
 
         return cb(null, profile)
     }
@@ -182,7 +183,7 @@ function loginUser(uid,displayName,photoURL,email) {
 //Main socket.io listener
 io.sockets.on('connection', function (socket) {
     console.log('CONNECTED to socket io: '+socket.request.user.toString())
-loginUser(socket.request.user.id,"socket.request.user.name","socket.request.user.photoURL","socket.request.user.email")
+    //loginUser(socket.request.user.id,socket.request.user.displayName,"socket.request.user.photoURL",socket.request.user.email)
     //Test emit
     socket.on('ping', function (name) {
         console.log('pong')
