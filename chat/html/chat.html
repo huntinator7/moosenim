@@ -304,13 +304,11 @@
                         }
                         pageJump()
                     }
-                    // $('#messages').children().first().attr('id')
                     document.title = user.substring(0, 3) + ": " + msg.substring(0, 10)
                     if (document.hidden) {
                         notifyMe(msg, pic)
                         login.play()
                     }
-                    // console.log('last element: ' + $('#messages li').last())
                     if (!first_id) {
                         console.log('!first_id, setting to ' + id)
                         first_id = id
@@ -328,22 +326,21 @@
                         }
                     }
                 } else {
-                    //'<span class="new badge deep-orange darken-3">1</span>'
-                    console.log($("a[room='" + room + "']").children())
-                    if ($("a[room='" + room + "']").children().hasClass('none')) {
-                        console.log('has class none')
-                        $("a[room='" + room + "']").children().removeClass('none')
-                        $("a[room='" + room + "']").children().addClass('new badge deep-orange accent-3')
-                        $("a[room='" + room + "']").children().text('1')
-                    } else {
-                        // console.log($("a[room='"+room+"']").first())
-                        var curtext = parseInt($("a[room='" + room + "']").first().children().text())
-                        console.log('curtext: ' + curtext)
-                        curtext = curtext + 1
-                        curtext = curtext.toString()
-                        console.log('curtext: ' + curtext)
-                        $("a[room='" + room + "']").children().text(curtext)
-                    }
+                    // console.log($("a[room='" + room + "']").children())
+                    // if ($("a[room='" + room + "']").children().hasClass('none')) {
+                    //     console.log('has class none')
+                    //     $("a[room='" + room + "']").children().removeClass('none')
+                    //     $("a[room='" + room + "']").children().addClass('new badge deep-orange accent-3')
+                    //     $("a[room='" + room + "']").children().text('1')
+                    // } else {
+                    //     // console.log($("a[room='"+room+"']").first())
+                    //     var curtext = parseInt($("a[room='" + room + "']").first().children().text())
+                    //     console.log('curtext: ' + curtext)
+                    //     curtext = curtext + 1
+                    //     curtext = curtext.toString()
+                    //     console.log('curtext: ' + curtext)
+                    //     $("a[room='" + room + "']").children().text(curtext)
+                    // }
                 }
             })
 
@@ -464,12 +461,12 @@
             //     function handleFileSelect(evt) {
             //         console.log('In handleFileSelect')
             //         var files = evt.target.files // FileList object
-            //         for (var i = 0; i < files.length; i++) {
-            //             var name = files[i].name
-            //             var type = files[i].type
+            //         files.forEach( function(element) {
+            //             var name = element.name
+            //             var type = element.type
             //             console.log("Filename: " + name + " , Type: " + type)
-            //             siofu.submitFiles([files[i]])
-            //         }
+            //             siofu.submitFiles([element])
+            //         })
             //     }
             //     document.getElementById('add_pics').addEventListener('change', handleFileSelect, false)
 
