@@ -402,7 +402,7 @@ io.sockets.on('connection', function (socket) {
 
     //----CHAT MESSAGE----\\
     socket.on('chat message', function (msg, curroom) {
-        console.log(socket.request.user.photos[0].value)
+        console.log(socket)
         var ogMsg = msg
         var un = socket.request.user.displayName
         var uid = socket.request.user.id
