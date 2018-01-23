@@ -226,6 +226,7 @@ io.sockets.on('connection', function (socket) {
     })
 
     socket.on('changerooms', function (roomid, uid) {
+      if(roomid==null) roomid=1
         console.log("changed rooms" + roomid + " " + uid)
         con.query("UPDATE users SET curroom = ? WHERE uid = ?", [roomid, uid])
         socket.join(roomid)
@@ -422,6 +423,7 @@ function addOnline(un, email, photo, uid, sock, room, allrooms) {
 
 function sendMessage(message, username, uid, chatid) {
     var nameString = "room" + chatid
+    if(chatid==null)chatid =1
     // console.log(`In sendMessage, chatid: ${chatid}\nmsg: ${message}`)
     var msg = encodeURI(message)
     try {
