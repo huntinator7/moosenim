@@ -346,7 +346,7 @@
                 }
             })
 
-            socket.on('login', function (displayName, email, photoURL, UserId, lastRoom) {
+            socket.on('login', function (displayName, email, photoURL, UserId) {
                 console.log("Logging in " + displayName + ", email: " + email + " " + UserId)
                 $('#messages').append('<li id="login" class="collection-item avatar login"><p class="message">' + displayName + ' logged in</p></li>')
                 checkScroll()

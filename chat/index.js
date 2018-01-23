@@ -205,12 +205,11 @@ var players = []
 io.sockets.on('connection', function (socket) {
     console.log(socket.request.user)
     console.log('CONNECTED to socket io: ' + socket.request.user.displayName)
-    //loginUser(socket.request.user.id,socket.request.user.displayName,"socket.request.user.photoURL",socket.request.user.email)
-    if (!socket.request.user) {
-        //User is not logged in
-        res.redirect('https://www.moosen.im/login')
-    }
-    io.emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id, 1)
+    con.query("SELECT room_id FROM room_users WHERE user_id = ?", [socket.request.user.id], function (error, rows, results) {
+        rows.forEach(function(element) {
+            io.to(element).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id)
+        })
+    })
     getChatrooms(socket.id, socket.request.user.id)
     con.query("SELECT * FROM users WHERE uid = ?", [socket.request.user.id], function (error, rows, results) {
         showLastMessages(10, socket.id, rows[0].curroom)
@@ -323,20 +322,11 @@ io.sockets.on('connection', function (socket) {
     })
 
     uploader.on("saved", function (event) {
-        var un = 'Error - Username Not Found'
-        var uid
-        var curroom = 1
+        var un = socket.request.user.displayName
+        var uid = id
         console.log("room: " + event.file.meta.room)
-        curroom = event.file.meta.room
+        var curroom = event.file.meta.room
         console.log('upload     socket.id: ' + socket.id)
-        online.forEach(function (element, index) {
-            console.log(index + ': ' + element.sid)
-            if (element.sid == socket.id) {
-                console.log("New message from " + element.name)
-                un = element.name
-                uid = element.uid
-            }
-        })
         console.log(event.file.name + ' successfully saved.')
         console.log(event.file.meta.filetype)
         var msg
@@ -374,6 +364,7 @@ io.sockets.on('connection', function (socket) {
         if (roomid == null) roomid = 1
         console.log("changed rooms" + roomid + " " + socket.request.user.id)
         con.query("UPDATE users SET curroom = ? WHERE uid = ?", [roomid, socket.request.user.id])
+        console.log('Rooms: ' + io.sockets.adapter.rooms)
         socket.join(roomid)
         showLastMessages(10, socket.id, roomid)
         var room = io.sockets.adapter.rooms[roomid]
