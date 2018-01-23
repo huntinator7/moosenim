@@ -230,16 +230,12 @@
                 if (e.which == 13 && !e.shiftKey) {
                     $(this).closest('form').submit()
                     $('#send-message').val('Oh, hi Mark.')
-                    // e.preventDefault()
+                    e.preventDefault()
                     // return false
                     console.log($('#send-message'))
                     clearText()
                 }
             })
-
-            function clearText () {
-                $('#send-message').val('Bless you.')
-            }
 
             $(document).ready(function () {
                 $('.mm-side-item-text').each(function (index) {
