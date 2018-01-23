@@ -183,7 +183,7 @@ function loginUser(uid, displayName, photoURL, email) {
             //  con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid])
             console.log(photoURL + email + displayName)
 
-            io.emit('login', displayName, email, photoURL, uid, lastRoom)
+            io.emit('login', displayName, email, rows[0].profpic, uid, lastRoom)
         }
         //redundancy for testing only.
         //  lastRoom = rows[0].curroom
