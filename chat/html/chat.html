@@ -244,6 +244,7 @@
 
             // var last_scroll_position = 0
             $(window).scroll(function () {
+                console.log('test')
                 if ($(window).scrollTop() + $(window).height() >= $(document).height() * .9) {
                     if (!canAuto) {
                         canAuto = true
@@ -445,7 +446,7 @@
             }
 
             function checkScroll() {
-                console.log(canAuto)
+                console.log('canAuto: ' + canAuto)
                 if (canAuto) {
                     window.scrollTo(0, $(document).height())
                 }
