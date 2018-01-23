@@ -221,13 +221,13 @@
                 $(this).scrollTop($('.main')[0].scrollHeight)
             })
 
-            // $('#send-message').keypress(function (e) {
-            //     if (e.which == 13 && !e.shiftKey) {
-            //         $(this).closest('form').submit()
-            //         e.preventDefault()
-            //         return false
-            //     }
-            // })
+            $('#send-message').keypress(function (e) {
+                if (e.which == 13 && !e.shiftKey) {
+                    $(this).closest('form').submit()
+                    // e.preventDefault()
+                    // return false
+                }
+            })
 
             $(document).ready(function () {
                 $('.mm-side-item-text').each(function (index) {
