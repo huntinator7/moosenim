@@ -47,8 +47,8 @@ passport.use(new strategy({
     callbackURL: 'https://moosen.im/auth/google/callback'
 },
     function (accessToken, refreshToken, profile, cb) {
-        console.log("id "+profile.id+"name "+profile.name+"displayName "+profile.displayName+"email "+profile.emails+"picURL"+profile.picture+"gender "+profile.gender)
-      
+        console.log("id "+profile.id+"name "+profile.name+"displayName "+profile.displayName+"email "+profile.email+"picURL"+profile.picture+"gender "+profile.gender)
+
         return cb(null, profile)
     }
 ))
