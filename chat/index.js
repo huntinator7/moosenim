@@ -185,6 +185,13 @@ io.sockets.on('connection', function (socket) {
     console.log('CONNECTED to socket io: '+socket.request.user.toString())
     //loginUser(socket.request.user.id,socket.request.user.displayName,"socket.request.user.photoURL",socket.request.user.email)
         io.emit('login', socket.request.user.displayName, socket.request.user.email, "photoURL", socket.request.user.id, 1)
+        var uid = socket.request.user.id;
+        io.to(socket.id).emit('roomlist', getChatrooms(socket.id, uid))
+        var lastRoom
+        con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
+            lastRoom = rows[0].curroom
+            showLastMessages(10, socket.id, rows[0].curroom)
+        })
     //Test emit
     socket.on('ping', function (name) {
         console.log('pong')
