@@ -373,7 +373,7 @@ io.sockets.on('connection', function (socket) {
 
     //----CHAT MESSAGE----\\
     socket.on('chat message', function (msg, curroom) {
-        console.log(`Just testing socket displayName ${socket.request.user.displayName} and uid ${socket.request.user.id}`)
+        console.log(socket.request.user)
         var ogMsg = msg
         var un = socket.request.user.displayName
         var uid = socket.request.user.id
