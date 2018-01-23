@@ -497,7 +497,7 @@ function getCurroom(uid) {
 }
 
 function showLastMessages(num, sid, roomid) {
-
+if(roomid==null) roomid=1
     var nameString = "room" + roomid
     console.log(nameString)
     con.query("SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [nameString, num], function (error, rows, results) {
