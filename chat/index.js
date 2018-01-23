@@ -47,7 +47,7 @@ passport.use(new strategy({
     callbackURL: 'https://moosen.im/auth/google/callback'
 },
     function (accessToken, refreshToken, profile, cb) {
-        console.log("id "+profile.id+"name "+profile.name+"displayName "+profile.displayName+"email "+profile.email+"gender "+profile.gender)
+      //  console.log("id "+profile.id+"name "+profile.name+"displayName "+profile.displayName+"email "+profile.email+"gender "+profile.gender)
         loginUser(profile.id,profile.displayName,"profile.image.url",profile.email)
 
         return cb(null, profile)
@@ -159,7 +159,7 @@ function loginUser(uid,displayName,photoURL,email) {
             })
         } else {
 
-             lastRoom = rows[0].curroom
+             lastRoom = 1
             displayName = rows[0].name
             photoURL = rows[0].profpic
            email = rows[0].email
