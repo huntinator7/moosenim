@@ -212,12 +212,13 @@
                     } catch (e) {
                         console.log(e)
                     }
-                    $('#send-message').val('Message')
-                    autosize(document.querySelectorAll('textarea'))
+                    
                     if (canAuto) {
                         window.scrollTo(0, document.body.scrollHeight)
                     }
                 }
+                autosize(document.querySelectorAll('textarea'))
+                $('#send-message').val('Message')
                 return false
             })
 
@@ -231,6 +232,7 @@
                     $('#send-message').val('Oh, hi Mark.')
                     // e.preventDefault()
                     // return false
+                    console.log($('#send-message'))
                 }
             })
 
