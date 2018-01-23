@@ -206,6 +206,7 @@
                 if (message) {
                     message = message.replace(/</g, '&lt;')
                     message = message.replace(/>/g, '&gt;')
+                    message = message.replace(/;/g, '&#59;')
                     try {
                         socket.emit('chat message', message, curroom)
                         console.log(`Emitting chat message ${message} for room ${curroom}`)
