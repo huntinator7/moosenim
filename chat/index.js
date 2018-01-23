@@ -174,14 +174,11 @@ app.get('/auth/google/callback',
 //----LOGIN----\\
 function loginUser(uid, displayName, photoURL, email) {
     console.log("login user: " + uid)
-    var lastRoom
-
     con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
         if (rows[0] == null) {
             //If no user, add to DB
             console.log('new user: ' + uid)
             con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email) VALUES ( ?, ?, ?, 1,1,?)", [displayName, uid, photoURL, email], function (error, results) {
-                lastRoom = 1
                 //add to general and report bug chatrooms
                 addToRoom(email, 1, 0)
                 addToRoom(email, 16, 0)
@@ -189,8 +186,6 @@ function loginUser(uid, displayName, photoURL, email) {
 
             })
         } else {
-
-            lastRoom = 1
             displayName = rows[0].name
             photoURL = rows[0].profpic
             email = rows[0].email
@@ -214,9 +209,7 @@ io.sockets.on('connection', function (socket) {
     io.emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id, 1)
     var uid = socket.request.user.id
     getChatrooms(socket.id, uid)
-    var lastRoom
     con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
-        lastRoom = rows[0].curroom
         showLastMessages(10, socket.id, rows[0].curroom)
     })
 
