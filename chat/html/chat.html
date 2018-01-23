@@ -164,7 +164,7 @@
             var retrievePrevious = false
             var URL_SERVER = 'https://moosen.im:443'
             var socket = io.connect(URL_SERVER)
-            var curroom = 1
+            var curroom
             var canAuto = false
             var canScroll = 10
 
@@ -291,7 +291,10 @@
             // })
 
             socket.on('chat message', function (user, msg, time, id, pic, room) {
-                if (curroom == room) {
+                if (!curroom || curroom == room) {
+                    if (!curroom) {
+                        curroom = room
+                    }
                     console.log('id: ' + id)
                     if (!retrieving) {
                         retrieving = true
@@ -409,7 +412,7 @@
                 $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title" id="msgtitle">'
                     + user + '</span><p class="message">' + user + ' logged out</p><span class="secondary-content">'
                     + time + '</a></li>')
-                    checkScroll()
+                checkScroll()
             })
 
             function sleep(ms) {

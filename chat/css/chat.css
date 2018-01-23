@@ -150,7 +150,10 @@ textarea {
     background: none;
     font-size: 1.3rem;
     color: black;
-    text-decoration: none;
+}
+
+.collection .collection-item a {
+    text-decoration: underline;
 }
 
 .collection .collection-item.avatar:not(.circle-clipper)>.circle, .collection .collection-item.avatar :not(.circle-clipper)>.circle {
