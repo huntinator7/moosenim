@@ -61,7 +61,7 @@ passport.use(new strategy({
     callbackURL: 'https://moosen.im/auth/google/callback'
 },
     function (accessToken, refreshToken, profile, cb) {
-        console.log("id " + profile.id + "name " + profile.name + "displayName " + profile.displayName + "email " + profile.email + "gender " + profile.gender)
+        //  console.log("id "+profile.id+"name "+profile.name+"displayName "+profile.displayName+"email "+profile.email+"gender "+profile.gender)
         loginUser(profile.id, profile.displayName, "profile.image.url", profile.email)
 
         return cb(null, profile)
@@ -174,7 +174,7 @@ function loginUser(uid, displayName, photoURL, email) {
             })
         } else {
 
-            lastRoom = rows[0].curroom
+            lastRoom = 1
             displayName = rows[0].name
             photoURL = rows[0].profpic
             email = rows[0].email
@@ -333,7 +333,7 @@ io.sockets.on('connection', function (socket) {
     })
 
     //----GENERAL SOCKET.IO----\\
-    
+
     //Test emit
     socket.on('ping', function (name) {
         console.log('pong')
@@ -346,6 +346,7 @@ io.sockets.on('connection', function (socket) {
     })
 
     socket.on('changerooms', function (roomid, uid) {
+        if (roomid == null) roomid = 1
         console.log("changed rooms" + roomid + " " + uid)
         con.query("UPDATE users SET curroom = ? WHERE uid = ?", [roomid, uid])
         socket.join(roomid)
@@ -576,6 +577,7 @@ handleDisconnect()
 
 function sendMessage(message, username, uid, chatid) {
     var nameString = "room" + chatid
+    if (chatid == null) chatid = 1
     // console.log(`In sendMessage, chatid: ${chatid}\nmsg: ${message}`)
     var msg = encodeURI(message)
     try {
@@ -651,7 +653,7 @@ function getCurroom(uid) {
 //----PREVIOUS MESSAGES----\\
 
 function showLastMessages(num, sid, roomid) {
-
+    if (roomid == null) roomid = 1
     var nameString = "room" + roomid
     console.log(nameString)
     con.query("SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [nameString, num], function (error, rows, results) {
