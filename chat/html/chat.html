@@ -212,10 +212,8 @@
                     } catch (e) {
                         console.log(e)
                     }
-                    
-                    if (canAuto) {
-                        window.scrollTo(0, document.body.scrollHeight)
-                    }
+
+                    checkScroll()
                 }
                 autosize(document.querySelectorAll('textarea'))
                 $('#send-message').val('')
@@ -347,9 +345,7 @@
             socket.on('login', function (displayName, email, photoURL, UserId, lastRoom) {
                 console.log("Logging in " + displayName + ", email: " + email + " " + UserId)
                 $('#messages').append('<li id="login" class="collection-item avatar login"><p class="message">' + displayName + ' logged in</p></li>')
-                if (canAuto) {
-                    window.scrollTo(0, document.body.scrollHeight)
-                }
+                checkScroll()
                 if (document.hidden) {
                     login.play()
                 }
@@ -411,9 +407,7 @@
                 $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title" id="msgtitle">'
                     + user + '</span><p class="message">' + user + ' logged out</p><span class="secondary-content">'
                     + time + '</a></li>')
-                if (canAuto) {
-                    window.scrollTo(0, document.body.scrollHeight)
-                }
+                    checkScroll()
             })
 
             function sleep(ms) {
@@ -432,19 +426,13 @@
                             console.log('Couldn\'t print')
                         }
                         wasInserted = true
-                        if (canAuto) {
-                            window.scrollTo(0, $(document).height())
-                        } else {
-                            window.scrollTo(0, top)
-                        }
+                        checkScroll()
                     }
                 })
 
                 if (!wasInserted) {
                     $('#messages').append(msg)
-                    if (canAuto) {
-                        window.scrollTo(0, $(document).height())
-                    }
+                    checkScroll()
                 }
 
                 await sleep(500)
@@ -454,6 +442,13 @@
             async function pageJump() {
                 await sleep(500)
                 retrieving = false
+            }
+
+            function checkScroll() {
+                console.log(canAuto)
+                if (canAuto) {
+                    window.scrollTo(0, $(document).height())
+                }
             }
 
             //     function handleFileSelect(evt) {
