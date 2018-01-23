@@ -128,7 +128,7 @@ app.use("/siofu", express.static(__dirname + '/node_modules/socketio-file-upload
 
 
 app.get('/auth/google',
-    passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }))
+    passport.authenticate('google', { scope: ['profile'] }))
 
 app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/login' }),
