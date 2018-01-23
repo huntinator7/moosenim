@@ -21,7 +21,8 @@ var redisStore = require('connect-redis')(session)
 var client = redis.createClient()
 const sessionStore = new redisStore()
 var cookieParser2 = require('cookie-parser')()
-// http redirect
+
+//--GENERAL HTTP----\\
 app2.all('*', ensureSecure) // at top of routing calls
 
 function ensureSecure(req, res, next) {
@@ -39,16 +40,29 @@ var server = https.createServer(options, app).listen(443, function () {
     console.log('server up and running at port 443')
 })
 
+//----ADMIN MESSAGING----\\
+process.stdin.resume()
+process.stdin.setEncoding('utf8')
+
+process.stdin.on('data', function (text) {
+    var room = 1
+    var msg = util.inspect(text.trim())
+    console.log('received data:', msg)
+    sendMessage(msg.substr(1, msg.length - 2), '<span style="color:red">Admin</span>', 1, room)
+    io.to(room).emit(getMessage(room, false, 'https://i.imgur.com/CgVX6vv.png'))
+})
+
 var io = require('socket.io')(server)
-//passport test 2
+
+//----PASSPORT----\\
 passport.use(new strategy({
     clientID: '333736509560-id8si5cbuim26d3e67s4l7oscjfsakat.apps.googleusercontent.com',
     clientSecret: 'ZCMQ511PhvMEQqozMGd5bmRH',
     callbackURL: 'https://moosen.im/auth/google/callback'
 },
     function (accessToken, refreshToken, profile, cb) {
-        console.log("id "+profile.id+"name "+profile.name+"displayName "+profile.displayName+"email "+profile.email+"gender "+profile.gender)
-        loginUser(profile.id,profile.displayName,"profile.image.url",profile.email)
+        console.log("id " + profile.id + "name " + profile.name + "displayName " + profile.displayName + "email " + profile.email + "gender " + profile.gender)
+        loginUser(profile.id, profile.displayName, "profile.image.url", profile.email)
 
         return cb(null, profile)
     }
@@ -76,24 +90,25 @@ function onAuthorizeFail(data, message, error, accept) {
 app.use(passport.initialize())
 app.use(passport.session())
 io.use(passportSocketIO.authorize({
-   key: 'connect.sid',
-   secret: 'richardnixon',
-   store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl: 260 }),
-   passport: passport,
-   cookieParser: require('cookie-parser'),
+    key: 'connect.sid',
+    secret: 'richardnixon',
+    store: new redisStore({ host: 'localhost', port: 6379, client: client, ttl: 260 }),
+    passport: passport,
+    cookieParser: require('cookie-parser'),
 
- }))
- passport.serializeUser(function (user, cb) {
-      cb(null, user)
-  })
+}))
+passport.serializeUser(function (user, cb) {
+    cb(null, user)
+})
 
-  passport.deserializeUser(function (user, cb) {
+passport.deserializeUser(function (user, cb) {
 
-      // loginUser(user.id)
-          cb(null, user)
+    // loginUser(user.id)
+    cb(null, user)
 
-  })
+})
 
+//----ROUTES AND EXPRESS----\\
 var routes = require('./routes/routes.js')
 var config = require('./config')
 
@@ -127,12 +142,12 @@ app.use("/siofu", express.static(__dirname + '/node_modules/socketio-file-upload
 
 
 
-
+//----AUTH----\\
 app.get('/auth/google',
-    passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.profile.emails.read','https://www.googleapis.com/auth/plus.login','profile','email'] }))
+    passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.profile.emails.read', 'https://www.googleapis.com/auth/plus.login', 'profile', 'email'] }))
 
 app.get('/auth/google/callback',
-    passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.profile.emails.read','https://www.googleapis.com/auth/plus.login','profile','email'], failureRedirect: '/login' }),
+    passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.profile.emails.read', 'https://www.googleapis.com/auth/plus.login', 'profile', 'email'], failureRedirect: '/login' }),
     function (req, res) {
         res.redirect('/')
     }
@@ -140,15 +155,15 @@ app.get('/auth/google/callback',
 
 
 
-//Login process and recording
-function loginUser(uid,displayName,photoURL,email) {
+//----LOGIN----\\
+function loginUser(uid, displayName, photoURL, email) {
     console.log("uid: " + displayName)
     var lastRoom
 
     con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
         if (rows[0] == null) {
             //If no user, add to DB
-            console.log('new user: '+uid)
+            console.log('new user: ' + uid)
             con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email) VALUES ( ?, ?, ?, 1,1,?)", [displayName, uid, photoURL, email], function (error, results) {
                 lastRoom = 1
                 //add to general and report bug chatrooms
@@ -159,39 +174,166 @@ function loginUser(uid,displayName,photoURL,email) {
             })
         } else {
 
-             lastRoom = rows[0].curroom
+            lastRoom = rows[0].curroom
             displayName = rows[0].name
             photoURL = rows[0].profpic
-           email = rows[0].email
+            email = rows[0].email
 
-              //  con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid])
-              //  con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid])
-                console.log(photoURL+email+displayName)
+            //  con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid])
+            //  con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid])
+            console.log(photoURL + email + displayName)
 
-                io.emit('login', displayName, email, photoURL, uid, lastRoom)
+            io.emit('login', displayName, email, photoURL, uid, lastRoom)
         }
         //redundancy for testing only.
         //  lastRoom = rows[0].curroom
         //  var User = new user(displayName, email, photoURL, uid)
-
-    //    addOnline(displayName, email, photoURL, uid, "socket.id", lastRoom)
-
     })
-
 }
 
-//Main socket.io listener
+//----WEBRTC----\\
+var channels = {}
+var sockets = {}
+var players = []
+
+//----SOCKET.IO----\\
 io.sockets.on('connection', function (socket) {
-    console.log('CONNECTED to socket io: '+socket.request.user.toString())
+    console.log('CONNECTED to socket io: ' + socket.request.user.toString())
     //loginUser(socket.request.user.id,socket.request.user.displayName,"socket.request.user.photoURL",socket.request.user.email)
-        io.emit('login', socket.request.user.displayName, socket.request.user.email, "photoURL", socket.request.user.id, 1)
-        var uid = socket.request.user.id;
-        io.to(socket.id).emit('roomlist', getChatrooms(socket.id, uid))
-        var lastRoom
-        con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
-            lastRoom = rows[0].curroom
-            showLastMessages(10, socket.id, rows[0].curroom)
+    io.emit('login', socket.request.user.displayName, socket.request.user.email, "photoURL", socket.request.user.id, 1)
+    var uid = socket.request.user.id;
+    io.to(socket.id).emit('roomlist', getChatrooms(socket.id, uid))
+    var lastRoom
+    con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
+        lastRoom = rows[0].curroom
+        showLastMessages(10, socket.id, rows[0].curroom)
+    })
+
+    //----WEBRTC VOICE----\\
+    socket.channels = {}
+    sockets[socket.id] = socket
+
+    console.log("[" + socket.id + "] connection accepted")
+    socket.on('disconnect', function () {
+        for (var channel in socket.channels) {
+            part(channel)
+        }
+        console.log("[" + socket.id + "] disconnected")
+        delete sockets[socket.id]
+    })
+
+
+    socket.on('join', function (conf) {
+        console.log("[" + socket.id + "] join ", conf)
+        var channel = conf.channel
+        var userdata = conf.userdata
+
+        if (channel in socket.channels) {
+            console.log("[" + socket.id + "] ERROR: already joined ", channel)
+            return
+        }
+
+        if (!(channel in channels)) {
+            channels[channel] = {}
+        }
+
+        for (id in channels[channel]) {
+            channels[channel][id].emit('addPeer', { 'peer_id': socket.id, 'should_create_offer': false })
+            socket.emit('addPeer', { 'peer_id': id, 'should_create_offer': true })
+        }
+
+        channels[channel][socket.id] = socket
+        socket.channels[channel] = channel
+    })
+
+    function part(channel) {
+        console.log("[" + socket.id + "] part ")
+
+        if (!(channel in socket.channels)) {
+            console.log("[" + socket.id + "] ERROR: not in ", channel)
+            return
+        }
+
+        delete socket.channels[channel]
+        delete channels[channel][socket.id]
+
+        for (id in channels[channel]) {
+            channels[channel][id].emit('removePeer', { 'peer_id': socket.id })
+            socket.emit('removePeer', { 'peer_id': id })
+        }
+    }
+    socket.on('part', part)
+
+
+
+
+
+    socket.on('relayICECandidate', function (conf) {
+        var peer_id = conf.peer_id
+        var ice_candidate = conf.ice_candidate
+        console.log("[" + socket.id + "] relaying ICE candidate to [" + peer_id + "] ", ice_candidate)
+
+        if (peer_id in sockets) {
+            sockets[peer_id].emit('iceCandidate', { 'peer_id': socket.id, 'ice_candidate': ice_candidate })
+        }
+    })
+
+    socket.on('relaySessionDescription', function (conf) {
+        var peer_id = conf.peer_id
+        var session_description = conf.session_description
+        console.log("[" + socket.id + "] relaying session description to [" + peer_id + "] ", session_description)
+
+        if (peer_id in sockets) {
+            sockets[peer_id].emit('sessionDescription', { 'peer_id': socket.id, 'session_description': session_description })
+        }
+    })
+
+    //----SOCKET.IO-FILE-UPLOAD----\\
+    var uploader = new siofu()
+    uploader.dir = __dirname + '/uploads'
+    uploader.listen(socket)
+    socket.join(1)
+
+
+    uploader.on("start", function (event) {
+        console.log('Starting upload to ' + event.file.name + ' of type ' + event.file.meta.filetype + ' to ' + uploader.dir)
+    })
+
+    uploader.on("saved", function (event) {
+        var un = 'Error - Username Not Found'
+        var uid
+        var curroom = 1
+        console.log("room: " + event.file.meta.room)
+        curroom = event.file.meta.room
+        console.log('upload     socket.id: ' + socket.id)
+        online.forEach(function (element, index) {
+            console.log(index + ': ' + element.sid)
+            if (element.sid == socket.id) {
+                console.log("New message from " + element.name)
+                un = element.name
+                uid = element.uid
+            }
         })
+        console.log(event.file.name + ' successfully saved.')
+        console.log(event.file.meta.filetype)
+        var msg
+        if (/video/g.test(event.file.meta.filetype)) {
+            msg = '<div class="video-container"><iframe style="width:64vw height:36vw" src="https://moosen.im/uploads/' + event.file.name + '" frameborder="0" allowfullscreen></iframe></div>'
+        } else if (/image/g.test(event.file.meta.filetype)) {
+            msg = '<img class="materialboxed responsive-img" style="height:20vh" src="https://moosen.im/uploads/' + event.file.name + '" alt="Mighty Moosen">'
+        } else {
+            msg = '<a href="/uploads/' + event.file.name + '" download="' + event.file.name + '">' + event.file.name + '</a>'
+        }
+        sendMessage(msg, un, uid, curroom)
+        var pic
+        io.emit(getMessage(curroom, true, pic))
+        if (curroom == config.discord.sendChannel) {
+            client.channels.get(config.discord.moosen).send({ files: [('./uploads/' + event.file.name)] })
+        }
+    })
+
+    //----GENERAL SOCKET.IO----\\
+    
     //Test emit
     socket.on('ping', function (name) {
         console.log('pong')
@@ -201,28 +343,6 @@ io.sockets.on('connection', function (socket) {
     //Emit for when on mobile and needing the logs
     socket.on('log', function (message) {
         console.log(socket.id + ': ' + message)
-    })
-
-    //Workaround for different login page
-    socket.on('associate', function (uid) {
-        console.log('Associating ' + uid + ' with ' + socket.id)
-        var match
-        //Replace the last entry in online[] with the current socket being checked. Prevents overwrite of multiple devices for single user.
-        online.forEach(function (element, index) {
-            if (element.uid == uid) match = index
-        })
-        if (match) {
-            io.to(socket.id).emit('roomlist', getChatrooms(socket.id, uid))
-            var lastRoom
-            con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
-                lastRoom = rows[0].curroom
-                showLastMessages(10, socket.id, rows[0].curroom)
-            })
-            console.log('Replacing ' + online[match].sid + ' with ' + socket.id + ', match = ' + match)
-            online[match].sid = socket.id
-        } else {
-            io.to(socket.id).emit('retreat')
-        }
     })
 
     socket.on('changerooms', function (roomid, uid) {
@@ -250,7 +370,7 @@ io.sockets.on('connection', function (socket) {
         showPreviousMessages(10, previous, socket.id, roomid)
     })
 
-    //Generic message emit
+    //----CHAT MESSAGE----\\
     socket.on('chat message', function (msg, curroom) {
         var ogMsg = msg
         var un = 'Error - Username Not Found'
@@ -345,6 +465,7 @@ io.sockets.on('connection', function (socket) {
     })
 })
 
+//----USER COMMANDS----\\
 var userRegexParse = {}
 userRegexParse.motd = function (socket, un, uid, curroom, msg) {
     console.log('In motd')
@@ -364,6 +485,51 @@ userRegexParse.configchange = function (socket, un, uid, curroom, msg) {
     config.test = msg
     console.log('In configchange')
 }
+
+//----DISCORD----\\
+
+//Discord login with token from dev page
+var client = new Discord.Client()
+client.login(config.token)
+
+//Login message for Discord
+client.on('ready', () => {
+    console.log(`Logged in as ${client.user.tag}`)
+})
+
+//Any time a Discord message is sent, bot checks to see if in moosen-im channel and if not sent by bot. If so, it adds the message to the DB and emits it
+client.on('message', msg => {
+    console.log(msg.channel.id)
+    // client.user.setAvatar('./images/discord.png')
+    if (msg.channel.id == config.discord.moosen && !(msg.author.bot)) {
+        var newmsg = msg.content
+        if (/<@(&?277296480245514240|!?207214113191886849|!?89758327621296128|!?185934787679092736|!?147143598301773824|!?81913971979849728)>/g.test(newmsg)) {
+            console.log('here')
+            newmsg = /<@&?277296480245514240>/g[Symbol.replace](newmsg, '@Moosen')
+            newmsg = /<@!?207214113191886849>/g[Symbol.replace](newmsg, '@Noah')
+            newmsg = /<@!?89758327621296128>/g[Symbol.replace](newmsg, '@Hunter')
+            newmsg = /<@!?185934787679092736>/g[Symbol.replace](newmsg, '@Nick')
+            newmsg = /<@!?147143598301773824>/g[Symbol.replace](newmsg, '@Kyle')
+            newmsg = /<@!?81913971979849728>/g[Symbol.replace](newmsg, '@Lane')
+        }
+        sendMessage(newmsg, msg.author.username, 1, config.discord.sendChannel)
+        getMessageDiscord(msg.author.username, newmsg, msg.author.avatarURL)
+        if (msg.attachments.array().length) {
+            try {
+                console.log(msg.attachments.first().url)
+                var message = '<img class="img-fluid" style="height:20vh" src="' + msg.attachments.first().url + '" alt="Error - Image not found">'
+                sendMessage(message, msg.author.username, config.discord.uid, config.discord.sendChannel)
+                getMessageDiscord(msg.author.username, message, msg.author.avatarURL)
+            } catch (e) {
+                console.log('Message attachment has no url')
+            }
+        }
+        console.log(msg.author.username + ': ' + msg.content)
+        console.log('Newmsg: ' + newmsg)
+    }
+})
+
+//----MYSQL DB----\\
 
 var connect = config.db
 var con
@@ -406,19 +572,7 @@ function handleDisconnect() {
 
 handleDisconnect()
 
-var online = []
-function addOnline(un, email, photo, uid, sock, room, allrooms) {
-    var user = {
-        name: un,
-        uid: uid,
-        photo: photo,
-        email: email,
-        sid: sock,
-        curroom: room//,
-        //allrooms: allrooms
-    }
-    online.push(user)
-}
+//----MESSAGE HANDLING----\\
 
 function sendMessage(message, username, uid, chatid) {
     var nameString = "room" + chatid
@@ -494,6 +648,8 @@ function getCurroom(uid) {
     //return roomid
 }
 
+//----PREVIOUS MESSAGES----\\
+
 function showLastMessages(num, sid, roomid) {
 
     var nameString = "room" + roomid
@@ -538,14 +694,9 @@ function showPreviousMessages(num, previous, sid, roomid) {
             console.log("Previous message isn't working.")
         }
     })
-
-
-    //socket.on('disconnect', function () {
-
-    //  console.log('Got disconnect!')
-
-    //  })
 }
+
+//----CHATROOMS----\\
 
 function getChatrooms(sid, uid) {
     con.query("SELECT * FROM rooms WHERE serialid IN (SELECT room_id FROM room_users WHERE user_id = ?)", [uid], function (error, row) {
