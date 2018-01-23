@@ -178,7 +178,7 @@ function loginUser(uid, displayName, photoURL, email) {
         if (rows[0] == null) {
             //If no user, add to DB
             console.log('new user: ' + uid)
-            con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email) VALUES ( ?, ?, ?, 1,1,?)", [displayName, uid, photoURL, email], function (error, results) {
+            con.query("INSERT INTO users (name, uid, profpic, isonline, totalmessages, email, curroom) VALUES ( ?, ?, ?, 1,1,?,1)", [displayName, uid, photoURL, email], function (error, results) {
                 //add to general and report bug chatrooms
                 addToRoom(email, 1, 0)
                 addToRoom(email, 16, 0)
@@ -672,7 +672,7 @@ function getCurroom(uid) {
 function showLastMessages(num, sid, roomid) {
     if (roomid == null) roomid = 1
     var nameString = "room" + roomid
-    console.log(nameString)
+    console.log("show last messages for "+nameString)
     con.query("SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [nameString, num], function (error, rows, results) {
         singleGetMotd(roomid, sid)
         if (error) throw error
