@@ -208,6 +208,7 @@ var players = []
 
 //----SOCKET.IO----\\
 io.sockets.on('connection', function (socket) {
+    console.log(socket.request.user)
     console.log('CONNECTED to socket io: ' + socket.request.user.displayName)
     //loginUser(socket.request.user.id,socket.request.user.displayName,"socket.request.user.photoURL",socket.request.user.email)
     io.emit('login', socket.request.user.displayName, socket.request.user.email, "photoURL", socket.request.user.id, 1)
@@ -685,7 +686,7 @@ function showLastMessages(num, sid, roomid) {
         try {
             rows.forEach(function (element) {
                 con.query("SELECT * FROM users WHERE users.name = ?", [element.username], function (error, row) {
-                    if (row[0]) {
+                    if (row[0].profpic) {
                         io.to(sid).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, row[0].profpic, element.roomid)
                     } else {
                         io.to(sid).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, "https://www.moosen.im/images/favicon.png", element.roomid)
@@ -707,7 +708,7 @@ function showPreviousMessages(num, previous, sid, roomid) {
         try {
             rows.forEach(function (element) {
                 con.query("SELECT * FROM users WHERE users.name = ?", [element.username], function (error, row) {
-                    if (row[0]) {
+                    if (row[0].profpic) {
                         io.to(sid).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, row[0].profpic, element.roomid)
                     } else {
                         io.to(sid).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, "https://www.moosen.im/images/favicon.png", element.roomid)
