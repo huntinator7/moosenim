@@ -213,6 +213,10 @@
                         console.log(e)
                     }
                     $('#send-message').val('')
+                    autosize(document.querySelectorAll('textarea'))
+                    if (canAuto) {
+                        window.scrollTo(0, document.body.scrollHeight)
+                    }
                 }
                 return false
             })

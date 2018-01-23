@@ -125,7 +125,6 @@ app.use('/headliner_font_woff2', express.static(__dirname + '/fonts/headliner/he
 app.use('/headliner_font_tff', express.static(__dirname + '/fonts/headliner/headliner.ttf'))
 app.use('/productsans_font_woff', express.static(__dirname + '/fonts/productsans/productsans.woff'))
 app.use('/productsans_font_woff2', express.static(__dirname + '/fonts/productsans/productsans.woff2'))
-app.use('/productsans_font_tff', express.static(__dirname + '/fonts/productsans/productsans.ttf'))
 app.use('/monofonto_font_woff', express.static(__dirname + '/fonts/monofonto/monofonto.woff'))
 app.use('/monofonto_font_woff2', express.static(__dirname + '/fonts/monofonto/monofonto.woff2'))
 app.use('/monofonto_font_tff', express.static(__dirname + '/fonts/monofonto/monofonto.ttf'))
