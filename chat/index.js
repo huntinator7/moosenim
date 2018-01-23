@@ -48,7 +48,7 @@ passport.use(new strategy({
 },
     function (accessToken, refreshToken, profile, cb) {
         console.log("id "+profile.id+"name "+profile.name+"displayName "+profile.displayName+"email "+profile.emails+"picURL"+profile.picture+"gender "+profile.gender)
-        loginUser(profile.)
+      
         return cb(null, profile)
     }
 ))
