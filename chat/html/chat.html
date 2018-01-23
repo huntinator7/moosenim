@@ -153,8 +153,6 @@
         </div>
     </div>
 
-    <!-- ___HERE______________________ -->
-
     <!-- Socket.io -->
     <script>
         var event
@@ -166,7 +164,6 @@
             var retrievePrevious = false
             var URL_SERVER = 'https://moosen.im:443'
             var socket = io.connect(URL_SERVER)
-            var uid
             var curroom = 1
             var canAuto = false
             var canScroll = 10
@@ -198,7 +195,7 @@
             })
 
             $('#roomname').submit(function () {
-                socket.emit('addroom', $('#rn').val()) //need to add uid eventually
+                socket.emit('addroom', $('#rn').val())
                 console.log("add room form submitted " + $('#rn').val())
                 return false
             })
@@ -211,7 +208,7 @@
                     message = message.replace(/>/g, '&gt;')
                     try {
                         socket.emit('chat message', message, curroom)
-
+                        console.log(`Emitting chat message ${message} for room ${curroom}`)
                     } catch (e) {
                         console.log(e)
                     }
@@ -275,25 +272,24 @@
                 }
             })
 
-            socket.on('motd update', function (msg, room) {
-                console.log('Received MOTD' + msg)
-                roomnames.forEach(function (e) {
-                    if (e.id == curroom) $('#roomtitle').html('<h3>' + e.name + '</h3>')
-                })
-                $('#motd').html("<div>" + msg + "</div>")
-                $(function () {
-                    $('#motd div').css('font-size', '3.3em')
+            // socket.on('motd update', function (msg, room) {
+            //     console.log('Received MOTD: ' + msg)
+            //     roomnames.forEach(function (e) {
+            //         if (e.id == curroom) $('#roomtitle').html('<h3>' + e.name + '</h3>')
+            //     })
+            //     $('#motd').html("<div>" + msg + "</div>")
+            //     $(function () {
+            //         $('#motd div').css('font-size', '3.3em')
 
-                    while ($('#motd div').height() > $('#motd').height()) {
-                        $('#motd div').css('font-size', (parseInt($('#motd div').css('font-size')) - 1) + "px")
-                    }
-                })
-            })
+            //         while ($('#motd div').height() > $('#motd').height()) {
+            //             $('#motd div').css('font-size', (parseInt($('#motd div').css('font-size')) - 1) + "px")
+            //         }
+            //     })
+            // })
 
             socket.on('chat message', function (user, msg, time, id, pic, room) {
                 if (curroom == room) {
                     console.log('id: ' + id)
-                    uid = user
                     if (!retrieving) {
                         retrieving = true
                         if ($('#messages').children().first().attr('id')) {
@@ -348,8 +344,7 @@
             })
 
             socket.on('login', function (displayName, email, photoURL, UserId, lastRoom) {
-                console.log("logging in " + displayName+"email: "+email+UserId)
-                uid = UserId
+                console.log("Logging in " + displayName + ", email: " + email + " " + UserId)
                 $('#messages').append('<li id="login" class="collection-item avatar login"><p class="message">' + displayName + ' logged in</p></li>')
                 if (canAuto) {
                     window.scrollTo(0, document.body.scrollHeight)
@@ -382,7 +377,7 @@
                         if (element.serialid == curroom) $('#roomtitle').html('<h3>' + element.name + '</h3>')
 
 
-                        $('#mm-side-list').append(`<li class="btn nav-item mm-side-image" href="#"><img src="https://www.moosen.im/images/favicon.png" alt="" class="circle img-fluid"><a class="nav-link mm-side-item-text" room="${element.serialid}">${element.name}</a></li>`)
+                        $('#mm-side-list').append(`<li class="btn nav-item mm-side-image"><img src="https://www.moosen.im/images/favicon.png" alt="" class="circle img-fluid"><a class="nav-link mm-side-item-text" room="${element.serialid}">${element.name}</a></li>`)
                     })
                     $('.mm-side-item-text').each(function (index) {
                         $(this).css('font-size', '1em')
@@ -394,34 +389,22 @@
             })
 
             $('#mm-side-list').on('click', 'a', async function () {
-              console.log("room button clicked")
-                socket.emit('changerooms', $(this.attributes.room).val(), uid)
-                if ($(this.attributes.id).val() == 'rooms') {
-                    roomnames.forEach(function (e) {
-                        if (e.id == curroom) $('#roomtitle').html('<h3>' + e.name + '</h3>')
-                    })
-
-                    if ($(this.children[0])) {
-                        $(this.children[0]).removeClass('new badge deep-orange darken-3')
-                        $(this.children[0]).addClass('none')
-                        $(this.children[0]).text('')
-                    }
-                    canScroll = 0
-                    console.log('Element in nav-mobile clicked')
-                    $('#messages').empty()
-                    curroom = $(this.attributes.room).val()
-                    socket.emit('changerooms', $(this.attributes.room).val(), uid)
-                    first_id = null
-                    window.scrollTo(0, document.body.scrollHeight)
-                    await sleep(500)
-                    canScroll = 10
-                }
+                console.log("Room Button Clicked")
+                console.log($(this.attributes.room).val())
+                socket.emit('changerooms', $(this.attributes.room).val())
+                canScroll = 0
+                $('#messages').empty()
+                curroom = $(this.attributes.room).val()
+                first_id = null
+                window.scrollTo(0, document.body.scrollHeight)
+                await sleep(500)
+                canScroll = 10
             })
 
-            // socket.on('retreat', function () {
-            //     console.log("Retreat!")
-            //     window.location.href = "https://www.moosen.im/login"
-            // })
+            socket.on('retreat', function () {
+                console.log("Retreat!")
+                window.location.href = "https://www.moosen.im/login"
+            })
 
             socket.on('logout message', function (user) {
                 $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title" id="msgtitle">'

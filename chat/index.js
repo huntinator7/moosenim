@@ -345,10 +345,10 @@ io.sockets.on('connection', function (socket) {
         console.log(socket.id + ': ' + message)
     })
 
-    socket.on('changerooms', function (roomid, uid) {
+    socket.on('changerooms', function (roomid) {
         if (roomid == null) roomid = 1
-        console.log("changed rooms" + roomid + " " + uid)
-        con.query("UPDATE users SET curroom = ? WHERE uid = ?", [roomid, uid])
+        console.log("changed rooms" + roomid + " " + socket.request.user.id)
+        con.query("UPDATE users SET curroom = ? WHERE uid = ?", [roomid, socket.request.user.id])
         socket.join(roomid)
         showLastMessages(10, socket.id, roomid)
         var room = io.sockets.adapter.rooms[roomid]
