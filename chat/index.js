@@ -62,7 +62,7 @@ passport.use(new strategy({
 },
     function (accessToken, refreshToken, profile, cb) {
         //  console.log("id "+profile.id+"name "+profile.name+"displayName "+profile.displayName+"email "+profile.email+"gender "+profile.gender)
-        loginUser(profile.id, profile.displayName, "profile.image.url", profile.email)
+        loginUser(profile.id, profile.displayName, profile.photos[0].value, profile.emails[0].value)
 
         return cb(null, profile)
     }
@@ -211,7 +211,7 @@ io.sockets.on('connection', function (socket) {
     console.log(socket.request.user)
     console.log('CONNECTED to socket io: ' + socket.request.user.displayName)
     //loginUser(socket.request.user.id,socket.request.user.displayName,"socket.request.user.photoURL",socket.request.user.email)
-    io.emit('login', socket.request.user.displayName, socket.request.user.email, "photoURL", socket.request.user.id, 1)
+    io.emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id, 1)
     var uid = socket.request.user.id
     getChatrooms(socket.id, uid)
     var lastRoom
