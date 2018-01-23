@@ -164,7 +164,7 @@ function loginUser(uid,displayName,photoURL,email) {
 
               //  con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid])
               //  con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid])
-              //  console.log(profpic+email)
+                console.log(photoURL+email+displayName)
 
                 io.emit('login', displayName, email, photoURL, uid, lastRoom)
         }
