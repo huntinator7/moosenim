@@ -395,7 +395,7 @@ io.sockets.on('connection', function (socket) {
 
     //----CHAT MESSAGE----\\
     socket.on('chat message', function (msg, curroom) {
-        console.log(socket)
+        console.log(socket.rooms)
         var ogMsg = msg
         var un = socket.request.user.displayName
         var uid = socket.request.user.id
