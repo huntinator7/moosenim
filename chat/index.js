@@ -206,9 +206,12 @@ io.sockets.on('connection', function (socket) {
     console.log(socket.request.user)
     console.log('CONNECTED to socket io: ' + socket.request.user.displayName)
     //loginUser(socket.request.user.id,socket.request.user.displayName,"socket.request.user.photoURL",socket.request.user.email)
+    if (!socket.request.user) {
+        //User is not logged in
+        res.redirect('https://www.moosen.im/login')
+    }
     io.emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id, 1)
-    var uid = socket.request.user.id
-    getChatrooms(socket.id, uid)
+    getChatrooms(socket.id, socket.request.user.id)
     con.query("SELECT * FROM users WHERE uid = ?", [uid], function (error, rows, results) {
         showLastMessages(10, socket.id, rows[0].curroom)
     })
