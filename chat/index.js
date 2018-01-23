@@ -197,11 +197,7 @@ function loginUser(uid, displayName, photoURL, email) {
 
             //  con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid])
             //  con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid])
-
-
-            io.emit('login', displayName, email, rows[0].profpic, uid, lastRoom)
         }
-
     })
 }
 
