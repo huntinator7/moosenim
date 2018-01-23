@@ -411,6 +411,7 @@
 
             $('#mm-side-list').on('click', 'a', async function () {
               console.log("room button clicked")
+                socket.emit('changerooms', $(this.attributes.room).val(), uid)
                 if ($(this.attributes.id).val() == 'rooms') {
                     roomnames.forEach(function (e) {
                         if (e.id == curroom) $('#roomtitle').html('<h3>' + e.name + '</h3>')
