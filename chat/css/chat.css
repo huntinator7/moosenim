@@ -124,7 +124,7 @@ textarea {
     position: relative;
 }
 
-/* .collection .collection-item {
+.collection .collection-item {
     line-height: 1.5rem;
     padding: 10px 20px;
     margin: 3px 10px;
@@ -134,7 +134,7 @@ textarea {
 
 .collection :nth-child(odd) {
     background-color: hsla(0, 0%, 100%, 0.267);
-} */
+}
 
 .collection .collection-item.avatar {
     min-height: 84px;
@@ -148,7 +148,7 @@ textarea {
 
 .collection .collection-item * {
     background: none;
-    font-size: 1.3em;
+    font-size: 1.3rem;
     color: black;
     text-decoration: none;
 }
