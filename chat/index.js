@@ -373,22 +373,14 @@ io.sockets.on('connection', function (socket) {
 
     //----CHAT MESSAGE----\\
     socket.on('chat message', function (msg, curroom) {
+        console.log(`Just testing socket displayName ${socket.request.user.displayName} and uid ${socket.request.user.id}`)
         var ogMsg = msg
-        var un = 'Error - Username Not Found'
-        var uid
-        var pic
+        var un = socket.request.user.displayName
+        var uid = socket.request.user.id
         var isEmbed = false
         var send = true
         console.log('chat message       socket.id: ' + socket.id)
-        online.forEach(function (element) {
-            //console.log(i + ': ' + element.sid)
-            if (element.sid == socket.id) {
-                console.log("New message from " + element.name)
-                un = element.name
-                uid = element.uid
-            }
-        })
-        if (un == 'Error - Username Not Found') {
+        if (!socket.request.user.id) {
             io.to(socket.id).emit('retreat')
             console.log('Retreating ' + socket.id)
         } else {
