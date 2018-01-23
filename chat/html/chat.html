@@ -243,29 +243,29 @@
             autosize(document.querySelectorAll('textarea'))
 
             // var last_scroll_position = 0
-            $(window).scroll(function () {
+            $('#messages').scroll(function () {
                 console.log('test')
-                if ($(window).scrollTop() + $(window).height() >= $(document).height() * .9) {
-                    if (!canAuto) {
-                        canAuto = true
-                        console.log('canAuto true')
-                    }
-                } else if (canAuto) {
-                    canAuto = false
-                    console.log('canAuto false')
-                }
-                if ($(window).scrollTop() == 0 && $(window).scrollTop() - last_scroll_position < 0) {
-                    window.scrollTo(0, 1)
-                    if (canScroll >= 10) {
-                        canScroll = 0
-                        console.log('Retrieve previous, first_id: ' + first_id)
-                        console.log('curroom: ' + curroom)
-                        // socket.emit('retPre', first_id, curroom)
-                    } else {
-                        console.log('Couldn\'t scroll: ' + canScroll)
-                    }
-                }
-                last_scroll_position = $(window).scrollTop()
+                // if ($(window).scrollTop() + $(window).height() >= $(document).height() * .9) {
+                //     if (!canAuto) {
+                //         canAuto = true
+                //         console.log('canAuto true')
+                //     }
+                // } else if (canAuto) {
+                //     canAuto = false
+                //     console.log('canAuto false')
+                // }
+                // if ($(window).scrollTop() == 0 && $(window).scrollTop() - last_scroll_position < 0) {
+                //     window.scrollTo(0, 1)
+                //     if (canScroll >= 10) {
+                //         canScroll = 0
+                //         console.log('Retrieve previous, first_id: ' + first_id)
+                //         console.log('curroom: ' + curroom)
+                //         // socket.emit('retPre', first_id, curroom)
+                //     } else {
+                //         console.log('Couldn\'t scroll: ' + canScroll)
+                //     }
+                // }
+                // last_scroll_position = $(window).scrollTop()
             })
 
             $(window).resize(function () { //checking for window resize event
