@@ -263,7 +263,7 @@
                         canScroll = 0
                         console.log('Retrieve previous, first_id: ' + first_id)
                         console.log('curroom: ' + curroom)
-                        // socket.emit('retPre', first_id, curroom)
+                        socket.emit('retPre', first_id, curroom)
                     } else {
                         console.log('Couldn\'t scroll: ' + canScroll)
                     }
@@ -273,8 +273,8 @@
 
             $(window).resize(function () { //checking for window resize event
                 console.log('resize event: ' + $(window).width() / $(window).height())
-                if ($("#send-message").is(":focus") && $(window).width() / $(window).height() < 1.4 && $(window).width() / $(window).height() > 0.8) {
-                    $('main').scrollTop($(document).height())
+                if ($("#send-message").is(":focus")) {
+                    $('main').scrollTop($('main').prop("scrollHeight"))
                 }
             })
 
