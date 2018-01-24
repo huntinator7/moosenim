@@ -56,17 +56,18 @@
             <i class="material-icons">menu</i>
         </a>
         <a class="navbar-brand" href="#">m.im</a>
-        <!-- <div class="dropdown mm-navdd">
+
+         <div class="dropdown mm-navdd">
             <button class="btn btn-secondary dropdown-toggle" style="margin-left: 100px" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
-                Dropdown button
+              Settings
             </button>
             <div class="dropdown-menu mm-navdd-items" aria-labelledby="dropdownMenuButton">
-                <a class="btn" href="#">Action</a>
-                <a class="btn" href="#">Another action</a>
-                <a class="btn" href="#">Something else here</a>
+                <a class="btn" href="#">User Settings</a>
+                <a class="btn" href="#">Room Settings</a>
+                <a class="btn" href="#">Enter Room Code</a>
             </div>
-        </div> -->
+        </div>
     </nav>
     <div class="bmd-layout-container bmd-drawer-f-l main">
         <div id="dw-s1" class="bmd-layout-drawer bg-faded mm-side">
@@ -254,7 +255,7 @@
                         console.log('canAuto true')
                     }
                 } else if (canAuto) {
-                    canAuto = false 
+                    canAuto = false
                     console.log('canAuto false')
                 }
                 if ($('main').scrollTop() == 0 && $('main').scrollTop() - last_scroll_position < 0) {
