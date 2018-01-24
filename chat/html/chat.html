@@ -73,7 +73,7 @@
             <ul class="nav flex-column" id="mm-side-list">
             </ul>
         </div>
-        <main class="bmd-layout-content">
+        <main class="bmd-layout-content" id="maindiv">
             <div class="row">
                 <div class="col">
                     <ul class="collection" id="messages" style="overflow-x:hidden">
@@ -246,8 +246,7 @@
             var last_scroll_position = 0
 
             $('main').scroll(function () {
-                console.log($('main').scrollTop() + $('main').height())
-                console.log($(document).height())
+                console.log($('main').scrollTop() + '   ' + $('main').height() + '   ' + document.getElementById("mainfunc").scrollHeight + '   ' + $(document).height())
                 console.log('----------------')
                 // if ($('main').scrollTop() + $('main').height() >= $(document).height() * .9) {
                 //     if (!canAuto) {
