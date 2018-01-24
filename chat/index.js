@@ -535,7 +535,9 @@ client.on('message', msg => {
             msg.guild.members.forEach(function (element) {
                 if (element.user.id == array1[2]) {
                     console.log(element.user.username + ' ' + array1[0])
-                    repstr = element.user.username
+                    repstr = '@' + element.user.username
+                    var regex2 = new RegExp(array1[0])
+                    newmsg = newmsg.replace(regex2, repstr)
                 }
             })
             // regex1[Symbol.replace](newmsg, repstr);
