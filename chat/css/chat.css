@@ -18,6 +18,11 @@ textarea {
     background: none;
 }
 
+.mm-discord-emoji {
+    height: 1.5em;
+    padding-bottom: 0.5em;
+}
+
 .avatar {
     z-index: 3;
 }

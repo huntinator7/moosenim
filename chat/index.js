@@ -535,7 +535,7 @@ client.on('message', msg => {
         var emoteArray
         while ((emoteArray = emoteRegex.exec(newmsg)) !== null) {
             console.log(`Found ${emoteArray[1]} in ${emoteArray[0]}`)
-            var repstr = '<img class="img-fluid" style="height:1.3rem" src="https://cdn.discordapp.com/emojis/' + emoteArray[1] + '.png" alt="Error - Image not found">'
+            var repstr = '<img class="mm-discord-emoji" src="https://cdn.discordapp.com/emojis/' + emoteArray[1] + '.png" alt="Error - Image not found">'
             var regex2 = new RegExp(emoteArray[0])
             newmsg = newmsg.replace(regex2, repstr)
         }
