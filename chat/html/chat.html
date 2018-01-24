@@ -243,72 +243,37 @@
 
             autosize(document.querySelectorAll('textarea'))
 
-            // var last_scroll_position = 0
-            $(window).scroll(function () {
-                console.log('window')
-            })
-
-            $(document).scroll(function () {
-                console.log('document')
-            })
-
-            $(document.body).scroll(function () {
-                console.log('document.body')
-            })
-
-            $('col').scroll(function () {
-                console.log('col')
-            })
-
-            $('row').scroll(function () {
-                console.log('row')
-            })
-
-            $('#messages').scroll(function () {
-                console.log('messages')
-            })
-
-            $('#send-message').scroll(function () {
-                console.log('send-message')
-            })
-
-            $('div').scroll(function () {
-                console.log('div')
-            })
+            var last_scroll_position = 0
 
             $('main').scroll(function () {
-                console.log('main')
-            })
-
-            $('.col').scroll(function () {
                 console.log('test')
-                // if ($(window).scrollTop() + $(window).height() >= $(document).height() * .9) {
-                //     if (!canAuto) {
-                //         canAuto = true
-                //         console.log('canAuto true')
-                //     }
-                // } else if (canAuto) {
-                //     canAuto = false
-                //     console.log('canAuto false')
-                // }
-                // if ($(window).scrollTop() == 0 && $(window).scrollTop() - last_scroll_position < 0) {
-                //     window.scrollTo(0, 1)
-                //     if (canScroll >= 10) {
-                //         canScroll = 0
-                //         console.log('Retrieve previous, first_id: ' + first_id)
-                //         console.log('curroom: ' + curroom)
-                //         // socket.emit('retPre', first_id, curroom)
-                //     } else {
-                //         console.log('Couldn\'t scroll: ' + canScroll)
-                //     }
-                // }
-                // last_scroll_position = $(window).scrollTop()
+                if ($('main').scrollTop() + $('main').height() >= $(document).height() * .9) {
+                    if (!canAuto) {
+                        canAuto = true
+                        console.log('canAuto true')
+                    }
+                } else if (canAuto) {
+                    canAuto = false
+                    console.log('canAuto false')
+                }
+                if ($('main').scrollTop() == 0 && $('main').scrollTop() - last_scroll_position < 0) {
+                    $('main').scrollTop(1)
+                    if (canScroll >= 10) {
+                        canScroll = 0
+                        console.log('Retrieve previous, first_id: ' + first_id)
+                        console.log('curroom: ' + curroom)
+                        // socket.emit('retPre', first_id, curroom)
+                    } else {
+                        console.log('Couldn\'t scroll: ' + canScroll)
+                    }
+                }
+                last_scroll_position = $('main').scrollTop()
             })
 
             $(window).resize(function () { //checking for window resize event
                 console.log('resize event: ' + $(window).width() / $(window).height())
                 if ($("#send-message").is(":focus") && $(window).width() / $(window).height() < 1.4 && $(window).width() / $(window).height() > 0.8) {
-                    window.scrollTo(0, $(document).height())
+                    $('main').scrollTop($(document).height())
                 }
             })
 
@@ -435,7 +400,7 @@
                 $('#send-message').val('')
                 curroom = $(this.attributes.room).val()
                 first_id = null
-                window.scrollTo(0, document.body.scrollHeight)
+                $('main').scrollTop(document.body.scrollHeight)
                 await sleep(500)
                 canScroll = 10
             })
