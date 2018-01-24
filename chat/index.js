@@ -535,7 +535,7 @@ client.on('message', msg => {
         // <@207214113191886849>
 
         var array1
-        while ((array1 = /<@(!?|&)([0-9]+)>/g.exec(newmsg)) !== null) {
+        while ((array1 = /<@(!?|&)([0-9]+)>/.exec(newmsg)) !== null) {
             console.log(`Found ${array1[2]}`);
         }
         // if () {
