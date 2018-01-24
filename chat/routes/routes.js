@@ -30,7 +30,7 @@ module.exports = router
 module.exports = function (passport) {
 
   /* GET login page. */
-  router.get('/',
+  router.post('/',
     passport.authenticate('google', {
       scope: ['https://www.googleapis.com/auth/plus.profile.emails.read', 'https://www.googleapis.com/auth/plus.login', 'profile', 'email'],
       failureRedirect: '/login'
