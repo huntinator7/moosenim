@@ -549,8 +549,8 @@ client.on('message', msg => {
                 console.log('Message attachment has no url')
             }
         }
-        sendMessage(message, msg.author.username, config.discord.uid, config.discord.sendChannel)
-        getMessageDiscord(msg.author.username, message, msg.author.avatarURL)
+        sendMessage(newmsg, msg.author.username, config.discord.uid, config.discord.sendChannel)
+        getMessageDiscord(msg.author.username, newmsg, msg.author.avatarURL)
         console.log(msg.author.username + ': ' + msg.content)
         console.log('Newmsg: ' + newmsg)
     }
