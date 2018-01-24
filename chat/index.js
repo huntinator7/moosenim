@@ -206,6 +206,7 @@ var players = []
 io.sockets.on('connection', function (socket) {
 
     console.log(uuidv4())
+    joinRoom('69','testuid')
     console.log('CONNECTED to socket io: ' + socket.request.user.displayName)
     con.query("SELECT room_id FROM room_users WHERE user_id = ?", [socket.request.user.id], function (error, rows, results) {
         rows.forEach(function (element) {
@@ -487,6 +488,7 @@ userRegexParse.motd = function (socket, un, uid, curroom, msg) {
     })
     getMotd(curroom)
 }
+
 userRegexParse.createroom = function (socket, un, uid, curroom, msg) {
     console.log('In createroom')
     createChatroom(msg, uid)
@@ -759,7 +761,7 @@ function createChatroom(n, uid) {
     try {
         var name = n
         // get availible chatrooms from user SELECT room_id FROM room_users WHERE user_id = ? [user.uid]
-        con.query("INSERT INTO rooms (name) VALUES(?)", [name], function (error) { })
+        con.query("INSERT INTO rooms (name,motd,join_code) VALUES(?,?,?)", [name,'motd',uuidv4()], function (error) { })
         con.query("SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC", function (error, row, results) {
             con.query("INSERT INTO room_users VALUES(?,?,1)", [row[0].serialid, uid])
 
@@ -775,7 +777,19 @@ function searchUsers(email) {
         return rows[0].uid
     })
 }
-
+function joinRoom(joinCode,uid){
+  con.query("SELECT * FROM rooms WHERE join_code = ?", [joinCode], function (error, rows, result) {
+      try {
+          rows.forEach(function (element) {
+              con.query("INSERT INTO room_users VALUES(?,?,?)", [rows[0].serialid, element.uid, isAdmin])
+              console.log("user " + element.uid + " was added to room " + rows[0].serialid)
+          })
+      } catch (e) {
+          console.log(e)
+          console.log("room not found - "+joinCode)
+      }
+  })
+}
 function addToRoom(email, roomid, isAdmin) {
     con.query("SELECT * FROM users WHERE email = ?", [email], function (error, rows, result) {
         try {
