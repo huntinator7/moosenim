@@ -514,13 +514,12 @@ client.on('ready', () => {
 client.on('message', msg => {
     console.log(msg.channel.id)
     var mems = msg.guild.members
-    console.log(`mems[0]: ${mems[0]}`)
-    console.log(`mems[0].user.id: ${mems[0].user.id}`)
-    console.log(`mems[0].user.username: ${mems[0].user.username}`)
-    // mems.forEach(function (element) {
-    //     console.log(`element.user: ${element.user}`)
-    //     console.log(`element.user.username: ${element.user.username}`)
-    // })
+    mems.forEach(function (element) {
+        console.log(`element: ${element}`)
+        console.log(`element.user: ${element.user}`)
+        console.log(`element.user.id: ${element.user.id}`)
+        console.log(`element.user.username: ${element.user.username}`)
+    })
     // client.user.setAvatar('./images/discord.png')
     if (msg.channel.id == config.discord.moosen && !(msg.author.bot)) {
         var newmsg = msg.content
