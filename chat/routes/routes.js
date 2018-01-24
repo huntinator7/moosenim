@@ -29,7 +29,8 @@ module.exports = function (passport) {
   router.get('/',
     passport.authenticate('google', {
       scope: ['https://www.googleapis.com/auth/plus.profile.emails.read', 'https://www.googleapis.com/auth/plus.login', 'profile', 'email'],
-      failureRedirect: '/login'
+      failureRedirect: '/login',
+      successRedirect: '/'
     }),
     function (req, res) {
       res.sendFile('/html/chat.html', { 'root': '/var/www/html/chat' })
