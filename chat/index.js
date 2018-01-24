@@ -534,9 +534,10 @@ client.on('message', msg => {
         // <@!207214113191886849>
         // <@207214113191886849>
 
+        var regex1 = RegExp('<@(!?|&)([0-9]+)>', 'g')
         var array1
-        while ((array1 = /<@(!?|&)([0-9]+)>/.exec(newmsg)) !== null) {
-            console.log(`Found ${array1[2]}`);
+        while ((array1 = regex1.exec(newmsg)) !== null) {
+            console.log(`Found ${array1[2]}`)
         }
         // if () {
         //     msg.guild.members.forEach(function() {
