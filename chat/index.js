@@ -21,6 +21,7 @@ var redisStore = require('connect-redis')(session)
 var client = redis.createClient()
 const sessionStore = new redisStore()
 var cookieParser2 = require('cookie-parser')()
+var uuid = require('uuid/v1')()
 
 //--GENERAL HTTP----\\
 app2.all('*', ensureSecure) // at top of routing calls
@@ -203,7 +204,7 @@ var players = []
 
 //----SOCKET.IO----\\
 io.sockets.on('connection', function (socket) {
-    console.log(socket.request.user)
+    console.log(new uuid())
     console.log('CONNECTED to socket io: ' + socket.request.user.displayName)
     con.query("SELECT room_id FROM room_users WHERE user_id = ?", [socket.request.user.id], function (error, rows, results) {
         rows.forEach(function(element) {
