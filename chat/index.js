@@ -518,50 +518,39 @@ client.on('message', msg => {
         var newmsg = msg.content
         // https://cdn.discordapp.com/emojis/318887791096365056.png
         // <:fNoah3:318887914530668544>
-        // 277296480245514240 @Moosen')
-        // 207214113191886849 @Noah')
-        // 89758327621296128 @Hunter')
-        // 185934787679092736 @Nick')
-        // 147143598301773824 @Kyle')
-        // 81913971979849728 @Lane')
-        // <@!207214113191886849>
-        // <@207214113191886849>
-
-        var regex1 = RegExp('<@(!?|&)([0-9]+)>', 'g')
-        var array1
-        while ((array1 = regex1.exec(newmsg)) !== null) {
-            console.log(`Found ${array1[2]}`)
-            var repstr
+        var unRegex = RegExp('<@(!?|&)([0-9]+)>', 'g')
+        var unArray
+        while ((unArray = unRegexunRegex.exec(newmsg)) !== null) {
+            console.log(`Found ${unArray[2]}`)
             msg.guild.members.forEach(function (element) {
-                if (element.user.id == array1[2]) {
-                    console.log(element.user.username + ' ' + array1[0])
-                    repstr = '@' + element.user.username
-                    var regex2 = new RegExp(array1[0])
+                if (element.user.id == unArray[2]) {
+                    console.log(element.user.username + ' ' + unArray[0])
+                    var repstr = '@' + element.user.username
+                    var regex2 = new RegExp(unArray[0])
                     newmsg = newmsg.replace(regex2, repstr)
                 }
             })
-            // regex1[Symbol.replace](newmsg, repstr);
         }
-        // if () {
-        //     msg.guild.members.forEach(function() {
-
-        //     })
-        // }
-        if (newmsg) {
-            sendMessage(newmsg, msg.author.username, 1, config.discord.sendChannel)
-            getMessageDiscord(msg.author.username, newmsg, msg.author.avatarURL)
+        var emoteRegex = RegExp('<:.*:([0-9]+)>', 'g')
+        var emoteArray
+        while ((emoteArray = emoteRegex.exec(newmsg)) !== null) {
+            console.log(`Found ${emoteArray[1]}`)
+            var repstr = '<img class="img-fluid" style="height:1.3rem" src="https://cdn.discordapp.com/emojis/' + emoteArray[1] + '.png" alt="Error - Image not found">'
+            var regex2 = new RegExp(emoteArray[0])
+            newmsg = newmsg.replace(regex2, repstr)
         }
 
         if (msg.attachments.array().length) {
             try {
                 console.log(msg.attachments.first().url)
-                var message = '<img class="img-fluid" style="height:20vh" src="' + msg.attachments.first().url + '" alt="Error - Image not found">'
-                sendMessage(message, msg.author.username, config.discord.uid, config.discord.sendChannel)
-                getMessageDiscord(msg.author.username, message, msg.author.avatarURL)
+                newmsg += '<img class="img-fluid" style="height:20vh" src="' + msg.attachments.first().url + '" alt="Error - Image not found">'
+
             } catch (e) {
                 console.log('Message attachment has no url')
             }
         }
+        sendMessage(message, msg.author.username, config.discord.uid, config.discord.sendChannel)
+        getMessageDiscord(msg.author.username, message, msg.author.avatarURL)
         console.log(msg.author.username + ': ' + msg.content)
         console.log('Newmsg: ' + newmsg)
     }
