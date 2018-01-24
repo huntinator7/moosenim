@@ -513,13 +513,6 @@ client.on('ready', () => {
 //Any time a Discord message is sent, bot checks to see if in moosen-im channel and if not sent by bot. If so, it adds the message to the DB and emits it
 client.on('message', msg => {
     console.log(msg.channel.id)
-    var mems = msg.guild.members
-    mems.forEach(function (element) {
-        console.log(`element: ${element}`)
-        console.log(`element.user: ${element.user}`)
-        console.log(`element.user.id: ${element.user.id}`)
-        console.log(`element.user.username: ${element.user.username}`)
-    })
     // client.user.setAvatar('./images/discord.png')
     if (msg.channel.id == config.discord.moosen && !(msg.author.bot)) {
         var newmsg = msg.content
@@ -538,6 +531,13 @@ client.on('message', msg => {
         var array1
         while ((array1 = regex1.exec(newmsg)) !== null) {
             console.log(`Found ${array1[2]}`)
+            var repstr
+            msg.guild.members.forEach(function (element) {
+                if (element.user.id == array1[2]) {
+                    repstr = element.user.username
+                }
+            })
+            regex1[Symbol.replace](newmsg, repstr);
         }
         // if () {
         //     msg.guild.members.forEach(function() {
