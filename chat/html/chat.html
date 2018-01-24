@@ -56,6 +56,16 @@
             <i class="material-icons">menu</i>
         </a>
         <a class="navbar-brand" href="#">m.im</a>
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="SettingsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Settings
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">User Setttings</a>
+            <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Room Settings</a>
+        </div>
+      </li>
         <!-- <div class="dropdown mm-navdd">
             <button class="btn btn-secondary dropdown-toggle" style="margin-left: 100px" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
@@ -254,7 +264,7 @@
                         console.log('canAuto true')
                     }
                 } else if (canAuto) {
-                    canAuto = false 
+                    canAuto = false
                     console.log('canAuto false')
                 }
                 if ($('main').scrollTop() == 0 && $('main').scrollTop() - last_scroll_position < 0) {
