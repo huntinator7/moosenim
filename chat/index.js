@@ -207,7 +207,7 @@ io.sockets.on('connection', function (socket) {
     console.log(new uuid())
     console.log('CONNECTED to socket io: ' + socket.request.user.displayName)
     con.query("SELECT room_id FROM room_users WHERE user_id = ?", [socket.request.user.id], function (error, rows, results) {
-        rows.forEach(function(element) {
+        rows.forEach(function (element) {
             io.to(element).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id)
         })
     })
@@ -513,31 +513,57 @@ client.on('ready', () => {
 
 //Any time a Discord message is sent, bot checks to see if in moosen-im channel and if not sent by bot. If so, it adds the message to the DB and emits it
 client.on('message', msg => {
-    console.log(msg.channel.id)
+    // console.log(msg.channel.id)
     // client.user.setAvatar('./images/discord.png')
     if (msg.channel.id == config.discord.moosen && !(msg.author.bot)) {
         var newmsg = msg.content
-        if (/<@(&?277296480245514240|!?207214113191886849|!?89758327621296128|!?185934787679092736|!?147143598301773824|!?81913971979849728)>/g.test(newmsg)) {
-            console.log('here')
-            newmsg = /<@&?277296480245514240>/g[Symbol.replace](newmsg, '@Moosen')
-            newmsg = /<@!?207214113191886849>/g[Symbol.replace](newmsg, '@Noah')
-            newmsg = /<@!?89758327621296128>/g[Symbol.replace](newmsg, '@Hunter')
-            newmsg = /<@!?185934787679092736>/g[Symbol.replace](newmsg, '@Nick')
-            newmsg = /<@!?147143598301773824>/g[Symbol.replace](newmsg, '@Kyle')
-            newmsg = /<@!?81913971979849728>/g[Symbol.replace](newmsg, '@Lane')
+        var unRegex = RegExp('<@!?([0-9]+)>')
+        var unArray
+        while ((unArray = unRegex.exec(newmsg)) !== null) {
+            console.log(`Found ${unArray[1]}`)
+            msg.channel.members.forEach(function (element) {
+                if (element.user.id == unArray[1]) {
+                    console.log(element.user.username + ' ' + unArray[0])
+                    var repstr = '@' + element.user.username
+                    var regex2 = new RegExp(unArray[0])
+                    newmsg = newmsg.replace(regex2, repstr)
+                }
+            })
         }
-        sendMessage(newmsg, msg.author.username, 1, config.discord.sendChannel)
-        getMessageDiscord(msg.author.username, newmsg, msg.author.avatarURL)
+        var roleRegex = RegExp('<@&([0-9]+)>')
+        var roleArray
+        while ((roleArray = roleRegex.exec(newmsg)) !== null) {
+            console.log(`Found ${roleArray[1]}`)
+            msg.guild.roles.forEach(function (element) {
+                if (element.id == roleArray[1]) {
+                    console.log(element.name + ' ' + roleArray[0])
+                    var repstr = '@' + element.name
+                    var regex2 = new RegExp(roleArray[0])
+                    newmsg = newmsg.replace(regex2, repstr)
+                }
+            })
+        }
+        // <@&319362702197915648>
+        var emoteRegex = RegExp('<:.*?:([0-9]+)>')
+        var emoteArray
+        while ((emoteArray = emoteRegex.exec(newmsg)) !== null) {
+            console.log(`Found ${emoteArray[1]} in ${emoteArray[0]}`)
+            var repstr = '<img class="mm-discord-emoji" src="https://cdn.discordapp.com/emojis/' + emoteArray[1] + '.png" alt="Error - Image not found">'
+            var regex2 = new RegExp(emoteArray[0])
+            newmsg = newmsg.replace(regex2, repstr)
+        }
+
         if (msg.attachments.array().length) {
             try {
                 console.log(msg.attachments.first().url)
-                var message = '<img class="img-fluid" style="height:20vh" src="' + msg.attachments.first().url + '" alt="Error - Image not found">'
-                sendMessage(message, msg.author.username, config.discord.uid, config.discord.sendChannel)
-                getMessageDiscord(msg.author.username, message, msg.author.avatarURL)
+                newmsg += '<img class="img-fluid" style="height:20vh" src="' + msg.attachments.first().url + '" alt="Error - Image not found">'
+
             } catch (e) {
                 console.log('Message attachment has no url')
             }
         }
+        sendMessage(newmsg, msg.author.username, config.discord.uid, config.discord.sendChannel)
+        getMessageDiscord(msg.author.username, newmsg, msg.author.avatarURL)
         console.log(msg.author.username + ': ' + msg.content)
         console.log('Newmsg: ' + newmsg)
     }
@@ -668,7 +694,7 @@ function getCurroom(uid) {
 function showLastMessages(num, sid, roomid) {
     if (roomid == null) roomid = 1
     var nameString = "room" + roomid
-    console.log("show last messages for "+nameString)
+    console.log("show last messages for " + nameString)
     con.query("SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [nameString, num], function (error, rows, results) {
         singleGetMotd(roomid, sid)
         if (error) throw error
