@@ -515,7 +515,7 @@ client.on('message', msg => {
     console.log(msg.channel.id)
     var mems = msg.guild.members
     mems.forEach(function (element) {
-        console.log(element.User)
+        console.log(element.user)
     })
     // client.user.setAvatar('./images/discord.png')
     if (msg.channel.id == config.discord.moosen && !(msg.author.bot)) {
