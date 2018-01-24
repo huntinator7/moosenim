@@ -516,21 +516,33 @@ client.on('message', msg => {
     // client.user.setAvatar('./images/discord.png')
     if (msg.channel.id == config.discord.moosen && !(msg.author.bot)) {
         var newmsg = msg.content
-        // https://cdn.discordapp.com/emojis/318887791096365056.png
-        // <:fNoah3:318887914530668544>
-        // var unRegex = RegExp('<@(!?|&)([0-9]+)>')
-        // var unArray
-        // while ((unArray = unRegex.exec(newmsg)) !== null) {
-        //     console.log(`Found ${unArray[2]}`)
-        //     msg.guild.members.forEach(function (element) {
-        //         if (element.user.id == unArray[2]) {
-        //             console.log(element.user.username + ' ' + unArray[0])
-        //             var repstr = '@' + element.user.username
-        //             var regex2 = new RegExp(unArray[0])
-        //             newmsg = newmsg.replace(regex2, repstr)
-        //         }
-        //     })
-        // }
+        var unRegex = RegExp('<@!?([0-9]+)>')
+        var unArray
+        while ((unArray = unRegex.exec(newmsg)) !== null) {
+            console.log(`Found ${unArray[1]}`)
+            msg.channel.members.forEach(function (element) {
+                if (element.user.id == unArray[1]) {
+                    console.log(element.user.username + ' ' + unArray[0])
+                    var repstr = '@' + element.user.username
+                    var regex2 = new RegExp(unArray[0])
+                    newmsg = newmsg.replace(regex2, repstr)
+                }
+            })
+        }
+        var roleRegex = RegExp('<@&([0-9]+)>')
+        var roleArray
+        while ((roleArray = roleRegex.exec(newmsg)) !== null) {
+            console.log(`Found ${roleArray[1]}`)
+            msg.guild.roles.forEach(function (element) {
+                if (element.id == roleArray[1]) {
+                    console.log(element.name + ' ' + roleArray[0])
+                    var repstr = '@' + element.name
+                    var regex2 = new RegExp(roleArray[0])
+                    newmsg = newmsg.replace(regex2, repstr)
+                }
+            })
+        }
+        // <@&319362702197915648>
         var emoteRegex = RegExp('<:.*?:([0-9]+)>')
         var emoteArray
         while ((emoteArray = emoteRegex.exec(newmsg)) !== null) {
