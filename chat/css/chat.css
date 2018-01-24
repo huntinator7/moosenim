@@ -103,10 +103,14 @@ textarea {
     float: left;
     max-height: 3rem;
     margin-right: .5rem;
+    position: absolute;
+
 }
 
 .mm-side-image a {
     line-height: 2.1rem;
+    position: relative;
+    left: 2.5rem;
 }
 
 .mm-form {
