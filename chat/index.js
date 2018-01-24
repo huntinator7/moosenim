@@ -213,6 +213,7 @@ io.sockets.on('connection', function (socket) {
     getChatrooms(socket.id, socket.request.user.id)
     con.query("SELECT * FROM users WHERE uid = ?", [socket.request.user.id], function (error, rows, results) {
         showLastMessages(10, socket.id, rows[0].curroom)
+        socket.join(rows[0].curroom)
     })
 
     //----WEBRTC VOICE----\\
