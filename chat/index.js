@@ -121,7 +121,7 @@ passport.deserializeUser(function (user, cb) {
 })
 
 //----ROUTES AND EXPRESS----\\
-var routes = require('./routes/routes.js')
+var routes = require('./routes/routes.js')(passport)
 var config = require('./config')
 
 // object definitions

@@ -1,10 +1,6 @@
 var express = require('express');
 var router = express.Router();
 router.get('/', function (req, res) {
-  passport.authenticate('google', {
-    scope: ['https://www.googleapis.com/auth/plus.profile.emails.read', 'https://www.googleapis.com/auth/plus.login', 'profile', 'email'],
-    failureRedirect: '/login'
-  })
   res.sendFile('/html/chat.html', { 'root': '/var/www/html/chat' })
 })
 
