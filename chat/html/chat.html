@@ -246,14 +246,17 @@
             var last_scroll_position = 0
 
             $('main').scroll(function () {
-                console.log('test')
+                console.log($('main').scrollTop())
+                console.log($('main').height())
+                console.log($(document).height())
+                console.log('----------------')
                 if ($('main').scrollTop() + $('main').height() >= $(document).height() * .9) {
                     if (!canAuto) {
                         canAuto = true
                         console.log('canAuto true')
                     }
                 } else if (canAuto) {
-                    canAuto = false
+                    canAuto = false 
                     console.log('canAuto false')
                 }
                 if ($('main').scrollTop() == 0 && $('main').scrollTop() - last_scroll_position < 0) {
