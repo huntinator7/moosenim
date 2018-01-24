@@ -520,7 +520,7 @@ client.on('message', msg => {
         // <:fNoah3:318887914530668544>
         var unRegex = RegExp('<@(!?|&)([0-9]+)>', 'g')
         var unArray
-        while ((unArray = unRegexunRegex.exec(newmsg)) !== null) {
+        while ((unArray = unRegex.exec(newmsg)) !== null) {
             console.log(`Found ${unArray[2]}`)
             msg.guild.members.forEach(function (element) {
                 if (element.user.id == unArray[2]) {
