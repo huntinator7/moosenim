@@ -206,7 +206,7 @@ io.sockets.on('connection', function (socket) {
     console.log(socket.request.user)
     console.log('CONNECTED to socket io: ' + socket.request.user.displayName)
     con.query("SELECT room_id FROM room_users WHERE user_id = ?", [socket.request.user.id], function (error, rows, results) {
-        rows.forEach(function(element) {
+        rows.forEach(function (element) {
             io.to(element).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id)
         })
     })
@@ -513,9 +513,20 @@ client.on('ready', () => {
 //Any time a Discord message is sent, bot checks to see if in moosen-im channel and if not sent by bot. If so, it adds the message to the DB and emits it
 client.on('message', msg => {
     console.log(msg.channel.id)
+    console.log(msg.guild.members)
     // client.user.setAvatar('./images/discord.png')
     if (msg.channel.id == config.discord.moosen && !(msg.author.bot)) {
         var newmsg = msg.content
+        // https://cdn.discordapp.com/emojis/318887791096365056.png
+        // <:fNoah3:318887914530668544>
+        // 277296480245514240 @Moosen')
+        // 207214113191886849 @Noah')
+        // 89758327621296128 @Hunter')
+        // 185934787679092736 @Nick')
+        // 147143598301773824 @Kyle')
+        // 81913971979849728 @Lane')
+        // <@!207214113191886849>
+        // <@207214113191886849>
         if (/<@(&?277296480245514240|!?207214113191886849|!?89758327621296128|!?185934787679092736|!?147143598301773824|!?81913971979849728)>/g.test(newmsg)) {
             console.log('here')
             newmsg = /<@&?277296480245514240>/g[Symbol.replace](newmsg, '@Moosen')
@@ -525,8 +536,11 @@ client.on('message', msg => {
             newmsg = /<@!?147143598301773824>/g[Symbol.replace](newmsg, '@Kyle')
             newmsg = /<@!?81913971979849728>/g[Symbol.replace](newmsg, '@Lane')
         }
-        sendMessage(newmsg, msg.author.username, 1, config.discord.sendChannel)
-        getMessageDiscord(msg.author.username, newmsg, msg.author.avatarURL)
+        if (newmsg) {
+            sendMessage(newmsg, msg.author.username, 1, config.discord.sendChannel)
+            getMessageDiscord(msg.author.username, newmsg, msg.author.avatarURL)
+        }
+
         if (msg.attachments.array().length) {
             try {
                 console.log(msg.attachments.first().url)
@@ -667,7 +681,7 @@ function getCurroom(uid) {
 function showLastMessages(num, sid, roomid) {
     if (roomid == null) roomid = 1
     var nameString = "room" + roomid
-    console.log("show last messages for "+nameString)
+    console.log("show last messages for " + nameString)
     con.query("SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [nameString, num], function (error, rows, results) {
         singleGetMotd(roomid, sid)
         if (error) throw error
