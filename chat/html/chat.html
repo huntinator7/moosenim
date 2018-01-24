@@ -455,7 +455,7 @@
             function checkScroll() {
                 console.log('canAuto: ' + canAuto)
                 if (canAuto) {
-                    $('main').scrollTop($('main').height())
+                    $('main').scrollTop($('main').prop("scrollHeight"))
                 }
             }
 
