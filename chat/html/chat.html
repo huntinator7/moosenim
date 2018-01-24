@@ -246,31 +246,30 @@
             var last_scroll_position = 0
 
             $('main').scroll(function () {
-                console.log($('main').scrollTop())
-                console.log($('main').height())
+                console.log($('main').scrollTop() + $('main').height())
                 console.log($(document).height())
                 console.log('----------------')
-                if ($('main').scrollTop() + $('main').height() >= $(document).height() * .9) {
-                    if (!canAuto) {
-                        canAuto = true
-                        console.log('canAuto true')
-                    }
-                } else if (canAuto) {
-                    canAuto = false 
-                    console.log('canAuto false')
-                }
-                if ($('main').scrollTop() == 0 && $('main').scrollTop() - last_scroll_position < 0) {
-                    $('main').scrollTop(1)
-                    if (canScroll >= 10) {
-                        canScroll = 0
-                        console.log('Retrieve previous, first_id: ' + first_id)
-                        console.log('curroom: ' + curroom)
-                        // socket.emit('retPre', first_id, curroom)
-                    } else {
-                        console.log('Couldn\'t scroll: ' + canScroll)
-                    }
-                }
-                last_scroll_position = $('main').scrollTop()
+                // if ($('main').scrollTop() + $('main').height() >= $(document).height() * .9) {
+                //     if (!canAuto) {
+                //         canAuto = true
+                //         console.log('canAuto true')
+                //     }
+                // } else if (canAuto) {
+                //     canAuto = false 
+                //     console.log('canAuto false')
+                // }
+                // if ($('main').scrollTop() == 0 && $('main').scrollTop() - last_scroll_position < 0) {
+                //     $('main').scrollTop(1)
+                //     if (canScroll >= 10) {
+                //         canScroll = 0
+                //         console.log('Retrieve previous, first_id: ' + first_id)
+                //         console.log('curroom: ' + curroom)
+                //         // socket.emit('retPre', first_id, curroom)
+                //     } else {
+                //         console.log('Couldn\'t scroll: ' + canScroll)
+                //     }
+                // }
+                // last_scroll_position = $('main').scrollTop()
             })
 
             $(window).resize(function () { //checking for window resize event
