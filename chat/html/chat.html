@@ -246,7 +246,7 @@
             var last_scroll_position = 0
 
             $('main').scroll(function () {
-                console.log($('main').scrollTop() + '   ' + $('main').height() + '   ' + document.getElementById("mainfunc").scrollHeight + '   ' + $(document).height())
+                console.log($('main').scrollTop() + '   ' + $('main').height() + '   ' + $('main').prop('scrollHeight') + '   ' + $(document).height())
                 console.log('----------------')
                 // if ($('main').scrollTop() + $('main').height() >= $(document).height() * .9) {
                 //     if (!canAuto) {
