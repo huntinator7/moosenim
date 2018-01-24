@@ -244,6 +244,42 @@
             autosize(document.querySelectorAll('textarea'))
 
             // var last_scroll_position = 0
+            $(window).scroll(function () {
+                console.log('window')
+            })
+
+            $(document).scroll(function () {
+                console.log('document')
+            })
+
+            $(document.body).scroll(function () {
+                console.log('document.body')
+            })
+
+            $('col').scroll(function () {
+                console.log('col')
+            })
+
+            $('row').scroll(function () {
+                console.log('row')
+            })
+
+            $('#messages').scroll(function () {
+                console.log('messages')
+            })
+
+            $('#send-message').scroll(function () {
+                console.log('send-message')
+            })
+
+            $('div').scroll(function () {
+                console.log('div')
+            })
+
+            $('main').scroll(function () {
+                console.log('main')
+            })
+
             $('.col').scroll(function () {
                 console.log('test')
                 // if ($(window).scrollTop() + $(window).height() >= $(document).height() * .9) {
