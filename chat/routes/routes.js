@@ -20,10 +20,6 @@ router.get('/vr', function (req, res) {
   res.sendFile('/html/vr.html', { 'root': '/var/www/html/chat' })
 })
 
-router.post('/', function (req, res) {
-  res.send('POST route on chat.')
-})
-
 //export this router to use in our index.js
 module.exports = router
 
