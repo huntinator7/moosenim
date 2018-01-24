@@ -533,15 +533,13 @@ client.on('message', msg => {
         // 81913971979849728 @Lane')
         // <@!207214113191886849>
         // <@207214113191886849>
-        if (/<@(&?277296480245514240|!?207214113191886849|!?89758327621296128|!?185934787679092736|!?147143598301773824|!?81913971979849728)>/g.test(newmsg)) {
-            console.log('here')
-            newmsg = /<@&?277296480245514240>/g[Symbol.replace](newmsg, '@Moosen')
-            newmsg = /<@!?207214113191886849>/g[Symbol.replace](newmsg, '@Noah')
-            newmsg = /<@!?89758327621296128>/g[Symbol.replace](newmsg, '@Hunter')
-            newmsg = /<@!?185934787679092736>/g[Symbol.replace](newmsg, '@Nick')
-            newmsg = /<@!?147143598301773824>/g[Symbol.replace](newmsg, '@Kyle')
-            newmsg = /<@!?81913971979849728>/g[Symbol.replace](newmsg, '@Lane')
-        }
+        var regmatch = /<@(!?|&)([0-9]+)>/g.exec(newmsg)
+        console.log(regmatch);
+        // if () {
+        //     msg.guild.members.forEach(function() {
+
+        //     })
+        // }
         if (newmsg) {
             sendMessage(newmsg, msg.author.username, 1, config.discord.sendChannel)
             getMessageDiscord(msg.author.username, newmsg, msg.author.avatarURL)
