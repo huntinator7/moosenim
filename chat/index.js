@@ -204,7 +204,7 @@ var players = []
 
 //----SOCKET.IO----\\
 io.sockets.on('connection', function (socket) {
-v
+
     console.log(uuid())
     console.log('CONNECTED to socket io: ' + socket.request.user.displayName)
     con.query("SELECT room_id FROM room_users WHERE user_id = ?", [socket.request.user.id], function (error, rows, results) {
