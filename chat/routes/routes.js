@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express')
+var router = express.Router()
 router.get('/', function (req, res) {
   res.sendFile('/html/chat.html', { 'root': '/var/www/html/chat' })
 })
@@ -22,7 +22,22 @@ router.get('/vr', function (req, res) {
 
 router.post('/', function (req, res) {
   res.send('POST route on chat.')
-});
+})
 
 //export this router to use in our index.js
-module.exports = router;
+module.exports = router
+
+module.exports = function (passport) {
+
+  /* GET login page. */
+  router.get('/',
+    passport.authenticate('google', {
+      scope: ['https://www.googleapis.com/auth/plus.profile.emails.read', 'https://www.googleapis.com/auth/plus.login', 'profile', 'email'],
+      failureRedirect: '/login'
+    }),
+    function (req, res) {
+      res.redirect('/')
+    }
+  )
+  return router
+}
