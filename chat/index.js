@@ -534,10 +534,11 @@ client.on('message', msg => {
             var repstr
             msg.guild.members.forEach(function (element) {
                 if (element.user.id == array1[2]) {
+                    console.log(element.user.username)
                     repstr = element.user.username
                 }
             })
-            regex1[Symbol.replace](newmsg, repstr);
+            // regex1[Symbol.replace](newmsg, repstr);
         }
         // if () {
         //     msg.guild.members.forEach(function() {
