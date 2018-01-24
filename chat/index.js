@@ -534,7 +534,7 @@ client.on('message', msg => {
             var repstr
             msg.guild.members.forEach(function (element) {
                 if (element.user.id == array1[2]) {
-                    console.log(element.user.username)
+                    console.log(element.user.username + ' ' + array1[0])
                     repstr = element.user.username
                 }
             })
