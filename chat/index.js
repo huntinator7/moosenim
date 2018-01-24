@@ -533,8 +533,11 @@ client.on('message', msg => {
         // 81913971979849728 @Lane')
         // <@!207214113191886849>
         // <@207214113191886849>
-        var regmatch = /<@(!?|&)([0-9]+)>/g.exec(newmsg)
-        console.log(regmatch);
+
+        var array1
+        while ((array1 = /<@(!?|&)([0-9]+)>/g.exec(newmsg)) !== null) {
+            console.log(`Found ${array1[2]}`);
+        }
         // if () {
         //     msg.guild.members.forEach(function() {
 
