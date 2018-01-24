@@ -248,7 +248,7 @@
             $('main').scroll(function () {
                 console.log($('main').scrollTop() + $('main').height() + '   ' + $('main').prop('scrollHeight') * .9)
                 console.log('----------------')
-                if ($('main').scrollTop() + $('main').height() >= $('main').prop('scrollHeight') * .9) {
+                if ($('main').scrollTop() + $('main').height() >= $('main').prop('scrollHeight') - 300) {
                     if (!canAuto) {
                         canAuto = true
                         console.log('canAuto true')

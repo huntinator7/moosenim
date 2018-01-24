@@ -33,7 +33,7 @@ textarea {
     width: 100%;
     position: fixed;
     top: 0;
-    z-index: 1;
+    z-index: 3000;
     min-height: 4rem;
     background: linear-gradient(to right, #6EB7FF, #23ffdd);
 }
