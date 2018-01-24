@@ -531,7 +531,7 @@ client.on('message', msg => {
                 }
             })
         }
-        var emoteRegex = RegExp('<:.*:([0-9]+)>')
+        var emoteRegex = RegExp('<:.*?:([0-9]+)>')
         var emoteArray
         while ((emoteArray = emoteRegex.exec(newmsg)) !== null) {
             console.log(`Found ${emoteArray[1]} in ${emoteArray[0]}`)
