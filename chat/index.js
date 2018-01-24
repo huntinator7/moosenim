@@ -512,13 +512,13 @@ client.on('ready', () => {
 
 //Any time a Discord message is sent, bot checks to see if in moosen-im channel and if not sent by bot. If so, it adds the message to the DB and emits it
 client.on('message', msg => {
-    console.log(msg.channel.id)
+    // console.log(msg.channel.id)
     // client.user.setAvatar('./images/discord.png')
     if (msg.channel.id == config.discord.moosen && !(msg.author.bot)) {
         var newmsg = msg.content
         // https://cdn.discordapp.com/emojis/318887791096365056.png
         // <:fNoah3:318887914530668544>
-        var unRegex = RegExp('<@(!?|&)([0-9]+)>', 'g')
+        var unRegex = RegExp('<@(!?|&)([0-9]+)>')
         var unArray
         while ((unArray = unRegex.exec(newmsg)) !== null) {
             console.log(`Found ${unArray[2]}`)
@@ -531,10 +531,10 @@ client.on('message', msg => {
                 }
             })
         }
-        var emoteRegex = RegExp('<:.*:([0-9]+)>', 'g')
+        var emoteRegex = RegExp('<:.*:([0-9]+)>')
         var emoteArray
         while ((emoteArray = emoteRegex.exec(newmsg)) !== null) {
-            console.log(`Found ${emoteArray[1]}`)
+            console.log(`Found ${emoteArray[1]} in ${emoteArray[0]}`)
             var repstr = '<img class="img-fluid" style="height:1.3rem" src="https://cdn.discordapp.com/emojis/' + emoteArray[1] + '.png" alt="Error - Image not found">'
             var regex2 = new RegExp(emoteArray[0])
             newmsg = newmsg.replace(regex2, repstr)
