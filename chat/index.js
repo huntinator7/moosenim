@@ -781,7 +781,7 @@ function joinRoom(joinCode,uid){
   con.query("SELECT * FROM rooms WHERE join_code = ?", [joinCode], function (error, rows, result) {
       try {
           rows.forEach(function (element) {
-              con.query("INSERT INTO room_users VALUES(?,?,?)", [rows[0].serialid, element.uid, 0])
+              con.query("INSERT INTO room_users VALUES(?,?,?)", [rows[0].serialid, uid, 0])
               console.log("user " + element.uid + " was added to room " + rows[0].serialid)
           })
       } catch (e) {
