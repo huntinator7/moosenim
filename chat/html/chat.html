@@ -222,6 +222,7 @@
       $('#email').submit(function() {
         socket.emit('adduser', $('#e').val(), curroom, 0)
         console.log("form submitted " + $('#e').val())
+        $('#add-modal').modal('hide')
         return false
       })
 
