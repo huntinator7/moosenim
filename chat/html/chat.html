@@ -64,17 +64,20 @@
               Settings
             </button>
       <div class="dropdown-menu mm-navdd-items" aria-labelledby="dropdownMenuButton">
-        <a class="btn" data-toggle="modal" data-target="#modal2">User Settings</a>
+        <a class="btn">User Settings</a>
 
         <a class="btn" id="roomSettings">Room Settings</a>
         <a class="btn" href="#">Enter Room Code</a>
       </div>
     </div>
     <div class="nav-item">
-      <a class="nav-link" data-toggle="welcome-modal" style="color:white" data-target="#welcome-modal">Help</a>
+      <a class="nav-link" data-toggle="modal" style="color:white" data-target="#add-modal">Add To Room</a>
     </div>
     <div class="nav-item">
-      <a class="nav-link" data-toggle="add-modal" style="color:white" data-target="#add-modal2">Add To Room</a>
+      <a class="nav-link" data-toggle="modal" style="color:white" data-target="#modal2">Create Room</a>
+    </div>
+    <div class="nav-item">
+      <a class="nav-link" data-toggle="modal" style="color:white" data-target="#welcome-modal">Help</a>
     </div>
   </nav>
   <div class="bmd-layout-container bmd-drawer-f-l main">
@@ -103,7 +106,7 @@
       </div>
     </main>
   </div>
-  <!-- Modal tutorial -->
+  <!-- Modal list -->
   <div class="modal fade" id="welcome-modal" tabindex="-1" role="dialog" aria-labelledby="welcome-modal-label" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -113,7 +116,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" style="z-index: 2000;">
           <p>Moosen IM is a instant messaging application made by a couple of friends who want more out of their messaging apps.
             <br>
             <br>To get started, click on 'Create Room' and give it a catchy name. Then, use 'Add to Room...' to invite other users to your room.
@@ -137,7 +140,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" style="z-index: 2000;">
           <p>Enter the email of the person you wish to invite</p>
           <form id="email" action="">
             <input class="form-control" type="text" id="e" placeholder="email">
@@ -148,16 +151,36 @@
     </div>
   </div>
   <!-- Modal create room -->
-  <div id="modal2" style="z-index: 3000" class="modal">
-    <div class="modal-content">
-      <h4>Create new Room</h4>
-      <p>Room Name</p>
-      <form id="roomname" action="">
-        <input class="form-control" type="text" id="rn" placeholder="room name">
-        <button class="btn waves-effect waves-light modal-close light-blue white-text"> Create Room </button>
-      </form>
+  <div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="add-modal-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="add-modal-label">Create New Room</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+        </div>
+        <div class="modal-body" style="z-index: 2000;">
+          <p>Enter a Room Name</p>
+          <form id="roomname" action="">
+            <input class="form-control" type="text" id="rn" placeholder="room name">
+            <button class="btn waves-effect waves-light modal-close light-blue white-text"> Create Room </button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
+  <div id="modal2"  class="modal">
+    <div class="modal-content" style="z-index: 2000;">
+      <div class="modal-header">
+        <h5 class="modal-title" id="add-modal-label">  <h4>Create new Room</h4>
+          <div class="modal-body" style="z-index: 2000;">
+
+      </div>
+    </div>
+  </div>
+</div>
+
 
   <!-- Socket.io -->
   <script>
