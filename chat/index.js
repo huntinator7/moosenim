@@ -639,7 +639,7 @@ function getMessage(chatid, isEmbed, pic) {
     console.log(`In getMessage, chatid ${chatid}`)
     var nameString = "room" + chatid
     con.query("SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", [nameString], function (error, rows, results) {
-        console.log("Emitting message")
+        
         console.log(rows)
         if (error) throw error
         con.query("SELECT * FROM users WHERE users.name = ?", [rows[0].username], function (error, row) {
