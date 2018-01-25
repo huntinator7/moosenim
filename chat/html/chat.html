@@ -1,519 +1,519 @@
-﻿<!DOCTYPE html>
+
+<!DOCTYPE html>
 <html lang="en-US">
 
 <head>
-    <link rel="icon" href="https://www.moosen.im/images/favicon.png">
-    <meta charset="utf-8">
-    <title>Moosen Chat</title>
+  <link rel="icon" href="https://www.moosen.im/images/favicon.png">
+  <meta charset="utf-8">
+  <title>Moosen Chat</title>
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112336897-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || []
-        function gtag() { dataLayer.push(arguments) }
-        gtag('js', new Date())
-        gtag('config', 'UA-112336897-1')
-    </script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112336897-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || []
 
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-    <!-- JQuery loaded first -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
+    function gtag() {
+      dataLayer.push(arguments)
+    }
+    gtag('js', new Date())
+    gtag('config', 'UA-112336897-1')
+  </script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
-    <!-- <script src="../siofu/client.js"></script> -->
-    <!-- Popper.js, then Bootstrap JS -->
-    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
-        crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/bootstrap-material-design@4.0.0-beta.4/dist/js/bootstrap-material-design.js" integrity="sha384-3xciOSDAlaXneEmyOo0ME/2grfpqzhhTcM4cE32Ce9+8DW/04AGoTACzQpphYGYe"
-        crossorigin="anonymous"></script>
-    <script src="../js/autosize.js"></script>
-    <script>
-        $(document).ready(function () { $('body').bootstrapMaterialDesign() })
-    </script>
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+  <!-- JQuery loaded first -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
-    <source id="ogg_src" src="../sounds/notification.mp3" type="video/ogg">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+  <!-- <script src="../siofu/client.js"></script> -->
+  <!-- Popper.js, then Bootstrap JS -->
+  <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/bootstrap-material-design@4.0.0-beta.4/dist/js/bootstrap-material-design.js" integrity="sha384-3xciOSDAlaXneEmyOo0ME/2grfpqzhhTcM4cE32Ce9+8DW/04AGoTACzQpphYGYe" crossorigin="anonymous"></script>
+  <script src="../js/autosize.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('body').bootstrapMaterialDesign()
+    })
+  </script>
 
-    <!-- Material Design for Bootstrap fonts and icons -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
-    <!-- Material Design for Bootstrap CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.0.0-beta.4/dist/css/bootstrap-material-design.min.css"
-        integrity="sha384-R80DC0KVBO4GSTw+wZ5x2zn2pu4POSErBkf8/fSFhPXHxvHJydT0CSgAP2Yo2r4I" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="../css/chat.css">
+  <source id="ogg_src" src="../sounds/notification.mp3" type="video/ogg">
 
-    <!--Import Google Font-->
-    <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
-    <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <style>
-    </style>
+  <!-- Material Design for Bootstrap fonts and icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+  <!-- Material Design for Bootstrap CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.0.0-beta.4/dist/css/bootstrap-material-design.min.css" integrity="sha384-R80DC0KVBO4GSTw+wZ5x2zn2pu4POSErBkf8/fSFhPXHxvHJydT0CSgAP2Yo2r4I" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="../css/chat.css">
+
+  <!--Import Google Font-->
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <style>
+  </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg">
-        <a class="btn mm-navbtn" data-toggle="drawer" data-target="#dw-s1">
+  <nav class="navbar navbar-expand-lg">
+    <a class="btn mm-navbtn" data-toggle="drawer" data-target="#dw-s1">
             <i class="material-icons">menu</i>
         </a>
-        <a class="navbar-brand" href="#">m.im</a>
+    <a class="navbar-brand" href="#">m.im</a>
 
-         <div class="dropdown mm-navdd">
-            <button class="btn btn-secondary dropdown-toggle" style="margin-left: 100px" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false">
+    <div class="dropdown mm-navdd">
+      <button class="btn btn-secondary dropdown-toggle" style="margin-left: 100px" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Settings
             </button>
-            <div class="dropdown-menu mm-navdd-items" aria-labelledby="dropdownMenuButton">
-                <a class="btn" data-toggle="modal" data-target="#modal2">User Settings</a>
+      <div class="dropdown-menu mm-navdd-items" aria-labelledby="dropdownMenuButton">
+        <a class="btn" data-toggle="modal" data-target="#modal2">User Settings</a>
 
-                <a class="btn" id="roomSettings">Room Settings</a>
-                <a class="btn" href="#">Enter Room Code</a>
-            </div>
+        <a class="btn" id="roomSettings">Room Settings</a>
+        <a class="btn" href="#">Enter Room Code</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <a class="nav-link" data-toggle="welcome-modal" style="color:white" data-target="#welcome-modal">Help</a>
+    </div>
+    <div class="nav-item">
+      <a class="nav-link" data-toggle="add-modal" style="color:white" data-target="#add-modal2">Add To Room</a>
+    </div>
+  </nav>
+  <div class="bmd-layout-container bmd-drawer-f-l main">
+    <div id="dw-s1" class="bmd-layout-drawer bg-faded mm-side">
+      <ul class="nav flex-column" id="mm-side-list">
+      </ul>
+    </div>
+    <main class="bmd-layout-content" id="maindiv">
+      <div class="row">
+        <div class="col">
+          <ul class="collection" id="messages" style="overflow-x:hidden">
+          </ul>
         </div>
-        <li class="nav-item">
-        <a class="mm-navdditems " list-style-type="none" data-toggle="welcome-modal" data-target="#welcome-modal">Help</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="add-modal" data-target="#add-modal2">Add To Room</a>
-      </li>
-    </nav>
-    <div class="bmd-layout-container bmd-drawer-f-l main">
-        <div id="dw-s1" class="bmd-layout-drawer bg-faded mm-side">
-            <ul class="nav flex-column" id="mm-side-list">
-            </ul>
-        </div>
-        <main class="bmd-layout-content" id="maindiv">
-            <div class="row">
-                <div class="col">
-                    <ul class="collection" id="messages" style="overflow-x:hidden">
-                    </ul>
-                </div>
-            </div>
-            <div class="row">
-                <form class="mm-form" autocomplete="off">
-                    <div class="input-group">
-                        <textarea type="text" id="send-message" class="form-control" placeholder="Message" name="message"></textarea>
-                        <div class="input-group-btn">
-                            <button type="submit" class="btn mm-submit">
+      </div>
+      <div class="row">
+        <form class="mm-form" autocomplete="off">
+          <div class="input-group">
+            <textarea type="text" id="send-message" class="form-control" placeholder="Message" name="message"></textarea>
+            <div class="input-group-btn">
+              <button type="submit" class="btn mm-submit">
                                 <i class="material-icons">send</i>
                             </button>
-                        </div>
-                    </div>
-                </form>
             </div>
-        </main>
-    </div>
-    <!-- Modal tutorial -->
-    <div class="modal fade" id="welcome-modal" tabindex="-1" role="dialog" aria-labelledby="welcome-modal-label" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="welcome-modal-label">Welcome to Moosen IM</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+  <!-- Modal tutorial -->
+  <div class="modal fade" id="welcome-modal" tabindex="-1" role="dialog" aria-labelledby="welcome-modal-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="welcome-modal-label">Welcome to Moosen IM</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                </div>
-                <div class="modal-body">
-                    <p>Moosen IM is a instant messaging application made by a couple of friends who want more out of their messaging
-                        apps.
-                        <br>
-                        <br>To get started, click on 'Create Room' and give it a catchy name. Then, use 'Add to Room...' to invite
-                        other users to your room.
-                        <br>
-                        <br>DISCLAIMER: This is an MVP product, and is currently NOT completely secure. Please be mindful of
-                        the information posted.
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="btn" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
         </div>
+        <div class="modal-body">
+          <p>Moosen IM is a instant messaging application made by a couple of friends who want more out of their messaging apps.
+            <br>
+            <br>To get started, click on 'Create Room' and give it a catchy name. Then, use 'Add to Room...' to invite other users to your room.
+            <br>
+            <br>DISCLAIMER: This is an MVP product, and is currently NOT completely secure. Please be mindful of the information posted.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="btn" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
     </div>
-    <!-- Modal add user -->
-    <div class="modal fade" id="add-modal" tabindex="-1" role="dialog" aria-labelledby="add-modal-label" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="add-modal-label">Add to Room</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+  </div>
+  <!-- Modal add user -->
+  <div class="modal fade" id="add-modal" tabindex="-1" role="dialog" aria-labelledby="add-modal-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="add-modal-label">Add to Room</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                </div>
-                <div class="modal-body">
-                    <p>Enter the email of the person you wish to invite</p>
-                    <form id="email" action="">
-                        <input class="form-control" type="text" id="e" placeholder="email">
-                        <button class="btn" data-dismiss="modal"> Add To Room </button>
-                    </form>
-                </div>
-            </div>
         </div>
-    </div>
-    <!-- Modal create room -->
-    <div id="modal2" style="z-index: 3000" class="modal">
-        <div class="modal-content">
-            <h4>Create new Room</h4>
-            <p>Room Name</p>
-            <form id="roomname" action="">
-                <input class="form-control" type="text" id="rn" placeholder="room name">
-                <button class="btn waves-effect waves-light modal-close light-blue white-text"> Create Room </button>
-            </form>
+        <div class="modal-body">
+          <p>Enter the email of the person you wish to invite</p>
+          <form id="email" action="">
+            <input class="form-control" type="text" id="e" placeholder="email">
+            <button class="btn" data-dismiss="modal"> Add To Room </button>
+          </form>
         </div>
+      </div>
     </div>
+  </div>
+  <!-- Modal create room -->
+  <div id="modal2" style="z-index: 3000" class="modal">
+    <div class="modal-content">
+      <h4>Create new Room</h4>
+      <p>Room Name</p>
+      <form id="roomname" action="">
+        <input class="form-control" type="text" id="rn" placeholder="room name">
+        <button class="btn waves-effect waves-light modal-close light-blue white-text"> Create Room </button>
+      </form>
+    </div>
+  </div>
 
-    <!-- Socket.io -->
-    <script>
-        var event
-        $(function () {
-            var last_id
-            var retrieving = false
-            var first_id
-            var saved_first = "messages"
-            var retrievePrevious = false
-            var URL_SERVER = 'https://moosen.im:443'
-            var socket = io.connect(URL_SERVER)
-            var curroom
-            var canAuto = false
-            var canScroll = 10
+  <!-- Socket.io -->
+  <script>
+    var event
+    $(function() {
+      var last_id
+      var retrieving = false
+      var first_id
+      var saved_first = "messages"
+      var retrievePrevious = false
+      var URL_SERVER = 'https://moosen.im:443'
+      var socket = io.connect(URL_SERVER)
+      var curroom
+      var canAuto = false
+      var canScroll = 10
 
-            $.fn.textWidth = function () {
-                var text = $(this).html()
-                $(this).html('<span>' + text + '</span>')
-                var width = $(this).find('span:first').width()
-                $(this).html(text)
-                return width
-            }
+      $.fn.textWidth = function() {
+        var text = $(this).html()
+        $(this).html('<span>' + text + '</span>')
+        var width = $(this).find('span:first').width()
+        $(this).html(text)
+        return width
+      }
 
-            // var siofu = new SocketIOFileUpload(socket)
-            // siofu.addEventListener("start", function (event) {
-            //     event.file.meta.filetype = event.file.type
-            //     event.file.meta.room = curroom
-            // })
+      // var siofu = new SocketIOFileUpload(socket)
+      // siofu.addEventListener("start", function (event) {
+      //     event.file.meta.filetype = event.file.type
+      //     event.file.meta.room = curroom
+      // })
 
-            var login = new Audio('../sounds/notification.mp3')
-            var audio = new Audio('../sounds/login3.mp3')
-            // roomList holds an array of all chatrooms a user has access to.
-            // var roomList
-
-
-            $('#email').submit(function () {
-                socket.emit('adduser', $('#e').val(), curroom, 0)
-                console.log("form submitted " + $('#e').val())
-                return false
-            })
-            $('#roomSettings').submit(function(){
-              $('#modal2').modal('show')
-            })
-            $('#roomname').submit(function () {
-                socket.emit('addroom', $('#rn').val())
-                console.log("add room form submitted " + $('#rn').val())
-                $('#modal2').modal('hide')
-                return false
-            })
-
-            $('.mm-form').submit(function (e) {
-                e.preventDefault()
-                var message = $('#send-message').val()
-                if (message) {
-                    message = message.replace(/</g, '&lt;')
-                    message = message.replace(/>/g, '&gt;')
-                    message = message.replace(/;/g, '&#59;')
-                    try {
-                        socket.emit('chat message', message, curroom)
-                        console.log(`Emitting chat message ${message} for room ${curroom}`)
-                    } catch (e) {
-                        console.log(e)
-                    }
-
-                    checkScroll()
-                }
-                autosize(document.querySelectorAll('textarea'))
-                $('#send-message').val('')
-                return false
-            })
-
-            $('#send-message').on('input', function () {
-                $(this).scrollTop($('.main')[0].scrollHeight)
-            })
-
-            $('#send-message').keypress(function (e) {
-                if (e.which == 13 && !e.shiftKey) {
-                    $(this).closest('form').submit()
-                    e.preventDefault()
-                }
-            })
-
-            $(document).ready(function () {
-                $('.mm-side-item-text').each(function (index) {
-                    $(this).css('font-size', '1em')
-                    while ($(this).textWidth() > $('#dw-s1').width() * 0.65) {
-                        $(this).css('font-size', (parseInt($(this).css('font-size')) - 1) + "px")
-                    }
-                })
-            })
-
-            autosize(document.querySelectorAll('textarea'))
-
-            var last_scroll_position = 0
-
-            $('main').scroll(function () {
-                console.log($('main').scrollTop() + $('main').height() + '   ' + $('main').prop('scrollHeight') * .9)
-                console.log('----------------')
-                if ($('main').scrollTop() + $('main').height() >= $('main').prop('scrollHeight') - 300) {
-                    if (!canAuto) {
-                        canAuto = true
-                        console.log('canAuto true')
-                    }
-                } else if (canAuto) {
-                    canAuto = false
-                    console.log('canAuto false')
-                }
-                if ($('main').scrollTop() == 0 && $('main').scrollTop() - last_scroll_position < 0) {
-                    $('main').scrollTop(1)
-                    if (canScroll >= 10) {
-                        canScroll = 0
-                        console.log('Retrieve previous, first_id: ' + first_id)
-                        console.log('curroom: ' + curroom)
-                        socket.emit('retPre', first_id, curroom)
-                    } else {
-                        console.log('Couldn\'t scroll: ' + canScroll)
-                    }
-                }
-                last_scroll_position = $('main').scrollTop()
-            })
-
-            $(window).resize(function () { //checking for window resize event
-                console.log('resize event: ' + $(window).width() / $(window).height())
-                if ($("#send-message").is(":focus")) {
-                    $('main').scrollTop($('main').prop("scrollHeight"))
-                }
-            })
-
-            // socket.on('motd update', function (msg, room) {
-            //     console.log('Received MOTD: ' + msg)
-            //     roomnames.forEach(function (e) {
-            //         if (e.id == curroom) $('#roomtitle').html('<h3>' + e.name + '</h3>')
-            //     })
-            //     $('#motd').html("<div>" + msg + "</div>")
-            //     $(function () {
-            //         $('#motd div').css('font-size', '3.3em')
-
-            //         while ($('#motd div').height() > $('#motd').height()) {
-            //             $('#motd div').css('font-size', (parseInt($('#motd div').css('font-size')) - 1) + "px")
-            //         }
-            //     })
-            // })
-
-            socket.on('chat message', function (user, msg, time, id, pic, room) {
-                if (!curroom || curroom == room) {
-                    if (!curroom) {
-                        curroom = room
-                    }
-                    console.log('id: ' + id)
-                    if (!retrieving) {
-                        retrieving = true
-                        if ($('#messages').children().first().attr('id')) {
-                            saved_first = $('#messages').children().first().attr('id')
-                            console.log('saved_first set to ' + saved_first)
-                        } else {
-                            console.log('no messages.children.first.id found')
-                        }
-                        pageJump()
-                    }
-                    document.title = user.substring(0, 3) + ": " + msg.substring(0, 10)
-                    if (document.hidden) {
-                        notifyMe(msg, pic)
-                        login.play()
-                    }
-                    if (!first_id) {
-                        console.log('!first_id, setting to ' + id)
-                        first_id = id
-                        $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title" id="msgtitle">'
-                            + user + '</span><p class="message">'
-                            + msg + '</p><span class="secondary-content">'
-                            + time + '</a></li>')
-                    } else {
-                        insertMessage('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title" id="msgtitle">'
-                            + user + '</span><p class="message">'
-                            + msg + '</p><span class="secondary-content">'
-                            + time + '</a></li>', id)
-                        if (first_id > id) {
-                            first_id = id
-                        }
-                    }
-                } else {
-                    // console.log($("a[room='" + room + "']").children())
-                    // if ($("a[room='" + room + "']").children().hasClass('none')) {
-                    //     console.log('has class none')
-                    //     $("a[room='" + room + "']").children().removeClass('none')
-                    //     $("a[room='" + room + "']").children().addClass('new badge deep-orange accent-3')
-                    //     $("a[room='" + room + "']").children().text('1')
-                    // } else {
-                    //     // console.log($("a[room='"+room+"']").first())
-                    //     var curtext = parseInt($("a[room='" + room + "']").first().children().text())
-                    //     console.log('curtext: ' + curtext)
-                    //     curtext = curtext + 1
-                    //     curtext = curtext.toString()
-                    //     console.log('curtext: ' + curtext)
-                    //     $("a[room='" + room + "']").children().text(curtext)
-                    // }
-                }
-            })
-
-            socket.on('login', function (displayName, email, photoURL, UserId) {
-                console.log("Logging in " + displayName + ", email: " + email + " " + UserId)
-                $('#messages').append('<li id="login" class="collection-item avatar login"><p class="message">' + displayName + ' logged in</p></li>')
-                checkScroll()
-                if (document.hidden) {
-                    login.play()
-                }
-            })
-
-            socket.on('test', function (name) {
-                console.log(name + "asdasd")
-            })
-
-            socket.on('disconnect', function (name) {
-                location.reload()
-            })
-
-            roomnames = []
-            socket.on('roomlist', function (list) {
-                console.log("Received roomlist: " + list)
-                $('#mm-side-list').empty()
-                try {
-                    list.forEach(function (element) {
-                        var roomlist = {
-                            name: element.name,
-                            id: element.serialid
-                        }
-                        roomnames.push(roomlist)
-
-                        if (element.serialid == curroom) $('#roomtitle').html('<h3>' + element.name + '</h3>')
+      var login = new Audio('../sounds/notification.mp3')
+      var audio = new Audio('../sounds/login3.mp3')
+      // roomList holds an array of all chatrooms a user has access to.
+      // var roomList
 
 
-                        $('#mm-side-list').append(`<li class="btn nav-item mm-side-image"><img src="https://www.moosen.im/images/favicon.png" alt="" class="circle img-fluid"><a class="nav-link mm-side-item-text" room="${element.serialid}">${element.name}</a></li>`)
-                    })
-                    $('.mm-side-item-text').each(function (index) {
-                        $(this).css('font-size', '1em')
-                        while ($(this).textWidth() > $('#dw-s1').width() * 0.65) {
-                            $(this).css('font-size', (parseInt($(this).css('font-size')) - 1) + "px")
-                        }
-                    })
-                } catch (e) { }
-            })
+      $('#email').submit(function() {
+        socket.emit('adduser', $('#e').val(), curroom, 0)
+        console.log("form submitted " + $('#e').val())
+        return false
+      })
+      $('#roomSettings').submit(function() {
+        $('#modal2').modal('show')
+      })
+      $('#roomname').submit(function() {
+        socket.emit('addroom', $('#rn').val())
+        console.log("add room form submitted " + $('#rn').val())
+        $('#modal2').modal('hide')
+        return false
+      })
 
-            $('#mm-side-list').on('click', 'a', async function () {
-                console.log("Room Button Clicked")
-                console.log($(this.attributes.room).val())
-                socket.emit('changerooms', $(this.attributes.room).val())
-                canScroll = 0
-                $('#messages').empty()
-                $('#send-message').val('')
-                curroom = $(this.attributes.room).val()
-                first_id = null
-                $('main').scrollTop(document.body.scrollHeight)
-                await sleep(500)
-                canScroll = 10
-            })
+      $('.mm-form').submit(function(e) {
+        e.preventDefault()
+        var message = $('#send-message').val()
+        if (message) {
+          message = message.replace(/</g, '&lt;')
+          message = message.replace(/>/g, '&gt;')
+          message = message.replace(/;/g, '&#59;')
+          try {
+            socket.emit('chat message', message, curroom)
+            console.log(`Emitting chat message ${message} for room ${curroom}`)
+          } catch (e) {
+            console.log(e)
+          }
 
-            socket.on('retreat', function () {
-                console.log("Retreat!")
-                window.location.href = "https://www.moosen.im/login"
-            })
+          checkScroll()
+        }
+        autosize(document.querySelectorAll('textarea'))
+        $('#send-message').val('')
+        return false
+      })
 
-            socket.on('logout message', function (user) {
-                $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title" id="msgtitle">'
-                    + user + '</span><p class="message">' + user + ' logged out</p><span class="secondary-content">'
-                    + time + '</a></li>')
-                checkScroll()
-            })
+      $('#send-message').on('input', function() {
+        $(this).scrollTop($('.main')[0].scrollHeight)
+      })
 
-            function sleep(ms) {
-                return new Promise(resolve => setTimeout(resolve, ms))
-            }
+      $('#send-message').keypress(function(e) {
+        if (e.which == 13 && !e.shiftKey) {
+          $(this).closest('form').submit()
+          e.preventDefault()
+        }
+      })
 
-            async function insertMessage(msg, id) {
-                var wasInserted = false
-                $('#messages li').each(function () {
-                    // console.log($(this.children[1]).text())
-                    if (id < this.id && !wasInserted) {
-                        $(msg).insertBefore(this)
-                        try {
-                            console.log($(this.previousElementSibling.children[1]).text())
-                        } catch (e) {
-                            console.log('Couldn\'t print')
-                        }
-                        wasInserted = true
-                        checkScroll()
-                    }
-                })
-
-                if (!wasInserted) {
-                    $('#messages').append(msg)
-                    checkScroll()
-                }
-
-                await sleep(500)
-                canScroll += 1
-            }
-
-            async function pageJump() {
-                await sleep(500)
-                retrieving = false
-            }
-
-            function checkScroll() {
-                console.log('canAuto: ' + canAuto)
-                if (canAuto) {
-                    $('main').scrollTop($('main').prop("scrollHeight"))
-                }
-            }
-
-            //     function handleFileSelect(evt) {
-            //         console.log('In handleFileSelect')
-            //         var files = evt.target.files // FileList object
-            //         files.forEach( function(element) {
-            //             var name = element.name
-            //             var type = element.type
-            //             console.log("Filename: " + name + " , Type: " + type)
-            //             siofu.submitFiles([element])
-            //         })
-            //     }
-            //     document.getElementById('add_pics').addEventListener('change', handleFileSelect, false)
-
-            // })
-
-            // if (window.File && window.FileReader && window.FileList && window.Blob) {
-            //     // Great success! All the File APIs are supported.
-            // } else {
-            //     alert('The File APIs are not fully supported in this browser.')
-            // }
-
-            // notification code
-            document.addEventListener('DOMContentLoaded', function () {
-                if (!Notification) {
-                    alert('dis broke as shit')
-                    return
-                }
-                if (Notification.permission !== "granted")
-                    Notification.requestPermission()
-            })
-            function notifyMe(msg, pic) {
-                if (Notification.permission !== "granted")
-                    Notification.requestPermission()
-                else {
-                    var notification = new Notification('Moosen IM', {
-                        icon: pic,
-                        body: msg,
-                    })
-                    notification.onclick = function () {
-                        window.focus()
-                    }
-                }
-            }
+      $(document).ready(function() {
+        $('.mm-side-item-text').each(function(index) {
+          $(this).css('font-size', '1em')
+          while ($(this).textWidth() > $('#dw-s1').width() * 0.65) {
+            $(this).css('font-size', (parseInt($(this).css('font-size')) - 1) + "px")
+          }
         })
-    </script>
+      })
+
+      autosize(document.querySelectorAll('textarea'))
+
+      var last_scroll_position = 0
+
+      $('main').scroll(function() {
+        console.log($('main').scrollTop() + $('main').height() + '   ' + $('main').prop('scrollHeight') * .9)
+        console.log('----------------')
+        if ($('main').scrollTop() + $('main').height() >= $('main').prop('scrollHeight') - 300) {
+          if (!canAuto) {
+            canAuto = true
+            console.log('canAuto true')
+          }
+        } else if (canAuto) {
+          canAuto = false
+          console.log('canAuto false')
+        }
+        if ($('main').scrollTop() == 0 && $('main').scrollTop() - last_scroll_position < 0) {
+          $('main').scrollTop(1)
+          if (canScroll >= 10) {
+            canScroll = 0
+            console.log('Retrieve previous, first_id: ' + first_id)
+            console.log('curroom: ' + curroom)
+            socket.emit('retPre', first_id, curroom)
+          } else {
+            console.log('Couldn\'t scroll: ' + canScroll)
+          }
+        }
+        last_scroll_position = $('main').scrollTop()
+      })
+
+      $(window).resize(function() { //checking for window resize event
+        console.log('resize event: ' + $(window).width() / $(window).height())
+        if ($("#send-message").is(":focus")) {
+          $('main').scrollTop($('main').prop("scrollHeight"))
+        }
+      })
+
+      // socket.on('motd update', function (msg, room) {
+      //     console.log('Received MOTD: ' + msg)
+      //     roomnames.forEach(function (e) {
+      //         if (e.id == curroom) $('#roomtitle').html('<h3>' + e.name + '</h3>')
+      //     })
+      //     $('#motd').html("<div>" + msg + "</div>")
+      //     $(function () {
+      //         $('#motd div').css('font-size', '3.3em')
+
+      //         while ($('#motd div').height() > $('#motd').height()) {
+      //             $('#motd div').css('font-size', (parseInt($('#motd div').css('font-size')) - 1) + "px")
+      //         }
+      //     })
+      // })
+
+      socket.on('chat message', function(user, msg, time, id, pic, room) {
+        if (!curroom || curroom == room) {
+          if (!curroom) {
+            curroom = room
+          }
+          console.log('id: ' + id)
+          if (!retrieving) {
+            retrieving = true
+            if ($('#messages').children().first().attr('id')) {
+              saved_first = $('#messages').children().first().attr('id')
+              console.log('saved_first set to ' + saved_first)
+            } else {
+              console.log('no messages.children.first.id found')
+            }
+            pageJump()
+          }
+          document.title = user.substring(0, 3) + ": " + msg.substring(0, 10)
+          if (document.hidden) {
+            notifyMe(msg, pic)
+            login.play()
+          }
+          if (!first_id) {
+            console.log('!first_id, setting to ' + id)
+            first_id = id
+            $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title" id="msgtitle">' +
+              user + '</span><p class="message">' +
+              msg + '</p><span class="secondary-content">' +
+              time + '</a></li>')
+          } else {
+            insertMessage('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title" id="msgtitle">' +
+              user + '</span><p class="message">' +
+              msg + '</p><span class="secondary-content">' +
+              time + '</a></li>', id)
+            if (first_id > id) {
+              first_id = id
+            }
+          }
+        } else {
+          // console.log($("a[room='" + room + "']").children())
+          // if ($("a[room='" + room + "']").children().hasClass('none')) {
+          //     console.log('has class none')
+          //     $("a[room='" + room + "']").children().removeClass('none')
+          //     $("a[room='" + room + "']").children().addClass('new badge deep-orange accent-3')
+          //     $("a[room='" + room + "']").children().text('1')
+          // } else {
+          //     // console.log($("a[room='"+room+"']").first())
+          //     var curtext = parseInt($("a[room='" + room + "']").first().children().text())
+          //     console.log('curtext: ' + curtext)
+          //     curtext = curtext + 1
+          //     curtext = curtext.toString()
+          //     console.log('curtext: ' + curtext)
+          //     $("a[room='" + room + "']").children().text(curtext)
+          // }
+        }
+      })
+
+      socket.on('login', function(displayName, email, photoURL, UserId) {
+        console.log("Logging in " + displayName + ", email: " + email + " " + UserId)
+        $('#messages').append('<li id="login" class="collection-item avatar login"><p class="message">' + displayName + ' logged in</p></li>')
+        checkScroll()
+        if (document.hidden) {
+          login.play()
+        }
+      })
+
+      socket.on('test', function(name) {
+        console.log(name + "asdasd")
+      })
+
+      socket.on('disconnect', function(name) {
+        location.reload()
+      })
+
+      roomnames = []
+      socket.on('roomlist', function(list) {
+        console.log("Received roomlist: " + list)
+        $('#mm-side-list').empty()
+        try {
+          list.forEach(function(element) {
+            var roomlist = {
+              name: element.name,
+              id: element.serialid
+            }
+            roomnames.push(roomlist)
+
+            if (element.serialid == curroom) $('#roomtitle').html('<h3>' + element.name + '</h3>')
+
+
+            $('#mm-side-list').append(
+              `<li class="btn nav-item mm-side-image"><img src="https://www.moosen.im/images/favicon.png" alt="" class="circle img-fluid"><a class="nav-link mm-side-item-text" room="${element.serialid}">${element.name}</a></li>`)
+          })
+          $('.mm-side-item-text').each(function(index) {
+            $(this).css('font-size', '1em')
+            while ($(this).textWidth() > $('#dw-s1').width() * 0.65) {
+              $(this).css('font-size', (parseInt($(this).css('font-size')) - 1) + "px")
+            }
+          })
+        } catch (e) {}
+      })
+
+      $('#mm-side-list').on('click', 'a', async function() {
+        console.log("Room Button Clicked")
+        console.log($(this.attributes.room).val())
+        socket.emit('changerooms', $(this.attributes.room).val())
+        canScroll = 0
+        $('#messages').empty()
+        $('#send-message').val('')
+        curroom = $(this.attributes.room).val()
+        first_id = null
+        $('main').scrollTop(document.body.scrollHeight)
+        await sleep(500)
+        canScroll = 10
+      })
+
+      socket.on('retreat', function() {
+        console.log("Retreat!")
+        window.location.href = "https://www.moosen.im/login"
+      })
+
+      socket.on('logout message', function(user) {
+        $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title" id="msgtitle">' +
+          user + '</span><p class="message">' + user + ' logged out</p><span class="secondary-content">' +
+          time + '</a></li>')
+        checkScroll()
+      })
+
+      function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms))
+      }
+
+      async function insertMessage(msg, id) {
+        var wasInserted = false
+        $('#messages li').each(function() {
+          // console.log($(this.children[1]).text())
+          if (id < this.id && !wasInserted) {
+            $(msg).insertBefore(this)
+            try {
+              console.log($(this.previousElementSibling.children[1]).text())
+            } catch (e) {
+              console.log('Couldn\'t print')
+            }
+            wasInserted = true
+            checkScroll()
+          }
+        })
+
+        if (!wasInserted) {
+          $('#messages').append(msg)
+          checkScroll()
+        }
+
+        await sleep(500)
+        canScroll += 1
+      }
+
+      async function pageJump() {
+        await sleep(500)
+        retrieving = false
+      }
+
+      function checkScroll() {
+        console.log('canAuto: ' + canAuto)
+        if (canAuto) {
+          $('main').scrollTop($('main').prop("scrollHeight"))
+        }
+      }
+
+      //     function handleFileSelect(evt) {
+      //         console.log('In handleFileSelect')
+      //         var files = evt.target.files // FileList object
+      //         files.forEach( function(element) {
+      //             var name = element.name
+      //             var type = element.type
+      //             console.log("Filename: " + name + " , Type: " + type)
+      //             siofu.submitFiles([element])
+      //         })
+      //     }
+      //     document.getElementById('add_pics').addEventListener('change', handleFileSelect, false)
+
+      // })
+
+      // if (window.File && window.FileReader && window.FileList && window.Blob) {
+      //     // Great success! All the File APIs are supported.
+      // } else {
+      //     alert('The File APIs are not fully supported in this browser.')
+      // }
+
+      // notification code
+      document.addEventListener('DOMContentLoaded', function() {
+        if (!Notification) {
+          alert('dis broke as shit')
+          return
+        }
+        if (Notification.permission !== "granted")
+          Notification.requestPermission()
+      })
+
+      function notifyMe(msg, pic) {
+        if (Notification.permission !== "granted")
+          Notification.requestPermission()
+        else {
+          var notification = new Notification('Moosen IM', {
+            icon: pic,
+            body: msg,
+          })
+          notification.onclick = function() {
+            window.focus()
+          }
+        }
+      }
+    })
+  </script>
 
 </body>
 
