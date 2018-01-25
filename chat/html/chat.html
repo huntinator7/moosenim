@@ -421,7 +421,7 @@
 
 
                         $('#mm-side-list').append(
-                            `<li class="btn nav-item mm-side-image"><img src="https://www.moosen.im/images/favicon.png" alt="" class="circle img-fluid"><a class="nav-link mm-side-item-text" room="${element.serialid}">${element.name}</a></li>`)
+                            `<li class="btn nav-item mm-side-image"><img src="https://www.moosen.im/images/favicon.png" alt="" class="circle img-fluid"><a class="nav-link mm-side-item-text" data-toggle="drawer" data-target="#dw-s1" room="${element.serialid}">${element.name}</a></li>`)
                     })
                     $('.mm-side-item-text').each(function (index) {
                         $(this).css('font-size', '1em')
