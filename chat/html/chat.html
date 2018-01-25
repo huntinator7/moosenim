@@ -61,24 +61,21 @@
 
     <div class="dropdown mm-navdd">
       <button class="btn btn-secondary dropdown-toggle" style="margin-left: 100px" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Settings
+              Options
             </button>
       <div class="dropdown-menu mm-navdd-items" aria-labelledby="dropdownMenuButton">
-        <a class="btn">User Settings</a>
-
-        <a class="btn" id="roomSettings">Room Settings</a>
-        <a class="btn" href="#">Enter Room Code</a>
+        <div class="nav-item">
+          <a class="nav-link" data-toggle="modal" style="color:white" data-target="#add-modal">Add To Current Room</a>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" data-toggle="modal" style="color:white" data-target="#modal2">Create New Room</a>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" data-toggle="modal" style="color:white" data-target="#welcome-modal">Help</a>
+        </div>
       </div>
     </div>
-    <div class="nav-item">
-      <a class="nav-link" data-toggle="modal" style="color:white" data-target="#add-modal">Add To Room</a>
-    </div>
-    <div class="nav-item">
-      <a class="nav-link" data-toggle="modal" style="color:white" data-target="#modal2">Create Room</a>
-    </div>
-    <div class="nav-item">
-      <a class="nav-link" data-toggle="modal" style="color:white" data-target="#welcome-modal">Help</a>
-    </div>
+
   </nav>
   <div class="bmd-layout-container bmd-drawer-f-l main">
     <div id="dw-s1" class="bmd-layout-drawer bg-faded mm-side">
