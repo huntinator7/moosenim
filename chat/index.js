@@ -363,7 +363,9 @@ io.sockets.on('connection', function (socket) {
     socket.on('log', function (message) {
         console.log(socket.id + ': ' + message)
     })
-
+    socket.on('addroom', function(name){
+      createChatroom(name, socket.request.user.id)
+    })
     socket.on('changerooms', function (roomid) {
         if (roomid == null) roomid = 1
         console.log("changed rooms" + roomid + " " + socket.request.user.id)
