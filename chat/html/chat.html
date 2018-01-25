@@ -63,8 +63,9 @@
               Settings
             </button>
             <div class="dropdown-menu mm-navdd-items" aria-labelledby="dropdownMenuButton">
-                <a class="btn" href="$(#modal2).modal('show')">User Settings</a>
-                <a class="btn" href="#">Room Settings</a>
+                <a class="btn" data-toggle="modal" data-target="#modal2">User Settings</a>
+
+                <a class="btn" id="roomSettings">Room Settings</a>
                 <a class="btn" href="#">Enter Room Code</a>
             </div>
         </div>
@@ -194,7 +195,9 @@
                 console.log("form submitted " + $('#e').val())
                 return false
             })
-
+            $('#roomSettings').submit(function(){
+              $('#modal2').modal('show')
+            })
             $('#roomname').submit(function () {
                 socket.emit('addroom', $('#rn').val())
                 console.log("add room form submitted " + $('#rn').val())
