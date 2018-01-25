@@ -69,6 +69,12 @@
                 <a class="btn" href="#">Enter Room Code</a>
             </div>
         </div>
+        <li class="nav-item">
+        <a class="nav-link" href="#">Help</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="add-modal" data-target="#add-modal2">Add To Room</a>
+      </li>
     </nav>
     <div class="bmd-layout-container bmd-drawer-f-l main">
         <div id="dw-s1" class="bmd-layout-drawer bg-faded mm-side">
@@ -201,6 +207,7 @@
             $('#roomname').submit(function () {
                 socket.emit('addroom', $('#rn').val())
                 console.log("add room form submitted " + $('#rn').val())
+                $('#modal2').modal('hide')
                 return false
             })
 
