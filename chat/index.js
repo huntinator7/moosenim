@@ -592,6 +592,38 @@ function singleGetMotd(roomid, sid) {
         io.to(sid).emit('motd update', row[0].motd, roomid)
     })
 }
+// new regex code 
+//command object
+var Command = {
+  roomid,
+  command,
+  action,
+  message,
+  username,
+  picture
+}
+function addNewCommand(command){
+  var rid = command.roomid
+  var cmd = command.command
+  var actn = command.action
+  var msg = command.message
+  var usr = command.username
+  var pic = command.picture
+  con.query('INSERT INTO room_rules VALUES(?,?,?,?,?,?)', [rid,cmd,actn,msg,usr,pic], function (error, row) {
+      if (error) console.log(error)
+      console.log(' new regex command added in room'+rid)
+    })
+}
+function getRegexCommands(roomid, sid) {
+  var arr = []
+    con.query('SELECT * FROM room_rules WHERE room_id = ?', [roomid], function (error, row) {
+        if (error) console.log(error)
+        row.forEach(function(element){
+          arr.push(element)
+        })
+        io.to(sid).emit('get commands', arr, roomid)
+    })
+}
 
 function handleDisconnect() {
     con = mysql.createConnection(connect)
@@ -639,7 +671,7 @@ function getMessage(chatid, isEmbed, pic) {
     console.log(`In getMessage, chatid ${chatid}`)
     var nameString = "room" + chatid
     con.query("SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", [nameString], function (error, rows, results) {
-        
+
         console.log(rows)
         if (error) throw error
         con.query("SELECT * FROM users WHERE users.name = ?", [rows[0].username], function (error, row) {
