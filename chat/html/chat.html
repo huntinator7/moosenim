@@ -60,7 +60,7 @@
         <a class="btn mm-navbtn" data-toggle="drawer" data-target="#dw-s1">
             <i class="material-icons">menu</i>
         </a>
-        <a class="navbar-brand" href="#">m.im</a>
+        <a class="navbar-brand" id="title"href="#">m.im</a>
 
 
         <div class="dropdown mm-navdd">
@@ -80,7 +80,7 @@
                 </div>
             </div>
         </div>
-  
+
         <div class="dropdown mm-navdd">
             <button class="btn btn-secondary dropdown-toggle" style="margin-left:0px" type="button" id="dropdownMenuButton" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
@@ -429,7 +429,7 @@
                         }
                         roomnames.push(roomlist)
 
-                        if (element.serialid == curroom) $('#roomtitle').html('<h3>' + element.name + '</h3>')
+                        if (element.serialid == curroom) $('#title').html( element.name )
 
 
                         $('#mm-side-list').append(
