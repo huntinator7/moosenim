@@ -592,15 +592,15 @@ function singleGetMotd(roomid, sid) {
         io.to(sid).emit('motd update', row[0].motd, roomid)
     })
 }
-// new regex code 
+// new regex code
 //command object
-var Command = {
-  roomid,
-  command,
-  action,
-  message,
-  username,
-  picture
+function Command(rid, cmd, act,msg,usr,pic ) {
+	this.rid = rid
+	this.cmd = cmd
+	this.act = act
+	this.msg = msg
+  this.usr = usr
+  this.pic = pic
 }
 function addNewCommand(command){
   var rid = command.roomid
