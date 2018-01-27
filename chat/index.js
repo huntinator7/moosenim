@@ -206,10 +206,11 @@ var players = []
 io.sockets.on('connection', function (socket) {
 
     console.log(uuidv4())
-    joinRoom('116687686490902731696','testuid')
+
     console.log('CONNECTED to socket io: ' + socket.request.user.displayName)
     con.query("SELECT room_id FROM room_users WHERE user_id = ?", [socket.request.user.id], function (error, rows, results) {
         rows.forEach(function (element) {
+          console.log('is Admin: '+rows[0].is_admin)
             io.to(element).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id)
         })
     })
@@ -592,6 +593,38 @@ function singleGetMotd(roomid, sid) {
         io.to(sid).emit('motd update', row[0].motd, roomid)
     })
 }
+// new regex code
+//command object
+function Command(rid, cmd, act,msg,usr,pic ) {
+	this.rid = rid
+	this.cmd = cmd
+	this.act = act
+	this.msg = msg
+  this.usr = usr
+  this.pic = pic
+}
+function addNewCommand(command){
+  var rid = command.roomid
+  var cmd = command.command
+  var actn = command.action
+  var msg = command.message
+  var usr = command.username
+  var pic = command.picture
+  con.query('INSERT INTO room_rules VALUES(?,?,?,?,?,?)', [rid,cmd,actn,msg,usr,pic], function (error, row) {
+      if (error) console.log(error)
+      console.log(' new regex command added in room'+rid)
+    })
+}
+function getRegexCommands(roomid, sid) {
+  var arr = []
+    con.query('SELECT * FROM room_rules WHERE room_id = ?', [roomid], function (error, row) {
+        if (error) console.log(error)
+        row.forEach(function(element){
+          arr.push(element)
+        })
+        io.to(sid).emit('get commands', arr, roomid)
+    })
+}
 
 function handleDisconnect() {
     con = mysql.createConnection(connect)
@@ -639,7 +672,7 @@ function getMessage(chatid, isEmbed, pic) {
     console.log(`In getMessage, chatid ${chatid}`)
     var nameString = "room" + chatid
     con.query("SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", [nameString], function (error, rows, results) {
-        
+
         console.log(rows)
         if (error) throw error
         con.query("SELECT * FROM users WHERE users.name = ?", [rows[0].username], function (error, row) {
@@ -768,7 +801,7 @@ function createChatroom(n, uid) {
             con.query("INSERT INTO room_users VALUES(?,?,1)", [row[0].serialid, uid])
 
             con.query("CREATE TABLE ?? (id int AUTO_INCREMENT PRIMARY KEY, message text, username VARCHAR(100),timestamp VARCHAR(32),roomid int, uid VARCHAR(100))", ["room" + row[0].serialid])
-            getChatrooms(socket.id,uid)
+          //  getChatrooms(socket.id,uid)
         })
     } catch (e) {
         console.log('error creating new room: ' + e)
