@@ -60,7 +60,7 @@
         <a class="btn mm-navbtn" data-toggle="drawer" data-target="#dw-s1">
             <i class="material-icons">menu</i>
         </a>
-        <a class="navbar-brand" id="title"href="#">m.im</a>
+        <a class="navbar-brand" id="title" href="#">m.im</a>
 
 
         <div class="dropdown mm-navdd">
@@ -84,11 +84,11 @@
         <div class="dropdown mm-navdd">
             <button class="btn btn-secondary dropdown-toggle" style="margin-left:0px" type="button" id="dropdownMenuButton" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-              <i class="material-icons">account_circle</i>
+                <i class="material-icons">account_circle</i>
             </button>
             <div class="dropdown-menu mm-navdd-items" aria-labelledby="dropdownMenuButton">
                 <div class="nav-item">
-                    <a class="nav-link"  style="color:white">Profile</a>
+                    <a class="nav-link" style="color:white">Profile</a>
                 </div>
             </div>
         </div>
@@ -109,6 +109,10 @@
                 <form class="mm-form" autocomplete="off">
                     <div class="input-group">
                         <textarea type="text" id="send-message" class="form-control" placeholder="Message" name="message"></textarea>
+                        <label name="files[]" id="add_pics" class="btn btn-floating btn-file multiple waves-effect waves-light light-blue">
+                            <i class="material-icons">add</i>
+                            <input style="display: none;" type="file" multiple>
+                        </label>
                         <div class="input-group-btn">
                             <button type="submit" class="btn mm-submit">
                                 <i class="material-icons">send</i>
@@ -216,6 +220,11 @@
             var curroom
             var canAuto = false
             var canScroll = 10
+            var siofu = new SocketIOFileUpload(socket);
+            siofu.addEventListener("start", function (event) {
+                event.file.meta.filetype = event.file.type;
+                event.file.meta.room = curroom;
+            });
 
             $.fn.textWidth = function () {
                 var text = $(this).html()
@@ -429,8 +438,8 @@
                             isAdmin: element.is_admin
                         }
                         roomnames.push(roomlist)
-                        console.log('is admin:' + element.is_admin+'room name= '+element.name)
-                        if (element.serialid == curroom) $('#title').html( element.name )
+                        console.log('is admin:' + element.is_admin + 'room name= ' + element.name)
+                        if (element.serialid == curroom) $('#title').html(element.name)
 
 
                         $('#mm-side-list').append(
@@ -512,25 +521,23 @@
                 }
             }
 
-            //     function handleFileSelect(evt) {
-            //         console.log('In handleFileSelect')
-            //         var files = evt.target.files // FileList object
-            //         files.forEach( function(element) {
-            //             var name = element.name
-            //             var type = element.type
-            //             console.log("Filename: " + name + " , Type: " + type)
-            //             siofu.submitFiles([element])
-            //         })
-            //     }
-            //     document.getElementById('add_pics').addEventListener('change', handleFileSelect, false)
+            function handleFileSelect(evt) {
+                console.log('In handleFileSelect')
+                var files = evt.target.files // FileList object
+                files.forEach(function (element) {
+                    var name = element.name
+                    var type = element.type
+                    console.log("Filename: " + name + " , Type: " + type)
+                    siofu.submitFiles([element])
+                })
+            }
+            document.getElementById('add_pics').addEventListener('change', handleFileSelect, false)
 
-            // })
-
-            // if (window.File && window.FileReader && window.FileList && window.Blob) {
-            //     // Great success! All the File APIs are supported.
-            // } else {
-            //     alert('The File APIs are not fully supported in this browser.')
-            // }
+            if (window.File && window.FileReader && window.FileList && window.Blob) {
+                // Great success! All the File APIs are supported.
+            } else {
+                alert('The File APIs are not fully supported in this browser.')
+            }
 
             // notification code
             document.addEventListener('DOMContentLoaded', function () {

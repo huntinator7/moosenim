@@ -319,8 +319,6 @@ io.sockets.on('connection', function (socket) {
     var uploader = new siofu()
     uploader.dir = __dirname + '/uploads'
     uploader.listen(socket)
-    socket.join(1)
-
 
     uploader.on("start", function (event) {
         console.log('Starting upload to ' + event.file.name + ' of type ' + event.file.meta.filetype + ' to ' + uploader.dir)
@@ -328,26 +326,28 @@ io.sockets.on('connection', function (socket) {
 
     uploader.on("saved", function (event) {
         var un = socket.request.user.displayName
-        var uid = id
+        var uid = socket.request.user.id
+        var pic = socket.request.user.photos[0].value
+        var name = event.file.name
+        var type = event.file.meta.filetype
         console.log("room: " + event.file.meta.room)
         var curroom = event.file.meta.room
         console.log('upload     socket.id: ' + socket.id)
-        console.log(event.file.name + ' successfully saved.')
-        console.log(event.file.meta.filetype)
+        console.log(name + ' successfully saved.')
+        console.log(type)
         var msg
-        if (/video/g.test(event.file.meta.filetype)) {
-            msg = '<div class="video-container"><iframe style="width:64vw height:36vw" src="https://moosen.im/uploads/' + event.file.name + '" frameborder="0" allowfullscreen></iframe></div>'
-        } else if (/image/g.test(event.file.meta.filetype)) {
-            msg = '<img class="materialboxed responsive-img" style="height:20vh" src="https://moosen.im/uploads/' + event.file.name + '" alt="Mighty Moosen">'
+        if (/video/g.test(type)) {
+            msg = '<div class="video-container"><iframe style="width:64vw height:36vw" src="https://moosen.im/uploads/' + name + '" frameborder="0" allowfullscreen></iframe></div>'
+        } else if (/image/g.test(type)) {
+            msg = '<img class="materialboxed responsive-img" style="height:20vh" src="https://moosen.im/uploads/' + name + '" alt="Mighty Moosen">'
         } else {
-            msg = '<a href="/uploads/' + event.file.name + '" download="' + event.file.name + '">' + event.file.name + '</a>'
+            msg = '<a href="/uploads/' + name + '" download="' + name + '">' + name + '</a>'
         }
         sendMessage(msg, un, uid, curroom)
-        var pic
         io.emit(getMessage(curroom, true, pic))
         if (curroom == config.discord.sendChannel) {
             client.channels.get(config.discord.moosen).send({
-                files: [('./uploads/' + event.file.name)]
+                files: [('./uploads/' + name)]
             })
         }
     })
