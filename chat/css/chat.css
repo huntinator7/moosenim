@@ -19,8 +19,12 @@ textarea {
 }
 
 @media screen and (max-width: 1081px) {
-    body {
-        font-size: 1em !important;
+    .message {
+        font-size: 1em;
+    }
+
+    .title {
+        font-size: 1em;
     }
 }
 
