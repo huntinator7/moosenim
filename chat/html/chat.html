@@ -419,16 +419,17 @@
 
             roomnames = []
             socket.on('roomlist', function (list) {
-                console.log("Received roomlist: " + list)
+
                 $('#mm-side-list').empty()
                 try {
                     list.forEach(function (element) {
                         var roomlist = {
                             name: element.name,
-                            id: element.serialid
+                            id: element.serialid,
+                            isAdmin: element.isAdmin
                         }
                         roomnames.push(roomlist)
-
+                        console.log('is admin:' + element.isAdmin)
                         if (element.serialid == curroom) $('#title').html( element.name )
 
 
