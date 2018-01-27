@@ -18,6 +18,12 @@ textarea {
     background: none;
 }
 
+@media screen and (max-width: 1081px) {
+    #send-message {
+        font-size: 1em;
+    }
+}
+
 #add_pics {
     border: 0px;
     margin-bottom: 0px;
@@ -51,11 +57,11 @@ textarea {
     background: linear-gradient(to right, #6EB7FF, #23ffdd);
 }
 
-.navbar a{
+.navbar a {
     color: white;
 }
 
-.navbar a i{
+.navbar a i {
     color: white;
 }
 
@@ -118,7 +124,6 @@ textarea {
     max-height: 3rem;
     margin-right: .5rem;
     position: absolute;
-
 }
 
 .mm-side-image a {
@@ -260,26 +265,21 @@ textarea {
 
 @font-face {
     font-family: 'headliner';
-    src: url('/headliner_font_ttf') format('truetype'),
-    url('/headliner_font_woff2') format('woff2'),
-    url('/headliner_font_woff') format('woff');
+    src: url('/headliner_font_ttf') format('truetype'), url('/headliner_font_woff2') format('woff2'), url('/headliner_font_woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'monofonto';
-    src: url('/monofonto_font_ttf') format('truetype'),
-    url('/monofonto_font_woff2') format('woff2'),
-    url('/monofonto_font_woff') format('woff');
+    src: url('/monofonto_font_ttf') format('truetype'), url('/monofonto_font_woff2') format('woff2'), url('/monofonto_font_woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'productsans';
-    src: url('/productsans_font_woff2') format('woff2'),
-    url('/productsans_font_woff') format('woff');
+    src: url('/productsans_font_woff2') format('woff2'), url('/productsans_font_woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
