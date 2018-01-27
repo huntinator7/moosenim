@@ -426,10 +426,10 @@
                         var roomlist = {
                             name: element.name,
                             id: element.serialid,
-                            isAdmin: element.isAdmin
+                            isAdmin: element.is_admin
                         }
                         roomnames.push(roomlist)
-                        console.log('is admin:' + element.isAdmin)
+                        console.log('is admin:' + element.is_admin)
                         if (element.serialid == curroom) $('#title').html( element.name )
 
 

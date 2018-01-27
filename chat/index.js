@@ -206,10 +206,11 @@ var players = []
 io.sockets.on('connection', function (socket) {
 
     console.log(uuidv4())
-  
+
     console.log('CONNECTED to socket io: ' + socket.request.user.displayName)
     con.query("SELECT room_id FROM room_users WHERE user_id = ?", [socket.request.user.id], function (error, rows, results) {
         rows.forEach(function (element) {
+          console.log('is Admin: '+rows[0].is_admin)
             io.to(element).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id)
         })
     })
