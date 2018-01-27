@@ -19,11 +19,11 @@ textarea {
 }
 
 @media screen and (max-width: 1081px) {
-    .message {
+    .collection .collection-item.avatar p {
         font-size: 1em;
     }
 
-    .title {
+    .collection .collection-item.avatar .title {
         font-size: 1em;
     }
 
