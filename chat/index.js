@@ -801,7 +801,7 @@ function createChatroom(n, uid) {
             con.query("INSERT INTO room_users VALUES(?,?,1)", [row[0].serialid, uid])
 
             con.query("CREATE TABLE ?? (id int AUTO_INCREMENT PRIMARY KEY, message text, username VARCHAR(100),timestamp VARCHAR(32),roomid int, uid VARCHAR(100))", ["room" + row[0].serialid])
-            getChatrooms(socket.id,uid)
+          //  getChatrooms(socket.id,uid)
         })
     } catch (e) {
         console.log('error creating new room: ' + e)
