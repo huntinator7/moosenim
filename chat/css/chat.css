@@ -26,6 +26,10 @@ textarea {
     .title {
         font-size: 1em;
     }
+
+    #send-message {
+        font-size: 1em;
+    }
 }
 
 #add_pics {
