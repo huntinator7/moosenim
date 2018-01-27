@@ -18,6 +18,10 @@ textarea {
     background: none;
 }
 
+#add-pics {
+    border: 0px;
+}
+
 .mm-discord-emoji {
     height: 1.5em;
     padding-bottom: 0.5em;
