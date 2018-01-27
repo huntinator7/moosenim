@@ -522,14 +522,14 @@
             }
 
             function handleFileSelect(evt) {
-                console.log('In handleFileSelect')
-                var files = evt.target.files // FileList object
-                files.forEach(function (element) {
-                    var name = element.name
-                    var type = element.type
-                    console.log("Filename: " + name + " , Type: " + type)
-                    siofu.submitFiles([element])
-                })
+                console.log('In handleFileSelect');
+                var files = evt.target.files; // FileList object
+                for (var i = 0; i < files.length; i++) {
+                    var name = files[i].name;
+                    var type = files[i].type;
+                    console.log("Filename: " + name + " , Type: " + type);
+                    siofu.submitFiles([files[i]]);
+                }
             }
             document.getElementById('add_pics').addEventListener('change', handleFileSelect, false)
 
