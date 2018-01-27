@@ -30,6 +30,10 @@ textarea {
     #send-message {
         font-size: 1em;
     }
+
+    .mm-navdd {
+        max-width: 15vw;
+    }
 }
 
 #add_pics {
@@ -75,6 +79,10 @@ textarea {
 
 .navbar-brand {
     padding-top: 0px;
+}
+
+.nav-link {
+    color: white;
 }
 
 .mm-submit {
