@@ -21,6 +21,7 @@ textarea {
 #add_pics {
     border: 0px;
     margin-bottom: 0px;
+    width: 2rem;
 }
 
 .mm-discord-emoji {
@@ -66,6 +67,7 @@ textarea {
     border: none !important;
     margin: 0px;
     outline: 0;
+    width: 2rem;
 }
 
 .bd-sidebar {
