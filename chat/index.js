@@ -383,9 +383,9 @@ io.sockets.on('connection', function (socket) {
         console.log('add user called')
         addToRoom(email, rid, 0)
     })
-    socket.on('joincode', function (email, rid) {
+    socket.on('joincode', function (code, rid) {
         console.log('join code called')
-        joinRoom(email, socket.request.user.id)
+        joinRoom(code, socket.request.user.id)
     })
 
 
@@ -821,7 +821,7 @@ function joinRoom(joinCode,uid){
   con.query("SELECT * FROM rooms WHERE join_code = ?", [joinCode], function (error, rows, result) {
       try {
           rows.forEach(function (element) {
-            //  con.query("INSERT INTO room_users VALUES(?,?,?)", [rows[0].serialid, uid, 0])
+              con.query("INSERT INTO room_users VALUES(?,?,?)", [rows[0].serialid, uid, 0])
               console.log("user " + uid + " was added to room " + rows[0].serialid)
           })
       } catch (e) {
