@@ -385,7 +385,7 @@ io.sockets.on('connection', function (socket) {
     })
     socket.on('joincode', function (email, rid) {
         console.log('join code called')
-        joinRoom(email, rid)
+        joinRoom(email, socket.request.user.id)
     })
 
 
@@ -822,7 +822,7 @@ function joinRoom(joinCode,uid){
       try {
           rows.forEach(function (element) {
             //  con.query("INSERT INTO room_users VALUES(?,?,?)", [rows[0].serialid, uid, 0])
-              console.log("user " + socket.request.user.id + " was added to room " + rows[0].serialid)
+              console.log("user " + uid + " was added to room " + rows[0].serialid)
           })
       } catch (e) {
           console.log(e)
