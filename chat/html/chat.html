@@ -76,6 +76,9 @@
                     <a class="nav-link" data-toggle="modal" data-target="#modal2">Create New Room</a>
                 </div>
                 <div class="nav-item">
+                    <a class="nav-link" data-toggle="modal" data-target="#joincode-modal">enter a join code</a>
+                </div>
+                <div class="nav-item">
                     <a class="nav-link" data-toggle="modal" data-target="#welcome-modal">Help</a>
                 </div>
             </div>
@@ -173,6 +176,26 @@
             </div>
         </div>
     </div>
+    <!-- Modal use join code -->
+    <div class="modal fade" id="joincode-modal" tabindex="-1" role="dialog" aria-labelledby="add-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="add-modal-label">Enter Join Code</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="z-index: 2000;">
+                    <p>paste in a join code to join a friend's room</p>
+                    <form id="jc-form" action="">
+                        <input class="form-control" type="text" id="jc" placeholder="join code">
+                        <button class="btn waves-effect waves-light modal-close light-blue white-text"> Enter </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Modal create room -->
     <div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="add-modal-label" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -252,7 +275,12 @@
                 $('#add-modal').modal('hide')
                 return false
             })
-
+            $('#jc-form').submit(function () {
+                socket.emit('joincode', $('#jc').val(), curroom, 0)
+                console.log("form submitted " + $('#e').val())
+                $('#joincode-modal').modal('hide')
+                return false
+            })
             $('#roomname').submit(function () {
                 socket.emit('addroom', $('#rn').val())
                 console.log("add room form submitted " + $('#rn').val())
