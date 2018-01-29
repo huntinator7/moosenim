@@ -210,7 +210,7 @@ io.sockets.on('connection', function (socket) {
     console.log('CONNECTED to socket io: ' + socket.request.user.displayName)
     con.query("SELECT room_id FROM room_users WHERE user_id = ?", [socket.request.user.id], function (error, rows, results) {
         rows.forEach(function (element) {
-          console.log('is Admin: '+rows[0].is_admin)
+      //    console.log('is Admin: '+rows[0].is_admin)
             io.to(element).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id)
         })
     })
@@ -330,7 +330,7 @@ io.sockets.on('connection', function (socket) {
         var pic = socket.request.user.photos[0].value
         var name = event.file.name
         var type = event.file.meta.filetype
-        console.log("room: " + event.file.meta.room)
+      //  console.log("room: " + event.file.meta.room)
         var curroom = event.file.meta.room
         console.log('upload     socket.id: ' + socket.id)
         console.log(name + ' successfully saved.')
@@ -369,7 +369,7 @@ io.sockets.on('connection', function (socket) {
     })
     socket.on('changerooms', function (roomid) {
         if (roomid == null) roomid = 1
-        console.log("changed rooms" + roomid + " " + socket.request.user.id)
+      //  console.log("changed rooms" + roomid + " " + socket.request.user.id)
         con.query("UPDATE users SET curroom = ? WHERE uid = ?", [roomid, socket.request.user.id])
         console.log('Rooms: ' + io.sockets.adapter.rooms)
         socket.join(roomid)
@@ -400,19 +400,19 @@ io.sockets.on('connection', function (socket) {
 
     //----CHAT MESSAGE----\\
     socket.on('chat message', function (msg, curroom) {
-        console.log(socket.rooms)
+      //  console.log(socket.rooms)
         var ogMsg = msg
         var un = socket.request.user.displayName
         var uid = socket.request.user.id
         var pic = socket.request.user.photos[0].value
         var isEmbed = false
         var send = true
-        console.log('chat message       socket.id: ' + socket.id)
+      //  console.log('chat message       socket.id: ' + socket.id)
         if (!socket.request.user.id) {
             io.to(socket.id).emit('retreat')
-            console.log('Retreating ' + socket.id)
+          //  console.log('Retreating ' + socket.id)
         } else {
-            console.log('message: ' + msg)
+          //  console.log('message: ' + msg)
             if (msg.substr(0, 1) == "!") {
                 console.log('Is a command')
                 var command = /\S*/i.exec(msg.substr(1))
