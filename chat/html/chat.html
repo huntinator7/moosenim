@@ -297,7 +297,7 @@
                     message = message.replace(/;/g, '&#59;')
                     try {
                         socket.emit('chat message', message, curroom)
-                        console.log(`Emitting chat message ${message} for room ${curroom}`)
+                  //      console.log(`Emitting chat message ${message} for room ${curroom}`)
                     } catch (e) {
                         console.log(e)
                     }
@@ -334,8 +334,8 @@
             var last_scroll_position = 0
 
             $('main').scroll(function () {
-                console.log($('main').scrollTop() + $('main').height() + '   ' + $('main').prop('scrollHeight') * .9)
-                console.log('----------------')
+              //  console.log($('main').scrollTop() + $('main').height() + '   ' + $('main').prop('scrollHeight') * .9)
+              //  console.log('----------------')
                 if ($('main').scrollTop() + $('main').height() >= $('main').prop('scrollHeight') - 300) {
                     if (!canAuto) {
                         canAuto = true
@@ -349,8 +349,8 @@
                     $('main').scrollTop(1)
                     if (canScroll >= 10) {
                         canScroll = 0
-                        console.log('Retrieve previous, first_id: ' + first_id)
-                        console.log('curroom: ' + curroom)
+                      //  console.log('Retrieve previous, first_id: ' + first_id)
+                        //console.log('curroom: ' + curroom)
                         socket.emit('retPre', first_id, curroom)
                     } else {
                         console.log('Couldn\'t scroll: ' + canScroll)
@@ -360,7 +360,7 @@
             })
 
             $(window).resize(function () { //checking for window resize event
-                console.log('resize event: ' + $(window).width() / $(window).height())
+              //  console.log('resize event: ' + $(window).width() / $(window).height())
                 if ($("#send-message").is(":focus")) {
                     $('main').scrollTop($('main').prop("scrollHeight"))
                 }
@@ -484,7 +484,7 @@
 
             $('#mm-side-list').on('click', 'a', async function () {
                 console.log("Room Button Clicked")
-                console.log($(this.attributes.room).val())
+              //  console.log($(this.attributes.room).val())
                 socket.emit('changerooms', $(this.attributes.room).val())
                 canScroll = 0
                 $('#messages').empty()
