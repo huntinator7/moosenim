@@ -385,7 +385,7 @@ io.sockets.on('connection', function (socket) {
     })
     socket.on('joincode', function (email, rid) {
         console.log('join code called')
-        joinCode(email, rid)
+        joinRoom(email, rid)
     })
 
 
