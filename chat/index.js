@@ -619,6 +619,7 @@ function addNewCommand(command){
   var msg = command.message
   var usr = command.username
   var pic = command.picture
+  console.log(rid+" new command: "+cmd)
   con.query('INSERT INTO room_rules VALUES(?,?,?,?,?,?)', [rid,cmd,actn,msg,usr,pic], function (error, row) {
       if (error) console.log(error)
       console.log(' new regex command added in room'+rid)
