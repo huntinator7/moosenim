@@ -609,7 +609,7 @@ function singleGetMotd(roomid, sid) {
 function addNewCommand(rid,cmd,actn,msg,username,pic){
 
   console.log(rid+" new command: "+cmd)
-  con.query('INSERT INTO room_rules VALUES(?,?,?,?,?,?)', [rid,cmd,actn,msg,username,pic], function (error, row) {
+  con.query('INSERT INTO room_rules VALUES(?,?,?,?,?,?,1)', [rid,cmd,actn,msg,username,pic], function (error, row) {
       if (error) console.log(error)
       console.log(' new regex command added in room'+rid)
     })
