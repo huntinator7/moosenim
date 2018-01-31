@@ -81,6 +81,11 @@
                 <div class="nav-item">
                     <a class="nav-link" data-toggle="modal" data-target="#welcome-modal">Help</a>
                 </div>
+                <div class="nav-item">
+                    <a class="nav-link" data-toggle="modal" data-target="#regex-modal">Room Commands</a>
+                </div>
+
+
             </div>
         </div>
 
@@ -227,10 +232,14 @@
                     </button>
                 </div>
                 <div class="modal-body" style="z-index: 2000;">
-                    <p>Enter a Room Name</p>
-                    <form id="roomname" action="">
-                        <input class="form-control" type="text" id="rn" placeholder="room name">
-                        <button class="btn waves-effect waves-light modal-close light-blue white-text"> Create Room </button>
+                    <p>Enter a new Command</p>
+                    <form id="newcommand-form" action="">
+                        <input class="form-control" type="text" id="nc-cmd" placeholder="command">
+                        <input class="form-control" type="text" id="nc-actn" placeholder="action">
+                        <input class="form-control" type="text" id="nc-msg" placeholder="message">
+                        <input class="form-control" type="text" id="nc-username" placeholder="username">
+                        <input class="form-control" type="text" id="nc-pic" placeholder="picture">
+                        <button class="btn waves-effect waves-light modal-close light-blue white-text"> Add Rule </button>
                     </form>
                 </div>
             </div>
@@ -299,6 +308,12 @@
                 socket.emit('joincode', $('#jc').val(), curroom, 0)
                 console.log("form submitted " + $('#e').val())
                 $('#joincode-modal').modal('hide')
+                return false
+            })
+            $('#newcommand-form').submit(function () {
+                socket.emit('addcommand', $('#jc').val(), curroom, 0)
+                console.log("form submitted " + $('#e').val())
+                $('#regex-modal').modal('hide')
                 return false
             })
             $('#roomname').submit(function () {

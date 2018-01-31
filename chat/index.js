@@ -367,6 +367,11 @@ io.sockets.on('connection', function (socket) {
     socket.on('addroom', function(name){
       createChatroom(name, socket.request.user.id)
     })
+    //  socket.emit('addcommand', curroom , $('#nc-cmd').val(),$('#nc-actn').val(),$('#nc-msg').val(),$('#nc-username').val(),$('#nc-pic').val())
+    socket.on('newcommand',function(rid,cmd,actn,msg,username,pic){
+     nc = new Command(rid,cmd,actn,msg,username,pic)
+     addNewCommand(nc)
+    })
     socket.on('changerooms', function (roomid) {
         if (roomid == null) roomid = 1
       //  console.log("changed rooms" + roomid + " " + socket.request.user.id)
