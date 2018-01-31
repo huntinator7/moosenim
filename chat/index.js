@@ -580,8 +580,8 @@ client.on('message', msg => {
         }
         sendMessage(newmsg, msg.author.username, config.discord.uid, config.discord.sendChannel)
         getMessageDiscord(msg.author.username, newmsg, msg.author.avatarURL)
-        console.log(msg.author.username + ': ' + msg.content)
-        console.log('Newmsg: ' + newmsg)
+        //console.log(msg.author.username + ': ' + msg.content)
+      //  console.log('Newmsg: ' + newmsg)
     }
 })
 
