@@ -235,7 +235,12 @@
                     <p>Enter a new Command</p>
                     <form id="newcommand-form" action="">
                         <input class="form-control" type="text" id="nc-cmd" placeholder="command">
-                        <input class="form-control" type="text" id="nc-actn" placeholder="action">
+                        <select class= "form-control" name="nc-actn"id="nc-actn">
+                          <option value="volvo">Replace</option>
+                          <option value="saab">ReplaceEmbed</option>
+                          <option value="fiat">ReplaceWhole</option>
+                          <option value="audi">Respond</option>
+                        </select>
                         <input class="form-control" type="text" id="nc-msg" placeholder="message">
                         <input class="form-control" type="text" id="nc-username" placeholder="username">
                         <input class="form-control" type="text" id="nc-pic" placeholder="picture">
