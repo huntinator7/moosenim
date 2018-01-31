@@ -369,9 +369,9 @@ io.sockets.on('connection', function (socket) {
     })
     //  socket.emit('addcommand', curroom , $('#nc-cmd').val(),$('#nc-actn').val(),$('#nc-msg').val(),$('#nc-username').val(),$('#nc-pic').val())
     socket.on('addcommand',function(rid,cmd,actn,msg,username,pic){
-     nc = new Command(rid,cmd,actn,msg,username,pic)
+     //nc = new Command(rid,cmd,actn,msg,username,pic)
      console.log(rid+" new command: "+cmd)
-     addNewCommand(nc)
+     addNewCommand(rid,cmd,actn,msg,username,pic)
     })
     socket.on('changerooms', function (roomid) {
         if (roomid == null) roomid = 1
@@ -605,23 +605,11 @@ function singleGetMotd(roomid, sid) {
 }
 // new regex code
 //command object
-function Command(rid, cmd, act,msg,usr,pic ) {
-	this.rid = rid
-	this.cmd = cmd
-	this.act = act
-	this.msg = msg
-  this.usr = usr
-  this.pic = pic
-}
-function addNewCommand(command){
-  var rid = command.roomid
-  var cmd = command.command
-  var actn = command.action
-  var msg = command.message
-  var usr = command.username
-  var pic = command.picture
+
+function addNewCommand(rid,cmd,actn,msg,username,pic){
+
   console.log(rid+" new command: "+cmd)
-  con.query('INSERT INTO room_rules VALUES(?,?,?,?,?,?)', [rid,cmd,actn,msg,usr,pic], function (error, row) {
+  con.query('INSERT INTO room_rules VALUES(?,?,?,?,?,?)', [rid,cmd,actn,msg,username,pic], function (error, row) {
       if (error) console.log(error)
       console.log(' new regex command added in room'+rid)
     })
