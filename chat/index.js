@@ -205,7 +205,7 @@ var players = []
 //----SOCKET.IO----\\
 io.sockets.on('connection', function (socket) {
 
-    console.log(uuidv4())
+
 
     console.log('CONNECTED to socket io: ' + socket.request.user.displayName)
     con.query("SELECT room_id FROM room_users WHERE user_id = ?", [socket.request.user.id], function (error, rows, results) {
@@ -264,7 +264,7 @@ io.sockets.on('connection', function (socket) {
     })
 
     function part(channel) {
-        console.log("[" + socket.id + "] part ")
+      //  console.log("[" + socket.id + "] part ")
 
         if (!(channel in socket.channels)) {
             console.log("[" + socket.id + "] ERROR: not in ", channel)
@@ -723,12 +723,6 @@ function updatechat(roomid) {
     //TODO: set a user variable "current Room" to the value specified.
     //reload page
     showLastMessages(10, 0, roomid)
-}
-
-function getCurroom(uid) {
-
-
-    //return roomid
 }
 
 //----PREVIOUS MESSAGES----\\
