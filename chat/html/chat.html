@@ -311,8 +311,9 @@
                 return false
             })
             $('#newcommand-form').submit(function () {
-                socket.emit('addcommand', $('#jc').val(), curroom, 0)
-                console.log("form submitted " + $('#e').val())
+
+                socket.emit('addcommand', curroom , $('#nc-cmd').val(),$('#nc-actn').val(),$('#nc-msg').val(),$('#nc-username').val(),$('#nc-pic').val())
+                console.log("form submitted " + $('#nc-cmd').val())
                 $('#regex-modal').modal('hide')
                 return false
             })
