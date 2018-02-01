@@ -205,12 +205,12 @@ var players = []
 //----SOCKET.IO----\\
 io.sockets.on('connection', function (socket) {
 
-    console.log(uuidv4())
+
 
     console.log('CONNECTED to socket io: ' + socket.request.user.displayName)
     con.query("SELECT room_id FROM room_users WHERE user_id = ?", [socket.request.user.id], function (error, rows, results) {
         rows.forEach(function (element) {
-          console.log('is Admin: '+rows[0].is_admin)
+      //    console.log('is Admin: '+rows[0].is_admin)
             io.to(element).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id)
         })
     })
@@ -264,7 +264,7 @@ io.sockets.on('connection', function (socket) {
     })
 
     function part(channel) {
-        console.log("[" + socket.id + "] part ")
+      //  console.log("[" + socket.id + "] part ")
 
         if (!(channel in socket.channels)) {
             console.log("[" + socket.id + "] ERROR: not in ", channel)
@@ -330,7 +330,7 @@ io.sockets.on('connection', function (socket) {
         var pic = socket.request.user.photos[0].value
         var name = event.file.name
         var type = event.file.meta.filetype
-        console.log("room: " + event.file.meta.room)
+      //  console.log("room: " + event.file.meta.room)
         var curroom = event.file.meta.room
         console.log('upload     socket.id: ' + socket.id)
         console.log(name + ' successfully saved.')
@@ -367,9 +367,15 @@ io.sockets.on('connection', function (socket) {
     socket.on('addroom', function(name){
       createChatroom(name, socket.request.user.id)
     })
+    //  socket.emit('addcommand', curroom , $('#nc-cmd').val(),$('#nc-actn').val(),$('#nc-msg').val(),$('#nc-username').val(),$('#nc-pic').val())
+    socket.on('addcommand',function(rid,cmd,actn,msg,username,pic){
+     //nc = new Command(rid,cmd,actn,msg,username,pic)
+     console.log(rid+" new command: "+cmd)
+     addNewCommand(rid,cmd,actn,msg,username,pic)
+    })
     socket.on('changerooms', function (roomid) {
         if (roomid == null) roomid = 1
-        console.log("changed rooms" + roomid + " " + socket.request.user.id)
+      //  console.log("changed rooms" + roomid + " " + socket.request.user.id)
         con.query("UPDATE users SET curroom = ? WHERE uid = ?", [roomid, socket.request.user.id])
         console.log('Rooms: ' + io.sockets.adapter.rooms)
         socket.join(roomid)
@@ -382,6 +388,10 @@ io.sockets.on('connection', function (socket) {
     socket.on('adduser', function (email, rid, isAdmin) {
         console.log('add user called')
         addToRoom(email, rid, 0)
+    })
+    socket.on('joincode', function (code, rid) {
+        console.log('join code called')
+        joinRoom(code, socket.request.user.id)
     })
 
 
@@ -407,19 +417,19 @@ io.sockets.on('connection', function (socket) {
                 isadmin = false
             }
         })
-        console.log(socket.rooms)
+        // console.log(socket.rooms)
         var ogMsg = msg
         var un = socket.request.user.displayName
         var uid = socket.request.user.id
         var pic = socket.request.user.photos[0].value
         var isEmbed = false
         var send = true
-        console.log('chat message       socket.id: ' + socket.id)
+      //  console.log('chat message       socket.id: ' + socket.id)
         if (!socket.request.user.id) {
             io.to(socket.id).emit('retreat')
-            console.log('Retreating ' + socket.id)
+          //  console.log('Retreating ' + socket.id)
         } else {
-            console.log('message: ' + msg)
+          //  console.log('message: ' + msg)
             if (msg.substr(0, 1) == "!") {
                 console.log('Is a command')
                 var command = /\S*/i.exec(msg.substr(1))
@@ -581,8 +591,8 @@ client.on('message', msg => {
         }
         sendMessage(newmsg, msg.author.username, config.discord.uid, config.discord.sendChannel)
         getMessageDiscord(msg.author.username, newmsg, msg.author.avatarURL)
-        console.log(msg.author.username + ': ' + msg.content)
-        console.log('Newmsg: ' + newmsg)
+        //console.log(msg.author.username + ': ' + msg.content)
+      //  console.log('Newmsg: ' + newmsg)
     }
 })
 
@@ -606,22 +616,11 @@ function singleGetMotd(roomid, sid) {
 }
 // new regex code
 //command object
-function Command(rid, cmd, act,msg,usr,pic ) {
-	this.rid = rid
-	this.cmd = cmd
-	this.act = act
-	this.msg = msg
-  this.usr = usr
-  this.pic = pic
-}
-function addNewCommand(command){
-  var rid = command.roomid
-  var cmd = command.command
-  var actn = command.action
-  var msg = command.message
-  var usr = command.username
-  var pic = command.picture
-  con.query('INSERT INTO room_rules VALUES(?,?,?,?,?,?)', [rid,cmd,actn,msg,usr,pic], function (error, row) {
+
+function addNewCommand(rid,cmd,actn,msg,username,pic){
+
+  console.log(rid+" new command: "+cmd)
+  con.query('INSERT INTO room_rules VALUES(?,?,?,?,?,?,1)', [rid,cmd,actn,msg,username,pic], function (error, row) {
       if (error) console.log(error)
       console.log(' new regex command added in room'+rid)
     })
@@ -732,12 +731,6 @@ function updatechat(roomid) {
     showLastMessages(10, 0, roomid)
 }
 
-function getCurroom(uid) {
-
-
-    //return roomid
-}
-
 //----PREVIOUS MESSAGES----\\
 
 function showLastMessages(num, sid, roomid) {
@@ -829,7 +822,7 @@ function joinRoom(joinCode,uid){
       try {
           rows.forEach(function (element) {
               con.query("INSERT INTO room_users VALUES(?,?,?)", [rows[0].serialid, uid, 0])
-              console.log("user " + element.uid + " was added to room " + rows[0].serialid)
+              console.log("user " + uid + " was added to room " + rows[0].serialid)
           })
       } catch (e) {
           console.log(e)

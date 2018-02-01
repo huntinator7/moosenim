@@ -83,8 +83,16 @@
                     <a class="nav-link" data-toggle="modal" data-target="#modal2">Create New Room</a>
                 </div>
                 <div class="nav-item">
+                    <a class="nav-link" data-toggle="modal" data-target="#joincode-modal">enter a join code</a>
+                </div>
+                <div class="nav-item">
                     <a class="nav-link" data-toggle="modal" data-target="#welcome-modal">Help</a>
                 </div>
+                <div class="nav-item">
+                    <a class="nav-link" data-toggle="modal" data-target="#regex-modal">Room Commands</a>
+                </div>
+
+
             </div>
         </div>
 
@@ -147,7 +155,7 @@
                         <br>To get started, click on 'Create Room' and give it a catchy name. Then, use 'Add to Room...' to invite
                         other users to your room. Alternatively, You can use the join code.
                         <br>
-                        <br>For any feature requests, reporting a bug, or want to talk to teh devs, please click on the "Report
+                        <br>For any feature requests, reporting a bug, or want to talk to the devs, please click on the "Report
                         bug/Request feature" room.
                         <br>
                         <br>DISCLAIMER: This is an MVP product, and is not finished, nor does it have all features we hope to
@@ -180,6 +188,26 @@
             </div>
         </div>
     </div>
+    <!-- Modal use join code -->
+    <div class="modal fade" id="joincode-modal" tabindex="-1" role="dialog" aria-labelledby="add-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="add-modal-label">Enter Join Code</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="z-index: 2000;">
+                    <p>paste in a join code to join a friend's room</p>
+                    <form id="jc-form" action="">
+                        <input class="form-control" type="text" id="jc" placeholder="join code">
+                        <button class="btn waves-effect waves-light modal-close light-blue white-text"> Enter </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Modal create room -->
     <div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="add-modal-label" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -195,6 +223,35 @@
                     <form id="roomname" action="">
                         <input class="form-control" type="text" id="rn" placeholder="room name">
                         <button class="btn waves-effect waves-light modal-close light-blue white-text"> Create Room </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal create room -->
+    <div class="modal fade" id="regex-modal" tabindex="-1" role="dialog" aria-labelledby="add-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="add-modal-label">Add new regex command</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="z-index: 2000;">
+                    <p>Enter a new Command</p>
+                    <form id="newcommand-form" action="">
+                        <input class="form-control" type="text" id="nc-cmd" placeholder="if command is 'test', it can be called with'!test'">
+                        <select class= "form-control" name="nc-actn"id="nc-actn">
+                          <option value="Replace">Replace</option>
+                          <option value="ReplaceEmbed">ReplaceEmbed</option>
+                          <option value="ReplaceWhole">ReplaceWhole</option>
+                          <option value="Respond">Respond</option>
+                        </select>
+                        <input class="form-control" type="text" id="nc-msg" placeholder="message">
+                        <input class="form-control" type="text" id="nc-username" placeholder="username">
+                        <input class="form-control" type="text" id="nc-pic" placeholder="picture">
+                        <button class="btn waves-effect waves-light modal-close light-blue white-text"> Add Rule </button>
                     </form>
                 </div>
             </div>
@@ -259,7 +316,19 @@
                 $('#add-modal').modal('hide')
                 return false
             })
+            $('#jc-form').submit(function () {
+                socket.emit('joincode', $('#jc').val(), curroom, 0)
+                console.log("form submitted " + $('#e').val())
+                $('#joincode-modal').modal('hide')
+                return false
+            })
+            $('#newcommand-form').submit(function () {
 
+                socket.emit('addcommand', curroom , $('#nc-cmd').val(),$('#nc-actn').val(),$('#nc-msg').val(),$('#nc-username').val(),$('#nc-pic').val())
+                console.log("form submitted " + $('#nc-cmd').val())
+                $('#regex-modal').modal('hide')
+                return false
+            })
             $('#roomname').submit(function () {
                 socket.emit('addroom', $('#rn').val())
                 console.log("add room form submitted " + $('#rn').val())
@@ -273,7 +342,7 @@
                 if (message) {
                     try {
                         socket.emit('chat message', message, curroom)
-                        console.log(`Emitting chat message ${message} for room ${curroom}`)
+                  //      console.log(`Emitting chat message ${message} for room ${curroom}`)
                     } catch (e) {
                         console.log(e)
                     }
@@ -310,8 +379,8 @@
             var last_scroll_position = 0
 
             $('main').scroll(function () {
-                console.log($('main').scrollTop() + $('main').height() + '   ' + $('main').prop('scrollHeight') * .9)
-                console.log('----------------')
+              //  console.log($('main').scrollTop() + $('main').height() + '   ' + $('main').prop('scrollHeight') * .9)
+              //  console.log('----------------')
                 if ($('main').scrollTop() + $('main').height() >= $('main').prop('scrollHeight') - 300) {
                     if (!canAuto) {
                         canAuto = true
@@ -325,8 +394,8 @@
                     $('main').scrollTop(1)
                     if (canScroll >= 10) {
                         canScroll = 0
-                        console.log('Retrieve previous, first_id: ' + first_id)
-                        console.log('curroom: ' + curroom)
+                      //  console.log('Retrieve previous, first_id: ' + first_id)
+                        //console.log('curroom: ' + curroom)
                         socket.emit('retPre', first_id, curroom)
                     } else {
                         console.log('Couldn\'t scroll: ' + canScroll)
@@ -336,7 +405,7 @@
             })
 
             $(window).resize(function () { //checking for window resize event
-                console.log('resize event: ' + $(window).width() / $(window).height())
+              //  console.log('resize event: ' + $(window).width() / $(window).height())
                 if ($("#send-message").is(":focus")) {
                     $('main').scrollTop($('main').prop("scrollHeight"))
                 }
@@ -461,7 +530,7 @@
 
             $('#mm-side-list').on('click', 'a', async function () {
                 console.log("Room Button Clicked")
-                console.log($(this.attributes.room).val())
+              //  console.log($(this.attributes.room).val())
                 socket.emit('changerooms', $(this.attributes.room).val())
                 canScroll = 0
                 $('#messages').empty()
