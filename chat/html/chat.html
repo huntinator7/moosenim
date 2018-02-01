@@ -38,6 +38,13 @@
         })
     </script>
 
+    <!-- MATERIALIZE CSS FOR RESPONSIVE IMAGES -->
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+
     <source id="ogg_src" src="../sounds/notification.mp3" type="video/ogg">
 
     <!-- Material Design for Bootstrap fonts and icons -->
@@ -101,7 +108,7 @@
         <main class="bmd-layout-content" id="maindiv">
             <div class="row">
                 <div class="col">
-                    <ul class="collection" id="messages" style="overflow-x:hidden">
+                    <ul class="mm-collection" id="messages" style="overflow-x:hidden">
                     </ul>
                 </div>
             </div>
@@ -264,9 +271,6 @@
                 e.preventDefault()
                 var message = $('#send-message').val()
                 if (message) {
-                    message = message.replace(/</g, '&lt;')
-                    message = message.replace(/>/g, '&gt;')
-                    message = message.replace(/;/g, '&#59;')
                     try {
                         socket.emit('chat message', message, curroom)
                         console.log(`Emitting chat message ${message} for room ${curroom}`)
@@ -377,12 +381,12 @@
                     if (!first_id) {
                         console.log('!first_id, setting to ' + id)
                         first_id = id
-                        $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title" id="msgtitle">' +
+                        $('#messages').append('<li id="' + id + '" class="mm-collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title" id="msgtitle">' +
                             user + '</span><p class="message">' +
                             msg + '</p><span class="secondary-content">' +
                             time + '</a></li>')
                     } else {
-                        insertMessage('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title" id="msgtitle">' +
+                        insertMessage('<li id="' + id + '" class="mm-collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title" id="msgtitle">' +
                             user + '</span><p class="message">' +
                             msg + '</p><span class="secondary-content">' +
                             time + '</a></li>', id)
@@ -390,6 +394,7 @@
                             first_id = id
                         }
                     }
+                    $('.materialboxed').materialbox()
                 } else {
                     // console.log($("a[room='" + room + "']").children())
                     // if ($("a[room='" + room + "']").children().hasClass('none')) {
@@ -411,7 +416,7 @@
 
             socket.on('login', function (displayName, email, photoURL, UserId) {
                 console.log("Logging in " + displayName + ", email: " + email + " " + UserId)
-                $('#messages').append('<li id="login" class="collection-item avatar login"><p class="message">' + displayName + ' logged in</p></li>')
+                $('#messages').append('<li id="login" class="mm-collection-item avatar login"><p class="message">' + displayName + ' logged in</p></li>')
                 checkScroll()
                 if (document.hidden) {
                     login.play()
@@ -474,7 +479,7 @@
             })
 
             socket.on('logout message', function (user) {
-                $('#messages').append('<li id="' + id + '" class="collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title" id="msgtitle">' +
+                $('#messages').append('<li id="' + id + '" class="mm-collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title" id="msgtitle">' +
                     user + '</span><p class="message">' + user + ' logged out</p><span class="secondary-content">' +
                     time + '</a></li>')
                 checkScroll()

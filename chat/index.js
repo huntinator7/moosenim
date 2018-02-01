@@ -337,7 +337,7 @@ io.sockets.on('connection', function (socket) {
         console.log(type)
         var msg
         if (/video/g.test(type)) {
-            msg = '<div class="video-container"><iframe style="width:64vw height:36vw" src="https://moosen.im/uploads/' + name + '" frameborder="0" allowfullscreen></iframe></div>'
+            msg = '<div class="embed-responsive embed-responsive-16by9"><iframe style="width:64vw height:36vw" src="https://moosen.im/uploads/' + name + '" frameborder="0" allowfullscreen></iframe></div>'
         } else if (/image/g.test(type)) {
             msg = '<img class="materialboxed responsive-img" style="height:20vh" src="https://moosen.im/uploads/' + name + '" alt="Mighty Moosen">'
         } else {
@@ -396,6 +396,17 @@ io.sockets.on('connection', function (socket) {
 
     //----CHAT MESSAGE----\\
     socket.on('chat message', function (msg, curroom) {
+        var isadmin;
+        con.query("SELECT is_admin FROM room_users WHERE room_id = ? AND user_id = ?", [curroom, socket.request.user.id], (error, rows, results) => {
+            if (!rows) {
+                console.log('Access Denied')
+                return
+            } else if (rows[0] == '1') {
+                isadmin = true
+            } else {
+                isadmin = false
+            }
+        })
         console.log(socket.rooms)
         var ogMsg = msg
         var un = socket.request.user.displayName

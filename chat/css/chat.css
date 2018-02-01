@@ -19,18 +19,15 @@ textarea {
 }
 
 @media screen and (max-width: 1081px) {
-    .collection .collection-item.avatar p {
+    .mm-collection .mm-collection-item.avatar p {
         font-size: 1em;
     }
-
-    .collection .collection-item.avatar .title {
+    .mm-collection .mm-collection-item.avatar .title {
         font-size: 1em;
     }
-
     #send-message {
         font-size: 1em;
     }
-
     .mm-navdd {
         max-width: 15vw;
     }
@@ -152,7 +149,7 @@ textarea {
     background: linear-gradient(to right, hsla(210, 100%, 47%, 0), #ffffff);
 }
 
-.collection {
+.mm-collection {
     list-style-type: none;
     padding: 0;
     margin: 0.5rem 0 0 0;
@@ -161,7 +158,7 @@ textarea {
     position: relative;
 }
 
-.collection .collection-item {
+.mm-collection .mm-collection-item {
     line-height: 1.5rem;
     padding: 10px 20px;
     margin: 3px 10px;
@@ -169,32 +166,32 @@ textarea {
     border-radius: 10px;
 }
 
-.collection :nth-child(odd) {
+.mm-collection :nth-child(odd) {
     background-color: hsla(0, 0%, 100%, 0.267);
 }
 
-.collection .collection-item.avatar {
+.mm-collection .mm-collection-item.avatar {
     min-height: 84px;
     padding-left: 72px;
     position: relative;
 }
 
-.collection .collection-item.login {
+.mm-collection .mm-collection-item.login {
     min-height: 0px;
 }
 
-.collection .collection-item * {
+.mm-collection .mm-collection-item * {
     background: none;
     font-size: 1.3rem;
     color: black;
 }
 
-.collection .collection-item a {
+.mm-collection .mm-collection-item a {
     text-decoration: underline;
     overflow-wrap: break-word;
 }
 
-.collection .collection-item.avatar:not(.circle-clipper)>.circle, .collection .collection-item.avatar :not(.circle-clipper)>.circle {
+.mm-collection .mm-collection-item.avatar:not(.circle-clipper)>.circle, .mm-collection .mm-collection-item.avatar :not(.circle-clipper)>.circle {
     position: absolute;
     width: 42px;
     height: 42px;
@@ -204,7 +201,7 @@ textarea {
     vertical-align: middle;
 }
 
-.collection .collection-item.avatar i.circle {
+.mm-collection .mm-collection-item.avatar i.circle {
     font-size: 18px;
     line-height: 42px;
     color: #fff;
@@ -212,49 +209,49 @@ textarea {
     text-align: center;
 }
 
-.collection .collection-item.avatar .title {
+.mm-collection .mm-collection-item.avatar .title {
     font-weight: bold;
 }
 
-.collection .collection-item.avatar p {
+.mm-collection .mm-collection-item.avatar p {
     margin: 0;
 }
 
-.collection .collection-item.avatar .secondary-content {
+.mm-collection .mm-collection-item.avatar .secondary-content {
     right: 16px;
 }
 
-.collection .collection-item:last-child {
+.mm-collection .mm-collection-item:last-child {
     border-bottom: none;
 }
 
-.collection .secondary-content {
+.mm-collection .secondary-content {
     color: #555;
     font-size: 0.75em;
 }
 
-.collection a.collection-item {
+.mm-collection a.mm-collection-item {
     display: block;
     -webkit-transition: .25s;
     transition: .25s;
     color: #26a69a;
 }
 
-.collection a.collection-item:not(.active):hover {
+.mm-collection a.mm-collection-item:not(.active):hover {
     background-color: #ddd;
 }
 
-.collection.with-header .collection-header {
+.mm-collection.with-header .mm-collection-header {
     background-color: #fff;
     border-bottom: 1px solid #e0e0e0;
     padding: 10px 20px;
 }
 
-.collection.with-header .collection-item {
+.mm-collection.with-header .mm-collection-item {
     padding-left: 30px;
 }
 
-.collection.with-header .collection-item.avatar {
+.mm-collection.with-header .mm-collection-item.avatar {
     padding-left: 72px;
 }
 
@@ -296,4 +293,23 @@ textarea {
     src: url('/productsans_font_woff2') format('woff2'), url('/productsans_font_woff') format('woff');
     font-weight: normal;
     font-style: normal;
+}
+
+.materialboxed {
+    display: block;
+    cursor: -webkit-zoom-in;
+    cursor: zoom-in;
+    position: relative;
+    -webkit-transition: opacity .4s;
+    transition: opacity .4s;
+    -webkit-backface-visibility: hidden;
+}
+
+.materialboxed:hover:not(.active) {
+    opacity: .8;
+}
+
+.materialboxed.active {
+    cursor: -webkit-zoom-out;
+    cursor: zoom-out;
 }
