@@ -583,7 +583,7 @@ client.on('message', msg => {
         if (msg.attachments.array().length) {
             try {
                 console.log(msg.attachments.first().url)
-                newmsg += '<img class="img-fluid" style="height:20vh" src="' + msg.attachments.first().url + '" alt="Error - Image not found">'
+                newmsg += '<img class="materialboxed img-fluid" style="height:20vh" src="' + msg.attachments.first().url + '" alt="Error - Image not found">'
 
             } catch (e) {
                 console.log('Message attachment has no url')
