@@ -50,6 +50,10 @@ textarea {
     z-index: 3;
 }
 
+.modal-body {
+    z-index: 500;
+}
+
 .main {
     position: absolute;
     top: 4rem;
@@ -61,7 +65,7 @@ textarea {
     width: 100%;
     position: fixed;
     top: 0;
-    z-index: 1000;
+    z-index: 999;
     min-height: 4rem;
     background: linear-gradient(to right, #6EB7FF, #23ffdd);
 }
@@ -156,6 +160,7 @@ textarea {
     border-radius: 2px;
     overflow: hidden;
     position: relative;
+    overflow-x: hidden;
 }
 
 .mm-collection .mm-collection-item {
@@ -295,21 +300,6 @@ textarea {
     font-style: normal;
 }
 
-.materialboxed {
-    display: block;
-    cursor: -webkit-zoom-in;
-    cursor: zoom-in;
-    position: relative;
-    -webkit-transition: opacity .4s;
-    transition: opacity .4s;
-    -webkit-backface-visibility: hidden;
-}
-
-.materialboxed:hover:not(.active) {
-    opacity: .8;
-}
-
-.materialboxed.active {
-    cursor: -webkit-zoom-out;
-    cursor: zoom-out;
+#dropdownMenuButton {
+    margin-left: 100px
 }
