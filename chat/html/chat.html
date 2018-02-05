@@ -219,6 +219,10 @@
                           <input type="color" id="back-color2" ><br />
                         Text color:
                           <input type="color" id="text-color" ><br />
+                        message color:
+                          <input type="color" id="msg-colo1r" ><br />
+                        message 2 color:
+                          <input type="color" id="msg-color2" ><br />
                           <br />
                         <button class="btn waves-effect waves-light modal-close light-blue white-text"> set colors </button>
                     </form>
@@ -371,8 +375,9 @@
                 $('#joincode-modal').modal('hide')
                 return false
             })
+            //changeRoomTheme(back1,back2,backImg,text1,text2,msg1,msg2,icon,type)
             $('#room-color').submit(function () {
-                socket.emit('updateroomtheme', $('#jc').val(), curroom, 0)
+                socket.emit('updateroomtheme', $('#back-color1').val(), $('#back-color2').val(),null,$('#text-color').val(),$('#text-color').val(),$('#msg-color1').val(),$('#msg-color2').val(),null,1, curroom)
                 console.log("form submitted " + $('#back-color1').val())
                 $('#color-modal').modal('hide')
                 return false
