@@ -87,10 +87,10 @@
                     <a class="nav-link" data-toggle="modal" data-target="#welcome-modal">Help</a>
                 </div>
                 <div class="nav-item">
-                    <a id="room-commands" class="nav-link" data-toggle="modal" data-target="#regex-modal">Room Commands(Currently unavailible)</a>
+                    <a class="nav-link" data-toggle="modal" data-target="#regex-modal">Room Commands(Currently unavailible)</a>
                 </div>
                 <div class="nav-item">
-                    <a id="room-custom" class="nav-link" data-toggle="modal" data-target="#color-modal">Room Customization(Currently unavailible)</a>
+                    <a class="nav-link" data-toggle="modal" data-target="#color-modal">Room Customization(Currently unavailible)</a>
                 </div>
 
             </div>
@@ -130,7 +130,7 @@
                         <div class="input-group-btn">
                             <label name="files[]" id="add_pics" class="btn">
                                 <i class="material-icons" style="margin-left:-0.7rem">add</i>
-                                <input style="display: none" type="file" multiple>
+                                <input style="display: none;" type="file" multiple>
                             </label>
                             <button type="submit" class="btn mm-submit">
                                 <i class="material-icons">send</i>
@@ -213,14 +213,13 @@
                 <div class="modal-body">
                     <p>Change room color settings</p>
                     <form id="room-color" action="">
-                        Background color 1 :
-                        <input type="color" name="back-color1">
-                        <br /> Background color 2 :
-                        <input type="color" name="back-color2">
-                        <br /> Text color:
-                        <input type="color" name="text-color">
-                        <br />
-                        <br />
+                      Background color 1 :
+                        <input type="color" id="back-color1" ><br />
+                        Background color 2 :
+                          <input type="color" id="back-color2" ><br />
+                        Text color:
+                          <input type="color" id="text-color" ><br />
+                          <br />
                         <button class="btn waves-effect waves-light modal-close light-blue white-text"> set colors </button>
                     </form>
                 </div>
@@ -323,11 +322,11 @@
             var curroom
             var canAuto = false
             var canScroll = 10
-            var siofu = new SocketIOFileUpload(socket)
+            var siofu = new SocketIOFileUpload(socket);
             siofu.addEventListener("start", function (event) {
-                event.file.meta.filetype = event.file.type
-                event.file.meta.room = curroom
-            })
+                event.file.meta.filetype = event.file.type;
+                event.file.meta.room = curroom;
+            });
 
             $.fn.textWidth = function () {
                 var text = $(this).html()
@@ -339,18 +338,18 @@
 
             $(document).ready(function () {
                 // run test on initial page load
-                checkSize()
+                checkSize();
 
                 // run test on resize of the window
-                $(window).resize(checkSize)
-            })
+                $(window).resize(checkSize);
+            });
 
             //Function to the css rule
             function checkSize() {
-                if ($(".mm-navdd").css("max-width") !== "none") {
-                    $(".bmd-layout-container").addClass("bmd-drawer-overlay")
+                if ($(".mm-navdd").css("max-width") == null) {
+                    console.log('THIS WORKED')
                 } else {
-                    $(".bmd-layout-container").removeClass("bmd-drawer-overlay")
+                    console.log($(".mm-navdd").css("max-width"))
                 }
             }
 
@@ -370,6 +369,12 @@
                 socket.emit('joincode', $('#jc').val(), curroom, 0)
                 console.log("form submitted " + $('#e').val())
                 $('#joincode-modal').modal('hide')
+                return false
+            })
+            $('#room-color').submit(function () {
+                socket.emit('updateroomtheme', $('#jc').val(), curroom, 0)
+                console.log("form submitted " + $('#back-color1').val())
+                $('#color-modal').modal('hide')
                 return false
             })
             $('#newcommand-form').submit(function () {
@@ -578,27 +583,14 @@
                 } catch (e) { }
             })
 
-            $('#mm-side-list').on('click', 'a', function () {
+            $('#mm-side-list').on('click', 'a', async function () {
                 console.log("Room Button Clicked")
                 //  console.log($(this.attributes.room).val())
                 socket.emit('changerooms', $(this.attributes.room).val())
-            })
-
-            socket.on('switchToRoom', async function (admin, roomNum) {
-                console.log(admin)
-                if (!admin) {
-                    console.log('here none')
-                    $("#room-commands").css("display", "none")
-                    $("#room-custom").css("display", "none")
-                } else {
-                    console.log('here block')
-                    $("#room-commands").css("display", "block")
-                    $("#room-custom").css("display", "block")
-                }
                 canScroll = 0
                 $('#messages').empty()
                 $('#send-message').val('')
-                curroom = roomNum
+                curroom = $(this.attributes.room).val()
                 first_id = null
                 $('main').scrollTop(document.body.scrollHeight)
                 await sleep(500)
@@ -659,13 +651,13 @@
             }
 
             function handleFileSelect(evt) {
-                console.log('In handleFileSelect')
-                var files = evt.target.files // FileList object
+                console.log('In handleFileSelect');
+                var files = evt.target.files; // FileList object
                 for (var i = 0; i < files.length; i++) {
-                    var name = files[i].name
-                    var type = files[i].type
-                    console.log("Filename: " + name + " , Type: " + type)
-                    siofu.submitFiles([files[i]])
+                    var name = files[i].name;
+                    var type = files[i].type;
+                    console.log("Filename: " + name + " , Type: " + type);
+                    siofu.submitFiles([files[i]]);
                 }
             }
             document.getElementById('add_pics').addEventListener('change', handleFileSelect, false)
