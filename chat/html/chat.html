@@ -212,7 +212,7 @@
                 </div>
                 <div class="modal-body">
                     <p>Change room color settings</p>
-                    <form id="room-color" action="">
+                    <form-control id="room-color" action="">
                       Background color 1 :
                         <input type="color" id="back-color1" ><br />
                         Background color 2 :
@@ -225,7 +225,7 @@
                           <input type="color" id="msg-color2" ><br />
                           <br />
                         <button class="btn waves-effect waves-light modal-close light-blue white-text"> set colors </button>
-                    </form>
+                    </form-control>
                 </div>
             </div>
         </div>
@@ -571,7 +571,7 @@
                             id: element.serialid,
                             isAdmin: element.is_admin
                         }
-                      
+
                         console.log('color:' + element.back1)
 
                         if (element.serialid == curroom) $('#title').html(element.name)
