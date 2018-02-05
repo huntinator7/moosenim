@@ -578,13 +578,13 @@
                 } catch (e) { }
             })
 
-            $('#mm-side-list').on('click', 'a', async function () {
+            $('#mm-side-list').on('click', 'a', function () {
                 console.log("Room Button Clicked")
                 //  console.log($(this.attributes.room).val())
                 socket.emit('changerooms', $(this.attributes.room).val())
             })
 
-            socket.on('switchToRoom', (admin, roomNum) => {
+            socket.on('switchToRoom', async function (admin, roomNum) {
                 if (!admin) {
                     $("#room-commands").hide()
                     $("#room-custom").hide()
