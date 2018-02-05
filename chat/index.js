@@ -375,8 +375,19 @@ io.sockets.on('connection', function (socket) {
     })
     socket.on('changerooms', function (roomid) {
         if (roomid == null) roomid = 1
-        //  console.log("changed rooms" + roomid + " " + socket.request.user.id)
+        var isAdmin
+        con.query("SELECT is_admin FROM room_users WHERE room_id = ? AND user_id = ?", [curroom, socket.request.user.id], (error, rows, results) => {
+            if (!rows) {
+                console.log('Access Denied')
+                return
+            } else if (rows[0] == '1') {
+                isAdmin = true
+            } else {
+                isAdmin = false
+            }
+        })
         con.query("UPDATE users SET curroom = ? WHERE uid = ?", [roomid, socket.request.user.id])
+        io.to(socket.id).emit('switchToRoom', isAdmin, roomid)
         console.log('Rooms: ' + io.sockets.adapter.rooms)
         socket.join(roomid)
         showLastMessages(10, socket.id, roomid)

@@ -87,10 +87,10 @@
                     <a class="nav-link" data-toggle="modal" data-target="#welcome-modal">Help</a>
                 </div>
                 <div class="nav-item">
-                    <a class="nav-link" data-toggle="modal" data-target="#regex-modal">Room Commands(Currently unavailible)</a>
+                    <a id="room-commands" class="nav-link" data-toggle="modal" data-target="#regex-modal">Room Commands(Currently unavailible)</a>
                 </div>
                 <div class="nav-item">
-                    <a class="nav-link" data-toggle="modal" data-target="#color-modal">Room Customization(Currently unavailible)</a>
+                    <a id="room-custom" class="nav-link" data-toggle="modal" data-target="#color-modal">Room Customization(Currently unavailible)</a>
                 </div>
 
             </div>
@@ -582,10 +582,20 @@
                 console.log("Room Button Clicked")
                 //  console.log($(this.attributes.room).val())
                 socket.emit('changerooms', $(this.attributes.room).val())
+            })
+
+            socket.on('switchToRoom', (admin, roomNum) => {
+                if (!admin) {
+                    $("#room-commands").hide()
+                    $("#room-custom").hide()
+                } else {
+                    $("#room-commands").show()
+                    $("#room-custom").show()
+                }
                 canScroll = 0
                 $('#messages').empty()
                 $('#send-message').val('')
-                curroom = $(this.attributes.room).val()
+                curroom = roomNum
                 first_id = null
                 $('main').scrollTop(document.body.scrollHeight)
                 await sleep(500)

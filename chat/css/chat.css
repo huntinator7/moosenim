@@ -86,6 +86,10 @@ textarea {
     color: white;
 }
 
+.nav-link:hover {
+    cursor: pointer;
+}
+
 .mm-submit {
     border: none !important;
     margin: 0px;
