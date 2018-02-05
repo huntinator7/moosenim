@@ -346,11 +346,19 @@
 
             //Function to the css rule
             function checkSize() {
-                if ($(".mm-navdd").css("max-width") == "") {
-                    console.log('THIS WORKED')
-                } else {
-                    console.log($(".mm-navdd").css("max-width"))
-                }
+                // if ($(".mm-navdd").css("max-width") == "") {
+                //     console.log('THIS WORKED')
+                // } else {
+                //     console.log($(".mm-navdd").css("max-width"))
+                // }
+                console.log($(".mm-navdd").css("max-width") == "")
+                console.log($(".mm-navdd").css("max-width") === "")
+                console.log($(".mm-navdd").css("max-width") == false)
+                console.log($(".mm-navdd").css("max-width") === false)
+                console.log($(".mm-navdd").css("max-width") == null)
+                console.log($(".mm-navdd").css("max-width") === null)
+                console.log($(".mm-navdd").css("max-width") == "none")
+                console.log($(".mm-navdd").css("max-width") === "none")
             }
 
             var login = new Audio('../sounds/notification.mp3')
