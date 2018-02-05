@@ -560,7 +560,7 @@
                 location.reload()
             })
 
-            roomnames = []
+
             socket.on('roomlist', function (list) {
 
                 $('#mm-side-list').empty()
@@ -571,8 +571,9 @@
                             id: element.serialid,
                             isAdmin: element.is_admin
                         }
-                        roomnames.push(roomlist)
-                        console.log('is admin:' + element.is_admin + 'room name= ' + element.name)
+                      
+                        console.log('color:' + element.back1)
+
                         if (element.serialid == curroom) $('#title').html(element.name)
 
 
