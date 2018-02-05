@@ -376,7 +376,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('changerooms', function (roomid) {
         if (roomid == null) roomid = 1
         var isAdmin
-        con.query("SELECT is_admin FROM room_users WHERE room_id = ? AND user_id = ?", [curroom, socket.request.user.id], (error, rows, results) => {
+        con.query("SELECT is_admin FROM room_users WHERE room_id = ? AND user_id = ?", [roomid, socket.request.user.id], (error, rows, results) => {
             if (!rows) {
                 console.log('Access Denied')
                 return
