@@ -213,13 +213,14 @@
                 <div class="modal-body">
                     <p>Change room color settings</p>
                     <form id="room-color" action="">
-                      Background color 1 :
-                        <input type="color" name="back-color1" ><br />
-                        Background color 2 :
-                          <input type="color" name="back-color2" ><br />
-                        Text color:
-                          <input type="color" name="text-color" ><br />
-                          <br />
+                        Background color 1 :
+                        <input type="color" name="back-color1">
+                        <br /> Background color 2 :
+                        <input type="color" name="back-color2">
+                        <br /> Text color:
+                        <input type="color" name="text-color">
+                        <br />
+                        <br />
                         <button class="btn waves-effect waves-light modal-close light-blue white-text"> set colors </button>
                     </form>
                 </div>
@@ -346,18 +347,11 @@
 
             //Function to the css rule
             function checkSize() {
-                // if ($(".mm-navdd").css("max-width") == "") {
-                //     console.log('THIS WORKED')
-                // } else {
-                //     console.log($(".mm-navdd").css("max-width"))
-                // }
-                console.log($(".mm-navdd").css("max-width") == "")
-                console.log($(".mm-navdd").css("max-width") === "")
-                console.log($(".mm-navdd").css("max-width") == false)
-                console.log($(".mm-navdd").css("max-width") === false)
-                console.log($(".mm-navdd").css("max-width") == null)
-                console.log($(".mm-navdd").css("max-width") === null)
-                console.log($(".mm-navdd").css("max-width") == "none")
+                if ($(".mm-navdd").css("max-width") === "none") {
+                    console.log('THIS WORKED')
+                } else {
+                    console.log($(".mm-navdd").css("max-width"))
+                }
                 console.log($(".mm-navdd").css("max-width") === "none")
             }
 
