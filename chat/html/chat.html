@@ -130,7 +130,7 @@
                         <div class="input-group-btn">
                             <label name="files[]" id="add_pics" class="btn">
                                 <i class="material-icons" style="margin-left:-0.7rem">add</i>
-                                <input style="display: none;" type="file" multiple>
+                                <input style="display: none" type="file" multiple>
                             </label>
                             <button type="submit" class="btn mm-submit">
                                 <i class="material-icons">send</i>
@@ -323,11 +323,11 @@
             var curroom
             var canAuto = false
             var canScroll = 10
-            var siofu = new SocketIOFileUpload(socket);
+            var siofu = new SocketIOFileUpload(socket)
             siofu.addEventListener("start", function (event) {
-                event.file.meta.filetype = event.file.type;
-                event.file.meta.room = curroom;
-            });
+                event.file.meta.filetype = event.file.type
+                event.file.meta.room = curroom
+            })
 
             $.fn.textWidth = function () {
                 var text = $(this).html()
@@ -339,20 +339,19 @@
 
             $(document).ready(function () {
                 // run test on initial page load
-                checkSize();
+                checkSize()
 
                 // run test on resize of the window
-                $(window).resize(checkSize);
-            });
+                $(window).resize(checkSize)
+            })
 
             //Function to the css rule
             function checkSize() {
-                if ($(".mm-navdd").css("max-width") === "none") {
-                    console.log('THIS WORKED')
+                if ($(".mm-navdd").css("max-width") !== "none") {
+                    $(".bmd-layout-container").removeClass("bmd-drawer-overlay")
                 } else {
-                    console.log($(".mm-navdd").css("max-width"))
+                    $(".bmd-layout-container").addClass("bmd-drawer-overlay")
                 }
-                console.log($(".mm-navdd").css("max-width") === "none")
             }
 
             var login = new Audio('../sounds/notification.mp3')
@@ -647,13 +646,13 @@
             }
 
             function handleFileSelect(evt) {
-                console.log('In handleFileSelect');
-                var files = evt.target.files; // FileList object
+                console.log('In handleFileSelect')
+                var files = evt.target.files // FileList object
                 for (var i = 0; i < files.length; i++) {
-                    var name = files[i].name;
-                    var type = files[i].type;
-                    console.log("Filename: " + name + " , Type: " + type);
-                    siofu.submitFiles([files[i]]);
+                    var name = files[i].name
+                    var type = files[i].type
+                    console.log("Filename: " + name + " , Type: " + type)
+                    siofu.submitFiles([files[i]])
                 }
             }
             document.getElementById('add_pics').addEventListener('change', handleFileSelect, false)
