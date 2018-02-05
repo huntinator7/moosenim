@@ -375,28 +375,21 @@ io.sockets.on('connection', function (socket) {
     })
     socket.on('changerooms', function (roomid) {
         if (roomid == null) roomid = 1
-        var isAdmin
+        var isAdmin = false
         con.query("SELECT is_admin FROM room_users WHERE room_id = ? AND user_id = ?", [roomid, socket.request.user.id], (error, rows, results) => {
             if (!rows[0]) {
                 console.log('Access Denied')
-                return
-            } else if (rows[0] == '1') {
-                isAdmin = true
-                console.log(rows)
-                console.log(results)
             } else {
-                isAdmin = false
-                console.log(rows)
-                console.log(results)
+                isAdmin = rows[0] == '1' ? true : false
+                con.query("UPDATE users SET curroom = ? WHERE uid = ?", [roomid, socket.request.user.id])
+                io.to(socket.id).emit('switchToRoom', isAdmin, roomid)
+                console.log('Rooms: ' + io.sockets.adapter.rooms)
+                socket.join(roomid)
+                showLastMessages(10, socket.id, roomid)
+                var room = io.sockets.adapter.rooms[roomid]
+                console.log("room user amount: " + room.length)
             }
         })
-        con.query("UPDATE users SET curroom = ? WHERE uid = ?", [roomid, socket.request.user.id])
-        io.to(socket.id).emit('switchToRoom', isAdmin, roomid)
-        console.log('Rooms: ' + io.sockets.adapter.rooms)
-        socket.join(roomid)
-        showLastMessages(10, socket.id, roomid)
-        var room = io.sockets.adapter.rooms[roomid]
-        console.log("room user amount: " + room.length)
     })
 
     //for adduser function. Email is entered by the user, rid is caled from chat.html, isAdmin should just default to 0 for now.
@@ -421,100 +414,99 @@ io.sockets.on('connection', function (socket) {
 
     //----CHAT MESSAGE----\\
     socket.on('chat message', function (msg, curroom) {
-        var isadmin;
+        var isAdmin;
         con.query("SELECT is_admin FROM room_users WHERE room_id = ? AND user_id = ?", [curroom, socket.request.user.id], (error, rows, results) => {
             if (!rows) {
                 console.log('Access Denied')
                 return
-            } else if (rows[0] == '1') {
-                isadmin = true
             } else {
-                isadmin = false
-            }
-        })
-        // console.log(socket.rooms)
-        var ogMsg = msg
-        var un = socket.request.user.displayName
-        var uid = socket.request.user.id
-        var pic = socket.request.user.photos[0].value
-        var isEmbed = false
-        var send = true
-        //  console.log('chat message       socket.id: ' + socket.id)
-        if (!socket.request.user.id) {
-            io.to(socket.id).emit('retreat')
-            //  console.log('Retreating ' + socket.id)
-        } else {
-            //  console.log('message: ' + msg)
-            if (msg.substr(0, 1) == "!") {
-                console.log('Is a command')
-                var command = /\S*/i.exec(msg.substr(1))
-                config.regex.commands.forEach(function (element) {
-                    if (command[0] == element.command) {
-                        console.log('element.action: ' + element.action)
-                        switch (element.action) {
-                            case "replace":
-                                msg = element.message
-                                break
-                            case "replaceEmbed":
-                                msg = element.message
-                                isEmbed = true
-                                break
-                            case "function":
-                                send = false
-                                var message = /(\S*)\s((\S*\s?)*)/i.exec(msg.substr(1))
-                                var newmsg
-                                if (message) newmsg = message[2]
-                                var params = [socket, un, uid, curroom, newmsg]
-                                var fn = userRegexParse[command[0]]
-                                if (typeof fn === "function") {
-                                    console.log('Is function')
-                                    fn.apply(null, params)
+                isAdmin = rows[0] == '1' ? true : false
+                // console.log(socket.rooms)
+                var ogMsg = msg
+                var un = socket.request.user.displayName
+                var uid = socket.request.user.id
+                var pic = socket.request.user.photos[0].value
+                var isEmbed = false
+                var send = true
+                //  console.log('chat message       socket.id: ' + socket.id)
+                if (!socket.request.user.id) {
+                    io.to(socket.id).emit('retreat')
+                    //  console.log('Retreating ' + socket.id)
+                } else {
+                    //  console.log('message: ' + msg)
+                    if (msg.substr(0, 1) == "!") {
+                        console.log('Is a command')
+                        var command = /\S*/i.exec(msg.substr(1))
+                        config.regex.commands.forEach(function (element) {
+                            if (command[0] == element.command) {
+                                console.log('element.action: ' + element.action)
+                                switch (element.action) {
+                                    case "replace":
+                                        msg = element.message
+                                        break
+                                    case "replaceEmbed":
+                                        msg = element.message
+                                        isEmbed = true
+                                        break
+                                    case "function":
+                                        send = false
+                                        var message = /(\S*)\s((\S*\s?)*)/i.exec(msg.substr(1))
+                                        var newmsg
+                                        if (message) newmsg = message[2]
+                                        var params = [socket, un, uid, curroom, newmsg]
+                                        var fn = userRegexParse[command[0]]
+                                        if (typeof fn === "function") {
+                                            console.log('Is function')
+                                            fn.apply(null, params)
+                                        }
+                                        break
+                                    default:
+                                        break
                                 }
-                                break
-                            default:
-                                break
+                            }
+                        })
+                    } else {
+                        config.regex.matches.forEach(function (element) {
+                            var re = new RegExp(element.regex, 'ig')
+                            if (re.test(msg)) {
+                                switch (element.action) {
+                                    case "replace":
+                                        msg = msg.replace(re, element.message)
+                                        break
+                                    case "replaceWhole":
+                                        msg = element.message
+                                        break
+                                    case "replaceEmbed":
+                                        msg = msg.replace(re, element.message)
+                                        isEmbed = true
+                                        break
+                                    case "respond":
+                                        sendMessage(msg, un, uid, curroom)
+                                        io.to(curroom).emit(getMessage(curroom, isEmbed))
+                                        msg = element.message
+                                        un = 'Automod'
+                                        if (element.un) un = element.un
+                                        if (element.pic) pic = element.pic
+                                        uid = '1'
+                                        break
+                                    default:
+                                        break
+                                }
+                            }
+                        })
+                    }
+                    if (send) {
+                        sendMessage(msg, un, uid, curroom)
+                        io.to(curroom).emit(getMessage(curroom, isEmbed, pic))
+                        console.log(`config.discord.sendChannel = ${config.discord.sendChannel}`)
+                        if (isEmbed && curroom == config.discord.sendChannel) {
+                            sendToDiscord(un, ogMsg)
                         }
                     }
-                })
-            } else {
-                config.regex.matches.forEach(function (element) {
-                    var re = new RegExp(element.regex, 'ig')
-                    if (re.test(msg)) {
-                        switch (element.action) {
-                            case "replace":
-                                msg = msg.replace(re, element.message)
-                                break
-                            case "replaceWhole":
-                                msg = element.message
-                                break
-                            case "replaceEmbed":
-                                msg = msg.replace(re, element.message)
-                                isEmbed = true
-                                break
-                            case "respond":
-                                sendMessage(msg, un, uid, curroom)
-                                io.to(curroom).emit(getMessage(curroom, isEmbed))
-                                msg = element.message
-                                un = 'Automod'
-                                if (element.un) un = element.un
-                                if (element.pic) pic = element.pic
-                                uid = '1'
-                                break
-                            default:
-                                break
-                        }
-                    }
-                })
-            }
-            if (send) {
-                sendMessage(msg, un, uid, curroom)
-                io.to(curroom).emit(getMessage(curroom, isEmbed, pic))
-                console.log(`config.discord.sendChannel = ${config.discord.sendChannel}`)
-                if (isEmbed && curroom == config.discord.sendChannel) {
-                    sendToDiscord(un, ogMsg)
                 }
             }
-        }
+        })
+
     })
 })
 

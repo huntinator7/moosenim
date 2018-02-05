@@ -586,11 +586,11 @@
 
             socket.on('switchToRoom', async function (admin, roomNum) {
                 if (!admin) {
-                    $("#room-commands").hide()
-                    $("#room-custom").hide()
+                    $("#room-commands").css("display", "none")
+                    $("#room-custom").css("display", "none")
                 } else {
-                    $("#room-commands").show()
-                    $("#room-custom").show()
+                    $("#room-commands").css("display", "block")
+                    $("#room-custom").css("display", "block")
                 }
                 canScroll = 0
                 $('#messages').empty()
