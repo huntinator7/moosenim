@@ -308,11 +308,20 @@
                 return width
             }
 
-            // var siofu = new SocketIOFileUpload(socket)
-            // siofu.addEventListener("start", function (event) {
-            //     event.file.meta.filetype = event.file.type
-            //     event.file.meta.room = curroom
-            // })
+            $(document).ready(function () {
+                // run test on initial page load
+                checkSize();
+
+                // run test on resize of the window
+                $(window).resize(checkSize);
+            });
+
+            //Function to the css rule
+            function checkSize() {
+                if ($(".mm-navdd").css("max-width") == "15vw") {
+                    console.log('THIS WORKED')
+                }
+            }
 
             var login = new Audio('../sounds/notification.mp3')
             var audio = new Audio('../sounds/login3.mp3')
