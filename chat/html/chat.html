@@ -81,15 +81,17 @@
                     <a class="nav-link" data-toggle="modal" data-target="#modal2">Create New Room</a>
                 </div>
                 <div class="nav-item">
-                    <a class="nav-link" data-toggle="modal" data-target="#joincode-modal">enter a join code</a>
+                    <a class="nav-link" data-toggle="modal" data-target="#joincode-modal">Enter a Join Code</a>
                 </div>
                 <div class="nav-item">
                     <a class="nav-link" data-toggle="modal" data-target="#welcome-modal">Help</a>
                 </div>
                 <div class="nav-item">
-                    <a class="nav-link" data-toggle="modal" data-target="#regex-modal">Room Commands</a>
+                    <a class="nav-link" data-toggle="modal" data-target="#regex-modal">Room Commands(Currently unavailible)</a>
                 </div>
-
+                <div class="nav-item">
+                    <a class="nav-link" data-toggle="modal" data-target="#color-modal">Room Customization(Currently unavailible)</a>
+                </div>
 
             </div>
         </div>
@@ -101,7 +103,7 @@
             </button>
             <div class="dropdown-menu mm-navdd-items" aria-labelledby="dropdownMenuButton">
                 <div class="nav-item">
-                    <a class="nav-link">Profile</a>
+                    <a class="nav-link">Profile (Currently unavailible)</a>
                 </div>
             </div>
         </div>
@@ -193,6 +195,32 @@
                     <form id="email" action="">
                         <input class="form-control" type="text" id="e" placeholder="email">
                         <button class="btn waves-effect waves-light modal-close light-blue white-text"> Add to Room </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal room color settings -->
+    <div class="modal fade" id="color-modal" tabindex="-1" role="dialog" aria-labelledby="add-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="add-modal-label">Room Customization</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Change room color settings</p>
+                    <form id="room-color" action="">
+                      Background color 1 :
+                        <input type="color" name="back-color1" ><br />
+                        Background color 2 :
+                          <input type="color" name="back-color2" ><br />
+                        Text color:
+                          <input type="color" name="text-color" ><br />
+                          <br />
+                        <button class="btn waves-effect waves-light modal-close light-blue white-text"> set colors </button>
                     </form>
                 </div>
             </div>
