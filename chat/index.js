@@ -382,8 +382,12 @@ io.sockets.on('connection', function (socket) {
                 return
             } else if (rows[0] == '1') {
                 isAdmin = true
+                console.log(rows)
+                console.log(results)
             } else {
                 isAdmin = false
+                console.log(rows)
+                console.log(results)
             }
         })
         con.query("UPDATE users SET curroom = ? WHERE uid = ?", [roomid, socket.request.user.id])
