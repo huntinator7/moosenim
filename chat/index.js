@@ -380,11 +380,11 @@ io.sockets.on('connection', function (socket) {
             if (!rows[0]) {
                 console.log('Access Denied')
             } else {
-                console.log(rows[0])
-                console.log(rows[0] == 1)
-                console.log(rows[0] === 1)
-                console.log(rows[0] == '1')
-                console.log(rows[0] === '1')
+                console.log(rows[0].is_admin)
+                // console.log(rows[0] == 1)
+                // console.log(rows[0] === 1)
+                // console.log(rows[0] == '1')
+                // console.log(rows[0] === '1')
                 isAdmin = rows[0] == 1 ? true : false
                 con.query("UPDATE users SET curroom = ? WHERE uid = ?", [roomid, socket.request.user.id])
                 io.to(socket.id).emit('switchToRoom', isAdmin, roomid)
