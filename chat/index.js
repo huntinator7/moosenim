@@ -373,7 +373,7 @@ io.sockets.on('connection', function (socket) {
         console.log(rid + " new command: " + cmd)
         addNewCommand(rid, cmd, actn, msg, username, pic)
     })
-    socket.on('updateroomtheme',function((back1,back2,backImg,text1,text2,msg1,msg2,icon,type,rid){
+    socket.on('updateroomtheme',function(back1,back2,backImg,text1,text2,msg1,msg2,icon,type,rid){
       changeRoomTheme(back1,back2,backImg,text1,text2,msg1,msg2,icon,type,rid)
     })
     socket.on('changerooms', function (roomid) {
