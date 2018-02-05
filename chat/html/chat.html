@@ -585,10 +585,13 @@
             })
 
             socket.on('switchToRoom', async function (admin, roomNum) {
+                console.log(admin)
                 if (!admin) {
+                    console.log('here none')
                     $("#room-commands").css("display", "none")
                     $("#room-custom").css("display", "none")
                 } else {
+                    console.log('here block')
                     $("#room-commands").css("display", "block")
                     $("#room-custom").css("display", "block")
                 }
