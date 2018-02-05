@@ -822,8 +822,8 @@ function searchUsers(email) {
 }
 function changeRoomTheme(back1,back2,backImg,text1,text2,msg1,msg2,icon,type,rid){
   try{
-  //  con.query("UPDATE rooms SET back1=?, back2=?,back_img=?,text_color=?,text_color2=?,message_back=?,message_back2=?,icon=?,background_type=? WHERE serialid = ?",[back1,back2,backImg,text1,text2,msg1,msg2,icon,type,rid])
-console.log(back1,back2,backImg,text1,text2,msg1,msg2,icon,type,rid)
+   con.query("UPDATE rooms SET back1=?, back2=?,back_img=?,text_color=?,text_color2=?,message_back=?,message_back2=?,icon=?,background_type=? WHERE serialid = ?",[back1,back2,backImg,text1,text2,msg1,msg2,icon,type,rid])
+   console.log(back1,back2,backImg,text1,text2,msg1,msg2,icon,type,rid)
      }
      catch(e){
        console.log(e)
