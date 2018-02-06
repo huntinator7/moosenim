@@ -390,7 +390,7 @@ io.sockets.on('connection', function (socket) {
                         io.to(socket.id).emit('switchToRoom', isAdmin, roomid, "N/A")
                         showLastMessages(10, socket.id, roomid)
                     } else {
-                        io.to(socket.id).emit('switchToRoom', isAdmin, roomid, room[0].name)
+                        io.to(socket.id).emit('switchToRoom', isAdmin, roomid, rows[0].name)
                         showLastMessages(10, socket.id, roomid)
                     }
                 })
