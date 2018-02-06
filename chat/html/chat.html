@@ -594,7 +594,7 @@
                 socket.emit('changerooms', $(this.attributes.room).val())
             })
 
-            socket.on('switchToRoom', async function (admin, roomNum, roomName) {
+            socket.on('switchToRoom', async function (admin, room) {
                 console.log(admin)
                 if (!admin) {
                     console.log('here none')
@@ -605,14 +605,36 @@
                     $("#room-commands").css("display", "block")
                     $("#room-custom").css("display", "block")
                 }
+
                 canScroll = 0
+
                 $('#messages').empty()
                 $('#send-message').val('')
-                console.log(`Roomname: ${roomName}`)
-                $('#title').html(roomName)
-                curroom = roomNum
+                console.log(`Roomname: ${room.name}`)
+
+                $('#title').html(room.name)
+                if (room.back_img) {
+                    $("body").css("background-image", room.back_img)
+                } else if (room.back2) {
+                    $("body").css("background", `linear-gradient(to right, ${room.back1}, ${room.back1})`)
+                } else {
+                    $("body").css("background", room.back1)
+                }
+                $(".mm-collection-item>.message").css("color", room.text_color)
+                $(".mm-collection-item>.title").css("color", room.text_color2)
+                var mb1r = parseInt(room.message_back.substr(0, 2), 16)
+                var mb1g = parseInt(room.message_back.substr(2, 2), 16)
+                var mb1b = parseInt(room.message_back.substr(4, 2), 16)
+                var mb2r = parseInt(room.message_back2.substr(0, 2), 16)
+                var mb2g = parseInt(room.message_back2.substr(2, 2), 16)
+                var mb2b = parseInt(room.message_back2.substr(4, 2), 16)
+                $(".mm-collection .mm-collection-item").css("background-color", `rgba(${mb1r}, ${mb1g}, ${mb1b}, 0.25)`)
+                $(".mm-collection :nth-child(odd)").css("background-color", `rgba(${mb2r}, ${mb2g}, ${mb2b}, 0.25)`)
+
+                curroom = room.serialid
                 first_id = null
                 $('main').scrollTop(document.body.scrollHeight)
+
                 await sleep(500)
                 canScroll = 10
             })

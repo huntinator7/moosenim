@@ -213,7 +213,6 @@ io.sockets.on('connection', function (socket) {
             io.to(element).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id)
         })
     })
-    getChatrooms(socket.id, socket.request.user.id)
     con.query("SELECT * FROM users WHERE uid = ?", [socket.request.user.id], function (error, rows, results) {
         joinChatroom(socket, rows[0].curroom)
     })
@@ -727,6 +726,7 @@ function updatechat(roomid) {
 function joinChatroom(socket, roomid) {
     if (roomid == null) roomid = 1
     var isAdmin = false
+    con.query("SELECT * ")
     con.query("SELECT is_admin FROM room_users WHERE room_id = ? AND user_id = ?", [roomid, socket.request.user.id], (error, rows, results) => {
         if (!rows[0]) {
             console.log('Access Denied')
@@ -734,11 +734,11 @@ function joinChatroom(socket, roomid) {
             isAdmin = rows[0].is_admin == 1 ? true : false
             con.query("UPDATE users SET curroom = ? WHERE uid = ?", [roomid, socket.request.user.id])
             var roomName;
-            con.query("SELECT name FROM rooms WHERE serialid = ?", [roomid], (error, rows, results) => {
+            con.query("SELECT * FROM rooms WHERE serialid = ?", [roomid], (error, rows, results) => {
                 if (!rows[0]) {
-                    io.to(socket.id).emit('switchToRoom', isAdmin, roomid, "N/A")
+                    console.log("ERROR: Cannot connect to room")
                 } else {
-                    io.to(socket.id).emit('switchToRoom', isAdmin, roomid, rows[0].name)
+                    io.to(socket.id).emit('switchToRoom', isAdmin, rows[0])
                 }
             })
             socket.join(roomid)
