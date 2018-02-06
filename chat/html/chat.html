@@ -591,7 +591,7 @@
 
             $('#mm-side-list').on('click', 'a', async function () {
                 console.log("Room Button Clicked")
-                if (element.serialid == curroom) $('#title').text("test")
+                $('#title').text("test")
                 //  console.log($(this.attributes.room).val())
                 socket.emit('changerooms', $(this.attributes.room).val())
                 canScroll = 0
