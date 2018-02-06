@@ -726,7 +726,6 @@ function updatechat(roomid) {
 function joinChatroom(socket, roomid) {
     if (roomid == null) roomid = 1
     var isAdmin = false
-    con.query("SELECT * ")
     con.query("SELECT is_admin FROM room_users WHERE room_id = ? AND user_id = ?", [roomid, socket.request.user.id], (error, rows, results) => {
         if (!rows[0]) {
             console.log('Access Denied')
