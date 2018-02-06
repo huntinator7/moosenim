@@ -633,7 +633,8 @@
                     var mb1b = parseInt(room.message_back.substr(5, 2), 16)
                     var total = "rgba(" + mb1r + ", " + mb1g + ", " + mb1b + ", 0.25)"
                     console.log(total)
-                    $(".mm-collection .mm-collection-item").css("background-color", total)
+                    // $(".mm-collection .mm-collection-item").css("background-color", total)
+                    $(".mm-collection .mm-collection-item").css("background-color", "#00FF00")
                 }
                 console.log("message_back2: " + room.message_back2)
                 if (room.message_back2) {
@@ -642,7 +643,8 @@
                     var mb2b = parseInt(room.message_back2.substr(5, 2), 16)
                     var total = "rgba(" + mb2r + ", " + mb2g + ", " + mb2b + ", 0.25)"
                     console.log(total)
-                    $(".mm-collection :nth-child(odd)").css("background-color", total)
+                    // $(".mm-collection :nth-child(odd)").css("background-color", total)
+                    $(".mm-collection :nth-child(odd)").css("background-color", "#FF00FF")
                 }
 
                 curroom = room.serialid
