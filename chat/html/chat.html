@@ -615,14 +615,14 @@
 
                 $('#title').html(room.name)
                 if (room.back_img) {
-                    $("body").css("background-image", room.back_img)
+                    $(".main").css("background-image", room.back_img)
                 } else if (room.back2) {
-                    $("body").css("background", `linear-gradient(to right, ${room.back1}, ${room.back1})`)
+                    $(".main").css("background", `linear-gradient(to right, ${room.back1}, ${room.back2})`)
                 } else if (room.back1) {
-                    $("body").css("background", room.back1)
+                    $(".main").css("background", room.back1)
                 }
-                if (room.text_color) $(".mm-collection-item>.message").css("color", room.text_color)
-                if (room.text_color2) $(".mm-collection-item>.title").css("color", room.text_color2)
+                if (room.text_color) $(".mm-collection .mm-collection-item>.message").css("color", room.text_color)
+                if (room.text_color2) $(".mm-collection .mm-collection-item>.title").css("color", room.text_color2)
                 if (room.message_back) {
                     var mb1r = parseInt(room.message_back.substr(1, 2), 16)
                     var mb1g = parseInt(room.message_back.substr(3, 2), 16)

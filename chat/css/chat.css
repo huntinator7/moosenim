@@ -191,6 +191,14 @@ textarea {
 
 .mm-collection .mm-collection-item * {
     background: none;
+}
+
+.mm-collection .mm-collection-item>.message {
+    font-size: 1.3rem;
+    color: black;
+}
+
+.mm-collection .mm-collection-item>.title {
     font-size: 1.3rem;
     color: black;
 }
