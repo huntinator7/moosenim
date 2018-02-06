@@ -724,21 +724,21 @@ function updatechat(roomid) {
 
 //----PREVIOUS MESSAGES----\\
 
-function joinChatroom(sid, roomid, sruid) {
+function joinChatroom(socket, roomid) {
     if (roomid == null) roomid = 1
     var isAdmin = false
-    con.query("SELECT is_admin FROM room_users WHERE room_id = ? AND user_id = ?", [roomid, sruid], (error, rows, results) => {
+    con.query("SELECT is_admin FROM room_users WHERE room_id = ? AND user_id = ?", [roomid, socket.request.user.id], (error, rows, results) => {
         if (!rows[0]) {
             console.log('Access Denied')
         } else {
             isAdmin = rows[0].is_admin == 1 ? true : false
-            con.query("UPDATE users SET curroom = ? WHERE uid = ?", [roomid, sruid])
+            con.query("UPDATE users SET curroom = ? WHERE uid = ?", [roomid, socket.request.user.id])
             var roomName;
             con.query("SELECT name FROM rooms WHERE serialid = ?", [roomid], (error, rows, results) => {
                 if (!rows[0]) {
                     io.to(socket.id).emit('switchToRoom', isAdmin, roomid, "N/A")
                 } else {
-                    io.to(sid).emit('switchToRoom', isAdmin, roomid, rows[0].name)
+                    io.to(socket.id).emit('switchToRoom', isAdmin, roomid, rows[0].name)
                 }
             })
             socket.join(roomid)
@@ -747,19 +747,19 @@ function joinChatroom(sid, roomid, sruid) {
     var nameString = "room" + roomid
     console.log("show last messages for " + nameString)
     con.query("SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [nameString, 10], function (error, rows, results) {
-        singleGetMotd(roomid, sid)
+        singleGetMotd(roomid, socket.id)
         if (error) throw error
         try {
             rows.forEach(function (element) {
                 con.query("SELECT * FROM users WHERE users.name = ?", [element.username], function (error, row) {
                     if (row[0]) {
                         if (row[0].profpic) {
-                            io.to(sid).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, row[0].profpic, element.roomid)
+                            io.to(socket.id).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, row[0].profpic, element.roomid)
                         } else {
-                            io.to(sid).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, "https://www.moosen.im/images/favicon.png", element.roomid)
+                            io.to(socket.id).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, "https://www.moosen.im/images/favicon.png", element.roomid)
                         }
                     } else {
-                        io.to(sid).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, "https://www.moosen.im/images/favicon.png", element.roomid)
+                        io.to(socket.id).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, "https://www.moosen.im/images/favicon.png", element.roomid)
                     }
                 })
             })
