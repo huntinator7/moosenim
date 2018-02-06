@@ -201,7 +201,18 @@ function loginUser(uid, displayName, photoURL, email) {
 var channels = {}
 var sockets = {}
 var players = []
+var originalValue = 10;
+function add(value, amountToAdd, callback) {
+  callback(value + amountToAdd);
+}
 
+add(originalValue, 10, function(first) {
+  add(first, 30, function(second) {
+    add(second, 5, function(third) {
+      console.log(third);
+    });
+  });
+});
 //----SOCKET.IO----\\
 io.sockets.on('connection', function (socket) {
 
