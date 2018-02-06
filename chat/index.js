@@ -384,7 +384,11 @@ io.sockets.on('connection', function (socket) {
             } else {
                 isAdmin = rows[0].is_admin == 1 ? true : false
                 con.query("UPDATE users SET curroom = ? WHERE uid = ?", [roomid, socket.request.user.id])
-                io.to(socket.id).emit('switchToRoom', isAdmin, roomid)
+                var roomName;
+                con.query("SELECT name FROM rooms WHERE serialid = ?", [roomid], (error, rows, results) => {
+                    roomName = rows[0].name ? rows[0].name : "N/A"
+                })
+                io.to(socket.id).emit('switchToRoom', isAdmin, roomid, roomName)
                 console.log('Rooms: ' + io.sockets.adapter.rooms + ', isAdmin: ' + isAdmin)
                 socket.join(roomid)
                 showLastMessages(10, socket.id, roomid)

@@ -213,17 +213,18 @@
                 <div class="modal-body">
                     <p>Change room color settings</p>
                     <form-control id="room-color" action="">
-                      Background color 1 :
-                        <input type="color" id="back-color1" ><br />
-                        Background color 2 :
-                          <input type="color" id="back-color2" ><br />
-                        Text color:
-                          <input type="color" id="text-color" ><br />
-                        message color:
-                          <input type="color" id="msg-colo1r" ><br />
-                        message 2 color:
-                          <input type="color" id="msg-color2" ><br />
-                          <br />
+                        Background color 1 :
+                        <input type="color" id="back-color1">
+                        <br /> Background color 2 :
+                        <input type="color" id="back-color2">
+                        <br /> Text color:
+                        <input type="color" id="text-color">
+                        <br /> message color:
+                        <input type="color" id="msg-colo1r">
+                        <br /> message 2 color:
+                        <input type="color" id="msg-color2">
+                        <br />
+                        <br />
                         <button class="btn waves-effect waves-light modal-close light-blue white-text"> set colors </button>
                     </form-control>
                 </div>
@@ -377,7 +378,7 @@
             })
             //changeRoomTheme(back1,back2,backImg,text1,text2,msg1,msg2,icon,type)
             $('#room-color').submit(function () {
-                socket.emit('updateroomtheme', $('#back-color1').val(), $('#back-color2').val(),null,$('#text-color').val(),$('#text-color').val(),$('#msg-color1').val(),$('#msg-color2').val(),null,1, curroom)
+                socket.emit('updateroomtheme', $('#back-color1').val(), $('#back-color2').val(), null, $('#text-color').val(), $('#text-color').val(), $('#msg-color1').val(), $('#msg-color2').val(), null, 1, curroom)
                 console.log("form submitted " + $('#back-color1').val())
                 $('#color-modal').modal('hide')
                 return false
@@ -589,15 +590,28 @@
                 } catch (e) { }
             })
 
-            $('#mm-side-list').on('click', 'a', async function () {
+            $('#mm-side-list').on('click', 'a', function () {
                 console.log("Room Button Clicked")
-                
                 //  console.log($(this.attributes.room).val())
                 socket.emit('changerooms', $(this.attributes.room).val())
+            })
+
+            socket.on('switchToRoom', async function (admin, roomNum, roomName) {
+                console.log(admin)
+                if (!admin) {
+                    console.log('here none')
+                    $("#room-commands").css("display", "none")
+                    $("#room-custom").css("display", "none")
+                } else {
+                    console.log('here block')
+                    $("#room-commands").css("display", "block")
+                    $("#room-custom").css("display", "block")
+                }
                 canScroll = 0
                 $('#messages').empty()
                 $('#send-message').val('')
-                curroom = $(this.attributes.room).val()
+                $('#title').text(roomName)
+                curroom = roomNum
                 first_id = null
                 $('main').scrollTop(document.body.scrollHeight)
                 await sleep(500)
