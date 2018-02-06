@@ -596,6 +596,7 @@
 
             socket.on('switchToRoom', async function (admin, room) {
                 console.log(admin)
+                console.log(room)
                 if (!admin) {
                     console.log('here none')
                     $("#room-commands").css("display", "none")
@@ -610,7 +611,7 @@
 
                 $('#messages').empty()
                 $('#send-message').val('')
-                console.log(`Roomname: ${room.name}`)
+                // console.log(`Roomname: ${room.name}`)
 
                 $('#title').html(room.name)
                 if (room.back_img) {
