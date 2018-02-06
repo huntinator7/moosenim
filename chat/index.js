@@ -210,14 +210,12 @@ io.sockets.on('connection', function (socket) {
     console.log('CONNECTED to socket io: ' + socket.request.user.displayName)
     con.query("SELECT room_id FROM room_users WHERE user_id = ?", [socket.request.user.id], function (error, rows, results) {
         rows.forEach(function (element) {
-            //    console.log('is Admin: '+rows[0].is_admin)
             io.to(element).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id)
         })
     })
     getChatrooms(socket.id, socket.request.user.id)
     con.query("SELECT * FROM users WHERE uid = ?", [socket.request.user.id], function (error, rows, results) {
-        showLastMessages(10, socket.id, rows[0].curroom)
-        socket.join(rows[0].curroom)
+        joinChatroom(socket.id, rows[0].curroom, socket.request.user.id)
     })
 
     //----WEBRTC VOICE----\\
@@ -377,30 +375,7 @@ io.sockets.on('connection', function (socket) {
         changeRoomTheme(back1, back2, backImg, text1, text2, msg1, msg2, icon, type, rid)
     })
     socket.on('changerooms', function (roomid) {
-        var isAdmin = false
-        con.query("SELECT is_admin FROM room_users WHERE room_id = ? AND user_id = ?", [roomid, socket.request.user.id], (error, rows, results) => {
-            if (!rows[0]) {
-                console.log('Access Denied')
-            } else {
-                isAdmin = rows[0].is_admin == 1 ? true : false
-                con.query("UPDATE users SET curroom = ? WHERE uid = ?", [roomid, socket.request.user.id])
-                var roomName;
-                con.query("SELECT name FROM rooms WHERE serialid = ?", [roomid], (error, rows, results) => {
-                    if (!rows[0]) {
-                        io.to(socket.id).emit('switchToRoom', isAdmin, roomid, "N/A")
-                        showLastMessages(10, socket.id, roomid)
-                    } else {
-                        io.to(socket.id).emit('switchToRoom', isAdmin, roomid, rows[0].name)
-                        showLastMessages(10, socket.id, roomid)
-                    }
-                })
-                console.log(`roomName: ${roomName}`)
-                console.log('Rooms: ' + io.sockets.adapter.rooms + ', isAdmin: ' + isAdmin)
-                socket.join(roomid)
-                var room = io.sockets.adapter.rooms[roomid]
-                console.log("room user amount: " + room.length)
-            }
-        })
+        joinChatroom(socket.id, roomid, socket.request.user.id)
     })
 
     //for adduser function. Email is entered by the user, rid is caled from chat.html, isAdmin should just default to 0 for now.
@@ -745,16 +720,33 @@ function getMessageDiscord(un, msg, pic) {
 function updatechat(roomid) {
     //TODO: set a user variable "current Room" to the value specified.
     //reload page
-    showLastMessages(10, 0, roomid)
 }
 
 //----PREVIOUS MESSAGES----\\
 
-function showLastMessages(num, sid, roomid) {
+function joinChatroom(sid, roomid, sruid) {
     if (roomid == null) roomid = 1
+    var isAdmin = false
+    con.query("SELECT is_admin FROM room_users WHERE room_id = ? AND user_id = ?", [roomid, sruid], (error, rows, results) => {
+        if (!rows[0]) {
+            console.log('Access Denied')
+        } else {
+            isAdmin = rows[0].is_admin == 1 ? true : false
+            con.query("UPDATE users SET curroom = ? WHERE uid = ?", [roomid, sruid])
+            var roomName;
+            con.query("SELECT name FROM rooms WHERE serialid = ?", [roomid], (error, rows, results) => {
+                if (!rows[0]) {
+                    io.to(socket.id).emit('switchToRoom', isAdmin, roomid, "N/A")
+                } else {
+                    io.to(sid).emit('switchToRoom', isAdmin, roomid, rows[0].name)
+                }
+            })
+            socket.join(roomid)
+        }
+    })
     var nameString = "room" + roomid
     console.log("show last messages for " + nameString)
-    con.query("SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [nameString, num], function (error, rows, results) {
+    con.query("SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC", [nameString, 10], function (error, rows, results) {
         singleGetMotd(roomid, sid)
         if (error) throw error
         try {
