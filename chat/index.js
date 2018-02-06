@@ -371,6 +371,7 @@ io.sockets.on('connection', function (socket) {
     })
     socket.on('updateroomtheme', function (back1, back2, backImg, text1, text2, msg1, msg2, icon, type, rid) {
         changeRoomTheme(back1, back2, backImg, text1, text2, msg1, msg2, icon, type, rid)
+          joinChatroom(socket, rid)
     })
     socket.on('changerooms', function (roomid) {
         joinChatroom(socket, roomid)
