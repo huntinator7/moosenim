@@ -625,15 +625,25 @@
                 if (room.text_color2) $(".mm-collection .mm-collection-item>.title").css("color", room.text_color2)
                 if (room.message_back) {
                     var mb1r = parseInt(room.message_back.substr(1, 2), 16)
+                    console.log(mb1r)
                     var mb1g = parseInt(room.message_back.substr(3, 2), 16)
+                    console.log(mb1g)
                     var mb1b = parseInt(room.message_back.substr(5, 2), 16)
+                    console.log(mb1b)
+                    var total = "rgba(" + mb1r + ", " + mb1g + ", " + mb1b + ", 0.25)"
+                    console.log(total)
                     $(".mm-collection .mm-collection-item").css("background-color", `rgba(${mb1r}, ${mb1g}, ${mb1b}, 0.25)`)
                 }
                 if (room.message_back2) {
                     var mb2r = parseInt(room.message_back2.substr(1, 2), 16)
+                    console.log(mb2r)
                     var mb2g = parseInt(room.message_back2.substr(3, 2), 16)
+                    console.log(mb2b)
                     var mb2b = parseInt(room.message_back2.substr(5, 2), 16)
-                    $(".mm-collection :nth-child(odd)").css("background-color", `rgba(${mb2r}, ${mb2g}, ${mb2b}, 0.25)`)
+                    console.log(mb2g)
+                    var total = "rgba(" + mb2r + ", " + mb2g + ", " + mb2b + ", 0.25)"
+                    console.log(total)
+                    $(".mm-collection :nth-child(odd)").css("background-color", total)
                 }
 
                 curroom = room.serialid
