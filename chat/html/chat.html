@@ -573,7 +573,7 @@
 
                         console.log('color:' + element.back1)
 
-                        if (element.serialid == curroom)   $('#title').html(element.name)
+                        if (element.serialid == curroom) $('#title').html(element.name)
 
 
                         $('#mm-side-list').append(
@@ -617,19 +617,23 @@
                     $("body").css("background-image", room.back_img)
                 } else if (room.back2) {
                     $("body").css("background", `linear-gradient(to right, ${room.back1}, ${room.back1})`)
-                } else {
+                } else if (room.back1) {
                     $("body").css("background", room.back1)
                 }
-                $(".mm-collection-item>.message").css("color", room.text_color)
-                $(".mm-collection-item>.title").css("color", room.text_color2)
-                var mb1r = parseInt(room.message_back.substr(0, 2), 16)
-                var mb1g = parseInt(room.message_back.substr(2, 2), 16)
-                var mb1b = parseInt(room.message_back.substr(4, 2), 16)
-                var mb2r = parseInt(room.message_back2.substr(0, 2), 16)
-                var mb2g = parseInt(room.message_back2.substr(2, 2), 16)
-                var mb2b = parseInt(room.message_back2.substr(4, 2), 16)
-                $(".mm-collection .mm-collection-item").css("background-color", `rgba(${mb1r}, ${mb1g}, ${mb1b}, 0.25)`)
-                $(".mm-collection :nth-child(odd)").css("background-color", `rgba(${mb2r}, ${mb2g}, ${mb2b}, 0.25)`)
+                if (room.text_color) $(".mm-collection-item>.message").css("color", room.text_color)
+                if (room.text_color2) $(".mm-collection-item>.title").css("color", room.text_color2)
+                if (room.message_back) {
+                    var mb1r = parseInt(room.message_back.substr(1, 2), 16)
+                    var mb1g = parseInt(room.message_back.substr(3, 2), 16)
+                    var mb1b = parseInt(room.message_back.substr(5, 2), 16)
+                    $(".mm-collection .mm-collection-item").css("background-color", `rgba(${mb1r}, ${mb1g}, ${mb1b}, 0.25)`)
+                }
+                if (room.message_back2) {
+                    var mb2r = parseInt(room.message_back2.substr(1, 2), 16)
+                    var mb2g = parseInt(room.message_back2.substr(3, 2), 16)
+                    var mb2b = parseInt(room.message_back2.substr(5, 2), 16)
+                    $(".mm-collection :nth-child(odd)").css("background-color", `rgba(${mb2r}, ${mb2g}, ${mb2b}, 0.25)`)
+                }
 
                 curroom = room.serialid
                 first_id = null
