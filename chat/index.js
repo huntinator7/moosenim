@@ -386,8 +386,11 @@ io.sockets.on('connection', function (socket) {
                 con.query("UPDATE users SET curroom = ? WHERE uid = ?", [roomid, socket.request.user.id])
                 var roomName;
                 con.query("SELECT name FROM rooms WHERE serialid = ?", [roomid], (error, rows, results) => {
-                    console.log(rows[0].name)
-                    roomName = rows[0].name ? rows[0].name : "N/A"
+                    if (!rows[0]) {
+                        roomName = "N/A"
+                    } else {
+                        roomName = rows[0].name
+                    }
                 })
                 io.to(socket.id).emit('switchToRoom', isAdmin, roomid, roomName)
                 console.log('Rooms: ' + io.sockets.adapter.rooms + ', isAdmin: ' + isAdmin)
