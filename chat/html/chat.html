@@ -634,11 +634,15 @@
                     console.log(total)
                     // $(".mm-collection .mm-collection-item").css("background-color", total)
                     console.log($(".mm-collection"))
-                    console.log($(".mm-collection").get(0))
+                    var test2 = $(".mm-collection").get(0)
+                    console.log(test2)
                     var test = $(".mm-collection").get(0).children
                     console.log(test)
                     for (i = 0; i < test.length; i++) {
                         console.log(test.item(i))
+                    }
+                    for (i = 0; i < test2.length; i++) {
+                        console.log(test2.item(i))
                     }
                     $(".mm-collection .mm-collection-item").css("background-color", "#00FF00")
                 }
