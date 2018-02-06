@@ -243,7 +243,7 @@
                 </div>
                 <div class="modal-body">
                     <p>paste in a join code to join a friend's room</p>
-                    this room's join code is: 
+                    this room's join code is:
                     <p id="jc-room">
                       join code
                     </p>
@@ -626,7 +626,21 @@
                     $(".main").css("background", room.back1)
                 }
                 if (room.text_color) $(".mm-collection .mm-collection-item>.message").css("color", room.text_color)
-                if (room.text_color2) $(".mm-collection .mm-collection-item>.title").css("color", room.text_color2)
+                if (room.text_color) {
+                    console.log("mb1r: " + room.text_color.substr(1, 2))
+                    var mb1r = parseInt(room.text_color.substr(1, 2), 16)
+                    console.log("mb1r: " + mb1r)
+                    console.log("mb1g: " +room.text_color.substr(3, 2))
+                    var mb1g = parseInt(room.text_color.substr(3, 2), 16)
+                    console.log("mb1g: " + mb1g)
+                    console.log("mb1b: " + room.text_colorroom.text_color.substr(5, 2))
+                    var mb1b = parseInt(room.text_color.substr(5, 2), 16)
+                    console.log("mb1b: " + mb1b)
+                    var total = "rgba(" + mb1r + ", " + mb1g + ", " + mb1b + ", 0.25)"
+                    console.log(total)
+                    $(".mm-collection .mm-collection-item>.message").css("color", total)
+
+                }
                 if (room.message_back) {
                     var mb1r = parseInt(room.message_back.substr(1, 2), 16)
                     var mb1g = parseInt(room.message_back.substr(3, 2), 16)
