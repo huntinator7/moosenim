@@ -591,7 +591,7 @@
 
             $('#mm-side-list').on('click', 'a', async function () {
                 console.log("Room Button Clicked")
-                $('#title').text(this.attributes.roomname)
+                $('#title').text(this.attributes.roomname+"roomname")
                 //  console.log($(this.attributes.room).val())
                 socket.emit('changerooms', $(this.attributes.room).val())
                 canScroll = 0
