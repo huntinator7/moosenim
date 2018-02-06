@@ -625,10 +625,13 @@
                 if (room.text_color2) $(".mm-collection .mm-collection-item>.title").css("color", room.text_color2)
                 console.log("message_back: " + room.message_back)
                 if (room.message_back) {
+                    console.log("mb1r: " + room.message_back.substr(1, 2))
                     var mb1r = parseInt(room.message_back.substr(1, 2), 16)
                     console.log("mb1r: " + mb1r)
+                    console.log("mb1g: " + room.message_back.substr(3, 2))
                     var mb1g = parseInt(room.message_back.substr(3, 2), 16)
                     console.log("mb1g: " + mb1g)
+                    console.log("mb1b: " + room.message_back.substr(5, 2))
                     var mb1b = parseInt(room.message_back.substr(5, 2), 16)
                     console.log("mb1b: " + mb1b)
                     var total = "rgba(" + mb1r + ", " + mb1g + ", " + mb1b + ", 0.25)"
