@@ -220,7 +220,7 @@
                         <br /> Text color:
                         <input type="color" class="form-control" id="text-color">
                         <br /> message color:
-                        <input type="color" class="form-control" id="msg-colo1r">
+                        <input type="color" class="form-control" id="msg-color1">
                         <br /> message 2 color:
                         <input type="color" class="form-control" id="msg-color2">
                         <br />
@@ -634,7 +634,7 @@
                     console.log(total)
                     // $(".mm-collection .mm-collection-item").css("background-color", total)
                     console.log($(".mm-collection"))
-                    console.log($(".mm-collection .mm-collection-item"))
+                    console.log($(".mm-collection").children())
                     console.log($(".mm-collection .mm-collection-item"))
                     console.log($(".mm-collection :nth-child(odd)"))
                     $(".mm-collection .mm-collection-item").css("background-color", "#00FF00")
@@ -647,10 +647,6 @@
                     var total = "rgba(" + mb2r + ", " + mb2g + ", " + mb2b + ", 0.25)"
                     console.log(total)
                     // $(".mm-collection :nth-child(odd)").css("background-color", total)
-                    console.log($(".mm-collection"))
-                    console.log($(".mm-collection .mm-collection-item"))
-                    console.log($(".mm-collection .mm-collection-item"))
-                    console.log($(".mm-collection :nth-child(odd)"))
                     $(".mm-collection :nth-child(odd)").css("background-color", "#FF00FF")
                 }
 
