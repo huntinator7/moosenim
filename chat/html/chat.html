@@ -635,8 +635,11 @@
                     // $(".mm-collection .mm-collection-item").css("background-color", total)
                     console.log($(".mm-collection"))
                     console.log($(".mm-collection").get(0))
-                    console.log($(".mm-collection").get(0).children)
-                    console.log($(".mm-collection").get(0).children.forEach(element => console.log(element)))
+                    var test = $(".mm-collection").get(0).children
+                    console.log(test)
+                    for (i = 0; i < test.length; i++) {
+                        console.log(test.item(i))
+                    }
                     $(".mm-collection .mm-collection-item").css("background-color", "#00FF00")
                 }
                 console.log("message_back2: " + room.message_back2)
