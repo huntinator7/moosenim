@@ -387,11 +387,14 @@ io.sockets.on('connection', function (socket) {
                 var roomName;
                 con.query("SELECT name FROM rooms WHERE serialid = ?", [roomid], (error, rows, results) => {
                     if (!rows[0]) {
+                        console.log(`here`)
                         roomName = "N/A"
                     } else {
+                        console.log(`here2`)
                         roomName = rows[0].name
                     }
                 })
+                console.log(`roomName: ${roomName}`)
                 io.to(socket.id).emit('switchToRoom', isAdmin, roomid, roomName)
                 console.log('Rooms: ' + io.sockets.adapter.rooms + ', isAdmin: ' + isAdmin)
                 socket.join(roomid)
