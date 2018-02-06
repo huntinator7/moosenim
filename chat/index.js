@@ -387,18 +387,16 @@ io.sockets.on('connection', function (socket) {
                 var roomName;
                 con.query("SELECT name FROM rooms WHERE serialid = ?", [roomid], (error, rows, results) => {
                     if (!rows[0]) {
-                        console.log(`here`)
-                        roomName = "N/A"
+                        io.to(socket.id).emit('switchToRoom', isAdmin, roomid, "N/A")
+                        showLastMessages(10, socket.id, roomid)
                     } else {
-                        console.log(`here2`)
-                        roomName = rows[0].name
+                        io.to(socket.id).emit('switchToRoom', isAdmin, roomid, room[0].name)
+                        showLastMessages(10, socket.id, roomid)
                     }
                 })
                 console.log(`roomName: ${roomName}`)
-                io.to(socket.id).emit('switchToRoom', isAdmin, roomid, roomName)
                 console.log('Rooms: ' + io.sockets.adapter.rooms + ', isAdmin: ' + isAdmin)
                 socket.join(roomid)
-                showLastMessages(10, socket.id, roomid)
                 var room = io.sockets.adapter.rooms[roomid]
                 console.log("room user amount: " + room.length)
             }
