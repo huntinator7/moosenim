@@ -243,6 +243,10 @@
                 </div>
                 <div class="modal-body">
                     <p>paste in a join code to join a friend's room</p>
+                    this room's join code is: 
+                    <p id="jc-room">
+                      join code
+                    </p>
                     <form id="jc-form" action="">
                         <input class="form-control" type="text" id="jc" placeholder="join code">
                         <button class="btn waves-effect waves-light modal-close light-blue white-text"> Enter </button>
@@ -612,7 +616,7 @@
                 $('#messages').empty()
                 $('#send-message').val('')
                 // console.log(`Roomname: ${room.name}`)
-
+                $('#jc-room').html(room.join_code)
                 $('#title').html(room.name)
                 if (room.back_img) {
                     $(".main").css("background-image", room.back_img)
