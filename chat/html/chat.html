@@ -130,7 +130,7 @@
                         <div class="input-group-btn">
                             <label name="files[]" id="add_pics" class="btn">
                                 <i class="material-icons" style="margin-left:-0.7rem">add</i>
-                                <input style="display: none;" type="file" multiple>
+                                <input style="display: none" type="file" multiple>
                             </label>
                             <button type="submit" class="btn mm-submit">
                                 <i class="material-icons">send</i>
@@ -343,18 +343,16 @@
 
             $(document).ready(function () {
                 // run test on initial page load
-                checkSize();
-
+                checkSize()
                 // run test on resize of the window
-                $(window).resize(checkSize);
-            });
-
+                $(window).resize(checkSize)
+            })
             //Function to the css rule
             function checkSize() {
-                if ($(".mm-navdd").css("max-width") == null) {
-                    console.log('THIS WORKED')
+                if ($(".mm-navdd").css("max-width") !== "none") {
+                    $(".bmd-layout-container").addClass("bmd-drawer-overlay")
                 } else {
-                    console.log($(".mm-navdd").css("max-width"))
+                    $(".bmd-layout-container").removeClass("bmd-drawer-overlay")
                 }
             }
 
