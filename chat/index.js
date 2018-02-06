@@ -215,7 +215,7 @@ io.sockets.on('connection', function (socket) {
     })
     getChatrooms(socket.id, socket.request.user.id)
     con.query("SELECT * FROM users WHERE uid = ?", [socket.request.user.id], function (error, rows, results) {
-        joinChatroom(socket.id, rows[0].curroom, socket.request.user.id)
+        joinChatroom(socket, rows[0].curroom)
     })
 
     //----WEBRTC VOICE----\\
@@ -375,7 +375,7 @@ io.sockets.on('connection', function (socket) {
         changeRoomTheme(back1, back2, backImg, text1, text2, msg1, msg2, icon, type, rid)
     })
     socket.on('changerooms', function (roomid) {
-        joinChatroom(socket.id, roomid, socket.request.user.id)
+        joinChatroom(socket, roomid)
     })
 
     //for adduser function. Email is entered by the user, rid is caled from chat.html, isAdmin should just default to 0 for now.
