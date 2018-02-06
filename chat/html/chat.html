@@ -494,14 +494,14 @@
                     if (!curroom) {
                         curroom = room
                     }
-                    console.log('id: ' + id)
+                    // console.log('id: ' + id)
                     if (!retrieving) {
                         retrieving = true
                         if ($('#messages').children().first().attr('id')) {
                             saved_first = $('#messages').children().first().attr('id')
-                            console.log('saved_first set to ' + saved_first)
+                            // console.log('saved_first set to ' + saved_first)
                         } else {
-                            console.log('no messages.children.first.id found')
+                            // console.log('no messages.children.first.id found')
                         }
                         pageJump()
                     }
@@ -684,7 +684,7 @@
                     if (id < this.id && !wasInserted) {
                         $(msg).insertBefore(this)
                         try {
-                            console.log($(this.previousElementSibling.children[1]).text())
+                            // console.log($(this.previousElementSibling.children[1]).text())
                         } catch (e) {
                             console.log('Couldn\'t print')
                         }
@@ -708,7 +708,7 @@
             }
 
             function checkScroll() {
-                console.log('canAuto: ' + canAuto)
+                // console.log('canAuto: ' + canAuto)
                 if (canAuto) {
                     $('main').scrollTop($('main').prop("scrollHeight"))
                 }
