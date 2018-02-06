@@ -362,6 +362,7 @@ io.sockets.on('connection', function (socket) {
     })
     socket.on('addroom', function (name) {
         createChatroom(name, socket.request.user.id)
+
     })
     //  socket.emit('addcommand', curroom , $('#nc-cmd').val(),$('#nc-actn').val(),$('#nc-msg').val(),$('#nc-username').val(),$('#nc-pic').val())
     socket.on('addcommand', function (rid, cmd, actn, msg, username, pic) {
@@ -381,10 +382,12 @@ io.sockets.on('connection', function (socket) {
     socket.on('adduser', function (email, rid, isAdmin) {
         console.log('add user called')
         addToRoom(email, rid, 0)
+          joinChatroom(socket, rid)
     })
     socket.on('joincode', function (code, rid) {
         console.log('join code called')
         joinRoom(code, socket.request.user.id)
+          joinChatroom(socket, rid)
     })
 
 
