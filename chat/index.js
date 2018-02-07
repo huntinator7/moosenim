@@ -614,19 +614,15 @@ function singleGetMotd(roomId, sid) {
 function addNewCommand(roomId, cmd, actn, msg, username, pic) {
 
     console.log(roomId + " new command: " + cmd)
-  //  con.query('INSERT INTO room_rules VALUES(?,?,?,?,?,?,1)', [roomId, cmd, actn, msg, username, pic], function (error, row) {
-      //  if (error) console.log(error)
-    //    console.log(' new regex command added in room' + roomId)
-//    })
     var arr = '{'+cmd+','+actn+','+msg+','+username+','+pic+'}'
-
-
     con.query('SELECT commands FROM rooms WHERE serialid = ?',[roomId],function(error,rows){
 
       var newArr  = JSON.parse(rows[0].commands)
       newArr.push(arr)
       myArrString = JSON.stringify(newArr)
       console.log('new joined string: '+myArrString)
+      var testArr = JSON.parse(myArrString)
+      console.log(testArr[1])
     })
 }
 
