@@ -226,7 +226,7 @@
                         <br />
                         <br />
                         <button class="btn waves-effect waves-light modal-close light-blue white-text"> set colors </button>
-                    </form-control>
+                        </form-control>
                 </div>
             </div>
         </div>
@@ -245,7 +245,7 @@
                     <p>paste in a join code to join a friend's room</p>
                     this room's join code is:
                     <p id="jc-room">
-                      join code
+                        join code
                     </p>
                     <form id="jc-form" action="">
                         <input class="form-control" type="text" id="jc" placeholder="join code">
@@ -331,6 +331,19 @@
             var curroom
             var canAuto = false
             var canScroll = 10
+
+            var css = {
+                backImg: "",
+                back1: "#23ffdd",
+                back2: "#6eb7ff",
+                text1: "#000000",
+                text2: "#444444",
+                mb1: "rgba(0, 0, 0, 0.25)",
+                mb2: "rgba(255, 255, 255, 0.25)",
+            }
+
+            handleCSS()
+
             var siofu = new SocketIOFileUpload(socket);
             siofu.addEventListener("start", function (event) {
                 event.file.meta.filetype = event.file.type;
@@ -517,6 +530,7 @@
                             user + '</span><p class="message">' +
                             msg + '</p><span class="secondary-content">' +
                             time + '</a></li>')
+                        handleCSS()
                     } else {
                         insertMessage('<li id="' + id + '" class="mm-collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title" id="msgtitle">' +
                             user + '</span><p class="message">' +
@@ -620,37 +634,18 @@
                 first_id = null
                 $('main').scrollTop(document.body.scrollHeight)
 
+                if (room.back_img) css.backImg = room.back_img
+                if (room.back2) css.back2 = room.back2
+                if (room.back1) css.back1 = room.back1
+                if (room.text_color) css.text1 = room.text_color
+                if (room.text_color2) css.text2 = room.text_color2
+                if (room.message_back) css.mb1 = "rgba(" + parseInt(room.message_back.substr(1, 2), 16) + ", " + parseInt(room.message_back.substr(3, 2), 16) + ", " + parseInt(room.message_back.substr(5, 2), 16) + ", 0.25)"
+                if (room.message_back2) css.mb2 = "rgba(" + parseInt(room.message_back2.substr(1, 2), 16) + ", " + parseInt(room.message_back2.substr(3, 2), 16) + ", " + parseInt(room.message_back2.substr(5, 2), 16) + ", 0.25)"
+
+                handleCSS()
                 canScroll = 0
-
                 await sleep(500)
-
                 canScroll = 10
-
-                if (room.back_img) {
-                    $(".main").css("background-image", room.back_img)
-                } else if (room.back2) {
-                    $(".main").css("background", `linear-gradient(to right, ${room.back1}, ${room.back2})`)
-                } else if (room.back1) {
-                    $(".main").css("background", room.back1)
-                }
-                if (room.text_color) $(".mm-collection .mm-collection-item>.message").css("color", room.text_color)
-                if (room.text_color2) $(".mm-collection .mm-collection-item>.title").css("color", room.text_color2)
-                if (room.message_back) {
-                    var mb1r = parseInt(room.message_back.substr(1, 2), 16)
-                    var mb1g = parseInt(room.message_back.substr(3, 2), 16)
-                    var mb1b = parseInt(room.message_back.substr(5, 2), 16)
-                    var total = "rgba(" + mb1r + ", " + mb1g + ", " + mb1b + ", 0.25)"
-                    console.log(total)
-                    $(".mm-collection .mm-collection-item").css("background-color", total)
-                }
-                if (room.message_back2) {
-                    var mb2r = parseInt(room.message_back2.substr(1, 2), 16)
-                    var mb2g = parseInt(room.message_back2.substr(3, 2), 16)
-                    var mb2b = parseInt(room.message_back2.substr(5, 2), 16)
-                    var total = "rgba(" + mb2r + ", " + mb2g + ", " + mb2b + ", 0.25)"
-                    console.log(total)
-                    $(".mm-collection :nth-child(odd)").css("background-color", total)
-                }
             })
 
             socket.on('retreat', function () {
@@ -689,6 +684,7 @@
                     $('#messages').append(msg)
                     checkScroll()
                 }
+                handleCSS()
 
                 await sleep(500)
                 canScroll += 1
@@ -704,6 +700,20 @@
                 if (canAuto) {
                     $('main').scrollTop($('main').prop("scrollHeight"))
                 }
+            }
+
+            function handleCSS() {
+                if (css.backImg) {
+                    $(".main").css("background-image", css.backImg)
+                } else if (css.back2) {
+                    $(".main").css("background", `linear-gradient(to right, ${css.back1}, ${css.back2})`)
+                } else {
+                    $(".main").css("background", css.back1)
+                }
+                $(".mm-collection .mm-collection-item>.message").css("color", room.text_color)
+                $(".mm-collection .mm-collection-item>.title").css("color", room.text_color2)
+                $(".mm-collection .mm-collection-item").css("background-color", css.mb1)
+                $(".mm-collection :nth-child(odd)").css("background-color", css.mb2)
             }
 
             function handleFileSelect(evt) {

@@ -201,7 +201,7 @@ function loginUser(uid, displayName, photoURL, email) {
 var channels = {}
 var sockets = {}
 var players = []
-var originalValue = 10;
+
 //----SOCKET.IO----\\
 io.sockets.on('connection', function (socket) {
 
