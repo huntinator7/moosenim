@@ -619,10 +619,14 @@ function addNewCommand(roomId, cmd, actn, msg, username, pic) {
     //    console.log(' new regex command added in room' + roomId)
 //    })
     var arr = [{cmd,actn,msg,username,pic}]
-    myArrString = JSON.stringify(arr);
-    console.log('showing new json command string; ${myArrString} '+myArrString)
+
+  
     con.query('SELECT commands FROM rooms WHERE serialid = ?',[roomId],function(error,rows){
-      console.log(rows[0].commands)
+
+      var newArr  = JSON.parse(rows[0].commands)
+      newArr.push(arr)
+      myArrString = JSON.stringify(newArr)
+      console.log('new joined string: '+myArrString)
     })
 }
 
