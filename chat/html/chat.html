@@ -501,7 +501,9 @@
             //         }
             //     })
             // })
-
+            socket.on('get commands',function(commands){
+              console.log('recieved commands from server '+commands)
+            })
             socket.on('chat message', function (user, msg, time, id, pic, room) {
                 if (!curroom || curroom == room) {
                     if (!curroom) {
