@@ -369,6 +369,7 @@ io.sockets.on('connection', function (socket) {
         //nc = new Command(roomId,cmd,actn,msg,username,pic)
         console.log(roomId + " new command: " + cmd)
         addNewCommand(roomId, cmd, actn, msg, username, pic)
+        getRegexCommands(roomId,socket.id)
     })
     socket.on('updateroomtheme', function (back1, back2, backImg, text1, text2, msg1, msg2, icon, type, roomId) {
         changeRoomTheme(back1, back2, backImg, text1, text2, msg1, msg2, icon, type, roomId)
@@ -614,18 +615,14 @@ function singleGetMotd(roomId, sid) {
 function addNewCommand(roomId, cmd, actn, msg, username, pic) {
 
     console.log(roomId + " new command: " + cmd)
-  //  var arr = '{'+cmd+','+actn+','+msg+','+username+','+pic+'}'
     var arr = [{cmd,actn,msg,username,pic}]
     con.query('SELECT commands FROM rooms WHERE serialid = ?',[roomId],function(error,rows){
 
       var newArr  = JSON.parse(rows[0].commands)
-      console.log(newArr)
       arr.push(newArr)
       console.log(arr)
-  //    if(newArr != null)newArr.push(arr)
-    //  else newArr = arr
-
       myArrString = JSON.stringify(arr)
+
       //console.log('new joined string: '+myArrString)
     con.query('UPDATE rooms set commands = ? WHERE serialid = ?',[myArrString,roomId])
     })
@@ -633,12 +630,10 @@ function addNewCommand(roomId, cmd, actn, msg, username, pic) {
 
 function getRegexCommands(roomId, sid) {
     var arr = []
-    con.query('SELECT * FROM room_rules WHERE room_id = ?', [roomId], function (error, row) {
+    con.query('SELECT commands FROM rooms WHERE serialid = ?', [roomId], function (error, row) {
         if (error) console.log(error)
-        row.forEach(function (element) {
-            arr.push(element)
-        })
-        io.to(sid).emit('get commands', arr, roomId)
+
+        io.to(sid).emit('get commands', row[0].commands, roomId)
     })
 }
 
