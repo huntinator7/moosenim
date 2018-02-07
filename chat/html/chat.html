@@ -611,13 +611,21 @@
                     $("#room-custom").css("display", "block")
                 }
 
-                canScroll = 0
-
                 $('#messages').empty()
                 $('#send-message').val('')
-                // console.log(`Roomname: ${room.name}`)
                 $('#jc-room').html(room.join_code)
                 $('#title').html(room.name)
+
+                curroom = room.serialid
+                first_id = null
+                $('main').scrollTop(document.body.scrollHeight)
+
+                canScroll = 0
+
+                await sleep(500)
+
+                canScroll = 10
+
                 if (room.back_img) {
                     $(".main").css("background-image", room.back_img)
                 } else if (room.back2) {
@@ -626,45 +634,23 @@
                     $(".main").css("background", room.back1)
                 }
                 if (room.text_color) $(".mm-collection .mm-collection-item>.message").css("color", room.text_color)
+                if (room.text_color2) $(".mm-collection .mm-collection-item>.title").css("color", room.text_color2)
                 if (room.message_back) {
                     var mb1r = parseInt(room.message_back.substr(1, 2), 16)
                     var mb1g = parseInt(room.message_back.substr(3, 2), 16)
                     var mb1b = parseInt(room.message_back.substr(5, 2), 16)
                     var total = "rgba(" + mb1r + ", " + mb1g + ", " + mb1b + ", 0.25)"
                     console.log(total)
-                    // $(".mm-collection .mm-collection-item").css("background-color", total)
-                    console.log($(".avatar"))
-                    console.log($("#msgtitle"))
-                    console.log($(".mm-collection").children())
-                    var test2 = $(".mm-collection").get(0)
-                    console.log(test2)
-                    var test = $(".mm-collection").get(0).children
-                    console.log(test)
-                    for (i = 0; i < test.length; i++) {
-                        console.log(test.item(i))
-                    }
-                    for (i = 0; i < test2.length; i++) {
-                        console.log(test2.item(i))
-                    }
-                    $(".mm-collection .mm-collection-item").css("background-color", "#00FF00")
+                    $(".mm-collection .mm-collection-item").css("background-color", total)
                 }
-                console.log("message_back2: " + room.message_back2)
                 if (room.message_back2) {
                     var mb2r = parseInt(room.message_back2.substr(1, 2), 16)
                     var mb2g = parseInt(room.message_back2.substr(3, 2), 16)
                     var mb2b = parseInt(room.message_back2.substr(5, 2), 16)
                     var total = "rgba(" + mb2r + ", " + mb2g + ", " + mb2b + ", 0.25)"
                     console.log(total)
-                    // $(".mm-collection :nth-child(odd)").css("background-color", total)
-                    $(".mm-collection :nth-child(odd)").css("background-color", "#FF00FF")
+                    $(".mm-collection :nth-child(odd)").css("background-color", total)
                 }
-
-                curroom = room.serialid
-                first_id = null
-                $('main').scrollTop(document.body.scrollHeight)
-
-                await sleep(500)
-                canScroll = 10
             })
 
             socket.on('retreat', function () {

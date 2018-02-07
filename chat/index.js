@@ -372,7 +372,7 @@ io.sockets.on('connection', function (socket) {
     })
     socket.on('updateroomtheme', function (back1, back2, backImg, text1, text2, msg1, msg2, icon, type, rid) {
         changeRoomTheme(back1, back2, backImg, text1, text2, msg1, msg2, icon, type, rid)
-          joinChatroom(socket, rid)
+        joinChatroom(socket, rid)
     })
     socket.on('changerooms', function (roomid) {
         joinChatroom(socket, roomid)
@@ -382,12 +382,12 @@ io.sockets.on('connection', function (socket) {
     socket.on('adduser', function (email, rid, isAdmin) {
         console.log('add user called')
         addToRoom(email, rid, 0)
-          joinChatroom(socket, rid)
+        joinChatroom(socket, rid)
     })
     socket.on('joincode', function (code, rid) {
         console.log('join code called')
         joinRoom(code, socket.request.user.id)
-          joinChatroom(socket, rid)
+        joinChatroom(socket, rid)
     })
 
 
