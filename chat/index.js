@@ -621,8 +621,7 @@ function addNewCommand(roomId, cmd, actn, msg, username, pic) {
       newArr.push(arr)
       myArrString = JSON.stringify(newArr)
       console.log('new joined string: '+myArrString)
-      var testArr = JSON.parse(myArrString)
-      console.log(testArr[1])
+    con.query('UPDATE rooms set commands = ? WHERE serialid = ?',[myArrString,roomId])
     })
 }
 
