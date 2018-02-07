@@ -614,11 +614,14 @@ function singleGetMotd(roomId, sid) {
 function addNewCommand(roomId, cmd, actn, msg, username, pic) {
 
     console.log(roomId + " new command: " + cmd)
-    var arr = '{'+cmd+','+actn+','+msg+','+username+','+pic+'}'
+  //  var arr = '{'+cmd+','+actn+','+msg+','+username+','+pic+'}'
+    var arr [{cmd,actn,msg,username,pic}]
     con.query('SELECT commands FROM rooms WHERE serialid = ?',[roomId],function(error,rows){
 
       var newArr  = JSON.parse(rows[0].commands)
       console.log(newArr)
+      arr.push(newArr)
+      console.log(arr)
   //    if(newArr != null)newArr.push(arr)
     //  else newArr = arr
 
