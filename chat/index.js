@@ -618,7 +618,7 @@ function addNewCommand(roomId, cmd, actn, msg, username, pic) {
       //  if (error) console.log(error)
     //    console.log(' new regex command added in room' + roomId)
 //    })
-    var arr = '{'+cmd+','+actn+','msg+','+username+','+pic'}'
+    var arr = '{'+cmd+','+actn+','+msg+','+username+','+pic'}'
 
 
     con.query('SELECT commands FROM rooms WHERE serialid = ?',[roomId],function(error,rows){
