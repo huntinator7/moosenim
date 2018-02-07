@@ -618,12 +618,13 @@ function addNewCommand(roomId, cmd, actn, msg, username, pic) {
     con.query('SELECT commands FROM rooms WHERE serialid = ?',[roomId],function(error,rows){
 
       var newArr  = JSON.parse(rows[0].commands)
-      if(newArr != null)newArr.push(arr)
-      else newArr = arr
+      console.log(newArr)
+  //    if(newArr != null)newArr.push(arr)
+    //  else newArr = arr
 
-      myArrString = JSON.stringify(newArr)
-      console.log('new joined string: '+myArrString)
-    con.query('UPDATE rooms set commands = ? WHERE serialid = ?',[myArrString,roomId])
+    //  myArrString = JSON.stringify(newArr)
+      //console.log('new joined string: '+myArrString)
+  //  con.query('UPDATE rooms set commands = ? WHERE serialid = ?',[myArrString,roomId])
     })
 }
 
