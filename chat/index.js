@@ -686,7 +686,7 @@ function getMessage(roomId, isEmbed, pic) {
 
         // console.log(rows)
         if (error) throw error
-        con.query("SELECT * FROM users WHERE users.name = ?", [rows[0].username], function (error, row) {
+        con.query("SELECT * FROM users WHERE uid = ?", [rows[0].uid], function (error, row) {
             if (pic) {
                 io.to(roomId).emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, pic, rows[0].roomid)
             } else if (row.length < 1) {
