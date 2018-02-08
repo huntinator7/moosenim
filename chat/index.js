@@ -486,7 +486,7 @@ io.sockets.on('connection', function (socket) {
                     }
                     if (send) {
                         sendMessage(msg, un, uid, roomId)
-                        io.to(roomId).emit(getMessage(roomId, isEmbed, pic))
+                        io.to(roomId).emit(getMessage(roomId, isEmbed))
                         console.log(`config.discord.sendChannel = ${config.discord.sendChannel}`)
                         if (isEmbed && roomId == config.discord.sendChannel) {
                             sendToDiscord(un, ogMsg)
