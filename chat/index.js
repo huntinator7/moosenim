@@ -786,7 +786,7 @@ function showPreviousMessages(num, previous, sid, roomId) {
         if (error) throw error
         try {
             rows.forEach(function (element) {
-                con.query("SELECT * FROM users WHERE users.uid = ?", [element.uid], function (error, row) {
+                con.query("SELECT * FROM users WHERE uid = ?", [element.uid], function (error, row) {
                     if (row[0]) {
                         if (row[0].profpic) {
                             io.to(sid).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, row[0].profpic, element.roomid)
