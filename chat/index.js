@@ -213,7 +213,7 @@ io.sockets.on('connection', function (socket) {
 
         })
         socket.request.user.photos.forEach(function(e){
-          console.log(element)
+          console.log(e)
         })
 
     })
