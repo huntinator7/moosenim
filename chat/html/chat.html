@@ -393,14 +393,17 @@
             })
             //changeRoomTheme(back1,back2,backImg,text1,text2,msg1,msg2,icon,type)
             $('#room-color').submit(function () {
-                socket.emit('updateroomtheme', $('#back-color1').val(), $('#back-color2').val(), null, $('#text-color').val(), $('#text-color').val(), $('#msg-color1').val(), $('#msg-color2').val(), null, 1, curroom)
+                socket.emit('updateroomtheme', $('#back-color1').val(), $('#back-color2').val(), null,
+                    $('#text-color').val(), $('#text-color').val(), $('#msg-color1').val(), $(
+                        '#msg-color2').val(), null, 1, curroom)
                 console.log("form submitted " + $('#back-color1').val())
                 $('#color-modal').modal('hide')
                 return false
             })
             $('#newcommand-form').submit(function () {
 
-                socket.emit('addcommand', curroom, $('#nc-cmd').val(), $('#nc-actn').val(), $('#nc-msg').val(), $('#nc-username').val(), $('#nc-pic').val())
+                socket.emit('addcommand', curroom, $('#nc-cmd').val(), $('#nc-actn').val(), $('#nc-msg')
+                    .val(), $('#nc-username').val(), $('#nc-pic').val())
                 console.log("form submitted " + $('#nc-cmd').val())
                 $('#regex-modal').modal('hide')
                 return false
@@ -445,9 +448,34 @@
                 $('.mm-side-item-text').each(function (index) {
                     $(this).css('font-size', '1em')
                     while ($(this).textWidth() > $('#dw-s1').width() * 0.65) {
-                        $(this).css('font-size', (parseInt($(this).css('font-size')) - 1) + "px")
+                        $(this).css('font-size', (parseInt($(this).css('font-size')) - 1) +
+                            "px")
                     }
                 })
+
+                createStyles();
+
+                function createStyles() {
+                    // remove previous styles
+                    $('#ph-styles').remove();
+
+                    // create a new <style> element, set its ID
+                    var $style = $('<style>').attr('id', 'ph-styles');
+
+                    // get the value of the font-size control
+                    var fontSize = parseInt($('#slider-font-size').val(), 10);
+
+                    // create the style string: it's the text node
+                    // of our <style> element
+                    $style.text(
+                        '::placeholder { ' +
+                        'color: #6EB7FF;' +
+                        '}'
+                    );
+
+                    // append it to the <head> of our document
+                    $style.appendTo('head');
+                }
             })
 
             autosize(document.querySelectorAll('textarea'))
@@ -501,8 +529,8 @@
             //         }
             //     })
             // })
-            socket.on('get commands',function(commands){
-              console.log('recieved commands from server '+commands)
+            socket.on('get commands', function (commands) {
+                console.log('recieved commands from server ' + commands)
             })
             socket.on('chat message', function (user, msg, time, id, pic, room) {
                 if (!curroom || curroom == room) {
@@ -528,13 +556,17 @@
                     if (!first_id) {
                         console.log('!first_id, setting to ' + id)
                         first_id = id
-                        $('#messages').append('<li id="' + id + '" class="mm-collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title" id="msgtitle">' +
+                        $('#messages').append('<li id="' + id +
+                            '" class="mm-collection-item avatar"><img src="' + pic +
+                            '" alt="" class="circle"><span class="title" id="msgtitle">' +
                             user + '</span><p class="message">' +
                             msg + '</p><span class="secondary-content">' +
                             time + '</a></li>')
                         handleCSS()
                     } else {
-                        insertMessage('<li id="' + id + '" class="mm-collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title" id="msgtitle">' +
+                        insertMessage('<li id="' + id +
+                            '" class="mm-collection-item avatar"><img src="' + pic +
+                            '" alt="" class="circle"><span class="title" id="msgtitle">' +
                             user + '</span><p class="message">' +
                             msg + '</p><span class="secondary-content">' +
                             time + '</a></li>', id)
@@ -564,7 +596,9 @@
 
             socket.on('login', function (displayName, email, photoURL, UserId) {
                 console.log("Logging in " + displayName + ", email: " + email + " " + UserId)
-                $('#messages').append('<li id="login" class="mm-collection-item avatar login"><p class="message">' + displayName + ' logged in</p></li>')
+                $('#messages').append(
+                    '<li id="login" class="mm-collection-item avatar login"><p class="message">' +
+                    displayName + ' logged in</p></li>')
                 checkScroll()
                 if (document.hidden) {
                     login.play()
@@ -597,15 +631,17 @@
 
 
                         $('#mm-side-list').append(
-                            `<li class="btn nav-item mm-side-image"><img src="https://www.moosen.im/images/favicon.png" alt="" class="circle img-fluid"><a class="nav-link mm-side-item-text" data-toggle="drawer" data-target="#dw-s1" room="${element.serialid}">${element.name}</a></li>`)
+                            `<li class="btn nav-item mm-side-image"><img src="https://www.moosen.im/images/favicon.png" alt="" class="circle img-fluid"><a class="nav-link mm-side-item-text" data-toggle="drawer" data-target="#dw-s1" room="${element.serialid}">${element.name}</a></li>`
+                        )
                     })
                     $('.mm-side-item-text').each(function (index) {
                         $(this).css('font-size', '1em')
                         while ($(this).textWidth() > $('#dw-s1').width() * 0.65) {
-                            $(this).css('font-size', (parseInt($(this).css('font-size')) - 1) + "px")
+                            $(this).css('font-size', (parseInt($(this).css('font-size')) - 1) +
+                                "px")
                         }
                     })
-                } catch (e) { }
+                } catch (e) {}
             })
 
             $('#mm-side-list').on('click', 'a', function () {
@@ -641,8 +677,12 @@
                 if (room.back1) css.back1 = room.back1
                 if (room.text_color) css.text1 = room.text_color
                 if (room.text_color2) css.text2 = room.text_color2
-                if (room.message_back) css.mb1 = "rgba(" + parseInt(room.message_back.substr(1, 2), 16) + ", " + parseInt(room.message_back.substr(3, 2), 16) + ", " + parseInt(room.message_back.substr(5, 2), 16) + ", 0.25)"
-                if (room.message_back2) css.mb2 = "rgba(" + parseInt(room.message_back2.substr(1, 2), 16) + ", " + parseInt(room.message_back2.substr(3, 2), 16) + ", " + parseInt(room.message_back2.substr(5, 2), 16) + ", 0.25)"
+                if (room.message_back) css.mb1 = "rgba(" + parseInt(room.message_back.substr(1, 2), 16) +
+                    ", " + parseInt(room.message_back.substr(3, 2), 16) + ", " + parseInt(room.message_back
+                        .substr(5, 2), 16) + ", 0.25)"
+                if (room.message_back2) css.mb2 = "rgba(" + parseInt(room.message_back2.substr(1, 2),
+                    16) + ", " + parseInt(room.message_back2.substr(3, 2), 16) + ", " + parseInt(
+                    room.message_back2.substr(5, 2), 16) + ", 0.25)"
 
                 handleCSS()
                 canScroll = 0
@@ -656,8 +696,11 @@
             })
 
             socket.on('logout message', function (user) {
-                $('#messages').append('<li id="' + id + '" class="mm-collection-item avatar"><img src="' + pic + '" alt="" class="circle"><span class="title" id="msgtitle">' +
-                    user + '</span><p class="message">' + user + ' logged out</p><span class="secondary-content">' +
+                $('#messages').append('<li id="' + id +
+                    '" class="mm-collection-item avatar"><img src="' + pic +
+                    '" alt="" class="circle"><span class="title" id="msgtitle">' +
+                    user + '</span><p class="message">' + user +
+                    ' logged out</p><span class="secondary-content">' +
                     time + '</a></li>')
                 checkScroll()
             })
@@ -717,7 +760,7 @@
                 $(".navbar a").css("color", css.text1)
                 $(".navbar a i").css("color", css.text1)
                 $(".navbar a button").css("color", css.text1)
-                $(".navbar a button i").css("color", css.text1)
+                $(".mm-navdd button i").css("color", css.text1)
                 $(".mm-collection .mm-collection-item>.title").css("color", css.text2)
                 $(".mm-collection .mm-collection-item>.secondary-content").css("color", css.text2)
                 $(".mm-collection .mm-collection-item").css("background-color", css.mb1)
