@@ -643,7 +643,7 @@ function addNewCommand(roomId, cmd, actn, msg, username, pic) {
 function getRegexCommands(roomId, sid) {
     con.query('SELECT commands FROM rooms WHERE serialid = ?', [roomId], function (error, row) {
         if (error) console.log(error)
-        var coms = JSON.parse(rows[0].commands)
+        var coms = JSON.parse(row[0].commands)
         console.log(coms)
         coms.forEach(function(element) {
             element.cmd = decodeURI(element.cmd)
