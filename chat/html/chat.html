@@ -562,7 +562,7 @@
                             user + '</span><p class="message">' +
                             msg + '</p><span class="secondary-content">' +
                             time + '</a></li>')
-                        handleCSS()
+                        handleMessageCSS()
                     } else {
                         insertMessage('<li id="' + id +
                             '" class="mm-collection-item avatar"><img src="' + pic +
@@ -729,7 +729,7 @@
                     $('#messages').append(msg)
                     checkScroll()
                 }
-                handleCSS()
+                handleMessageCSS()
 
                 await sleep(500)
                 canScroll += 1
@@ -755,13 +755,16 @@
                 } else {
                     $(".main").css("background", css.back1)
                 }
-                $(".mm-collection .mm-collection-item>.message").css("color", css.text1)
                 $("#send-message").css("color", css.text1)
                 $(".navbar a").css("color", css.text1)
                 $(".navbar a i").css("color", css.text1)
                 $(".navbar a button").css("color", css.text1)
                 $(".mm-navdd button i").css("color", css.text1)
-                document.styleSheets[0].addRule('.dropdown-toggle:after', 'color: "' + css.text1 + '";');
+                handleMessageCSS()
+            }
+
+            function handleMessageCSS() {
+                $(".mm-collection .mm-collection-item>.message").css("color", css.text1)
                 $(".mm-collection .mm-collection-item>.title").css("color", css.text2)
                 $(".mm-collection .mm-collection-item>.secondary-content").css("color", css.text2)
                 $(".mm-collection .mm-collection-item").css("background-color", css.mb1)

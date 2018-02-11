@@ -82,6 +82,10 @@ textarea {
     padding-top: 0px;
 }
 
+.dropdown-toggle:after {
+    content: none;
+}
+
 .nav-link {
     color: white;
 }
@@ -208,7 +212,8 @@ textarea {
     overflow-wrap: break-word;
 }
 
-.mm-collection .mm-collection-item.avatar:not(.circle-clipper)>.circle, .mm-collection .mm-collection-item.avatar :not(.circle-clipper)>.circle {
+.mm-collection .mm-collection-item.avatar:not(.circle-clipper)>.circle,
+.mm-collection .mm-collection-item.avatar :not(.circle-clipper)>.circle {
     position: absolute;
     width: 42px;
     height: 42px;
