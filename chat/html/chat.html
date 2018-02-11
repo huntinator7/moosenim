@@ -531,7 +531,10 @@
                     if (!curroom) {
                         curroom = room
                     }
-                    doRest(checkRegex(msg))
+
+                    var theTest = checkRegex(msg)
+                    console.log("theTest: " + theTest)
+                    doRest(theTest)
 
                     function checkRegex(message) {
                         if (doRegex) {
@@ -541,9 +544,11 @@
                                 var command = /\S*/i.exec(message.substr(1))
                                 roomCommands.forEach(function (element) {
                                     if (command[0] == element.cmd) {
+                                        console.log("Returning 1")
                                         return element.msg
                                     }
                                 })
+                                console.log("Returning 2")
                                 return message
                             } else {
                                 console.log('Is not a command')
@@ -577,11 +582,13 @@
                                         }
                                     } else {
                                         console.log("re.test(msg) == false but: " + re.test(message))
+                                        console.log("Returning 3")
                                         return message
                                     }
                                 })
                             }
                         } else {
+                            console.log("Returning 4")
                             return message
                         }
                     }
