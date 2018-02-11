@@ -568,7 +568,7 @@ function getRegexCommands(roomId, sid) {
         console.log(coms)
         const decode = new Promise((resolve, reject) => {
             coms.forEach(function (element) {
-                element.msg = decodeURI(element.cmd)
+                element.msg = decodeURI(element.msg)
             })
             resolve(io.to(sid).emit('get commands', coms, roomId))
         })
