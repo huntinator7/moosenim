@@ -554,17 +554,16 @@
                                     console.log(re.test(msg))
                                     if (re.test(msg)) {
                                         switch (element.action) {
-                                            case "replace":
-                                                var newMsg = msg.replace(re, element.msg)
-                                                return newMsg
-                                                break
-                                            case "replaceWhole":
-                                                return element.msg
-                                                break
-                                            case "replaceEmbed":
+                                            case "Replace":
                                                 return msg.replace(re, element.msg)
                                                 break
-                                            case "respond":
+                                            case "ReplaceWhole":
+                                                return element.msg
+                                                break
+                                            case "ReplaceEmbed":
+                                                return msg.replace(re, element.msg)
+                                                break
+                                            case "Respond":
                                                 sendResponse(element, id + 0.5, time)
                                                 return element.msg
                                                 break
