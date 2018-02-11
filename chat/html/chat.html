@@ -549,6 +549,7 @@
                                 roomRegex.forEach(function (element) {
                                     var re = new RegExp(element.cmd, 'ig')
                                     console.log(re)
+                                    console.log(msg)
                                     if (re.test(msg)) {
                                         switch (element.action) {
                                             case "replace":
