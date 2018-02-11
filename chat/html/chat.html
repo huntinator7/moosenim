@@ -512,13 +512,13 @@
             socket.on('get commands', function (commands) {
                 console.log('recieved commands from server')
                 console.log(commands)
-                commands.forEach(function (element) {
-                    if (element.cmd.substr(0, 1) == "!") {
-                        roomCommands.push(element)
+                for (i = 0; i < commands.length; i++) {
+                    if (commands[i].cmd.substr(0, 1) == "!") {
+                        roomCommands.push(commands[i])
                     } else {
-                        roomRegex.push(element)
+                        roomRegex.push(commands[i])
                     }
-                })
+                }
             })
 
             socket.on('chat message', function (user, msg, time, id, pic, room) {
