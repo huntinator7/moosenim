@@ -210,7 +210,12 @@ io.sockets.on('connection', function (socket) {
     con.query("SELECT room_id FROM room_users WHERE user_id = ?", [socket.request.user.id], function (error, rows, results) {
         rows.forEach(function (element) {
             io.to(element).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id)
+
         })
+        socket.request.user.photos.forEach(function(e){
+          console.log(e)
+        })
+
     })
     con.query("SELECT * FROM users WHERE uid = ?", [socket.request.user.id], function (error, rows, results) {
         joinChatroom(socket, rows[0].curroom)
@@ -486,7 +491,7 @@ io.sockets.on('connection', function (socket) {
                     }
                     if (send) {
                         sendMessage(msg, un, uid, roomId)
-                        io.to(roomId).emit(getMessage(roomId, isEmbed, pic))
+                        io.to(roomId).emit(getMessage(roomId, isEmbed,pic))
                         console.log(`config.discord.sendChannel = ${config.discord.sendChannel}`)
                         if (isEmbed && roomId == config.discord.sendChannel) {
                             sendToDiscord(un, ogMsg)
@@ -686,7 +691,7 @@ function getMessage(roomId, isEmbed, pic) {
 
         // console.log(rows)
         if (error) throw error
-        con.query("SELECT * FROM users WHERE users.name = ?", [rows[0].username], function (error, row) {
+        con.query("SELECT * FROM users WHERE uid = ?", [rows[0].uid], function (error, row) {
             if (pic) {
                 io.to(roomId).emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, pic, rows[0].roomid)
             } else if (row.length < 1) {
@@ -786,7 +791,7 @@ function showPreviousMessages(num, previous, sid, roomId) {
         if (error) throw error
         try {
             rows.forEach(function (element) {
-                con.query("SELECT * FROM users WHERE users.name = ?", [element.username], function (error, row) {
+                con.query("SELECT * FROM users WHERE uid = ?", [element.uid], function (error, row) {
                     if (row[0]) {
                         if (row[0].profpic) {
                             io.to(sid).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, row[0].profpic, element.roomid)
