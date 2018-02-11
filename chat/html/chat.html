@@ -534,63 +534,63 @@
 
                     checkRegex(doRest)
 
-                    function checkRegex(message) {
-                        var sendMessage = message
+                    function checkRegex(cb) {
+                        var sendmsg = msg
                         if (doRegex) {
                             console.log('Doing regex')
-                            if (message.substr(0, 1) == "!") {
+                            if (msg.substr(0, 1) == "!") {
                                 console.log('Is a command')
-                                var command = /\S*/i.exec(message.substr(1))
+                                var command = /\S*/i.exec(msg.substr(1))
                                 roomCommands.forEach(function (element) {
                                     if (command[0] == element.cmd) {
                                         console.log("Returning 1")
-                                        sendMessage = element.msg
+                                        sendmsg = element.msg
                                     }
                                 })
                                 console.log("Returning 2")
-                                sendMessage = message
+                                sendmsg = msg
                             } else {
                                 console.log('Is not a command')
                                 roomRegex.forEach(function (element) {
                                     var re = new RegExp(element.cmd, 'ig')
                                     console.log(re)
-                                    console.log(message)
-                                    var testedPositive = re.test(message)
+                                    console.log(msg)
+                                    var testedPositive = re.test(msg)
                                     console.log(testedPositive)
                                     if (testedPositive) {
                                         console.log("element.actn: " + element.actn)
                                         switch (element.actn) {
                                             case "Replace":
                                                 console.log("Replace")
-                                                sendMessage = message.replace(re, element.msg)
+                                                sendmsg = msg.replace(re, element.msg)
                                                 break
                                             case "ReplaceWhole":
                                                 console.log("ReplaceWhole")
-                                                sendMessage = element.msg
+                                                sendmsg = element.msg
                                                 break
                                             case "ReplaceEmbed":
                                                 console.log("ReplaceEmbed")
-                                                sendMessage = message.replace(re, element.msg)
+                                                sendmsg = msg.replace(re, element.msg)
                                                 break
                                             case "Respond":
                                                 console.log("Respond")
                                                 sendResponse(element, id + 0.5, time)
-                                                sendMessage = element.msg
+                                                sendmsg = element.msg
                                                 break
                                             default:
                                                 break
                                         }
                                     } else {
-                                        console.log("re.test(msg) == false but: " + re.test(message))
-                                        console.log(message)
-                                        sendMessage = message
+                                        console.log("re.test(msg) == false but: " + re.test(msg))
+                                        console.log(msg)
+                                        sendmsg = msg
                                     }
                                 })
                             }
                         } else {
                             console.log("Returning 4")
                         }
-                        cb(sendMessage)
+                        cb(sendmsg)
                     }
 
                     async function sendResponse(e, thisId) {
