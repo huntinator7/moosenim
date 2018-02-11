@@ -621,7 +621,7 @@ function addNewCommand(roomId, cmd, actn, msg, username, pic) {
 
     console.log(roomId + " new command: " + cmd)
     var arr = {
-        cmd,
+        cmd: encodeURI(cmd),
         actn,
         msg,
         username,
@@ -643,8 +643,12 @@ function addNewCommand(roomId, cmd, actn, msg, username, pic) {
 function getRegexCommands(roomId, sid) {
     con.query('SELECT commands FROM rooms WHERE serialid = ?', [roomId], function (error, row) {
         if (error) console.log(error)
-        console.log(row[0].commands)
-        io.to(sid).emit('get commands', row[0].commands, roomId)
+        var coms = row[0].commands
+        console.log(coms)
+        coms.forEach(function(element) {
+            element.cmd = decodeURI(element.cmd)
+        })
+        io.to(sid).emit('get commands', coms, roomId)
     })
 }
 

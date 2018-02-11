@@ -509,13 +509,11 @@
             //     })
             // })
 
-            socket.on('get commands', function (commands) {
+            socket.on('get commands', function (commandsArr) {
                 console.log('recieved commands from server')
-                console.log(commands)
+                console.log(commandsArr)
                 roomCommands = []
                 roomRegex = []
-                var commandsArr = JSON.parse(commands)
-                console.log(commandsArr)
                 commandsArr.forEach(function (element) {
                     if (element.cmd.substr(0, 1) == "!") {
                         console.log(element)
