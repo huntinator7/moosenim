@@ -512,6 +512,8 @@
             socket.on('get commands', function (commands) {
                 console.log('recieved commands from server')
                 console.log(commands)
+                roomCommands = []
+                roomRegex = []
                 var commandsArr = JSON.parse(commands)
                 console.log(commandsArr)
                 commandsArr.forEach(function (element) {
@@ -537,9 +539,7 @@
                     function checkRegex(cb) {
                         var sendmsg = msg
                         if (doRegex) {
-                            console.log('Doing regex')
                             if (msg.substr(0, 1) == "!") {
-                                console.log('Is a command')
                                 var command = /\S*/i.exec(msg.substr(1))
                                 roomCommands.forEach(function (element) {
                                     if (command[0] == element.cmd) {
@@ -548,30 +548,21 @@
                                     }
                                 })
                             } else {
-                                console.log('Is not a command')
                                 roomRegex.forEach(function (element) {
                                     var re = new RegExp('(^|\\s)(' + element.cmd + ')($|\\s)', 'ig')
-                                    console.log(re)
-                                    console.log(sendmsg)
                                     var testedPositive = re.test(sendmsg)
-                                    console.log(testedPositive)
                                     if (testedPositive) {
-                                        console.log("element.actn: " + element.actn)
                                         switch (element.actn) {
                                             case "Replace":
-                                                console.log("Replace")
                                                 sendmsg = sendmsg.replace(re, `$1${element.msg}$3`)
                                                 break
                                             case "ReplaceWhole":
-                                                console.log("ReplaceWhole")
                                                 sendmsg = element.msg
                                                 break
                                             case "ReplaceEmbed":
-                                                console.log("ReplaceEmbed")
                                                 sendmsg = sendmsg.replace(re, `$1${element.msg}$3`)
                                                 break
                                             case "Respond":
-                                                console.log("Respond")
                                                 sendResponse(element, id + 0.5, time)
                                                 sendmsg = element.msg
                                                 break
@@ -581,8 +572,6 @@
                                     }
                                 })
                             }
-                        } else {
-                            console.log("No matches")
                         }
                         cb(sendmsg)
                     }

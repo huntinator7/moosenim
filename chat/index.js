@@ -57,10 +57,10 @@ var io = require('socket.io')(server)
 
 //----PASSPORT----\\
 passport.use(new strategy({
-    clientID: '333736509560-id8si5cbuim26d3e67s4l7oscjfsakat.apps.googleusercontent.com',
-    clientSecret: 'ZCMQ511PhvMEQqozMGd5bmRH',
-    callbackURL: 'https://moosen.im/auth/google/callback'
-},
+        clientID: '333736509560-id8si5cbuim26d3e67s4l7oscjfsakat.apps.googleusercontent.com',
+        clientSecret: 'ZCMQ511PhvMEQqozMGd5bmRH',
+        callbackURL: 'https://moosen.im/auth/google/callback'
+    },
     function (accessToken, refreshToken, profile, cb) {
         //  console.log("id "+profile.id+"name "+profile.name+"displayName "+profile.displayName+"email "+profile.email+"gender "+profile.gender)
         loginUser(profile.id, profile.displayName, profile.photos[0].value, profile.emails[0].value)
@@ -212,8 +212,8 @@ io.sockets.on('connection', function (socket) {
             io.to(element).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id)
 
         })
-        socket.request.user.photos.forEach(function(e){
-          console.log(e)
+        socket.request.user.photos.forEach(function (e) {
+            console.log(e)
         })
 
     })
@@ -374,7 +374,7 @@ io.sockets.on('connection', function (socket) {
         //nc = new Command(roomId,cmd,actn,msg,username,pic)
         console.log(roomId + " new command: " + cmd)
         addNewCommand(roomId, cmd, actn, msg, username, pic)
-        getRegexCommands(roomId,socket.id)
+        getRegexCommands(roomId, socket.id)
     })
     socket.on('updateroomtheme', function (back1, back2, backImg, text1, text2, msg1, msg2, icon, type, roomId) {
         changeRoomTheme(back1, back2, backImg, text1, text2, msg1, msg2, icon, type, roomId)
@@ -491,7 +491,7 @@ io.sockets.on('connection', function (socket) {
                     }
                     if (send) {
                         sendMessage(msg, un, uid, roomId)
-                        io.to(roomId).emit(getMessage(roomId, isEmbed,pic))
+                        io.to(roomId).emit(getMessage(roomId, isEmbed, pic))
                         console.log(`config.discord.sendChannel = ${config.discord.sendChannel}`)
                         if (isEmbed && roomId == config.discord.sendChannel) {
                             sendToDiscord(un, ogMsg)
@@ -620,15 +620,23 @@ function singleGetMotd(roomId, sid) {
 function addNewCommand(roomId, cmd, actn, msg, username, pic) {
 
     console.log(roomId + " new command: " + cmd)
-    var arr = {cmd,actn,msg,username,pic}
-    con.query('SELECT commands FROM rooms WHERE serialid = ?',[roomId],function(error,rows){
+    var arr = {
+        cmd,
+        actn,
+        msg,
+        username,
+        pic
+    }
+    con.query('SELECT commands FROM rooms WHERE serialid = ?', [roomId], function (error, rows) {
 
-      var newArr  = JSON.parse(rows[0].commands)
-      newArr.push(arr)
-      console.log(newArr)
-      myArrString = JSON.stringify(newArr)
-      //console.log('new joined string: '+myArrString)
-    con.query('UPDATE rooms set commands = ? WHERE serialid = ?',[myArrString,roomId])
+        var newArr = JSON.parse(rows[0].commands)
+        newArr.push(arr)
+        console.log(newArr)
+        myArrString = JSON.stringify(newArr)
+        //console.log('new joined string: '+myArrString)
+        con.query('UPDATE rooms set commands = ? WHERE serialid = ?', [myArrString, roomId], function (error) {
+            io.to(roomId).emit('get commands', myArrString, roomId)
+        })
     })
 }
 
@@ -710,13 +718,13 @@ function sleep(ms) {
 }
 
 async function sendToDiscord(un, msg) {
-    msg = /@moosen/ig[Symbol.replace](msg, '<@&277296480245514240>')
-    msg = /@noah/ig[Symbol.replace](msg, '<@!207214113191886849>')
-    msg = /@hunter/ig[Symbol.replace](msg, '<@!89758327621296128>')
-    msg = /@nick/ig[Symbol.replace](msg, '<@!185934787679092736>')
-    msg = /@kyle/ig[Symbol.replace](msg, '<@!147143598301773824>')
-    msg = /@lane/ig[Symbol.replace](msg, '<@!81913971979849728>')
-    msg = /:fn:/ig[Symbol.replace](msg, '<:fNoah1:318887883291230219> <:fNoah2:318887791096365056> <:fNoah3:318887914530668544>')
+    msg = /@moosen/ig [Symbol.replace](msg, '<@&277296480245514240>')
+    msg = /@noah/ig [Symbol.replace](msg, '<@!207214113191886849>')
+    msg = /@hunter/ig [Symbol.replace](msg, '<@!89758327621296128>')
+    msg = /@nick/ig [Symbol.replace](msg, '<@!185934787679092736>')
+    msg = /@kyle/ig [Symbol.replace](msg, '<@!147143598301773824>')
+    msg = /@lane/ig [Symbol.replace](msg, '<@!81913971979849728>')
+    msg = /:fn:/ig [Symbol.replace](msg, '<:fNoah1:318887883291230219> <:fNoah2:318887791096365056> <:fNoah3:318887914530668544>')
     await sleep(100)
     client.channels.get(config.discord.moosen).send(un + ': ' + msg)
 }
@@ -822,7 +830,7 @@ function createChatroom(n, uid) {
     try {
         var name = n
         // get availible chatrooms from user SELECT room_id FROM room_users WHERE user_id = ? [user.uid]
-        con.query("INSERT INTO rooms (name,motd,join_code,back1,back2,text_color,icon,text_color2) VALUES(?,?,?,?,?,?,?)", [name, 'motd', uuidv4(), '#6EB7FF', '#23ffdd', '#000000','https://www.moosen.im/images/favicon.png','#000000'], function (error) { })
+        con.query("INSERT INTO rooms (name,motd,join_code,back1,back2,text_color,icon,text_color2) VALUES(?,?,?,?,?,?,?)", [name, 'motd', uuidv4(), '#6EB7FF', '#23ffdd', '#000000', 'https://www.moosen.im/images/favicon.png', '#000000'], function (error) {})
         con.query("SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC", function (error, row, results) {
             con.query("INSERT INTO room_users VALUES(?,?,1)", [row[0].serialid, uid])
 
@@ -839,15 +847,16 @@ function searchUsers(email) {
         return rows[0].uid
     })
 }
+
 function changeRoomTheme(back1, back2, backImg, text1, text2, msg1, msg2, icon, type, roomId) {
     try {
         con.query("UPDATE rooms SET back1=?, back2=?,back_img=?,text_color=?,text_color2=?,message_back=?,message_back2=?,icon=?,background_type=? WHERE serialid = ?", [back1, back2, backImg, text1, text2, msg1, msg2, icon, type, roomId])
         console.log(back1, back2, backImg, text1, text2, msg1, msg2, icon, type, roomId)
-    }
-    catch (e) {
+    } catch (e) {
         console.log(e)
     }
 }
+
 function joinRoom(joinCode, uid) {
     con.query("SELECT * FROM rooms WHERE join_code = ?", [joinCode], function (error, rows, result) {
         try {
@@ -861,6 +870,7 @@ function joinRoom(joinCode, uid) {
         }
     })
 }
+
 function addToRoom(email, roomId, isAdmin) {
     con.query("SELECT * FROM users WHERE email = ?", [email], function (error, rows, result) {
         try {
