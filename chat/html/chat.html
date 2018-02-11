@@ -452,31 +452,31 @@
                             "px")
                     }
                 })
-
-                function createStyles() {
-                    // remove previous styles
-                    $('#ph-styles').remove();
-
-                    console.log("Hey I'm here this worked")
-
-                    // create a new <style> element, set its ID
-                    var $style = $('<style>').attr('id', 'ph-styles');
-
-                    // get the value of the font-size control
-                    var fontSize = parseInt($('#slider-font-size').val(), 10);
-
-                    // create the style string: it's the text node
-                    // of our <style> element
-                    $style.text(
-                        '::placeholder { ' +
-                        'color: #6EB7FF;' +
-                        '}'
-                    );
-
-                    // append it to the <head> of our document
-                    $style.appendTo('head');
-                }
             })
+
+            function createStyles() {
+                // remove previous styles
+                $('#ph-styles').remove();
+
+                console.log("Hey I'm here this worked")
+
+                // create a new <style> element, set its ID
+                var $style = $('<style>').attr('id', 'ph-styles');
+
+                // get the value of the font-size control
+                var fontSize = parseInt($('#slider-font-size').val(), 10);
+
+                // create the style string: it's the text node
+                // of our <style> element
+                $style.text(
+                    '::placeholder { ' +
+                    'color: #6EB7FF;' +
+                    '}'
+                );
+
+                // append it to the <head> of our document
+                $style.appendTo('head');
+            }
 
             autosize(document.querySelectorAll('textarea'))
 
