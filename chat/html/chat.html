@@ -547,24 +547,20 @@
                                         sendmsg = element.msg
                                     }
                                 })
-                                console.log("Returning 2")
-                                sendmsg = msg
                             } else {
                                 console.log('Is not a command')
                                 roomRegex.forEach(function (element) {
                                     var re = new RegExp('(^|\\s)(' + element.cmd + ')($|\\s)', 'ig')
                                     console.log(re)
-                                    console.log(msg)
-                                    var testedPositive = re.test(msg)
+                                    console.log(sendmsg)
+                                    var testedPositive = re.test(sendmsg)
                                     console.log(testedPositive)
                                     if (testedPositive) {
-                                        var exec = re.exec(msg)
-                                        console.log(exec)
                                         console.log("element.actn: " + element.actn)
                                         switch (element.actn) {
                                             case "Replace":
                                                 console.log("Replace")
-                                                sendmsg = msg.replace(re, element.msg)
+                                                sendmsg = sendmsg.replace(re, `$1${element.msg}$3`)
                                                 break
                                             case "ReplaceWhole":
                                                 console.log("ReplaceWhole")
@@ -572,7 +568,7 @@
                                                 break
                                             case "ReplaceEmbed":
                                                 console.log("ReplaceEmbed")
-                                                sendmsg = msg.replace(re, element.msg)
+                                                sendmsg = sendmsg.replace(re, `$1${element.msg}$3`)
                                                 break
                                             case "Respond":
                                                 console.log("Respond")
@@ -582,15 +578,11 @@
                                             default:
                                                 break
                                         }
-                                    } else {
-                                        console.log("re.test(msg) == false but: " + re.test(msg))
-                                        console.log(msg)
-                                        sendmsg = msg
                                     }
                                 })
                             }
                         } else {
-                            console.log("Returning 4")
+                            console.log("No matches")
                         }
                         cb(sendmsg)
                     }
