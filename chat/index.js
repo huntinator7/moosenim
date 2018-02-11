@@ -371,8 +371,6 @@ io.sockets.on('connection', function (socket) {
     })
     //  socket.emit('addcommand', roomId , $('#nc-cmd').val(),$('#nc-actn').val(),$('#nc-msg').val(),$('#nc-username').val(),$('#nc-pic').val())
     socket.on('addcommand', function (roomId, cmd, actn, msg, username, pic) {
-        //nc = new Command(roomId,cmd,actn,msg,username,pic)
-        console.log(roomId + " new command: " + cmd)
         addNewCommand(roomId, cmd, actn, msg, username, pic)
         //getRegexCommands(roomId, socket.id)
     })
