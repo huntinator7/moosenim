@@ -548,6 +548,7 @@
                                 console.log('Is not a command')
                                 roomRegex.forEach(function (element) {
                                     var re = new RegExp(element.cmd, 'ig')
+                                    console.log(re)
                                     if (re.test(msg)) {
                                         switch (element.action) {
                                             case "replace":
@@ -574,7 +575,7 @@
                     }
 
                     async function sendResponse(e, thisId) {
-                        await sleep(100)
+                        await sleep(50)
                         insertMessage('<li id="' + thisId +
                             '" class="mm-collection-item avatar"><img src="' + e.pic +
                             '" alt="" class="circle"><span class="title" id="msgtitle">' +
