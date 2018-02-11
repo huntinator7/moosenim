@@ -781,6 +781,7 @@ function joinChatroom(socket, roomId) {
             console.log("last message isn't working.")
         }
     })
+    getRegexCommands(roomId,socket.id)
 }
 
 function showPreviousMessages(num, previous, sid, roomId) {
