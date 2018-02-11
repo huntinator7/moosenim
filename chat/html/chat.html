@@ -550,6 +550,7 @@
                                     var re = new RegExp(element.cmd, 'ig')
                                     console.log(re)
                                     console.log(msg)
+                                    console.log(re.test(msg))
                                     if (re.test(msg)) {
                                         switch (element.action) {
                                             case "replace":
