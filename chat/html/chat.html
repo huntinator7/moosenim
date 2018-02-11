@@ -328,6 +328,9 @@
             var retrievePrevious = false
             var URL_SERVER = 'https://moosen.im:443'
             var socket = io.connect(URL_SERVER)
+            var doRegex = true
+            var roomCommands = []
+            var roomRegex = []
             var curroom
             var canAuto = false
             var canScroll = 10
@@ -344,11 +347,11 @@
 
             handleCSS()
 
-            var siofu = new SocketIOFileUpload(socket);
+            var siofu = new SocketIOFileUpload(socket)
             siofu.addEventListener("start", function (event) {
-                event.file.meta.filetype = event.file.type;
-                event.file.meta.room = curroom;
-            });
+                event.file.meta.filetype = event.file.type
+                event.file.meta.room = curroom
+            })
 
             $.fn.textWidth = function () {
                 var text = $(this).html()
@@ -454,30 +457,6 @@
                 })
             })
 
-            function createStyles() {
-                // remove previous styles
-                $('#ph-styles').remove();
-
-                console.log("Hey I'm here this worked")
-
-                // create a new <style> element, set its ID
-                var $style = $('<style>').attr('id', 'ph-styles');
-
-                // get the value of the font-size control
-                var fontSize = parseInt($('#slider-font-size').val(), 10);
-
-                // create the style string: it's the text node
-                // of our <style> element
-                $style.text(
-                    '::placeholder { ' +
-                    'color: #6EB7FF;' +
-                    '}'
-                );
-
-                // append it to the <head> of our document
-                $style.appendTo('head');
-            }
-
             autosize(document.querySelectorAll('textarea'))
 
             var last_scroll_position = 0
@@ -533,6 +512,13 @@
             socket.on('get commands', function (commands) {
                 console.log('recieved commands from server')
                 console.log(commands)
+                commands.forEach(function (element) {
+                    if (element.cmd.substr(0, 1) == "!") {
+                        roomCommands.push(element)
+                    } else {
+                        roomRegex.push(element)
+                    }
+                })
             })
 
             socket.on('chat message', function (user, msg, time, id, pic, room) {
@@ -540,44 +526,92 @@
                     if (!curroom) {
                         curroom = room
                     }
-                    // console.log('id: ' + id)
-                    if (!retrieving) {
-                        retrieving = true
-                        if ($('#messages').children().first().attr('id')) {
-                            saved_first = $('#messages').children().first().attr('id')
-                            // console.log('saved_first set to ' + saved_first)
-                        } else {
-                            // console.log('no messages.children.first.id found')
+                    checkRegex(doRest)
+
+                    function checkRegex(cb) {
+                        if (doRegex) {
+                            if (msg.substr(0, 1) == "!") {
+                                console.log('Is a command')
+                                var command = /\S*/i.exec(msg.substr(1))
+                                roomCommands.forEach(function (element) {
+                                    if (command[0] == element.cmd) {
+                                        msg = element.msg
+                                    }
+                                })
+                            } else {
+                                roomRegex.forEach(function (element) {
+                                    var re = new RegExp(element.cmd, 'ig')
+                                    if (re.test(msg)) {
+                                        switch (element.action) {
+                                            case "replace":
+                                                msg = msg.replace(re, element.msg)
+                                                break
+                                            case "replaceWhole":
+                                                msg = element.msg
+                                                break
+                                            case "replaceEmbed":
+                                                msg = msg.replace(re, element.msg)
+                                                break
+                                            case "respond":
+                                                msg = element.msg
+                                                sendResponse(element, id + 0.5, time)
+                                                break
+                                            default:
+                                                break
+                                        }
+                                    }
+                                })
+                            }
                         }
-                        pageJump()
+                        cb(msg)
                     }
-                    document.title = user.substring(0, 3) + ": " + msg.substring(0, 10)
-                    if (document.hidden) {
-                        notifyMe(msg, pic)
-                        login.play()
+
+                    async function sendResponse(e, thisId) {
+                        await sleep(100)
+                        insertMessage('<li id="' + thisId +
+                            '" class="mm-collection-item avatar"><img src="' + e.pic +
+                            '" alt="" class="circle"><span class="title" id="msgtitle">' +
+                            e.username + '</span><p class="message">' +
+                            e.msg + '</p><span class="secondary-content">' +
+                            time + '</a></li>', thisId)
                     }
-                    if (!first_id) {
-                        console.log('!first_id, setting to ' + id)
-                        first_id = id
-                        $('#messages').append('<li id="' + id +
-                            '" class="mm-collection-item avatar"><img src="' + pic +
-                            '" alt="" class="circle"><span class="title" id="msgtitle">' +
-                            user + '</span><p class="message">' +
-                            msg + '</p><span class="secondary-content">' +
-                            time + '</a></li>')
-                        handleMessageCSS()
-                    } else {
-                        insertMessage('<li id="' + id +
-                            '" class="mm-collection-item avatar"><img src="' + pic +
-                            '" alt="" class="circle"><span class="title" id="msgtitle">' +
-                            user + '</span><p class="message">' +
-                            msg + '</p><span class="secondary-content">' +
-                            time + '</a></li>', id)
-                        if (first_id > id) {
+
+                    function doRest(newMsg) {
+                        if (!retrieving) {
+                            retrieving = true
+                            if ($('#messages').children().first().attr('id')) {
+                                saved_first = $('#messages').children().first().attr('id')
+                            }
+                            pageJump()
+                        }
+                        document.title = user.substring(0, 3) + ": " + newMsg.substring(0, 10)
+                        if (document.hidden) {
+                            notifyMe(newMsg, pic)
+                            login.play()
+                        }
+                        if (!first_id) {
+                            console.log('!first_id, setting to ' + id)
                             first_id = id
+                            $('#messages').append('<li id="' + id +
+                                '" class="mm-collection-item avatar"><img src="' + pic +
+                                '" alt="" class="circle"><span class="title" id="msgtitle">' +
+                                user + '</span><p class="message">' +
+                                newMsg + '</p><span class="secondary-content">' +
+                                time + '</a></li>')
+                            handleMessageCSS()
+                        } else {
+                            insertMessage('<li id="' + id +
+                                '" class="mm-collection-item avatar"><img src="' + pic +
+                                '" alt="" class="circle"><span class="title" id="msgtitle">' +
+                                user + '</span><p class="message">' +
+                                newMsg + '</p><span class="secondary-content">' +
+                                time + '</a></li>', id)
+                            if (first_id > id) {
+                                first_id = id
+                            }
                         }
+                        $('.materialboxed').materialbox()
                     }
-                    $('.materialboxed').materialbox()
                 } else {
                     // console.log($("a[room='" + room + "']").children())
                     // if ($("a[room='" + room + "']").children().hasClass('none')) {
@@ -776,13 +810,13 @@
             }
 
             function handleFileSelect(evt) {
-                console.log('In handleFileSelect');
-                var files = evt.target.files; // FileList object
+                console.log('In handleFileSelect')
+                var files = evt.target.files // FileList object
                 for (var i = 0; i < files.length; i++) {
-                    var name = files[i].name;
-                    var type = files[i].type;
-                    console.log("Filename: " + name + " , Type: " + type);
-                    siofu.submitFiles([files[i]]);
+                    var name = files[i].name
+                    var type = files[i].type
+                    console.log("Filename: " + name + " , Type: " + type)
+                    siofu.submitFiles([files[i]])
                 }
             }
             document.getElementById('add_pics').addEventListener('change', handleFileSelect, false)

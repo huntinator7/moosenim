@@ -634,10 +634,9 @@ function addNewCommand(roomId, cmd, actn, msg, username, pic) {
 }
 
 function getRegexCommands(roomId, sid) {
-    var arr = []
     con.query('SELECT commands FROM rooms WHERE serialid = ?', [roomId], function (error, row) {
         if (error) console.log(error)
-
+        console.log(row[0].commands)
         io.to(sid).emit('get commands', row[0].commands, roomId)
     })
 }
@@ -756,6 +755,7 @@ function joinChatroom(socket, roomId) {
                 }
             })
             socket.join(roomId)
+            getRegexCommands(roomId, socket.id)
         }
     })
     var nameString = "room" + roomId
@@ -781,7 +781,6 @@ function joinChatroom(socket, roomId) {
             console.log("last message isn't working.")
         }
     })
-    getRegexCommands(roomId,socket.id)
 }
 
 function showPreviousMessages(num, previous, sid, roomId) {
