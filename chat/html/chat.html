@@ -531,9 +531,9 @@
                     if (!curroom) {
                         curroom = room
                     }
-                    checkRegex(doRest)
+                    doRest(checkRegex())
 
-                    function checkRegex(cb) {
+                    function checkRegex() {
                         if (doRegex) {
                             console.log('Doing regex')
                             if (msg.substr(0, 1) == "!") {
@@ -541,7 +541,7 @@
                                 var command = /\S*/i.exec(msg.substr(1))
                                 roomCommands.forEach(function (element) {
                                     if (command[0] == element.cmd) {
-                                        msg = element.msg
+                                        return element.msg
                                     }
                                 })
                             } else {
@@ -554,26 +554,29 @@
                                     if (re.test(msg)) {
                                         switch (element.action) {
                                             case "replace":
-                                                msg = msg.replace(re, element.msg)
+                                                return msg.replace(re, element.msg)
                                                 break
                                             case "replaceWhole":
-                                                msg = element.msg
+                                                return element.msg
                                                 break
                                             case "replaceEmbed":
-                                                msg = msg.replace(re, element.msg)
+                                                return msg.replace(re, element.msg)
                                                 break
                                             case "respond":
-                                                msg = element.msg
                                                 sendResponse(element, id + 0.5, time)
+                                                return element.msg
                                                 break
                                             default:
                                                 break
                                         }
+                                    } else {
+                                        return msg
                                     }
                                 })
                             }
+                        } else {
+                            return msg
                         }
-                        cb(msg)
                     }
 
                     async function sendResponse(e, thisId) {
