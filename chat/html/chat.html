@@ -552,12 +552,14 @@
                             } else {
                                 console.log('Is not a command')
                                 roomRegex.forEach(function (element) {
-                                    var re = new RegExp(element.cmd, 'ig')
+                                    var re = new RegExp('(^|\\s)(' + element.cmd + ')($|\\s)', 'ig')
                                     console.log(re)
                                     console.log(msg)
                                     var testedPositive = re.test(msg)
                                     console.log(testedPositive)
                                     if (testedPositive) {
+                                        var exec = re.exec(msg)
+                                        console.log(exec)
                                         console.log("element.actn: " + element.actn)
                                         switch (element.actn) {
                                             case "Replace":
