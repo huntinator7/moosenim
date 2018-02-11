@@ -618,13 +618,13 @@ function singleGetMotd(roomId, sid) {
 //command object
 
 function addNewCommand(roomId, cmd, actn, msg, username, pic) {
-    console.log(cmd)
-    console.log(encodeURI(cmd))
+    console.log(msg)
+    console.log(encodeURI(msg))
     console.log(roomId + " new command: " + cmd)
     var arr = {
-        cmd: encodeURI(cmd),
+        cmd,
         actn,
-        msg,
+        msg: encodeURI(msg),
         username,
         pic
     }
@@ -647,7 +647,7 @@ function getRegexCommands(roomId, sid) {
         var coms = JSON.parse(row[0].commands)
         console.log(coms)
         coms.forEach(function(element) {
-            element.cmd = decodeURI(element.cmd)
+            element.msg = decodeURI(element.cmd)
         })
         io.to(sid).emit('get commands', coms, roomId)
     })
