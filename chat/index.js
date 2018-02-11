@@ -618,7 +618,8 @@ function singleGetMotd(roomId, sid) {
 //command object
 
 function addNewCommand(roomId, cmd, actn, msg, username, pic) {
-
+    console.log(cmd)
+    console.log(encodeURI(cmd))
     console.log(roomId + " new command: " + cmd)
     var arr = {
         cmd: encodeURI(cmd),
