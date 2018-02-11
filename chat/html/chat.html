@@ -556,8 +556,9 @@
                                     var re = new RegExp(element.cmd, 'ig')
                                     console.log(re)
                                     console.log(message)
-                                    console.log(re.test(message))
-                                    if (re.test(message)) {
+                                    var testedPositive = re.test(message)
+                                    console.log(testedPositive)
+                                    if (testedPositive) {
                                         console.log("element.actn: " + element.actn)
                                         switch (element.actn) {
                                             case "Replace":
