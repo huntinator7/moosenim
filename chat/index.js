@@ -646,10 +646,12 @@ function getRegexCommands(roomId, sid) {
         if (error) console.log(error)
         var coms = JSON.parse(row[0].commands)
         console.log(coms)
-        coms.forEach(function(element) {
-            element.msg = decodeURI(element.cmd)
+        const decode = new Promise((resolve, reject) => {
+            coms.forEach(function (element) {
+                element.msg = decodeURI(element.cmd)
+            })
+            resolve(io.to(sid).emit('get commands', coms, roomId))
         })
-        io.to(sid).emit('get commands', coms, roomId)
     })
 }
 
