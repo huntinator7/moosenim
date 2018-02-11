@@ -563,20 +563,24 @@
                                         switch (element.actn) {
                                             case "Replace":
                                                 console.log("Replace")
-                                                return message.replace(re, element.msg)
+                                                var send = message.replace(re, element.msg)
+                                                return send
                                                 break
                                             case "ReplaceWhole":
                                                 console.log("ReplaceWhole")
-                                                return element.msg
+                                                var send = element.msg
+                                                return send
                                                 break
                                             case "ReplaceEmbed":
                                                 console.log("ReplaceEmbed")
-                                                return message.replace(re, element.msg)
+                                                var send = message.replace(re, element.msg)
+                                                return send
                                                 break
                                             case "Respond":
                                                 console.log("Respond")
                                                 sendResponse(element, id + 0.5, time)
-                                                return element.msg
+                                                var send = element.msg
+                                                return send
                                                 break
                                             default:
                                                 break
@@ -584,7 +588,8 @@
                                     } else {
                                         console.log("re.test(msg) == false but: " + re.test(message))
                                         console.log(message)
-                                        return message
+                                        var send = message
+                                        return send
                                     }
                                 })
                             }
