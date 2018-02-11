@@ -538,29 +538,37 @@
                         var sendmsg = msg
                         if (doRegex) {
                             if (sendmsg.substr(0, 1) == "!") {
+
                                 console.log('Is command')
                                 var command = /\S+/i.exec(sendmsg)
                                 console.log(command)
                                 roomCommands.forEach(function (element) {
+                                    console.log(sendmsg)
+                                    console.log(element)
                                     if (command[0] == element.cmd) {
                                         sendmsg = element.msg
                                     }
                                 })
                             } else {
+                                console.log('Is not command')
                                 roomRegex.forEach(function (element) {
-                                    console.log('Is not command')
-                                    var re = new RegExp('(^|\\s)(' + element.cmd + ')($|\\s)', 'ig')
+                                    console.log(sendmsg)
+                                    console.log(element)
+                                    var re = new RegExp('(^|\\s)(' + element.cmd + ')($|\\s)',
+                                        'ig')
                                     var testedPositive = re.test(sendmsg)
                                     if (testedPositive) {
                                         switch (element.actn) {
                                             case "Replace":
-                                                sendmsg = sendmsg.replace(re, `$1${element.msg}$3`)
+                                                sendmsg = sendmsg.replace(re,
+                                                    `$1${element.msg}$3`)
                                                 break
                                             case "ReplaceWhole":
                                                 sendmsg = element.msg
                                                 break
                                             case "ReplaceEmbed":
-                                                sendmsg = sendmsg.replace(re, `$1${element.msg}$3`)
+                                                sendmsg = sendmsg.replace(re,
+                                                    `$1${element.msg}$3`)
                                                 break
                                             case "Respond":
                                                 sendResponse(element, id + 0.5, time)
