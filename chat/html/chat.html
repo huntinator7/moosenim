@@ -540,10 +540,9 @@
                         var sendmsg = msg
                         if (doRegex) {
                             if (msg.substr(0, 1) == "!") {
-                                var command = /\S*/i.exec(msg.substr(1))
+                                var command = /\S+/i.exec(sendmsg)
                                 roomCommands.forEach(function (element) {
                                     if (command[0] == element.cmd) {
-                                        console.log("Returning 1")
                                         sendmsg = element.msg
                                     }
                                 })
