@@ -645,7 +645,7 @@ function getRegexCommands(roomId, sid) {
         var coms = JSON.parse(row[0].commands)
         console.log(coms)
         coms.forEach(function(element) {
-            element.msg = decodeURI(element.cmd)
+            element.msg = decodeURI(element.msg)
         })
         io.to(sid).emit('get commands', coms, roomId)
     })
