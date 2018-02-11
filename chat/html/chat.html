@@ -462,8 +462,6 @@
             var last_scroll_position = 0
 
             $('main').scroll(function () {
-                //  console.log($('main').scrollTop() + $('main').height() + '   ' + $('main').prop('scrollHeight') * .9)
-                //  console.log('----------------')
                 if ($('main').scrollTop() + $('main').height() >= $('main').prop('scrollHeight') - 300) {
                     if (!canAuto) {
                         canAuto = true
@@ -477,8 +475,6 @@
                     $('main').scrollTop(1)
                     if (canScroll >= 10) {
                         canScroll = 0
-                        //  console.log('Retrieve previous, first_id: ' + first_id)
-                        //console.log('curroom: ' + curroom)
                         socket.emit('retPre', first_id, curroom)
                     } else {
                         console.log('Couldn\'t scroll: ' + canScroll)
@@ -488,7 +484,6 @@
             })
 
             $(window).resize(function () { //checking for window resize event
-                //  console.log('resize event: ' + $(window).width() / $(window).height())
                 if ($("#send-message").is(":focus")) {
                     $('main').scrollTop($('main').prop("scrollHeight"))
                 }
@@ -510,8 +505,6 @@
             // })
 
             socket.on('get commands', function (commandsArr) {
-                console.log('recieved commands from server')
-                console.log(commandsArr)
                 roomCommands = []
                 roomRegex = []
                 commandsArr.forEach(function (element) {
@@ -522,11 +515,10 @@
                         roomRegex.push(element)
                     }
                 })
-                console.log(roomCommands)
-                console.log(roomRegex)
             })
 
             socket.on('chat message', function (user, msg, time, id, pic, room) {
+                console.log('Received chat message in Room ' + room)
                 if (!curroom || curroom == room) {
                     if (!curroom) {
                         curroom = room
@@ -647,7 +639,6 @@
                     //     $("a[room='" + room + "']").children().addClass('new badge deep-orange accent-3')
                     //     $("a[room='" + room + "']").children().text('1')
                     // } else {
-                    //     // console.log($("a[room='"+room+"']").first())
                     //     var curtext = parseInt($("a[room='" + room + "']").first().children().text())
                     //     console.log('curtext: ' + curtext)
                     //     curtext = curtext + 1
@@ -655,6 +646,7 @@
                     //     console.log('curtext: ' + curtext)
                     //     $("a[room='" + room + "']").children().text(curtext)
                     // }
+
                 }
             })
 

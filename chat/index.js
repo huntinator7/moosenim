@@ -365,19 +365,22 @@ io.sockets.on('connection', function (socket) {
     socket.on('log', function (message) {
         console.log(socket.id + ': ' + message)
     })
+
     socket.on('addroom', function (name) {
         createChatroom(name, socket.request.user.id)
 
     })
-    //  socket.emit('addcommand', roomId , $('#nc-cmd').val(),$('#nc-actn').val(),$('#nc-msg').val(),$('#nc-username').val(),$('#nc-pic').val())
+
     socket.on('addcommand', function (roomId, cmd, actn, msg, username, pic) {
         addNewCommand(roomId, cmd, actn, msg, username, pic)
         getRegexCommands(roomId, socket.id)
     })
+
     socket.on('updateroomtheme', function (back1, back2, backImg, text1, text2, msg1, msg2, icon, type, roomId) {
         changeRoomTheme(back1, back2, backImg, text1, text2, msg1, msg2, icon, type, roomId)
         joinChatroom(socket, roomId)
     })
+
     socket.on('changerooms', function (roomId) {
         joinChatroom(socket, roomId)
     })
@@ -388,6 +391,7 @@ io.sockets.on('connection', function (socket) {
         addToRoom(email, roomId, 0)
         joinChatroom(socket, roomId)
     })
+
     socket.on('joincode', function (code, roomId) {
         console.log('join code called')
         joinRoom(code, socket.request.user.id)
@@ -522,16 +526,16 @@ var connect = config.db
 var con
 
 function getMotd(roomId) {
-    con.query('SELECT * FROM rooms WHERE serialid = ?', [roomId], function (error, row) {
+    con.query('SELECT * FROM rooms WHERE serialid = ?', [roomId], function (error, rows) {
         if (error) console.log(error)
-        io.to(roomId).emit('motd update', row[0].motd, roomId)
+        io.to(roomId).emit('motd update', rows[0].motd, roomId)
     })
 }
 
 function singleGetMotd(roomId, sid) {
-    con.query('SELECT * FROM rooms WHERE serialid = ?', [roomId], function (error, row) {
+    con.query('SELECT * FROM rooms WHERE serialid = ?', [roomId], function (error, rows) {
         if (error) console.log(error)
-        io.to(sid).emit('motd update', row[0].motd, roomId)
+        io.to(sid).emit('motd update', rows[0].motd, roomId)
     })
 }
 // new regex code
@@ -561,9 +565,9 @@ function addNewCommand(roomId, cmd, actn, msg, username, pic) {
 }
 
 function getRegexCommands(roomId, sid) {
-    con.query('SELECT commands FROM rooms WHERE serialid = ?', [roomId], function (error, row) {
+    con.query('SELECT commands FROM rooms WHERE serialid = ?', [roomId], function (error, rows) {
         if (error) console.log(error)
-        var coms = JSON.parse(row[0].commands)
+        var coms = JSON.parse(rows[0].commands)
         console.log(coms)
         const decode = new Promise((resolve, reject) => {
             coms.forEach(function (element) {
@@ -744,8 +748,8 @@ function showPreviousMessages(num, previous, sid, roomId) {
 //----CHATROOMS----\\
 
 function getChatrooms(sid, uid) {
-    con.query("SELECT * FROM rooms WHERE serialid IN (SELECT room_id FROM room_users WHERE user_id = ?)", [uid], function (error, row) {
-        io.to(sid).emit('roomlist', row)
+    con.query("SELECT * FROM rooms WHERE serialid IN (SELECT room_id FROM room_users WHERE user_id = ?)", [uid], function (error, rows) {
+        io.to(sid).emit('roomlist', rows)
     })
 }
 
@@ -755,10 +759,10 @@ function createChatroom(n, uid) {
         var name = n
         // get availible chatrooms from user SELECT room_id FROM room_users WHERE user_id = ? [user.uid]
         con.query("INSERT INTO rooms (name,motd,join_code,back1,back2,text_color,icon,text_color2) VALUES(?,?,?,?,?,?,?)", [name, 'motd', uuidv4(), '#6EB7FF', '#23ffdd', '#000000', 'https://www.moosen.im/images/favicon.png', '#000000'], function (error) {})
-        con.query("SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC", function (error, row, results) {
-            con.query("INSERT INTO room_users VALUES(?,?,1)", [row[0].serialid, uid])
+        con.query("SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC", function (error, rows, results) {
+            con.query("INSERT INTO room_users VALUES(?,?,1)", [rows[0].serialid, uid])
 
-            con.query("CREATE TABLE ?? (id int AUTO_INCREMENT PRIMARY KEY, message text, username VARCHAR(100),timestamp VARCHAR(32),roomid int, uid VARCHAR(100))", ["room" + row[0].serialid])
+            con.query("CREATE TABLE ?? (id int AUTO_INCREMENT PRIMARY KEY, message text, username VARCHAR(100),timestamp VARCHAR(32),roomid int, uid VARCHAR(100))", ["room" + rows[0].serialid])
             //  getChatrooms(socket.id,uid)
         })
     } catch (e) {
