@@ -50,7 +50,7 @@ process.stdin.on('data', function (text) {
     var msg = util.inspect(text.trim())
     console.log('received data:', msg)
     sendMessage(msg.substr(1, msg.length - 2), '<span style="color:red">Admin</span>', 1, roomId)
-    io.to(roomId).emit(getMessage(roomId, false, 'https://i.imgur.com/CgVX6vv.png'))
+    getMessage(roomId, 'https://i.imgur.com/CgVX6vv.png')
 })
 
 var io = require('socket.io')(server)
@@ -345,7 +345,7 @@ io.sockets.on('connection', function (socket) {
             msg = '<a href="/uploads/' + name + '" download="' + name + '">' + name + '</a>'
         }
         sendMessage(msg, un, uid, roomId)
-        io.emit(getMessage(roomId, true, pic))
+        getMessage(roomId, pic)
         if (roomId == config.discord.sendChannel) {
             client.channels.get(config.discord.moosen).send({
                 files: [('./uploads/' + name)]
@@ -413,89 +413,11 @@ io.sockets.on('connection', function (socket) {
                 return
             } else {
                 isAdmin = rows[0].is_admin == '1' ? true : false
-                // console.log(socket.rooms)
-                var ogMsg = msg
                 var un = socket.request.user.displayName
                 var uid = socket.request.user.id
                 var pic = socket.request.user.photos[0].value
-                var isEmbed = false
-                var send = true
-                //  console.log('chat message       socket.id: ' + socket.id)
-                if (!socket.request.user.id) {
-                    io.to(socket.id).emit('retreat')
-                    //  console.log('Retreating ' + socket.id)
-                } else {
-                    //  console.log('message: ' + msg)
-                    if (msg.substr(0, 1) == "!") {
-                        console.log('Is a command')
-                        var command = /\S*/i.exec(msg.substr(1))
-                        config.regex.commands.forEach(function (element) {
-                            if (command[0] == element.command) {
-                                console.log('element.action: ' + element.action)
-                                switch (element.action) {
-                                    case "replace":
-                                        msg = element.message
-                                        break
-                                    case "replaceEmbed":
-                                        msg = element.message
-                                        isEmbed = true
-                                        break
-                                    case "function":
-                                        send = false
-                                        var message = /(\S*)\s((\S*\s?)*)/i.exec(msg.substr(1))
-                                        var newmsg
-                                        if (message) newmsg = message[2]
-                                        var params = [socket, un, uid, roomId, newmsg]
-                                        var fn = userRegexParse[command[0]]
-                                        if (typeof fn === "function") {
-                                            console.log('Is function')
-                                            fn.apply(null, params)
-                                        }
-                                        break
-                                    default:
-                                        break
-                                }
-                            }
-                        })
-                    } else {
-                        config.regex.matches.forEach(function (element) {
-                            var re = new RegExp(element.regex, 'ig')
-                            if (re.test(msg)) {
-                                switch (element.action) {
-                                    case "replace":
-                                        msg = msg.replace(re, element.message)
-                                        break
-                                    case "replaceWhole":
-                                        msg = element.message
-                                        break
-                                    case "replaceEmbed":
-                                        msg = msg.replace(re, element.message)
-                                        isEmbed = true
-                                        break
-                                    case "respond":
-                                        sendMessage(msg, un, uid, roomId)
-                                        io.to(roomId).emit(getMessage(roomId, isEmbed))
-                                        msg = element.message
-                                        un = 'Automod'
-                                        if (element.un) un = element.un
-                                        if (element.pic) pic = element.pic
-                                        uid = '1'
-                                        break
-                                    default:
-                                        break
-                                }
-                            }
-                        })
-                    }
-                    if (send) {
-                        sendMessage(msg, un, uid, roomId)
-                        io.to(roomId).emit(getMessage(roomId, isEmbed, pic))
-                        console.log(`config.discord.sendChannel = ${config.discord.sendChannel}`)
-                        if (isEmbed && roomId == config.discord.sendChannel) {
-                            sendToDiscord(un, ogMsg)
-                        }
-                    }
-                }
+                sendMessage(msg, un, uid, roomId)
+                getMessage(roomId, pic)
             }
         })
     })
@@ -644,7 +566,7 @@ function getRegexCommands(roomId, sid) {
         if (error) console.log(error)
         var coms = JSON.parse(row[0].commands)
         console.log(coms)
-        coms.forEach(function(element) {
+        coms.forEach(function (element) {
             element.msg = decodeURI(element.msg)
         })
         io.to(sid).emit('get commands', coms, roomId)
@@ -693,12 +615,10 @@ function sendMessage(message, username, uid, roomId) {
     }
 }
 
-function getMessage(roomId, isEmbed, pic) {
+function getMessage(roomId, pic) {
     console.log(`In getMessage, roomId ${roomId}`)
     var nameString = "room" + roomId
     con.query("SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC", [nameString], function (error, rows, results) {
-
-        // console.log(rows)
         if (error) throw error
         con.query("SELECT * FROM users WHERE uid = ?", [rows[0].uid], function (error, row) {
             if (pic) {
@@ -708,7 +628,7 @@ function getMessage(roomId, isEmbed, pic) {
             } else {
                 io.to(roomId).emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, row[0].profpic, rows[0].roomid)
             }
-            if (roomId == config.discord.sendChannel && !isEmbed) {
+            if (roomId == config.discord.sendChannel) {
                 //send to Discord
                 sendToDiscord(rows[0].username, decodeURI(rows[0].message))
             }
