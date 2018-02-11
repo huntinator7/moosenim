@@ -531,33 +531,33 @@
                     if (!curroom) {
                         curroom = room
                     }
-                    doRest(checkRegex())
+                    doRest(checkRegex(msg))
 
-                    function checkRegex() {
+                    function checkRegex(message) {
                         if (doRegex) {
                             console.log('Doing regex')
-                            if (msg.substr(0, 1) == "!") {
+                            if (message.substr(0, 1) == "!") {
                                 console.log('Is a command')
-                                var command = /\S*/i.exec(msg.substr(1))
+                                var command = /\S*/i.exec(message.substr(1))
                                 roomCommands.forEach(function (element) {
                                     if (command[0] == element.cmd) {
                                         return element.msg
                                     }
                                 })
-                                return msg
+                                return message
                             } else {
                                 console.log('Is not a command')
                                 roomRegex.forEach(function (element) {
                                     var re = new RegExp(element.cmd, 'ig')
                                     console.log(re)
-                                    console.log(msg)
-                                    console.log(re.test(msg))
-                                    if (re.test(msg)) {
+                                    console.log(message)
+                                    console.log(re.test(message))
+                                    if (re.test(message)) {
                                         console.log("element.actn: " + element.actn)
                                         switch (element.actn) {
                                             case "Replace":
                                                 console.log("Replace")
-                                                return msg.replace(re, element.msg)
+                                                return message.replace(re, element.msg)
                                                 break
                                             case "ReplaceWhole":
                                                 console.log("ReplaceWhole")
@@ -565,7 +565,7 @@
                                                 break
                                             case "ReplaceEmbed":
                                                 console.log("ReplaceEmbed")
-                                                return msg.replace(re, element.msg)
+                                                return message.replace(re, element.msg)
                                                 break
                                             case "Respond":
                                                 console.log("Respond")
@@ -576,13 +576,13 @@
                                                 break
                                         }
                                     } else {
-                                        console.log("re.test(msg) == false but: " + re.test(msg))
-                                        return msg
+                                        console.log("re.test(msg) == false but: " + re.test(message))
+                                        return message
                                     }
                                 })
                             }
                         } else {
-                            return msg
+                            return message
                         }
                     }
 
