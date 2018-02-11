@@ -374,7 +374,7 @@ io.sockets.on('connection', function (socket) {
         //nc = new Command(roomId,cmd,actn,msg,username,pic)
         console.log(roomId + " new command: " + cmd)
         addNewCommand(roomId, cmd, actn, msg, username, pic)
-        getRegexCommands(roomId, socket.id)
+        //getRegexCommands(roomId, socket.id)
     })
     socket.on('updateroomtheme', function (back1, back2, backImg, text1, text2, msg1, msg2, icon, type, roomId) {
         changeRoomTheme(back1, back2, backImg, text1, text2, msg1, msg2, icon, type, roomId)
@@ -769,7 +769,7 @@ function joinChatroom(socket, roomId) {
                 }
             })
             socket.join(roomId)
-            getRegexCommands(roomId, socket.id)
+            //getRegexCommands(roomId, socket.id)
         }
     })
     var nameString = "room" + roomId
