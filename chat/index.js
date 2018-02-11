@@ -374,7 +374,7 @@ io.sockets.on('connection', function (socket) {
         //nc = new Command(roomId,cmd,actn,msg,username,pic)
         console.log(roomId + " new command: " + cmd)
         addNewCommand(roomId, cmd, actn, msg, username, pic)
-        //getRegexCommands(roomId, socket.id)
+        getRegexCommands(roomId, socket.id)
     })
     socket.on('updateroomtheme', function (back1, back2, backImg, text1, text2, msg1, msg2, icon, type, roomId) {
         changeRoomTheme(back1, back2, backImg, text1, text2, msg1, msg2, icon, type, roomId)
@@ -646,12 +646,10 @@ function getRegexCommands(roomId, sid) {
         if (error) console.log(error)
         var coms = JSON.parse(row[0].commands)
         console.log(coms)
-        const decode = new Promise((resolve, reject) => {
-            coms.forEach(function (element) {
-                element.msg = decodeURI(element.cmd)
-            })
-            resolve(io.to(sid).emit('get commands', coms, roomId))
+        coms.forEach(function(element) {
+            element.msg = decodeURI(element.cmd)
         })
+        io.to(sid).emit('get commands', coms, roomId)
     })
 }
 
@@ -769,7 +767,7 @@ function joinChatroom(socket, roomId) {
                 }
             })
             socket.join(roomId)
-            //getRegexCommands(roomId, socket.id)
+            getRegexCommands(roomId, socket.id)
         }
     })
     var nameString = "room" + roomId
