@@ -541,7 +541,22 @@
                                 var command = /\S+/i.exec(sendmsg)
                                 roomCommands.forEach(function (element) {
                                     if (command[0] == element.cmd) {
-                                        sendmsg = element.msg
+                                        switch (element.actn) {
+                                            case "Replace":
+                                                sendmsg = element.msg
+                                                break
+                                            case "ReplaceWhole":
+                                                sendmsg = element.msg
+                                                break
+                                            case "ReplaceEmbed":
+                                                sendmsg = element.msg
+                                                break
+                                            case "Respond":
+                                                sendResponse(element, id + 0.5)
+                                                break
+                                            default:
+                                                break
+                                        }
                                     }
                                 })
                             } else {
