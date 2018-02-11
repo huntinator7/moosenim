@@ -537,8 +537,10 @@
                     function checkRegex(cb) {
                         var sendmsg = msg
                         if (doRegex) {
-                            if (msg.substr(0, 1) == "!") {
+                            if (sendmsg.substr(0, 1) == "!") {
+                                console.log('Is command')
                                 var command = /\S+/i.exec(sendmsg)
+                                console.log(command)
                                 roomCommands.forEach(function (element) {
                                     if (command[0] == element.cmd) {
                                         sendmsg = element.msg
@@ -546,6 +548,7 @@
                                 })
                             } else {
                                 roomRegex.forEach(function (element) {
+                                    console.log('Is not command')
                                     var re = new RegExp('(^|\\s)(' + element.cmd + ')($|\\s)', 'ig')
                                     var testedPositive = re.test(sendmsg)
                                     if (testedPositive) {
