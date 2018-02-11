@@ -761,7 +761,7 @@
                 $(".navbar a i").css("color", css.text1)
                 $(".navbar a button").css("color", css.text1)
                 $(".mm-navdd button i").css("color", css.text1)
-                $(".mm-navdd .dropdown-toggle:after").css("color", css.text1)
+                document.styleSheets[0].addRule('.dropdown-toggle:after', 'color: "' + css.text1 + '";');
                 $(".mm-collection .mm-collection-item>.title").css("color", css.text2)
                 $(".mm-collection .mm-collection-item>.secondary-content").css("color", css.text2)
                 $(".mm-collection .mm-collection-item").css("background-color", css.mb1)
