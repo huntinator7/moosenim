@@ -516,11 +516,14 @@
                 console.log(commandsArr)
                 commandsArr.forEach(function (element) {
                     if (element.cmd.substr(0, 1) == "!") {
+                        console.log(element)
                         roomCommands.push(element)
                     } else {
                         roomRegex.push(element)
                     }
                 })
+                console.log(roomCommands)
+                console.log(roomRegex)
             })
 
             socket.on('chat message', function (user, msg, time, id, pic, room) {
@@ -532,6 +535,7 @@
 
                     function checkRegex(cb) {
                         if (doRegex) {
+                            console.log('Doing regex')
                             if (msg.substr(0, 1) == "!") {
                                 console.log('Is a command')
                                 var command = /\S*/i.exec(msg.substr(1))
@@ -541,6 +545,7 @@
                                     }
                                 })
                             } else {
+                                console.log('Is not a command')
                                 roomRegex.forEach(function (element) {
                                     var re = new RegExp(element.cmd, 'ig')
                                     if (re.test(msg)) {
