@@ -544,6 +544,7 @@
                                         return element.msg
                                     }
                                 })
+                                return msg
                             } else {
                                 console.log('Is not a command')
                                 roomRegex.forEach(function (element) {
@@ -554,7 +555,8 @@
                                     if (re.test(msg)) {
                                         switch (element.action) {
                                             case "replace":
-                                                return msg.replace(re, element.msg)
+                                                var newMsg = msg.replace(re, element.msg)
+                                                return newMsg
                                                 break
                                             case "replaceWhole":
                                                 return element.msg
