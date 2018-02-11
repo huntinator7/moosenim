@@ -552,25 +552,30 @@
                             } else {
                                 console.log('Is not command')
                                 roomRegex.forEach(function (element) {
-                                    console.log(sendmsg)
-                                    console.log(element)
+                                    console.log("sendmsg: " + sendmsg)
+                                    console.log("element: " + element.cmd)
                                     var re = new RegExp('(^|\\s)(' + element.cmd + ')($|\\s)',
                                         'ig')
                                     var testedPositive = re.test(sendmsg)
+                                    console.log("testedPositive: " + testedPositive)
                                     if (testedPositive) {
                                         switch (element.actn) {
                                             case "Replace":
+                                                console.log("Replace")
                                                 sendmsg = sendmsg.replace(re,
                                                     `$1${element.msg}$3`)
                                                 break
                                             case "ReplaceWhole":
+                                                console.log("ReplaceWhole")
                                                 sendmsg = element.msg
                                                 break
                                             case "ReplaceEmbed":
+                                                console.log("ReplaceEmbed")
                                                 sendmsg = sendmsg.replace(re,
                                                     `$1${element.msg}$3`)
                                                 break
                                             case "Respond":
+                                                console.log("Respond")
                                                 sendResponse(element, id + 0.5, time)
                                                 sendmsg = element.msg
                                                 break
