@@ -713,7 +713,8 @@
 
             $('#mm-side-list').on('click', 'a', function () {
                 console.log("Room Button Clicked")
-                console.log($(this))
+                console.log($(this).parent())
+                $(this).parent().remove('.notify .notify-msg')
                 socket.emit('changerooms', $(this.attributes.room).val())
             })
 
