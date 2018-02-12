@@ -648,7 +648,7 @@
                     // }
 
                     console.log($("a[room='" + room + "']").parent())
-                    if ($("a[room='" + room + "']").parent().has('.notify-msg')) {
+                    if ($("a[room='" + room + "']").parent().has('.notify-msg').length >= 1) {
                         console.log("This has a notification already")
                     } else {
                         $("a[room='" + room + "']").parent().append('<div class="notify notify-msg"></div>')
