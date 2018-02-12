@@ -721,8 +721,7 @@
             //
             $('#mm-side-list').on('click', 'a', function () {
                 console.log("Room Button Clicked")
-                console.log($("a[room='" + $(this.attributes.room).val() + "']").parent().children())
-                $("a[room='" + $(this.attributes.room).val() + "']").parent().children().remove('div')
+                $(this).parent().children().remove('.notify')
                 socket.emit('changerooms', $(this.attributes.room).val())
             })
             //
