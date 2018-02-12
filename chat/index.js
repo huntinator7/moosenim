@@ -565,7 +565,7 @@ function addNewCommand(roomId, cmd, actn, msg, username, pic) {
             con.query('UPDATE rooms set commands = ? WHERE serialid = ?', [myArrString, roomId])
             resolve(getRegexCommands(roomId, roomId))
         })
-        
+
     })
 }
 
@@ -808,7 +808,7 @@ function addToRoom(email, roomId, isAdmin) {
     con.query("SELECT * FROM users WHERE email = ?", [email], function (error, rows, result) {
         try {
             rows.forEach(function (element) {
-                con.query("INSERT INTO room_users VALUES(?,?,?)", [roomId, element.uid, isAdmin])
+                con.query("INSERT INTO room_users VALUES(?,?,?,?)", [roomId, element.uid, isAdmin,0])
                 console.log("user " + element.uid + " was added to room " + roomId)
             })
         } catch (e) {
