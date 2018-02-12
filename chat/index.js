@@ -209,7 +209,7 @@ io.sockets.on('connection', function (socket) {
     getChatrooms(socket.id, socket.request.user.id)
     con.query("SELECT room_id FROM room_users WHERE user_id = ?", [socket.request.user.id], function (error, rows, results) {
         rows.forEach(function (element) {
-            io.to(element.room_id).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id)
+            io.to(element.room_id).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id, element.room_id)
             console.log('Joining room ' + element.room_id)
             socket.join(element.room_id)
         })
@@ -417,7 +417,11 @@ io.sockets.on('connection', function (socket) {
                 console.log('Access Denied')
                 return
             } else {
-                isAdmin = rows[0].is_admin == '1' ? true : false
+                try {
+                    isAdmin = rows[0].is_admin == '1' ? true : false
+                } catch (e) {
+                    console.log(e)
+                }
                 var un = socket.request.user.displayName
                 var uid = socket.request.user.id
                 var pic = socket.request.user.photos[0].value

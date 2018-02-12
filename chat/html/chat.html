@@ -144,9 +144,6 @@
     <div class="bmd-layout-container bmd-drawer-f-r bmd-drawer-overlay main">
         <div id="dw-s2" class="bmd-layout-drawer bg-faded mm-side">
             <ul class="nav flex-column" id="mm-side-list-2">
-                <li>
-                    <p>test</p>
-                </li>
             </ul>
         </div>
     </div>
@@ -662,9 +659,9 @@
                 }
             })
 
-            socket.on('login', function (displayName, email, photoURL, UserId) {
+            socket.on('login', function (displayName, email, photoURL, UserId, room) {
                 console.log("Logging in " + displayName + ", email: " + email + " " + UserId)
-                $('#messages').append(
+                $('#mm-side-list-2').append(
                     '<li id="login" class="mm-collection-item avatar login"><p class="message">' +
                     displayName + ' logged in</p></li>')
                 checkScroll()
@@ -711,26 +708,12 @@
                     })
                 } catch (e) {}
             })
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
+
             $('#mm-side-list').on('click', 'a', function () {
                 console.log("Room Button Clicked")
                 $(this).parent().children().remove('.notify')
                 socket.emit('changerooms', $(this.attributes.room).val())
             })
-            //
-            //
-            //
-            //
-            //
-            //
-            //
 
             socket.on('switchToRoom', async function (admin, room) {
                 console.log(admin)
