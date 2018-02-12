@@ -95,35 +95,31 @@ textarea {
 }
 
 .notify {
-    width: 1.125rem;
-    height: 1.125rem;
+    width: 2rem;
+    height: 0.5rem;
     z-index: 2;
     position: fixed;
-    border-radius: 50%;
+    left: -1rem;
 }
 
 .notify-all {
     background: #FF3300;
     bottom: 0.25rem;
-    left: 0.75rem;
 }
 
 .notify-group {
     background: #263dc2;
     bottom: 2.5rem;
-    left: 3rem;
 }
 
 .notify-you {
     background: #007c34;
     bottom: 0.25rem;
-    left: 3rem;
 }
 
 .notify-msg {
     background: #757575;
     bottom: 2.5rem;
-    left: 0.75rem;
 }
 
 /* .notify-t {

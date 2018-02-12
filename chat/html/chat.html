@@ -646,7 +646,12 @@
                     //     console.log('curtext: ' + curtext)
                     //     $("a[room='" + room + "']").children().text(curtext)
                     // }
-                
+
+                    console.log($('.mm-side-image'))                    
+                    // var hasNotification = 
+                    $("a[room='" + room + "']").children().removeClass('none')
+                    $("a[room='" + room + "']").children().addClass('new badge deep-orange accent-3')
+                    $("a[room='" + room + "']").children().text('1')
                 }
             })
 
@@ -687,7 +692,7 @@
 
 
                         $('#mm-side-list').append(
-                            `<li class="btn nav-item mm-side-image"><img src="https://www.moosen.im/images/favicon.png" alt="" class="circle img-fluid"><div class="notify notify-all"></div><div class="notify notify-you"></div><div class="notify notify-group"></div><div class="notify notify-msg"></div><a class="nav-link mm-side-item-text" data-toggle="drawer" data-target="#dw-s1" room="${element.serialid}">${element.name}</a></li>`
+                            `<li class="btn nav-item mm-side-image"><img src="https://www.moosen.im/images/favicon.png" alt="" class="circle img-fluid"><a class="nav-link mm-side-item-text" data-toggle="drawer" data-target="#dw-s1" room="${element.serialid}">${element.name}</a></li>`
                         )
                     })
                     $('.mm-side-item-text').each(function (index) {
