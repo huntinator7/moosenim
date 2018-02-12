@@ -99,10 +99,34 @@ textarea {
     height: 1.125rem;
     z-index: 2;
     position: fixed;
-    background: #FF3300;
+    border-radius: 50%;
 }
 
-.notify-b {
+.notify-all {
+    background: #FF3300;
+    bottom: 0.25rem;
+    left: 0.75rem;
+}
+
+.notify-group {
+    background: #263dc2;
+    bottom: 2.5rem;
+    left: 3rem;
+}
+
+.notify-you {
+    background: #007c34;
+    bottom: 0.25rem;
+    left: 3rem;
+}
+
+.notify-msg {
+    background: #757575;
+    bottom: 2.5rem;
+    left: 0.75rem;
+}
+
+/* .notify-t {
     bottom: 2.5rem;
 }
 
@@ -110,13 +134,13 @@ textarea {
     left: 3rem;
 }
 
-.notify-t {
+.notify-b {
     bottom: 0.25rem;
 }
 
 .notify-l {
     left: 0.75rem;
-}
+} */
 
 .mm-submit {
     border: none !important;
