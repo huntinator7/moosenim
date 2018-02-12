@@ -648,8 +648,12 @@
                     // }
 
                     console.log($("a[room='" + room + "']").parent())
-                    console.log($("a[room='" + room + "']").parent().has('.notify-msg'))
-                    $("a[room='" + room + "']").parent().append('<div class="notify notify-msg"></div>')
+                    if ($("a[room='" + room + "']").parent().has('.notify-msg')) {
+                        console.log("This has a notification already")
+                    } else {
+                        $("a[room='" + room + "']").parent().append('<div class="notify notify-msg"></div>')
+                    }
+                    
                     // var hasNotification = 
                     // $("a[room='" + room + "']").children().removeClass('none')
                     // $("a[room='" + room + "']").children().addClass('new badge deep-orange accent-3')
