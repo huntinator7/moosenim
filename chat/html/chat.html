@@ -539,7 +539,7 @@
                         if (tested) {
                             console.log("Message has image")
                             sendmsg = sendmsg.replace(imgRegex,
-                                "<a href='$&' target='_blank'>$&</a><br><img class='materialboxed responsive-img' style='height: 20vh;' src='$1' alt='$1'>"
+                                "<a href='$&' target='_blank'>$&</a><br><img class='materialboxed responsive-img' style='height: 20vh;' src='$&' alt='$&'>"
                             )
                         }
 
