@@ -94,13 +94,14 @@ textarea {
     cursor: pointer;
 }
 
-#circle {
-    width: 10px;
-    height: 10px;
-    -webkit-border-radius: 25px;
-    -moz-border-radius: 25px;
-    border-radius: 25px;
-    background: red;
+.notifyTR {
+    width: 24px;
+    height: 24px;
+    z-index: 0;
+    left: 40px;
+    bottom: 33px;
+    position: fixed;
+    background: white;
 }
 
 .mm-submit {
@@ -154,6 +155,7 @@ textarea {
 .mm-side-image img {
     float: left;
     max-height: 3rem;
+    z-index: 1;
     margin-right: .5rem;
     position: absolute;
 }
