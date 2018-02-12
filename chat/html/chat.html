@@ -651,9 +651,10 @@
                     if ($("a[room='" + room + "']").parent().has('.notify-msg').length >= 1) {
                         console.log("This has a notification already")
                     } else {
-                        $("a[room='" + room + "']").parent().append('<div class="notify notify-msg"></div>')
+                        $("a[room='" + room + "']").parent().append(
+                            '<div class="notify notify-msg"></div>')
                     }
-                    
+
                     // var hasNotification = 
                     // $("a[room='" + room + "']").children().removeClass('none')
                     // $("a[room='" + room + "']").children().addClass('new badge deep-orange accent-3')
@@ -720,7 +721,8 @@
             //
             $('#mm-side-list').on('click', 'a', function () {
                 console.log("Room Button Clicked")
-                $("a[room='" + $(this.attributes.room).val() + "']").parent().remove('.notify')
+                console.log($("a[room='" + $(this.attributes.room).val() + "']").parent())
+                $("a[room='" + $(this.attributes.room).val() + "']").parent().remove('div')
                 socket.emit('changerooms', $(this.attributes.room).val())
             })
             //
@@ -742,7 +744,7 @@
                     console.log('here block')
                     $("#room-commands").css("display", "block")
                     $("#room-custom").css("display", "block")
-                }                
+                }
 
                 $('#messages').empty()
                 $('#send-message').val('')
