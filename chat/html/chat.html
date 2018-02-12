@@ -532,7 +532,7 @@
                         // { "regex":"https\\S*youtu\\.be\\/(\\S{11})", "action":"replaceEmbed", "message":"<div class='video-container'><iframe width='100%' src='https://www.youtube.com/embed/$1?rel=0' frameborder='0' allowfullscreen></iframe></div>" },
                         // { "regex":"(https\\S*\\.(jpg|gif|png|svg)\\S*)", "action":"replaceEmbed", "message":"<a href='$&' target='_blank'>$&</a><br><img class='materialboxed responsive-img' src='$1' alt='$1'>" },
 
-                        var imgRegex = new RegExp('(https\\S*\\.(jpg|gif|png|svg)\\S*)',
+                        var imgRegex = new RegExp('https?:\\/\\/(?!.*(gfycat\\.|youtu\\.|youtube\\.|cdn\\.discord))\\S*\\.(jpg|gif|png|svg)\\S*',
                             'ig')
                         var tested = imgRegex.test(sendmsg)
                         console.log(tested)
@@ -848,6 +848,7 @@
                 $(".mm-collection .mm-collection-item").css("background-color", css.mb1)
                 $(".mm-collection :nth-child(odd)").css("background-color", css.mb2)
                 $(".mm-collection .mm-collection-item>.message").css("background", "none")
+                $(".mm-collection .mm-collection-item>.message").children().css("background", "none")
             }
 
             function handleFileSelect(evt) {
