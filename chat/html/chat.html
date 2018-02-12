@@ -710,12 +710,26 @@
                     })
                 } catch (e) {}
             })
-
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
             $('#mm-side-list').on('click', 'a', function () {
                 console.log("Room Button Clicked")
-                $('.notify').remove()
+                $("a[room='" + $(this.attributes.room).val() + "']").parent().remove('.notify')
                 socket.emit('changerooms', $(this.attributes.room).val())
             })
+            //
+            //
+            //
+            //
+            //
+            //
+            //
 
             socket.on('switchToRoom', async function (admin, room) {
                 console.log(admin)

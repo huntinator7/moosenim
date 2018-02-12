@@ -158,6 +158,7 @@ textarea {
     color: #6eb7ff;
     text-align: left;
     background-color: black;
+    overflow-x: hidden;
 }
 
 .mm-navbtn {
