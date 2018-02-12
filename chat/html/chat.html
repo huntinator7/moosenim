@@ -531,7 +531,10 @@
                         // { "regex":"https\\S*youtube\\.com\\/watch\\?v=(\\S*)", "action":"replaceEmbed", "message":"<div class='video-container'><iframe width='100%' src='https://www.youtube.com/embed/$1?rel=0' frameborder='0' allowfullscreen></iframe></div>" },
                         // { "regex":"https\\S*youtu\\.be\\/(\\S{11})", "action":"replaceEmbed", "message":"<div class='video-container'><iframe width='100%' src='https://www.youtube.com/embed/$1?rel=0' frameborder='0' allowfullscreen></iframe></div>" },
                         // { "regex":"(https\\S*\\.(jpg|gif|png|svg)\\S*)", "action":"replaceEmbed", "message":"<a href='$&' target='_blank'>$&</a><br><img class='materialboxed responsive-img' src='$1' alt='$1'>" },
-                        sendmsg = sendmsg.replace(/(https\\S*\\.(jpg|gif|png|svg)\\S*)/ig, "<a href='$&' target='_blank'>$&</a><br><img class='materialboxed responsive-img' style='height: 20vh;' src='$1' alt='$1'>")
+                        if (/(https\\S*\\.(jpg|gif|png|svg)\\S*)/ig.test(sendmsg)) console.log("Image found, attempting replace at: \"" + sendmsg + "\"")
+                        sendmsg = sendmsg.replace(/(https\\S*\\.(jpg|gif|png|svg)\\S*)/ig,
+                            "<a href='$&' target='_blank'>$&</a><br><img class='materialboxed responsive-img' style='height: 20vh;' src='$1' alt='$1'>"
+                        )
 
 
                         if (doRegex) {
