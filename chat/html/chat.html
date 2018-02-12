@@ -525,6 +525,14 @@
 
                     function checkRegex(cb) {
                         var sendmsg = msg
+                        //Default embed of images and videos
+                        // { "regex":"https?:\\/\\/(?!.*(gfycat\\.|youtu\\.|youtube\\.|\\.svg|\\.jpg|\\.gif|\\.png))\\S*", "action":"replaceEmbed", "message":"<a href='$&' target='_blank'>$&</a>" },
+                        // { "regex":"\\S+gfycat\\.com\\/(gifs\\/detail\\/)?(\\S+)", "action":"replaceEmbed", "message":"$&<div class='video-container'><iframe src='https://gfycat.com/ifr/$2' frameborder='0' scrolling='no' width='100%' allowfullscreen></iframe></div>" },
+                        // { "regex":"https\\S*youtube\\.com\\/watch\\?v=(\\S*)", "action":"replaceEmbed", "message":"<div class='video-container'><iframe width='100%' src='https://www.youtube.com/embed/$1?rel=0' frameborder='0' allowfullscreen></iframe></div>" },
+                        // { "regex":"https\\S*youtu\\.be\\/(\\S{11})", "action":"replaceEmbed", "message":"<div class='video-container'><iframe width='100%' src='https://www.youtube.com/embed/$1?rel=0' frameborder='0' allowfullscreen></iframe></div>" },
+                        // { "regex":"(https\\S*\\.(jpg|gif|png|svg)\\S*)", "action":"replaceEmbed", "message":"<a href='$&' target='_blank'>$&</a><br><img class='materialboxed responsive-img' src='$1' alt='$1'>" },
+                        sendmsg = sendmsg.replace(/(https\\S*\\.(jpg|gif|png|svg)\\S*)/ig, "<a href='$&' target='_blank'>$&</a><br><img class='materialboxed responsive-img' style='height: 20vh;' src='$1' alt='$1'>")
+
                         if (doRegex) {
                             if (sendmsg.substr(0, 1) == "!") {
                                 var command = /\S+/i.exec(sendmsg)
@@ -651,19 +659,14 @@
                         $("a[room='" + room + "']").parent().append(
                             '<div class="notify notify-msg"></div>')
                     }
-
-                    // var hasNotification = 
-                    // $("a[room='" + room + "']").children().removeClass('none')
-                    // $("a[room='" + room + "']").children().addClass('new badge deep-orange accent-3')
-                    // $("a[room='" + room + "']").children().text('1')
                 }
             })
 
-            socket.on('login', function (displayName, email, photoURL, UserId, room) {
-                console.log("Logging in " + displayName + ", email: " + email + " " + UserId)
+            socket.on('login', function (displayName, email, photoURL, userId, room) {
+                console.log("Logging in " + displayName + ", email: " + email + " " + userId)
                 $('#mm-side-list-2').append(
-                    '<li id="login" class="mm-collection-item avatar login"><p class="message">' +
-                    displayName + ' logged in</p></li>')
+                    `<li class="nav-item mm-side-image"><img src="${photoURL}" alt="" class="circle img-fluid"><a class="nav-link mm-side-item-text" data-toggle="drawer" data-target="#dw-s2" user="${userId}">${displayName}</a></li>`
+                )
                 checkScroll()
                 if (document.hidden) {
                     login.play()
