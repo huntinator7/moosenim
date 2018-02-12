@@ -533,6 +533,7 @@
                         // { "regex":"(https\\S*\\.(jpg|gif|png|svg)\\S*)", "action":"replaceEmbed", "message":"<a href='$&' target='_blank'>$&</a><br><img class='materialboxed responsive-img' src='$1' alt='$1'>" },
                         sendmsg = sendmsg.replace(/(https\\S*\\.(jpg|gif|png|svg)\\S*)/ig, "<a href='$&' target='_blank'>$&</a><br><img class='materialboxed responsive-img' style='height: 20vh;' src='$1' alt='$1'>")
 
+
                         if (doRegex) {
                             if (sendmsg.substr(0, 1) == "!") {
                                 var command = /\S+/i.exec(sendmsg)
