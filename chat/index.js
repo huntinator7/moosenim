@@ -569,7 +569,7 @@ function getRegexCommands(roomId, sid) {
     con.query('SELECT commands FROM rooms WHERE serialid = ?', [roomId], function (error, rows) {
         if (error) console.log(error)
         var coms = JSON.parse(rows[0].commands)
-        console.log(coms)
+        // console.log(coms)
         const decode = new Promise((resolve, reject) => {
             coms.forEach(function (element) {
                 element.msg = decodeURI(element.msg)
