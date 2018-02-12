@@ -713,7 +713,7 @@
 
             $('#mm-side-list').on('click', 'a', function () {
                 console.log("Room Button Clicked")
-                //  console.log($(this.attributes.room).val())
+                console.log($(this))
                 socket.emit('changerooms', $(this.attributes.room).val())
             })
 
@@ -728,9 +728,7 @@
                     console.log('here block')
                     $("#room-commands").css("display", "block")
                     $("#room-custom").css("display", "block")
-                }
-
-                $("a[room='" + room + "']").parent().remove('.notify')
+                }                
 
                 $('#messages').empty()
                 $('#send-message').val('')
