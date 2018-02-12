@@ -730,6 +730,8 @@
                     $("#room-custom").css("display", "block")
                 }
 
+                $("a[room='" + room + "']").parent().remove('.notify')
+
                 $('#messages').empty()
                 $('#send-message').val('')
                 $('#jc-room').html(room.join_code)
