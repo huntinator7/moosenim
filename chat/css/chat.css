@@ -94,14 +94,28 @@ textarea {
     cursor: pointer;
 }
 
-.notifyTR {
-    width: 24px;
-    height: 24px;
-    z-index: 0;
-    left: 40px;
-    bottom: 33px;
+.notify {
+    width: 1.125rem;
+    height: 1.125rem;
+    z-index: 2;
     position: fixed;
-    background: white;
+    background: #FF3300;
+}
+
+.notify-b {
+    bottom: 2.5rem;
+}
+
+.notify-r {
+    left: 3rem;
+}
+
+.notify-t {
+    bottom: 0.25rem;
+}
+
+.notify-l {
+    left: 0.75rem;
 }
 
 .mm-submit {
