@@ -543,12 +543,13 @@
                             },
                             {
                                 'x': '([^\'"]|^)(http\\S+\.\\S+)(\\s|$)',
-                                'r': "<a href='$&' target='_blank'>$&</a>"
+                                'r': "<a href='$&' target='_blank'>$2</a>"
                             },
                         ]
                         regexes.forEach(function (e) {
                             const promise = new Promise((resolve, reject) => {
                                 var reg = new RegExp(e.x, 'ig')
+                                console.log(e.x)
                                 console.log(reg.exec(sendmsg))
                                 sendmsg = sendmsg.replace(reg, e.r)
                                 resolve()
