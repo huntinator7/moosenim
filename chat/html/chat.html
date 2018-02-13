@@ -532,12 +532,11 @@
                         // { "regex":"https\\S*youtu\\.be\\/(\\S{11})", "action":"replaceEmbed", "message":"<div class='video-container'><iframe width='100%' src='https://www.youtube.com/embed/$1?rel=0' frameborder='0' allowfullscreen></iframe></div>" },
                         // { "regex":"(https\\S*\\.(jpg|gif|png|svg)\\S*)", "action":"replaceEmbed", "message":"<a href='$&' target='_blank'>$&</a><br><img class='materialboxed responsive-img' src='$1' alt='$1'>" },
 
-                        var imgRegex = new RegExp(
-                            'https?:\\/\\/(?!.*(gfycat\\.|youtu\\.|youtube\\.|cdn\\.discord|moosen\\.im))\\S*\\.(jpg|gif|png|svg)\\S*',
-                            'ig')
-                        // var tested = imgRegex.test(sendmsg)
-                        sendmsg = sendmsg.replace(imgRegex,
+                        sendmsg = sendmsg.replace(/https?:\\\/\\\/(?!.*(gfycat\\.|youtu\\.|youtube\\.|cdn\\.discord|moosen\\.im))\\S*\\.(jpg|gif|png|svg)\\S*/ig,
                             "<a href='$&' target='_blank'>$&</a><br><img class='materialboxed responsive-img' style='height: 20vh;' src='$&' alt='$&'>"
+                        )
+                        var vidRegex = new RegExp(
+                            '\\S+gfycat\\.com\\/(gifs\\/detail\\/)?(\\S+)', 'ig'
                         )
 
                         if (doRegex) {
@@ -615,7 +614,6 @@
                             }
                             pageJump()
                         }
-                        document.title = user.substring(0, 3) + ": " + newMsg.substring(0, 10)
                         if (document.hidden) {
                             notifyMe(newMsg, pic)
                             login.play()
@@ -629,6 +627,7 @@
                                 user + '</span><p class="message">' +
                                 newMsg + '</p><span class="secondary-content">' +
                                 time + '</a></li>')
+                            document.title = user.substring(0, 3) + ": " + newMsg
                             handleMessageCSS()
                         } else {
                             insertMessage('<li id="' + id +
@@ -802,6 +801,7 @@
 
                 if (!wasInserted) {
                     $('#messages').append(msg)
+                    document.title = user.substring(0, 3) + ": " + newMsg
                     checkScroll()
                 }
                 handleMessageCSS()
