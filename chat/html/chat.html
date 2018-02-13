@@ -616,7 +616,7 @@
                             '" alt="" class="circle"><span class="title" id="msgtitle">' +
                             e.username + '</span><p class="message">' +
                             e.msg + '</p><span class="secondary-content">' +
-                            time + '</a></li>', thisId)
+                            time + '</a></li>', thisId, e.username)
                     }
 
                     function doRest(newMsg) {
@@ -651,7 +651,7 @@
                                 '" alt="" class="circle"><span class="title" id="msgtitle">' +
                                 user + '</span><p class="message">' +
                                 newMsg + '</p><span class="secondary-content">' +
-                                time + '</a></li>', id)
+                                time + '</a></li>', id, user)
                             if (first_id > id) {
                                 first_id = id
                             }
@@ -799,7 +799,7 @@
                 return new Promise(resolve => setTimeout(resolve, ms))
             }
 
-            async function insertMessage(msg, id) {
+            async function insertMessage(msg, id, user) {
                 var wasInserted = false
                 $('#messages li').each(function () {
                     // console.log($(this.children[1]).text())
