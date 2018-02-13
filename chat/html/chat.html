@@ -525,19 +525,34 @@
 
                     function checkRegex(cb) {
                         var sendmsg = msg
-                        //Default embed of images and videos
-                        // { "regex":"https?:\\/\\/(?!.*(gfycat\\.|youtu\\.|youtube\\.|\\.svg|\\.jpg|\\.gif|\\.png))\\S*", "action":"replaceEmbed", "message":"<a href='$&' target='_blank'>$&</a>" },
-                        // { "regex":"\\S+gfycat\\.com\\/(gifs\\/detail\\/)?(\\S+)", "action":"replaceEmbed", "message":"$&<div class='video-container'><iframe src='https://gfycat.com/ifr/$2' frameborder='0' scrolling='no' width='100%' allowfullscreen></iframe></div>" },
-                        // { "regex":"https\\S*youtube\\.com\\/watch\\?v=(\\S*)", "action":"replaceEmbed", "message":"<div class='video-container'><iframe width='100%' src='https://www.youtube.com/embed/$1?rel=0' frameborder='0' allowfullscreen></iframe></div>" },
-                        // { "regex":"https\\S*youtu\\.be\\/(\\S{11})", "action":"replaceEmbed", "message":"<div class='video-container'><iframe width='100%' src='https://www.youtube.com/embed/$1?rel=0' frameborder='0' allowfullscreen></iframe></div>" },
-                        // { "regex":"(https\\S*\\.(jpg|gif|png|svg)\\S*)", "action":"replaceEmbed", "message":"<a href='$&' target='_blank'>$&</a><br><img class='materialboxed responsive-img' src='$1' alt='$1'>" },
-
-                        sendmsg = sendmsg.replace(/https?:\\\/\\\/(?!.*(gfycat\\.|youtu\\.|youtube\\.|cdn\\.discord|moosen\\.im))\\S*\\.(jpg|gif|png|svg)\\S*/ig,
-                            "<a href='$&' target='_blank'>$&</a><br><img class='materialboxed responsive-img' style='height: 20vh;' src='$&' alt='$&'>"
-                        )
-                        var vidRegex = new RegExp(
-                            '\\S+gfycat\\.com\\/(gifs\\/detail\\/)?(\\S+)', 'ig'
-                        )
+                        var regexes = [{
+                                'x': 'https?:\\/\\/(?!.*(gfycat\\.|youtu\\.|youtube\\.|cdn\\.discord|moosen\\.im))\\S*\\.(jpg|gif|png|svg)\\S*',
+                                'r': "$& <br><img class='materialboxed responsive-img' style='height: 20vh;' src='$&' alt='$&'>"
+                            },
+                            {
+                                'x': '\\S+gfycat\\.com\\/(gifs\\/detail\\/)?(\\S+)',
+                                'r': '$& <br><div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" src="https://gfycat.com/ifr/$2" allowfullscreen></iframe></div>'
+                            },
+                            {
+                                'x': 'https\\S*youtube\\.com\\/watch\\?v=(\\S*)',
+                                'r': '$& <br><div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" src="https://www.youtube.com/embed/$1?rel=0" allowfullscreen></iframe></div>'
+                            },
+                            {
+                                'x': 'https\\S*youtu\\.be\\/(\\S{11})',
+                                'r': '$& <br><div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" src="https://www.youtube.com/embed/$1?rel=0" allowfullscreen></iframe></div>'
+                            },
+                            {
+                                'x': '([^\'"]|^)(http\\S+\.\\S+)',
+                                'r': "<a href='$&' target='_blank'>$&</a>"
+                            },
+                        ]
+                        regexes.forEach(function (e) {
+                            const promise = new Promise((resolve, reject) => {
+                                var reg = new RegExp(e.x, 'ig')
+                                sendmsg = sendmsg.replace(reg, e.r)
+                                resolve()
+                            })
+                        })
 
                         if (doRegex) {
                             if (sendmsg.substr(0, 1) == "!") {
