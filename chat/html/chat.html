@@ -532,16 +532,13 @@
                         // { "regex":"https\\S*youtu\\.be\\/(\\S{11})", "action":"replaceEmbed", "message":"<div class='video-container'><iframe width='100%' src='https://www.youtube.com/embed/$1?rel=0' frameborder='0' allowfullscreen></iframe></div>" },
                         // { "regex":"(https\\S*\\.(jpg|gif|png|svg)\\S*)", "action":"replaceEmbed", "message":"<a href='$&' target='_blank'>$&</a><br><img class='materialboxed responsive-img' src='$1' alt='$1'>" },
 
-                        var imgRegex = new RegExp('https?:\\/\\/(?!.*(gfycat\\.|youtu\\.|youtube\\.|cdn\\.discord|moosen\\.im))\\S*\\.(jpg|gif|png|svg)\\S*',
+                        var imgRegex = new RegExp(
+                            'https?:\\/\\/(?!.*(gfycat\\.|youtu\\.|youtube\\.|cdn\\.discord|moosen\\.im))\\S*\\.(jpg|gif|png|svg)\\S*',
                             'ig')
-                        var tested = imgRegex.test(sendmsg)
-                        console.log(tested)
-                        if (tested) {
-                            console.log("Message has image")
-                            sendmsg = sendmsg.replace(imgRegex,
-                                "<a href='$&' target='_blank'>$&</a><br><img class='materialboxed responsive-img' style='height: 20vh;' src='$&' alt='$&'>"
-                            )
-                        }
+                        // var tested = imgRegex.test(sendmsg)
+                        sendmsg = sendmsg.replace(imgRegex,
+                            "<a href='$&' target='_blank'>$&</a><br><img class='materialboxed responsive-img' style='height: 20vh;' src='$&' alt='$&'>"
+                        )
 
                         if (doRegex) {
                             if (sendmsg.substr(0, 1) == "!") {
