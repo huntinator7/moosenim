@@ -549,8 +549,6 @@
                         regexes.forEach(function (e) {
                             const promise = new Promise((resolve, reject) => {
                                 var reg = new RegExp(e.x, 'ig')
-                                console.log(e.x)
-                                console.log(reg.exec(sendmsg))
                                 sendmsg = sendmsg.replace(reg, e.r)
                                 resolve()
                             })
