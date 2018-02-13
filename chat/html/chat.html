@@ -543,7 +543,7 @@
                             },
                             {
                                 'x': '([^\'"]|^)(http\\S+\\.\\S+)(\\s|$)',
-                                'r': "<a href='$&' target='_blank'>$2</a>"
+                                'r': "$1<a href='$2' target='_blank'>$2</a>$3"
                             },
                         ]
                         regexes.forEach(function (e) {
