@@ -767,7 +767,8 @@ function createChatroom(n, uid) {
           console.log(error)
           con.query("SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC", function (error, rows, results) {
               con.query("INSERT INTO room_users VALUES(?,?,1,0)", [rows[0].serialid+1, uid])
-              con.query("CREATE TABLE ?? (id int AUTO_INCREMENT PRIMARY KEY, message text, username VARCHAR(100),timestamp VARCHAR(32),roomid int, uid VARCHAR(100))", ["room" + rows[0].serialid])
+              var id = rows[0].serialid+1;
+              con.query("CREATE TABLE ?? (id int AUTO_INCREMENT PRIMARY KEY, message text, username VARCHAR(100),timestamp VARCHAR(32),roomid int, uid VARCHAR(100))", ["room" +id])
               //  getChatrooms(socket.id,uid)
           })
         })
