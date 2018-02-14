@@ -765,7 +765,7 @@ function createChatroom(n, uid) {
         // get availible chatrooms from user SELECT room_id FROM room_users WHERE user_id = ? [user.uid]
         con.query("INSERT INTO rooms (name,motd,join_code,back1,back2,text_color,icon,text_color2) VALUES(?,?,?,?,?,?,?)", [name, 'motd', uuidv4(), '#6EB7FF', '#23ffdd', '#000000', 'https://www.moosen.im/images/favicon.png', '#000000'], function (error) {})
         con.query("SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC", function (error, rows, results) {
-            con.query("INSERT INTO room_users VALUES(?,?,1)", [rows[0].serialid, uid])
+            con.query("INSERT INTO room_users VALUES(?,?,1,?)", [rows[0].serialid, uid,0])
 
             con.query("CREATE TABLE ?? (id int AUTO_INCREMENT PRIMARY KEY, message text, username VARCHAR(100),timestamp VARCHAR(32),roomid int, uid VARCHAR(100))", ["room" + rows[0].serialid])
             //  getChatrooms(socket.id,uid)
