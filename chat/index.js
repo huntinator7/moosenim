@@ -636,7 +636,7 @@ function getMessage(roomId, pic) {
             } else if (row.length < 1) {
                 io.to(roomId).emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, "https://www.moosen.im/images/favicon.png", rows[0].roomid)
             } else {
-                io.to(roomId).emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, row[0].profpic, rows[0].roomid)
+                io.to(roomId).emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, rows[0].profpic, rows[0].roomid)
             }
             if (roomId == config.discord.sendChannel) {
                 //send to Discord
