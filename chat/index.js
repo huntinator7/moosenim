@@ -191,7 +191,7 @@ function loginUser(uid, displayName, photoURL, email) {
             photoURL = rows[0].profpic
             email = rows[0].email
 
-            //  con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid])
+              con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid])
             //  con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid])
         }
     })
@@ -425,6 +425,7 @@ io.sockets.on('connection', function (socket) {
                 var un = socket.request.user.displayName
                 var uid = socket.request.user.id
                 var pic = socket.request.user.photos[0].value
+                console.log("user profile picture:"+pic)
                 sendMessage(msg, un, uid, roomId)
                 getMessage(roomId, pic)
             }
