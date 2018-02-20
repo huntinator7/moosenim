@@ -428,7 +428,7 @@ io.sockets.on('connection', function (socket) {
                 var regArray = []
                 var myArray
                 while ((myArray = myRe.exec(msg)) !== null) {
-                    regArray.push(myArray[0])
+                    regArray.push({'a':myArray[0], 'b':myArray.index})
                 }
                 console.log(regArray)
                 // var tagTest = new RegExp('#([a-z]) (.+[^\\\\])#', 'g')
