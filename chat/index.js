@@ -424,16 +424,13 @@ io.sockets.on('connection', function (socket) {
                 }
                 msg = msg.replace(/</ig, '&lt;')
                 msg = msg.replace(/>/ig, '&gt;')
-                const doTags = new Promise((resolve, reject) => {
-                    var myRe = /#([a-z])?/g
-                    var regArray;
-                    var myArray;
-                    while ((myArray = myRe.exec(msg)) !== null) {
-                        regArray.push(myArray[0])
-                    }
-                    console.log(regArray)
-                    resolve()
-                })
+                var myRe = /#([a-z])?/g
+                var regArray
+                var myArray
+                while ((myArray = myRe.exec(msg)) !== null) {
+                    regArray.push(myArray[0])
+                }
+                console.log(regArray)
                 // var tagTest = new RegExp('#([a-z]) (.+[^\\\\])#', 'g')
                 // msg = msg.replace(tagTest, `<${lookup[result[1]].rep} ${lookup[result[1]].addl}>$2</${lookup[result[1]].rep}>`)
                 var un = socket.request.user.displayName
