@@ -422,6 +422,8 @@ io.sockets.on('connection', function (socket) {
                 } catch (e) {
                     console.log(e)
                 }
+                msg = msg.replace(/</ig, '&lt;')
+                msg = msg.replace(/>/ig, '&gt;')
                 var un = socket.request.user.displayName
                 var uid = socket.request.user.id
                 var pic = socket.request.user.photos[0].value
