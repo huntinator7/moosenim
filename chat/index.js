@@ -534,7 +534,7 @@ client.on('message', msg => {
 
 var lookup = {}
 for (var i = 0, len = config.regex.length; i < len; i++) {
-    lookup[array[i].id] = config.regex[i]
+    lookup[config.regex[i].id] = config.regex[i]
 }
 
 //----MYSQL DB----\\
