@@ -425,9 +425,7 @@ io.sockets.on('connection', function (socket) {
                 msg = msg.replace(/</ig, '&lt;')
                 msg = msg.replace(/>/ig, '&gt;')
                 var tagTest = new RegExp('#([a-z]) (.+[^\\\\])#', 'g')
-                var tagged = tagTest.exec(msg)
-                console.log(lookup)
-                console.log(lookup[tagged[1]])
+                msg = msg.replace(tagTest, `<${lookup[tagged[1]].rep} ${lookup[tagged[1]].addl}>$2</${lookup[tagged[1]].rep}>`)
                 var un = socket.request.user.displayName
                 var uid = socket.request.user.id
                 var pic = socket.request.user.photos[0].value
