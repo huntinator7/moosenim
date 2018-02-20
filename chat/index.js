@@ -426,6 +426,7 @@ io.sockets.on('connection', function (socket) {
                 msg = msg.replace(/>/ig, '&gt;')
                 var tagTest = new RegExp('#([a-z]) (.+[^\\\\])#', 'g')
                 var tagged = tagTest.exec(msg)
+                console.log(lookup)
                 console.log(lookup[tagged[1]])
                 var un = socket.request.user.displayName
                 var uid = socket.request.user.id
