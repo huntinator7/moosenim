@@ -643,7 +643,10 @@ function getMessage(roomId, pic) {
             }
             if (roomId == config.discord.sendChannel) {
                 //send to Discord
-                sendToDiscord(rows[0].username, decodeURI(rows[0].message))
+                var msg = decodeURI(rows[0].message)
+                msg = msg.replace(/&lt;/ig, '<')
+                msg = msg.replace(/&gt;/ig, '>')
+                sendToDiscord(rows[0].username, msg)
             }
         })
     })
