@@ -191,7 +191,7 @@ function loginUser(uid, displayName, photoURL, email) {
             photoURL = rows[0].profpic
             email = rows[0].email
 
-              con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid])
+            con.query("UPDATE users SET profpic = ? WHERE uid = ?", [photoURL, uid])
             //  con.query("UPDATE users SET name = ? WHERE uid = ?", [displayName, uid])
         }
     })
@@ -424,10 +424,12 @@ io.sockets.on('connection', function (socket) {
                 }
                 msg = msg.replace(/</ig, '&lt;')
                 msg = msg.replace(/>/ig, '&gt;')
+                var tagTest = new RegExp('#([a-z])(.+)[^\\\\]#', 'g')
+                console.log(tagTest.exec(msg))
                 var un = socket.request.user.displayName
                 var uid = socket.request.user.id
                 var pic = socket.request.user.photos[0].value
-                console.log("user profile picture:"+pic)
+                console.log("User profile picture: " + pic)
                 sendMessage(msg, un, uid, roomId)
                 getMessage(roomId, pic)
             }
@@ -769,14 +771,14 @@ function createChatroom(n, uid) {
     try {
         var name = n
         // get availible chatrooms from user SELECT room_id FROM room_users WHERE user_id = ? [user.uid]
-        con.query("INSERT INTO rooms (name,motd,join_code,back1,back2,text_color,icon,text_color2) VALUES(?,?,?,?,?,?,?,?)", [name, 'motd', uuidv4(), '#6EB7FF', '#23ffdd', '#000000', 'https://www.moosen.im/images/favicon.png', '#000000','[{"cmd":"!ping","actn":"Respond","msg":"Pong!","username":"Server","pic":"https://cdnimages.opentip.com/full/8DHS/8DHS-AB05520.jpg"}] '], function (error) {
-          console.log(error)
-          con.query("SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC", function (error, rows, results) {
-              con.query("INSERT INTO room_users VALUES(?,?,1,0)", [rows[0].serialid+1, uid])
-              var id = rows[0].serialid+1;
-              con.query("CREATE TABLE ?? (id int AUTO_INCREMENT PRIMARY KEY, message text, username VARCHAR(100),timestamp VARCHAR(32),roomid int, uid VARCHAR(100))", ["room" +id])
-              //  getChatrooms(socket.id,uid)
-          })
+        con.query("INSERT INTO rooms (name,motd,join_code,back1,back2,text_color,icon,text_color2) VALUES(?,?,?,?,?,?,?,?)", [name, 'motd', uuidv4(), '#6EB7FF', '#23ffdd', '#000000', 'https://www.moosen.im/images/favicon.png', '#000000', '[{"cmd":"!ping","actn":"Respond","msg":"Pong!","username":"Server","pic":"https://cdnimages.opentip.com/full/8DHS/8DHS-AB05520.jpg"}] '], function (error) {
+            console.log(error)
+            con.query("SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC", function (error, rows, results) {
+                con.query("INSERT INTO room_users VALUES(?,?,1,0)", [rows[0].serialid + 1, uid])
+                var id = rows[0].serialid + 1;
+                con.query("CREATE TABLE ?? (id int AUTO_INCREMENT PRIMARY KEY, message text, username VARCHAR(100),timestamp VARCHAR(32),roomid int, uid VARCHAR(100))", ["room" + id])
+                //  getChatrooms(socket.id,uid)
+            })
         })
 
     } catch (e) {
@@ -817,7 +819,7 @@ function addToRoom(email, roomId, isAdmin) {
     con.query("SELECT * FROM users WHERE email = ?", [email], function (error, rows, result) {
         try {
             rows.forEach(function (element) {
-                con.query("INSERT INTO room_users VALUES(?,?,?,?)", [roomId, element.uid, isAdmin,0])
+                con.query("INSERT INTO room_users VALUES(?,?,?,?)", [roomId, element.uid, isAdmin, 0])
                 console.log("user " + element.uid + " was added to room " + roomId)
             })
         } catch (e) {
