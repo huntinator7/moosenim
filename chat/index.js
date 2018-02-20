@@ -425,7 +425,7 @@ io.sockets.on('connection', function (socket) {
                 msg = msg.replace(/</ig, '&lt;')
                 msg = msg.replace(/>/ig, '&gt;')
                 var myRe = /#([a-z])?/g
-                var regArray
+                var regArray = []
                 var myArray
                 while ((myArray = myRe.exec(msg)) !== null) {
                     regArray.push(myArray[0])
