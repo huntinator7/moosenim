@@ -424,8 +424,9 @@ io.sockets.on('connection', function (socket) {
                 }
                 msg = msg.replace(/</ig, '&lt;')
                 msg = msg.replace(/>/ig, '&gt;')
-                var tagTest = new RegExp('#([a-z])(.+)[^\\\\]#', 'g')
-                console.log(tagTest.exec(msg))
+                var tagTest = new RegExp('#([a-z]) (.+[^\\\\])#', 'g')
+                var tagged = tagTest.exec(msg)
+                console.log(lookup[tagged[1]])
                 var un = socket.request.user.displayName
                 var uid = socket.request.user.id
                 var pic = socket.request.user.photos[0].value
@@ -529,6 +530,12 @@ client.on('message', msg => {
         //  console.log('Newmsg: ' + newmsg)
     }
 })
+
+
+var lookup = {}
+for (var i = 0, len = config.regex.length; i < len; i++) {
+    lookup[array[i].id] = config.regex[i]
+}
 
 //----MYSQL DB----\\
 
