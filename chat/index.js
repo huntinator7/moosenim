@@ -424,6 +424,8 @@ io.sockets.on('connection', function (socket) {
                 }
                 msg = msg.replace(/</ig, '&lt;')
                 msg = msg.replace(/>/ig, '&gt;')
+                var result = /#/g.exec(msg)
+                console.log(result)
                 // var tagTest = new RegExp('#([a-z]) (.+[^\\\\])#', 'g')
                 // msg = msg.replace(tagTest, `<${lookup[result[1]].rep} ${lookup[result[1]].addl}>$2</${lookup[result[1]].rep}>`)
                 var un = socket.request.user.displayName
