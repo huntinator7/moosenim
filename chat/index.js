@@ -393,7 +393,7 @@ io.sockets.on('connection', function (socket) {
         joinChatroom(socket, roomId)
     })
 
-    socket.on('joincode', function (code, roomId) {
+    socket.on('joincode', function (code, roomId,isAdmin) {
         console.log('join code called')
         joinRoom(code, socket.request.user.id)
     //    joinChatroom(socket, roomId)
@@ -823,7 +823,7 @@ function joinRoom(joinCode, uid) {
             })
         } catch (e) {
             console.log(e)
-            console.log("room not found - " + joinCode)
+            console.log("room not found -" + joinCode)
         }
     })
 }
