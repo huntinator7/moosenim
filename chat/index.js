@@ -782,15 +782,22 @@ function getChatrooms(sid, uid) {
 function createChatroom(n, uid) {
     var roomId
     try {
+        var promise1 = new Promise(function(resolve, reject) {
+  resolve('Success!');
+
         var name = n
         // get availible chatrooms from user SELECT room_id FROM room_users WHERE user_id = ? [user.uid]
         con.query("INSERT INTO rooms (name,motd,join_code,back1,back2,text_color,icon,text_color2,commands) VALUES(?,?,?,?,?,?,?,?)", [name, 'motd', uuidv4(), '#6EB7FF', '#23ffdd', '#000000', 'https://www.moosen.im/images/favicon.png', '#000000', '[{"cmd":"!ping","actn":"Respond","msg":"Pong!","username":"Server","pic":"https://cdnimages.opentip.com/full/8DHS/8DHS-AB05520.jpg"}] '], function (error) {
             console.log(error)
-            con.query("SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC", function (error, rows, results) {
-                con.query("INSERT INTO room_users VALUES(?,?,1,0)", [rows[0].serialid, uid])
-                var id = rows[0].serialid;
-                con.query("CREATE TABLE ?? (id int AUTO_INCREMENT PRIMARY KEY, message text, username VARCHAR(100),timestamp VARCHAR(32),roomid int, uid VARCHAR(100))", ["room" + id])
-                //  getChatrooms(socket.id,uid)
+            //  getChatrooms(socket.id,uid)
+            })
+            })
+            promise1.then(function(){
+                con.query("SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC", function (error, rows, results) {
+                    con.query("INSERT INTO room_users VALUES(?,?,1,0)", [rows[0].serialid, uid])
+                    var id = rows[0].serialid;
+                    con.query("CREATE TABLE ?? (id int AUTO_INCREMENT PRIMARY KEY, message text, username VARCHAR(100),timestamp VARCHAR(32),roomid int, uid VARCHAR(100))", ["room" + id])
+
             })
         })
 
