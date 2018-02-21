@@ -784,7 +784,7 @@ function createChatroom(n, uid) {
     try {
         var name = n
         // get availible chatrooms from user SELECT room_id FROM room_users WHERE user_id = ? [user.uid]
-        con.query("INSERT INTO rooms (name,motd,join_code,back1,back2,text_color,icon,text_color2) VALUES(?,?,?,?,?,?,?,?)", [name, 'motd', uuidv4(), '#6EB7FF', '#23ffdd', '#000000', 'https://www.moosen.im/images/favicon.png', '#000000', '[{"cmd":"!ping","actn":"Respond","msg":"Pong!","username":"Server","pic":"https://cdnimages.opentip.com/full/8DHS/8DHS-AB05520.jpg"}] '], function (error) {
+        con.query("INSERT INTO rooms (name,motd,join_code,back1,back2,text_color,icon,text_color2,commands) VALUES(?,?,?,?,?,?,?,?)", [name, 'motd', uuidv4(), '#6EB7FF', '#23ffdd', '#000000', 'https://www.moosen.im/images/favicon.png', '#000000', '[{"cmd":"!ping","actn":"Respond","msg":"Pong!","username":"Server","pic":"https://cdnimages.opentip.com/full/8DHS/8DHS-AB05520.jpg"}] '], function (error) {
             console.log(error)
             con.query("SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC", function (error, rows, results) {
                 con.query("INSERT INTO room_users VALUES(?,?,1,0)", [rows[0].serialid, uid])
