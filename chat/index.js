@@ -396,7 +396,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('joincode', function (code, roomId) {
         console.log('join code called')
         joinRoom(code, socket.request.user.id)
-        joinChatroom(socket, roomId)
+    //    joinChatroom(socket, roomId)
     })
 
 
