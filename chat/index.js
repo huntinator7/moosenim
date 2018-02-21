@@ -794,9 +794,10 @@ function createChatroom(n, uid) {
             })
             promise1.then(function(){
                 con.query("SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC", function (error, rows, results) {
-                    con.query("INSERT INTO room_users VALUES(?,?,1,0)", [rows[0].serialid, uid])
+                //    con.query("INSERT INTO room_users VALUES(?,?,1,0)", [rows[0].serialid, uid])
                     var id = rows[0].serialid;
-                    con.query("CREATE TABLE ?? (id int AUTO_INCREMENT PRIMARY KEY, message text, username VARCHAR(100),timestamp VARCHAR(32),roomid int, uid VARCHAR(100))", ["room" + id])
+                    console.log(id+" new room id")
+                //    con.query("CREATE TABLE ?? (id int AUTO_INCREMENT PRIMARY KEY, message text, username VARCHAR(100),timestamp VARCHAR(32),roomid int, uid VARCHAR(100))", ["room" + id])
 
             })
         })
