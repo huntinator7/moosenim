@@ -1,3 +1,34 @@
 body {
-    background: linear-gradient(to right, #6EB7FF, #23ffdd);
+    background-color: #6eb7ff;
+
+    color: white;
+
+}
+.card-body{
+    background-color: white;
+    color: #6eb7ff;
+    width: 18rem;
+
+
+}
+.btn btn-success{
+    background-color: #6eb7ff;
+}
+.media{
+    background-color: white;
+    color: black;
+
+}
+.media-body{
+    background-color: white;
+    color: black;
+    font-size: 25px;
+}
+.mt-0{
+    font-size: 50px;
+}
+
+.mr-3{
+    height: 240px;
+   width: 240px;
 }
