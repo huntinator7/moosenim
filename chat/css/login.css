@@ -1,11 +1,9 @@
 body {
-    background-color: #6eb7ff;
-
-    color: white;
-
+    background-color: #5892CC;
+    color: #BADDFF;
 }
 .card-body{
-    background-color: white;
+    background-color: #BADDFF;
     color: #6eb7ff;
     width: 18rem;
 
@@ -15,13 +13,15 @@ body {
     background-color: #6eb7ff;
 }
 .media{
-    background-color: white;
-    color: black;
+    background-color: #BADDFF;
+    color: #2C3E50;
+     background-clip: content-box, padding-box;
 
 }
 .media-body{
-    background-color: white;
-    color: black;
+   background-clip: content-box, padding-box;
+    background-color: #BADDFF;
+    color: #375B7F;
     font-size: 25px;
 }
 .mt-0{
