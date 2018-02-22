@@ -1,3 +1,34 @@
 body {
-    background: linear-gradient(to right, #6EB7FF, #23ffdd);
+    background-color: #5892CC;
+    color: #BADDFF;
+}
+.card-body{
+    background-color: #BADDFF;
+    color: #6eb7ff;
+    width: 18rem;
+
+
+}
+.btn btn-success{
+    background-color: #6eb7ff;
+}
+.media{
+    background-color: #BADDFF;
+    color: #2C3E50;
+     background-clip: content-box, padding-box;
+
+}
+.media-body{
+   background-clip: content-box, padding-box;
+    background-color: #BADDFF;
+    color: #375B7F;
+    font-size: 25px;
+}
+.mt-0{
+    font-size: 50px;
+}
+
+.mr-3{
+    height: 240px;
+   width: 240px;
 }
