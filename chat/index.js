@@ -395,8 +395,7 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('joincode', function (code, roomId,isAdmin) {
         console.log('join code called')
-        joinRoom(code, socket.request.user.id)
-    //    joinChatroom(socket, roomId)
+        joinRoom(code, socket.request.user.id, socket.id)
     })
 
 
@@ -823,11 +822,11 @@ function changeRoomTheme(params, icon, type, roomId) {
     }
 }
 
-function joinRoom(joinCode, uid) {
+function joinRoom(joinCode, uid, sid) {
     con.query("SELECT * FROM rooms WHERE join_code = ?", [joinCode], function (error, rows, result) {
         try {
             rows.forEach(function (element) {
-                con.query("INSERT INTO room_users VALUES(?,?,?,NULL)", [rows[0].serialid, uid, 0])
+                con.query("INSERT INTO room_users VALUES(?,?,?,NULL)", [rows[0].serialid, uid, 0]).then(getChatrooms(sid, uid))
                 console.log("user " + uid + " was added to room " + rows[0].serialid)
             })
         } catch (e) {

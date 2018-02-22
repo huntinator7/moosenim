@@ -210,7 +210,7 @@
                 <div class="modal-body">
                     <p>Change room color settings</p>
                     <form id="room-color" action="">
-                        Primary Background Color 1:
+                        Primary Background Color:
                         <input type="color" class="form-control" id="back-color1">
                         <br /> Secondary Background Color:
                         <input type="color" class="form-control" id="back-color2">
@@ -870,10 +870,13 @@
             function handleCSS() {
                 if (css.backImg) {
                     $(".main").css("background-image", css.backImg)
+                    $(".navbar").css("background", css.back1)
                 } else if (css.back2) {
                     $(".main").css("background", `linear-gradient(to right, ${css.back1}, ${css.back2})`)
+                    $(".navbar").css("background", `linear-gradient(to right, ${css.back1}, ${css.back2})`)
                 } else {
                     $(".main").css("background", css.back1)
+                    $(".navbar").css("background", css.back1)
                 }
                 $("#send-message").css("color", css.text1)
                 $(".navbar a").css("color", css.text1)
