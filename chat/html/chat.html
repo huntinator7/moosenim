@@ -223,7 +223,7 @@
                         <br />
                         <br />
                         <button class="btn waves-effect waves-light modal-close light-blue white-text"> set colors </button>
-                        </form-control>
+                    </form>
                 </div>
             </div>
         </div>
@@ -395,7 +395,8 @@
             $('#room-color').submit(function () {
                 socket.emit('updateroomtheme', [$('#back-color1').val(), $('#back-color2').val(), null,
                     $('#text-color').val(), $('#text-color').val(), $('#msg-color1').val(), $(
-                        '#msg-color2').val()], null, 1, curroom)
+                        '#msg-color2').val()
+                ], null, 1, curroom)
                 console.log('room-color submitted')
                 $('#color-modal').modal('hide')
                 return false
