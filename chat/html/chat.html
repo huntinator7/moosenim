@@ -239,13 +239,13 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>paste in a join code to join a friend's room</p>
-                    this room's join code is:
+                    <p>Paste in a join code to join a friend's room</p>
+                    This room's join code is:
                     <p id="jc-room">
                         join code
                     </p>
                     <form id="jc-form" action="">
-                        <input class="form-control" type="text" id="jc" placeholder="join code">
+                        <input class="form-control" type="text" id="jc" placeholder="Enter a join code">
                         <button class="btn waves-effect waves-light modal-close light-blue white-text"> Enter </button>
                     </form>
                 </div>
@@ -386,17 +386,17 @@
                 return false
             })
             $('#jc-form').submit(function () {
+                console.log('In jc-form submit')
                 socket.emit('joincode', $('#jc').val(), curroom, 0)
-                console.log("form submitted " + $('#e').val())
+                console.log("jc-form submitted " + $('#e').val())
                 $('#joincode-modal').modal('hide')
                 return false
             })
-            //changeRoomTheme(back1,back2,backImg,text1,text2,msg1,msg2,icon,type)
             $('#room-color').submit(function () {
-                socket.emit('updateroomtheme', $('#back-color1').val(), $('#back-color2').val(), null,
+                socket.emit('updateroomtheme', [$('#back-color1').val(), $('#back-color2').val(), null,
                     $('#text-color').val(), $('#text-color').val(), $('#msg-color1').val(), $(
-                        '#msg-color2').val(), null, 1, curroom)
-                console.log("form submitted " + $('#back-color1').val())
+                        '#msg-color2').val()], null, 1, curroom)
+                console.log('room-color submitted')
                 $('#color-modal').modal('hide')
                 return false
             })
@@ -521,7 +521,7 @@
                         curroom = room
                     }
 
-                    checkRegex(doRest)
+                    checkRegex(checkTags)
 
                     function checkRegex(cb) {
                         var sendmsg = msg
@@ -605,7 +605,36 @@
                                 })
                             }
                         }
-                        cb(sendmsg)
+                        cb(sendmsg, doRest)
+                    }
+
+                    function checkTags(newMsg, cb) {
+                        // var myRe = /#([a-z])?/g
+                        // var regArray = []
+                        // var myArray
+                        // while ((myArray = myRe.exec(newMsg)) !== null) {
+                        //     if (myArray[1]) regArray.push({
+                        //         'a': myArray[1],
+                        //         'b': myArray.index
+                        //     })
+                        //     else regArray.push({
+                        //         'a': myArray[0],
+                        //         'b': myArray.index
+                        //     })
+                        // }
+                        // let replaced = true
+                        // while (regArray.length > 0 || !replaced) {
+                        //     replaced = false
+                        //     for (var i = 0; i < regArray.length - 1; i++) {
+                        //         if (regArray[i].a !== '#' && regArray[i + 1].a === '#') {
+                        //             replaced = true
+                        //             newMsg = newMsg.substr()
+                        //             break
+                        //         }
+                        //     }
+                        // }
+                        // var tagTest = new RegExp('#([a-z]) (.+[^\\\\])#', 'g')
+                        cb(newMsg)
                     }
 
                     async function sendResponse(e, thisId) {

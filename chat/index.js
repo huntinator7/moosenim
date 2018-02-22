@@ -377,8 +377,8 @@ io.sockets.on('connection', function (socket) {
         getRegexCommands(roomId, socket.id)
     })
 
-    socket.on('updateroomtheme', function (back1, back2, backImg, text1, text2, msg1, msg2, icon, type, roomId) {
-        changeRoomTheme(back1, back2, backImg, text1, text2, msg1, msg2, icon, type, roomId)
+    socket.on('updateroomtheme', function (params, icon, type, roomId) {
+        changeRoomTheme(params, icon, type, roomId)
         joinChatroom(socket, roomId)
     })
 
@@ -424,15 +424,6 @@ io.sockets.on('connection', function (socket) {
                 }
                 msg = msg.replace(/</ig, '&lt;')
                 msg = msg.replace(/>/ig, '&gt;')
-                var myRe = /#([a-z])?/g
-                var regArray = []
-                var myArray
-                while ((myArray = myRe.exec(msg)) !== null) {
-                    regArray.push({'a':myArray[0], 'b':myArray.index})
-                }
-                console.log(regArray)
-                // var tagTest = new RegExp('#([a-z]) (.+[^\\\\])#', 'g')
-                // msg = msg.replace(tagTest, `<${lookup[result[1]].rep} ${lookup[result[1]].addl}>$2</${lookup[result[1]].rep}>`)
                 var un = socket.request.user.displayName
                 var uid = socket.request.user.id
                 var pic = socket.request.user.photos[0].value
@@ -805,10 +796,20 @@ function searchUsers(email) {
     })
 }
 
-function changeRoomTheme(back1, back2, backImg, text1, text2, msg1, msg2, icon, type, roomId) {
+function changeRoomTheme(params, icon, type, roomId) {
+    var oldParams = [];
+    const getOldParams = new Promise(resolve => {
+        con.query("SELECT * FROM rooms WHERE serialid = ?", [roomId], (error, rows) => {
+            console.log(rows)
+            // rows.forEach(element => {
+            //     oldParam
+            // })
+        })
+        resolve()
+    })
     try {
-        con.query("UPDATE rooms SET back1=?, back2=?,back_img=?,text_color=?,text_color2=?,message_back=?,message_back2=?,icon=?,background_type=? WHERE serialid = ?", [back1, back2, backImg, text1, text2, msg1, msg2, icon, type, roomId])
-        console.log(back1, back2, backImg, text1, text2, msg1, msg2, icon, type, roomId)
+        con.query("UPDATE rooms SET back1=?, back2=?,back_img=?,text_color=?,text_color2=?,message_back=?,message_back2=?,icon=?,background_type=? WHERE serialid = ?", [params[0], params[1], params[2], params[3], params[4], params[5], params[6], icon, type, roomId])
+        console.log(params[0], params[1], params[2], params[3], params[4], params[5], params[6], icon, type, roomId)
     } catch (e) {
         console.log(e)
     }
