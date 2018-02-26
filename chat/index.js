@@ -442,7 +442,7 @@ io.sockets.on('connection', function (socket) {
                 }
                 msg = msg.replace(/</ig, '&lt;')
                 msg = msg.replace(/>/ig, '&gt;')
-                if (msg.test('!doggo')) {
+                if (/!doggo/.test(msg)) {
                     getDoggo().then((url) => msg.replace(/!doggo/ig, url))
                 }
                 var un = socket.request.user.displayName
