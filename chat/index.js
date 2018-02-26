@@ -443,13 +443,13 @@ io.sockets.on('connection', function (socket) {
                 msg = msg.replace(/</ig, '&lt;')
                 msg = msg.replace(/>/ig, '&gt;')
                 if (/!doggo/.test(msg)) {
-                    getDoggo().then((url) => {
-                        msg.replace(/!doggo/ig, url)
+                    getDoggo().then((url) => strReplacePromise(/!doggo/ig, msg, url))
+                    .then((reply) => {
                         var un = socket.request.user.displayName
                         var uid = socket.request.user.id
                         var pic = socket.request.user.photos[0].value
                         console.log('User profile picture: ' + pic)
-                        sendMessage(msg, un, uid, roomId)
+                        sendMessage(reply, un, uid, roomId)
                         getMessage(roomId, pic)
                     })
                 }
@@ -457,6 +457,12 @@ io.sockets.on('connection', function (socket) {
         })
     })
 })
+
+function strReplacePromise(reg, str, rep) {
+    return new Promise((resolve, reject) => {
+        resolve(str.replace(reg, rep))
+    })
+}
 
 function getDoggo() {
     return new Promise((resolve, reject) => {
