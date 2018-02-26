@@ -22,7 +22,7 @@ router.get('/:id?', function (req, res, next) {
         })
     }
 });
-router.get('/blog',function(req,res,next){
+router.get('/',function(req,res,next){
     blog.GetAll(function(err,rows){
         if (err) {
             res.json(err);

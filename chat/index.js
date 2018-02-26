@@ -183,8 +183,6 @@ app.use(function (req, res, next) {
 
 });
 
-console.log('listening ');
-
 module.exports = app;
 
 //----LOGIN----\\
