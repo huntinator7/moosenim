@@ -12,10 +12,10 @@ var con = sql.createConnection(connect);
 var blogs = {
 
     GetLastMessages: function (id, callback) {
-        return con.query("SELECT * FROM ( SELECT * FROM entry WHERE id = ? ORDER BY id DESC LIMIT 10) sub ORDER BY  id ASC", [id], callback);
+        return con.query("SELECT * FROM entry where id = ?", [id], callback);
    },
     GetAll: function(callback){
-    return con.query("SELECT * FROM entry")
+    return con.query("SELECT * FROM entry",callback)
     },
 
 
