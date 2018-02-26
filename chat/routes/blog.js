@@ -30,5 +30,6 @@ router.get('/blog',function(req,res,next){
             res.json(rows);
         }
 })
+})
 
 module.exports = router;
