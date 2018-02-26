@@ -444,14 +444,21 @@ io.sockets.on('connection', function (socket) {
                 msg = msg.replace(/>/ig, '&gt;')
                 if (/!doggo/.test(msg)) {
                     getDoggo().then((url) => strReplacePromise(/!doggo/ig, msg, url))
-                    .then((reply) => {
-                        var un = socket.request.user.displayName
-                        var uid = socket.request.user.id
-                        var pic = socket.request.user.photos[0].value
-                        console.log('User profile picture: ' + pic)
-                        sendMessage(reply, un, uid, roomId)
-                        getMessage(roomId, pic)
-                    })
+                        .then((reply) => {
+                            var un = socket.request.user.displayName
+                            var uid = socket.request.user.id
+                            var pic = socket.request.user.photos[0].value
+                            console.log('User profile picture: ' + pic)
+                            sendMessage(reply, un, uid, roomId)
+                            getMessage(roomId, pic)
+                        })
+                } else {
+                    var un = socket.request.user.displayName
+                    var uid = socket.request.user.id
+                    var pic = socket.request.user.photos[0].value
+                    console.log('User profile picture: ' + pic)
+                    sendMessage(msg, un, uid, roomId)
+                    getMessage(roomId, pic)
                 }
             }
         })
