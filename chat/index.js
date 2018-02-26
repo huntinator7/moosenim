@@ -464,8 +464,8 @@ function getDoggo() {
             if (err) reject('Error')
             console.log('statusCode:', res && res.statusCode)
             if (res && res.statusCode != '200') reject('HTTP Error')
-            else resolve(body.message)
-            console.log('body:', body.message)
+            else resolve(JSON.parse(body).message)
+            console.log('body:', JSON.parse(body).message)
         })
     })
 }
