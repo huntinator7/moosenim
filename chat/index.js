@@ -140,7 +140,7 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use('/', routes)
 app.use('/messages', messages)
-app.use('/blog',blog)
+app.use('/blog', blog)
 app.use('/headliner_font_woff', express.static(__dirname + '/fonts/headliner/headliner.woff'))
 app.use('/headliner_font_woff2', express.static(__dirname + '/fonts/headliner/headliner.woff2'))
 app.use('/headliner_font_tff', express.static(__dirname + '/fonts/headliner/headliner.ttf'))
@@ -442,6 +442,9 @@ io.sockets.on('connection', function (socket) {
                 }
                 msg = msg.replace(/</ig, '&lt;')
                 msg = msg.replace(/>/ig, '&gt;')
+                if (msg.test('!doggo')) {
+                    getDoggo().then((url) => msg.replace(/!doggo/ig, url))
+                }
                 var un = socket.request.user.displayName
                 var uid = socket.request.user.id
                 var pic = socket.request.user.photos[0].value
@@ -452,6 +455,18 @@ io.sockets.on('connection', function (socket) {
         })
     })
 })
+
+function getDoggo() {
+    return new Promise((resolve, reject) => {
+        request('https://dog.ceo/api/breeds/image/random', (err, res, body) => {
+            if (error) reject('Error')
+            console.log('statusCode:', res && res.statusCode)
+            if (res && res.statusCode != '200') reject('HTTP Error') 
+            else resolve(body.message)
+            console.log('body:', body.message)
+        })
+    })
+}
 
 //----USER COMMANDS----\\
 var userRegexParse = {}
