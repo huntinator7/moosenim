@@ -4,19 +4,22 @@ var connect = {
     host: "localhost",
     user: "root",
     password: "raspberry",
-    database: "moosenim"
+    database: "moosenblog"
 };
 module.exports = connect;
 //var db = require('../RESTmessages');
 var con = sql.createConnection(connect);
-var messages = {
+var blogs = {
 
     GetLastMessages: function (id, callback) {
-        return con.query("SELECT * FROM ( SELECT * FROM messages WHERE chatroom_id = ? ORDER BY id DESC LIMIT 10) sub ORDER BY  id ASC", [id], callback);
+        return con.query("SELECT * FROM entry", callback);
    },
+    GetAll: function(callback){
+    return con.query("SELECT * FROM entry",callback)
+    },
 
 
 
 
 };
-module.exports = messages;
+module.exports = blogs;

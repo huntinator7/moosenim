@@ -11,6 +11,7 @@ var request = require('request')
 var cors = require('cors')
 var util = require('util')
 var messages = require('./routes/messages')
+var blog = require('./routes/blog')
 var app = express()
 var app2 = express()
 var passportSocketIO = require('passport.socketio')
@@ -139,6 +140,7 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use('/', routes)
 app.use('/messages', messages)
+app.use('/blog',blog)
 app.use('/headliner_font_woff', express.static(__dirname + '/fonts/headliner/headliner.woff'))
 app.use('/headliner_font_woff2', express.static(__dirname + '/fonts/headliner/headliner.woff2'))
 app.use('/headliner_font_tff', express.static(__dirname + '/fonts/headliner/headliner.ttf'))
@@ -176,7 +178,18 @@ app.get('/auth/google/callback',
     }
 )
 
+// API \\
+app.use(function (req, res, next) {
 
+    var err = new Error('Not Found');
+
+    err.status = 404;
+
+    next(err);
+
+});
+
+module.exports = app;
 
 //----LOGIN----\\
 function loginUser(uid, displayName, photoURL, email) {
