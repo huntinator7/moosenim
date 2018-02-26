@@ -443,14 +443,16 @@ io.sockets.on('connection', function (socket) {
                 msg = msg.replace(/</ig, '&lt;')
                 msg = msg.replace(/>/ig, '&gt;')
                 if (/!doggo/.test(msg)) {
-                    getDoggo().then((url) => msg.replace(/!doggo/ig, url))
+                    getDoggo().then((url) => {
+                        msg.replace(/!doggo/ig, url)
+                        var un = socket.request.user.displayName
+                        var uid = socket.request.user.id
+                        var pic = socket.request.user.photos[0].value
+                        console.log('User profile picture: ' + pic)
+                        sendMessage(msg, un, uid, roomId)
+                        getMessage(roomId, pic)
+                    })
                 }
-                var un = socket.request.user.displayName
-                var uid = socket.request.user.id
-                var pic = socket.request.user.photos[0].value
-                console.log('User profile picture: ' + pic)
-                sendMessage(msg, un, uid, roomId)
-                getMessage(roomId, pic)
             }
         })
     })
@@ -459,9 +461,9 @@ io.sockets.on('connection', function (socket) {
 function getDoggo() {
     return new Promise((resolve, reject) => {
         request('https://dog.ceo/api/breeds/image/random', (err, res, body) => {
-            if (error) reject('Error')
+            if (err) reject('Error')
             console.log('statusCode:', res && res.statusCode)
-            if (res && res.statusCode != '200') reject('HTTP Error') 
+            if (res && res.statusCode != '200') reject('HTTP Error')
             else resolve(body.message)
             console.log('body:', body.message)
         })
