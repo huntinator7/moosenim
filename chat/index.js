@@ -52,8 +52,8 @@ process.stdin.on('data', function (text) {
     // var msg = util.inspect(text.trim())
     // console.log('received data:', msg)
     request('https://dog.ceo/api/breeds/image/random', (err, res, body) => {
-        console.log('error:', error); // Print the error if one occurred
-        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+        console.log('error:', err); // Print the error if one occurred
+        console.log('statusCode:', res && res.statusCode); // Print the response status code if a response was received
         console.log('body:', body); // Print the HTML for the Google homepage.
     })
     // sendMessage(msg.substr(1, msg.length - 2), '<span style="color:red">Admin</span>', 1, roomId)
