@@ -12,7 +12,7 @@ var con = sql.createConnection(connect);
 var blogs = {
 
     GetLastMessages: function (id, callback) {
-        return con.query("SELECT * FROM entry where id = ?", [id], callback);
+        return con.query("SELECT * FROM entry", callback);
    },
     GetAll: function(callback){
     return con.query("SELECT * FROM entry",callback)
