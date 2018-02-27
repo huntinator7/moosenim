@@ -664,7 +664,7 @@ function sendMessage(message, username, uid, roomId) {
     // console.log(`In sendMessage, roomId: ${roomId}\nmsg: ${message}`)
     var msg = encodeURI(message)
     try {
-        con.query("INSERT INTO ?? (message, username, timestamp, roomid, uid) VALUES ( ?, ?,CURTIME() CURDATE(), ?, ?, ?)", [nameString, msg, username,roomId, uid], function (error, results) {
+        con.query("INSERT INTO ?? (message, username, timestamp, roomid, uid) VALUES ( ?, ?,NOW(), ?, ?, ?)", [nameString, msg, username,roomId, uid], function (error, results) {
             if (error) throw error
         })
     } catch (Exception) {
