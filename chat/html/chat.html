@@ -87,10 +87,10 @@
                     <a class="nav-link" data-toggle="modal" data-target="#welcome-modal">Help</a>
                 </div>
                 <div class="nav-item">
-                    <a class="nav-link" data-toggle="modal" data-target="#regex-modal">Room Commands</a>
+                    <a class="nav-link" data-toggle="modal" data-target="#regex-modal" id="room-commands">Room Commands</a>
                 </div>
                 <div class="nav-item">
-                    <a class="nav-link" data-toggle="modal" data-target="#color-modal">Room Customization</a>
+                    <a class="nav-link" data-toggle="modal" data-target="#color-modal" id="room-custom">Room Customization</a>
                 </div>
 
             </div>
@@ -211,18 +211,14 @@
                     <p>Change room color settings</p>
                     <form id="room-color" action="">
                         Primary Background Color:
-                        <input type="color" class="form-control" id="back-color1">
-                        <br /> Secondary Background Color:
-                        <input type="color" class="form-control" id="back-color2">
-                        <br /> Text Color:
-                        <input type="color" class="form-control" id="text-color">
-                        <br /> Primary Message Background Color:
-                        <input type="color" class="form-control" id="msg-color1">
-                        <br /> Secondary Message Background Color:
-                        <input type="color" class="form-control" id="msg-color2">
+                        <input type="color" class="form-control color-form" id="back-color1"> Secondary Background Color:
+                        <input type="color" class="form-control color-form" id="back-color2"> Text Color:
+                        <input type="color" class="form-control color-form" id="text-color"> Transparent Message Background?:
+                        <input type="checkbox" class="form-control" id="msg-trans"> Primary Message Background Color:
+                        <input type="color" class="form-control color-form" id="msg-color1"> Secondary Message Background Color:
+                        <input type="color" class="form-control color-form" id="msg-color2">
                         <br />
-                        <br />
-                        <button class="btn waves-effect waves-light modal-close light-blue white-text"> Set Colors </button>
+                        <button class="btn btn-primary waves-effect waves-light modal-close light-blue white-text"> Set Colors </button>
                     </form>
                 </div>
             </div>
@@ -398,11 +394,11 @@
                         '#msg-color2').val()
                 ], null, 1, curroom)
                 console.log('room-color submitted')
+                console.log($('#'))
                 $('#color-modal').modal('hide')
                 return false
             })
             $('#newcommand-form').submit(function () {
-
                 socket.emit('addcommand', curroom, $('#nc-cmd').val(), $('#nc-actn').val(), $('#nc-msg')
                     .val(), $('#nc-username').val(), $('#nc-pic').val())
                 console.log("form submitted " + $('#nc-cmd').val())
@@ -715,12 +711,14 @@
 
             socket.on('login', function (displayName, email, photoURL, userId, room) {
                 console.log("Logging in " + displayName + ", email: " + email + " " + userId)
-                $('#mm-side-list-2').append(
-                    `<li class="nav-item mm-side-image"><img src="${photoURL}" alt="" class="circle img-fluid"><a class="nav-link mm-side-item-text" data-toggle="drawer" data-target="#dw-s2" user="${userId}">${displayName}</a></li>`
-                )
-                checkScroll()
-                if (document.hidden) {
-                    login.play()
+                if (room == curroom) {
+                    $('#mm-side-list-2').append(
+                        `<li class="nav-item mm-side-image"><img src="${photoURL}" alt="" class="circle img-fluid"><a class="nav-link mm-side-item-text" data-toggle="drawer" data-target="#dw-s2" user="${userId}">${displayName}</a></li>`
+                    )
+                    checkScroll()
+                    if (document.hidden) {
+                        login.play()
+                    }
                 }
             })
 
@@ -731,7 +729,6 @@
             socket.on('disconnect', function (name) {
                 location.reload()
             })
-
 
             socket.on('roomlist', function (list) {
 

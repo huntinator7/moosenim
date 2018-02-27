@@ -50,6 +50,11 @@ textarea {
     z-index: 3;
 }
 
+.color-form {
+    height: 50px;
+    background: none;
+}
+
 .modal-body {
     z-index: 500;
 }
