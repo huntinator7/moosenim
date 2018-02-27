@@ -668,7 +668,7 @@ function sendMessage(message, username, uid, roomId) {
             if (error) throw error
         })
     } catch (Exception) {
-        con.query("INSERT INTO ?? (message, username, timestamp) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'))", [nameString, 'error', username], function (error, results) {
+        con.query("INSERT INTO ?? (message, username, timestamp) VALUES ( ?, ?, LOCALTIME())", [nameString, 'error', username], function (error, results) {
             if (error) throw error
         })
     }
