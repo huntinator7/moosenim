@@ -48,16 +48,11 @@ process.stdin.resume()
 process.stdin.setEncoding('utf8')
 
 process.stdin.on('data', function (text) {
-    // var roomId = 1
-    // var msg = util.inspect(text.trim())
-    // console.log('received data:', msg)
-    request('https://dog.ceo/api/breeds/image/random', (err, res, body) => {
-        console.log('error:', err); // Print the error if one occurred
-        console.log('statusCode:', res && res.statusCode); // Print the response status code if a response was received
-        console.log('body:', body); // Print the HTML for the Google homepage.
-    })
-    // sendMessage(msg.substr(1, msg.length - 2), '<span style="color:red">Admin</span>', 1, roomId)
-    // getMessage(roomId, 'https://i.imgur.com/CgVX6vv.png')
+    var roomId = 1
+    var msg = util.inspect(text.trim())
+    console.log('received data:', msg)
+    sendMessage(msg.substr(1, msg.length - 2), '<span style="color:red">Admin</span>', 1, roomId)
+    getMessage(roomId, 'https://i.imgur.com/CgVX6vv.png')
 })
 
 var io = require('socket.io')(server)
@@ -443,21 +438,18 @@ io.sockets.on('connection', function (socket) {
                 msg = msg.replace(/</ig, '&lt;')
                 msg = msg.replace(/>/ig, '&gt;')
                 if (/!doggo/.test(msg)) {
-                    getDoggo().then((url) => strReplacePromise(/!doggo/ig, msg, url))
-                        .then((reply) => {
-                            var un = socket.request.user.displayName
-                            var uid = socket.request.user.id
-                            var pic = socket.request.user.photos[0].value
-                            console.log('User profile picture: ' + pic)
-                            sendMessage(reply, un, uid, roomId)
-                            getMessage(roomId, pic)
+                    getDoggo().then(url => strReplacePromise(/!doggo/ig, msg, url))
+                        .then(reply => sendMsg(reply))
+                        .catch(err => {
+                            console.log(err)
                         })
-                } else {
+                } else sendMsg(msg)
+
+                function sendMsg(message) {
                     var un = socket.request.user.displayName
                     var uid = socket.request.user.id
                     var pic = socket.request.user.photos[0].value
-                    console.log('User profile picture: ' + pic)
-                    sendMessage(msg, un, uid, roomId)
+                    sendMessage(message, un, uid, roomId)
                     getMessage(roomId, pic)
                 }
             }
@@ -474,7 +466,7 @@ function strReplacePromise(reg, str, rep) {
 function getDoggo() {
     return new Promise((resolve, reject) => {
         request('https://dog.ceo/api/breeds/image/random', (err, res, body) => {
-            if (err) reject('Error')
+            if (err) reject('Website Error')
             console.log('statusCode:', res && res.statusCode)
             if (res && res.statusCode != '200') reject('HTTP Error')
             else resolve(JSON.parse(body).message)
