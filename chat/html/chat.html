@@ -783,24 +783,47 @@
                 $('#jc-room').html(room.join_code)
                 $('#title').html(room.name)
 
+
+
                 curroom = room.serialid
                 first_id = null
                 $('main').scrollTop(document.body.scrollHeight)
 
                 if (room.back_img) css.backImg = room.back_img
-                if (room.back2) css.back2 = room.back2
-                if (room.back1) css.back1 = room.back1
-                if (room.text_color) css.text1 = room.text_color
+                if (room.back2) {
+                    css.back2 = room.back2
+                    $('#back-color2').val(room.back2)
+                }
+                if (room.back1) {
+                    css.back1 = room.back1
+                    $('#back-color1').val(room.back1)
+                    if (!room.back2) {
+                        $('#back-color2').val(room.back1)
+                    }
+                }
+                if (room.text_color) {
+                    css.text1 = room.text_color
+                    $('#text-color').val(room.text_color)
+                }
                 if (room.text_color2) css.text2 = room.text_color2
-                if (room.message_back) css.mb1 = "rgba(" + parseInt(room.message_back.substr(1, 2), 16) +
-                    ", " + parseInt(room.message_back.substr(3, 2), 16) + ", " + parseInt(room.message_back
-                        .substr(5, 2), 16) + ", 0.25)"
-                else css.mb1 = "rgba(0, 0, 0, 0)"
-                if (room.message_back2) css.mb2 = "rgba(" + parseInt(room.message_back2.substr(1, 2),
-                    16) + ", " + parseInt(room.message_back2.substr(3, 2), 16) + ", " + parseInt(
-                    room.message_back2.substr(5, 2), 16) + ", 0.25)"
-                else css.mb1 = "rgba(0, 0, 0, 0)"
-
+                if (room.message_back) {
+                    css.mb1 = "rgba(" + parseInt(room.message_back.substr(1, 2), 16) +
+                        ", " + parseInt(room.message_back.substr(3, 2), 16) + ", " +
+                        parseInt(room.message_back.substr(5, 2), 16) + ", 0.25)"
+                    $('#msg-color1').val(room.message_back)
+                } else {
+                    css.mb1 = "rgba(0, 0, 0, 0)"
+                    $('#msg-trans')[0].prop('checked', true)
+                }
+                if (room.message_back2) {
+                    $('#msg-color2').val()
+                    css.mb2 = "rgba(" + parseInt(room.message_back2.substr(1, 2), 16) +
+                        ", " + parseInt(room.message_back2.substr(3, 2), 16) + ", " +
+                        parseInt(room.message_back2.substr(5, 2), 16) + ", 0.25)"
+                } else {
+                    css.mb1 = "rgba(0, 0, 0, 0)"
+                    $('#msg-trans')[0].prop('checked', true)
+                }
                 handleCSS()
                 canScroll = 0
                 await sleep(500)
