@@ -667,7 +667,7 @@ function sendMessage(message, uid, roomId) {
     } catch (Exception) {
         console.log('Error inserting message')
     }
-    
+
 }
 
 function getMessage(roomId) {
@@ -675,55 +675,35 @@ function getMessage(roomId) {
     var nameString = 'room' + roomId
     con.query('SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC', [nameString], function (error, rows, results) {
         if (error) throw error
-        con.query('SELECT name, profpic FROM users WHERE uid = ?', [rows[0].uid], function (error, row) {
+        getDBUN(rows[0].uid)
+            .then((dbUn, dbPic, dbBadge) => {
+                io.to(roomId).emit('chat message', dbUn, decodeURI(msg), rows[0].timestamp, rows[0].id, 'https://www.moosen.im/images/favicon.png', roomId, null)
+                if (roomId == config.discord.sendChannel) {
+                    //send to Discord
+                    var msg = decodeURI(rows[0].message)
+                    msg = msg.replace(/&lt;/ig, '<')
+                    msg = msg.replace(/&gt;/ig, '>')
+                    if (row[0].name) sendToDiscord(row[0].name, msg)
+                    else sendToDiscord('Undefined', msg)
+                }
+            })
+
+    })
+}
+
+function getDBUN(id) {
+    return new Promise(resolve => {
+        con.query('SELECT name, profpic FROM users WHERE uid = ?', [id], function (error, row) {
             if (row.length < 1) {
                 console.log("row.length < 1")
-                io.to(roomId).emit('chat message', 'Undefined', decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, 'https://www.moosen.im/images/favicon.png', roomId, null)
+                resolve('Undefined', 'https://www.moosen.im/images/favicon.png', null)
             } else {
                 console.log(row[0])
-                io.to(roomId).emit('chat message', row[0].name, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, rows[0].profpic, roomId, row[0].badge)
-            }
-            if (roomId == config.discord.sendChannel) {
-                //send to Discord
-                var msg = decodeURI(rows[0].message)
-                msg = msg.replace(/&lt;/ig, '<')
-                msg = msg.replace(/&gt;/ig, '>')
-                if(row[0].name) sendToDiscord(row[0].name, msg)
-                else sendToDiscord('Undefined', msg)
+                resolve(row[0].name, row[0].profpic, row[0].badge)
             }
         })
     })
-}
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms))
-}
-
-async function sendToDiscord(un, msg) {
-    msg = /@moosen/ig [Symbol.replace](msg, '<@&277296480245514240>')
-    msg = /@noah/ig [Symbol.replace](msg, '<@!207214113191886849>')
-    msg = /@hunter/ig [Symbol.replace](msg, '<@!89758327621296128>')
-    msg = /@nick/ig [Symbol.replace](msg, '<@!185934787679092736>')
-    msg = /@kyle/ig [Symbol.replace](msg, '<@!147143598301773824>')
-    msg = /@lane/ig [Symbol.replace](msg, '<@!81913971979849728>')
-    msg = /:fn:/ig [Symbol.replace](msg, '<:fNoah1:318887883291230219> <:fNoah2:318887791096365056> <:fNoah3:318887914530668544>')
-    await sleep(100)
-    client.channels.get(config.discord.moosen).send(un + ': ' + msg)
-    //104635400788300812127
-    //207214113191886849
-}
-
-function getMessageDiscord(un, msg, pic) {
-    var nameString = 'room' + config.discord.sendChannel
-    con.query('SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC', [nameString], function (error, rows, results) {
-        io.emit('chat message', un, decodeURI(rows[0].message), moment().format('h:mm:ss a'), rows[0].id, pic, config.discord.sendChannel)
-    })
-}
-
-//should be called when a user clicks on a different chatroom
-function updatechat(roomid) {
-    //TODO: set a user variable 'current Room' to the value specified.
-    //reload page
 }
 
 //----PREVIOUS MESSAGES----\\
@@ -756,16 +736,8 @@ function joinChatroom(socket, roomId) {
         if (error) throw error
         try {
             rows.forEach(function (element) {
-                con.query('SELECT * FROM users WHERE users.name = ?', [element.username], function (error, row) {
-                    if (row[0]) {
-                        if (row[0].profpic) {
-                            io.to(socket.id).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, row[0].profpic, element.roomid)
-                        } else {
-                            io.to(socket.id).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, 'https://www.moosen.im/images/favicon.png', element.roomid)
-                        }
-                    } else {
-                        io.to(socket.id).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, 'https://www.moosen.im/images/favicon.png', element.roomid)
-                    }
+                getDBUN(rows[0].uid).then((dbUn, dbPic, dbBadge) => {
+                    io.to(socket.id).emit('chat message', dbUn, decodeURI(element.message), element.timestamp, element.id, dbPic, element.roomid, dbBadge)
                 })
             })
         } catch (e) {
@@ -782,16 +754,8 @@ function showPreviousMessages(num, previous, sid, roomId) {
         if (error) throw error
         try {
             rows.forEach(function (element) {
-                con.query('SELECT * FROM users WHERE uid = ?', [element.uid], function (error, row) {
-                    if (row[0]) {
-                        if (row[0].profpic) {
-                            io.to(sid).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, row[0].profpic, element.roomid)
-                        } else {
-                            io.to(sid).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, 'https://www.moosen.im/images/favicon.png', element.roomid)
-                        }
-                    } else {
-                        io.to(sid).emit('chat message', element.username, decodeURI(element.message), element.timestamp, element.id, 'https://www.moosen.im/images/favicon.png', element.roomid)
-                    }
+                getDBUN(rows[0].uid).then((dbUn, dbPic, dbBadge) => { 
+                    io.to(sid).emit('chat message', dbUn, decodeURI(element.message), element.timestamp, element.id, dbPic, element.roomid, dbBadge)
                     console.log(element.id)
                 })
             })
@@ -799,6 +763,37 @@ function showPreviousMessages(num, previous, sid, roomId) {
             console.log("Previous message isn't working.")
         }
     })
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+async function sendToDiscord(un, msg) {
+    msg = /@moosen/ig [Symbol.replace](msg, '<@&277296480245514240>')
+    msg = /@noah/ig [Symbol.replace](msg, '<@!207214113191886849>')
+    msg = /@hunter/ig [Symbol.replace](msg, '<@!89758327621296128>')
+    msg = /@nick/ig [Symbol.replace](msg, '<@!185934787679092736>')
+    msg = /@kyle/ig [Symbol.replace](msg, '<@!147143598301773824>')
+    msg = /@lane/ig [Symbol.replace](msg, '<@!81913971979849728>')
+    msg = /:fn:/ig [Symbol.replace](msg, '<:fNoah1:318887883291230219> <:fNoah2:318887791096365056> <:fNoah3:318887914530668544>')
+    await sleep(100)
+    client.channels.get(config.discord.moosen).send(un + ': ' + msg)
+    //104635400788300812127
+    //207214113191886849
+}
+
+function getMessageDiscord(un, msg, pic) {
+    var nameString = 'room' + config.discord.sendChannel
+    con.query('SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC', [nameString], function (error, rows, results) {
+        io.emit('chat message', un, decodeURI(rows[0].message), moment().format('h:mm:ss a'), rows[0].id, pic, config.discord.sendChannel, "Discord")
+    })
+}
+
+//should be called when a user clicks on a different chatroom
+function updatechat(roomid) {
+    //TODO: set a user variable 'current Room' to the value specified.
+    //reload page
 }
 
 //----CHATROOMS----\\
