@@ -681,10 +681,12 @@ function getMessage(roomId, pic) {
         if (error) throw error
         con.query('SELECT * FROM users WHERE uid = ?', [rows[0].uid], function (error, row) {
             if (pic) {
-                io.to(roomId).emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, pic, rows[0].roomid, row[0].badge)
+                io.to(roomId).emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, pic, rows[0].roomid, null)
             } else if (row.length < 1) {
-                io.to(roomId).emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, 'https://www.moosen.im/images/favicon.png', rows[0].roomid, row[0].badge)
+                io.to(roomId).emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, 'https://www.moosen.im/images/favicon.png', rows[0].roomid, null)
             } else {
+                console.log("IN GETMESSAGE")
+                console.log(row[0])
                 io.to(roomId).emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, rows[0].profpic, rows[0].roomid, row[0].badge)
             }
             if (roomId == config.discord.sendChannel) {
