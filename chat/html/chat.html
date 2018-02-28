@@ -658,8 +658,11 @@
                             notifyMe(newMsg, pic)
                             login.play()
                         }
-                        const badgeCheck = new Promise((resolve, reject) => {
-                                if (badge) resolve(user + ' <span class="badge badge-dark">Admin</span>')
+                        const badgeCheck = new Promise((resolve) => {
+                                if (badge) {
+                                    console.log('HAS BADGE: ' + badge)
+                                    resolve(user + ' <span class="badge badge-dark">' + badge + '</span>')
+                                }
                                 else resolve(user)
                             })
                             .then((userStr) => {
