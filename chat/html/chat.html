@@ -510,7 +510,7 @@
                 })
             })
 
-            socket.on('chat message', function (user, msg, time, id, pic, room) {
+            socket.on('chat message', function (user, msg, time, id, pic, room, badge) {
                 console.log('Received chat message in Room ' + room)
                 if (!curroom || curroom == room) {
                     if (!curroom) {
@@ -661,10 +661,14 @@
                         if (!first_id) {
                             console.log('!first_id, setting to ' + id)
                             first_id = id
+                            var userStr = user
+                            if (badge) {
+                                userStr += ' <span class="badge badge-dark">Admin</span>'
+                            }
                             $('#messages').append('<li id="' + id +
                                 '" class="mm-collection-item avatar"><img src="' + pic +
                                 '" alt="" class="circle"><span class="title" id="msgtitle">' +
-                                user + '</span><p class="message">' +
+                                userStr + '</span><p class="message">' +
                                 newMsg + '</p><span class="secondary-content">' +
                                 time + '</a></li>')
                             document.title = user.substring(0, 3) + ": " + newMsg
@@ -673,7 +677,7 @@
                             insertMessage('<li id="' + id +
                                 '" class="mm-collection-item avatar"><img src="' + pic +
                                 '" alt="" class="circle"><span class="title" id="msgtitle">' +
-                                user + '</span><p class="message">' +
+                                userStr + '</span><p class="message">' +
                                 newMsg + '</p><span class="secondary-content">' +
                                 time + '</a></li>', id, user)
                             if (first_id > id) {
@@ -813,7 +817,7 @@
                     $('#msg-color1').val(room.message_back)
                 } else {
                     css.mb1 = "rgba(0, 0, 0, 0)"
-                    $('#msg-trans')[0].prop('checked', true)
+                    $('#msg-trans').prop('checked', true)
                 }
                 if (room.message_back2) {
                     $('#msg-color2').val()
@@ -822,7 +826,7 @@
                         parseInt(room.message_back2.substr(5, 2), 16) + ", 0.25)"
                 } else {
                     css.mb1 = "rgba(0, 0, 0, 0)"
-                    $('#msg-trans')[0].prop('checked', true)
+                    $('#msg-trans').prop('checked', true)
                 }
                 handleCSS()
                 canScroll = 0
