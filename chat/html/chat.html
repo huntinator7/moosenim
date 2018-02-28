@@ -502,7 +502,7 @@
                 roomRegex = []
                 commandsArr.forEach(function (element) {
                     if (element.cmd.substr(0, 1) == "!") {
-                        console.log(element)
+                        // console.log(element)
                         roomCommands.push(element)
                     } else {
                         roomRegex.push(element)
@@ -663,7 +663,10 @@
                                     console.log('HAS BADGE: ' + badge)
                                     resolve(user + ' <span class="badge badge-dark">' + badge + '</span>')
                                 }
-                                else resolve(user)
+                                else {
+                                    console.log('HAS NO BADGE: ' + badge)
+                                    resolve(user)
+                                }
                             })
                             .then((userStr) => {
                                 if (!first_id) {
@@ -752,7 +755,7 @@
                             isAdmin: element.is_admin
                         }
 
-                        console.log('color:' + element.back1)
+                        // console.log('color:' + element.back1)
 
                         if (element.serialid == curroom) $('#title').html(element.name)
 
@@ -781,11 +784,9 @@
                 console.log(admin)
                 console.log(room)
                 if (!admin) {
-                    console.log('here none')
                     $("#room-commands").css("display", "none")
                     $("#room-custom").css("display", "none")
                 } else {
-                    console.log('here block')
                     $("#room-commands").css("display", "block")
                     $("#room-custom").css("display", "block")
                 }
