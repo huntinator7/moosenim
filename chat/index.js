@@ -48,11 +48,11 @@ process.stdin.resume()
 process.stdin.setEncoding('utf8')
 
 process.stdin.on('data', function (text) {
-    var roomId = 1
-    var msg = util.inspect(text.trim())
-    console.log('received data:', msg)
-    sendMessage(msg.substr(1, msg.length - 2), '<span style="color:red">Admin</span>', 1, roomId)
-    getMessage(roomId, 'https://i.imgur.com/CgVX6vv.png')
+    // var roomId = 1
+    // var msg = util.inspect(text.trim())
+    // console.log('received data:', msg)
+    // sendMessage(msg.substr(1, msg.length - 2), '<span style="color:red">Admin</span>', 1, roomId)
+    // getMessage(roomId, 'https://i.imgur.com/CgVX6vv.png')
 })
 
 var io = require('socket.io')(server)
@@ -343,7 +343,6 @@ io.sockets.on('connection', function (socket) {
     uploader.on('saved', function (event) {
         var un = socket.request.user.displayName
         var uid = socket.request.user.id
-        var pic = socket.request.user.photos[0].value
         var name = event.file.name
         var type = event.file.meta.filetype
         //  console.log('room: ' + event.file.meta.room)
@@ -360,7 +359,7 @@ io.sockets.on('connection', function (socket) {
             msg = '<a href="/uploads/' + name + '" download="' + name + '">' + name + '</a>'
         }
         sendMessage(msg, un, uid, roomId)
-        getMessage(roomId, pic)
+        getMessage(roomId)
         if (roomId == config.discord.sendChannel) {
             client.channels.get(config.discord.moosen).send({
                 files: [('./uploads/' + name)]
@@ -448,9 +447,8 @@ io.sockets.on('connection', function (socket) {
                 function sendMsg(message) {
                     var un = socket.request.user.displayName
                     var uid = socket.request.user.id
-                    var pic = socket.request.user.photos[0].value
                     sendMessage(message, un, uid, roomId)
-                    getMessage(roomId, pic)
+                    getMessage(roomId)
                 }
             }
         })
@@ -658,45 +656,40 @@ handleDisconnect()
 
 //----MESSAGE HANDLING----\\
 
-function sendMessage(message, username, uid, roomId) {
+function sendMessage(message, uid, roomId) {
     var nameString = 'room' + roomId
-    if (roomId == null) roomId = 1
     // console.log(`In sendMessage, roomId: ${roomId}\nmsg: ${message}`)
     var msg = encodeURI(message)
     try {
-        con.query("INSERT INTO ?? (message, username, timestamp, roomid, uid) VALUES ( ?, ?,NOW(), ?, ?)", [nameString, msg, username,roomId, uid], function (error, results) {
+        con.query("INSERT INTO ?? (message, timestamp, uid) VALUES ( ?, NOW(), ?)", [nameString, msg, uid], function (error, results) {
             if (error) throw error
         })
     } catch (Exception) {
-        con.query("INSERT INTO ?? (message, username, timestamp) VALUES ( ?, ?, TIME_FORMAT(CURTIME(), '%h:%i:%s %p'))", [nameString, 'error', username], function (error, results) {
-            if (error) throw error
-        })
+        console.log('Error inserting message')
     }
+    
 }
 
-function getMessage(roomId, pic) {
+function getMessage(roomId) {
     console.log(`In getMessage, roomId ${roomId}`)
     var nameString = 'room' + roomId
     con.query('SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC', [nameString], function (error, rows, results) {
         if (error) throw error
-        con.query('SELECT * FROM users WHERE uid = ?', [rows[0].uid], function (error, row) {
-            if (pic) {
-                console.log("pic is true")
-                io.to(roomId).emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, pic, rows[0].roomid, null)
-            } else if (row.length < 1) {
-                console.log("row length < 1")
-                io.to(roomId).emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, 'https://www.moosen.im/images/favicon.png', rows[0].roomid, null)
+        con.query('SELECT name, profpic FROM users WHERE uid = ?', [rows[0].uid], function (error, row) {
+            if (row.length < 1) {
+                console.log("row.length < 1")
+                io.to(roomId).emit('chat message', 'Undefined', decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, 'https://www.moosen.im/images/favicon.png', roomId, null)
             } else {
-                console.log("IN GETMESSAGE")
                 console.log(row[0])
-                io.to(roomId).emit('chat message', rows[0].username, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, rows[0].profpic, rows[0].roomid, row[0].badge)
+                io.to(roomId).emit('chat message', row[0].name, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, rows[0].profpic, roomId, row[0].badge)
             }
             if (roomId == config.discord.sendChannel) {
                 //send to Discord
                 var msg = decodeURI(rows[0].message)
                 msg = msg.replace(/&lt;/ig, '<')
                 msg = msg.replace(/&gt;/ig, '>')
-                sendToDiscord(rows[0].username, msg)
+                if(row[0].name) sendToDiscord(row[0].name, msg)
+                else sendToDiscord('Undefined', msg)
             }
         })
     })
@@ -716,6 +709,8 @@ async function sendToDiscord(un, msg) {
     msg = /:fn:/ig [Symbol.replace](msg, '<:fNoah1:318887883291230219> <:fNoah2:318887791096365056> <:fNoah3:318887914530668544>')
     await sleep(100)
     client.channels.get(config.discord.moosen).send(un + ': ' + msg)
+    //104635400788300812127
+    //207214113191886849
 }
 
 function getMessageDiscord(un, msg, pic) {
@@ -832,7 +827,7 @@ function createChatroom(n, uid) {
                 con.query('INSERT INTO room_users VALUES(?,?,1,0)', [rows[0].serialid, uid])
                 var id = rows[0].serialid;
                 console.log(id + ' new room id')
-                con.query('CREATE TABLE ?? (id int AUTO_INCREMENT PRIMARY KEY, message text, username VARCHAR(100),timestamp VARCHAR(32),roomid int, uid VARCHAR(100))', ['room' + id])
+                con.query('CREATE TABLE ?? (id int AUTO_INCREMENT PRIMARY KEY, message text, timestamp VARCHAR(32), uid VARCHAR(100))', ['room' + id])
 
             })
         })
