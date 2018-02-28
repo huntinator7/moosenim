@@ -856,8 +856,13 @@ function changeRoomTheme(params, icon, type, roomId) {
         resolve()
     })
     try {
-        con.query('UPDATE rooms SET back1=?, back2=?,back_img=?,text_color=?,text_color2=?,message_back=?,message_back2=?,icon=?,background_type=? WHERE serialid = ?', [params[0], params[1], params[2], params[3], params[4], params[5], params[6], icon, type, roomId])
-        console.log(params[0], params[1], params[2], params[3], params[4], params[5], params[6], icon, type, roomId)
+        if (params[7]) {
+            con.query('UPDATE rooms SET back1=?, back2=?,back_img=?,text_color=?,text_color2=?,message_back=?,message_back2=?,icon=?,background_type=? WHERE serialid = ?', [params[0], params[1], params[2], params[3], params[4], null, null, icon, type, roomId])
+            console.log(params[0], params[1], params[2], params[3], params[4], params[5], params[6], params[7], icon, type, roomId)
+        } else {
+            con.query('UPDATE rooms SET back1=?, back2=?,back_img=?,text_color=?,text_color2=?,message_back=?,message_back2=?,icon=?,background_type=? WHERE serialid = ?', [params[0], params[1], params[2], params[3], params[4], params[5], params[6], icon, type, roomId])
+            console.log(params[0], params[1], params[2], params[3], params[4], params[5], params[6], params[7], icon, type, roomId)
+        }
     } catch (e) {
         console.log(e)
     }
