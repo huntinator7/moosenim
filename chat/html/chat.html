@@ -638,7 +638,7 @@
                         insertMessage('<li id="' + thisId +
                             '" class="mm-collection-item avatar"><img src="' + e.pic +
                             '" alt="" class="circle"><span class="title" id="msgtitle">' +
-                            e.username + '</span><p class="message">' +
+                            e.username + ' <span class="badge badge-dark">Bot</span></span><p class="message">' +
                             e.msg + '</p><span class="secondary-content">' +
                             time + '</a></li>', thisId, e.username)
                     }
@@ -658,32 +658,37 @@
                             notifyMe(newMsg, pic)
                             login.play()
                         }
-                        if (!first_id) {
-                            console.log('!first_id, setting to ' + id)
-                            first_id = id
-                            var userStr = user
-                            // if (badge) {
-                            //     userStr += ' <span class="badge badge-dark">Admin</span>'
-                            // }
-                            $('#messages').append('<li id="' + id +
-                                '" class="mm-collection-item avatar"><img src="' + pic +
-                                '" alt="" class="circle"><span class="title" id="msgtitle">' +
-                                userStr + '</span><p class="message">' +
-                                newMsg + '</p><span class="secondary-content">' +
-                                time + '</a></li>')
-                            document.title = user.substring(0, 3) + ": " + newMsg
-                            handleMessageCSS()
-                        } else {
-                            insertMessage('<li id="' + id +
-                                '" class="mm-collection-item avatar"><img src="' + pic +
-                                '" alt="" class="circle"><span class="title" id="msgtitle">' +
-                                userStr + '</span><p class="message">' +
-                                newMsg + '</p><span class="secondary-content">' +
-                                time + '</a></li>', id, user)
-                            if (first_id > id) {
-                                first_id = id
-                            }
-                        }
+                        const badgeCheck = new Promise((resolve, reject) => {
+                                if (badge) resolve(user + ' <span class="badge badge-dark">Admin</span>')
+                                else resolve(user)
+                            })
+                            .then((userStr) => {
+                                if (!first_id) {
+                                    console.log('!first_id, setting to ' + id)
+                                    first_id = id
+
+
+                                    $('#messages').append('<li id="' + id +
+                                        '" class="mm-collection-item avatar"><img src="' + pic +
+                                        '" alt="" class="circle"><span class="title" id="msgtitle">' +
+                                        userStr + '</span><p class="message">' +
+                                        newMsg + '</p><span class="secondary-content">' +
+                                        time + '</a></li>')
+                                    document.title = user.substring(0, 3) + ": " + newMsg
+                                    handleMessageCSS()
+                                } else {
+                                    insertMessage('<li id="' + id +
+                                        '" class="mm-collection-item avatar"><img src="' + pic +
+                                        '" alt="" class="circle"><span class="title" id="msgtitle">' +
+                                        userStr + '</span><p class="message">' +
+                                        newMsg + '</p><span class="secondary-content">' +
+                                        time + '</a></li>', id, user)
+                                    if (first_id > id) {
+                                        first_id = id
+                                    }
+                                }
+                            })
+
                         $('.materialboxed').materialbox()
                     }
                 } else {
