@@ -358,7 +358,7 @@ io.sockets.on('connection', function (socket) {
         } else {
             msg = '<a href="/uploads/' + name + '" download="' + name + '">' + name + '</a>'
         }
-        sendMessage(msg, un, uid, roomId)
+        sendMessage(msg, uid, roomId)
         getMessage(roomId)
         if (roomId == config.discord.sendChannel) {
             client.channels.get(config.discord.moosen).send({
@@ -447,7 +447,7 @@ io.sockets.on('connection', function (socket) {
                 function sendMsg(message) {
                     var un = socket.request.user.displayName
                     var uid = socket.request.user.id
-                    sendMessage(message, un, uid, roomId)
+                    sendMessage(message, uid, roomId)
                     getMessage(roomId)
                 }
             }
@@ -559,7 +559,7 @@ client.on('message', msg => {
                 console.log('Message attachment has no url')
             }
         }
-        sendMessage(newmsg, msg.author.username, config.discord.uid, config.discord.sendChannel)
+        sendMessage(newmsg, config.discord.uid, config.discord.sendChannel)
         getMessageDiscord(msg.author.username, newmsg, msg.author.avatarURL)
         //console.log(msg.author.username + ': ' + msg.content)
         //  console.log('Newmsg: ' + newmsg)
@@ -828,7 +828,6 @@ function createChatroom(n, uid) {
                 var id = rows[0].serialid;
                 console.log(id + ' new room id')
                 con.query('CREATE TABLE ?? (id int AUTO_INCREMENT PRIMARY KEY, message text, timestamp VARCHAR(32), uid VARCHAR(100))', ['room' + id])
-
             })
         })
 
