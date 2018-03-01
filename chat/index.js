@@ -677,18 +677,18 @@ async function getMessage(roomId) {
         console.log('ROWS: ')
         console.log(rows)
         if (error) throw error
-        var dbRes = await getDBUN(rows[0].uid)
-        console.log(roomId, dbRes[0], decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, dbRes[1], roomId, dbRes[2])
-        io.to(roomId).emit('chat message', dbUn, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, dbPic, roomId, dbBadge)
-        if (roomId == config.discord.sendChannel) {
-            //send to Discord
-            var msg = decodeURI(rows[0].message)
-            msg = msg.replace(/&lt;/ig, '<')
-            msg = msg.replace(/&gt;/ig, '>')
-            if (row[0].name) sendToDiscord(row[0].name, msg)
-            else sendToDiscord('Undefined', msg)
-        }
-
+        getDBUN(rows[0].uid).then(dbRes => {
+            console.log(roomId, dbRes[0], decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, dbRes[1], roomId, dbRes[2])
+            io.to(roomId).emit('chat message', dbUn, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, dbPic, roomId, dbBadge)
+            if (roomId == config.discord.sendChannel) {
+                //send to Discord
+                var msg = decodeURI(rows[0].message)
+                msg = msg.replace(/&lt;/ig, '<')
+                msg = msg.replace(/&gt;/ig, '>')
+                if (row[0].name) sendToDiscord(row[0].name, msg)
+                else sendToDiscord('Undefined', msg)
+            }
+        })
     })
 }
 
@@ -736,9 +736,10 @@ async function joinChatroom(socket, roomId) {
         if (error) throw error
         try {
             rows.forEach(function (element) {
-                var dbRes = await getDBUN(element.uid)
-                console.log(socket.id, dbRes[0], decodeURI(element.message), element.timestamp, element.id, dbRes[1], roomId, dbRes[2])
-                io.to(socket.id).emit('chat message', dbRes[0], decodeURI(element.message), element.timestamp, element.id, dbRes[1], roomId, dbRes[2])
+                getDBUN(rows[0].uid).then(dbRes => {
+                    console.log(socket.id, dbRes[0], decodeURI(element.message), element.timestamp, element.id, dbRes[1], roomId, dbRes[2])
+                    io.to(socket.id).emit('chat message', dbRes[0], decodeURI(element.message), element.timestamp, element.id, dbRes[1], roomId, dbRes[2])
+                })
             })
         } catch (e) {
             console.log("last message isn't working.")
@@ -754,9 +755,10 @@ async function showPreviousMessages(num, previous, sid, roomId) {
         if (error) throw error
         try {
             rows.forEach(function (element) {
-                var dbRes = await getDBUN(element.uid)
-                console.log(sid, dbRes[0], decodeURI(element.message), element.timestamp, element.id, dbRes[1], roomId, dbRes[2])
-                io.to(sid).emit('chat message', dbRes[0], decodeURI(element.message), element.timestamp, element.id, dbRes[1], roomId, dbRes[2])
+                getDBUN(rows[0].uid).then(dbRes => {
+                    console.log(sid, dbRes[0], decodeURI(element.message), element.timestamp, element.id, dbRes[1], roomId, dbRes[2])
+                    io.to(sid).emit('chat message', dbRes[0], decodeURI(element.message), element.timestamp, element.id, dbRes[1], roomId, dbRes[2])
+                })
             })
         } catch (e) {
             console.log("Previous message isn't working.")
