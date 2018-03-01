@@ -512,7 +512,7 @@
 
             socket.on('chat message', function (user, msg, time, id, pic, room, badge) {
                 console.log('Received chat message in Room ' + room)
-                console.log(`user: ${typeof user}  msg: ${typeof msg}  time: ${typeof time}  id: ${typeof id}  pic: ${typeof pic}  badge: ${typeof badge} room: ${typeof room}`)
+                console.log(`user: ${user} msg: ${msg} id: ${id} badge: ${badge}`)
                 if (!curroom || curroom == room) {
                     if (!curroom) {
                         curroom = room
