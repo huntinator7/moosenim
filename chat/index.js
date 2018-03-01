@@ -560,7 +560,8 @@ client.on('message', msg => {
             }
         }
         sendMessage(newmsg, 'disc' + msg.author.id, config.discord.sendChannel)
-        getMessageDiscord(msg.author.username, newmsg, msg.author.avatarURL)
+        getMessage(config.discord.sendChannel)
+        // getMessageDiscord(msg.author.username, newmsg, msg.author.avatarURL)
         //console.log(msg.author.username + ': ' + msg.content)
         //  console.log('Newmsg: ' + newmsg)
     }
@@ -695,7 +696,8 @@ async function getMessage(roomId) {
 function getDBUN(id) {
     return new Promise(resolve => {
         if (id.substr(0, 4) === 'disc') {
-            console.log(client.fetchUser(id.substr(4)))
+            var user = client.fetchUser(id.substr(4))
+            console.log(user.username, 'https://cdn.discordapp.com/avatars/' + user.id + '/' + user.avatar + '.png', 'Discord')
         }
         con.query('SELECT name, profpic, badge FROM users WHERE uid = ?', [id], function (error, row) {
             if (row.length < 1) {
