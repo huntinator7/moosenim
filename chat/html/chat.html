@@ -512,7 +512,7 @@
 
             socket.on('chat message', function (user, msg, time, id, pic, room, badge) {
                 console.log('Received chat message in Room ' + room)
-                console.log(`user: ${user}  msg: ${msg}  time: ${time}  id: ${id}  pic: ${pic}  badge: ${badge}`)
+                console.log(`user: ${typeof user}  msg: ${typeof msg}  time: ${typeof time}  id: ${typeof id}  pic: ${typeof pic}  badge: ${typeof badge} room: ${typeof room}`)
                 if (!curroom || curroom == room) {
                     if (!curroom) {
                         curroom = room
@@ -673,8 +673,6 @@
                                 if (!first_id) {
                                     console.log('!first_id, setting to ' + id)
                                     first_id = id
-
-
                                     $('#messages').append('<li id="' + id +
                                         '" class="mm-collection-item avatar"><img src="' + pic +
                                         '" alt="" class="circle"><span class="title" id="msgtitle">' +

@@ -683,6 +683,7 @@ async function getMessage(roomId) {
             io.to(roomId).emit('chat message', dbRes[0], decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, dbRes[1], roomId, dbRes[2])
             if (roomId == config.discord.sendChannel) {
                 //send to Discord
+                console.log('Should send to discord...')
                 var msg = decodeURI(rows[0].message)
                 msg = msg.replace(/&lt;/ig, '<')
                 msg = msg.replace(/&gt;/ig, '>')
