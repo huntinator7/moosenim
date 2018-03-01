@@ -693,7 +693,7 @@ function getMessage(roomId) {
 }
 
 function getDBUN(id) {
-    new Promise(resolve => {
+    return new Promise(resolve => {
         con.query('SELECT name, profpic, badge FROM users WHERE uid = ?', [id], function (error, row) {
             if (row.length < 1) {
                 console.log("row.length < 1")
