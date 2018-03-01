@@ -681,7 +681,7 @@ async function getMessage(roomId) {
         getDBUN(rows[0].uid).then(dbRes => {
             console.log(roomId, dbRes[0], decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, dbRes[1], roomId, dbRes[2])
             io.to(roomId).emit('chat message', dbRes[0], decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, dbRes[1], roomId, dbRes[2])
-            if (roomId == config.discord.sendChannel) {
+            if (roomId == config.discord.sendChannel && dbRes[2] == 'Discord') {
                 //send to Discord
                 console.log('Should send to discord...')
                 var msg = decodeURI(rows[0].message)
