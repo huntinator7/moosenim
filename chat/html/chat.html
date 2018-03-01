@@ -511,7 +511,7 @@
             })
 
             socket.on('chat message', function (user, msg, time, id, pic, room, badge) {
-                console.log('Received chat message in Room ' + room)
+                // console.log('Received chat message in Room ' + room)
                 console.log(`user: ${user} msg: ${msg.substr(0,5)} id: ${id} badge: ${badge}`)
                 if (!curroom || curroom == room) {
                     if (!curroom) {
@@ -662,11 +662,11 @@
                         }
                         const badgeCheck = new Promise((resolve) => {
                                 if (badge) {
-                                    console.log('HAS BADGE: ' + badge)
+                                    // console.log('HAS BADGE: ' + badge)
                                     resolve(user + ' <span class="badge badge-dark">' + badge + '</span>')
                                 }
                                 else {
-                                    console.log('HAS NO BADGE: ' + badge)
+                                    // console.log('HAS NO BADGE: ' + badge)
                                     resolve(user)
                                 }
                             })
