@@ -670,9 +670,11 @@
                                 }
                             })
                             .then((userStr) => {
+                                console.log(`Here with user ${user}`)
                                 if (!first_id) {
                                     console.log('!first_id, setting to ' + id)
                                     first_id = id
+                                    console.log(`#messages.append ${userStr}`)
                                     $('#messages').append('<li id="' + id +
                                         '" class="mm-collection-item avatar"><img src="' + pic +
                                         '" alt="" class="circle"><span class="title" id="msgtitle">' +
@@ -682,6 +684,7 @@
                                     document.title = user.substring(0, 3) + ": " + newMsg
                                     handleMessageCSS()
                                 } else {
+                                    console.log(`insertMessage ${userStr}`)
                                     insertMessage('<li id="' + id +
                                         '" class="mm-collection-item avatar"><img src="' + pic +
                                         '" alt="" class="circle"><span class="title" id="msgtitle">' +
