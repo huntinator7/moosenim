@@ -651,6 +651,7 @@
                         if (!retrieving) {
                             retrieving = true
                             if ($('#messages').children().first().attr('id')) {
+                                console.log(`Here with ${user}, retrieving ${retrieving}`)
                                 saved_first = $('#messages').children().first().attr('id')
                             }
                             pageJump()
@@ -870,6 +871,7 @@
                 $('#messages li').each(function () {
                     // console.log($(this.children[1]).text())
                     if (id < this.id && !wasInserted) {
+                        console.log(`id < this.id && !wasInserted ${user}`)
                         $(msg).insertBefore(this)
                         try {
                             // console.log($(this.previousElementSibling.children[1]).text())
