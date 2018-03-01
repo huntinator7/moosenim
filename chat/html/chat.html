@@ -458,11 +458,11 @@
                 if ($('main').scrollTop() + $('main').height() >= $('main').prop('scrollHeight') - 300) {
                     if (!canAuto) {
                         canAuto = true
-                        console.log('canAuto true')
+                        // console.log('canAuto true')
                     }
                 } else if (canAuto) {
                     canAuto = false
-                    console.log('canAuto false')
+                    // console.log('canAuto false')
                 }
                 if ($('main').scrollTop() == 0 && $('main').scrollTop() - last_scroll_position < 0) {
                     $('main').scrollTop(1)
@@ -511,8 +511,6 @@
             })
 
             socket.on('chat message', function (user, msg, time, id, pic, room, badge) {
-                // console.log('Received chat message in Room ' + room)
-                console.log(`user: ${user} msg: ${msg.substr(0,5)} id: ${id} badge: ${badge}`)
                 if (!curroom || curroom == room) {
                     if (!curroom) {
                         curroom = room
@@ -651,7 +649,6 @@
                         if (!retrieving) {
                             retrieving = true
                             if ($('#messages').children().first().attr('id')) {
-                                console.log(`Here with ${user}, retrieving ${retrieving}`)
                                 saved_first = $('#messages').children().first().attr('id')
                             }
                             pageJump()
@@ -671,11 +668,8 @@
                                 }
                             })
                             .then((userStr) => {
-                                console.log(`Here with user ${user}`)
                                 if (!first_id) {
-                                    console.log('!first_id, setting to ' + id)
                                     first_id = id
-                                    console.log(`#messages.append ${user} typeof first_id = ${typeof first_id}`)
                                     $('#messages').append('<li id="' + id +
                                         '" class="mm-collection-item avatar"><img src="' + pic +
                                         '" alt="" class="circle"><span class="title" id="msgtitle">' +
@@ -685,7 +679,6 @@
                                     document.title = user.substring(0, 3) + ": " + newMsg
                                     handleMessageCSS()
                                 } else {
-                                    console.log(`insertMessage ${userStr}`)
                                     insertMessage('<li id="' + id +
                                         '" class="mm-collection-item avatar"><img src="' + pic +
                                         '" alt="" class="circle"><span class="title" id="msgtitle">' +
@@ -693,7 +686,6 @@
                                         newMsg + '</p><span class="secondary-content">' +
                                         time + '</a></li>', id, user)
                                     if (first_id > id) {
-                                        console.log(`Setting first_id with ${user}`)
                                         first_id = id
                                     }
                                 }
@@ -871,7 +863,6 @@
                 $('#messages li').each(function () {
                     // console.log($(this.children[1]).text())
                     if (id < this.id && !wasInserted) {
-                        console.log(`id < this.id && !wasInserted ${user}`)
                         $(msg).insertBefore(this)
                         try {
                             // console.log($(this.previousElementSibling.children[1]).text())
