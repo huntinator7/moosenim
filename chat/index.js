@@ -737,8 +737,8 @@ function joinChatroom(socket, roomId) {
         try {
             rows.forEach(function (element) {
                 getDBUN(element.uid).then((dbUn, dbPic, dbBadge) => {
-                    console.log(socket.id, dbUn, decodeURI(element.message), element.timestamp, element.id, dbPic, element.roomid, dbBadge)
-                    io.to(socket.id).emit('chat message', dbUn, decodeURI(element.message), element.timestamp, element.id, dbPic, element.roomid, dbBadge)
+                    console.log(socket.id, dbUn, decodeURI(element.message), element.timestamp, element.id, dbPic, roomId, dbBadge)
+                    io.to(socket.id).emit('chat message', dbUn, decodeURI(element.message), element.timestamp, element.id, dbPic, roomId, dbBadge)
                 })
             })
         } catch (e) {
@@ -756,8 +756,8 @@ function showPreviousMessages(num, previous, sid, roomId) {
         try {
             rows.forEach(function (element) {
                 getDBUN(element.uid).then((dbUn, dbPic, dbBadge) => {
-                    console.log(sid, dbUn, decodeURI(element.message), element.timestamp, element.id, dbPic, element.roomid, dbBadge)
-                    io.to(sid).emit('chat message', dbUn, decodeURI(element.message), element.timestamp, element.id, dbPic, element.roomid, dbBadge)
+                    console.log(sid, dbUn, decodeURI(element.message), element.timestamp, element.id, dbPic, roomId, dbBadge)
+                    io.to(sid).emit('chat message', dbUn, decodeURI(element.message), element.timestamp, element.id, dbPic, roomId, dbBadge)
                 })
             })
         } catch (e) {
