@@ -702,7 +702,7 @@ function getDBUN(id) {
                 resolve('Undefined', 'https://www.moosen.im/images/favicon.png', 'NONE')
             } else {
                 console.log(row[0].name, row[0].profpic, row[0].badge)
-                resolve(row[0].name, row[0].profpic, row[0].badge)
+                resolve(row[0].name, 'https://www.moosen.im/images/favicon.png', row[0].badge)
             }
         })
     })
