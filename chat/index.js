@@ -559,7 +559,7 @@ client.on('message', msg => {
                 console.log('Message attachment has no url')
             }
         }
-        sendMessage(newmsg, config.discord.uid, config.discord.sendChannel)
+        sendMessage(newmsg, 'disc' + msg.author.id, config.discord.sendChannel)
         getMessageDiscord(msg.author.username, newmsg, msg.author.avatarURL)
         //console.log(msg.author.username + ': ' + msg.content)
         //  console.log('Newmsg: ' + newmsg)
@@ -679,7 +679,7 @@ async function getMessage(roomId) {
         if (error) throw error
         getDBUN(rows[0].uid).then(dbRes => {
             console.log(roomId, dbRes[0], decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, dbRes[1], roomId, dbRes[2])
-            io.to(roomId).emit('chat message', dbUn, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, dbPic, roomId, dbBadge)
+            io.to(roomId).emit('chat message', dbRes[0], decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, dbRes[1], roomId, dbRes[2])
             if (roomId == config.discord.sendChannel) {
                 //send to Discord
                 var msg = decodeURI(rows[0].message)
@@ -694,12 +694,13 @@ async function getMessage(roomId) {
 
 function getDBUN(id) {
     return new Promise(resolve => {
+        if (id.substr(0, 4) === 'disc') {
+            console.log(client.fetchUser(id.substr(4)))
+        }
         con.query('SELECT name, profpic, badge FROM users WHERE uid = ?', [id], function (error, row) {
             if (row.length < 1) {
-                console.log("row.length < 1")
-                resolve(['Undefined', 'https://www.moosen.im/images/favicon.png', 'NONE'])
+                resolve(['Undefined', 'https://www.moosen.im/images/favicon.png', null])
             } else {
-                console.log(row[0].name, row[0].profpic, row[0].badge)
                 resolve([row[0].name, row[0].profpic, row[0].badge])
             }
         })
@@ -737,7 +738,6 @@ async function joinChatroom(socket, roomId) {
         try {
             rows.forEach(function (element) {
                 getDBUN(rows[0].uid).then(dbRes => {
-                    console.log(socket.id, dbRes[0], decodeURI(element.message), element.timestamp, element.id, dbRes[1], roomId, dbRes[2])
                     io.to(socket.id).emit('chat message', dbRes[0], decodeURI(element.message), element.timestamp, element.id, dbRes[1], roomId, dbRes[2])
                 })
             })
@@ -756,7 +756,6 @@ async function showPreviousMessages(num, previous, sid, roomId) {
         try {
             rows.forEach(function (element) {
                 getDBUN(rows[0].uid).then(dbRes => {
-                    console.log(sid, dbRes[0], decodeURI(element.message), element.timestamp, element.id, dbRes[1], roomId, dbRes[2])
                     io.to(sid).emit('chat message', dbRes[0], decodeURI(element.message), element.timestamp, element.id, dbRes[1], roomId, dbRes[2])
                 })
             })
