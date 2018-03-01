@@ -696,17 +696,13 @@ function getMessage(roomId) {
 
 function getDBUN(id) {
     return new Promise(resolve => {
-        new Promise(res => {
-            con.query('SELECT name, profpic, badge FROM users WHERE uid = ?', [id], function (error, row) {
-                res(row.length, row[0].name, row[0].profpic, row[0].badge)
-            })
-        }).then((L, N, P, B) => {
-            if (L < 1) {
+        con.query('SELECT name, profpic, badge FROM users WHERE uid = ?', [id], function (error, row) {
+            if (row.length < 1) {
                 console.log("row.length < 1")
                 resolve('Undefined', 'https://www.moosen.im/images/favicon.png', 'NONE')
             } else {
-                console.log(N, P, B)
-                resolve(N, P, B)
+                console.log(row[0].name, row[0].profpic, row[0].badge)
+                resolve(row[0].name, row[0].profpic, row[0].badge)
             }
         })
     })
