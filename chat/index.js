@@ -674,6 +674,8 @@ function getMessage(roomId) {
     console.log(`In getMessage, roomId ${roomId}`)
     var nameString = 'room' + roomId
     con.query('SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC', [nameString], function (error, rows, results) {
+        console.log('ROWS: ')
+        console.log(rows)
         if (error) throw error
         getDBUN(rows[0].uid)
             .then((dbUn, dbPic, dbBadge) => {
@@ -699,7 +701,7 @@ function getDBUN(id) {
                 console.log("row.length < 1")
                 resolve('Undefined', 'https://www.moosen.im/images/favicon.png', null)
             } else {
-                console.log(row)
+                console.log(row[0].name, row[0].profpic, row[0].badge)
                 resolve(row[0].name, row[0].profpic, row[0].badge)
             }
         })
