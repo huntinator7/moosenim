@@ -679,8 +679,8 @@ function getMessage(roomId) {
         if (error) throw error
         getDBUN(rows[0].uid)
             .then((dbUn, dbPic, dbBadge) => {
-                console.log(roomId, dbUn, decodeURI(msg), rows[0].timestamp, rows[0].id, 'https://www.moosen.im/images/favicon.png', roomId, dbBadge)
-                io.to(roomId).emit('chat message', dbUn, decodeURI(msg), rows[0].timestamp, rows[0].id, 'https://www.moosen.im/images/favicon.png', roomId, dbBadge)
+                console.log(roomId, dbUn, decodeURI(msg), rows[0].timestamp, rows[0].id, dbPic, roomId, dbBadge)
+                io.to(roomId).emit('chat message', dbUn, decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, dbPic, roomId, dbBadge)
                 if (roomId == config.discord.sendChannel) {
                     //send to Discord
                     var msg = decodeURI(rows[0].message)
@@ -699,7 +699,7 @@ function getDBUN(id) {
         con.query('SELECT name, profpic, badge FROM users WHERE uid = ?', [id], function (error, row) {
             if (row.length < 1) {
                 console.log("row.length < 1")
-                resolve('Undefined', 'https://www.moosen.im/images/favicon.png', null)
+                resolve('Undefined', 'https://www.moosen.im/images/favicon.png', 'NONE')
             } else {
                 console.log(row[0].name, row[0].profpic, row[0].badge)
                 resolve(row[0].name, row[0].profpic, row[0].badge)
