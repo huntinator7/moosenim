@@ -677,7 +677,7 @@ function getMessage(roomId) {
         if (error) throw error
         getDBUN(rows[0].uid)
             .then((dbUn, dbPic, dbBadge) => {
-                console.log()
+                console.log(roomId, dbUn, decodeURI(msg), rows[0].timestamp, rows[0].id, 'https://www.moosen.im/images/favicon.png', roomId, dbBadge)
                 io.to(roomId).emit('chat message', dbUn, decodeURI(msg), rows[0].timestamp, rows[0].id, 'https://www.moosen.im/images/favicon.png', roomId, dbBadge)
                 if (roomId == config.discord.sendChannel) {
                     //send to Discord
@@ -693,7 +693,7 @@ function getMessage(roomId) {
 }
 
 function getDBUN(id) {
-    return new Promise(resolve => {
+    new Promise(resolve => {
         con.query('SELECT name, profpic, badge FROM users WHERE uid = ?', [id], function (error, row) {
             if (row.length < 1) {
                 console.log("row.length < 1")
@@ -704,7 +704,6 @@ function getDBUN(id) {
             }
         })
     })
-
 }
 
 //----PREVIOUS MESSAGES----\\
@@ -738,6 +737,7 @@ function joinChatroom(socket, roomId) {
         try {
             rows.forEach(function (element) {
                 getDBUN(element.uid).then((dbUn, dbPic, dbBadge) => {
+                    console.log(socket.id, dbUn, decodeURI(element.message), element.timestamp, element.id, dbPic, element.roomid, dbBadge)
                     io.to(socket.id).emit('chat message', dbUn, decodeURI(element.message), element.timestamp, element.id, dbPic, element.roomid, dbBadge)
                 })
             })
@@ -755,7 +755,8 @@ function showPreviousMessages(num, previous, sid, roomId) {
         if (error) throw error
         try {
             rows.forEach(function (element) {
-                getDBUN(element.uid).then((dbUn, dbPic, dbBadge) => { 
+                getDBUN(element.uid).then((dbUn, dbPic, dbBadge) => {
+                    console.log(sid, dbUn, decodeURI(element.message), element.timestamp, element.id, dbPic, element.roomid, dbBadge)
                     io.to(sid).emit('chat message', dbUn, decodeURI(element.message), element.timestamp, element.id, dbPic, element.roomid, dbBadge)
                 })
             })
