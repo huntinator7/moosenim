@@ -687,17 +687,18 @@ async function getMessage(roomId) {
                 var msg = decodeURI(rows[0].message)
                 msg = msg.replace(/&lt;/ig, '<')
                 msg = msg.replace(/&gt;/ig, '>')
-                if (row[0].name) sendToDiscord(row[0].name, msg)
+                if (row[0].name) sendToDiscord(dbRes[0], msg)
                 else sendToDiscord('Undefined', msg)
             }
         })
     })
 }
 
-function getDBUN(id) {
+async function getDBUN(id) {
     return new Promise(resolve => {
         if (id.substr(0, 4) === 'disc') {
             var user = client.users.get(id.substr(4))
+            sleep(100)
             resolve([user.username, 'https://cdn.discordapp.com/avatars/' + user.id + '/' + user.avatar + '.png', 'Discord'])
         } else {
             con.query('SELECT name, profpic, badge FROM users WHERE uid = ?', [id], function (error, row) {
