@@ -510,7 +510,7 @@ client.on('ready', () => {
 
 //Any time a Discord message is sent, bot checks to see if in moosen-im channel and if not sent by bot. If so, it adds the message to the DB and emits it
 client.on('message', msg => {
-    // console.log(msg.channel.id)
+    console.log(msg.author.id)
     // client.user.setAvatar('./images/discord.png')
     if (msg.channel.id == config.discord.moosen && !(msg.author.bot)) {
         var newmsg = msg.content
@@ -696,9 +696,10 @@ function getDBUN(id) {
         con.query('SELECT name, profpic FROM users WHERE uid = ?', [id], function (error, row) {
             if (row.length < 1) {
                 console.log("row.length < 1")
+                console.log(row)
                 resolve('Undefined', 'https://www.moosen.im/images/favicon.png', null)
             } else {
-                console.log(row[0])
+                console.log(row)
                 resolve(row[0].name, row[0].profpic, row[0].badge)
             }
         })
