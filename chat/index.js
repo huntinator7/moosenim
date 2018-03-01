@@ -737,7 +737,7 @@ async function joinChatroom(socket, roomId) {
         if (error) throw error
         try {
             rows.forEach(function (element) {
-                getDBUN(rows[0].uid).then(dbRes => {
+                getDBUN(element.uid).then(dbRes => {
                     io.to(socket.id).emit('chat message', dbRes[0], decodeURI(element.message), element.timestamp, element.id, dbRes[1], roomId, dbRes[2])
                 })
             })
@@ -755,7 +755,7 @@ async function showPreviousMessages(num, previous, sid, roomId) {
         if (error) throw error
         try {
             rows.forEach(function (element) {
-                getDBUN(rows[0].uid).then(dbRes => {
+                getDBUN(element.uid).then(dbRes => {
                     io.to(sid).emit('chat message', dbRes[0], decodeURI(element.message), element.timestamp, element.id, dbRes[1], roomId, dbRes[2])
                 })
             })
