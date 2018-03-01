@@ -670,7 +670,7 @@ function sendMessage(message, uid, roomId) {
 
 }
 
-function getMessage(roomId) {
+async function getMessage(roomId) {
     console.log(`In getMessage, roomId ${roomId}`)
     var nameString = 'room' + roomId
     con.query('SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC', [nameString], function (error, rows, results) {
@@ -708,7 +708,7 @@ function getDBUN(id) {
 
 //----PREVIOUS MESSAGES----\\
 
-function joinChatroom(socket, roomId) {
+async function joinChatroom(socket, roomId) {
     if (roomId == null) roomId = 1
     var isAdmin = false
     con.query('SELECT is_admin FROM room_users WHERE room_id = ? AND user_id = ?', [roomId, socket.request.user.id], (error, rows, results) => {
@@ -746,7 +746,7 @@ function joinChatroom(socket, roomId) {
     })
 }
 
-function showPreviousMessages(num, previous, sid, roomId) {
+async function showPreviousMessages(num, previous, sid, roomId) {
     var nameString = 'room' + roomId
     console.log(nameString)
     con.query('SELECT * FROM ( SELECT * FROM ?? WHERE id < ? ORDER BY id DESC LIMIT ?) sub ORDER BY id ASC', [nameString, previous, num], function (error, rows, results) {
