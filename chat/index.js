@@ -715,38 +715,45 @@ function getDBUN(id) {
 async function joinChatroom(socket, roomId) {
     if (roomId == null) roomId = 1
     var isAdmin = false
-    con.query('SELECT is_admin FROM room_users WHERE room_id = ? AND user_id = ?', [roomId, socket.request.user.id], (error, rows, results) => {
-        if (!rows[0]) {
-            console.log('Access Denied')
-        } else {
-            isAdmin = rows[0].is_admin == 1 ? true : false
-            con.query('UPDATE users SET curroom = ? WHERE uid = ?', [roomId, socket.request.user.id])
-            var roomName;
-            con.query('SELECT * FROM rooms WHERE serialid = ?', [roomId], (error, rows, results) => {
-                if (!rows[0]) {
-                    console.log('ERROR: Cannot connect to room')
-                } else {
-                    io.to(socket.id).emit('switchToRoom', isAdmin, rows[0])
-                }
-            })
-            socket.join(roomId)
-            getRegexCommands(roomId, socket.id)
-        }
-    })
-    var nameString = 'room' + roomId
-    console.log('show last messages for ' + nameString)
-    con.query('SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC', [nameString, 10], function (error, rows, results) {
-        singleGetMotd(roomId, socket.id)
-        if (error) throw error
-        try {
-            rows.forEach(function (element) {
-                getDBUN(element.uid).then(dbRes => {
-                    io.to(socket.id).emit('chat message', dbRes[0], decodeURI(element.message), element.timestamp, element.id, dbRes[1], roomId, dbRes[2])
+    new Promise((resolve, reject) => {
+        con.query('SELECT is_admin FROM room_users WHERE room_id = ? AND user_id = ?', [roomId, socket.request.user.id], (error, rows, results) => {
+            if (!rows[0]) {
+                console.log('Access Denied')
+                reject()
+            } else {
+                isAdmin = rows[0].is_admin == 1 ? true : false
+                con.query('UPDATE users SET curroom = ? WHERE uid = ?', [roomId, socket.request.user.id])
+                var roomName
+                socket.join(roomId)
+                getRegexCommands(roomId, socket.id)
+                con.query('SELECT * FROM rooms WHERE serialid = ?', [roomId], (error, rows, results) => {
+                    if (!rows[0]) {
+                        console.log('ERROR: Cannot connect to room')
+                        reject()
+                    } else {
+                        io.to(socket.id).emit('switchToRoom', isAdmin, rows[0])
+                        resolve()
+                    }
                 })
-            })
-        } catch (e) {
-            console.log("last message isn't working.")
-        }
+                
+            }
+        })
+    }).then(() => {
+        var nameString = 'room' + roomId
+        console.log('show last messages for ' + nameString)
+        con.query('SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC', [nameString, 10], function (error, rows, results) {
+            singleGetMotd(roomId, socket.id)
+            if (error) throw error
+            try {
+                rows.forEach(function (element) {
+                    getDBUN(element.uid).then(dbRes => {
+                        io.to(socket.id).emit('chat message', dbRes[0], decodeURI(element.message), element.timestamp, element.id, dbRes[1], roomId, dbRes[2])
+                    })
+                })
+            } catch (e) {
+                console.log("last message isn't working.")
+            }
+        })
     })
 }
 
