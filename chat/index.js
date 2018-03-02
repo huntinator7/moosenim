@@ -699,15 +699,11 @@ async function getMessage(roomId) {
     console.log(`In getMessage, roomId ${roomId}`)
     var nameString = 'room' + roomId
     con.query('SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC', [nameString], (error, rows, results) => {
-        console.log('ROWS: ')
-        console.log(rows)
         if (error) throw error
         getDBUN(rows[0].uid).then(dbRes => {
-            console.log(roomId, dbRes[0], decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, dbRes[1], roomId, dbRes[2])
             io.to(roomId).emit('chat message', dbRes[0], decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, dbRes[1], roomId, dbRes[2])
             if (roomId == config.discord.sendChannel && dbRes[2] !== 'Discord') {
                 //send to Discord
-                console.log('Should send to discord...')
                 var msg = decodeURI(rows[0].message)
                 msg = msg.replace(/&lt;/ig, '<')
                 msg = msg.replace(/&gt;/ig, '>')
@@ -783,7 +779,6 @@ async function joinChatroom(socket, roomId) {
 
 async function showPreviousMessages(num, previous, sid, roomId) {
     var nameString = 'room' + roomId
-    console.log(nameString)
     con.query('SELECT * FROM ( SELECT * FROM ?? WHERE id < ? ORDER BY id DESC LIMIT ?) sub ORDER BY id ASC', [nameString, previous, num], (error, rows, results) => {
         //  console.log(`Getting previous ${num} messages from ${previous} in room ${roomId}...`)
         if (error) throw error
