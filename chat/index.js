@@ -36,10 +36,10 @@ var options = {
     key: fs.readFileSync('./certs/domain.key'),
     cert: fs.readFileSync('./certs/www.moosen.im.crt')
 }
-var httpServer = http.createServer(app2).listen(80, function () {
+var httpServer = http.createServer(app2).listen(80, () => {
     console.log('http redirect server up and running at port 80')
 })
-var server = https.createServer(options, app).listen(443, function () {
+var server = https.createServer(options, app).listen(443, () => {
     console.log('server up and running at port 443')
 })
 
@@ -47,7 +47,7 @@ var server = https.createServer(options, app).listen(443, function () {
 process.stdin.resume()
 process.stdin.setEncoding('utf8')
 
-process.stdin.on('data', function (text) {
+process.stdin.on('data', text => {
     // var roomId = 1
     // var msg = util.inspect(text.trim())
     // console.log('received data:', msg)
@@ -63,7 +63,7 @@ passport.use(new strategy({
         clientSecret: 'ZCMQ511PhvMEQqozMGd5bmRH',
         callbackURL: 'https://moosen.im/auth/google/callback'
     },
-    function (accessToken, refreshToken, profile, cb) {
+    (accessToken, refreshToken, profile, cb) => {
         //  console.log('id '+profile.id+'name '+profile.name+'displayName '+profile.displayName+'email '+profile.email+'gender '+profile.gender)
         loginUser(profile.id, profile.displayName, profile.photos[0].value, profile.emails[0].value)
 
@@ -112,11 +112,11 @@ io.use(passportSocketIO.authorize({
     cookieParser: require('cookie-parser'),
 
 }))
-passport.serializeUser(function (user, cb) {
+passport.serializeUser((user, cb) => {
     cb(null, user)
 })
 
-passport.deserializeUser(function (user, cb) {
+passport.deserializeUser((user, cb) => {
 
     // loginUser(user.id)
     cb(null, user)
@@ -168,37 +168,36 @@ app.get('/auth/google/callback',
         scope: ['https://www.googleapis.com/auth/plus.profile.emails.read', 'https://www.googleapis.com/auth/plus.login', 'profile', 'email'],
         failureRedirect: '/login'
     }),
-    function (req, res) {
+    (req, res) => {
         res.redirect('/')
     }
 )
 
 // API \\
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
 
-    var err = new Error('Not Found');
+    var err = new Error('Not Found')
 
-    err.status = 404;
+    err.status = 404
 
-    next(err);
+    next(err)
 
-});
+})
 
-module.exports = app;
+module.exports = app
 
 //----LOGIN----\\
 function loginUser(uid, displayName, photoURL, email) {
     console.log('login user: ' + uid)
-    con.query('SELECT * FROM users WHERE uid = ?', [uid], function (error, rows, results) {
+    con.query('SELECT * FROM users WHERE uid = ?', [uid], (error, rows, results) => {
         if (rows[0] == null) {
             //If no user, add to DB
             console.log('new user: ' + uid)
-            con.query('INSERT INTO users (name, uid, profpic, isonline, totalmessages, email, curroom) VALUES ( ?, ?, ?, 1,1,?,1)', [displayName, uid, photoURL, email], function (error, results) {
+            con.query('INSERT INTO users (name, uid, profpic, isonline, totalmessages, email, curroom) VALUES ( ?, ?, ?, 1,1,?,1)', [displayName, uid, photoURL, email], (err, res) => {
                 //add to general and report bug chatrooms
                 addToRoom(email, 1, 0)
                 addToRoom(email, 16, 0)
-                if (error) console.log(error)
-
+                if (err) console.log(err)
             })
         } else {
             displayName = rows[0].name
@@ -217,22 +216,22 @@ var sockets = {}
 var players = []
 
 //----SOCKET.IO----\\
-io.sockets.on('connection', function (socket) {
+io.sockets.on('connection', socket => {
 
     console.log('CONNECTED to socket io: ' + socket.request.user.displayName)
     getChatrooms(socket.id, socket.request.user.id)
-    con.query('SELECT room_id FROM room_users WHERE user_id = ?', [socket.request.user.id], function (error, rows, results) {
-        rows.forEach(function (element) {
-            io.to(element.room_id).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id, element.room_id)
-            console.log('Joining room ' + element.room_id)
-            socket.join(element.room_id)
+    con.query('SELECT room_id FROM room_users WHERE user_id = ?', [socket.request.user.id], (error, rows, results) => {
+        rows.forEach(e => {
+            io.to(e.room_id).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id, e.room_id)
+            console.log('Joining room ' + e.room_id)
+            socket.join(e.room_id)
         })
-        socket.request.user.photos.forEach(function (e) {
+        socket.request.user.photos.forEach(e => {
             console.log(e)
         })
 
     })
-    con.query('SELECT * FROM users WHERE uid = ?', [socket.request.user.id], function (error, rows, results) {
+    con.query('SELECT * FROM users WHERE uid = ?', [socket.request.user.id], (error, rows, results) => {
         joinChatroom(socket, rows[0].curroom)
     })
 
@@ -241,7 +240,7 @@ io.sockets.on('connection', function (socket) {
     sockets[socket.id] = socket
 
     console.log('[' + socket.id + '] connection accepted')
-    socket.on('disconnect', function () {
+    socket.on('disconnect', () => {
         for (var channel in socket.channels) {
             part(channel)
         }
@@ -250,7 +249,7 @@ io.sockets.on('connection', function (socket) {
     })
 
 
-    socket.on('join', function (conf) {
+    socket.on('join', conf => {
         console.log('[' + socket.id + '] join ', conf)
         var channel = conf.channel
         var userdata = conf.userdata
@@ -305,7 +304,7 @@ io.sockets.on('connection', function (socket) {
 
 
 
-    socket.on('relayICECandidate', function (conf) {
+    socket.on('relayICECandidate', conf => {
         var peer_id = conf.peer_id
         var ice_candidate = conf.ice_candidate
         console.log('[' + socket.id + '] relaying ICE candidate to [' + peer_id + '] ', ice_candidate)
@@ -318,7 +317,7 @@ io.sockets.on('connection', function (socket) {
         }
     })
 
-    socket.on('relaySessionDescription', function (conf) {
+    socket.on('relaySessionDescription', conf => {
         var peer_id = conf.peer_id
         var session_description = conf.session_description
         console.log('[' + socket.id + '] relaying session description to [' + peer_id + '] ', session_description)
@@ -336,11 +335,11 @@ io.sockets.on('connection', function (socket) {
     uploader.dir = __dirname + '/uploads'
     uploader.listen(socket)
 
-    uploader.on('start', function (event) {
+    uploader.on('start', event => {
         console.log('Starting upload to ' + event.file.name + ' of type ' + event.file.meta.filetype + ' to ' + uploader.dir)
     })
 
-    uploader.on('saved', function (event) {
+    uploader.on('saved', event => {
         var un = socket.request.user.displayName
         var uid = socket.request.user.id
         var name = event.file.name
@@ -370,60 +369,60 @@ io.sockets.on('connection', function (socket) {
     //----GENERAL SOCKET.IO----\\
 
     //Test emit
-    socket.on('ping', function (name) {
+    socket.on('ping', name => {
         console.log('pong')
         console.log(Object.keys(io.sockets.sockets))
     })
 
     //Emit for when on mobile and needing the logs
-    socket.on('log', function (message) {
+    socket.on('log', message => {
         console.log(socket.id + ': ' + message)
     })
 
-    socket.on('addroom', function (name) {
+    socket.on('addroom', name => {
         createChatroom(name, socket.request.user.id)
 
     })
 
-    socket.on('addcommand', function (roomId, cmd, actn, msg, username, pic) {
+    socket.on('addcommand', (roomId, cmd, actn, msg, username, pic) => {
         addNewCommand(roomId, cmd, actn, msg, username, pic)
         getRegexCommands(roomId, socket.id)
     })
 
-    socket.on('updateroomtheme', function (params, icon, type, roomId) {
+    socket.on('updateroomtheme', (params, icon, type, roomId) => {
         changeRoomTheme(params, icon, type, roomId)
         joinChatroom(socket, roomId)
     })
 
-    socket.on('changerooms', function (roomId) {
+    socket.on('changerooms', roomId => {
         joinChatroom(socket, roomId)
     })
 
     //for adduser function. Email is entered by the user, roomId is caled from chat.html, isAdmin should just default to 0 for now.
-    socket.on('adduser', function (email, roomId, isAdmin) {
+    socket.on('adduser', (email, roomId, isAdmin) => {
         console.log('add user called')
         addToRoom(email, roomId, 0)
         joinChatroom(socket, roomId)
     })
 
-    socket.on('joincode', function (code, roomId, isAdmin) {
+    socket.on('joincode', (code, roomId, isAdmin) => {
         console.log('join code called')
         joinRoom(code, socket.request.user.id, socket.id)
     })
 
 
-    socket.on('searchusers', function (email) {
+    socket.on('searchusers', email => {
         //maybe make this variable do something...
         var id = searchUsers(email)
     })
 
-    socket.on('retPre', function (previous, roomId) {
+    socket.on('retPre', (previous, roomId) => {
         showPreviousMessages(10, previous, socket.id, roomId)
     })
 
     //----CHAT MESSAGE----\\
-    socket.on('chat message', function (msg, roomId) {
-        var isAdmin;
+    socket.on('chat message', (msg, roomId) => {
+        var isAdmin
         con.query('SELECT is_admin FROM room_users WHERE room_id = ? AND user_id = ?', [roomId, socket.request.user.id], (error, rows, results) => {
             if (!rows) {
                 console.log('Access Denied')
@@ -475,24 +474,24 @@ function getDoggo() {
 
 //----USER COMMANDS----\\
 var userRegexParse = {}
-userRegexParse.motd = function (socket, un, uid, roomId, msg) {
+userRegexParse.motd = (socket, un, uid, roomId, msg) => {
     console.log('In motd')
-    con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [msg, roomId], function (error) {
+    con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [msg, roomId], error => {
         if (error) throw error
     })
     getMotd(roomId)
 }
 
-userRegexParse.createroom = function (socket, un, uid, roomId, msg) {
+userRegexParse.createroom = (socket, un, uid, roomId, msg) => {
     console.log('In createroom')
     createChatroom(msg, uid)
 }
-userRegexParse.refreshconfig = function (socket, un, uid, roomId, msg) {
+userRegexParse.refreshconfig = (socket, un, uid, roomId, msg) => {
     delete require.cache[require.resolve('./config')]
     config = require('./config')
     console.log('In refreshconfig')
 }
-userRegexParse.configchange = function (socket, un, uid, roomId, msg) {
+userRegexParse.configchange = (socket, un, uid, roomId, msg) => {
     config.test = msg
     console.log('In configchange')
 }
@@ -518,10 +517,10 @@ client.on('message', msg => {
         var unArray
         while ((unArray = unRegex.exec(newmsg)) !== null) {
             console.log(`Found ${unArray[1]}`)
-            msg.channel.members.forEach(function (element) {
-                if (element.user.id == unArray[1]) {
-                    console.log(element.user.username + ' ' + unArray[0])
-                    var repstr = '@' + element.user.username
+            msg.channel.members.forEach(e => {
+                if (e.user.id == unArray[1]) {
+                    console.log(e.user.username + ' ' + unArray[0])
+                    var repstr = '@' + e.user.username
                     var regex2 = new RegExp(unArray[0])
                     newmsg = newmsg.replace(regex2, repstr)
                 }
@@ -531,10 +530,10 @@ client.on('message', msg => {
         var roleArray
         while ((roleArray = roleRegex.exec(newmsg)) !== null) {
             console.log(`Found ${roleArray[1]}`)
-            msg.guild.roles.forEach(function (element) {
-                if (element.id == roleArray[1]) {
-                    console.log(element.name + ' ' + roleArray[0])
-                    var repstr = '@' + element.name
+            msg.guild.roles.forEach(e => {
+                if (e.id == roleArray[1]) {
+                    console.log(e.name + ' ' + roleArray[0])
+                    var repstr = '@' + e.name
                     var regex2 = new RegExp(roleArray[0])
                     newmsg = newmsg.replace(regex2, repstr)
                 }
@@ -567,11 +566,36 @@ client.on('message', msg => {
     }
 })
 
+//handlers for errors and disconnects
+client.on('disconnect', function (event) {
+    if (event.code != 1000) {
+        console.log("Discord client disconnected with reason: " + event.reason + " (" + event.code + "). Attempting to reconnect in 6s...")
+        setTimeout(function () {
+            client.login(config.discord.key)
+        }, 6000)
+    }
+})
 
-var lookup = {}
-for (var i = 0, len = config.regex.length; i < len; i++) {
-    lookup[config.regex[i].tag] = config.regex[i]
-}
+client.on('error', function (err) {
+    console.log("Discord client error '" + err.code + "'. Attempting to reconnect in 6s...")
+    client.destroy()
+    setTimeout(function () {
+        client.login(config.discord.key)
+    }, 6000)
+})
+
+process.on('rejectionHandled', (err) => {
+    console.log(err)
+    console.log("an error occurred. reconnecting...")
+    client.destroy()
+    setTimeout(function () {
+        client.login(config.discord.key)
+    }, 2000)
+})
+
+process.on('exit', function () {
+    client.destroy()
+})
 
 //----MYSQL DB----\\
 
@@ -579,14 +603,14 @@ var connect = config.db
 var con
 
 function getMotd(roomId) {
-    con.query('SELECT * FROM rooms WHERE serialid = ?', [roomId], function (error, rows) {
+    con.query('SELECT * FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
         if (error) console.log(error)
         io.to(roomId).emit('motd update', rows[0].motd, roomId)
     })
 }
 
 function singleGetMotd(roomId, sid) {
-    con.query('SELECT * FROM rooms WHERE serialid = ?', [roomId], function (error, rows) {
+    con.query('SELECT * FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
         if (error) console.log(error)
         io.to(sid).emit('motd update', rows[0].motd, roomId)
     })
@@ -605,7 +629,7 @@ function addNewCommand(roomId, cmd, actn, msg, username, pic) {
         username,
         pic
     }
-    con.query('SELECT commands FROM rooms WHERE serialid = ?', [roomId], function (error, rows) {
+    con.query('SELECT commands FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
         const addCommand = new Promise((resolve, reject) => {
             var newArr = JSON.parse(rows[0].commands)
             newArr.push(arr)
@@ -618,13 +642,13 @@ function addNewCommand(roomId, cmd, actn, msg, username, pic) {
 }
 
 function getRegexCommands(roomId, sid) {
-    con.query('SELECT commands FROM rooms WHERE serialid = ?', [roomId], function (error, rows) {
+    con.query('SELECT commands FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
         if (error) console.log(error)
         var coms = JSON.parse(rows[0].commands)
         // console.log(coms)
         const decode = new Promise((resolve, reject) => {
-            coms.forEach(function (element) {
-                element.msg = decodeURI(element.msg)
+            coms.forEach(e => {
+                e.msg = decodeURI(e.msg)
             })
             resolve(io.to(sid).emit('get commands', coms, roomId))
         })
@@ -634,7 +658,7 @@ function getRegexCommands(roomId, sid) {
 function handleDisconnect() {
     con = mysql.createConnection(connect)
 
-    con.connect(function (err) {
+    con.connect(err => {
         if (err) {
             console.log('error when connecting to db:', err)
             setTimeout(handleDisconnect, 2000)
@@ -643,7 +667,7 @@ function handleDisconnect() {
         }
     })
 
-    con.on('error', function (err) {
+    con.on('error', err => {
         console.log('db error', err)
         if (err.code === 'PROTOCOL_CONNECTION_LOST') {
             handleDisconnect()
@@ -662,7 +686,7 @@ function sendMessage(message, uid, roomId) {
     // console.log(`In sendMessage, roomId: ${roomId}\nmsg: ${message}`)
     var msg = encodeURI(message)
     try {
-        con.query("INSERT INTO ?? (message, timestamp, uid) VALUES ( ?, NOW(), ?)", [nameString, msg, uid], function (error, results) {
+        con.query("INSERT INTO ?? (message, timestamp, uid) VALUES ( ?, NOW(), ?)", [nameString, msg, uid], (error, results) => {
             if (error) throw error
         })
     } catch (Exception) {
@@ -674,7 +698,7 @@ function sendMessage(message, uid, roomId) {
 async function getMessage(roomId) {
     console.log(`In getMessage, roomId ${roomId}`)
     var nameString = 'room' + roomId
-    con.query('SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC', [nameString], function (error, rows, results) {
+    con.query('SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC', [nameString], (error, rows, results) => {
         console.log('ROWS: ')
         console.log(rows)
         if (error) throw error
@@ -699,7 +723,7 @@ function getDBUN(id) {
             var user = client.users.get(id.substr(4))
             resolve([user.username, 'https://cdn.discordapp.com/avatars/' + user.id + '/' + user.avatar + '.png', 'Discord'])
         } else {
-            con.query('SELECT name, profpic, badge FROM users WHERE uid = ?', [id], function (error, row) {
+            con.query('SELECT name, profpic, badge FROM users WHERE uid = ?', [id], (error, row) => {
                 if (row.length < 1) {
                     resolve(['Undefined', 'https://www.moosen.im/images/favicon.png', null])
                 } else {
@@ -726,28 +750,28 @@ async function joinChatroom(socket, roomId) {
                 var roomName
                 socket.join(roomId)
                 getRegexCommands(roomId, socket.id)
-                con.query('SELECT * FROM rooms WHERE serialid = ?', [roomId], (error, rows, results) => {
-                    if (!rows[0]) {
+                con.query('SELECT * FROM rooms WHERE serialid = ?', [roomId], (err, row, res) => {
+                    if (!row[0]) {
                         console.log('ERROR: Cannot connect to room')
                         reject()
                     } else {
-                        io.to(socket.id).emit('switchToRoom', isAdmin, rows[0])
+                        io.to(socket.id).emit('switchToRoom', isAdmin, row[0])
                         resolve()
                     }
                 })
-                
+
             }
         })
     }).then(() => {
         var nameString = 'room' + roomId
         console.log('show last messages for ' + nameString)
-        con.query('SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC', [nameString, 10], function (error, rows, results) {
+        con.query('SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC', [nameString, 10], (error, rows, results) => {
             singleGetMotd(roomId, socket.id)
             if (error) throw error
             try {
-                rows.forEach(function (element) {
-                    getDBUN(element.uid).then(dbRes => {
-                        io.to(socket.id).emit('chat message', dbRes[0], decodeURI(element.message), element.timestamp, element.id, dbRes[1], roomId, dbRes[2])
+                rows.forEach(e => {
+                    getDBUN(e.uid).then(dbRes => {
+                        io.to(socket.id).emit('chat message', dbRes[0], decodeURI(e.message), e.timestamp, e.id, dbRes[1], roomId, dbRes[2])
                     })
                 })
             } catch (e) {
@@ -760,13 +784,13 @@ async function joinChatroom(socket, roomId) {
 async function showPreviousMessages(num, previous, sid, roomId) {
     var nameString = 'room' + roomId
     console.log(nameString)
-    con.query('SELECT * FROM ( SELECT * FROM ?? WHERE id < ? ORDER BY id DESC LIMIT ?) sub ORDER BY id ASC', [nameString, previous, num], function (error, rows, results) {
+    con.query('SELECT * FROM ( SELECT * FROM ?? WHERE id < ? ORDER BY id DESC LIMIT ?) sub ORDER BY id ASC', [nameString, previous, num], (error, rows, results) => {
         //  console.log(`Getting previous ${num} messages from ${previous} in room ${roomId}...`)
         if (error) throw error
         try {
-            rows.forEach(function (element) {
-                getDBUN(element.uid).then(dbRes => {
-                    io.to(sid).emit('chat message', dbRes[0], decodeURI(element.message), element.timestamp, element.id, dbRes[1], roomId, dbRes[2])
+            rows.forEach(e => {
+                getDBUN(e.uid).then(dbRes => {
+                    io.to(sid).emit('chat message', dbRes[0], decodeURI(e.message), e.timestamp, e.id, dbRes[1], roomId, dbRes[2])
                 })
             })
         } catch (e) {
@@ -795,7 +819,7 @@ async function sendToDiscord(un, msg) {
 
 function getMessageDiscord(un, msg, pic) {
     var nameString = 'room' + config.discord.sendChannel
-    con.query('SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC', [nameString], function (error, rows, results) {
+    con.query('SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC', [nameString], (error, rows, results) => {
         io.emit('chat message', un, decodeURI(rows[0].message), moment().format('h:mm:ss a'), rows[0].id, pic, config.discord.sendChannel, "Discord")
     })
 }
@@ -809,7 +833,7 @@ function updatechat(roomid) {
 //----CHATROOMS----\\
 
 function getChatrooms(sid, uid) {
-    con.query('SELECT * FROM rooms WHERE serialid IN (SELECT room_id FROM room_users WHERE user_id = ?)', [uid], function (error, rows) {
+    con.query('SELECT * FROM rooms WHERE serialid IN (SELECT room_id FROM room_users WHERE user_id = ?)', [uid], (error, rows) => {
         io.to(sid).emit('roomlist', rows)
     })
 }
@@ -817,20 +841,20 @@ function getChatrooms(sid, uid) {
 function createChatroom(n, uid) {
     var roomId
     try {
-        var promise1 = new Promise(function (resolve, reject) {
-            resolve('Success!');
+        var promise1 = new Promise((resolve, reject) => {
+            resolve('Success!')
 
             var name = n
             // get availible chatrooms from user SELECT room_id FROM room_users WHERE user_id = ? [user.uid]
-            con.query('INSERT INTO rooms (name,motd,join_code,back1,back2,text_color,icon,text_color2,background_type,message_back2,commands) VALUES(?,?,?,?,?,?,?,?,?,?,?)', [name, 'motd', uuidv4(), '#6EB7FF', '#23ffdd', '#000000', 'https://www.moosen.im/images/favicon.png', '#000000', 0, '#000000', '[{"cmd":"!ping","actn":"Respond","msg":"Pong!","username":"Server","pic":"https://cdnimages.opentip.com/full/8DHS/8DHS-AB05520.jpg"}] '], function (error) {
+            con.query('INSERT INTO rooms (name,motd,join_code,back1,back2,text_color,icon,text_color2,background_type,message_back2,commands) VALUES(?,?,?,?,?,?,?,?,?,?,?)', [name, 'motd', uuidv4(), '#6EB7FF', '#23ffdd', '#000000', 'https://www.moosen.im/images/favicon.png', '#000000', 0, '#000000', '[{"cmd":"!ping","actn":"Respond","msg":"Pong!","username":"Server","pic":"https://cdnimages.opentip.com/full/8DHS/8DHS-AB05520.jpg"}] '], error => {
                 console.log(error)
                 //  getChatrooms(socket.id,uid)
             })
         })
-        promise1.then(function () {
-            con.query('SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC', function (error, rows, results) {
+        promise1.then(() => {
+            con.query('SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC', (error, rows, results) => {
                 con.query('INSERT INTO room_users VALUES(?,?,1,0)', [rows[0].serialid, uid])
-                var id = rows[0].serialid;
+                var id = rows[0].serialid
                 console.log(id + ' new room id')
                 con.query('CREATE TABLE ?? (id int AUTO_INCREMENT PRIMARY KEY, message text, timestamp VARCHAR(32), uid VARCHAR(100))', ['room' + id])
             })
@@ -842,17 +866,17 @@ function createChatroom(n, uid) {
 }
 
 function searchUsers(email) {
-    con.query('SELECT * FROM users WHERE email = ?', [email], function (error, rows) {
+    con.query('SELECT * FROM users WHERE email = ?', [email], (error, rows) => {
         return rows[0].uid
     })
 }
 
 function changeRoomTheme(params, icon, type, roomId) {
-    var oldParams = [];
+    var oldParams = []
     const getOldParams = new Promise(resolve => {
         con.query('SELECT * FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
             console.log(rows)
-            // rows.forEach(element => {
+            // rows.forEach(e => {
             //     oldParam
             // })
         })
@@ -872,12 +896,10 @@ function changeRoomTheme(params, icon, type, roomId) {
 }
 
 function joinRoom(joinCode, uid, sid) {
-    con.query('SELECT * FROM rooms WHERE join_code = ?', [joinCode], function (error, rows, result) {
+    con.query('SELECT * FROM rooms WHERE join_code = ?', [joinCode], (error, rows, result) => {
         try {
-            rows.forEach(function (element) {
-                con.query('INSERT INTO room_users VALUES(?,?,?,NULL)', [rows[0].serialid, uid, 0]).then(getChatrooms(sid, uid))
-                console.log('user ' + uid + ' was added to room ' + rows[0].serialid)
-            })
+            con.query('INSERT INTO room_users VALUES(?,?,?,NULL)', [rows[0].serialid, uid, 0]).then(getChatrooms(sid, uid))
+            console.log('user ' + uid + ' was added to room ' + rows[0].serialid)
         } catch (e) {
             console.log(e)
             console.log('room not found -' + joinCode)
@@ -886,11 +908,11 @@ function joinRoom(joinCode, uid, sid) {
 }
 
 function addToRoom(email, roomId, isAdmin) {
-    con.query('SELECT * FROM users WHERE email = ?', [email], function (error, rows, result) {
+    con.query('SELECT * FROM users WHERE email = ?', [email], (error, rows, result) => {
         try {
-            rows.forEach(function (element) {
-                con.query('INSERT INTO room_users VALUES(?,?,?,?)', [roomId, element.uid, isAdmin, 0])
-                console.log('user ' + element.uid + ' was added to room ' + roomId)
+            rows.forEach(e => {
+                con.query('INSERT INTO room_users VALUES(?,?,?,?)', [roomId, e.uid, isAdmin, 0])
+                console.log('user ' + e.uid + ' was added to room ' + roomId)
             })
         } catch (e) {
             console.log(e)
