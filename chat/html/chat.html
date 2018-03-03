@@ -33,7 +33,7 @@
         crossorigin="anonymous"></script>
     <script src="../js/autosize.js"></script>
     <script>
-        $(document).ready(() => {
+        $(document).ready(function () {
             $('body').bootstrapMaterialDesign()
         })
     </script>
@@ -313,7 +313,7 @@
     <!-- Socket.io -->
     <script>
         var event
-        $(() => {
+        $(function () {
             var last_id
             var retrieving = false
             var first_id
@@ -346,7 +346,7 @@
                 event.file.meta.room = curroom
             })
 
-            $.fn.textWidth = () => {
+            $.fn.textWidth = function() {
                 var text = $(this).html()
                 $(this).html('<span>' + text + '</span>')
                 var width = $(this).find('span:first').width()
@@ -354,7 +354,7 @@
                 return width
             }
 
-            $(document).ready(() => {
+            $(document).ready(function () {
                 // run test on initial page load
                 checkSize()
                 // run test on resize of the window
@@ -375,20 +375,20 @@
             // var roomList
 
 
-            $('#email').submit(() => {
+            $('#email').submit(function () {
                 socket.emit('adduser', $('#e').val(), curroom, 0)
                 console.log("form submitted " + $('#e').val())
                 $('#add-modal').modal('hide')
                 return false
             })
-            $('#jc-form').submit(() => {
+            $('#jc-form').submit(function () {
                 console.log('In jc-form submit')
                 socket.emit('joincode', $('#jc').val(), curroom, 0)
                 console.log("jc-form submitted " + $('#e').val())
                 $('#joincode-modal').modal('hide')
                 return false
             })
-            $('#room-color').submit(() => {
+            $('#room-color').submit(function () {
                 socket.emit('updateroomtheme', [$('#back-color1').val(), $('#back-color2').val(), null,
                     $('#text-color').val(), $('#text-color').val(), $('#msg-color1').val(), $(
                         '#msg-color2').val(), $('#msg-trans')[0].checked
@@ -397,21 +397,21 @@
                 $('#color-modal').modal('hide')
                 return false
             })
-            $('#newcommand-form').submit(() => {
+            $('#newcommand-form').submit(function () {
                 socket.emit('addcommand', curroom, $('#nc-cmd').val(), $('#nc-actn').val(), $('#nc-msg')
                     .val(), $('#nc-username').val(), $('#nc-pic').val())
                 console.log("form submitted " + $('#nc-cmd').val())
                 $('#regex-modal').modal('hide')
                 return false
             })
-            $('#roomname').submit(() => {
+            $('#roomname').submit(function () {
                 socket.emit('addroom', $('#rn').val())
                 console.log("add room form submitted " + $('#rn').val())
                 $('#modal2').modal('hide')
                 return false
             })
 
-            $('.mm-form').submit(e => {
+            $('.mm-form').submit(function (e) {
                 e.preventDefault()
                 var message = $('#send-message').val()
                 if (message) {
@@ -429,19 +429,19 @@
                 return false
             })
 
-            $('#send-message').on('input', () => {
+            $('#send-message').on('input', function() {
                 $(this).scrollTop($('.main')[0].scrollHeight)
             })
 
-            $('#send-message').keypress(e => {
+            $('#send-message').keypress(function(e) {
                 if (e.which == 13 && !e.shiftKey) {
                     $(this).closest('form').submit()
                     e.preventDefault()
                 }
             })
 
-            $(document).ready(() => {
-                $('.mm-side-item-text').each(index => {
+            $(document).ready(function() {
+                $('.mm-side-item-text').each(function (index) {
                     $(this).css('font-size', '1em')
                     while ($(this).textWidth() > $('#dw-s1').width() * 0.65) {
                         $(this).css('font-size', (parseInt($(this).css('font-size')) - 1) +
@@ -454,7 +454,7 @@
 
             var last_scroll_position = 0
 
-            $('main').scroll(() => {
+            $('main').scroll(function () {
                 if ($('main').scrollTop() + $('main').height() >= $('main').prop('scrollHeight') - 300) {
                     if (!canAuto) {
                         canAuto = true
@@ -476,7 +476,7 @@
                 last_scroll_position = $('main').scrollTop()
             })
 
-            $(window).resize(() => { //checking for window resize event
+            $(window).resize(function () { //checking for window resize event
                 if ($("#send-message").is(":focus")) {
                     $('main').scrollTop($('main').prop("scrollHeight"))
                 }
@@ -488,7 +488,7 @@
             //         if (e.id == curroom) $('#roomtitle').html('<h3>' + e.name + '</h3>')
             //     })
             //     $('#motd').html("<div>" + msg + "</div>")
-            //     $(() => {
+            //     $(function () {
             //         $('#motd div').css('font-size', '3.3em')
 
             //         while ($('#motd div').height() > $('#motd').height()) {
@@ -737,7 +737,7 @@
                             `<li class="btn nav-item mm-side-image"><img src="https://www.moosen.im/images/favicon.png" alt="" class="circle img-fluid"><a class="nav-link mm-side-item-text" data-toggle="drawer" data-target="#dw-s1" room="${element.serialid}">${element.name}</a></li>`
                         )
                     })
-                    $('.mm-side-item-text').each(index => {
+                    $('.mm-side-item-text').each(function (index) {
                         $(this).css('font-size', '1em')
                         while ($(this).textWidth() > $('#dw-s1').width() * 0.65) {
                             $(this).css('font-size', (parseInt($(this).css('font-size')) - 1) +
@@ -747,7 +747,7 @@
                 } catch (e) {}
             })
 
-            $('#mm-side-list').on('click', 'a', () => {
+            $('#mm-side-list').on('click', 'a', function () {
                 console.log("Room Button Clicked")
                 $(this).parent().children().remove('.notify')
                 socket.emit('changerooms', $(this.attributes.room).val())
@@ -818,7 +818,7 @@
                 canScroll = 10
             })
 
-            socket.on('retreat', () => {
+            socket.on('retreat', function () {
                 console.log("Retreat!")
                 window.location.href = "https://www.moosen.im/login"
             })
@@ -838,7 +838,7 @@
 
             async function insertMessage(msg, id, user) {
                 var wasInserted = false
-                $('#messages li').each(() => {
+                $('#messages li').each(function () {
                     // console.log($(this.children[1]).text())
                     if (id < this.id && !wasInserted) {
                         $(msg).insertBefore(this)
@@ -923,7 +923,7 @@
             }
 
             // notification code
-            document.addEventListener('DOMContentLoaded', () => {
+            document.addEventListener('DOMContentLoaded', function () {
                 if (!Notification) {
                     alert('dis broke as shit')
                     return
@@ -940,7 +940,7 @@
                         icon: pic,
                         body: msg,
                     })
-                    notification.onclick = () => {
+                    notification.onclick = function () {
                         window.focus()
                     }
                 }
