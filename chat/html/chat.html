@@ -33,7 +33,7 @@
         crossorigin="anonymous"></script>
     <script src="../js/autosize.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(() => {
             $('body').bootstrapMaterialDesign()
         })
     </script>
@@ -313,7 +313,7 @@
     <!-- Socket.io -->
     <script>
         var event
-        $(function () {
+        $(() => {
             var last_id
             var retrieving = false
             var first_id
@@ -341,12 +341,12 @@
             handleCSS()
 
             var siofu = new SocketIOFileUpload(socket)
-            siofu.addEventListener("start", function (event) {
+            siofu.addEventListener("start", event => {
                 event.file.meta.filetype = event.file.type
                 event.file.meta.room = curroom
             })
 
-            $.fn.textWidth = function () {
+            $.fn.textWidth = () => {
                 var text = $(this).html()
                 $(this).html('<span>' + text + '</span>')
                 var width = $(this).find('span:first').width()
@@ -354,7 +354,7 @@
                 return width
             }
 
-            $(document).ready(function () {
+            $(document).ready(() => {
                 // run test on initial page load
                 checkSize()
                 // run test on resize of the window
@@ -375,20 +375,20 @@
             // var roomList
 
 
-            $('#email').submit(function () {
+            $('#email').submit(() => {
                 socket.emit('adduser', $('#e').val(), curroom, 0)
                 console.log("form submitted " + $('#e').val())
                 $('#add-modal').modal('hide')
                 return false
             })
-            $('#jc-form').submit(function () {
+            $('#jc-form').submit(() => {
                 console.log('In jc-form submit')
                 socket.emit('joincode', $('#jc').val(), curroom, 0)
                 console.log("jc-form submitted " + $('#e').val())
                 $('#joincode-modal').modal('hide')
                 return false
             })
-            $('#room-color').submit(function () {
+            $('#room-color').submit(() => {
                 socket.emit('updateroomtheme', [$('#back-color1').val(), $('#back-color2').val(), null,
                     $('#text-color').val(), $('#text-color').val(), $('#msg-color1').val(), $(
                         '#msg-color2').val(), $('#msg-trans')[0].checked
@@ -397,21 +397,21 @@
                 $('#color-modal').modal('hide')
                 return false
             })
-            $('#newcommand-form').submit(function () {
+            $('#newcommand-form').submit(() => {
                 socket.emit('addcommand', curroom, $('#nc-cmd').val(), $('#nc-actn').val(), $('#nc-msg')
                     .val(), $('#nc-username').val(), $('#nc-pic').val())
                 console.log("form submitted " + $('#nc-cmd').val())
                 $('#regex-modal').modal('hide')
                 return false
             })
-            $('#roomname').submit(function () {
+            $('#roomname').submit(() => {
                 socket.emit('addroom', $('#rn').val())
                 console.log("add room form submitted " + $('#rn').val())
                 $('#modal2').modal('hide')
                 return false
             })
 
-            $('.mm-form').submit(function (e) {
+            $('.mm-form').submit(e => {
                 e.preventDefault()
                 var message = $('#send-message').val()
                 if (message) {
@@ -429,19 +429,19 @@
                 return false
             })
 
-            $('#send-message').on('input', function () {
+            $('#send-message').on('input', () => {
                 $(this).scrollTop($('.main')[0].scrollHeight)
             })
 
-            $('#send-message').keypress(function (e) {
+            $('#send-message').keypress(e => {
                 if (e.which == 13 && !e.shiftKey) {
                     $(this).closest('form').submit()
                     e.preventDefault()
                 }
             })
 
-            $(document).ready(function () {
-                $('.mm-side-item-text').each(function (index) {
+            $(document).ready(() => {
+                $('.mm-side-item-text').each(index => {
                     $(this).css('font-size', '1em')
                     while ($(this).textWidth() > $('#dw-s1').width() * 0.65) {
                         $(this).css('font-size', (parseInt($(this).css('font-size')) - 1) +
@@ -454,7 +454,7 @@
 
             var last_scroll_position = 0
 
-            $('main').scroll(function () {
+            $('main').scroll(() => {
                 if ($('main').scrollTop() + $('main').height() >= $('main').prop('scrollHeight') - 300) {
                     if (!canAuto) {
                         canAuto = true
@@ -476,19 +476,19 @@
                 last_scroll_position = $('main').scrollTop()
             })
 
-            $(window).resize(function () { //checking for window resize event
+            $(window).resize(() => { //checking for window resize event
                 if ($("#send-message").is(":focus")) {
                     $('main').scrollTop($('main').prop("scrollHeight"))
                 }
             })
 
-            // socket.on('motd update', function (msg, room) {
+            // socket.on('motd update', (msg, room) => {
             //     console.log('Received MOTD: ' + msg)
-            //     roomnames.forEach(function (e) {
+            //     roomnames.forEach(e => {
             //         if (e.id == curroom) $('#roomtitle').html('<h3>' + e.name + '</h3>')
             //     })
             //     $('#motd').html("<div>" + msg + "</div>")
-            //     $(function () {
+            //     $(() => {
             //         $('#motd div').css('font-size', '3.3em')
 
             //         while ($('#motd div').height() > $('#motd').height()) {
@@ -497,10 +497,10 @@
             //     })
             // })
 
-            socket.on('get commands', function (commandsArr) {
+            socket.on('get commands', commandsArr => {
                 roomCommands = []
                 roomRegex = []
-                commandsArr.forEach(function (element) {
+                commandsArr.forEach(element => {
                     if (element.cmd.substr(0, 1) == "!") {
                         // console.log(element)
                         roomCommands.push(element)
@@ -510,7 +510,7 @@
                 })
             })
 
-            socket.on('chat message', function (user, msg, time, id, pic, room, badge) {
+            socket.on('chat message', (user, msg, time, id, pic, room, badge) => {
                 if (!curroom || curroom == room) {
                     if (!curroom) {
                         curroom = room
@@ -541,7 +541,7 @@
                                 'r': "$1<a href='$2' target='_blank'>$2</a>$3"
                             },
                         ]
-                        regexes.forEach(function (e) {
+                        regexes.forEach(e => {
                             const promise = new Promise((resolve, reject) => {
                                 var reg = new RegExp(e.x, 'ig')
                                 sendmsg = sendmsg.replace(reg, e.r)
@@ -552,7 +552,7 @@
                         if (doRegex) {
                             if (sendmsg.substr(0, 1) == "!") {
                                 var command = /\S+/i.exec(sendmsg)
-                                roomCommands.forEach(function (element) {
+                                roomCommands.forEach(element => {
                                     if (command[0] == element.cmd) {
                                         switch (element.actn) {
                                             case "Replace":
@@ -573,7 +573,7 @@
                                     }
                                 })
                             } else {
-                                roomRegex.forEach(function (element) {
+                                roomRegex.forEach(element => {
                                     var re = new RegExp('(^|\\s)(' + element.cmd + ')($|\\s)',
                                         'ig')
                                     var testedPositive = re.test(sendmsg)
@@ -604,31 +604,7 @@
                     }
 
                     function checkTags(newMsg, cb) {
-                        // var myRe = /#([a-z])?/g
-                        // var regArray = []
-                        // var myArray
-                        // while ((myArray = myRe.exec(newMsg)) !== null) {
-                        //     if (myArray[1]) regArray.push({
-                        //         'a': myArray[1],
-                        //         'b': myArray.index
-                        //     })
-                        //     else regArray.push({
-                        //         'a': myArray[0],
-                        //         'b': myArray.index
-                        //     })
-                        // }
-                        // let replaced = true
-                        // while (regArray.length > 0 || !replaced) {
-                        //     replaced = false
-                        //     for (var i = 0; i < regArray.length - 1; i++) {
-                        //         if (regArray[i].a !== '#' && regArray[i + 1].a === '#') {
-                        //             replaced = true
-                        //             newMsg = newMsg.substr()
-                        //             break
-                        //         }
-                        //     }
-                        // }
-                        // var tagTest = new RegExp('#([a-z]) (.+[^\\\\])#', 'g')
+
                         cb(newMsg)
                     }
 
@@ -637,7 +613,8 @@
                         insertMessage('<li id="' + thisId +
                             '" class="mm-collection-item avatar"><img src="' + e.pic +
                             '" alt="" class="circle"><span class="title" id="msgtitle">' +
-                            e.username + ' <span class="badge badge-dark">Bot</span></span><p class="message">' +
+                            e.username +
+                            ' <span class="badge badge-dark">Bot</span></span><p class="message">' +
                             e.msg + '</p><span class="secondary-content">' +
                             time + '</a></li>', thisId, e.username)
                     }
@@ -660,9 +637,9 @@
                         const badgeCheck = new Promise((resolve) => {
                                 if (badge) {
                                     // console.log('HAS BADGE: ' + badge)
-                                    resolve(user + ' <span class="badge badge-dark">' + badge + '</span>')
-                                }
-                                else {
+                                    resolve(user + ' <span class="badge badge-dark">' + badge +
+                                        '</span>')
+                                } else {
                                     // console.log('HAS NO BADGE: ' + badge)
                                     resolve(user)
                                 }
@@ -719,7 +696,7 @@
                 }
             })
 
-            socket.on('login', function (displayName, email, photoURL, userId, room) {
+            socket.on('login', (displayName, email, photoURL, userId, room) => {
                 console.log("Logging in " + displayName + ", email: " + email + " " + userId)
                 if (room == curroom) {
                     $('#mm-side-list-2').append(
@@ -732,19 +709,19 @@
                 }
             })
 
-            socket.on('test', function (name) {
+            socket.on('test', name => {
                 console.log(name + "asdasd")
             })
 
-            socket.on('disconnect', function (name) {
+            socket.on('disconnect', name => {
                 location.reload()
             })
 
-            socket.on('roomlist', function (list) {
+            socket.on('roomlist', list => {
 
                 $('#mm-side-list').empty()
                 try {
-                    list.forEach(function (element) {
+                    list.forEach(element => {
                         var roomlist = {
                             name: element.name,
                             id: element.serialid,
@@ -760,7 +737,7 @@
                             `<li class="btn nav-item mm-side-image"><img src="https://www.moosen.im/images/favicon.png" alt="" class="circle img-fluid"><a class="nav-link mm-side-item-text" data-toggle="drawer" data-target="#dw-s1" room="${element.serialid}">${element.name}</a></li>`
                         )
                     })
-                    $('.mm-side-item-text').each(function (index) {
+                    $('.mm-side-item-text').each(index => {
                         $(this).css('font-size', '1em')
                         while ($(this).textWidth() > $('#dw-s1').width() * 0.65) {
                             $(this).css('font-size', (parseInt($(this).css('font-size')) - 1) +
@@ -770,7 +747,7 @@
                 } catch (e) {}
             })
 
-            $('#mm-side-list').on('click', 'a', function () {
+            $('#mm-side-list').on('click', 'a', () => {
                 console.log("Room Button Clicked")
                 $(this).parent().children().remove('.notify')
                 socket.emit('changerooms', $(this.attributes.room).val())
@@ -816,9 +793,10 @@
                 }
                 if (room.text_color2) css.text2 = room.text_color2
                 if (room.message_back) {
-                    css.mb1 = "rgba(" + parseInt(room.message_back.substr(1, 2), 16) +
-                        ", " + parseInt(room.message_back.substr(3, 2), 16) + ", " +
-                        parseInt(room.message_back.substr(5, 2), 16) + ", 0.25)"
+                    css.mb1 =
+                        `rgba(${parseInt(room.message_back.substr(1, 2), 16)}, 
+                        ${parseInt(room.message_back.substr(3, 2), 16)}, 
+                        ${parseInt(room.message_back.substr(5, 2), 16)}, 0.25)`
                     $('#msg-color1').val(room.message_back)
                 } else {
                     css.mb1 = "rgba(0, 0, 0, 0)"
@@ -826,9 +804,10 @@
                 }
                 if (room.message_back2) {
                     $('#msg-color2').val()
-                    css.mb2 = "rgba(" + parseInt(room.message_back2.substr(1, 2), 16) +
-                        ", " + parseInt(room.message_back2.substr(3, 2), 16) + ", " +
-                        parseInt(room.message_back2.substr(5, 2), 16) + ", 0.25)"
+                    css.mb2 =
+                        `rgba(${parseInt(room.message_back2.substr(1, 2), 16)}, 
+                        ${parseInt(room.message_back2.substr(3, 2), 16)}, 
+                        ${parseInt(room.message_back2.substr(5, 2), 16)}, 0.25)`
                 } else {
                     css.mb1 = "rgba(0, 0, 0, 0)"
                     $('#msg-trans').prop('checked', true)
@@ -839,28 +818,27 @@
                 canScroll = 10
             })
 
-            socket.on('retreat', function () {
+            socket.on('retreat', () => {
                 console.log("Retreat!")
                 window.location.href = "https://www.moosen.im/login"
             })
 
-            socket.on('logout message', function (user) {
-                $('#messages').append('<li id="' + id +
-                    '" class="mm-collection-item avatar"><img src="' + pic +
-                    '" alt="" class="circle"><span class="title" id="msgtitle">' +
-                    user + '</span><p class="message">' + user +
-                    ' logged out</p><span class="secondary-content">' +
-                    time + '</a></li>')
+            socket.on('logout message', user => {
+                $('#messages').append(
+                    `<li id="${id}" class="mm-collection-item avatar">
+                        <img src="${pic}" alt="" class="circle">
+                        <span class="title" id="msgtitle">${user}</span>
+                        <p class="message">${user} logged out</p>
+                        <a class="secondary-content">${time}</a></li>`
+                )
                 checkScroll()
             })
 
-            function sleep(ms) {
-                return new Promise(resolve => setTimeout(resolve, ms))
-            }
+            sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
             async function insertMessage(msg, id, user) {
                 var wasInserted = false
-                $('#messages li').each(function () {
+                $('#messages li').each(() => {
                     // console.log($(this.children[1]).text())
                     if (id < this.id && !wasInserted) {
                         $(msg).insertBefore(this)
@@ -876,7 +854,7 @@
 
                 if (!wasInserted) {
                     $('#messages').append(msg)
-                    document.title = user.substring(0, 3) + ": " + msg
+                    document.title = user.substring(0, 3) + ': ' + msg
                     checkScroll()
                 }
                 handleMessageCSS()
@@ -945,7 +923,7 @@
             }
 
             // notification code
-            document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('DOMContentLoaded', () => {
                 if (!Notification) {
                     alert('dis broke as shit')
                     return
@@ -962,7 +940,7 @@
                         icon: pic,
                         body: msg,
                     })
-                    notification.onclick = function () {
+                    notification.onclick = () => {
                         window.focus()
                     }
                 }
