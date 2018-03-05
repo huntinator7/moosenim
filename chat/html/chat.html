@@ -522,7 +522,7 @@
                         var sendmsg = msg
                         var regexes = [{
                                 'x': 'https?:\\/\\/(?!.*(gfycat\\.|youtu\\.|youtube\\.|cdn\\.discordapp\\.com\\/emojis))\\S*\\.(jpg|gif|png|svg)\\S*',
-                                'r': "$& <br><img class='materialboxed responsive-img' style='height: 20vh;' src='$&' alt='$&'>"
+                                'r': "<img class='materialboxed responsive-img' style='height: 20vh; max-width: 70vw;' src='$&' alt='$&'>"
                             },
                             {
                                 'x': '\\S+gfycat\\.com\\/(gifs\\/detail\\/)?(\\S+)',
