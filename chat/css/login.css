@@ -4,9 +4,9 @@ body {
 }
 
 .card-body {
-    background-color: #ffffff;
+    padding: 1rem;
     color: #6eb7ff;
-    width: 18rem;
+    width: 25vw;
 }
 
 .btn btn-success {
