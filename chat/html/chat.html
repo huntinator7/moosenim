@@ -604,12 +604,11 @@
                     }
 
                     function checkTags(newMsg, cb) {
-
                         cb(newMsg)
                     }
 
                     async function sendResponse(e, thisId) {
-                        await sleep(50)
+                        await sleep(750)
                         insertMessage('<li id="' + thisId +
                             '" class="mm-collection-item avatar"><img src="' + e.pic +
                             '" alt="" class="circle"><span class="title" id="msgtitle">' +
@@ -898,10 +897,10 @@
                 $(".mm-collection .mm-collection-item>.message").css("color", css.text1)
                 $(".mm-collection .mm-collection-item>.title").css("color", css.text2)
                 $(".mm-collection .mm-collection-item>.secondary-content").css("color", css.text2)
-                $(".mm-collection .mm-collection-item").css("background-color", css.mb1)
-                $(".mm-collection :nth-child(odd)").css("background-color", css.mb2)
-                $(".mm-collection .mm-collection-item>.message").css("background", "none")
-                $(".mm-collection .mm-collection-item>.message").children().css("background", "none")
+                $(".mm-collection li:nth-child(even)").css("background-color", css.mb1)
+                $(".mm-collection li:nth-child(odd)").css("background-color", css.mb2)
+                // $(".mm-collection .mm-collection-item>.message").css("background", "none")
+                // $(".mm-collection .mm-collection-item>.message").children().css("background", "none")
             }
 
             function handleFileSelect(evt) {

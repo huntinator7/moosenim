@@ -226,12 +226,15 @@ textarea {
     line-height: 1.5rem;
     padding: 10px 20px;
     margin: 3px 10px;
-    background-color: rgba(0, 0, 0, 0.25);
     border-radius: 10px;
 }
 
-.mm-collection :nth-child(odd) {
+.mm-collection li:nth-child(odd) {
     background-color: rgba(255, 255, 255, 0.25);
+}
+
+.mm-collection li:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.25);
 }
 
 .mm-collection .mm-collection-item.avatar {
@@ -244,9 +247,9 @@ textarea {
     min-height: 0px;
 }
 
-.mm-collection .mm-collection-item * {
+/* .mm-collection .mm-collection-item * {
     background: none;
-}
+} */
 
 .mm-collection .mm-collection-item>.message {
     font-size: 1.3rem;
