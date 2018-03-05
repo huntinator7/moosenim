@@ -336,6 +336,10 @@ textarea {
     max-width: 70vw;
 }
 
+.mm-videoembed {
+    max-height: 20vh;
+}
+
 .circle {
     border-radius: 50%;
 }
