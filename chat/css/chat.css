@@ -226,14 +226,11 @@ textarea {
     line-height: 1.5rem;
     padding: 10px 20px;
     margin: 3px 10px;
+    background-color: rgba(0, 0, 0, 0.25);
     border-radius: 10px;
 }
 
-.mm-collection>li {
-    background-color: rgba(0, 0, 0, 0.25);
-}
-
-.mm-collection :nth-child(odd)>li {
+.mm-collection :nth-child(odd) {
     background-color: rgba(255, 255, 255, 0.25);
 }
 
