@@ -346,7 +346,7 @@
                 event.file.meta.room = curroom
             })
 
-            $.fn.textWidth = function() {
+            $.fn.textWidth = function () {
                 var text = $(this).html()
                 $(this).html('<span>' + text + '</span>')
                 var width = $(this).find('span:first').width()
@@ -429,18 +429,18 @@
                 return false
             })
 
-            $('#send-message').on('input', function() {
+            $('#send-message').on('input', function () {
                 $(this).scrollTop($('.main')[0].scrollHeight)
             })
 
-            $('#send-message').keypress(function(e) {
+            $('#send-message').keypress(function (e) {
                 if (e.which == 13 && !e.shiftKey) {
                     $(this).closest('form').submit()
                     e.preventDefault()
                 }
             })
 
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $('.mm-side-item-text').each(function (index) {
                     $(this).css('font-size', '1em')
                     while ($(this).textWidth() > $('#dw-s1').width() * 0.65) {
@@ -616,7 +616,7 @@
                             e.username +
                             ' <span class="badge badge-dark">Bot</span></span><p class="message">' +
                             e.msg + '</p><span class="secondary-content">' +
-                            time + '</a></li>', thisId, e.username)
+                            time + '</a></li>', thisId, e.username, e.msg)
                     }
 
                     function doRest(newMsg) {
@@ -653,7 +653,7 @@
                                         userStr + '</span><p class="message">' +
                                         newMsg + '</p><span class="secondary-content">' +
                                         time + '</a></li>')
-                                    document.title = user.substring(0, 3) + ": " + newMsg
+                                    document.title = user.replace(/ .*/, '') + ': ' + newMsg
                                     handleMessageCSS()
                                 } else {
                                     insertMessage('<li id="' + id +
@@ -661,7 +661,7 @@
                                         '" alt="" class="circle"><span class="title" id="msgtitle">' +
                                         userStr + '</span><p class="message">' +
                                         newMsg + '</p><span class="secondary-content">' +
-                                        time + '</a></li>', id, user)
+                                        time + '</a></li>', id, user, newMsg)
                                     if (first_id > id) {
                                         first_id = id
                                     }
@@ -836,7 +836,7 @@
 
             sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
-            async function insertMessage(msg, id, user) {
+            async function insertMessage(msg, id, user, textMsg) {
                 var wasInserted = false
                 $('#messages li').each(function () {
                     // console.log($(this.children[1]).text())
@@ -854,7 +854,7 @@
 
                 if (!wasInserted) {
                     $('#messages').append(msg)
-                    document.title = user.substring(0, 3) + ': ' + msg
+                    document.title = user.replace(/ .*/, '') + ': ' + textMsg
                     checkScroll()
                 }
                 handleMessageCSS()
@@ -898,8 +898,8 @@
                 $(".mm-collection .mm-collection-item>.message").css("color", css.text1)
                 $(".mm-collection .mm-collection-item>.title").css("color", css.text2)
                 $(".mm-collection .mm-collection-item>.secondary-content").css("color", css.text2)
-                $(".mm-collection .mm-collection-item").css("background-color", css.mb1)
-                $(".mm-collection :nth-child(odd)").css("background-color", css.mb2)
+                //$(".mm-collection>li").css("background-color", css.mb1)
+                //$(".mm-collection :nth-child(odd)>li").css("background-color", css.mb2)
                 $(".mm-collection .mm-collection-item>.message").css("background", "none")
                 $(".mm-collection .mm-collection-item>.message").children().css("background", "none")
             }
