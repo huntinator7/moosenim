@@ -665,7 +665,8 @@
                                         first_id = id
                                     }
                                 }
-                            }).then($('.materialboxed').materialbox())
+                            })
+                        $('.materialboxed').materialbox()
                     }
                 } else {
                     // console.log($("a[room='" + room + "']").children())
@@ -899,6 +900,7 @@
                 $(".mm-collection li:nth-child(odd)").css("background-color", css.mb2)
                 // $(".mm-collection .mm-collection-item>.message").css("background", "none")
                 // $(".mm-collection .mm-collection-item>.message").children().css("background", "none")
+                $('.materialboxed').materialbox()
             }
 
             function handleFileSelect(evt) {
