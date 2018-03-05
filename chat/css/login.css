@@ -1,34 +1,40 @@
 body {
     background-color: #6eb7ff;
-    color: #BADDFF;
+    color: #ffffff;
 }
-.card-body{
-    background-color: #BADDFF;
+
+.card-body {
+    background-color: #ffffff;
     color: #6eb7ff;
     width: 18rem;
-
-
 }
-.btn btn-success{
+
+.btn btn-success {
     background-color: #6eb7ff;
 }
-.media{
-    background-color: #BADDFF;
-    color: #2C3E50;
-     background-clip: content-box, padding-box;
 
+.media {
+    background-color: #ffffff;
+    color: #000000;
+    background-clip: content-box, padding-box;
 }
-.media-body{
-   background-clip: content-box, padding-box;
-    background-color: #BADDFF;
-    color: #375B7F;
+
+.light {
+    background-color: #ffffff;
+}
+
+.media-body {
+    background-clip: content-box, padding-box;
+    background-color: #ffffff;
+    color: #000000;
     font-size: 25px;
 }
-.mt-0{
+
+.mt-0 {
     font-size: 50px;
 }
 
-.mr-3{
+.mr-3 {
     height: 240px;
-   width: 360px;
+    width: 360px;
 }

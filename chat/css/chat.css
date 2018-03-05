@@ -1,5 +1,5 @@
 body {
-    background: linear-gradient(to right, #6EB7FF, #23ffdd);
+    background: linear-gradient(to right, #6eb7ff, #23ffdd);
     font-family: productsans;
 }
 
@@ -63,7 +63,7 @@ textarea {
     position: absolute;
     top: 4rem;
     height: calc(100vh - 4rem);
-    background: linear-gradient(to right, #6EB7FF, #23ffdd);
+    background: linear-gradient(to right, #6eb7ff, #23ffdd);
 }
 
 .navbar {
@@ -72,7 +72,7 @@ textarea {
     top: 0;
     z-index: 999;
     min-height: 4rem;
-    background: linear-gradient(to right, #6EB7FF, #23ffdd);
+    background: linear-gradient(to right, #6eb7ff, #23ffdd);
 }
 
 .navbar a {
@@ -108,7 +108,7 @@ textarea {
 }
 
 .notify-all {
-    background: #FF3300;
+    background: #ff3300;
     bottom: 2.2rem;
 }
 
@@ -155,7 +155,7 @@ textarea {
     top: 4rem;
     z-index: 1;
     max-height: calc(100vh - 4rem);
-    background-color: #3F3F3F;
+    background-color: #3f3f3f;
     color: white;
 }
 
@@ -182,7 +182,7 @@ textarea {
 
 .mm-navdd-items a {
     color: white;
-    background-color: #6eb7ff
+    background-color: #6eb7ff;
 }
 
 .mm-side-image {
@@ -196,7 +196,7 @@ textarea {
     float: left;
     max-height: 3rem;
     z-index: 1;
-    margin-right: .5rem;
+    margin-right: 0.5rem;
     position: absolute;
 }
 
@@ -266,7 +266,8 @@ textarea {
     overflow-wrap: break-word;
 }
 
-.mm-collection .mm-collection-item.avatar:not(.circle-clipper)>.circle, .mm-collection .mm-collection-item.avatar :not(.circle-clipper)>.circle {
+.mm-collection .mm-collection-item.avatar:not(.circle-clipper)>.circle,
+.mm-collection .mm-collection-item.avatar :not(.circle-clipper)>.circle {
     position: absolute;
     width: 42px;
     height: 42px;
@@ -307,8 +308,8 @@ textarea {
 
 .mm-collection a.mm-collection-item {
     display: block;
-    -webkit-transition: .25s;
-    transition: .25s;
+    -webkit-transition: 0.25s;
+    transition: 0.25s;
     color: #26a69a;
 }
 
@@ -346,30 +347,30 @@ textarea {
     color: white;
     text-align: center;
     font-family: "Courier New", Courier, monospace;
-    font-size: 1.5em
+    font-size: 1.5em;
 }
 
 @font-face {
-    font-family: 'headliner';
-    src: url('/headliner_font_ttf') format('truetype'), url('/headliner_font_woff2') format('woff2'), url('/headliner_font_woff') format('woff');
+    font-family: "headliner";
+    src: url("/headliner_font_ttf") format("truetype"), url("/headliner_font_woff2") format("woff2"), url("/headliner_font_woff") format("woff");
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'monofonto';
-    src: url('/monofonto_font_ttf') format('truetype'), url('/monofonto_font_woff2') format('woff2'), url('/monofonto_font_woff') format('woff');
+    font-family: "monofonto";
+    src: url("/monofonto_font_ttf") format("truetype"), url("/monofonto_font_woff2") format("woff2"), url("/monofonto_font_woff") format("woff");
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'productsans';
-    src: url('/productsans_font_woff2') format('woff2'), url('/productsans_font_woff') format('woff');
+    font-family: "productsans";
+    src: url("/productsans_font_woff2") format("woff2"), url("/productsans_font_woff") format("woff");
     font-weight: normal;
     font-style: normal;
 }
 
 #dropdownMenuButton {
-    margin-left: 100px
+    margin-left: 100px;
 }

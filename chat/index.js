@@ -59,10 +59,10 @@ var io = require('socket.io')(server)
 
 //----PASSPORT----\\
 passport.use(new strategy({
-        clientID: '333736509560-id8si5cbuim26d3e67s4l7oscjfsakat.apps.googleusercontent.com',
-        clientSecret: 'ZCMQ511PhvMEQqozMGd5bmRH',
-        callbackURL: 'https://moosen.im/auth/google/callback'
-    },
+    clientID: '333736509560-id8si5cbuim26d3e67s4l7oscjfsakat.apps.googleusercontent.com',
+    clientSecret: 'ZCMQ511PhvMEQqozMGd5bmRH',
+    callbackURL: 'https://moosen.im/auth/google/callback'
+},
     (accessToken, refreshToken, profile, cb) => {
         //  console.log('id '+profile.id+'name '+profile.name+'displayName '+profile.displayName+'email '+profile.email+'gender '+profile.gender)
         loginUser(profile.id, profile.displayName, profile.photos[0].value, profile.emails[0].value)
@@ -351,9 +351,9 @@ io.sockets.on('connection', socket => {
         console.log(type)
         var msg
         if (/video/g.test(type)) {
-            msg = '<div class="embed-responsive embed-responsive-16by9"><iframe style="width:64vw height:36vw" src="https://moosen.im/uploads/' + name + '" frameborder="0" allowfullscreen></iframe></div>'
+            msg = 'https://moosen.im/uploads/' + name
         } else if (/image/g.test(type)) {
-            msg = '<img class="materialboxed responsive-img" style="height:20vh" src="https://moosen.im/uploads/' + name + '" alt="Mighty Moosen">'
+            msg = 'https://moosen.im/uploads/' + name
         } else {
             msg = '<a href="/uploads/' + name + '" download="' + name + '">' + name + '</a>'
         }
@@ -799,13 +799,13 @@ function sleep(ms) {
 }
 
 async function sendToDiscord(un, msg) {
-    msg = /@moosen/ig [Symbol.replace](msg, '<@&277296480245514240>')
-    msg = /@noah/ig [Symbol.replace](msg, '<@!207214113191886849>')
-    msg = /@hunter/ig [Symbol.replace](msg, '<@!89758327621296128>')
-    msg = /@nick/ig [Symbol.replace](msg, '<@!185934787679092736>')
-    msg = /@kyle/ig [Symbol.replace](msg, '<@!147143598301773824>')
-    msg = /@lane/ig [Symbol.replace](msg, '<@!81913971979849728>')
-    msg = /:fn:/ig [Symbol.replace](msg, '<:fNoah1:318887883291230219> <:fNoah2:318887791096365056> <:fNoah3:318887914530668544>')
+    msg = /@moosen/ig[Symbol.replace](msg, '<@&277296480245514240>')
+    msg = /@noah/ig[Symbol.replace](msg, '<@!207214113191886849>')
+    msg = /@hunter/ig[Symbol.replace](msg, '<@!89758327621296128>')
+    msg = /@nick/ig[Symbol.replace](msg, '<@!185934787679092736>')
+    msg = /@kyle/ig[Symbol.replace](msg, '<@!147143598301773824>')
+    msg = /@lane/ig[Symbol.replace](msg, '<@!81913971979849728>')
+    msg = /:fn:/ig[Symbol.replace](msg, '<:fNoah1:318887883291230219> <:fNoah2:318887791096365056> <:fNoah3:318887914530668544>')
     await sleep(100)
     client.channels.get(config.discord.moosen).send(un + ': ' + msg)
     //104635400788300812127
