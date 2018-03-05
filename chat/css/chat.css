@@ -331,6 +331,11 @@ textarea {
     padding-left: 72px;
 }
 
+.mm-embed {
+    max-height: 20vh;
+    max-width: 70vw;
+}
+
 .circle {
     border-radius: 50%;
 }
