@@ -414,7 +414,7 @@
             $('.mm-form').submit(function (e) {
                 e.preventDefault()
                 var message = $('#send-message').val()
-                if (message) {
+                if (/\S/.test(message)) {
                     try {
                         socket.emit('chat message', message, curroom)
                         //      console.log(`Emitting chat message ${message} for room ${curroom}`)
