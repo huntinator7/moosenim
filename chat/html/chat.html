@@ -390,8 +390,8 @@
             })
             $('#room-color').submit(function () {
                 socket.emit('updateroomtheme', [$('#back-color1').val(), $('#back-color2').val(), null,
-                    $('#text-color').val(), $('#text-color').val(), $('#msg-color1').val(), $(
-                        '#msg-color2').val(), $('#msg-trans')[0].checked
+                $('#text-color').val(), $('#text-color').val(), $('#msg-color1').val(), $(
+                    '#msg-color2').val(), $('#msg-trans')[0].checked
                 ], null, 1, curroom)
                 console.log('room-color submitted')
                 $('#color-modal').modal('hide')
@@ -417,15 +417,14 @@
                 if (/\S/.test(message)) {
                     try {
                         socket.emit('chat message', message, curroom)
-                        //      console.log(`Emitting chat message ${message} for room ${curroom}`)
                     } catch (e) {
                         console.log(e)
                     }
-
                     checkScroll()
+                    autosize(document.querySelectorAll('textarea'))
+                    $('#send-message').val('')
+                    return false
                 }
-                autosize(document.querySelectorAll('textarea'))
-                $('#send-message').val('')
                 return false
             })
 
@@ -521,25 +520,25 @@
                     function checkRegex(cb) {
                         var sendmsg = msg
                         var regexes = [{
-                                'x': 'https?:\\/\\/(?!.*(gfycat\\.|youtu\\.|youtube\\.|cdn\\.discordapp\\.com\\/emojis))\\S*\\.(jpg|gif|png|svg)\\S*',
-                                'r': "<img class='materialboxed responsive-img mm-embed' src='$&' alt='$&'>"
-                            },
-                            {
-                                'x': '\\S+gfycat\\.com\\/(gifs\\/detail\\/)?(\\S+)',
-                                'r': '$& <br><div class="embed-responsive embed-responsive-16by9 mm-videoembed"><iframe class="embed-responsive-item" src="https://gfycat.com/ifr/$2" allowfullscreen></iframe></div>'
-                            },
-                            {
-                                'x': 'https\\S*youtube\\.com\\/watch\\?v=(\\S*)',
-                                'r': '$& <br><div class="embed-responsive embed-responsive-16by9 mm-videoembed"><iframe class="embed-responsive-item" src="https://www.youtube.com/embed/$1?rel=0" allowfullscreen></iframe></div>'
-                            },
-                            {
-                                'x': 'https\\S*youtu\\.be\\/(\\S{11})',
-                                'r': '$& <br><div class="embed-responsive embed-responsive-16by9 mm-videoembed"><iframe class="embed-responsive-item" src="https://www.youtube.com/embed/$1?rel=0" allowfullscreen></iframe></div>'
-                            },
-                            {
-                                'x': '([^\'"]|^)(http\\S+\\.\\S+)(\\s|$)',
-                                'r': "$1<a href='$2' target='_blank'>$2</a>$3"
-                            },
+                            'x': 'https?:\\/\\/(?!.*(gfycat\\.|youtu\\.|youtube\\.|cdn\\.discordapp\\.com\\/emojis))\\S*\\.(jpg|gif|png|svg)\\S*',
+                            'r': "<img class='materialboxed responsive-img mm-embed' src='$&' alt='$&'>"
+                        },
+                        {
+                            'x': '\\S+gfycat\\.com\\/(gifs\\/detail\\/)?(\\S+)',
+                            'r': '$& <br><div class="embed-responsive embed-responsive-16by9 mm-videoembed"><iframe class="embed-responsive-item" src="https://gfycat.com/ifr/$2" allowfullscreen></iframe></div>'
+                        },
+                        {
+                            'x': 'https\\S*youtube\\.com\\/watch\\?v=(\\S*)',
+                            'r': '$& <br><div class="embed-responsive embed-responsive-16by9 mm-videoembed"><iframe class="embed-responsive-item" src="https://www.youtube.com/embed/$1?rel=0" allowfullscreen></iframe></div>'
+                        },
+                        {
+                            'x': 'https\\S*youtu\\.be\\/(\\S{11})',
+                            'r': '$& <br><div class="embed-responsive embed-responsive-16by9 mm-videoembed"><iframe class="embed-responsive-item" src="https://www.youtube.com/embed/$1?rel=0" allowfullscreen></iframe></div>'
+                        },
+                        {
+                            'x': '([^\'"]|^)(http\\S+\\.\\S+)(\\s|$)',
+                            'r': "$1<a href='$2' target='_blank'>$2</a>$3"
+                        },
                         ]
                         regexes.forEach(e => {
                             const promise = new Promise((resolve, reject) => {
@@ -634,15 +633,15 @@
                             login.play()
                         }
                         const badgeCheck = new Promise((resolve) => {
-                                if (badge) {
-                                    // console.log('HAS BADGE: ' + badge)
-                                    resolve(user + ' <span class="badge badge-dark">' + badge +
-                                        '</span>')
-                                } else {
-                                    // console.log('HAS NO BADGE: ' + badge)
-                                    resolve(user)
-                                }
-                            })
+                            if (badge) {
+                                // console.log('HAS BADGE: ' + badge)
+                                resolve(user + ' <span class="badge badge-dark">' + badge +
+                                    '</span>')
+                            } else {
+                                // console.log('HAS NO BADGE: ' + badge)
+                                resolve(user)
+                            }
+                        })
                             .then((userStr) => {
                                 if (!first_id) {
                                     first_id = id
@@ -742,7 +741,7 @@
                                 "px")
                         }
                     })
-                } catch (e) {}
+                } catch (e) { }
             })
 
             $('#mm-side-list').on('click', 'a', function () {
