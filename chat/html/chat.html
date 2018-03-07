@@ -281,17 +281,18 @@
                 <div class="modal-body">
                     <p>Enter a new Command</p>
                     <form id="newcommand-form" action="">
-                        <input class="form-control" type="text" id="nc-cmd" placeholder="if command is 'test', it can be called with'!test'">
+
+                        <input class="form-control" type="text" id="nc-cmd" placeholder="Word to replace or respond to">
+                        <input type="checkbox" class="form-control" id="msg-trans" style="display:inline; width:auto;">
+                        <p style="display:inline">Use Regex (Advanced)</p>
                         <select class="form-control" name="nc-actn" id="nc-actn">
-                            <option value="Replace">Replace</option>
-                            <option value="ReplaceEmbed">ReplaceEmbed</option>
-                            <option value="ReplaceWhole">ReplaceWhole</option>
-                            <option value="Respond">Respond</option>
+                            <option value="Replace">Replace this word</option>
+                            <option value="ReplaceWhole">Replace the whole message</option>
+                            <option value="Respond">Respond to the message</option>
                         </select>
-                        <input class="form-control" type="checkbox" id="nc-regex"> Use regex (advanced)
                         <input class="form-control" type="text" id="nc-msg" placeholder="message">
-                        <input class="form-control" type="text" id="nc-username" placeholder="username">
-                        <input class="form-control" type="text" id="nc-pic" placeholder="picture">
+                        <input class="form-control" type="text" id="nc-username" placeholder="username" disabled>
+                        <input class="form-control" type="text" id="nc-pic" placeholder="picture" disabled>
                         <button class="btn waves-effect waves-light modal-close light-blue white-text"> Add Rule </button>
                     </form>
                 </div>
@@ -405,6 +406,16 @@
                 $('#regex-modal').modal('hide')
                 return false
             })
+            $('#nc-actn').change(function() {
+                if ($('#nc-actn').val() == 'Respond') {
+                    $("#nc-username").prop('disabled', false)
+                    $("#nc-pic").prop('disabled', false)
+                } else {
+                    $("#nc-username").prop('disabled', true)
+                    $("#nc-pic").prop('disabled', true)
+                }
+            })
+
             $('#roomname').submit(function () {
                 socket.emit('addroom', $('#rn').val())
                 console.log("add room form submitted " + $('#rn').val())
