@@ -24,6 +24,7 @@ var client = redis.createClient()
 const sessionStore = new redisStore()
 var cookieParser2 = require('cookie-parser')()
 var uuidv4 = require('uuid/v4')
+var escStrReg = require('escape-string-regexp')
 
 //--GENERAL HTTP----\\
 app2.all('*', ensureSecure) // at top of routing calls
@@ -384,9 +385,9 @@ io.sockets.on('connection', socket => {
 
     })
 
-    socket.on('addcommand', (roomId, cmd, actn, msg, username, pic) => {
-        addNewCommand(roomId, cmd, actn, msg, username, pic)
-        getRegexCommands(roomId, socket.id)
+    socket.on('addcommand', (roomId, cmd, actn, msg, username, pic, regex) => {
+        if (regex) addNewCommand(roomId, cmd, actn, msg, username, pic)
+        else addNewCommand(roomId, escStrReg(cmd), actn, msg, username, pic)
     })
 
     socket.on('updateroomtheme', (params, icon, type, roomId) => {
@@ -620,7 +621,7 @@ function singleGetMotd(roomId, sid) {
 
 function addNewCommand(roomId, cmd, actn, msg, username, pic) {
     console.log(msg)
-    console.log(encodeURI(msg))
+    // console.log(encodeURI(msg))
     console.log(roomId + ' new command: ' + cmd)
     var arr = {
         cmd,
@@ -629,16 +630,24 @@ function addNewCommand(roomId, cmd, actn, msg, username, pic) {
         username,
         pic
     }
-    con.query('SELECT commands FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
-        const addCommand = new Promise((resolve, reject) => {
-            var newArr = JSON.parse(rows[0].commands)
-            newArr.push(arr)
-            myArrString = JSON.stringify(newArr)
-            con.query('UPDATE rooms set commands = ? WHERE serialid = ?', [myArrString, roomId])
-            resolve(getRegexCommands(roomId, roomId))
-        })
+    var isValid = true;
+    try {
+        new RegExp(cmd);
+    } catch (e) {
+        isValid = false;
+    }
+    if (isValid) {
+        con.query('SELECT commands FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
+            const addCommand = new Promise((resolve, reject) => {
+                var newArr = JSON.parse(rows[0].commands)
+                newArr.push(arr)
+                myArrString = JSON.stringify(newArr)
+                con.query('UPDATE rooms set commands = ? WHERE serialid = ?', [myArrString, roomId])
+                resolve(getRegexCommands(roomId, roomId))
+            })
 
-    })
+        })
+    }
 }
 
 function getRegexCommands(roomId, sid) {

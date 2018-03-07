@@ -288,6 +288,7 @@
                             <option value="ReplaceWhole">ReplaceWhole</option>
                             <option value="Respond">Respond</option>
                         </select>
+                        <input class="form-control" type="checkbox" id="nc-regex"> Use regex (advanced)
                         <input class="form-control" type="text" id="nc-msg" placeholder="message">
                         <input class="form-control" type="text" id="nc-username" placeholder="username">
                         <input class="form-control" type="text" id="nc-pic" placeholder="picture">
@@ -399,7 +400,7 @@
             })
             $('#newcommand-form').submit(function () {
                 socket.emit('addcommand', curroom, $('#nc-cmd').val(), $('#nc-actn').val(), $('#nc-msg')
-                    .val(), $('#nc-username').val(), $('#nc-pic').val())
+                    .val(), $('#nc-username').val(), $('#nc-pic').val(), $('#nc-regex')[0].checked)
                 console.log("form submitted " + $('#nc-cmd').val())
                 $('#regex-modal').modal('hide')
                 return false
@@ -897,8 +898,6 @@
                 $(".mm-collection .mm-collection-item>.secondary-content").css("color", css.text2)
                 $(".mm-collection li:nth-child(even)").css("background-color", css.mb1)
                 $(".mm-collection li:nth-child(odd)").css("background-color", css.mb2)
-                // $(".mm-collection .mm-collection-item>.message").css("background", "none")
-                // $(".mm-collection .mm-collection-item>.message").children().css("background", "none")
                 $('.materialboxed').materialbox()
             }
 
