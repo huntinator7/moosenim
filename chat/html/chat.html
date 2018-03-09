@@ -103,7 +103,7 @@
             </button>
             <div class="dropdown-menu mm-navdd-items" aria-labelledby="dropdownMenuButton">
                 <div class="nav-item">
-                    <a class="nav-link"data-toggle="modal" data-target="#modal-profile" id="profile-button">Profile (Currently unavailible)</a>
+                    <a class="nav-link" data-toggle="modal" data-target="#modal-profile" id="profile-button">Profile (Currently unavailible)</a>
                 </div>
             </div>
         </div>
@@ -281,10 +281,13 @@
                 <div class="modal-body">
                     <p>Profile</p>
                     <form id="profile-form" action="">
-                      Enter a nick-name<br>
-                        <input class="form-control" type="text" id="nick-name" placeholder="nickname"><br>
-                        Profile picture URL<br>
-                            <input class="form-control" type="text" id="img-url" placeholder="url"><br>
+                        Enter a nick-name
+                        <br>
+                        <input class="form-control" type="text" id="nick-name" placeholder="nickname">
+                        <br> Profile picture URL
+                        <br>
+                        <input class="form-control" type="text" id="img-url" placeholder="url">
+                        <br>
 
                         <button class="btn waves-effect waves-light modal-close light-blue white-text"> Update Profile </button>
                     </form>
@@ -408,7 +411,7 @@
                 return false
             })
             $('#profile-form').submit(function () {
-                socket.emit('updateuser', $('#nick-name').val(),$('#img-url').val() )
+                socket.emit('updateuser', $('#nick-name').val(), $('#img-url').val())
                 console.log("form submitted " + $('#e').val())
                 $('#modal-profile').modal('hide')
                 return false
@@ -646,7 +649,7 @@
                         await sleep(750)
                         insertMessage('<li id="' + thisId +
                             '" class="mm-collection-item avatar"><img src="' + e.pic +
-                            '" alt="" class="circle"><span class="title" id="msgtitle">' +
+                            '" alt="" class="circle msg-icon"><span class="title" id="msgtitle">' +
                             e.username +
                             ' <span class="badge badge-dark">Bot</span></span><p class="message">' +
                             e.msg + '</p><span class="secondary-content">' +
@@ -682,7 +685,7 @@
                                     first_id = id
                                     $('#messages').append('<li id="' + id +
                                         '" class="mm-collection-item avatar"><img src="' + pic +
-                                        '" alt="" class="circle"><span class="title" id="msgtitle">' +
+                                        '" alt="" class="circle msg-icon"><span class="title" id="msgtitle">' +
                                         userStr + '</span><p class="message">' +
                                         newMsg + '</p><span class="secondary-content">' +
                                         time + '</a></li>')
@@ -691,7 +694,7 @@
                                 } else {
                                     insertMessage('<li id="' + id +
                                         '" class="mm-collection-item avatar"><img src="' + pic +
-                                        '" alt="" class="circle"><span class="title" id="msgtitle">' +
+                                        '" alt="" class="circle msg-icon"><span class="title" id="msgtitle">' +
                                         userStr + '</span><p class="message">' +
                                         newMsg + '</p><span class="secondary-content">' +
                                         time + '</a></li>', id, user, newMsg)
@@ -842,7 +845,7 @@
             socket.on('logout message', user => {
                 $('#messages').append(
                     `<li id="${id}" class="mm-collection-item avatar">
-                        <img src="${pic}" alt="" class="circle">
+                        <img src="${pic}" alt="" class="circle msg-icon">
                         <span class="title" id="msgtitle">${user}</span>
                         <p class="message">${user} logged out</p>
                         <a class="secondary-content">${time}</a></li>`
@@ -909,7 +912,7 @@
                 $(".navbar a button").css("color", css.text1)
                 $(".mm-navdd button i").css("color", css.text1)
                 $(".mm-side-image").css("color", css.text1)
-                
+
                 handleMessageCSS()
             }
 

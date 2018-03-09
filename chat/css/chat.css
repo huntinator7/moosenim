@@ -50,6 +50,11 @@ textarea {
     z-index: 3;
 }
 
+.msg-icon:hover {
+    filter: brightness(70%);
+    transition: all 0.5s ease;
+}
+
 .DEV {
     color: #ffe72f;
     background-color: #ff0000;
@@ -277,8 +282,7 @@ textarea {
     overflow-wrap: break-word;
 }
 
-.mm-collection .mm-collection-item.avatar:not(.circle-clipper)>.circle,
-.mm-collection .mm-collection-item.avatar :not(.circle-clipper)>.circle {
+.mm-collection .mm-collection-item.avatar:not(.circle-clipper)>.circle, .mm-collection .mm-collection-item.avatar :not(.circle-clipper)>.circle {
     position: absolute;
     width: 42px;
     height: 42px;
