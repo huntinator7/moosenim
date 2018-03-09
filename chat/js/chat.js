@@ -203,7 +203,7 @@ $(function () {
         console.log('Getting commands')
         roomCommands = []
         roomRegex = []
-        commandsArr.forEach(e => {
+        commandsArr.forEach((e, ind) => {
             if (e.cmd.substr(0, 1) == "!") {
                 // console.log(e)
                 roomCommands.push(e)
@@ -212,8 +212,8 @@ $(function () {
             }
             $('#cc-list').append(`<li>
             <div class="test">
-                <a class="btn btn-cc btn-block">${e.cmd}</a>
-                <div class="collapse" id="collapseExample">
+                <a class="btn btn-cc btn-block" data-toggle="collapse" href="#collapse${ind}" role="button" aria-expanded="false" aria-controls="collapse${ind}">${e.cmd}</a>
+                <div class="collapse" id="collapse${ind}">
                     <a class="btn btn-block btn-ccrem">Remove</a>
                 </div>
             </div>
