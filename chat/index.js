@@ -27,7 +27,7 @@ const sessionStore = new redisStore()
 var cookieParser2 = require('cookie-parser')()
 var uuidv4 = require('uuid/v4')
 var escStrReg = require('escape-string-regexp')
-var mainController= require('./controllers/main.controller.js')
+import controller from './controllers/main.controller'
 
 
 let =controller = new mainController();
