@@ -186,7 +186,7 @@ var controller = {
                     coms.forEach(e => {
                         e.msg = decodeURI(e.msg)
                     })
-                    resolve(io.to(sid).emit('get commands', coms, roomId))
+                    resolve(io.to(roomId).emit('get commands', coms, roomId))
                 })
             })
         })
