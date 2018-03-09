@@ -46,6 +46,17 @@ textarea {
     padding-right: 0.0625em;
 }
 
+.btn-cc {
+    color: black;
+    background-color: grey;
+}
+
+.btn-cc:hover {
+    color: white;
+    background-color: orangered;
+    transition: all 0.5s ease;
+}
+
 .avatar {
     z-index: 3;
 }
