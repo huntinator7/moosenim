@@ -8,11 +8,11 @@ var controller = {
             io.to(sid).emit('roomlist', rows)
         })
     },
-    addToRoom: function (con, email, roomId, isAdmin,nickname) {
+    addToRoom: function (con, email, roomId, isAdmin, nickname) {
         con.query('SELECT * FROM users WHERE email = ?', [email], (error, rows, result) => {
             try {
                 rows.forEach(e => {
-                    con.query('INSERT INTO room_users VALUES(?,?,?,?,?)', [roomId, e.uid, isAdmin, 0,nickname])
+                    con.query('INSERT INTO room_users VALUES(?,?,?,?,?)', [roomId, e.uid, isAdmin, 0, nickname])
                     console.log('user ' + e.uid + ' was added to room ' + roomId)
                 })
             } catch (e) {
@@ -32,11 +32,11 @@ var controller = {
                 con.query('INSERT INTO rooms (name,motd,join_code,back1,back2,text_color,icon,text_color2,background_type,message_back2,commands) VALUES(?,?,?,?,?,?,?,?,?,?,?)', [name, 'motd', uuidv4(), '#6EB7FF', '#23ffdd', '#000000', 'https://moosen.im/uploads/moosenim4ColoredSmall.png', '#000000', 0, '#000000', '[{"cmd":"!ping","actn":"Respond","msg":"Pong!","username":"Server","pic":"https://cdnimages.opentip.com/full/8DHS/8DHS-AB05520.jpg"}] '], error => {
                     console.log(error)
                     //  getChatrooms(socket.id,uid)
-                      resolve('Success!')
+                    resolve('Success!')
                 })
             }).then(() => {
                 con.query('SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC', (error, rows, results) => {
-                  console.log('new room serialid: '+rows[0].serialid)
+                    console.log('new room serialid: ' + rows[0].serialid)
                     con.query('INSERT INTO room_users VALUES(?,?,1,0," ")', [rows[0].serialid, uid])
                     var id = rows[0].serialid
                     console.log(id + ' new room id')
@@ -172,7 +172,7 @@ var controller = {
             var coms = JSON.parse(rows[0].commands)
             console.log(coms)
             const removeCommand = new Promise((resolve, reject) => {
-                coms = coms.reduce(function(list, item) {
+                coms = coms.reduce(function (list, item) {
                     if (decodeURI(item.cmd) !== command) {
                         list.push(item)
                     }
@@ -192,9 +192,19 @@ var controller = {
         })
     },
     updateUser: function (con, uid, nickname, url) {
-        con.query("update users set name=?,profpic=? WHERE uid = ?", [nickname, url, uid], (error, results) => {
-            if (error) throw error
-        })
+        if (nickname === '' && url !== '') {
+            con.query("update users set profpic=? WHERE uid = ?", [url, uid], (error, results) => {
+                if (error) throw error
+            })
+        } else if (nickname !== '' && url === '') {
+            con.query("update users set name=? WHERE uid = ?", [nickname, uid], (error, results) => {
+                if (error) throw error
+            })
+        } else if (nickname !== '' && url !== '') {
+            con.query("update users set name=?, profpic=? WHERE uid = ?", [nickname, url, uid], (error, results) => {
+                if (error) throw error
+            })
+        }
     }
 
 }

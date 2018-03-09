@@ -391,8 +391,6 @@ io.sockets.on('connection', socket => {
 
     })
     socket.on('updateuser', (nickname, url) => {
-        nickname = nickname === '' ? socket.request.user.displayName : nickname
-        url = url === '' ? socket.request.user.photos[0].value : url
         controller.updateUser(con, socket.request.user.id, nickname, url)
     })
     socket.on('addcommand', (roomId, cmd, actn, msg, username, pic, regex) => {
