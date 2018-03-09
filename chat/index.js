@@ -387,7 +387,7 @@ io.sockets.on('connection', socket => {
     })
 
     socket.on('addroom', name => {
-        controller.createChatroom(con, name, socket.request.user.id,socket.request.user.displayName)
+        controller.createChatroom(con, io, name, socket.request.user.id,socket.request.user.displayName)
 
     })
     socket.on('updateuser', (nickname, url) => {

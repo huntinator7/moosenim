@@ -21,7 +21,7 @@ var controller = {
             }
         })
     },
-    createChatroom: function (con, n, uid) {
+    createChatroom: function (con, io, n, uid) {
         var roomId
         try {
             var promise1 = new Promise((resolve, reject) => {
@@ -41,7 +41,7 @@ var controller = {
                     var id = rows[0].serialid
                     console.log(id + ' new room id')
                     con.query('CREATE TABLE ?? (id int AUTO_INCREMENT PRIMARY KEY, message text, timestamp VARCHAR(32), uid VARCHAR(100))', ['room' + id])
-                })
+                }).then(controller.getChatrooms(io, con, sid, uid))
             })
 
         } catch (e) {
@@ -51,7 +51,7 @@ var controller = {
     joinRoom: function (con, io, joinCode, uid, sid) {
         con.query('SELECT * FROM rooms WHERE join_code = ?', [joinCode], (error, rows, result) => {
             try {
-                con.query('INSERT INTO room_users VALUES(?,?,?,NULL)', [rows[0].serialid, uid, 0]).then(controller.getChatrooms(io, con, sid, uid))
+                con.query('INSERT INTO room_users VALUES(?,?,?,0,"")', [rows[0].serialid, uid, 0]).then(controller.getChatrooms(io, con, sid, uid))
                 console.log('user ' + uid + ' was added to room ' + rows[0].serialid)
             } catch (e) {
                 console.log(e)
