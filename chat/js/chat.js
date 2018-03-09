@@ -448,6 +448,7 @@ $(function () {
 
         $('#messages').empty()
         $('#cc-list').empty()
+        console.log('Emptying commands')
         $('#send-message').val('')
         $('#jc-room').html(room.join_code)
         $('#title').html(room.name)
