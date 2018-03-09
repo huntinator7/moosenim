@@ -392,10 +392,13 @@ io.sockets.on('connection', socket => {
     })
     socket.on('updateuser', (nickname, url) => {
         //socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value
-        if (nickname == null) nickname = socket.request.user.displayName
-        if (url == null) url = socket.request.user.photos[0].value
+        console.log(nickname)
+        console.log(nickname == null)
+        console.log(nickname === null)
+        nickname = nickname == null ? socket.request.user.displayName : nickname
+        url = url == null ? socket.request.user.photos[0].value : url
 
-        controller.updateUser(con, socket.request.user.id, nickname, url)
+        controller.updateUser(con, socket.request.user.id, nn, url)
     })
     socket.on('addcommand', (roomId, cmd, actn, msg, username, pic, regex) => {
         if (regex) controller.addNewCommand(con, roomId, cmd, actn, msg, username, pic)
