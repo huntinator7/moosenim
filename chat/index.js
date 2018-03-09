@@ -680,7 +680,7 @@ async function joinChatroom(socket, roomId) {
                 con.query('UPDATE users SET curroom = ? WHERE uid = ?', [roomId, socket.request.user.id])
                 var roomName
                 socket.join(roomId)
-                controller.getRegexCommands(com,io,roomId, socket.id)
+                controller.getRegexCommands(con,io,roomId, socket.id)
                 con.query('SELECT * FROM rooms WHERE serialid = ?', [roomId], (err, row, res) => {
                     if (!row[0]) {
                         console.log('ERROR: Cannot connect to room')
