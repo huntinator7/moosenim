@@ -224,7 +224,7 @@ var players = []
 io.sockets.on('connection', socket => {
 
     console.log('CONNECTED to socket io: ' + socket.request.user.displayName)
-    getChatrooms(socket.id, socket.request.user.id)
+    controller.getChatrooms(socket.id, socket.request.user.id)
     con.query('SELECT room_id FROM room_users WHERE user_id = ?', [socket.request.user.id], (error, rows, results) => {
         rows.forEach(e => {
             io.to(e.room_id).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id, e.room_id)
@@ -850,11 +850,11 @@ function updatechat(roomid) {
 
 //----CHATROOMS----\\
 
-function getChatrooms(sid, uid) {
-    con.query('SELECT * FROM rooms WHERE serialid IN (SELECT room_id FROM room_users WHERE user_id = ?)', [uid], (error, rows) => {
-        io.to(sid).emit('roomlist', rows)
-    })
-}
+// function getChatrooms(sid, uid) {
+//     con.query('SELECT * FROM rooms WHERE serialid IN (SELECT room_id FROM room_users WHERE user_id = ?)', [uid], (error, rows) => {
+//         io.to(sid).emit('roomlist', rows)
+//     })
+// }
 
 function createChatroom(n, uid) {
     var roomId
