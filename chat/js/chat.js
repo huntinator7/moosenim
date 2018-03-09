@@ -214,7 +214,8 @@ $(function () {
     })
 
     $('#cc-list').on('click', 'a', function() {
-        alert('Test' + $(this).val())
+        console.log($(this))
+        console.log(this)
     })
 
     socket.on('chat message', (user, msg, time, id, pic, room, badge) => {
