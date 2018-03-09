@@ -221,7 +221,7 @@ $(function () {
         })
     })
 
-    $('#cc-list').on('click', 'a', function() {
+    $('.collapse').on('click', 'a', function() {
         console.log($(this).text())
     })
 
