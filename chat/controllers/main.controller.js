@@ -47,7 +47,7 @@ var controller = {
 			console.log('error creating new room: ' + e)
 		}
 	},
-	joinRoom: function(con, joinCode, uid, sid) {
+	joinRoom: function(con,io, joinCode, uid, sid) {
 		con.query('SELECT * FROM rooms WHERE join_code = ?', [joinCode], (error, rows, result) => {
 			try {
 				con.query('INSERT INTO room_users VALUES(?,?,?,NULL)', [rows[0].serialid, uid, 0]).then(controller.getChatrooms(io, con, sid, uid))
@@ -84,13 +84,13 @@ var controller = {
 			console.log('error creating new room: ' + e)
 		}
 	},
-	getMotd: function(con, roomId) {
+	getMotd: function(con,io, roomId) {
 		con.query('SELECT * FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
 			if (error) console.log(error)
 			io.to(roomId).emit('motd update', rows[0].motd, roomId)
 		})
 	},
-    singleGetMotd: function(con,roomId, sid) {
+    singleGetMotd: function(con,io, roomId, sid) {
         con.query('SELECT * FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
             if (error) console.log(error)
             io.to(sid).emit('motd update', rows[0].motd, roomId)
@@ -165,7 +165,7 @@ var controller = {
             })
         }
     },
-    showPreviousMessages: async function(con, num, previous, sid, roomId) {
+    showPreviousMessages: async function(con, io, num, previous, sid, roomId) {
         var nameString = 'room' + roomId
         con.query('SELECT * FROM ( SELECT * FROM ?? WHERE id < ? ORDER BY id DESC LIMIT ?) sub ORDER BY id ASC', [nameString, previous, num], (error, rows, results) => {
             //  console.log(`Getting previous ${num} messages from ${previous} in room ${roomId}...`)

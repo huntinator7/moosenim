@@ -420,7 +420,7 @@ io.sockets.on('connection', socket => {
 
     socket.on('joincode', (code, roomId, isAdmin) => {
         console.log('join code called')
-        controller.joinRoom(con,code, socket.request.user.id, socket.id)
+        controller.joinRoom(con,io,code, socket.request.user.id, socket.id)
     })
 
 
@@ -430,7 +430,7 @@ io.sockets.on('connection', socket => {
     })
 
     socket.on('retPre', (previous, roomId) => {
-        controller.showPreviousMessages(con,10, previous, socket.id, roomId)
+        controller.showPreviousMessages(con, io, 10, previous, socket.id, roomId)
     })
 
     //----CHAT MESSAGE----\\
@@ -482,7 +482,7 @@ userRegexParse.motd = (socket, un, uid, roomId, msg) => {
     con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [msg, roomId], error => {
         if (error) throw error
     })
-    controller.getMotd(con,roomId)
+    controller.getMotd(con,io,roomId)
 }
 
 userRegexParse.createroom = (socket, un, uid, roomId, msg) => {
@@ -738,7 +738,7 @@ async function joinChatroom(socket, roomId) {
         var nameString = 'room' + roomId
         console.log('show last messages for ' + nameString)
         con.query('SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC', [nameString, 10], (error, rows, results) => {
-            controller.singleGetMotd(con,roomId, socket.id)
+            controller.singleGetMotd(con,io,roomId, socket.id)
             if (error) throw error
             try {
                 rows.forEach(e => {
