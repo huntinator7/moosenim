@@ -221,7 +221,7 @@ $(function () {
         })
     })
 
-    $('#remove').on('click', function() {
+    $('#cc-list').on('click', '.btn-ccrem', function() {
         console.log($(this).text())
     })
 
