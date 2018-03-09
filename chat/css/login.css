@@ -37,3 +37,9 @@ body {
     height: 240px;
     width: 25%;
 }
+
+@media screen and (max-width: 1081px) {
+    #logo {
+        display: hidden;
+    }
+}
