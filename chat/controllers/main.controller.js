@@ -203,9 +203,9 @@ var controller = {
                     }
                     return list
                 }, [])
-                // resolve(io.to(roomId).emit('get commands', newcoms, roomId))
-                resolve(console.log(coms))
-            })
+                resolve(io.to(roomId).emit('get commands', coms, roomId))
+                // resolve(console.log(coms))
+            }).then(con.query('UPDATE rooms set commands = ? WHERE serialid = ?', [JSON.stringify(coms), roomId]))
         })
     },
     updateUser: function (con, uid, nickname, url) {
