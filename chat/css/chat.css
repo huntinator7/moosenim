@@ -50,6 +50,16 @@ textarea {
     z-index: 3;
 }
 
+.DEV {
+    color: #ffe72f;
+    background-color: #ff0000;
+}
+
+.Discord {
+    color: black;
+    background-color: #8c9eff;
+}
+
 .color-form {
     height: 50px;
     background: none;

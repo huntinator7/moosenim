@@ -671,8 +671,7 @@
                         const badgeCheck = new Promise((resolve) => {
                             if (badge) {
                                 // console.log('HAS BADGE: ' + badge)
-                                resolve(user + ' <span class="badge badge-dark">' + badge +
-                                    '</span>')
+                                resolve(user + ` <span class="badge ${badge}">${badge}</span>`)
                             } else {
                                 // console.log('HAS NO BADGE: ' + badge)
                                 resolve(user)
