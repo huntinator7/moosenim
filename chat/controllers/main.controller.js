@@ -10,4 +10,4 @@ var controller = {
 }
 
 }
-export controller
+module.exports =  controller
