@@ -449,7 +449,7 @@ io.sockets.on('connection', socket => {
                 msg = msg.replace(/</ig, '&lt;')
                 msg = msg.replace(/>/ig, '&gt;')
                 if (/!doggo/.test(msg)) {
-                    getDoggo().then(url => strReplacePromise(/!doggo/ig, msg, url))
+                    controller.getDoggo().then(url => strReplacePromise(/!doggo/ig, msg, url))
                         .then(reply => sendMsg(reply))
                         .catch(err => {
                             console.log(err)
@@ -473,17 +473,7 @@ function strReplacePromise(reg, str, rep) {
     })
 }
 
-function getDoggo() {
-    return new Promise((resolve, reject) => {
-        request('https://dog.ceo/api/breeds/image/random', (err, res, body) => {
-            if (err) reject('Website Error')
-            console.log('statusCode:', res && res.statusCode)
-            if (res && res.statusCode != '200') reject('HTTP Error')
-            else resolve(JSON.parse(body).message)
-            console.log('body:', JSON.parse(body).message)
-        })
-    })
-}
+
 
 //----USER COMMANDS----\\
 var userRegexParse = {}
