@@ -1,5 +1,5 @@
 var request = require('request')
-var escStrReg = require('escape-string-regexp')
+var uuidv4 = require('uuid/v4')
 
 var controller = {
 
@@ -8,11 +8,11 @@ var controller = {
             io.to(sid).emit('roomlist', rows)
         })
     },
-    addToRoom: function (con, email, roomId, isAdmin) {
+    addToRoom: function (con, email, roomId, isAdmin,nickname) {
         con.query('SELECT * FROM users WHERE email = ?', [email], (error, rows, result) => {
             try {
                 rows.forEach(e => {
-                    con.query('INSERT INTO room_users VALUES(?,?,?,?)', [roomId, e.uid, isAdmin, 0])
+                    con.query('INSERT INTO room_users VALUES(?,?,?,?)', [roomId, e.uid, isAdmin, 0,nickname])
                     console.log('user ' + e.uid + ' was added to room ' + roomId)
                 })
             } catch (e) {
@@ -25,18 +25,19 @@ var controller = {
         var roomId
         try {
             var promise1 = new Promise((resolve, reject) => {
-                resolve('Success!')
+
 
                 var name = n
                 // get availible chatrooms from user SELECT room_id FROM room_users WHERE user_id = ? [user.uid]
                 con.query('INSERT INTO rooms (name,motd,join_code,back1,back2,text_color,icon,text_color2,background_type,message_back2,commands) VALUES(?,?,?,?,?,?,?,?,?,?,?)', [name, 'motd', uuidv4(), '#6EB7FF', '#23ffdd', '#000000', 'https://moosen.im/uploads/moosenim4ColoredSmall.png', '#000000', 0, '#000000', '[{"cmd":"!ping","actn":"Respond","msg":"Pong!","username":"Server","pic":"https://cdnimages.opentip.com/full/8DHS/8DHS-AB05520.jpg"}] '], error => {
                     console.log(error)
                     //  getChatrooms(socket.id,uid)
+                      resolve('Success!')
                 })
-            })
-            promise1.then(() => {
+            }).then(() => {
                 con.query('SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC', (error, rows, results) => {
-                    con.query('INSERT INTO room_users VALUES(?,?,1,0)', [rows[0].serialid, uid])
+                  console.log('new room serialid: '+rows[0].serialid)
+                    con.query('INSERT INTO room_users VALUES(?,?,1,0," ")', [rows[0].serialid, uid])
                     var id = rows[0].serialid
                     console.log(id + ' new room id')
                     con.query('CREATE TABLE ?? (id int AUTO_INCREMENT PRIMARY KEY, message text, timestamp VARCHAR(32), uid VARCHAR(100))', ['room' + id])
@@ -57,32 +58,6 @@ var controller = {
                 console.log('room not found -' + joinCode)
             }
         })
-    },
-    createChatroom: function (con, n, uid) {
-        var roomId
-        try {
-            var promise1 = new Promise((resolve, reject) => {
-                resolve('Success!')
-
-                var name = n
-                // get availible chatrooms from user SELECT room_id FROM room_users WHERE user_id = ? [user.uid]
-                con.query('INSERT INTO rooms (name,motd,join_code,back1,back2,text_color,icon,text_color2,background_type,message_back2,commands) VALUES(?,?,?,?,?,?,?,?,?,?,?)', [name, 'motd', uuidv4(), '#6EB7FF', '#23ffdd', '#000000', 'https://moosen.im/uploads/moosenim4ColoredSmall.png', '#000000', 0, '#000000', '[{"cmd":"!ping","actn":"Respond","msg":"Pong!","username":"Server","pic":"https://cdnimages.opentip.com/full/8DHS/8DHS-AB05520.jpg"}] '], error => {
-                    console.log(error)
-                    //  getChatrooms(socket.id,uid)
-                })
-            })
-            promise1.then(() => {
-                con.query('SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC', (error, rows, results) => {
-                    con.query('INSERT INTO room_users VALUES(?,?,1,0)', [rows[0].serialid, uid])
-                    var id = rows[0].serialid
-                    console.log(id + ' new room id')
-                    con.query('CREATE TABLE ?? (id int AUTO_INCREMENT PRIMARY KEY, message text, timestamp VARCHAR(32), uid VARCHAR(100))', ['room' + id])
-                })
-            })
-
-        } catch (e) {
-            console.log('error creating new room: ' + e)
-        }
     },
     getMotd: function (con, io, roomId) {
         con.query('SELECT * FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
