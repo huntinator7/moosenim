@@ -648,16 +648,15 @@ function joinChatroom(socket, roomId) {
                 reject()
             } else {
                 isAdmin = rows[0].is_admin == 1 ? true : false
-                con.query('UPDATE users SET curroom = ? WHERE uid = ?', [roomId, socket.request.user.id])
-                var roomName
-                socket.join(roomId)
-                controller.getRegexCommands(con, io, roomId, socket.id)
                 con.query('SELECT * FROM rooms WHERE serialid = ?', [roomId], (err, row, res) => {
                     if (!row[0]) {
                         console.log('ERROR: Cannot connect to room')
                         reject()
                     } else {
                         io.to(socket.id).emit('switchToRoom', isAdmin, row[0])
+                        con.query('UPDATE users SET curroom = ? WHERE uid = ?', [roomId, socket.request.user.id])
+                        socket.join(roomId)
+                        controller.getRegexCommands(con, io, roomId, socket.id)
                         resolve()
                     }
                 })
