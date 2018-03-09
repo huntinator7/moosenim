@@ -8,11 +8,11 @@ var controller = {
             io.to(sid).emit('roomlist', rows)
         })
     },
-    addToRoom: function (con, email, roomId, isAdmin) {
+    addToRoom: function (con, email, roomId, isAdmin,nickname) {
         con.query('SELECT * FROM users WHERE email = ?', [email], (error, rows, result) => {
             try {
                 rows.forEach(e => {
-                    con.query('INSERT INTO room_users VALUES(?,?,?,?)', [roomId, e.uid, isAdmin, 0])
+                    con.query('INSERT INTO room_users VALUES(?,?,?,?)', [roomId, e.uid, isAdmin, 0,nickname])
                     console.log('user ' + e.uid + ' was added to room ' + roomId)
                 })
             } catch (e) {
@@ -37,7 +37,7 @@ var controller = {
             }).then(() => {
                 con.query('SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC', (error, rows, results) => {
                   console.log('new room serialid: '+rows[0].serialid)
-                    con.query('INSERT INTO room_users VALUES(?,?,1,0)', [rows[0].serialid, uid])
+                    con.query('INSERT INTO room_users VALUES(?,?,1,0,'')', [rows[0].serialid, uid])
                     var id = rows[0].serialid
                     console.log(id + ' new room id')
                     con.query('CREATE TABLE ?? (id int AUTO_INCREMENT PRIMARY KEY, message text, timestamp VARCHAR(32), uid VARCHAR(100))', ['room' + id])
