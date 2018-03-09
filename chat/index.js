@@ -10,6 +10,7 @@ var Discord = require('discord.js')
 var request = require('request')
 var cors = require('cors')
 var util = require('util')
+var favicon = require('serve-favicon')
 var messages = require('./routes/messages')
 var blog = require('./routes/blog')
 var app = express()
@@ -134,6 +135,7 @@ var user = require('./js/user.js')
 //Associating .js files with URLs
 app.use(cors())
 app.use(bodyParser.json())
+app.use(favicon(path.join(__dirname, 'favicon.ico')))
 app.use('/', routes)
 app.use('/messages', messages)
 app.use('/blog', blog)
@@ -730,7 +732,7 @@ function getDBUN(id) {
         } else {
             con.query('SELECT name, profpic, badge FROM users WHERE uid = ?', [id], (error, row) => {
                 if (row.length < 1) {
-                    resolve(['Undefined', 'https://www.moosen.im/images/favicon.png', null])
+                    resolve(['Undefined', 'https://moosen.im/uploads/moosenim4ColoredSmall.png', null])
                 } else {
                     resolve([row[0].name, row[0].profpic, row[0].badge])
                 }
@@ -850,7 +852,7 @@ function createChatroom(n, uid) {
 
             var name = n
             // get availible chatrooms from user SELECT room_id FROM room_users WHERE user_id = ? [user.uid]
-            con.query('INSERT INTO rooms (name,motd,join_code,back1,back2,text_color,icon,text_color2,background_type,message_back2,commands) VALUES(?,?,?,?,?,?,?,?,?,?,?)', [name, 'motd', uuidv4(), '#6EB7FF', '#23ffdd', '#000000', 'https://www.moosen.im/images/favicon.png', '#000000', 0, '#000000', '[{"cmd":"!ping","actn":"Respond","msg":"Pong!","username":"Server","pic":"https://cdnimages.opentip.com/full/8DHS/8DHS-AB05520.jpg"}] '], error => {
+            con.query('INSERT INTO rooms (name,motd,join_code,back1,back2,text_color,icon,text_color2,background_type,message_back2,commands) VALUES(?,?,?,?,?,?,?,?,?,?,?)', [name, 'motd', uuidv4(), '#6EB7FF', '#23ffdd', '#000000', 'https://moosen.im/uploads/moosenim4ColoredSmall.png', '#000000', 0, '#000000', '[{"cmd":"!ping","actn":"Respond","msg":"Pong!","username":"Server","pic":"https://cdnimages.opentip.com/full/8DHS/8DHS-AB05520.jpg"}] '], error => {
                 console.log(error)
                 //  getChatrooms(socket.id,uid)
             })

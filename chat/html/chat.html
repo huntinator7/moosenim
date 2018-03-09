@@ -406,7 +406,7 @@
                 $('#regex-modal').modal('hide')
                 return false
             })
-            $('#nc-actn').change(function() {
+            $('#nc-actn').change(function () {
                 if ($('#nc-actn').val() == 'Respond') {
                     $("#nc-username").prop('disabled', false)
                     $("#nc-pic").prop('disabled', false)
@@ -674,27 +674,11 @@
                         $('.materialboxed').materialbox()
                     }
                 } else {
-                    // console.log($("a[room='" + room + "']").children())
-                    // if ($("a[room='" + room + "']").children().hasClass('none')) {
-                    //     console.log('has class none')
-                    //     $("a[room='" + room + "']").children().removeClass('none')
-                    //     $("a[room='" + room + "']").children().addClass('new badge deep-orange accent-3')
-                    //     $("a[room='" + room + "']").children().text('1')
-                    // } else {
-                    //     var curtext = parseInt($("a[room='" + room + "']").first().children().text())
-                    //     console.log('curtext: ' + curtext)
-                    //     curtext = curtext + 1
-                    //     curtext = curtext.toString()
-                    //     console.log('curtext: ' + curtext)
-                    //     $("a[room='" + room + "']").children().text(curtext)
-                    // }
-
                     console.log($("a[room='" + room + "']").parent())
                     if ($("a[room='" + room + "']").parent().has('.notify-msg').length >= 1) {
                         console.log("This has a notification already")
                     } else {
-                        $("a[room='" + room + "']").parent().append(
-                            '<div class="notify notify-msg"></div>')
+                        $("a[room='" + room + "']").parent().append('<div class="notify notify-msg"></div>')
                     }
                 }
             })
@@ -889,11 +873,14 @@
                     $(".main").css("background", css.back1)
                     $(".navbar").css("background", css.back1)
                 }
+                $(".mm-side").css("background-color", css.back1)
                 $("#send-message").css("color", css.text1)
                 $(".navbar a").css("color", css.text1)
                 $(".navbar a i").css("color", css.text1)
                 $(".navbar a button").css("color", css.text1)
                 $(".mm-navdd button i").css("color", css.text1)
+                $(".mm-side-img").css("color", css.text1)
+                
                 handleMessageCSS()
             }
 
