@@ -202,8 +202,8 @@ function loginUser(uid, displayName, photoURL, email) {
             console.log('new user: ' + uid)
             con.query('INSERT INTO users (name, uid, profpic, isonline, totalmessages, email, curroom) VALUES ( ?, ?, ?, 1,1,?,1)', [displayName, uid, photoURL, email], (err, res) => {
                 //add to general and report bug chatrooms
-                addToRoom(email, 1, 0)
-                addToRoom(email, 16, 0)
+                controller.addToRoom(con,email, 1, 0)
+                controller.addToRoom(con,email, 16, 0)
                 if (err) console.log(err)
             })
         } else {
@@ -414,7 +414,7 @@ io.sockets.on('connection', socket => {
     //for adduser function. Email is entered by the user, roomId is caled from chat.html, isAdmin should just default to 0 for now.
     socket.on('adduser', (email, roomId, isAdmin) => {
         console.log('add user called')
-        addToRoom(email, roomId, 0)
+        controller.addToRoom(con,email, roomId, 0)
         joinChatroom(socket, roomId)
     })
 
@@ -927,16 +927,16 @@ function joinRoom(joinCode, uid, sid) {
     })
 }
 
-function addToRoom(email, roomId, isAdmin) {
-    con.query('SELECT * FROM users WHERE email = ?', [email], (error, rows, result) => {
-        try {
-            rows.forEach(e => {
-                con.query('INSERT INTO room_users VALUES(?,?,?,?)', [roomId, e.uid, isAdmin, 0])
-                console.log('user ' + e.uid + ' was added to room ' + roomId)
-            })
-        } catch (e) {
-            console.log(e)
-            console.log('user not found')
-        }
-    })
-}
+// function addToRoom(email, roomId, isAdmin) {
+// 	con.query('SELECT * FROM users WHERE email = ?', [email], (error, rows, result) => {
+// 		try {
+// 			rows.forEach(e => {
+// 				con.query('INSERT INTO room_users VALUES(?,?,?,?)', [roomId, e.uid, isAdmin, 0])
+// 				console.log('user ' + e.uid + ' was added to room ' + roomId)
+// 			})
+// 		} catch (e) {
+// 			console.log(e)
+// 			console.log('user not found')
+// 		}
+// 	})
+// }
