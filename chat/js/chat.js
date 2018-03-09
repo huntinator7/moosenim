@@ -209,6 +209,7 @@ $(function () {
             } else {
                 roomRegex.push(e)
             }
+            $('#cc-list').append(`<li>${e.cmd}</li>`)
         })
     })
 
@@ -373,8 +374,8 @@ $(function () {
     })
 
     socket.on('login', (displayName, email, photoURL, userId, room) => {
-        console.log("Logging in " + displayName + ", email: " + email + " " + userId)
         if (room == curroom) {
+            console.log("Logging in " + displayName + ", email: " + email + " " + userId)
             $('#mm-side-list-2').append(
                 `<li class="nav-item mm-side-image"><img src="${photoURL}" alt="" class="circle img-fluid"><a class="nav-link mm-side-item-text" data-toggle="drawer" data-target="#dw-s2" user="${userId}">${displayName}</a></li>`
             )
@@ -492,11 +493,6 @@ $(function () {
         canScroll = 0
         await sleep(500)
         canScroll = 10
-    })
-
-    socket.on('retreat', function () {
-        console.log("Retreat!")
-        window.location.href = "https://www.moosen.im/login"
     })
 
     socket.on('logout message', user => {

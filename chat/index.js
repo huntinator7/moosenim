@@ -473,32 +473,6 @@ function strReplacePromise(reg, str, rep) {
     })
 }
 
-
-
-//----USER COMMANDS----\\
-var userRegexParse = {}
-userRegexParse.motd = (socket, un, uid, roomId, msg) => {
-    console.log('In motd')
-    con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [msg, roomId], error => {
-        if (error) throw error
-    })
-    controller.getMotd(con, io, roomId)
-}
-
-userRegexParse.createroom = (socket, un, uid, roomId, msg) => {
-    console.log('In createroom')
-    controller.createChatroom(con, msg, uid)
-}
-userRegexParse.refreshconfig = (socket, un, uid, roomId, msg) => {
-    delete require.cache[require.resolve('./config')]
-    config = require('./config')
-    console.log('In refreshconfig')
-}
-userRegexParse.configchange = (socket, un, uid, roomId, msg) => {
-    config.test = msg
-    console.log('In configchange')
-}
-
 //----DISCORD----\\
 
 //Discord login with token from dev page
@@ -627,7 +601,7 @@ handleDisconnect()
 
 //----MESSAGE HANDLING----\\
 
-async function getMessage(roomId) {
+function getMessage(roomId) {
     console.log(`In getMessage, roomId ${roomId}`)
     var nameString = 'room' + roomId
     con.query('SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC', [nameString], (error, rows, results) => {

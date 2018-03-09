@@ -87,7 +87,10 @@
                     <a class="nav-link" data-toggle="modal" data-target="#welcome-modal">Help</a>
                 </div>
                 <div class="nav-item">
-                    <a class="nav-link" data-toggle="modal" data-target="#regex-modal" id="room-commands">Chat Changers</a>
+                    <a class="nav-link" data-toggle="modal" data-target="#regex-modal" id="room-commands">Add Chat Changers</a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link" data-toggle="modal" data-target="#showcoms-modal" id="room-commands">Remove Chat Changers</a>
                 </div>
                 <div class="nav-item">
                     <a class="nav-link" data-toggle="modal" data-target="#color-modal" id="room-custom">Room Customization</a>
@@ -244,6 +247,24 @@
                         <input class="form-control" type="text" id="jc" placeholder="Enter a join code">
                         <button class="btn waves-effect waves-light modal-close light-blue white-text"> Enter </button>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal show commands -->
+    <div class="modal fade" id="showcoms-modal" tabindex="-1" role="dialog" aria-labelledby="add-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="add-modal-label">Chat Changers</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul id="cc-list">
+                        
+                    </ul>
                 </div>
             </div>
         </div>
