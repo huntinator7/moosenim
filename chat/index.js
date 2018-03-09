@@ -664,7 +664,7 @@ function getDBUN(id) {
 
 //----PREVIOUS MESSAGES----\\
 
-async function joinChatroom(socket, roomId) {
+function joinChatroom(socket, roomId) {
     if (roomId == null) roomId = 1
     var isAdmin = false
     new Promise((resolve, reject) => {
