@@ -430,7 +430,7 @@ io.sockets.on('connection', socket => {
     })
 
     socket.on('retPre', (previous, roomId) => {
-        controller.showPreviousMessages(con, io, 10, previous, socket.id, roomId)
+        showPreviousMessages( 10, previous, socket.id, roomId)
     })
 
     //----CHAT MESSAGE----\\
@@ -777,5 +777,21 @@ function getMessageDiscord(un, msg, pic) {
     var nameString = 'room' + config.discord.sendChannel
     con.query('SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC', [nameString], (error, rows, results) => {
         io.emit('chat message', un, decodeURI(rows[0].message), moment().format('h:mm:ss a'), rows[0].id, pic, config.discord.sendChannel, "Discord")
+    })
+}
+ async function showPreviousMessages(num, previous, sid, roomId) {
+    var nameString = 'room' + roomId
+    con.query('SELECT * FROM ( SELECT * FROM ?? WHERE id < ? ORDER BY id DESC LIMIT ?) sub ORDER BY id ASC', [nameString, previous, num], (error, rows, results) => {
+        //  console.log(`Getting previous ${num} messages from ${previous} in room ${roomId}...`)
+        if (error) throw error
+        try {
+            rows.forEach(e => {
+                getDBUN(e.uid).then(dbRes => {
+                    io.to(sid).emit('chat message', dbRes[0], decodeURI(e.message), e.timestamp, e.id, dbRes[1], roomId, dbRes[2])
+                })
+            })
+        } catch (e) {
+            console.log("Previous message isn't working.")
+        }
     })
 }
