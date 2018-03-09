@@ -202,8 +202,8 @@ function loginUser(uid, displayName, photoURL, email) {
             console.log('new user: ' + uid)
             con.query('INSERT INTO users (name, uid, profpic, isonline, totalmessages, email, curroom) VALUES ( ?, ?, ?, 1,1,?,1)', [displayName, uid, photoURL, email], (err, res) => {
                 //add to general and report bug chatrooms
-                controller.addToRoom(con, email, 1, 0)
-                controller.addToRoom(con, email, 16, 0)
+                controller.addToRoom(con, email, 1, 0,displayName)
+                controller.addToRoom(con, email, 16, 0,displayName)
                 if (err) console.log(err)
             })
         } else {
@@ -418,7 +418,7 @@ io.sockets.on('connection', socket => {
     //for adduser function. Email is entered by the user, roomId is caled from chat.html, isAdmin should just default to 0 for now.
     socket.on('adduser', (email, roomId, isAdmin) => {
         console.log('add user called')
-        controller.addToRoom(con, email, roomId, 0)
+        controller.addToRoom(con, email, roomId, 0,'')
         joinChatroom(socket, roomId)
     })
 
