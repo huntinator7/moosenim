@@ -222,7 +222,7 @@ $(function () {
     })
 
     $('#cc-list').on('click', '.btn-ccrem', function() {
-        console.log($(this).parent().parent().children()[0].text())
+        console.log($(this).parent().parent().children('.btn-cc').text())
     })
 
     socket.on('chat message', (user, msg, time, id, pic, room, badge) => {
