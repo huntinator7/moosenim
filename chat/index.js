@@ -364,7 +364,7 @@ io.sockets.on('connection', socket => {
         } else {
             msg = '<a href="/uploads/' + name + '" download="' + name + '">' + name + '</a>'
         }
-        sendMessage(msg, uid, roomId)
+        controller.sendMessage(con,msg, uid, roomId)
         getMessage(roomId)
         if (roomId == config.discord.sendChannel) {
             client.channels.get(config.discord.moosen).send({
@@ -395,7 +395,7 @@ io.sockets.on('connection', socket => {
       if(nickname==null) nickname = socket.request.user.displayName
       if(url==null) url = socket.request.user.photos[0].value
 
-      updateUser(socket.request.user.id,nickname,url)
+      controller.updateUser(con,socket.request.user.id,nickname,url)
     })
     socket.on('addcommand', (roomId, cmd, actn, msg, username, pic, regex) => {
         if (regex) controller.addNewCommand(con,roomId, cmd, actn, msg, username, pic)
@@ -459,7 +459,7 @@ io.sockets.on('connection', socket => {
                 function sendMsg(message) {
                     var un = socket.request.user.displayName
                     var uid = socket.request.user.id
-                    sendMessage(message, uid, roomId)
+                    controller.sendMessage(con,message, uid, roomId)
                     getMessage(roomId)
                 }
             }
@@ -561,7 +561,7 @@ client.on('message', msg => {
                 console.log('Message attachment has no url')
             }
         }
-        sendMessage(newmsg, 'disc' + msg.author.id, config.discord.sendChannel)
+        controller.sendMessage(con,newmsg, 'disc' + msg.author.id, config.discord.sendChannel)
         getMessage(config.discord.sendChannel)
         // getMessageDiscord(msg.author.username, newmsg, msg.author.avatarURL)
         //console.log(msg.author.username + ': ' + msg.content)
@@ -604,33 +604,6 @@ process.on('exit', function () {
 
 var connect = config.db
 var con
-
-
-
-
-// new regex code
-//command object
-
-
-
-function getRegexCommands(roomId, sid) {
-    con.query('SELECT commands FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
-        if (error) console.log(error)
-        var coms = JSON.parse(rows[0].commands)
-        // console.log(coms)
-        const decode = new Promise((resolve, reject) => {
-            coms.forEach(e => {
-                e.msg = decodeURI(e.msg)
-            })
-            resolve(io.to(sid).emit('get commands', coms, roomId))
-        })
-    })
-}
-  function updateUser(uid,nickname,url){
-    con.query("update users set name=?,profpic=? WHERE uid = ?", [nickname,url,uid], (error, results) => {
-        if (error) throw error
-    })
-  }
 function handleDisconnect() {
     con = mysql.createConnection(connect)
 
@@ -656,20 +629,6 @@ function handleDisconnect() {
 handleDisconnect()
 
 //----MESSAGE HANDLING----\\
-
-function sendMessage(message, uid, roomId) {
-    var nameString = 'room' + roomId
-    // console.log(`In sendMessage, roomId: ${roomId}\nmsg: ${message}`)
-    var msg = encodeURI(message)
-    try {
-        con.query("INSERT INTO ?? (message, timestamp, uid) VALUES ( ?, NOW(), ?)", [nameString, msg, uid], (error, results) => {
-            if (error) throw error
-        })
-    } catch (Exception) {
-        console.log('Error inserting message')
-    }
-
-}
 
 async function getMessage(roomId) {
     console.log(`In getMessage, roomId ${roomId}`)
@@ -721,7 +680,7 @@ async function joinChatroom(socket, roomId) {
                 con.query('UPDATE users SET curroom = ? WHERE uid = ?', [roomId, socket.request.user.id])
                 var roomName
                 socket.join(roomId)
-                getRegexCommands(roomId, socket.id)
+                controller.getRegexCommands(com,io,roomId, socket.id)
                 con.query('SELECT * FROM rooms WHERE serialid = ?', [roomId], (err, row, res) => {
                     if (!row[0]) {
                         console.log('ERROR: Cannot connect to room')
@@ -752,7 +711,6 @@ async function joinChatroom(socket, roomId) {
         })
     })
 }
-
 
 
 function sleep(ms) {

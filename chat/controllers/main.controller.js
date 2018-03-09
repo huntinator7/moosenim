@@ -20,7 +20,7 @@ var controller = {
 				console.log('user not found')
 			}
 		})
-	},
+	   },
 	createChatroom: function(con, n, uid) {
 		var roomId
 		try {
@@ -165,21 +165,36 @@ var controller = {
             })
         }
     },
-    showPreviousMessages: async function(con, io, num, previous, sid, roomId) {
+    sendMessage: function(con,message, uid, roomId) {
         var nameString = 'room' + roomId
-        con.query('SELECT * FROM ( SELECT * FROM ?? WHERE id < ? ORDER BY id DESC LIMIT ?) sub ORDER BY id ASC', [nameString, previous, num], (error, rows, results) => {
-            //  console.log(`Getting previous ${num} messages from ${previous} in room ${roomId}...`)
-            if (error) throw error
-            try {
-                rows.forEach(e => {
-                    getDBUN(e.uid).then(dbRes => {
-                        io.to(sid).emit('chat message', dbRes[0], decodeURI(e.message), e.timestamp, e.id, dbRes[1], roomId, dbRes[2])
-                    })
+        // console.log(`In sendMessage, roomId: ${roomId}\nmsg: ${message}`)
+        var msg = encodeURI(message)
+        try {
+            con.query("INSERT INTO ?? (message, timestamp, uid) VALUES ( ?, NOW(), ?)", [nameString, msg, uid], (error, results) => {
+                if (error) throw error
+            })
+        } catch (Exception) {
+            console.log('Error inserting message')
+        }
+
+    },
+    getRegexCommands: function(con, io, roomId, sid) {
+        con.query('SELECT commands FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
+            if (error) console.log(error)
+            var coms = JSON.parse(rows[0].commands)
+            // console.log(coms)
+            const decode = new Promise((resolve, reject) => {
+                coms.forEach(e => {
+                    e.msg = decodeURI(e.msg)
                 })
-            } catch (e) {
-                console.log("Previous message isn't working.")
-            }
+                resolve(io.to(sid).emit('get commands', coms, roomId))
+            })
         })
+    },
+    updateUser: function(con,uid,nickname,url){
+      con.query("update users set name=?,profpic=? WHERE uid = ?", [nickname,url,uid], (error, results) => {
+          if (error) throw error
+      })
     }
 
 }
