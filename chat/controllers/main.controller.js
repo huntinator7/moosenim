@@ -12,7 +12,7 @@ var controller = {
         con.query('SELECT * FROM users WHERE email = ?', [email], (error, rows, result) => {
             try {
                 rows.forEach(e => {
-                    con.query('INSERT INTO room_users VALUES(?,?,?,?)', [roomId, e.uid, isAdmin, 0,nickname])
+                    con.query('INSERT INTO room_users VALUES(?,?,?,?,?)', [roomId, e.uid, isAdmin, 0,nickname])
                     console.log('user ' + e.uid + ' was added to room ' + roomId)
                 })
             } catch (e) {
@@ -188,7 +188,7 @@ var controller = {
                     })
                     resolve(io.to(sid).emit('get commands', coms, roomId))
                 })
-            }) 
+            })
         })
     },
     updateUser: function (con, uid, nickname, url) {
