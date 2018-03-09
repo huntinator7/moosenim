@@ -1,3 +1,6 @@
+var request = require('request')
+
+
 var controller = {
 
 	getChatrooms: function(io, con, sid, uid) {
