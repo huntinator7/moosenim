@@ -27,8 +27,10 @@ const sessionStore = new redisStore()
 var cookieParser2 = require('cookie-parser')()
 var uuidv4 = require('uuid/v4')
 var escStrReg = require('escape-string-regexp')
-var controller= require('./controllers/main.controller.js')
+var mainController= require('./controllers/main.controller.js')
 
+
+let =controller = new mainController();
 //--GENERAL HTTP----\\
 app2.all('*', ensureSecure) // at top of routing calls
 

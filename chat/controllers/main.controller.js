@@ -4,7 +4,7 @@ exports.getChatrooms = function(sid, uid) {
         io.to(sid).emit('roomlist', rows)
     })
 
-var MainController = {
+class MainController  {
 
 exports.getChatrooms = function(sid, uid) {
     con.query('SELECT * FROM rooms WHERE serialid IN (SELECT room_id FROM room_users WHERE user_id = ?)', [uid], (error, rows) => {
@@ -12,4 +12,4 @@ exports.getChatrooms = function(sid, uid) {
     })
 },
 }
-module.export = MainController
+module.exports = MainController
