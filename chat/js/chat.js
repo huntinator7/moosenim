@@ -200,6 +200,7 @@ $(function () {
     // })
 
     socket.on('get commands', commandsArr => {
+        console.log('Getting commands')
         roomCommands = []
         roomRegex = []
         commandsArr.forEach(e => {
