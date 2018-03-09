@@ -1,5 +1,5 @@
 var request = require('request')
-
+var uuidv4 = require('uuid/v4')
 
 var controller = {
 
@@ -34,8 +34,7 @@ var controller = {
                     //  getChatrooms(socket.id,uid)
                       resolve('Success!')
                 })
-            })
-            promise1.then(() => {
+            }).then(() => {
                 con.query('SELECT * FROM ( SELECT * FROM rooms ORDER BY serialid DESC LIMIT 1) sub ORDER BY  serialid ASC', (error, rows, results) => {
                   console.log('new room serialid: '+rows[0].serialid)
                     con.query('INSERT INTO room_users VALUES(?,?,1,0)', [rows[0].serialid, uid])
