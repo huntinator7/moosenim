@@ -90,6 +90,12 @@ var controller = {
 			io.to(roomId).emit('motd update', rows[0].motd, roomId)
 		})
 	},
+    singleGetMotd: function(con,roomId, sid) {
+        con.query('SELECT * FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
+            if (error) console.log(error)
+            io.to(sid).emit('motd update', rows[0].motd, roomId)
+        })
+    },
     getDoggo:function() {
         return new Promise((resolve, reject) => {
             request('https://dog.ceo/api/breeds/image/random', (err, res, body) => {
@@ -101,5 +107,80 @@ var controller = {
             })
         })
     },
+    searchUsers: function(con,email) {
+        con.query('SELECT * FROM users WHERE email = ?', [email], (error, rows) => {
+            return rows[0].uid
+        })
+    },
+    changeRoomTheme: function(con,params, icon, type, roomId) {
+        var oldParams = []
+        const getOldParams = new Promise(resolve => {
+            con.query('SELECT * FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
+                console.log(rows)
+                // rows.forEach(e => {
+                //     oldParam
+                // })
+            })
+            resolve()
+        })
+        try {
+            if (params[7]) {
+                con.query('UPDATE rooms SET back1=?, back2=?,back_img=?,text_color=?,text_color2=?,message_back=?,message_back2=?,icon=?,background_type=? WHERE serialid = ?', [params[0], params[1], params[2], params[3], params[4], null, null, icon, type, roomId])
+                console.log(params[0], params[1], params[2], params[3], params[4], params[5], params[6], params[7], icon, type, roomId)
+            } else {
+                con.query('UPDATE rooms SET back1=?, back2=?,back_img=?,text_color=?,text_color2=?,message_back=?,message_back2=?,icon=?,background_type=? WHERE serialid = ?', [params[0], params[1], params[2], params[3], params[4], params[5], params[6], icon, type, roomId])
+                console.log(params[0], params[1], params[2], params[3], params[4], params[5], params[6], params[7], icon, type, roomId)
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    },
+    addNewCommand: function(con, roomId, cmd, actn, msg, username, pic) {
+        console.log(msg)
+        // console.log(encodeURI(msg))
+        console.log(roomId + ' new command: ' + cmd)
+        var arr = {
+            cmd,
+            actn,
+            msg: encodeURI(msg),
+            username,
+            pic
+        }
+        var isValid = true;
+        try {
+            new RegExp(cmd);
+        } catch (e) {
+            isValid = false;
+        }
+        if (isValid) {
+            con.query('SELECT commands FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
+                const addCommand = new Promise((resolve, reject) => {
+                    var newArr = JSON.parse(rows[0].commands)
+                    newArr.push(arr)
+                    myArrString = JSON.stringify(newArr)
+                    con.query('UPDATE rooms set commands = ? WHERE serialid = ?', [myArrString, roomId])
+                    resolve(getRegexCommands(roomId, roomId))
+                })
+
+            })
+        }
+    },
+    showPreviousMessages: async function(con, num, previous, sid, roomId) {
+        var nameString = 'room' + roomId
+        con.query('SELECT * FROM ( SELECT * FROM ?? WHERE id < ? ORDER BY id DESC LIMIT ?) sub ORDER BY id ASC', [nameString, previous, num], (error, rows, results) => {
+            //  console.log(`Getting previous ${num} messages from ${previous} in room ${roomId}...`)
+            if (error) throw error
+            try {
+                rows.forEach(e => {
+                    getDBUN(e.uid).then(dbRes => {
+                        io.to(sid).emit('chat message', dbRes[0], decodeURI(e.message), e.timestamp, e.id, dbRes[1], roomId, dbRes[2])
+                    })
+                })
+            } catch (e) {
+                console.log("Previous message isn't working.")
+            }
+        })
+    }
+
 }
 module.exports = controller
