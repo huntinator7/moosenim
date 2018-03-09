@@ -198,7 +198,7 @@ var controller = {
             console.log(coms)
             const removeCommand = new Promise((resolve, reject) => {
                 coms = coms.reduce(function(list, item) {
-                    if (decodeURI(item.cmd) === command) {
+                    if (decodeURI(item.cmd) !== command) {
                         list.push(item)
                     }
                     return list
