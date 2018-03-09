@@ -27,10 +27,10 @@ const sessionStore = new redisStore()
 var cookieParser2 = require('cookie-parser')()
 var uuidv4 = require('uuid/v4')
 var escStrReg = require('escape-string-regexp')
-import controller from './controllers/main.controller'
+const controller = require('./controllers/main.controller')
+//import controller from './controllers/main.controller'
 
 
-let =controller = new mainController();
 //--GENERAL HTTP----\\
 app2.all('*', ensureSecure) // at top of routing calls
 
