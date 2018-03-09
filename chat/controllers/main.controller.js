@@ -6,7 +6,7 @@ var controller = {
 		})
 	}
 
-	function addToRoom(con, email, roomId, isAdmin) {
+addToRoom: function(con, email, roomId, isAdmin) {
 		con.query('SELECT * FROM users WHERE email = ?', [email], (error, rows, result) => {
 			try {
 				rows.forEach(e => {
