@@ -202,8 +202,8 @@ function loginUser(uid, displayName, photoURL, email) {
             console.log('new user: ' + uid)
             con.query('INSERT INTO users (name, uid, profpic, isonline, totalmessages, email, curroom) VALUES ( ?, ?, ?, 1,1,?,1)', [displayName, uid, photoURL, email], (err, res) => {
                 //add to general and report bug chatrooms
-                controller.addToRoom(con,email, 1, 0)
-                controller.addToRoom(con,email, 16, 0)
+                controller.addToRoom(con, email, 1, 0)
+                controller.addToRoom(con, email, 16, 0)
                 if (err) console.log(err)
             })
         } else {
@@ -226,7 +226,7 @@ var players = []
 io.sockets.on('connection', socket => {
 
     console.log('CONNECTED to socket io: ' + socket.request.user.displayName)
-    controller.getChatrooms(io,con,socket.id, socket.request.user.id)
+    controller.getChatrooms(io, con, socket.id, socket.request.user.id)
     con.query('SELECT room_id FROM room_users WHERE user_id = ?', [socket.request.user.id], (error, rows, results) => {
         rows.forEach(e => {
             io.to(e.room_id).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id, e.room_id)
@@ -364,7 +364,7 @@ io.sockets.on('connection', socket => {
         } else {
             msg = '<a href="/uploads/' + name + '" download="' + name + '">' + name + '</a>'
         }
-        controller.sendMessage(con,msg, uid, roomId)
+        controller.sendMessage(con, msg, uid, roomId)
         getMessage(roomId)
         if (roomId == config.discord.sendChannel) {
             client.channels.get(config.discord.moosen).send({
@@ -387,23 +387,23 @@ io.sockets.on('connection', socket => {
     })
 
     socket.on('addroom', name => {
-        controller.createChatroom(con,name, socket.request.user.id)
+        controller.createChatroom(con, name, socket.request.user.id)
 
     })
-    socket.on('updateuser',(nickname,url)=>{
-      //socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value
-      if(nickname==null) nickname = socket.request.user.displayName
-      if(url==null) url = socket.request.user.photos[0].value
+    socket.on('updateuser', (nickname, url) => {
+        //socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value
+        if (nickname == null) nickname = socket.request.user.displayName
+        if (url == null) url = socket.request.user.photos[0].value
 
-      controller.updateUser(con,socket.request.user.id,nickname,url)
+        controller.updateUser(con, socket.request.user.id, nickname, url)
     })
     socket.on('addcommand', (roomId, cmd, actn, msg, username, pic, regex) => {
-        if (regex) controller.addNewCommand(con,roomId, cmd, actn, msg, username, pic)
-        else controller.addNewCommand(con,roomId, escStrReg(cmd), actn, msg, username, pic)
+        if (regex) controller.addNewCommand(con, roomId, cmd, actn, msg, username, pic)
+        else controller.addNewCommand(con, roomId, escStrReg(cmd), actn, msg, username, pic)
     })
 
     socket.on('updateroomtheme', (params, icon, type, roomId) => {
-        controller.changeRoomTheme(con,params, icon, type, roomId)
+        controller.changeRoomTheme(con, params, icon, type, roomId)
         joinChatroom(socket, roomId)
     })
 
@@ -414,13 +414,13 @@ io.sockets.on('connection', socket => {
     //for adduser function. Email is entered by the user, roomId is caled from chat.html, isAdmin should just default to 0 for now.
     socket.on('adduser', (email, roomId, isAdmin) => {
         console.log('add user called')
-        controller.addToRoom(con,email, roomId, 0)
+        controller.addToRoom(con, email, roomId, 0)
         joinChatroom(socket, roomId)
     })
 
     socket.on('joincode', (code, roomId, isAdmin) => {
         console.log('join code called')
-        controller.joinRoom(con,io,code, socket.request.user.id, socket.id)
+        controller.joinRoom(con, io, code, socket.request.user.id, socket.id)
     })
 
 
@@ -430,7 +430,7 @@ io.sockets.on('connection', socket => {
     })
 
     socket.on('retPre', (previous, roomId) => {
-        showPreviousMessages( 10, previous, socket.id, roomId)
+        showPreviousMessages(10, previous, socket.id, roomId)
     })
 
     //----CHAT MESSAGE----\\
@@ -459,7 +459,7 @@ io.sockets.on('connection', socket => {
                 function sendMsg(message) {
                     var un = socket.request.user.displayName
                     var uid = socket.request.user.id
-                    controller.sendMessage(con,message, uid, roomId)
+                    controller.sendMessage(con, message, uid, roomId)
                     getMessage(roomId)
                 }
             }
@@ -482,12 +482,12 @@ userRegexParse.motd = (socket, un, uid, roomId, msg) => {
     con.query('UPDATE rooms SET motd = ? WHERE serialid = ?', [msg, roomId], error => {
         if (error) throw error
     })
-    controller.getMotd(con,io,roomId)
+    controller.getMotd(con, io, roomId)
 }
 
 userRegexParse.createroom = (socket, un, uid, roomId, msg) => {
     console.log('In createroom')
-    controller.createChatroom(con,msg, uid)
+    controller.createChatroom(con, msg, uid)
 }
 userRegexParse.refreshconfig = (socket, un, uid, roomId, msg) => {
     delete require.cache[require.resolve('./config')]
@@ -561,11 +561,8 @@ client.on('message', msg => {
                 console.log('Message attachment has no url')
             }
         }
-        controller.sendMessage(con,newmsg, 'disc' + msg.author.id, config.discord.sendChannel)
+        controller.sendMessage(con, newmsg, 'disc' + msg.author.id, config.discord.sendChannel)
         getMessage(config.discord.sendChannel)
-        // getMessageDiscord(msg.author.username, newmsg, msg.author.avatarURL)
-        //console.log(msg.author.username + ': ' + msg.content)
-        //  console.log('Newmsg: ' + newmsg)
     }
 })
 
@@ -680,7 +677,7 @@ async function joinChatroom(socket, roomId) {
                 con.query('UPDATE users SET curroom = ? WHERE uid = ?', [roomId, socket.request.user.id])
                 var roomName
                 socket.join(roomId)
-                controller.getRegexCommands(con,io,roomId, socket.id)
+                controller.getRegexCommands(con, io, roomId, socket.id)
                 con.query('SELECT * FROM rooms WHERE serialid = ?', [roomId], (err, row, res) => {
                     if (!row[0]) {
                         console.log('ERROR: Cannot connect to room')
@@ -697,7 +694,7 @@ async function joinChatroom(socket, roomId) {
         var nameString = 'room' + roomId
         console.log('show last messages for ' + nameString)
         con.query('SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT ?) sub ORDER BY  id ASC', [nameString, 10], (error, rows, results) => {
-            controller.singleGetMotd(con,io,roomId, socket.id)
+            controller.singleGetMotd(con, io, roomId, socket.id)
             if (error) throw error
             try {
                 rows.forEach(e => {
@@ -730,14 +727,7 @@ async function sendToDiscord(un, msg) {
     //104635400788300812127
     //207214113191886849
 }
-
-function getMessageDiscord(un, msg, pic) {
-    var nameString = 'room' + config.discord.sendChannel
-    con.query('SELECT * FROM ( SELECT * FROM ?? ORDER BY id DESC LIMIT 1) sub ORDER BY  id ASC', [nameString], (error, rows, results) => {
-        io.emit('chat message', un, decodeURI(rows[0].message), moment().format('h:mm:ss a'), rows[0].id, pic, config.discord.sendChannel, "Discord")
-    })
-}
- async function showPreviousMessages(num, previous, sid, roomId) {
+async function showPreviousMessages(num, previous, sid, roomId) {
     var nameString = 'room' + roomId
     con.query('SELECT * FROM ( SELECT * FROM ?? WHERE id < ? ORDER BY id DESC LIMIT ?) sub ORDER BY id ASC', [nameString, previous, num], (error, rows, results) => {
         //  console.log(`Getting previous ${num} messages from ${previous} in room ${roomId}...`)
