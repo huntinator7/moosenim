@@ -201,7 +201,8 @@ var controller = {
                     if (decodeURI(item.cmd) === command) {
                         list.push(item)
                     }
-                }, []);
+                    return list
+                }, [])
                 // resolve(io.to(roomId).emit('get commands', newcoms, roomId))
                 resolve(console.log(coms))
             })
