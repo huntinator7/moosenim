@@ -209,8 +209,12 @@ $(function () {
             } else {
                 roomRegex.push(e)
             }
-            $('#cc-list').append(`<li><a class="btn btn-cc">${e.cmd}</a></li>`)
+            $('#cc-list').append(`<li><a class="btn btn-cc btn-block">${e.cmd}</a></li>`)
         })
+    })
+
+    $('#cc-list').on('click', 'a', function() {
+        alert('Test' + $(this).val())
     })
 
     socket.on('chat message', (user, msg, time, id, pic, room, badge) => {
