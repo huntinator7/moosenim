@@ -6,7 +6,8 @@ body {
 .card-body {
 
     color: #6eb7ff;
-    width: 405;
+    width: 100%;
+    font-size: 25px;
 }
 
 .btn btn-success {
@@ -34,5 +35,5 @@ body {
 
 .mr-3 {
     height: 240px;
-    width: 360px;
+    width: 25%;
 }

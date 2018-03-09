@@ -386,7 +386,13 @@ io.sockets.on('connection', socket => {
         createChatroom(name, socket.request.user.id)
 
     })
+    socket.on('updateuser',(nickname,url)=>{
+      //socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value
+      if(nickname==null) nickname = socket.request.user.displayName
+      if(url==null) url = socket.request.user.photos[0].value
 
+      updateUser(socket.request.user.id,nickname,url)
+    })
     socket.on('addcommand', (roomId, cmd, actn, msg, username, pic, regex) => {
         if (regex) addNewCommand(roomId, cmd, actn, msg, username, pic)
         else addNewCommand(roomId, escStrReg(cmd), actn, msg, username, pic)
@@ -665,7 +671,11 @@ function getRegexCommands(roomId, sid) {
         })
     })
 }
-
+  function updateUser(uid,nickname,url){
+    con.query("update users set name=?,profpic=? WHERE uid = ?", [nickname,url,uid], (error, results) => {
+        if (error) throw error
+    })
+  }
 function handleDisconnect() {
     con = mysql.createConnection(connect)
 
