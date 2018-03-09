@@ -134,7 +134,7 @@ var controller = {
                     newArr.push(arr)
                     myArrString = JSON.stringify(newArr)
                     con.query('UPDATE rooms set commands = ? WHERE serialid = ?', [myArrString, roomId])
-                    resolve(getRegexCommands(roomId, roomId))
+                    resolve(controller.getRegexCommands(roomId, roomId))
                 })
 
             })
