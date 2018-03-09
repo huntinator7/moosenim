@@ -40,6 +40,6 @@ body {
 
 @media screen and (max-width: 1081px) {
     #logo {
-        display: hidden;
+        display: none;
     }
 }
