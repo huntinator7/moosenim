@@ -221,7 +221,7 @@ $(function () {
         })
     })
 
-    $('.collapse').on('click', 'a', function() {
+    $('.btn-ccrem').on('click', function() {
         console.log($(this).text())
     })
 
