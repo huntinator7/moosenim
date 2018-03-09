@@ -191,6 +191,18 @@ var controller = {
             })
         })
     },
+    removeRegexCommand: function (con, io, command, roomId) {
+        con.query('SELECT commands FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
+            if (error) console.log(error)
+            var coms = JSON.parse(rows[0].commands)
+            console.log(coms)
+            const removeCommand = new Promise((resolve, reject) => {
+                var newcoms = coms.map(e => { e = e.cmd === command ? e : null})
+                // resolve(io.to(roomId).emit('get commands', newcoms, roomId))
+                resolve(console.log(newcoms))
+            })
+        })
+    },
     updateUser: function (con, uid, nickname, url) {
         con.query("update users set name=?,profpic=? WHERE uid = ?", [nickname, url, uid], (error, results) => {
             if (error) throw error

@@ -411,6 +411,10 @@ io.sockets.on('connection', socket => {
         joinChatroom(socket, roomId)
     })
 
+    socket.on('removeCommand', (command, roomId) => {
+        controller.removeRegexCommand(con, io, command, roomId)
+    })
+
     //for adduser function. Email is entered by the user, roomId is caled from chat.html, isAdmin should just default to 0 for now.
     socket.on('adduser', (email, roomId, isAdmin) => {
         console.log('add user called')

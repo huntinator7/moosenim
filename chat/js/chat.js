@@ -223,6 +223,7 @@ $(function () {
 
     $('#cc-list').on('click', '.btn-ccrem', function() {
         console.log($(this).parent().parent().children('.btn-cc').text())
+        socket.emit('removeCommand', $(this).parent().parent().children('.btn-cc').text(), curroom)
         $(this).parent().parent().remove()
     })
 
