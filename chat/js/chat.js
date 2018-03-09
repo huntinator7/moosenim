@@ -223,6 +223,7 @@ $(function () {
 
     $('#cc-list').on('click', '.btn-ccrem', function() {
         console.log($(this).parent().parent().children('.btn-cc').text())
+        $('#cc-list').remove($(this).parent().parent())
     })
 
     socket.on('chat message', (user, msg, time, id, pic, room, badge) => {
