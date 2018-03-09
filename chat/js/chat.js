@@ -209,7 +209,7 @@ $(function () {
             } else {
                 roomRegex.push(e)
             }
-            $('#cc-list').append(`<li><a class="btn btn-danger">${e.cmd}</a></li>`)
+            $('#cc-list').append(`<li><a class="btn btn-cc">${e.cmd}</a></li>`)
         })
     })
 
