@@ -201,6 +201,7 @@ $(function () {
 
     socket.on('get commands', commandsArr => {
         console.log('Getting commands')
+        $('#cc-list').empty()
         roomCommands = []
         roomRegex = []
         commandsArr.forEach((e, ind) => {
