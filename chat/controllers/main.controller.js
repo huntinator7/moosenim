@@ -197,16 +197,23 @@ var controller = {
             var coms = JSON.parse(rows[0].commands)
             console.log(coms)
             const removeCommand = new Promise((resolve, reject) => {
-                var newcoms = coms.reduce(function(list, item) {
+                coms = coms.reduce(function(list, item) {
                     if (decodeURI(item.cmd) !== command) {
-                        item.msg = decodeURI(item.msg)
                         list.push(item)
                     }
                     return list
                 }, [])
-                resolve(io.to(roomId).emit('get commands', newcoms, roomId))
+                resolve()
                 // resolve(console.log(coms))
-            }).then(con.query('UPDATE rooms set commands = ? WHERE serialid = ?', [JSON.stringify(coms), roomId]))
+            }).then(() => {
+                con.query('UPDATE rooms set commands = ? WHERE serialid = ?', [JSON.stringify(coms), roomId])
+                const decode = new Promise((resolve, reject) => {
+                    coms.forEach(e => {
+                        e.msg = decodeURI(e.msg)
+                    })
+                    resolve(io.to(sid).emit('get commands', coms, roomId))
+                })
+            }) 
         })
     },
     updateUser: function (con, uid, nickname, url) {
