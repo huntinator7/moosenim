@@ -1,7 +1,8 @@
-
+.vscode/
 chat/config.json
 chat/config.js
 chat/certs/
 chat/node_modules/
 chat/.vs/slnx.sqlite
 chat/.vs/slnx.sqlite-journal
+test/

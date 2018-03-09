@@ -432,13 +432,13 @@ $(function () {
     socket.on('switchToRoom', async function (admin, room) {
         // console.log(admin)
         // console.log(room)
-        if (!admin) {
-            $("#room-commands").css("display", "none")
-            $("#room-custom").css("display", "none")
-        } else {
-            $("#room-commands").css("display", "block")
-            $("#room-custom").css("display", "block")
-        }
+        // if (!admin) {
+        //     $("#room-commands").css("display", "none")
+        //     $("#room-custom").css("display", "none")
+        // } else {
+        //     $("#room-commands").css("display", "block")
+        //     $("#room-custom").css("display", "block")
+        // }
 
         $('#messages').empty()
         $('#send-message').val('')
