@@ -103,7 +103,7 @@
             </button>
             <div class="dropdown-menu mm-navdd-items" aria-labelledby="dropdownMenuButton">
                 <div class="nav-item">
-                    <a class="nav-link">Profile (Currently unavailible)</a>
+                    <a class="nav-link"data-toggle="modal" data-target="#modal-profile" id="profile-button">Profile (Currently unavailible)</a>
                 </div>
             </div>
         </div>
@@ -268,6 +268,30 @@
             </div>
         </div>
     </div>
+    <!-- Modal User Profile -->
+    <div class="modal fade" id="modal-profile" tabindex="-1" role="dialog" aria-labelledby="add-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="add-modal-label">Create New Room</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Profile</p>
+                    <form id="profile-form" action="">
+                      Enter a nick-name<br>
+                        <input class="form-control" type="text" id="nick-name" placeholder="nickname"><br>
+                        Profile picture URL<br>
+                            <input class="form-control" type="text" id="img-url" placeholder="url"><br>
+
+                        <button class="btn waves-effect waves-light modal-close light-blue white-text"> Update Profile </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Modal create room -->
     <div class="modal fade" id="regex-modal" tabindex="-1" role="dialog" aria-labelledby="add-modal-label" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -381,6 +405,12 @@
                 socket.emit('adduser', $('#e').val(), curroom, 0)
                 console.log("form submitted " + $('#e').val())
                 $('#add-modal').modal('hide')
+                return false
+            })
+            $('#profile-form').submit(function () {
+                socket.emit('updateuser', $('#nick-name').val(),$('#img-url').val() )
+                console.log("form submitted " + $('#e').val())
+                $('#modal-profile').modal('hide')
                 return false
             })
             $('#jc-form').submit(function () {
@@ -797,8 +827,8 @@
                 if (room.text_color2) css.text2 = room.text_color2
                 if (room.message_back) {
                     css.mb1 =
-                        `rgba(${parseInt(room.message_back.substr(1, 2), 16)}, 
-                        ${parseInt(room.message_back.substr(3, 2), 16)}, 
+                        `rgba(${parseInt(room.message_back.substr(1, 2), 16)},
+                        ${parseInt(room.message_back.substr(3, 2), 16)},
                         ${parseInt(room.message_back.substr(5, 2), 16)}, 0.25)`
                     $('#msg-color1').val(room.message_back)
                 } else {
@@ -808,8 +838,8 @@
                 if (room.message_back2) {
                     $('#msg-color2').val()
                     css.mb2 =
-                        `rgba(${parseInt(room.message_back2.substr(1, 2), 16)}, 
-                        ${parseInt(room.message_back2.substr(3, 2), 16)}, 
+                        `rgba(${parseInt(room.message_back2.substr(1, 2), 16)},
+                        ${parseInt(room.message_back2.substr(3, 2), 16)},
                         ${parseInt(room.message_back2.substr(5, 2), 16)}, 0.25)`
                 } else {
                     css.mb1 = "rgba(0, 0, 0, 0)"
