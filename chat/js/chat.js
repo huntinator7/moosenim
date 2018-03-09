@@ -210,7 +210,14 @@ $(function () {
             } else {
                 roomRegex.push(e)
             }
-            $('#cc-list').append(`<li><a class="btn btn-cc btn-block">${e.cmd}</a></li>`)
+            $('#cc-list').append(`<li>
+            <div class="test">
+                <a class="btn btn-cc btn-block">${e.cmd}</a>
+                <div class="collapse" id="collapseExample">
+                    <a class="btn btn-block btn-ccrem">Remove</a>
+                </div>
+            </div>
+            </li>`)
         })
     })
 
