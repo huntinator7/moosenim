@@ -214,8 +214,7 @@ $(function () {
     })
 
     $('#cc-list').on('click', 'a', function() {
-        console.log($(this))
-        console.log(this)
+        console.log($(this)[0].text())
     })
 
     socket.on('chat message', (user, msg, time, id, pic, room, badge) => {
@@ -447,6 +446,7 @@ $(function () {
         // }
 
         $('#messages').empty()
+        $('#cc-list').empty()
         $('#send-message').val('')
         $('#jc-room').html(room.join_code)
         $('#title').html(room.name)
