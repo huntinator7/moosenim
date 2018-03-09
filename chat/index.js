@@ -226,7 +226,7 @@ var players = []
 io.sockets.on('connection', socket => {
 
     console.log('CONNECTED to socket io: ' + socket.request.user.displayName)
-    controller.getChatrooms(socket.id, socket.request.user.id)
+    controller.getChatrooms(io,con,socket.id, socket.request.user.id)
     con.query('SELECT room_id FROM room_users WHERE user_id = ?', [socket.request.user.id], (error, rows, results) => {
         rows.forEach(e => {
             io.to(e.room_id).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id, e.room_id)
@@ -918,7 +918,7 @@ function changeRoomTheme(params, icon, type, roomId) {
 function joinRoom(joinCode, uid, sid) {
     con.query('SELECT * FROM rooms WHERE join_code = ?', [joinCode], (error, rows, result) => {
         try {
-            con.query('INSERT INTO room_users VALUES(?,?,?,NULL)', [rows[0].serialid, uid, 0]).then(controller.getChatrooms(sid, uid))
+            con.query('INSERT INTO room_users VALUES(?,?,?,NULL)', [rows[0].serialid, uid, 0]).then(controller.getChatrooms(io,con,sid, uid))
             console.log('user ' + uid + ' was added to room ' + rows[0].serialid)
         } catch (e) {
             console.log(e)
