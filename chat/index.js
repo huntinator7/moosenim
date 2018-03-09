@@ -27,6 +27,7 @@ const sessionStore = new redisStore()
 var cookieParser2 = require('cookie-parser')()
 var uuidv4 = require('uuid/v4')
 var escStrReg = require('escape-string-regexp')
+var controller= require('./controllers/main.controller')
 
 //--GENERAL HTTP----\\
 app2.all('*', ensureSecure) // at top of routing calls
@@ -915,7 +916,7 @@ function changeRoomTheme(params, icon, type, roomId) {
 function joinRoom(joinCode, uid, sid) {
     con.query('SELECT * FROM rooms WHERE join_code = ?', [joinCode], (error, rows, result) => {
         try {
-            con.query('INSERT INTO room_users VALUES(?,?,?,NULL)', [rows[0].serialid, uid, 0]).then(getChatrooms(sid, uid))
+            con.query('INSERT INTO room_users VALUES(?,?,?,NULL)', [rows[0].serialid, uid, 0]).then(controller.getChatrooms(sid, uid))
             console.log('user ' + uid + ' was added to room ' + rows[0].serialid)
         } catch (e) {
             console.log(e)
