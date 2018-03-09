@@ -214,14 +214,14 @@ $(function () {
             <div class="test">
                 <a class="btn btn-cc btn-block" data-toggle="collapse" href="#collapse${ind}" role="button" aria-expanded="false" aria-controls="collapse${ind}">${e.cmd}</a>
                 <div class="collapse" id="collapse${ind}">
-                    <a class="btn btn-block btn-ccrem">Remove</a>
+                    <a class="btn btn-block btn-ccrem" id="remove">Remove</a>
                 </div>
             </div>
             </li>`)
         })
     })
 
-    $('.btn-ccrem').on('click', function() {
+    $('#remove').on('click', function() {
         console.log($(this).text())
     })
 
