@@ -197,7 +197,7 @@ var controller = {
             var coms = JSON.parse(rows[0].commands)
             console.log(coms)
             const removeCommand = new Promise((resolve, reject) => {
-                var newcoms = coms.map(e => { e = e.cmd === command ? e : null})
+                var newcoms = coms.map(e => { e = e.cmd === command ? e : e})
                 // resolve(io.to(roomId).emit('get commands', newcoms, roomId))
                 resolve(console.log(newcoms))
             })
