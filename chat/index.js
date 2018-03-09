@@ -387,7 +387,7 @@ io.sockets.on('connection', socket => {
     })
 
     socket.on('addroom', name => {
-        createChatroom(name, socket.request.user.id)
+        controller.createChatroom(con,name, socket.request.user.id)
 
     })
     socket.on('updateuser',(nickname,url)=>{
@@ -420,7 +420,7 @@ io.sockets.on('connection', socket => {
 
     socket.on('joincode', (code, roomId, isAdmin) => {
         console.log('join code called')
-        joinRoom(code, socket.request.user.id, socket.id)
+        controller.joinRoom(con,code, socket.request.user.id, socket.id)
     })
 
 
@@ -497,7 +497,7 @@ userRegexParse.motd = (socket, un, uid, roomId, msg) => {
 
 userRegexParse.createroom = (socket, un, uid, roomId, msg) => {
     console.log('In createroom')
-    createChatroom(msg, uid)
+    controller.createChatroom(con,msg, uid)
 }
 userRegexParse.refreshconfig = (socket, un, uid, roomId, msg) => {
     delete require.cache[require.resolve('./config')]
@@ -844,11 +844,6 @@ function getMessageDiscord(un, msg, pic) {
     })
 }
 
-//should be called when a user clicks on a different chatroom
-function updatechat(roomid) {
-    //TODO: set a user variable 'current Room' to the value specified.
-    //reload page
-}
 
 //----CHATROOMS----\\
 
@@ -915,17 +910,17 @@ function changeRoomTheme(params, icon, type, roomId) {
     }
 }
 
-function joinRoom(joinCode, uid, sid) {
-    con.query('SELECT * FROM rooms WHERE join_code = ?', [joinCode], (error, rows, result) => {
-        try {
-            con.query('INSERT INTO room_users VALUES(?,?,?,NULL)', [rows[0].serialid, uid, 0]).then(controller.getChatrooms(io,con,sid, uid))
-            console.log('user ' + uid + ' was added to room ' + rows[0].serialid)
-        } catch (e) {
-            console.log(e)
-            console.log('room not found -' + joinCode)
-        }
-    })
-}
+// function joinRoom(joinCode, uid, sid) {
+//     con.query('SELECT * FROM rooms WHERE join_code = ?', [joinCode], (error, rows, result) => {
+//         try {
+//             con.query('INSERT INTO room_users VALUES(?,?,?,NULL)', [rows[0].serialid, uid, 0]).then(controller.getChatrooms(io,con,sid, uid))
+//             console.log('user ' + uid + ' was added to room ' + rows[0].serialid)
+//         } catch (e) {
+//             console.log(e)
+//             console.log('room not found -' + joinCode)
+//         }
+//     })
+// }
 
 // function addToRoom(email, roomId, isAdmin) {
 // 	con.query('SELECT * FROM users WHERE email = ?', [email], (error, rows, result) => {
