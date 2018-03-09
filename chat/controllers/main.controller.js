@@ -4,9 +4,9 @@ var controller = {
 		con.query('SELECT * FROM rooms WHERE serialid IN (SELECT room_id FROM room_users WHERE user_id = ?)', [uid], (error, rows) => {
 			io.to(sid).emit('roomlist', rows)
 		})
-	}
+	},
 
-addToRoom: function(con, email, roomId, isAdmin) {
+	addToRoom: function(con, email, roomId, isAdmin) {
 		con.query('SELECT * FROM users WHERE email = ?', [email], (error, rows, result) => {
 			try {
 				rows.forEach(e => {
