@@ -512,12 +512,12 @@
             socket.on('get commands', commandsArr => {
                 roomCommands = []
                 roomRegex = []
-                commandsArr.forEach(element => {
-                    if (element.cmd.substr(0, 1) == "!") {
-                        // console.log(element)
-                        roomCommands.push(element)
+                commandsArr.forEach(e => {
+                    if (e.cmd.substr(0, 1) == "!") {
+                        // console.log(e)
+                        roomCommands.push(e)
                     } else {
-                        roomRegex.push(element)
+                        roomRegex.push(e)
                     }
                 })
             })
@@ -564,20 +564,17 @@
                         if (doRegex) {
                             if (sendmsg.substr(0, 1) == "!") {
                                 var command = /\S+/i.exec(sendmsg)
-                                roomCommands.forEach(element => {
-                                    if (command[0] == element.cmd) {
-                                        switch (element.actn) {
+                                roomCommands.forEach(e => {
+                                    if (command[0] == e.cmd) {
+                                        switch (e.actn) {
                                             case "Replace":
-                                                sendmsg = element.msg
+                                                sendmsg = e.msg
                                                 break
                                             case "ReplaceWhole":
-                                                sendmsg = element.msg
-                                                break
-                                            case "ReplaceEmbed":
-                                                sendmsg = element.msg
+                                                sendmsg = e.msg
                                                 break
                                             case "Respond":
-                                                sendResponse(element, id + 0.5)
+                                                sendResponse(e, id + 0.5)
                                                 break
                                             default:
                                                 break
@@ -585,25 +582,21 @@
                                     }
                                 })
                             } else {
-                                roomRegex.forEach(element => {
-                                    var re = new RegExp('(^|\\s)(' + element.cmd + ')($|\\s)',
+                                roomRegex.forEach(e => {
+                                    var re = new RegExp('(^|\\s)(' + e.cmd + ')($|\\s)',
                                         'ig')
                                     var testedPositive = re.test(sendmsg)
                                     if (testedPositive) {
-                                        switch (element.actn) {
+                                        switch (e.actn) {
                                             case "Replace":
                                                 sendmsg = sendmsg.replace(re,
-                                                    `$1${element.msg}$3`)
+                                                    `$1${e.msg}$3`)
                                                 break
                                             case "ReplaceWhole":
-                                                sendmsg = element.msg
-                                                break
-                                            case "ReplaceEmbed":
-                                                sendmsg = sendmsg.replace(re,
-                                                    `$1${element.msg}$3`)
+                                                sendmsg = e.msg
                                                 break
                                             case "Respond":
-                                                sendResponse(element, id + 0.5)
+                                                sendResponse(e, id + 0.5)
                                                 break
                                             default:
                                                 break
@@ -731,20 +724,20 @@
 
                 $('#mm-side-list').empty()
                 try {
-                    list.forEach(element => {
+                    list.forEach(e => {
                         var roomlist = {
-                            name: element.name,
-                            id: element.serialid,
-                            isAdmin: element.is_admin
+                            name: e.name,
+                            id: e.serialid,
+                            isAdmin: e.is_admin
                         }
 
-                        // console.log('color:' + element.back1)
+                        // console.log('color:' + e.back1)
 
-                        if (element.serialid == curroom) $('#title').html(element.name)
+                        if (e.serialid == curroom) $('#title').html(e.name)
 
 
                         $('#mm-side-list').append(
-                            `<li class="btn nav-item mm-side-image"><img src="https://www.moosen.im/images/favicon.png" alt="" class="circle img-fluid"><a class="nav-link mm-side-item-text" data-toggle="drawer" data-target="#dw-s1" room="${element.serialid}">${element.name}</a></li>`
+                            `<li class="btn nav-item mm-side-image"><img src="https://www.moosen.im/images/favicon.png" alt="" class="circle img-fluid"><a class="nav-link mm-side-item-text" data-toggle="drawer" data-target="#dw-s1" room="${e.serialid}">${e.name}</a></li>`
                         )
                     })
                     $('.mm-side-item-text').each(function (index) {
