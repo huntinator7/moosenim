@@ -394,8 +394,8 @@ io.sockets.on('connection', socket => {
         controller.updateUser(con, socket.request.user.id, nickname, url)
     })
     socket.on('addcommand', (roomId, cmd, actn, msg, username, pic, regex) => {
-        if (regex) addNewCommand(con, roomId, cmd, actn, msg, username, pic)
-        else addNewCommand(con, roomId, escStrReg(cmd), actn, msg, username, pic)
+        if (regex) addNewCommand(roomId, cmd, actn, msg, username, pic)
+        else addNewCommand(roomId, escStrReg(cmd), actn, msg, username, pic)
     })
 
     socket.on('updateroomtheme', (params, icon, type, roomId) => {
@@ -600,7 +600,7 @@ function handleDisconnect() {
 handleDisconnect()
 
 //----MESSAGE HANDLING----\\
-function addNewCommand (con, roomId, cmd, actn, msg, username, pic) {
+function addNewCommand (roomId, cmd, actn, msg, username, pic) {
     console.log(msg)
     // console.log(encodeURI(msg))
     console.log(roomId + ' new command: ' + cmd)
