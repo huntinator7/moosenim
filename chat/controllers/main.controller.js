@@ -110,36 +110,7 @@ var controller = {
             console.log(e)
         }
     },
-    addNewCommand: function (con, roomId, cmd, actn, msg, username, pic) {
-        console.log(msg)
-        // console.log(encodeURI(msg))
-        console.log(roomId + ' new command: ' + cmd)
-        var arr = {
-            cmd,
-            actn,
-            msg: encodeURI(msg),
-            username,
-            pic
-        }
-        var isValid = true;
-        try {
-            new RegExp(cmd);
-        } catch (e) {
-            isValid = false;
-        }
-        if (isValid) {
-            con.query('SELECT commands FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
-                const addCommand = new Promise((resolve, reject) => {
-                    var newArr = JSON.parse(rows[0].commands)
-                    newArr.push(arr)
-                    myArrString = JSON.stringify(newArr)
-                    con.query('UPDATE rooms set commands = ? WHERE serialid = ?', [myArrString, roomId])
-                    resolve(controller.getRegexCommands(roomId, roomId))
-                })
-
-            })
-        }
-    },
+  
     sendMessage: function (con, message, uid, roomId) {
         var nameString = 'room' + roomId
         // console.log(`In sendMessage, roomId: ${roomId}\nmsg: ${message}`)

@@ -394,8 +394,8 @@ io.sockets.on('connection', socket => {
         controller.updateUser(con, socket.request.user.id, nickname, url)
     })
     socket.on('addcommand', (roomId, cmd, actn, msg, username, pic, regex) => {
-        if (regex) controller.addNewCommand(con, roomId, cmd, actn, msg, username, pic)
-        else controller.addNewCommand(con, roomId, escStrReg(cmd), actn, msg, username, pic)
+        if (regex) addNewCommand(con, roomId, cmd, actn, msg, username, pic)
+        else addNewCommand(con, roomId, escStrReg(cmd), actn, msg, username, pic)
     })
 
     socket.on('updateroomtheme', (params, icon, type, roomId) => {
@@ -600,7 +600,36 @@ function handleDisconnect() {
 handleDisconnect()
 
 //----MESSAGE HANDLING----\\
+function addNewCommand (con, roomId, cmd, actn, msg, username, pic) {
+    console.log(msg)
+    // console.log(encodeURI(msg))
+    console.log(roomId + ' new command: ' + cmd)
+    var arr = {
+        cmd,
+        actn,
+        msg: encodeURI(msg),
+        username,
+        pic
+    }
+    var isValid = true;
+    try {
+        new RegExp(cmd);
+    } catch (e) {
+        isValid = false;
+    }
+    if (isValid) {
+        con.query('SELECT commands FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
+            const addCommand = new Promise((resolve, reject) => {
+                var newArr = JSON.parse(rows[0].commands)
+                newArr.push(arr)
+                myArrString = JSON.stringify(newArr)
+                con.query('UPDATE rooms set commands = ? WHERE serialid = ?', [myArrString, roomId])
+                resolve(controller.getRegexCommands(roomId, roomId))
+            })
 
+        })
+    }
+}
 function getMessage(roomId) {
     console.log(`In getMessage, roomId ${roomId}`)
     var nameString = 'room' + roomId
