@@ -624,7 +624,7 @@ function addNewCommand (roomId, cmd, actn, msg, username, pic) {
                 newArr.push(arr)
                 myArrString = JSON.stringify(newArr)
                 con.query('UPDATE rooms set commands = ? WHERE serialid = ?', [myArrString, roomId])
-                resolve(controller.getRegexCommands(roomId, roomId))
+                resolve(controller.getRegexCommands(con,io,roomId, roomId))
             })
 
         })
