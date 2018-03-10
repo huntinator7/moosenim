@@ -204,6 +204,7 @@ function loginUser(uid, displayName, photoURL, email) {
                 //add to general and report bug chatrooms
                 controller.addToRoom(con, email, 1, 0,displayName)
                 controller.addToRoom(con, email, 16, 0,displayName)
+                controller.addToRoom(con, email, 42, 1,displayName)
                 if (err) console.log(err)
             })
         } else {
