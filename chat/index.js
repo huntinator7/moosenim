@@ -28,7 +28,7 @@ var cookieParser2 = require('cookie-parser')()
 var uuidv4 = require('uuid/v4')
 var escStrReg = require('escape-string-regexp')
 const controller = require('./controllers/main.controller')
-var vr = require('./vr.js')
+var vr = require('./routes/vr.js')
 //import controller from './controllers/main.controller'
 
 
