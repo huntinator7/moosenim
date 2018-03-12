@@ -434,6 +434,26 @@ io.sockets.on('connection', socket => {
         showPreviousMessages(10, previous, socket.id, roomId)
     })
 
+    //vr State Code
+  socket.on('vrconnection', function (uid, x, y) {
+      var p = { uid: uid, x: x, y: y, color: 'red' }
+      players.push(p)
+      socket.emit('vrUpdatePos', players)
+  });
+  setInterval(updateClient, 33)
+  function updateClient() {
+      socket.emit('vrTest', players)
+  }
+  socket.on('vrlocalPos', function (uid, x, y) {
+      for (var i = 0; i < players.length; i++) {
+          if (uid = players[i].uid) {
+              players[i].x = x
+              players[i].y = y
+              break
+          }
+      }
+  })
+
     //----CHAT MESSAGE----\\
     socket.on('chat message', (msg, roomId) => {
         var isAdmin
