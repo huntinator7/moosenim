@@ -28,6 +28,7 @@ var cookieParser2 = require('cookie-parser')()
 var uuidv4 = require('uuid/v4')
 var escStrReg = require('escape-string-regexp')
 const controller = require('./controllers/main.controller')
+var vr = require('./vr.js')
 //import controller from './controllers/main.controller'
 
 
@@ -143,6 +144,7 @@ app.use(favicon(path.join(__dirname, 'favicon.ico')))
 app.use('/', routes)
 app.use('/messages', messages)
 app.use('/blog', blog)
+app.use('/vr', vr)
 app.use('/headliner_font_woff', express.static(__dirname + '/fonts/headliner/headliner.woff'))
 app.use('/headliner_font_woff2', express.static(__dirname + '/fonts/headliner/headliner.woff2'))
 app.use('/headliner_font_tff', express.static(__dirname + '/fonts/headliner/headliner.ttf'))
