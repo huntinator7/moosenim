@@ -15,7 +15,7 @@ var blogs = {
         return con.query("SELECT * FROM entry", callback);
    },
     GetAll: function(callback){
-    return con.query("SELECT * FROM entry",callback)
+    return con.query("SELECT * FROM entry ORDER BY id DESC",callback)
     },
 
 
