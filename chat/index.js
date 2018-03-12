@@ -437,11 +437,13 @@ io.sockets.on('connection', socket => {
     })
 
     //vr State Code
+
   socket.on('vrconnection', function (uid, x, y) {
+      console.log('hello from VR')
       var p = { uid: uid, x: x, y: y, color: 'red' }
       players.push(p)
       socket.emit('vrUpdatePos', players)
-  });
+  })
   setInterval(updateClient, 33)
   function updateClient() {
       socket.emit('vrTest', players)
