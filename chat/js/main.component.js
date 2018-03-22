@@ -1,4 +1,4 @@
-import angular from 'angular'
+var angular = require('angular');
 const ngRoute = require('angular-route')
 import routing from './main.routes'
 
