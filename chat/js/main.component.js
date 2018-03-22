@@ -13,13 +13,13 @@ var routing = require( './main.routes')
 		this.setData()
 console.log('hello from main.component')
 
-	}
 
-	setData() {
+
+	function setData() {
 		this.values = ['search']
 		this.input = ['   ']
 	}
-
+	}
 
 
   function UserService($http) {
