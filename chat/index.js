@@ -29,7 +29,7 @@ var uuidv4 = require('uuid/v4')
 var escStrReg = require('escape-string-regexp')
 const controller = require('./controllers/main.controller')
 var vr = require('./routes/vr.js')
-var business = require('routes/business.js')
+var business = require('./routes/business.js')
 //import controller from './controllers/main.controller'
 
 
