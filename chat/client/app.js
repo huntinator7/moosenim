@@ -15,7 +15,7 @@ import {
 } from './app.config';
 
 import main from './main/main.html'
-
+console.log("hello from app.js")
 
 angular.module('comp3705App', [ngCookies, ngResource, ngSanitize, ngRoute, uiBootstrap, main
 ])
