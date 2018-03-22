@@ -2,7 +2,7 @@ var angular = require('angular');
 const ngRoute = require('angular-route')
 var routing = require( './main.routes')
 
-export function MainController() {
+  function MainController() {
 	/*@ngInject*/
 	constructor($http, User, $uibModal) {
 		this.$http = $http
@@ -22,7 +22,7 @@ console.log('hello from main.component')
 
 	}
 
-export function UserService($http) {
+  function UserService($http) {
 	'ngInject'
 	var User = {
 		getAllUsers() {
@@ -34,12 +34,12 @@ export function UserService($http) {
 	return User
 }
 
-export function SearchFilter() {
+  function SearchFilter() {
 	console.log('search filter')
   // this.filteredArray = filterFilter(this.input, 'a');
 }
 
-export default angular.module('Herd.main', [ngRoute])
+  default angular.module('Herd.main', [ngRoute])
 	.config(routing)
 	.filter('Search',SearchFilter)
 	//.service('Recipes', RecipeService)
