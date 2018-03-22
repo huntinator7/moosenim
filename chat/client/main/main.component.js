@@ -27,7 +27,7 @@ export function UserService($http) {
 	var User = {
 		getAllUsers() {
             //replace this shit with socket.io stuff
-			return $http.get('/api/users/')
+			return $http.get('moosen.im/blog/blog')
 
 		}
 	}
