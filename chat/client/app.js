@@ -17,7 +17,7 @@ import {
 import main from '../client/main/main.html'
 
 
-angular.module('comp3705App', [ngCookies, ngResource, ngSanitize, ngRoute, uiBootstrap, main, constants, util, postRecipeModal, user, recipe, recipeDetail, updateRecipeModal
+angular.module('comp3705App', [ngCookies, ngResource, ngSanitize, ngRoute, uiBootstrap, main
 ])
   .config(routeConfig);
 
