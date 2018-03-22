@@ -14,7 +14,7 @@ import {
   routeConfig
 } from './app.config';
 
-import main from '../client/main/main.html'
+import main from './main/main.html'
 
 
 angular.module('comp3705App', [ngCookies, ngResource, ngSanitize, ngRoute, uiBootstrap, main
