@@ -2,7 +2,7 @@ var angular = require('angular');
 const ngRoute = require('angular-route')
 var routing = require( './main.routes')
 
-export class MainController {
+export function MainController() {
 	/*@ngInject*/
 	constructor($http, User, $uibModal) {
 		this.$http = $http
