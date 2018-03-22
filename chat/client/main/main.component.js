@@ -11,7 +11,7 @@ export class MainController {
 
 		//this.Reviews=Reviews
 		this.setData()
-
+console.log('hello from main.component')
 
 	}
 
@@ -39,7 +39,7 @@ export function SearchFilter() {
   // this.filteredArray = filterFilter(this.input, 'a');
 }
 
-export default angular.module('comp3705App.main', [ngRoute])
+export default angular.module('Herd.main', [ngRoute])
 	.config(routing)
 	.filter('Search',SearchFilter)
 	//.service('Recipes', RecipeService)
