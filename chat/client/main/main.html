@@ -43,7 +43,7 @@
             <div class="col-lg-8" style="text-align:center;    background-clip: content-box, padding-box;">test2<br>
                 <div class="row">
                   <div class="card-columns">
-                    <div class="card" ng-controller = "helloController">
+                    <div class="card" ng-controller = "HelloController">
                       <img class="card-img-top" src="..." alt="Card image cap">
                       <div class="card-body">
                         <h5 class="card-title">Welcome {{helloTo.title}}</h5>
@@ -118,7 +118,7 @@
             .controller("HelloController", function($scope) {
                $scope.helloTo = {};
                $scope.helloTo.title = "AngularJS-test";
-               
+
             });
          </script>
 </body>
