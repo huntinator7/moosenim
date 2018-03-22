@@ -2,9 +2,9 @@ var angular = require('angular');
 const ngRoute = require('angular-route')
 var routing = require( './main.routes')
 
-  function MainController() {
+  function MainController($http, User, $uibModal) {
 	/*@ngInject*/
-	constructor($http, User, $uibModal) {
+
 		this.$http = $http
 		this.$uibModal = $uibModal
 		this.User = User
@@ -20,7 +20,7 @@ console.log('hello from main.component')
 		this.input = ['   ']
 	}
 
-	}
+
 
   function UserService($http) {
 	'ngInject'
