@@ -24,6 +24,9 @@ router.get('/voicetest', function (req, res) {
 router.get('/vr', function (req, res) {
     res.sendFile('/html/vr.html', { 'root': '/var/www/html/chat' })
 })
+router.get('/business', function (req, res) {
+    res.sendFile('/client/business.html', { 'root': '/var/www/html/chat' })
+})
 
 //export this router to use in our index.js
 module.exports = router
