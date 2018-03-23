@@ -116,14 +116,19 @@
     $(function() {
         var URL_SERVER = 'https://moosen.im:443'
         var socket = io.connect(URL_SERVER)
-        var testname=''
+        var testname='';
         socket.on('test', name => {
             console.log(name)
             testname=name
-        })
+        });
         socket.emit('ping', name => {
             console.log(name + "asdasd")
-        })
+        });
+
+    })
+    </script>
+    <script>
+
 
         angular.module("myapp", [])
 
@@ -132,8 +137,6 @@
                 $scope.helloTo.title = 'poop';
             })
 
-
-        });
     </script>
 
 </body>
