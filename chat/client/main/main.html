@@ -116,7 +116,7 @@
     $(function() {
         var URL_SERVER = 'https://moosen.im:443'
         var socket = io.connect(URL_SERVER)
-        var testname;
+        var testname=''
         socket.on('test', name => {
             console.log(name)
             testname=name
@@ -129,7 +129,7 @@
 
             .controller("HelloController", function($scope) {
                 $scope.helloTo = {};
-                $scope.helloTo.title = testname;
+                $scope.helloTo.title = 'poop';
             })
 
 
