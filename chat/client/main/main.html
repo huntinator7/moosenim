@@ -119,12 +119,12 @@
         var URL_SERVER = 'https://moosen.im:443'
         var socket = io.connect(URL_SERVER)
         var testname='';
-        socket.on('test', name => {
+        socket.on('test', function(name){
                 console.log("start function")
             console.log(name)
             testname=name
         });
-        socket.emit('ping', name => {
+        socket.emit('ping', function(name){
             console.log(name + "asdasd")
         });
 
