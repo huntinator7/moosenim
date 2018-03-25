@@ -187,7 +187,7 @@ app.get('/auth/google/callback',
 // API \\
 app.use((req, res, next) => {
 
-    var err = new Error('Not Found')
+    var err = new Error('Not Found'+req)
 
     err.status = 404
 

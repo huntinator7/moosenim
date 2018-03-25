@@ -115,11 +115,12 @@
     <script>
 
     $(function() {
-        console.log("start function")
+
         var URL_SERVER = 'https://moosen.im:443'
         var socket = io.connect(URL_SERVER)
         var testname='';
         socket.on('test', name => {
+                console.log("start function")
             console.log(name)
             testname=name
         });
