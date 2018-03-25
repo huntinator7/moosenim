@@ -404,7 +404,9 @@ $(function () {
     socket.on('test', name => {
         console.log(name + "asdasd")
     })
-
+    socket.emit('test', name => {
+        console.log(name + "asdasd")
+    })
     socket.on('disconnect', name => {
         location.reload()
     })
