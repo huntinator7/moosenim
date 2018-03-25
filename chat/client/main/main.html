@@ -46,7 +46,7 @@
                         <div class="card" ng-controller="HelloController">
                             <img class="card-img-top" src="..." alt="Card image cap">
                             <div class="card-body">
-                                <h5 class="card-title">Welcome {{helloTo.title}}</h5>
+                                <!-- <h5 class="card-title">Welcome {{helloTo.title}}</h5> -->
                                 <p class="card-text"> input<input ng-model="FilterController.input" /></p>
                             </div>
                         </div>
@@ -113,32 +113,29 @@
         </div>
     </div>
     <script>
+        var testname = '';
+        $(function() {
 
-    $(function() {
+            var URL_SERVER = 'https://moosen.im:443'
+            var socket = io(URL_SERVER)
 
-        var URL_SERVER = 'https://moosen.im:443'
-        var socket = io(URL_SERVER)
-        var testname='';
-        socket.on('test', function(name){
-            console.log("start function")
-            console.log(name)
-            testname=name
-        });
-        socket.emit('ping', function(name){
-            console.log(name + "asdasd")
-        });
+            socket.on('test', function(name) {
+                console.log("start function")
+                console.log(name)
+                testname = name
+            });
+            socket.emit('ping', 'test from client')
 
-    })
+        })
 
 
 
-        angular.module("myapp", [])
-
-            .controller("HelloController", function($scope) {
-                $scope.helloTo = {};
-                $scope.helloTo.title = testname;
-            })
-
+        // angular.module("myapp", [])
+        //
+        //     .controller("HelloController", function($scope) {
+        //         $scope.helloTo = {};
+        //         $scope.helloTo.title = testname;
+        //     })
     </script>
 
 </body>
