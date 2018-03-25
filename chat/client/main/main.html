@@ -120,7 +120,7 @@
         var socket = io.connect(URL_SERVER)
         var testname='';
         socket.on('test', function(name){
-                console.log("start function")
+            console.log("start function")
             console.log(name)
             testname=name
         });
@@ -129,8 +129,7 @@
         });
 
     })
-    </script>
-    <script>
+
 
 
         angular.module("myapp", [])
