@@ -229,7 +229,7 @@ var players = []
 
 //----SOCKET.IO----\\
 io.sockets.on('connection', socket => {
-
+socket.emit('pong22','test from server')
     console.log('CONNECTED to socket io: ' + socket.request.user.displayName)
     controller.getChatrooms(io, con, socket.id, socket.request.user.id)
     con.query('SELECT room_id FROM room_users WHERE user_id = ?', [socket.request.user.id], (error, rows, results) => {
