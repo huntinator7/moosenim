@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+
+<html>
+
+<head>
+    <link rel="icon" href="https://www.moosen.im/favicon.ico">
+    <meta charset=utf-8 />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moosen business</title>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/4.0.2/bootstrap-material-design.min.css">
+    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-material-design@4.0.0-beta.4/dist/js/bootstrap-material-design.js" integrity="sha384-3xciOSDAlaXneEmyOo0ME/2grfpqzhhTcM4cE32Ce9+8DW/04AGoTACzQpphYGYe" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+
+<body ng-app="myapp">
+
+    <div class="container-fluid">
+        <div class="col-lg-12" style="background-color:#ff0000">
+            <img style="height: 240px; width: 240px; float:left; position:absolute; display: inline;" src="https://moosen.im/uploads/moosenim4ColoredSmall.png" alt="Generic placeholder image"> Test
+        </div>
+        <div class="row">
+            <div class="col-lg-2" style="background-color:#0000ff">test<br>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Active</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Disabled</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-8" style="text-align:center;    background-clip: content-box, padding-box;">test2<br>
+                <div class="row">
+                    <div class="card-columns">
+                        <div class="card" ng-controller="HelloController" >
+
+
+                            <div class="card-body">
+                                <h5 class="card-title">Welcome {{helloTo.title}}</h5>
+                                <!-- <p class="card-text"> input<input ng-model="FilterController.input" /></p> -->
+                            </div>
+                        </div>
+                        <div class="card p-3">
+                            <blockquote class="blockquote mb-0 card-body">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                                <footer class="blockquote-footer">
+                                    <small class="text-muted">
+                            Someone famous in <cite title="Source Title">Source Title</cite>
+                          </small>
+                                </footer>
+                            </blockquote>
+                        </div>
+                        <div class="card">
+                            <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            </div>
+                        </div>
+                        <div class="card bg-primary text-white text-center p-3">
+                            <blockquote class="blockquote mb-0">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat.</p>
+                                <footer class="blockquote-footer">
+                                    <small>
+                            Someone famous in <cite title="Source Title">Source Title</cite>
+                          </small>
+                                </footer>
+                            </blockquote>
+                        </div>
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            </div>
+                        </div>
+                        <div class="card">
+
+                        </div>
+                        <div class="card p-3 text-right">
+                            <blockquote class="blockquote mb-0">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                                <footer class="blockquote-footer">
+                                    <small class="text-muted">
+                            Someone famous in <cite title="Source Title">Source Title</cite>
+                          </small>
+                                </footer>
+                            </blockquote>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-2" style="background-color:#0000ff">test<br></div>
+        </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+    var URL_SERVER = 'https://moosen.im:443'
+    var socket = io.connect(URL_SERVER)
+    var testname = '';
+        $(function() {
+            socket.on('testing',function(){
+                console.log('finally fucking working')
+            })
+            console.log("start function")
+            socket.emit('ping', 'test from client')
+            socket.on('pong2', function(name) {
+
+                console.log(name)
+                testname = name
+            });
+
+
+        })
+
+
+
+        angular.module("myapp", [])
+
+            .controller("HelloController", function($scope) {
+                $scope.helloTo = {};
+                $scope.helloTo.title = testname;
+            })
+    </script>
+
+</body>
+
+</html>
