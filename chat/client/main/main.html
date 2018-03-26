@@ -88,7 +88,7 @@
                             </div>
                         </div>
                         <div class="card">
-                        
+
                         </div>
                         <div class="card p-3 text-right">
                             <blockquote class="blockquote mb-0">
@@ -120,13 +120,14 @@
 
             var URL_SERVER = 'https://moosen.im:443'
             var socket = io(URL_SERVER)
+            console.log("start function")
+            socket.emit('ping', 'test from client')
+            socket.on('pong', function(name) {
 
-            socket.on('test', function(name) {
-                console.log("start function")
                 console.log(name)
                 testname = name
             });
-            socket.emit('ping', 'test from client')
+
 
         })
 
