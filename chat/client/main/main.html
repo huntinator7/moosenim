@@ -19,7 +19,7 @@
 </head>
 
 <body>
-     ng-app="myapp"
+    ng-app="myapp"
     <div class="container-fluid">
         <div class="col-lg-12" style="background-color:#ff0000">
             <img style="height: 240px; width: 240px; float:left; position:absolute; display: inline;" src="https://moosen.im/uploads/moosenim4ColoredSmall.png" alt="Generic placeholder image"> Test
@@ -44,7 +44,7 @@
             <div class="col-lg-8" style="text-align:center;    background-clip: content-box, padding-box;">test2<br>
                 <div class="row">
                     <div class="card-columns">
-                        <div class="card" >
+                        <div class="card">
                             <!-- ng-controller="HelloController" -->
 
                             <div class="card-body">
@@ -115,6 +115,8 @@
         </div>
     </div>
     <script>
+    var URL_SERVER = 'https://moosen.im:443'
+    var socket = io.connect(URL_SERVER)
         var testname = '';
         $(function() {
 
