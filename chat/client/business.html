@@ -132,7 +132,7 @@
     					socket.on(event, function() {
     						var args = arguments
     						$rootScope.$apply(function() {
-    							callback.appy(socket, args)
+    							callback.apply(socket, args)
     						})
     					})
     				},
