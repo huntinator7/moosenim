@@ -118,6 +118,7 @@
     <script>
     var URL_SERVER = 'https://moosen.im:443'
     var socket = io.connect(URL_SERVER)
+    console.log(URL_SERVER+' '+io)
     var testname = '';
         $(function() {
             socket.on('testing',function(){
