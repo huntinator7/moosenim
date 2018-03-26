@@ -1,5 +1,4 @@
-var URL_SERVER = 'https://moosen.im:443'
-var socket = io.connect(URL_SERVER)
+
 var event
 var camera = document.getElementById("controller")
 
