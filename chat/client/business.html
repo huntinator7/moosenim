@@ -16,7 +16,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    
+
 </head>
 
 <body ng-app="example">
@@ -117,9 +117,8 @@
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
-    var module = angular.module('socket.io', [])
-    	.provider('$socket', $socketProvider() {
-    		var iourl;
+    var module = angular.module('socket.io', []).provider('$socket', $socketProvider() {
+    		var iourl='';
     		this.setConnectionUrl = function setConnectionUrl(url) {
     			iourl = url
     		}
