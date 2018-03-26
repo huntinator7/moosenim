@@ -1,3 +1,4 @@
+'use strict';
 import angular from 'angular'
 const ngRoute = require('angular-route')
 import routing from './main.routes'
@@ -44,5 +45,5 @@ var app = angular.module('example', ['socket.io'])
 			$scope.serverResponse = data
 			console.log(data)
 		})
-		
+
 	})
