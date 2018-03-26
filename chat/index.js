@@ -384,7 +384,7 @@ socket.emit('pong2','test from server')
     //Test emit
     socket.on('ping', name => {
         console.log('pong')
-        socket.emit('pong22','test from server')
+        socket.emit('pong2','test from server')
         //console.log(Object.keys(io.sockets.sockets))
     })
 
