@@ -16,7 +16,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-     <script type="text/javascript" src="main.component.js"></script>
+    
 </head>
 
 <body ng-app="example">
@@ -117,33 +117,51 @@
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
-//     var URL_SERVER = 'https://moosen.im:443'
-//     var socket = io.connect(URL_SERVER)
-//
-//     var testname = '';
-//         $(function() {
-//             socket.on('testing',function(){
-//                 console.log('finally fucking working')
-//             })
-//             console.log("start function")
-//             socket.emit('ping', 'test from client')
-//             socket.on('pong2', function(name) {
-//
-//                 console.log(name)
-//                 testname = name
-//             });
-// })
-//
-//
-//
-//
-//
-//         angular.module("myapp", [])
-//
-//             .controller("HelloController", function($scope) {
-//                 $scope.helloTo = {};
-//                 $scope.helloTo.title = testname;
-//             })
+    var module = angular.module('socket.io', [])
+    	.provider('$socket', $socketProvider() {
+    		var iourl;
+    		this.setConnectionUrl = function setConnectionUrl(url) {
+    			iourl = url
+    		}
+    		this.$get = function $socketFactory($rootScope) {
+    			var socket = io(ioUrl, ioConfig);
+    			return {
+    				on: function on(event, callback) {
+    					socket.on(event, function() {
+    						var args = arguments
+    						$rootScope.$apply(function() {
+    							callback.appy(socket, args)
+    						})
+    					})
+    				},
+    				emit: function emit(event, data, callback) {
+    					if (typeof callback == 'function') {
+    						socket.emit(event, data, function() {
+    							var args = arguments
+
+    							$rootScope.$apply(function() {
+    								callback.apply(socket, args)
+    							})
+    						})
+    					} else {
+    						socket.emit(event, data)
+    					}
+    				},
+    			}
+    		}
+    	})
+    var app = angular.module('example', ['socket.io'])
+    	.config(function($socketProvider) {
+    		$socketProvider.setConnectionUrl('https://moosen.im:443')
+    	})
+    	.controller('Ctrl', function Ctrl($scope, $socket) {
+    		$socket.on('pong2', function(data) {
+    			$scope.serverResponse = data
+    			console.log(data)
+    		})
+
+    	})
+
 
     </script>
 
