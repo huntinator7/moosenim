@@ -384,7 +384,7 @@ io.sockets.on('connection', socket => {
     socket.on('ping', name => {
         console.log('pong')
         socket.emit('pong','test from server')
-        console.log(Object.keys(io.sockets.sockets))
+        //console.log(Object.keys(io.sockets.sockets))
     })
 
     //Emit for when on mobile and needing the logs

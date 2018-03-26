@@ -117,11 +117,9 @@
     <script>
     var URL_SERVER = 'https://moosen.im:443'
     var socket = io.connect(URL_SERVER)
-        var testname = '';
+    var testname = '';
         $(function() {
 
-            var URL_SERVER = 'https://moosen.im:443'
-            var socket = io(URL_SERVER)
             console.log("start function")
             socket.emit('ping', 'test from client')
             socket.on('pong', function(name) {
