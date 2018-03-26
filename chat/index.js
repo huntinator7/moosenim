@@ -383,7 +383,7 @@ io.sockets.on('connection', socket => {
     //Test emit
     socket.on('ping', name => {
         console.log('pong')
-        socket.emit('pong','test from server')
+        socket.emit('pong22','test from server')
         //console.log(Object.keys(io.sockets.sockets))
     })
 
