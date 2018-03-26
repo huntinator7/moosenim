@@ -120,6 +120,7 @@
     <script>
     var module = angular.module('socket.io', []).provider('$socket', function $socketProvider() {
     		var iourl='';
+            console.log('module')
     		this.setConnectionUrl = function setConnectionUrl(url) {
     			iourl = url
     		}
@@ -127,6 +128,7 @@
     			var socket = io.connect(iourl);
     			return {
     				on: function on(event, callback) {
+                        console.log('.on called')
     					socket.on(event, function() {
     						var args = arguments
     						$rootScope.$apply(function() {
@@ -135,6 +137,7 @@
     					})
     				},
     				emit: function emit(event, data, callback) {
+                        console.log('.emit called')
     					if (typeof callback == 'function') {
     						socket.emit(event, data, function() {
     							var args = arguments
@@ -155,13 +158,14 @@
     		$socketProvider.setConnectionUrl('https://moosen.im:443')
     	})
     	.controller('Ctrl', function Ctrl($scope, $socket) {
+            console.log('Ctrl')
     		$socket.on('pong2', function(data) {
     			$scope.serverResponse = data
     			console.log(data)
     		})
             $scope.emitBasic = function emitBasic() {
                 $socket.emit('ping', $scope.dataToSend);
-                
+
                 $scope.dataToSend = '';
             }
 
