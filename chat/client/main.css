@@ -1,0 +1,30 @@
+body {
+    background-color: #6eb7ff;
+    color: #ffffff;
+}
+
+
+
+.btn btn-success {
+    background-color: #6eb7ff;
+}
+
+
+
+.light {
+    background-color: #baddff;
+}
+
+
+.odd{
+    background-color: #baddff;
+}
+.even{
+    background-color: #6eb7ff;
+}
+
+@media screen and (max-width: 1081px) {
+    #logo {
+        display: none;
+    }
+}
