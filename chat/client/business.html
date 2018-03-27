@@ -115,7 +115,15 @@
                 </div>
             </div>
 
-            <div class="col-lg-2" style="background-color:#0000ff">test<br></div>
+            <div class="col-lg-2" style="background-color:#0000ff">test
+                <ul>
+                    <li ng-repeat="messages in Ctrl.messages">
+                    </li>
+
+
+                </ul>
+
+                <br></div>
         </div>
     </div>
     <script src="/socket.io/socket.io.js"></script>
@@ -181,7 +189,7 @@
                 console.log('ping ')
                 $scope.dataToSend = '';
             }
-
+            this.messages = ['1','2','3']
     	})
 
 
