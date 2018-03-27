@@ -118,8 +118,8 @@
             <div class="col-lg-2" style="background-color:#0000ff">test
                 <ul>
                     messages
-                    <li ng-repeat="messages in Ctrl.messages">
-                        {{messages}}
+                    <li ng-repeat="message in messages">
+                        {{message}}
                     </li>
 
 
@@ -191,7 +191,7 @@
                 console.log('ping ')
                 $scope.dataToSend = '';
             }
-            this.messages = ['1','2','3']
+            $scope.messages = ['1','2','3']
     	})
 
 

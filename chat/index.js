@@ -395,7 +395,7 @@ socket.emit('pong2','testing')
     //Emit for when on mobile and needing the logs
     socket.on('log', message => {
         console.log(socket.id + ': ' + message)
-        socket.emit('pong2',message)
+        socket.emit('pong2',socket.request.user.displayName)
     })
 
     socket.on('addroom', name => {
