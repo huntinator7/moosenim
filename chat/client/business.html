@@ -165,8 +165,9 @@
     		$socketProvider.setConnectionUrl('https://moosen.im:443')
     	})
     	.controller('Ctrl', function Ctrl($scope, $socket) {
-            console.log('Ctrl')
+
     		$socket.on('pong2', function(data) {
+                $socket.emit('retPre',100,1)
     			$scope.serverResponse = data
     			console.log(data)
     		})

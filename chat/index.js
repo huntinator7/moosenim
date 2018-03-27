@@ -779,7 +779,7 @@ async function showPreviousMessages(num, previous, sid, roomId) {
                 getDBUN(e.uid).then(dbRes => {
                     io.to(sid).emit('chat message', dbRes[0], decodeURI(e.message), e.timestamp, e.id, dbRes[1], roomId, dbRes[2])
                     io.to(sid).emit('chatmessage2', rows)
-                    console.log('emmiting show last mesages')
+
                 })
             })
         } catch (e) {
