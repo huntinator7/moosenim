@@ -50,6 +50,7 @@
 
                             <div class="card-body">
                                 <h5 class="card-title">Server Response: {{ serverResponse }}</h5>
+                                <input ng-model="dataToSend">
                                 <button ng-click="emitBasic()">Send</button>
                                 <button ng-click="emitBasic2()">Send</button>
                                 <!-- <p class="card-text"> input<input ng-model="FilterController.input" /></p> -->
@@ -138,7 +139,7 @@
     					})
     				},
     				emit: function emit(event, data, callback) {
-                        console.log('.emit called')
+
     					if (typeof callback == 'function') {
     						socket.emit(event, data, function() {
     							var args = arguments
@@ -148,6 +149,7 @@
     							})
     						})
     					} else {
+                            console.log('.emit called')
     						socket.emit(event, data)
     					}
     				},
