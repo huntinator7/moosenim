@@ -122,6 +122,7 @@
                 <ul>
                     messages
                     <div style="background-color:#00f7ff" ng-repeat="x in records">{{x}}</div>
+                    rooms:
                     <div style="background-color:#00f7ff" ng-repeat="x in roomlist">{{x}}</div>
 
 
@@ -182,6 +183,7 @@
                 $scope.motd = motd
             })
             $socket.on('roomlist',function(rooms){
+                $scope.roomlist=[]
                 $scope.roomlist=rooms.name
             })
 
