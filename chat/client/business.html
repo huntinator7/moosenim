@@ -121,7 +121,9 @@
 
                 messages
                 <div style="background-color:#00f7ff; word-break: break-all; word-wrap: break-word;" ng-repeat="x in messages">
+                     <span ng-class-odd="'odd'" ng-class-even="'even'">
                     <strong>{{x.username}}:</strong> {{x.message}} -{{x.timestamp}}
+                </span>
                 </div>
                 <input ng-model="dataToSend">
                 <button ng-click="emitBasic2()">Send</button>
@@ -166,10 +168,14 @@
                 }
             }
         })
+        //function modalService($scope,$modal){
+
+        //}
         var app = angular.module('example', ['socket.io'])
             .config(function ($socketProvider) {
                 $socketProvider.setConnectionUrl('https://moosen.im:443')
             })
+            //.service('modalService', modalService)
             .controller('Ctrl', function Ctrl($scope, $socket) {
 
                 $socket.on('pong2', function (data) {
