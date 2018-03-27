@@ -387,7 +387,7 @@ socket.emit('pong2','testing')
         socket.emit('pong2',name)
         //console.log(Object.keys(io.sockets.sockets))
     })
-    socket.on('ping', function() {
+    socket.on('ping2', function(name) {
         console.log('pong2'+name)
         //console.log(Object.keys(io.sockets.sockets))
     })
@@ -395,6 +395,7 @@ socket.emit('pong2','testing')
     //Emit for when on mobile and needing the logs
     socket.on('log', message => {
         console.log(socket.id + ': ' + message)
+        socket.emit('pong2',message)
     })
 
     socket.on('addroom', name => {
