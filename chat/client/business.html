@@ -111,13 +111,13 @@
             </div>
 
             <div class="col-lg-2" ng-controller="Ctrl"style="background-color:#6eb7ff">
-                <ul>
+
                     messages
-                    <div style="background-color:#00f7ff" ng-repeat="x in messages">+{{x.username}}: {{x.message}} -{{x.timestamp}}</div>
+                    <div style="background-color:#00f7ff; word-break: break-all; word-wrap: break-word;" ng-repeat="x in messages"> <strong>{{x.username}}:</strong> {{x.message}} -{{x.timestamp}}</div>
 
 
 
-                </ul>
+
 
                 <br></div>
         </div>
