@@ -115,12 +115,11 @@
                 </div>
             </div>
 
-            <div class="col-lg-2" style="background-color:#0000ff">test
+            <div class="col-lg-2" ng-controller="Ctrl"style="background-color:#0000ff">test
                 <ul>
                     messages
-                    <div ng-repeat="x in messages">
-                        {{x}}
-                    </div>
+                    <h1 ng-repeat="x in records">{{x}}</h1>
+
 
 
                 </ul>
@@ -191,7 +190,12 @@
                 console.log('ping ')
                 $scope.dataToSend = '';
             }
-            $scope.messages = ['1','2','3']
+            $scope.records = [
+           "Alfreds Futterkiste",
+           "Berglunds snabbköp",
+           "Centro comercial Moctezuma",
+           "Ernst Handel",
+            ]
     	})
 
 
