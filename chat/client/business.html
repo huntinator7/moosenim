@@ -183,6 +183,7 @@
                 $scope.motd = motd
             })
             $socket.on('roomlist',function(rooms){
+                console.log('roomlist called'+rooms[0].name)
                 $scope.roomlist=[]
                 $scope.roomlist=rooms.name
             })
