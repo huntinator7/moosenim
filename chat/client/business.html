@@ -123,7 +123,7 @@
                     messages
                     <div style="background-color:#00f7ff" ng-repeat="x in records">{{x}}</div>
                     rooms:
-                    <div style="background-color:#00f7ff" ng-repeat="x in roomlist">{{x}}</div>
+                    <div style="background-color:#00f7ff" ng-repeat="x in roomlist">{{x.name}}</div>
 
 
                 </ul>
@@ -185,7 +185,7 @@
             $socket.on('roomlist',function(rooms){
                 console.log('roomlist called'+rooms[0].name)
                 $scope.roomlist=[]
-                $scope.roomlist=rooms.name
+                $scope.roomlist=rooms
             })
 
             $scope.emitBasic = function emitBasic() {
