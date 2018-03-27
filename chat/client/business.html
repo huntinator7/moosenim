@@ -193,7 +193,7 @@
             }
 
             $scope.emitBasic2 = function emitBasic() {
-                $socket.emit('log',$scope.dataToSend);
+                $socket.emit('chat message',$scope.dataToSend, 3);
                 console.log('ping ')
                 $scope.dataToSend = '';
             }
