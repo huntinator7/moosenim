@@ -115,8 +115,8 @@
                     messages
                     <div style="background-color:#00f7ff; word-break: break-all; word-wrap: break-word;" ng-repeat="x in messages"> <strong>{{x.username}}:</strong> {{x.message}} -{{x.timestamp}}</div>
 
-
-
+                    <input ng-model="dataToSend">
+                    <button ng-click="emitBasic2()">Send</button>
 
 
                 <br></div>
