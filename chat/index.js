@@ -384,7 +384,10 @@ socket.emit('pong2','test from server')
     //Test emit
     socket.on('ping', name => {
         console.log('pong')
-        socket.emit('pong2','test from server')
+            con.query('SELECT * FROM ( SELECT * FROM room1 WHERE id < 100 ORDER BY id DESC LIMIT 5) sub ORDER BY id ASC', (error, rows, results) => {
+                socket.emit(rows)
+            }
+
         //console.log(Object.keys(io.sockets.sockets))
     })
 
