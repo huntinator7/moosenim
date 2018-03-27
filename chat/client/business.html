@@ -113,9 +113,8 @@
             <div class="col-lg-2" ng-controller="Ctrl"style="background-color:#6eb7ff">
                 <ul>
                     messages
-                    <div style="background-color:#00f7ff" ng-repeat="x in records">{{x}}</div>
-                    rooms:
-                    <div style="background-color:#00f7ff" ng-repeat="x in roomlist">{{x.name}}</div>
+                    <div style="background-color:#00f7ff" ng-repeat="x in messages">{{x}}</div>
+
 
 
                 </ul>
@@ -179,6 +178,12 @@
                 $scope.roomlist=[]
                 $scope.roomlist=rooms
             })
+            $socket.on('chat message',function(name,message){
+
+                $scope.messages=[]
+                $scope.messages=message
+            })
+
 
             $scope.emitBasic = function emitBasic() {
                 $socket.emit('get-motd',1)
