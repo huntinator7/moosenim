@@ -166,6 +166,9 @@
     			$scope.serverResponse = data
     			console.log(data)
     		})
+            $socket.on('connect',function(){
+                $socket.emit('ping', 'Hello server');
+            });
 
             $scope.emitBasic = function emitBasic() {
                 $socket.emit('ping', $scope.dataToSend);
@@ -174,7 +177,7 @@
             }
 
             $scope.emitBasic2 = function emitBasic() {
-                $socket.emit('ping');
+                $socket.emit('retPre',100,1);
                 console.log('ping ')
                 $scope.dataToSend = '';
             }
