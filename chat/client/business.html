@@ -147,7 +147,7 @@
     						})
     					})
     				},
-    				emit: function emit(event, data, callback) {
+    				emit: function emit(event, data, data2,callback) {
 
     					if (typeof callback == 'function') {
     						socket.emit(event, data, function() {
@@ -159,7 +159,7 @@
     						})
     					} else {
                             console.log('.emit called')
-    						socket.emit(event, data)
+    						socket.emit(event, data,data2)
     					}
     				},
     			}
