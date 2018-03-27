@@ -113,7 +113,7 @@
             <div class="col-lg-2" ng-controller="Ctrl"style="background-color:#6eb7ff">
                 <ul>
                     messages
-                    <div style="background-color:#00f7ff" ng-repeat="x in messages">{{x}}</div>
+                    <div style="background-color:#00f7ff" ng-repeat="x in messages">{{x.username}}: {{x.message}} -{{x.timestamp}}</div>
 
 
 
@@ -178,10 +178,10 @@
                 $scope.roomlist=[]
                 $scope.roomlist=rooms
             })
-            $socket.on('chat message',function(name,message){
+            $socket.on('chat message2',function(rows){
 
                 $scope.messages=[]
-                $scope.messages=message
+                $scope.messages=rows
             })
 
 

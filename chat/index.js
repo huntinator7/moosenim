@@ -676,6 +676,7 @@ function getMessage(roomId) {
         if (error) throw error
         getDBUN(rows[0].uid).then(dbRes => {
             io.to(roomId).emit('chat message', dbRes[0], decodeURI(rows[0].message), rows[0].timestamp, rows[0].id, dbRes[1], roomId, dbRes[2])
+            io.to(roomId).emit('chat message2', rows)
             if (roomId == config.discord.sendChannel && dbRes[2] !== 'Discord') {
                 //send to Discord
                 var msg = decodeURI(rows[0].message)
@@ -777,6 +778,7 @@ async function showPreviousMessages(num, previous, sid, roomId) {
             rows.forEach(e => {
                 getDBUN(e.uid).then(dbRes => {
                     io.to(sid).emit('chat message', dbRes[0], decodeURI(e.message), e.timestamp, e.id, dbRes[1], roomId, dbRes[2])
+                    io.to(sid).emit('chat message2', rows)
                 })
             })
         } catch (e) {
