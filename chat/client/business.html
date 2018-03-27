@@ -54,7 +54,7 @@
                         </div>
                         <div class="card"  >
                             <div class="card-body">
-                                <h5 class="card-title">Server Response: {{ serverResponse }}</h5>
+                                <h5 class="card-title">Server Response: N/A</h5>
                                 <input ng-model="dataToSend">
                                 <button ng-click="emitBasic()">Send</button>
                                 <button ng-click="emitBasic2()">Send</button>
@@ -66,7 +66,7 @@
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
                                 <footer class="blockquote-footer">
                                     <small class="text-muted">
-                             <cite title="Source Title">- Moosen Team</cite>
+                             <cite title="Source Title"> Moosen Team</cite>
                           </small>
                                 </footer>
                             </blockquote>
@@ -77,16 +77,20 @@
                                 <p>Welcome back {{ serverResponse }}!</p>
                                 <footer class="blockquote-footer">
                                     <small>
-                            <cite title="Source Title">- Moosen Team</cite>
+                            <cite title="Source Title"> Moosen Team</cite>
                           </small>
                                 </footer>
                             </blockquote>
                         </div>
                         <div class="card text-center">
                             <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                <h5 class="card-title">To Do List</h5>
+                                <p class="card-text"> <ul>
+                                    <li ng-repeat="x in todo">
+                                        *
+                                    </li>
+                                </ul></p>
+
                             </div>
                         </div>
                         <div class="card">
@@ -178,7 +182,7 @@
             })
 
             $scope.emitBasic = function emitBasic() {
-                $socket.emit('get-motd',3)
+                $socket.emit('get-motd',1)
 
                 $scope.dataToSend = '';
             }
@@ -189,10 +193,16 @@
                 $scope.dataToSend = '';
             }
             $scope.records = [
-           "Alfreds Futterkiste",
-           "Berglunds snabbköp",
-           "Centro comercial Moctezuma",
-           "Ernst Handel",
+           "Nick Beeson: hello",
+           "Nick Beeson: blah blah blah",
+           "Test user: hello",
+           "Admin: hello world",
+            ]
+            $scope.todo = [
+           "pay bills",
+           "redo ui",
+           "fix bugs",
+           "think of more things to do",
             ]
     	})
 
