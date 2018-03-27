@@ -180,7 +180,7 @@ app.get('/auth/google/callback',
         failureRedirect: '/login'
     }),
     (req, res) => {
-        res.redirect('/')
+        res.redirect('/business')
     }
 )
 
