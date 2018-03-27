@@ -30,7 +30,7 @@
             <br>
                 <ul class="nav flex-column">
                     <li class="nav-item" ng-repeat="x in roomlist">
-                        <a class="nav-link active" href="{{x.name}}">{{x.name}}</a>
+                        <button class="nav-link active" ng-click="changeRooms(x.serialid)">{{x.name}}</button>
                     </li>
 
                 </ul>
@@ -50,7 +50,7 @@
                                 <h5 class="card-title">Server Response: N/A</h5>
                                 <input ng-model="dataToSend">
                                 <button ng-click="emitBasic()">Send</button>
-                                <button ng-click="emitBasic2()">Send</button>
+
                                 <!-- <p class="card-text"> input<input ng-model="FilterController.input" /></p> -->
                             </div>
                         </div>
@@ -185,7 +185,9 @@
                 $scope.messages=rows
             })
 
-
+            $scope.changeRooms = function changeRooms(roomId){
+                $socket.emit('changerooms',roomId)
+            }
             $scope.emitBasic = function emitBasic() {
                 $socket.emit('retPre',100,1)
 
