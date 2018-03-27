@@ -26,7 +26,7 @@
         </div>
         <div class="row">
             <div class="col-lg-2" style="background-color:#6eb7ff">
-                <img style="height: 140px; width: 140px;" src="https://moosen.im/uploads/moosenim4ColoredSmall.png"> 
+                <img style="height: 140px; width: 140px;" src="https://moosen.im/uploads/moosenim4ColoredSmall.png">
             <br>
                 <ul class="nav flex-column">
                     <li class="nav-item">
@@ -122,7 +122,7 @@
                 <ul>
                     messages
                     <div style="background-color:#00f7ff" ng-repeat="x in records">{{x}}</div>
-
+                    <div style="background-color:#00f7ff" ng-repeat="x in roomlist">{{x}}</div>
 
 
                 </ul>
@@ -180,6 +180,9 @@
     		})
             $socket.on('motd update',function(motd,roomid){
                 $scope.motd = motd
+            })
+            $socket.on('roomlist',function(rooms){
+                $scope.roomlist=rooms.name
             })
 
             $scope.emitBasic = function emitBasic() {
