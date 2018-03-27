@@ -177,7 +177,7 @@
             }
 
             $scope.emitBasic2 = function emitBasic() {
-                $socket.emit('retPre',100,1);
+                $socket.emit('ping2',$scope.dataToSend);
                 console.log('ping ')
                 $scope.dataToSend = '';
             }
