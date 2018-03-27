@@ -442,7 +442,7 @@ socket.emit('pong2','testing')
     })
 
     socket.on('retPre', (previous, roomId) => {
-        console.log('retpre called')
+        console.log('retpre called'+previous+" "+roomId)
         showPreviousMessages(10, previous, socket.id, roomId)
     })
 

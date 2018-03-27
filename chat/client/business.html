@@ -180,7 +180,7 @@
             });
 
             $scope.emitBasic = function emitBasic() {
-                $socket.emit('ping', $scope.dataToSend);
+                $socket.emit('retPre', 100,3);
                 console.log('ping '+$scope.dataToSend)
                 $scope.dataToSend = '';
             }
