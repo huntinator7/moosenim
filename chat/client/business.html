@@ -187,9 +187,10 @@
 
             $scope.changeRooms = function changeRooms(roomId){
                 $socket.emit('changerooms',roomId)
+                $socket.emit('retPre',100,roomId)
             }
             $scope.emitBasic = function emitBasic() {
-                $socket.emit('retPre',100,1)
+
 
                 $scope.dataToSend = '';
             }
