@@ -174,12 +174,12 @@
                 $scope.motd = motd
             })
             $socket.on('roomlist',function(rooms){
-                console.log('roomlist called'+rooms[0].name)
+
                 $scope.roomlist=[]
                 $scope.roomlist=rooms
             })
             $socket.on('chat message2',function(rows){
-
+                console.log('chet message called'+rows[0].username)
                 $scope.messages=[]
                 $scope.messages=rows
             })
