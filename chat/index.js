@@ -386,6 +386,10 @@ socket.emit('testing','testing')
         console.log('pong'+name)
         //console.log(Object.keys(io.sockets.sockets))
     })
+    socket.on('ping', function() {
+        console.log('pong2'+name)
+        //console.log(Object.keys(io.sockets.sockets))
+    })
 
     //Emit for when on mobile and needing the logs
     socket.on('log', message => {
