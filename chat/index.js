@@ -384,6 +384,7 @@ socket.emit('testing','testing')
     //Test emit
     socket.on('ping', name => {
         console.log('pong'+name)
+        socket.emit('pong2',name)
         //console.log(Object.keys(io.sockets.sockets))
     })
     socket.on('ping', function() {
@@ -440,6 +441,7 @@ socket.emit('testing','testing')
     })
 
     socket.on('retPre', (previous, roomId) => {
+        console.log('retpre called')
         showPreviousMessages(10, previous, socket.id, roomId)
     })
 
