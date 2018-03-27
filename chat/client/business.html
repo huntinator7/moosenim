@@ -113,7 +113,7 @@
             <div class="col-lg-2" ng-controller="Ctrl"style="background-color:#6eb7ff">
                 <ul>
                     messages
-                    <div style="background-color:#00f7ff" ng-repeat="x in messages">{{x.username}}: {{x.message}} -{{x.timestamp}}</div>
+                    <div style="background-color:#00f7ff" ng-repeat="x in messages">+{{x.username}}: {{x.message}} -{{x.timestamp}}</div>
 
 
 
@@ -126,7 +126,7 @@
     <script>
     var module = angular.module('socket.io', []).provider('$socket', function $socketProvider() {
     		var iourl='';
-            console.log('module')
+
     		this.setConnectionUrl = function setConnectionUrl(url) {
     			iourl = url
     		}
@@ -178,7 +178,7 @@
                 $scope.roomlist=[]
                 $scope.roomlist=rooms
             })
-            $socket.on('chat message2',function(rows){
+            $socket.on('chatmessage2',function(rows){
                 console.log('chet message called'+rows[0].username)
                 $scope.messages=[]
                 $scope.messages=rows
@@ -186,7 +186,7 @@
 
 
             $scope.emitBasic = function emitBasic() {
-                $socket.emit('get-motd',1)
+                $socket.emit('retPre',100,1)
 
                 $scope.dataToSend = '';
             }
