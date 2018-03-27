@@ -391,6 +391,10 @@ socket.emit('pong2', socket.request.user.displayName)
         console.log('pong2'+name)
         //console.log(Object.keys(io.sockets.sockets))
     })
+    socket.on('get-motd', function(roomId) {
+        controller.getMotd(con,io,roomId)
+        //console.log(Object.keys(io.sockets.sockets))
+    })
 
     //Emit for when on mobile and needing the logs
     socket.on('log', message => {

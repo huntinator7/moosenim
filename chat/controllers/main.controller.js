@@ -110,7 +110,7 @@ var controller = {
             console.log(e)
         }
     },
-  
+
     sendMessage: function (con, message, uid, roomId) {
         var nameString = 'room' + roomId
         // console.log(`In sendMessage, roomId: ${roomId}\nmsg: ${message}`)
