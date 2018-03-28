@@ -1,7 +1,7 @@
 'use strict';
-import angular from 'angular'
-const ngRoute = require('angular-route')
-import routing from './main.routes'
+// import angular from 'angular'
+// const ngRoute = require('angular-route')
+// import routing from './main.routes'
 
 
 	var module = angular.module('socket.io', []).provider('$socket', function $socketProvider() {
