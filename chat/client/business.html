@@ -53,7 +53,7 @@
 
             </div>
             <div class="col-lg-8" style="text-align:center;    background-clip: content-box, padding-box;">
-                <h5>
+                <h5 style="color: white;">
                     <strong>{{motd}}</strong>
                 </h5>
                 <br>
@@ -129,7 +129,6 @@
 
             <div class="col-lg-2 hidden-sm-down" ng-controller="Ctrl" style="background-color:#6eb7ff">
 
-                messages
                 <div ng-class-odd="'odd'" ng-class-even="'even'" style="word-break: break-all; word-wrap: break-word;" ng-repeat="x in messages">
                     <img src="{{x.profpic}}" /><strong>{{x.username}}:</strong> {{x.message}} -{{x.timestamp}}
                 </div>
