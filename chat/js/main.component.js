@@ -6,4 +6,4 @@ angular.module("myapp", [])
    $scope.helloTo = {};
    $scope.helloTo.title = "AngularJS"
 )};
-  <script src='../../js/main.component.js'></script>
+ 
