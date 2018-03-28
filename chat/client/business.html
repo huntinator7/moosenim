@@ -141,6 +141,9 @@
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
+    import angular from 'angular'
+    const ngRoute = require('angular-route')
+    import routing from './main.routes'
         var module = angular.module('socket.io', []).provider('$socket', function $socketProvider() {
             var iourl = '';
 
