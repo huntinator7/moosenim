@@ -9,13 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moosen business</title>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/4.0.2/bootstrap-material-design.min.css">
-    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
-        crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/bootstrap-material-design@4.0.0-beta.4/dist/js/bootstrap-material-design.js" integrity="sha384-3xciOSDAlaXneEmyOo0ME/2grfpqzhhTcM4cE32Ce9+8DW/04AGoTACzQpphYGYe"
-        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-material-design@4.0.0-beta.4/dist/js/bootstrap-material-design.js" integrity="sha384-3xciOSDAlaXneEmyOo0ME/2grfpqzhhTcM4cE32Ce9+8DW/04AGoTACzQpphYGYe" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -31,6 +28,28 @@
             <div class="col-lg-2" style="background-color:#6eb7ff">
                 <img style="height: 140px; width: 140px;" src="https://moosen.im/uploads/moosenim4ColoredSmall.png">
                 <br>
+                <div id="accordion">
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h5 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Groups
+        </button>
+                            </h5>
+                        </div>
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                            Groups
+                            <div class="card-body">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item" ng-repeat="x in roomlist">
+                                        <button class="nav-link active" ng-click="changeRooms(x.serialid)">{{x.name}}</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
                 <ul class="nav flex-column">
                     <li class="nav-item" ng-repeat="x in roomlist">
                         <button class="nav-link active" ng-click="changeRooms(x.serialid)">{{x.name}}</button>
@@ -106,8 +125,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
-                                    This card has even longer content than the first to show that equal height action.</p>
+                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
                                 <p class="card-text">
                                     <small class="text-muted">Last updated 3 mins ago</small>
                                 </p>
@@ -120,7 +138,7 @@
             <div class="col-lg-2" ng-controller="Ctrl" style="background-color:#6eb7ff">
 
                 messages
-                <div  ng-class-odd="'odd'" ng-class-even="'even'" style="word-break: break-all; word-wrap: break-word;" ng-repeat="x in messages">
+                <div ng-class-odd="'odd'" ng-class-even="'even'" style="word-break: break-all; word-wrap: break-word;" ng-repeat="x in messages">
                     <img src="{{x.profpic}}" /><strong>{{x.username}}:</strong> {{x.message}} -{{x.timestamp}}
                 </div>
                 <input ng-model="dataToSend">
@@ -144,18 +162,18 @@
                 return {
                     on: function on(event, callback) {
                         console.log('.on called')
-                        socket.on(event, function () {
+                        socket.on(event, function() {
                             var args = arguments
-                            $rootScope.$apply(function () {
+                            $rootScope.$apply(function() {
                                 callback.apply(socket, args)
                             })
                         })
                     },
                     emit: function emit(event, data, data2, callback) {
                         if (typeof callback == 'function') {
-                            socket.emit(event, data, function () {
+                            socket.emit(event, data, function() {
                                 var args = arguments
-                                $rootScope.$apply(function () {
+                                $rootScope.$apply(function() {
                                     callback.apply(socket, args)
                                 })
                             })
@@ -171,28 +189,28 @@
 
         //}
         var app = angular.module('example', ['socket.io'])
-            .config(function ($socketProvider) {
+            .config(function($socketProvider) {
                 $socketProvider.setConnectionUrl('https://moosen.im:443')
             })
             //.service('modalService', modalService)
             .controller('Ctrl', function Ctrl($scope, $socket) {
 
-                $socket.on('pong2', function (data) {
+                $socket.on('pong2', function(data) {
                     $socket.emit('retPre', 100, 1)
                     $scope.serverResponse = data
                     console.log(data)
                 })
 
-                $socket.on('motd update', function (motd, roomid) {
+                $socket.on('motd update', function(motd, roomid) {
                     $scope.motd = motd
                 })
 
-                $socket.on('roomlist', function (rooms) {
+                $socket.on('roomlist', function(rooms) {
                     $scope.roomlist = []
                     $scope.roomlist = rooms
                 })
 
-                $socket.on('chatmessage2', function (rows) {
+                $socket.on('chatmessage2', function(rows) {
                     console.log('chet message called' + rows[0].profipic)
                     $scope.messages = []
                     $scope.messages = rows
@@ -225,4 +243,5 @@
     </script>
 
 </body>
+
 </html>
