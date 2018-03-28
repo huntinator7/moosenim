@@ -121,7 +121,7 @@
 
                 messages
                 <div  ng-class-odd="'odd'" ng-class-even="'even'" style="word-break: break-all; word-wrap: break-word;" ng-repeat="x in messages">
-                    <img src="{{x.profpic}}" /><strong>{{x.username}}:</strong> {{x.message}} -{{x.timestamp}}
+                    <img src="{{x.profpic}}" /><strong>{{x.username}}:</strong> {{x.message}} -{{x.timestamp}} {{x.profpic}}
                 </div>
                 <input ng-model="dataToSend">
                 <button ng-click="emitBasic2()">Send</button>
