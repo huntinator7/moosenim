@@ -121,7 +121,7 @@
 
                 messages
                 <div  ng-class-odd="'odd'" ng-class-even="'even'" style="word-break: break-all; word-wrap: break-word;" ng-repeat="x in messages">
-                    <img src="{{x.profpic}}" /><strong>{{x.username}}:</strong> {{x.message}} -{{x.timestamp}} {{x.profpic}}
+                    <img src="{{x.profpic}}" /><strong>{{x.username}}:</strong> {{x.message}} -{{x.timestamp}}
                 </div>
                 <input ng-model="dataToSend">
                 <button ng-click="emitBasic2()">Send</button>
@@ -193,7 +193,7 @@
                 })
 
                 $socket.on('chatmessage2', function (rows) {
-                    console.log('chet message called' + rows[0].username)
+                    console.log('chet message called' + rows[0].profipic)
                     $scope.messages = []
                     $scope.messages = rows
                 })
