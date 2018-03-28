@@ -120,10 +120,8 @@
             <div class="col-lg-2" ng-controller="Ctrl" style="background-color:#6eb7ff">
 
                 messages
-                <div style="background-color:#00f7ff; word-break: break-all; word-wrap: break-word;" ng-repeat="x in messages">
-                     <span ng-class-odd="'odd'" ng-class-even="'even'">
+                <div  ng-class-odd="'odd'" ng-class-even="'even'" style="background-color:#00f7ff; word-break: break-all; word-wrap: break-word;" ng-repeat="x in messages"> 
                     <strong>{{x.username}}:</strong> {{x.message}} -{{x.timestamp}}
-                </span>
                 </div>
                 <input ng-model="dataToSend">
                 <button ng-click="emitBasic2()">Send</button>
