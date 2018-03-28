@@ -134,6 +134,7 @@
         var module = angular.module('socket.io', []).provider('$socket', function $socketProvider() {
             var iourl = '';
 
+
             this.setConnectionUrl = function setConnectionUrl(url) {
                 iourl = url
             }
