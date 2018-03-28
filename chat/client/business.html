@@ -120,8 +120,8 @@
             <div class="col-lg-2" ng-controller="Ctrl" style="background-color:#6eb7ff">
 
                 messages
-                <div  ng-class-odd="'odd'" ng-class-even="'even'" style="word-break: break-all; word-wrap: break-word;" ng-repeat="x in messages"> 
-                    <strong>{{x.username}}:</strong> {{x.message}} -{{x.timestamp}}
+                <div  ng-class-odd="'odd'" ng-class-even="'even'" style="word-break: break-all; word-wrap: break-word;" ng-repeat="x in messages">
+                    <img src="x.profpic" /><strong>{{x.username}}:</strong> {{x.message}} -{{x.timestamp}}
                 </div>
                 <input ng-model="dataToSend">
                 <button ng-click="emitBasic2()">Send</button>
@@ -212,12 +212,7 @@
                     $scope.dataToSend = '';
                 }
 
-                $scope.records = [
-                    "Nick Beeson: hello",
-                    "Nick Beeson: blah blah blah",
-                    "Test user: hello",
-                    "Admin: hello world",
-                ]
+
 
                 $scope.todo = [
                     "pay bills",
