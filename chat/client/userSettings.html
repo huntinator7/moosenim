@@ -50,8 +50,8 @@
                     </div>
 
                 </div>
-                <a href="/business">Home Page</a>
-                <a href="/">Home Page</a>
+                <a href="/business">Home Page</a><br />
+                <a href="/">Chat Messages</a>
             </div>
             <div class="col-lg-8" style="text-align:center;    background-clip: content-box, padding-box;">
                 <h5 style="color: white;">
@@ -71,7 +71,16 @@
                             </blockquote>
                         </div>
 
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">User information</h5>
 
+                                Change display name: <input ng-model="nickname"><br />
+                                Change PRofile Picture (url) <input ng-model="url"><br />
+                                <button ng-click="updateUser()">Update</button>
+
+                            </div>
+                        </div>
 
 
                         <div class="card">

@@ -66,7 +66,7 @@
 			})
 
 			$socket.on('chatmessage2', function(rows) {
-				console.log('chet message called' + rows[0].profipic)
+				console.log('chet message called' + rows[0].profpic)
 				$scope.messages = []
 				$scope.messages = rows
 			})
@@ -76,8 +76,10 @@
 				$socket.emit('retPre', 100, roomId)
 			}
 
-			$scope.emitBasic = function emitBasic() {
-				$scope.dataToSend = '';
+			$scope.updateUser = function updateUser() {
+				$socket.emit('updateuser',$scope.nickname,$scope.url)
+				$scope.nickname = '';
+				$scope.url = '';
 			}
 
 			$scope.emitBasic2 = function emitBasic() {
@@ -87,11 +89,4 @@
 			}
 
 
-
-			$scope.todo = [
-				"pay bills",
-				"redo ui",
-				"fix bugs",
-				"think of more things to do",
-			]
 		})
