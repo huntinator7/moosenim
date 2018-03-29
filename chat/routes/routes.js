@@ -27,6 +27,9 @@ router.get('/vr', function (req, res) {
 router.get('/business', function (req, res) {
     res.sendFile('/client/business.html', { 'root': '/var/www/html/chat' })
 })
+router.get('/settings', function (req, res) {
+    res.sendFile('/client/userSettings.html', { 'root': '/var/www/html/chat' })
+})
 
 //export this router to use in our index.js
 module.exports = router
