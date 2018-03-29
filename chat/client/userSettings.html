@@ -50,70 +50,30 @@
                     </div>
 
                 </div>
-
+                <a href="/business">Home Page</a>
+                <a href="/">Home Page</a>
             </div>
             <div class="col-lg-8" style="text-align:center;    background-clip: content-box, padding-box;">
                 <h5 style="color: white;">
-                    <strong>{{motd}}</strong>
+
                 </h5>
                 <br>
                 <div class="row" ng-controller="Ctrl">
                     <div class="card-columns">
                         <div class="card bg-primary text-white text-center p-3">
                             <blockquote class="blockquote mb-0">
-                                <p>Welcome back {{ serverResponse }}!</p>
+                                <p><h5>Settings for {{ serverResponse }}<h5></h5></p>
                                 <footer class="blockquote-footer">
                                     <small>
-                                        <cite title="Source Title"> Moosen Team</cite>
-                                    </small>
-                                </footer>
-                            </blockquote>
-                        </div>
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Server Response: N/A</h5>
-                                <input ng-model="dataToSend">
-                                <button ng-click="emitBasic()">Send</button>
-                                <!-- <p class="card-text"> input<input ng-model="FilterController.input" /></p> -->
-                            </div>
-                        </div>
-                        <div class="card p-3">
-                            <h5 class="card-title">Projects</h5>
-                            <blockquote class="blockquote mb-0 card-body">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                                <footer class="blockquote-footer">
-                                    <small class="text-muted">
-                                        <cite title="Source Title"> Moosen Team</cite>
+
                                     </small>
                                 </footer>
                             </blockquote>
                         </div>
 
-                        <div class="card text-center">
-                            <div class="card-body">
-                                <h5 class="card-title">To Do List</h5>
-                                <p class="card-text">
-                                    <ul>
-                                        <li ng-repeat="x in todo">
-                                            {{x}}
-                                        </li>
-                                    </ul>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="card">
-                        </div>
-                        <div class="card p-3 text-right">
-                            <blockquote class="blockquote mb-0">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                                <footer class="blockquote-footer">
-                                    <small class="text-muted">
-                                        Someone famous in
-                                        <cite title="Source Title">Source Title</cite>
-                                    </small>
-                                </footer>
-                            </blockquote>
-                        </div>
+
+
+
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Card title</h5>
@@ -139,7 +99,7 @@
         </div>
     </div>
     <script src="/socket.io/socket.io.js"></script>
-    <script src='../js/main.component.js'></script>
+    <script src='../js/settings.component.js'></script>
 
 </body>
 
