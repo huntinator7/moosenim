@@ -24,7 +24,7 @@
 						})
 					})
 				},
-				emit: function emit(event, data, data2,data3,data4,data5,data6, callback) {
+				emit: function emit(event, data, data2,data3,data4,data5,data6,callback) {
 					if (typeof callback == 'function') {
 						socket.emit(event, data, function() {
 							var args = arguments
