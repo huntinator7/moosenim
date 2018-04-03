@@ -28,27 +28,39 @@
             <div class="col-lg-2 hidden-sm-down" style="background-color:#f0f0f0">
                 <img style="height: 140px; width: 140px;" src="https://moosen.im/uploads/moosenim4ColoredSmall.png">
                 <br>
-                <div id="accordion">
 
-                        <div class="card-header" id="headingOne">
-                            <h5 class="mb-0">
+
+                <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
                                 <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                                   Groups
                                 </a>
                                         </h5>
 
-                        <div class="collapse" id="collapseExample">
-                                Groups
-                            <div class="card-body">
-                                <ul class="nav flex-column">
-                                    <li class="nav-item" ng-repeat="x in roomlist">
+                    <div class="collapse" id="collapseExample">
+                        Groups
+                        <div class="card-body">
+                            <ul class="nav flex-column">
+                                <li class="nav-item" ng-repeat="x in roomlist">
                                     <button type="button" class="btn btn-secondary btn-sm" ng-click="changeRooms(x.serialid)">{{x.name}}</button>
-                                    </li>
-                                </ul>
-                            </div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
+                </div>
 
+                <p>
+                    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+        Link with href
+      </a>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        Button with data-target
+      </button>
+                </p>
+                <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                    </div>
                 </div>
                 <a href="/settings">Settings Page</a><br />
                 <a href="/chat">Chat Messages</a>
@@ -132,9 +144,9 @@
             <div class="col-lg-2 hidden-sm-down" ng-controller="Ctrl" style="background-color:#6eb7ff">
 
                 <div ng-class-odd="'odd'" ng-class-even="'even'" style="word-break: break-all; word-wrap: break-word;" ng-repeat="x in messages">
-                    <img src='{{x.profpic}}'style="height:32px;width:32px; border-radius: 50%;" /><strong>{{x.name}}:</strong> {{x.message}}
+                    <img src='{{x.profpic}}' style="height:32px;width:32px; border-radius: 50%;" /><strong>{{x.name}}:</strong> {{x.message}}
                     <br />
-                        <small class="text-muted">{{x.time}}</small>
+                    <small class="text-muted">{{x.time}}</small>
                 </div>
                 <input ng-model="dataToSend">
                 <button ng-click="emitBasic2()">Send</button>
