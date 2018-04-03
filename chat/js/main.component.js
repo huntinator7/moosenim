@@ -51,6 +51,7 @@
 		.controller('Ctrl', function Ctrl($scope, $socket) {
 
 			$socket.on('onconnect', function(data) {
+				$scope.messages=[]
 				$socket.emit('retPre', 100, 1)
 				$scope.serverResponse = data
 			})
@@ -65,14 +66,14 @@
 			})
 			//fix json formatting.
 			$socket.on('chat message', function(Name,message,time,id,profpic,roomId,badge) {
-				console.log('chet message called' + profpic)
+
 				var msgPack = {
 					name:Name,
 					message:message,
 					time:time,
 					profpic:profpic
 				}
-				$scope.messages=[]
+
 				$scope.messages.push(msgPack)
 			})
 

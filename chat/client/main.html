@@ -132,7 +132,7 @@
             <div class="col-lg-2 hidden-sm-down" ng-controller="Ctrl" style="background-color:#6eb7ff">
 
                 <div ng-class-odd="'odd'" ng-class-even="'even'" style="word-break: break-all; word-wrap: break-word;" ng-repeat="x in messages">
-                    <img src='{{x.profpic}}' /><strong>{{x.name}}:</strong> {{x.message}}
+                    <img src='{{x.profpic}}'style="height:50px;width:50px" /><strong>{{x.name}}:</strong> {{x.message}}
                 </div>
                 <input ng-model="dataToSend">
                 <button ng-click="emitBasic2()">Send</button>
