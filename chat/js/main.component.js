@@ -16,7 +16,7 @@
 			var socket = io.connect(iourl);
 			return {
 				on: function on(event, callback) {
-				
+
 					socket.on(event, function() {
 						var args = arguments
 						$rootScope.$apply(function() {
@@ -24,7 +24,7 @@
 						})
 					})
 				},
-				emit: function emit(event, data, data2,data3,data4,data5,data6 callback) {
+				emit: function emit(event, data, data2,data3,data4,data5,data6, callback) {
 					if (typeof callback == 'function') {
 						socket.emit(event, data, function() {
 							var args = arguments
