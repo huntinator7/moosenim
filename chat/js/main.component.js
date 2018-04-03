@@ -16,7 +16,7 @@
 			var socket = io.connect(iourl);
 			return {
 				on: function on(event, callback) {
-					console.log('.on called')
+				
 					socket.on(event, function() {
 						var args = arguments
 						$rootScope.$apply(function() {
@@ -53,7 +53,6 @@
 			$socket.on('onconnect', function(data) {
 				$socket.emit('retPre', 100, 1)
 				$scope.serverResponse = data
-				console.log(data)
 			})
 
 			$socket.on('motd update', function(motd, roomid) {
@@ -84,7 +83,7 @@
 
 			$scope.emitBasic2 = function emitBasic() {
 				$socket.emit('chat message', $scope.dataToSend, 3);
-				console.log('ping ')
+
 				$scope.dataToSend = '';
 			}
 
