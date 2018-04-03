@@ -24,7 +24,7 @@
 						})
 					})
 				},
-				emit: function emit(event, data, data2, callback) {
+				emit: function emit(event, data, data2,data3,data4,data5,data6 callback) {
 					if (typeof callback == 'function') {
 						socket.emit(event, data, function() {
 							var args = arguments
@@ -50,7 +50,7 @@
 		//.service('modalService', modalService)
 		.controller('Ctrl', function Ctrl($scope, $socket) {
 
-			$socket.on('pong2', function(data) {
+			$socket.on('onconnect', function(data) {
 				$socket.emit('retPre', 100, 1)
 				$scope.serverResponse = data
 				console.log(data)
@@ -64,11 +64,13 @@
 				$scope.roomlist = []
 				$scope.roomlist = rooms
 			})
-
-			$socket.on('chatmessage2', function(rows) {
-				console.log('chet message called' + rows[0].profipic)
+			//fix json formatting.
+			$socket.on('chat message', function(name,message,time,id,profpic,roomId,badge) {
+				console.log('chet message called' + profipic)
 				$scope.messages = []
-				$scope.messages = rows
+				$scope.messages = [
+					name,message,time,id,profpic,roomId,badge
+				]
 			})
 
 			$scope.changeRooms = function changeRooms(roomId) {

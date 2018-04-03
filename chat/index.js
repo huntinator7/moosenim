@@ -228,7 +228,7 @@ var players = []
 
 //----SOCKET.IO----\\
 io.sockets.on('connection', socket => {
-socket.emit('pong2', socket.request.user.displayName)
+socket.emit('onconnect', socket.request.user.displayName)
 
     console.log('CONNECTED to socket io: ' + socket.request.user.displayName)
     controller.getChatrooms(io, con, socket.id, socket.request.user.id)
@@ -383,11 +383,11 @@ socket.emit('pong2', socket.request.user.displayName)
     //Test emit
     socket.on('ping', name => {
         console.log('pong'+name)
-        socket.emit('pong2',name)
+        socket.emit('onconnect',name)
         //console.log(Object.keys(io.sockets.sockets))
     })
     socket.on('ping2', function(name) {
-        console.log('pong2'+name)
+        console.log('onconnect'+name)
         //console.log(Object.keys(io.sockets.sockets))
     })
     socket.on('get-motd', function(roomId) {
@@ -398,7 +398,7 @@ socket.emit('pong2', socket.request.user.displayName)
     //Emit for when on mobile and needing the logs
     socket.on('log', message => {
         console.log(socket.id + ': ' + message)
-        socket.emit('pong2',socket.request.user.displayName)
+        socket.emit('onconnect',socket.request.user.displayName)
     })
 
     socket.on('addroom', name => {

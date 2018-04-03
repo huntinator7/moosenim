@@ -50,7 +50,7 @@
 		//.service('modalService', modalService)
 		.controller('Ctrl', function Ctrl($scope, $socket) {
 
-			$socket.on('pong2', function(data) {
+			$socket.on('onconnect', function(data) {
 				$socket.emit('retPre', 100, 1)
 				$scope.serverResponse = data
 				console.log(data)
@@ -66,7 +66,7 @@
 			})
 
 			$socket.on('chatmessage2', function(rows) {
-				console.log('chet message called' + rows[0].profpic)
+				console.log('chat message called' + rows[0].profpic)
 				$scope.messages = []
 				$scope.messages = rows
 			})
