@@ -68,7 +68,10 @@
 				console.log('chet message called' + profpic)
 				$scope.messages = []
 				$scope.messages = [
-					name,message,time,id,profpic,roomId,badge
+					name:name,
+					message:message,
+					time:time,
+					profpic:profpic
 				]
 			})
 
