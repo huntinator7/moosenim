@@ -72,6 +72,7 @@
 					time:time,
 					profpic:profpic
 				}
+				$scope.messages=[]
 				$scope.messages.push(msgPack)
 			})
 
