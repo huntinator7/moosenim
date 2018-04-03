@@ -235,7 +235,7 @@ socket.emit('onconnect', socket.request.user.displayName)
     con.query('SELECT room_id FROM room_users WHERE user_id = ?', [socket.request.user.id], (error, rows, results) => {
         rows.forEach(e => {
             io.to(e.room_id).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id, e.room_id)
-            console.log('Joining room ' + e.room_id)
+        
             socket.join(e.room_id)
         })
         socket.request.user.photos.forEach(e => {

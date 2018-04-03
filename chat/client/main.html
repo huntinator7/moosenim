@@ -29,20 +29,20 @@
                 <img style="height: 140px; width: 140px;" src="https://moosen.im/uploads/moosenim4ColoredSmall.png">
                 <br>
                 <div id="accordion">
-                    <div class="card">
+
                         <div class="card-header" id="headingOne">
                             <h5 class="mb-0">
         <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
           Groups
         </button>
                             </h5>
-                        </div>
+
                         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                             Groups
                             <div class="card-body">
                                 <ul class="nav flex-column">
                                     <li class="nav-item" ng-repeat="x in roomlist">
-                                        <button class="nav-link active" ng-click="changeRooms(x.serialid)">{{x.name}}</button>
+                                    <button type="button" class="btn btn-secondary btn-sm" ng-click="changeRooms(x.serialid)">{{x.name}}</button>
                                     </li>
                                 </ul>
                             </div>
