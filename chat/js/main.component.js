@@ -52,7 +52,7 @@
 
 			$socket.on('onconnect', function(data) {
 				$scope.messages=[]
-				$socket.emit('retPre', 100, 1)
+
 				$scope.serverResponse = data
 			})
 
