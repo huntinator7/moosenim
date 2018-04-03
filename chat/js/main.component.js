@@ -67,12 +67,12 @@
 			$socket.on('chat message', function(name,message,time,id,profpic,roomId,badge) {
 				console.log('chet message called' + profpic)
 				$scope.messages = []
-				$scope.messages = [
+				$scope.messages = {
 					name:name,
 					message:message,
 					time:time,
 					profpic:profpic
-				]
+				}
 			})
 
 			$scope.changeRooms = function changeRooms(roomId) {
