@@ -71,7 +71,10 @@
 					name:Name,
 					message:message,
 					time:time,
-					profpic:profpic
+					profpic:profpic,
+					id:id,
+					roomId:roomId,
+					badge:badge
 				}
 
 				$scope.messages.push(msgPack)
@@ -87,7 +90,7 @@
 			}
 
 			$scope.emitBasic2 = function emitBasic() {
-				$socket.emit('chat message', $scope.dataToSend, 3);
+				$socket.emit('chat message', $scope.dataToSend, $scope.messages[0].roomId);
 
 				$scope.dataToSend = '';
 			}
