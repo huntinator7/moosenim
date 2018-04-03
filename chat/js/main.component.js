@@ -64,15 +64,15 @@
 				$scope.roomlist = rooms
 			})
 			//fix json formatting.
-			$socket.on('chat message', function(name,message,time,id,profpic,roomId,badge) {
+			$socket.on('chat message', function(Name,message,time,id,profpic,roomId,badge) {
 				console.log('chet message called' + profpic)
-				
-				$scope.messages.push( {
-					name:name,
+				var package = {
+					name:Name,
 					message:message,
 					time:time,
 					profpic:profpic
-				})
+				}
+				$scope.messages.push(package)
 			})
 
 			$scope.changeRooms = function changeRooms(roomId) {
