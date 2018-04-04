@@ -64,7 +64,7 @@
 				$scope.roomlist = []
 				$scope.roomlist = rooms
 			})
-			//fix json formatting.
+			
 			$socket.on('chat message', function(Name,message,time,id,profpic,roomId,badge) {
 
 				var msgPack = {
@@ -101,7 +101,7 @@
 			$scope.emitBasic2 = function emitBasic() {
 
 				$socket.emit('chat message', $scope.dataToSend, $scope.messages[0].roomId);
-				$scope.messages=[]
+
 				$scope.dataToSend = '';
 			}
 
