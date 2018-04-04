@@ -82,11 +82,11 @@
 			$socket.on('get todo',(todolist,roomId)=>{
 				$scope.todo=[]
 				todolist.forEach((e,f)=>{
-					$scope.todo.push(e)
+					$scope.todo.push(e.msg)
 				})
 
 			})
-			
+
 
 			$scope.changeRooms = function changeRooms(roomId) {
 				$socket.emit('changerooms', roomId)
