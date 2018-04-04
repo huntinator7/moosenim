@@ -79,6 +79,14 @@
 				$scope.username=Name
 				$scope.messages.push(msgPack)
 			})
+			$socket.on('get todo',(todolist,roomId)=>{
+				$scope.todo=[]
+				todolist.forEach((e,f)=>{
+					$scope.todo.push(e)
+				})
+
+			})
+			
 
 			$scope.changeRooms = function changeRooms(roomId) {
 				$socket.emit('changerooms', roomId)
@@ -97,10 +105,6 @@
 
 
 
-			$scope.todo = [
-				"pay bills",
-				"redo ui",
-				"fix bugs",
-				"think of more things to do",
-			]
+
+
 		})
