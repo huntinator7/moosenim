@@ -66,7 +66,7 @@
 			})
 			//fix json formatting.
 			$socket.on('chat message', function(Name,message,time,id,profpic,roomId,badge) {
-				$scope.messages = []
+
 				var msgPack = {
 					name:Name,
 					message:message,
@@ -89,8 +89,9 @@
 
 
 			$scope.changeRooms = function changeRooms(roomId) {
+				$scope.messages=[]
 				$socket.emit('changerooms', roomId)
-				$socket.emit('retPre', 100, roomId)
+			
 			}
 
 			$scope.emitBasic = function emitBasic() {
