@@ -412,6 +412,7 @@ socket.emit('onconnect', socket.request.user.displayName)
         if (regex) addNewCommand(roomId, cmd, actn, msg, username, pic)
         else addNewCommand(roomId, escStrReg(cmd), actn, msg, username, pic)
     })
+    socket.on('get todo',)
 
     socket.on('updateroomtheme', (params, icon, type, roomId) => {
         controller.changeRoomTheme(con, params, icon, type, roomId)
@@ -747,6 +748,7 @@ function joinChatroom(socket, roomId) {
                         con.query('UPDATE users SET curroom = ? WHERE uid = ?', [roomId, socket.request.user.id])
                         socket.join(roomId)
                         controller.getRegexCommands(con, io, roomId, socket.id)
+                        controller.getTODO(con,io,roomId)
                         resolve()
                     }
                 })
