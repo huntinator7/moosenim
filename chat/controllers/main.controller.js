@@ -180,7 +180,7 @@ var controller = {
     getTODO: function (con, io, roomId) {
         con.query('SELECT todo FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
             if (error) console.log(error)
-            var coms = JSON.parse(rows[0].commands)
+            var coms = JSON.parse(rows[0].todo)
             // console.log(coms)
             const decode = new Promise((resolve, reject) => {
                 coms.forEach(e => {
