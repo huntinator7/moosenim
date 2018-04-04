@@ -91,7 +91,7 @@
 			$scope.changeRooms = function changeRooms(roomId) {
 				$scope.messages=[]
 				$socket.emit('changerooms', roomId)
-			
+
 			}
 
 			$scope.emitBasic = function emitBasic() {
@@ -99,6 +99,7 @@
 			}
 
 			$scope.emitBasic2 = function emitBasic() {
+				$scope.messages=[]
 				$socket.emit('chat message', $scope.dataToSend, $scope.messages[0].roomId);
 
 				$scope.dataToSend = '';
