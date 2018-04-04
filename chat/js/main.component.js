@@ -53,7 +53,7 @@
 			$socket.on('onconnect', function(data) {
 				$scope.messages=[]
 
-				$scope.serverResponse = data
+				$scope.username = data
 			})
 
 			$socket.on('motd update', function(motd, roomid) {
@@ -76,7 +76,7 @@
 					roomId:roomId,
 					badge:badge
 				}
-
+				$scope.username=Name
 				$scope.messages.push(msgPack)
 			})
 

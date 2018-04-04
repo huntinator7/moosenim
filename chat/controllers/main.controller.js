@@ -176,7 +176,45 @@ var controller = {
                 if (error) throw error
             })
         }
-    }
+    },
+    getTODO: function (con, io, roomId) {
+        con.query('SELECT todo FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
+            if (error) console.log(error)
+            var coms = JSON.parse(rows[0].commands)
+            // console.log(coms)
+            const decode = new Promise((resolve, reject) => {
+                coms.forEach(e => {
+                    e.msg = decodeURI(e.msg)
+                })
+                resolve(io.to(roomId).emit('get todo', coms, roomId))
+            })
+        })
+    },
+    removeTODO: function (con, io, command, roomId) {
+        con.query('SELECT todo FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
+            if (error) console.log(error)
+            var coms = JSON.parse(rows[0].commands)
+            console.log(coms)
+            const removeTOdo = new Promise((resolve, reject) => {
+                coms = coms.reduce(function (list, item) {
+                    if (decodeURI(item.cmd) !== command) {
+                        list.push(item)
+                    }
+                    return list
+                }, [])
+                resolve()
+                // resolve(console.log(coms))
+            }).then(() => {
+                con.query('UPDATE rooms set todo = ? WHERE serialid = ?', [JSON.stringify(coms), roomId])
+                const decode = new Promise((resolve, reject) => {
+                    coms.forEach(e => {
+                        e.msg = decodeURI(e.msg)
+                    })
+                    resolve(io.to(roomId).emit('get todo', coms, roomId))
+                })
+            })
+        })
+    },
 
 }
 module.exports = controller
