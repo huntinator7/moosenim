@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <link rel="icon" href="https://www.moosen.im/favicon.ico">
+    <meta charset="utf-8">
+    <title>Moosen Chat</title>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112336897-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || []
+
+        function gtag() {
+            dataLayer.push(arguments)
+        }
+        gtag('js', new Date())
+        gtag('config', 'UA-112336897-1')
+    </script>
+
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    
+    <!-- JQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/js/mdb.min.js"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/css/mdb.min.css" rel="stylesheet">
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script src="../siofu/client.js"></script>
+    <script src="../js/autosize.js"></script>
+
+    <source id="ogg_src" src="../sounds/notification.mp3" type="video/ogg">
+
+    <link rel="stylesheet" type="text/css" href="../css/chat.css">
+    <link rel="stylesheet" type="text/css" href="../css/core.css">
+
+    <!--Import Google Font-->
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <style>
+    </style>
+</head>
+
+<body>
+    <div class="bmd-layout-container bmd-drawer-f-l bmd-drawer-overlay main">
+        <div id="dw-s1" class="bmd-layout-drawer bg-faded mm-side">
+            <ul class="nav flex-column" id="mm-side-list">
+            </ul>
+        </div>
+        <main class="bmd-layout-content" id="maindiv">
+            <div class="row">
+                <div class="col">
+                    <ul class="mm-collection" id="messages">
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <form class="mm-form" autocomplete="off">
+                    <div class="input-group">
+                        <textarea type="text" id="send-message" class="form-control" placeholder="Message" name="message"></textarea>
+                        <div class="input-group-btn">
+                            <label name="files[]" id="add_pics" class="btn">
+                                <i class="material-icons" style="margin-left:-0.7rem">add</i>
+                                <input style="display: none" type="file" multiple>
+                            </label>
+                            <button type="submit" class="btn mm-submit">
+                                <i class="material-icons">send</i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+    <script src='../js/sidechat.js'></script>
+</body>
+
+</html>
