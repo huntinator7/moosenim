@@ -41,7 +41,7 @@ var module = angular.module('socket.io', []).provider('$socket', function $socke
 	}
 })
 
-var app = angular.module('mainApp', ['socket.io','modals'])
+var app = angular.module('mainApp', ['socket.io'])
 	.config(function($socketProvider) {
 		$socketProvider.setConnectionUrl('https://moosen.im:443')
 	})
@@ -105,44 +105,44 @@ var app = angular.module('mainApp', ['socket.io','modals'])
 
 
 	})
-	// .controller('modalCtrl', function modalCtrl($scope, $modal,$log) {
-	// // var ModalDemoCtrl = function($scope, $modal, $log) {
-	// //
-	// // 	$scope.items = ['item1', 'item2', 'item3']
-	// //
-	// // 	$scope.open = function(size) {
-	// // 		console.log("open called")
-	// // 		var modalInstance = $modal.open({
-	// // 			templateUrl: 'myModalContent.html',
-	// // 			controller: ModalInstanceCtrl,
-	// // 			size: size,
-	// // 			resolve: {
-	// // 				items: function() {
-	// // 					return $scope.items
-	// // 				}
-	// // 			}
-	// // 		})
-	// //
-	// // 		modalInstance.result.then(function(selectedItem) {
-	// // 			$scope.selected = selectedItem
-	// // 		}, function() {
-	// // 			$log.info('Modal dismissed at: ' + new Date())
-	// // 		})
-	// // 	}
-	// // }
-	// // var ModalInstanceCtrl = function($scope, $modalInstance, items) {
-	// // 	console.log('instance  instantiated')
-	// // 	$scope.items = items;
-	// // 	$scope.selected = {
-	// // 		item: $scope.items[0]
-	// // 	}
-	// //
-	// // 	$scope.ok = function() {
-	// // 		$modalInstance.close($scope.selected.item)
-	// // 	}
-	// //
-	// // 	$scope.cancel = function() {
-	// // 		$modalInstance.dismiss('cancel')
-	// // 	}
-	// // }
-	// })
+	.controller('modalCtrl', function modalCtrl($scope, $modal,$log) {
+	// var ModalDemoCtrl = function($scope, $modal, $log) {
+	//
+	// 	$scope.items = ['item1', 'item2', 'item3']
+	//
+	// 	$scope.open = function(size) {
+	// 		console.log("open called")
+	// 		var modalInstance = $modal.open({
+	// 			templateUrl: 'myModalContent.html',
+	// 			controller: ModalInstanceCtrl,
+	// 			size: size,
+	// 			resolve: {
+	// 				items: function() {
+	// 					return $scope.items
+	// 				}
+	// 			}
+	// 		})
+	//
+	// 		modalInstance.result.then(function(selectedItem) {
+	// 			$scope.selected = selectedItem
+	// 		}, function() {
+	// 			$log.info('Modal dismissed at: ' + new Date())
+	// 		})
+	// 	}
+	// }
+	// var ModalInstanceCtrl = function($scope, $modalInstance, items) {
+	// 	console.log('instance  instantiated')
+	// 	$scope.items = items;
+	// 	$scope.selected = {
+	// 		item: $scope.items[0]
+	// 	}
+	//
+	// 	$scope.ok = function() {
+	// 		$modalInstance.close($scope.selected.item)
+	// 	}
+	//
+	// 	$scope.cancel = function() {
+	// 		$modalInstance.dismiss('cancel')
+	// 	}
+	// }
+	})
