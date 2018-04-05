@@ -25,7 +25,7 @@
         <div class="col-lg-12" style="background-color:#6eb7ff">
         </div>
         <div class="row">
-            <div class="col-lg-2 hidden-sm-down" style="background-color:#6eb7ff">
+            <div class="col-lg-3 hidden-sm-down" style="background-color:#6eb7ff">
                 <img style="height: 140px; width: 140px;" src="https://moosen.im/uploads/moosenim4ColoredSmall.png">
                 <br>
                 <div id="accordion">
@@ -54,7 +54,7 @@
                 <a href="/">Chat Messages</a>
 
             </div>
-            <div class="col-lg-8" style="text-align:center;    background-clip: content-box, padding-box;">
+            <div class="col-lg-6" style="text-align:center;    background-clip: content-box, padding-box;">
                 <h5 style="color: white;">
                     <strong>{{motd}}</strong>
                 </h5>
@@ -129,10 +129,10 @@
                 </div>
             </div>
 
-            <div class="col-lg-2 hidden-sm-down" ng-controller="Ctrl" style="background-color:#6eb7ff">
+            <div class="col-lg-3 hidden-sm-down" ng-controller="Ctrl" style="background-color:#6eb7ff">
 
                 <div ng-class-odd="'odd'" ng-class-even="'even'" style="word-break: break-all; word-wrap: break-word;" ng-repeat="x in messages">
-                    <img src="{{x.profpic}}" /><strong>{{x.username}}:</strong> {{x.message}} -{{x.timestamp}}
+                    <img src="{{x.profpic}}"/><strong>{{x.username}}:</strong> {{x.message}} -{{x.timestamp}}
                 </div>
                 <input ng-model="dataToSend">
                 <button ng-click="emitBasic2()">Send</button>
