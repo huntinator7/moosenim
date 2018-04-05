@@ -102,7 +102,7 @@ var app = angular.module('mainApp', ['socket.io'])
 
 			$scope.dataToSend = '';
 		}
-
+$scope.open=function(){console.log('reading wrong controller dumbass')}
 
 	})
 	.controller('modalCtrl', function modalCtrl($scope) {
