@@ -17,6 +17,14 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/js/mdb.min.js"></script>
+    <!-- Side-nav initialization -->
+    <script>
+        // SideNav Button Initialization
+        $(".button-collapse").sideNav();
+        // SideNav Scrollbar Initialization
+        var sideNavScrollbar = document.querySelector('.mm-sidebar');
+        Ps.initialize(sideNavScrollbar);
+    </script>
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -41,18 +49,14 @@
         <div class="side-nav fixed sn-bg-4" style="background-color:#f0f0f0">
             <img style="height: 140px; width: 140px;" src="https://moosen.im/uploads/moosenim4ColoredSmall.png">
             <br>
-            <div class="card-header" id="headingOne">
-                <h5 class="mb-0">
-                    Groups
-                </h5>
-                <div class="card-body">
-                    <ul class="nav flex-column">
-                        <li class="nav-item" ng-repeat="x in roomlist">
-                            <a type="button" class="btn mm-btn-side btn-sm" ng-click="changeRooms(x.serialid)">{{x.name}}</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            <h5 class="mb-0">
+                Groups
+            </h5>
+            <ul class="flex-column mm-sidebar">
+                <li class="nav-item" ng-repeat="x in roomlist">
+                    <a class="btn mm-btn-side btn-sm" ng-click="changeRooms(x.serialid)">{{x.name}}</a>
+                </li>
+            </ul>
             <a href="/settings">Settings Page</a>
             <br />
             <a href="/chat">Chat Messages</a>
