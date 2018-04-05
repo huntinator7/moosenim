@@ -76,7 +76,7 @@
                 </h5>
                 <br>
                 <div class="row" ng-controller="Ctrl">
-                    <div class="card-columns">
+                    <div class="card-columns" >
                         <div class="card bg-primary text-white text-center p-3">
                             <blockquote class="blockquote mb-0">
                                 <p>Welcome back {{ username }}!</p>
@@ -87,11 +87,11 @@
                                 </footer>
                             </blockquote>
                         </div>
-                        <div class="card" ng-controller="modalCtrl">
+                        <div class="card"  ng-controller="modalCtrl">
                             <div class="card-body">
                                 <h5 class="card-title">Server Response: N/A</h5>
                                 <input ng-model="dataToSend">
-                                <button ng-click="open()">Send</button>
+                                <button  ng-controller="modalCtrl" ng-click="open()">Send</button>
                                 <!-- <p class="card-text"> input<input ng-model="FilterController.input" /></p> -->
                             </div>
                         </div>
