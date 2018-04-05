@@ -28,16 +28,20 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
     <link rel="stylesheet" type="text/css" href="../css/main.css">
-
+    <!-- stuff from chat.html -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script src="../siofu/client.js"></script>
+    <script src="../js/autosize.js"></script>
 </head>
 
 <body ng-app="mainApp">
-
+<div ng-include="'../html/todomodal.html'"></div>
     <div class="container-fluid" ng-controller="Ctrl">
         <div class="col-lg-12" style="background-color:#6eb7ff">
         </div>
         <div class="row h-100">
-            <div class="col-lg-3 hidden-sm-down" style="background-color:#f0f0f0">
+            <div class="col-lg-2 hidden-sm-down" style="background-color:#f0f0f0">
                 <img style="height: 140px; width: 140px;" src="https://moosen.im/uploads/moosenim4ColoredSmall.png">
                 <br>
                 <div class="card-header" id="headingOne">
@@ -59,13 +63,13 @@
                 <br />
                 <a href="/chat">Chat Messages</a>
             </div>
-            <div class="col-lg-6" style="text-align:center;    background-clip: content-box, padding-box;">
+            <div class="col-lg-7" style="text-align:center;    background-clip: content-box, padding-box;">
                 <h5 style="color: white;">
                     <strong>{{motd}}</strong>
                 </h5>
                 <br>
                 <div class="row" ng-controller="Ctrl">
-                    <div class="card-columns">
+                    <div class="card-columns" >
                         <div class="card bg-primary text-white text-center p-3">
                             <blockquote class="blockquote mb-0">
                                 <p>Welcome back {{ username }}!</p>
@@ -76,11 +80,10 @@
                                 </footer>
                             </blockquote>
                         </div>
-                        <div class="card">
+                        <div class="card"  ng-controller="modalCtrl">
                             <div class="card-body">
                                 <h5 class="card-title">Server Response: N/A</h5>
-                                <input ng-model="dataToSend">
-                                <button ng-click="emitBasic()">Send</button>
+                                <button  ng-controller="modalCtrl" ng-click="open()">Send</button>
                                 <!-- <p class="card-text"> input<input ng-model="FilterController.input" /></p> -->
                             </div>
                         </div>
@@ -97,16 +100,13 @@
                         </div>
                         <div class="card text-center">
                             <div class="card-body">
-                                <h5 class="card-title">To Do List</h5>
-                                <button type="button" class="btn btn-secondary btn-sm">
-                                    <i class="material-icons">add</i>
-                                </button>
+                                <h5 class="card-title">To Do List</h5> <button type="button"  data-toggle="modal" data-target="#todo-modal" class="btn btn-secondary btn-sm">
+                                    <i class="material-icons"  >add</i></button>
+                                    <button class="button" data-toggle="modal" data-target="#todo-modal" id="todo-button">open modal</button>
                                 <p class="card-text">
                                     <ul>
                                         <li ng-repeat="x in todo">
                                             <div ng-class-odd="'odd'" ng-class-even="'even'">
-
-
                                                 {{x.msg}}
                                                 <br />
                                                 <span class="badge">{{x.tags}}</span>
@@ -144,16 +144,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 hidden-sm-down" ng-controller="Ctrl" style="background-color:#6eb7ff">
-                <div ng-class-odd="'odd'" ng-class-even="'even'" style="word-break: break-all; word-wrap: break-word;" ng-repeat="x in messages">
-                    <img src='{{x.profpic}}' style="height:32px;width:32px; border-radius: 50%;" />
-                    <strong>{{x.name}}:</strong> {{x.message}}
-                    <br />
-                    <small class="text-muted">{{x.time}}</small>
-                </div>
-                <input ng-model="dataToSend">
-                <button ng-click="emitBasic2()">Send</button>
-                <br>
+            <div class="col-lg-3 hidden-sm-down">
+                <div ng-include="'../html/chat.html'"></div>
             </div>
         </div>
     </div>
