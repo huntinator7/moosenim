@@ -17,14 +17,6 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/js/mdb.min.js"></script>
-    <!-- Side-nav initialization -->
-    <script>
-        // SideNav Button Initialization
-        $(".button-collapse").sideNav();
-        // SideNav Scrollbar Initialization
-        var sideNavScrollbar = document.querySelector('.mm-sidebar');
-        Ps.initialize(sideNavScrollbar);
-    </script>
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -45,29 +37,27 @@
 </head>
 
 <body ng-app="mainApp">
-    <header>
-        <div class="side-nav fixed sn-bg-4" style="background-color:#f0f0f0">
-            <img style="height: 140px; width: 140px;" src="https://moosen.im/uploads/moosenim4ColoredSmall.png">
-            <br>
-            <h5 class="mb-0">
-                Groups
-            </h5>
-            <ul class="flex-column mm-sidebar">
-                <li class="nav-item" ng-repeat="x in roomlist">
-                    <a class="btn mm-btn-side btn-sm" ng-click="changeRooms(x.serialid)">{{x.name}}</a>
-                </li>
-            </ul>
-            <a href="/settings">Settings Page</a>
-            <br />
-            <a href="/chat">Chat Messages</a>
-        </div>
-    </header>
     <div ng-include="'../html/todomodal.html'"></div>
     <div class="container-fluid" ng-controller="Ctrl">
         <div class="col-lg-12" style="background-color:#6eb7ff">
         </div>
         <div class="row">
-            <div class="col-lg-8" style="text-align:center;    background-clip: content-box, padding-box;">
+            <div class="col-lg-3 hidden-sm-down" style="background-color:#f0f0f0">
+                <img style="height: 140px; width: 140px;" src="https://moosen.im/uploads/moosenim4ColoredSmall.png">
+                <br>
+                <h5 class="mb-0">
+                    Groups
+                </h5>
+                <ul class="flex-column mm-sidebar">
+                    <li class="nav-item" ng-repeat="x in roomlist">
+                        <a class="btn mm-btn-side btn-sm" ng-click="changeRooms(x.serialid)">{{x.name}}</a>
+                    </li>
+                </ul>
+                <a href="/settings">Settings Page</a>
+                <br />
+                <a href="/chat">Chat Messages</a>
+            </div>
+            <div class="col-lg-6" style="text-align:center;    background-clip: content-box, padding-box;">
                 <h5 style="color: white;">
                     <strong>{{motd}}</strong>
                 </h5>
@@ -150,7 +140,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 hidden-sm-down">
+            <div class="col-lg-3 hidden-sm-down">
                 <div ng-include="'../html/sidechat.html'"></div>
             </div>
         </div>
