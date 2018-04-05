@@ -105,7 +105,7 @@ var app = angular.module('mainApp', ['socket.io'])
 
 
 	})
-	.controller('modalCtrl', function modalCtrl($scope, $modal,$log) {
+	.controller('modalCtrl', function modalCtrl($scope) {
 	var ModalDemoCtrl = function($scope, $modal, $log) {
 
 		$scope.items = ['item1', 'item2', 'item3']
