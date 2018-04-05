@@ -3,7 +3,8 @@ var router = express.Router()
 
 router.get('/', function (req, res) {
     if (req.user) {
-        res.sendFile('/html/chat.html', { 'root': '/var/www/html/chat' })
+
+          res.sendFile('/client/main.html', { 'root': '/var/www/html/chat' })
     } else {
         res.redirect('/login')
     }
@@ -24,12 +25,13 @@ router.get('/voicetest', function (req, res) {
 router.get('/vr', function (req, res) {
     res.sendFile('/html/vr.html', { 'root': '/var/www/html/chat' })
 })
-router.get('/business', function (req, res) {
-    res.sendFile('/client/business.html', { 'root': '/var/www/html/chat' })
+router.get('/chat', function (req, res) {
+    res.sendFile('/html/chat.html', { 'root': '/var/www/html/chat' })
 })
 router.get('/settings', function (req, res) {
     res.sendFile('/client/userSettings.html', { 'root': '/var/www/html/chat' })
 })
+
 
 //export this router to use in our index.js
 module.exports = router

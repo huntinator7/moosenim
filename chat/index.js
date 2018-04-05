@@ -179,7 +179,7 @@ app.get('/auth/google/callback',
         failureRedirect: '/login'
     }),
     (req, res) => {
-        res.redirect('/business')
+        res.redirect('/')
     }
 )
 
@@ -228,14 +228,14 @@ var players = []
 
 //----SOCKET.IO----\\
 io.sockets.on('connection', socket => {
-socket.emit('pong2', socket.request.user.displayName)
+socket.emit('onconnect', socket.request.user.displayName)
 
     console.log('CONNECTED to socket io: ' + socket.request.user.displayName)
     controller.getChatrooms(io, con, socket.id, socket.request.user.id)
     con.query('SELECT room_id FROM room_users WHERE user_id = ?', [socket.request.user.id], (error, rows, results) => {
         rows.forEach(e => {
             io.to(e.room_id).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id, e.room_id)
-            console.log('Joining room ' + e.room_id)
+
             socket.join(e.room_id)
         })
         socket.request.user.photos.forEach(e => {
@@ -383,11 +383,11 @@ socket.emit('pong2', socket.request.user.displayName)
     //Test emit
     socket.on('ping', name => {
         console.log('pong'+name)
-        socket.emit('pong2',name)
+        socket.emit('onconnect',name)
         //console.log(Object.keys(io.sockets.sockets))
     })
     socket.on('ping2', function(name) {
-        console.log('pong2'+name)
+        console.log('onconnect'+name)
         //console.log(Object.keys(io.sockets.sockets))
     })
     socket.on('get-motd', function(roomId) {
@@ -398,7 +398,7 @@ socket.emit('pong2', socket.request.user.displayName)
     //Emit for when on mobile and needing the logs
     socket.on('log', message => {
         console.log(socket.id + ': ' + message)
-        socket.emit('pong2',socket.request.user.displayName)
+        socket.emit('onconnect',socket.request.user.displayName)
     })
 
     socket.on('addroom', name => {
@@ -412,6 +412,7 @@ socket.emit('pong2', socket.request.user.displayName)
         if (regex) addNewCommand(roomId, cmd, actn, msg, username, pic)
         else addNewCommand(roomId, escStrReg(cmd), actn, msg, username, pic)
     })
+    
 
     socket.on('updateroomtheme', (params, icon, type, roomId) => {
         controller.changeRoomTheme(con, params, icon, type, roomId)
@@ -668,6 +669,28 @@ function addNewCommand (roomId, cmd, actn, msg, username, pic) {
         })
     }
 }
+function addTODO (roomId, uid, tags, msg, date, notes) {
+    console.log(msg)
+    // console.log(encodeURI(msg))
+    console.log(roomId + ' new todo: ')
+    var arr = {
+        uid,
+        tags,
+        msg: encodeURI(msg),
+        date
+    }
+
+        con.query('SELECT todo FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
+            const addtodo = new Promise((resolve, reject) => {
+                var newArr = JSON.parse(rows[0].commands)
+                newArr.push(arr)
+                myArrString = JSON.stringify(newArr)
+                con.query('UPDATE rooms set todo = ? WHERE serialid = ?', [myArrString, roomId])
+                resolve(controller.getTODO(con,io,roomId))
+            })
+
+        })
+}
 function getMessage(roomId) {
     console.log(`In getMessage, roomId ${roomId}`)
     var nameString = 'room' + roomId
@@ -725,6 +748,7 @@ function joinChatroom(socket, roomId) {
                         con.query('UPDATE users SET curroom = ? WHERE uid = ?', [roomId, socket.request.user.id])
                         socket.join(roomId)
                         controller.getRegexCommands(con, io, roomId, socket.id)
+                        controller.getTODO(con,io,roomId)
                         resolve()
                     }
                 })

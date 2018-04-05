@@ -16,7 +16,7 @@
 			var socket = io.connect(iourl);
 			return {
 				on: function on(event, callback) {
-					console.log('.on called')
+
 					socket.on(event, function() {
 						var args = arguments
 						$rootScope.$apply(function() {
@@ -24,7 +24,7 @@
 						})
 					})
 				},
-				emit: function emit(event, data, data2, callback) {
+				emit: function emit(event, data, data2,data3,data4,data5,data6,callback) {
 					if (typeof callback == 'function') {
 						socket.emit(event, data, function() {
 							var args = arguments
@@ -50,10 +50,10 @@
 		//.service('modalService', modalService)
 		.controller('Ctrl', function Ctrl($scope, $socket) {
 
-			$socket.on('pong2', function(data) {
-				$socket.emit('retPre', 100, 1)
-				$scope.serverResponse = data
-				console.log(data)
+			$socket.on('onconnect', function(data) {
+				$scope.messages=[]
+
+				$scope.username = data
 			})
 
 			$socket.on('motd update', function(motd, roomid) {
@@ -64,16 +64,34 @@
 				$scope.roomlist = []
 				$scope.roomlist = rooms
 			})
+			
+			$socket.on('chat message', function(Name,message,time,id,profpic,roomId,badge) {
 
-			$socket.on('chatmessage2', function(rows) {
-				console.log('chet message called' + rows[0].profipic)
-				$scope.messages = []
-				$scope.messages = rows
+				var msgPack = {
+					name:Name,
+					message:message,
+					time:time,
+					profpic:profpic,
+					id:id,
+					roomId:roomId,
+					badge:badge
+				}
+				$scope.username=Name
+				$scope.messages.push(msgPack)
+			})
+			$socket.on('get todo',(todolist,roomId)=>{
+				$scope.todo=[]
+				todolist.forEach((e,f)=>{
+					$scope.todo.push(e)
+				})
+
 			})
 
+
 			$scope.changeRooms = function changeRooms(roomId) {
+				$scope.messages=[]
 				$socket.emit('changerooms', roomId)
-				$socket.emit('retPre', 100, roomId)
+
 			}
 
 			$scope.emitBasic = function emitBasic() {
@@ -81,17 +99,11 @@
 			}
 
 			$scope.emitBasic2 = function emitBasic() {
-				$socket.emit('chat message', $scope.dataToSend, 3);
-				console.log('ping ')
+
+				$socket.emit('chat message', $scope.dataToSend, $scope.messages[0].roomId);
+
 				$scope.dataToSend = '';
 			}
 
 
-
-			$scope.todo = [
-				"pay bills",
-				"redo ui",
-				"fix bugs",
-				"think of more things to do",
-			]
 		})
