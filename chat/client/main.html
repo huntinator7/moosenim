@@ -111,7 +111,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">To Do List</h5> <button type="button" class="btn btn-secondary btn-sm">
                                     <i class="material-icons">add</i></button>
-                                    <a class="button" data-toggle="modal" data-target="#todo-modal" id="todo-button">open modal</a>
+                                    <a class="nav-link" data-toggle="modal" data-target="#todo-modal" id="todo-button">open modal</a>
                                 <p class="card-text">
                                     <ul>
                                         <li ng-repeat="x in todo">
@@ -151,7 +151,7 @@
                     </div>
                 </div>
             </div>
-            <div ng-include="'/templates/todomodal.html'"></div>
+            <div ng-include="'todomodal.html'"></div>
             <div class="col-lg-3 hidden-sm-down" ng-controller="Ctrl" style="background-color:#6eb7ff">
 
                 <div ng-class-odd="'odd'" ng-class-even="'even'" style="word-break: break-all; word-wrap: break-word;" ng-repeat="x in messages">
