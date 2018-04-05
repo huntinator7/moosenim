@@ -9,15 +9,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Herd</title>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/4.0.2/bootstrap-material-design.min.css">
-    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/bootstrap-material-design@4.0.0-beta.4/dist/js/bootstrap-material-design.js" integrity="sha384-3xciOSDAlaXneEmyOo0ME/2grfpqzhhTcM4cE32Ce9+8DW/04AGoTACzQpphYGYe" crossorigin="anonymous"></script>
+    <!-- JQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/js/mdb.min.js"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/css/mdb.min.css" rel="stylesheet">
+
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
     <link rel="stylesheet" type="text/css" href="../css/main.css">
+
 </head>
 
 <body ng-app="mainApp">
@@ -25,18 +36,15 @@
     <div class="container-fluid" ng-controller="Ctrl">
         <div class="col-lg-12" style="background-color:#6eb7ff">
         </div>
-        <div class="row">
+        <div class="row h-100">
             <div class="col-lg-3 hidden-sm-down" style="background-color:#f0f0f0">
                 <img style="height: 140px; width: 140px;" src="https://moosen.im/uploads/moosenim4ColoredSmall.png">
                 <br>
-
-
                 <div class="card-header" id="headingOne">
                     <h5 class="mb-0">
-                                  Groups
-                                        </h5>
-
-                    <div  >
+                        Groups
+                    </h5>
+                    <div>
                         Groups
                         <div class="card-body">
                             <ul class="nav flex-column">
@@ -47,12 +55,9 @@
                         </div>
                     </div>
                 </div>
-
-
-
-                <a href="/settings">Settings Page</a><br />
+                <a href="/settings">Settings Page</a>
+                <br />
                 <a href="/chat">Chat Messages</a>
-
             </div>
             <div class="col-lg-6" style="text-align:center;    background-clip: content-box, padding-box;">
                 <h5 style="color: white;">
@@ -90,19 +95,24 @@
                                 </footer>
                             </blockquote>
                         </div>
-
                         <div class="card text-center">
                             <div class="card-body">
-                                <h5 class="card-title">To Do List</h5> <button type="button" class="btn btn-secondary btn-sm"><i class="material-icons">add</i></button>
+                                <h5 class="card-title">To Do List</h5>
+                                <button type="button" class="btn btn-secondary btn-sm">
+                                    <i class="material-icons">add</i>
+                                </button>
                                 <p class="card-text">
                                     <ul>
                                         <li ng-repeat="x in todo">
-                                                <div ng-class-odd="'odd'" ng-class-even="'even'">
+                                            <div ng-class-odd="'odd'" ng-class-even="'even'">
 
 
-                                            {{x.msg}}<br />
-                                        <span class="badge">{{x.tags}}</span>       <small class="text-muted">{{x.date}}</small></small>
-                                    </div>
+                                                {{x.msg}}
+                                                <br />
+                                                <span class="badge">{{x.tags}}</span>
+                                                <small class="text-muted">{{x.date}}</small>
+                                                </small>
+                                            </div>
                                         </li>
                                     </ul>
                                 </p>
@@ -124,7 +134,8 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
+                                    This card has even longer content than the first to show that equal height action.</p>
                                 <p class="card-text">
                                     <small class="text-muted">Last updated 3 mins ago</small>
                                 </p>
@@ -133,11 +144,10 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-lg-3 hidden-sm-down" ng-controller="Ctrl" style="background-color:#6eb7ff">
-
                 <div ng-class-odd="'odd'" ng-class-even="'even'" style="word-break: break-all; word-wrap: break-word;" ng-repeat="x in messages">
-                    <img src='{{x.profpic}}' style="height:32px;width:32px; border-radius: 50%;" /><strong>{{x.name}}:</strong> {{x.message}}
+                    <img src='{{x.profpic}}' style="height:32px;width:32px; border-radius: 50%;" />
+                    <strong>{{x.name}}:</strong> {{x.message}}
                     <br />
                     <small class="text-muted">{{x.time}}</small>
                 </div>
