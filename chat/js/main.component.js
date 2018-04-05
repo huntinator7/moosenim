@@ -81,7 +81,7 @@ var ModalInstanceCtrl = function($scope, $modalInstance, items) {
 		$modalInstance.dismiss('cancel')
 	}
 }
-}
+})
 var app = angular.module('mainApp', ['socket.io','modals'])
 	.config(function($socketProvider) {
 		$socketProvider.setConnectionUrl('https://moosen.im:443')
