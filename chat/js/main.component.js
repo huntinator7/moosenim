@@ -40,12 +40,13 @@ var module = angular.module('socket.io', []).provider('$socket', function $socke
 		}
 	}
 })
+var modalModual = angular.module('modals',['ui.bootstrap']){
 var ModalDemoCtrl = function($scope, $modal, $log) {
 
 	$scope.items = ['item1', 'item2', 'item3']
 
 	$scope.open = function(size) {
-
+		console.log("open called")
 		var modalInstance = $modal.open({
 			templateUrl: 'myModalContent.html',
 			controller: ModalInstanceCtrl,
@@ -65,7 +66,7 @@ var ModalDemoCtrl = function($scope, $modal, $log) {
 	}
 }
 var ModalInstanceCtrl = function($scope, $modalInstance, items) {
-
+	console.log('instance  instantiated')
 	$scope.items = items;
 	$scope.selected = {
 		item: $scope.items[0]
@@ -79,7 +80,8 @@ var ModalInstanceCtrl = function($scope, $modalInstance, items) {
 		$modalInstance.dismiss('cancel')
 	}
 }
-var app = angular.module('mainApp', ['socket.io'])
+}
+var app = angular.module('mainApp', ['socket.io','modals'])
 	.config(function($socketProvider) {
 		$socketProvider.setConnectionUrl('https://moosen.im:443')
 	})
