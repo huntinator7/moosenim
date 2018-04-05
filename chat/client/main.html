@@ -18,6 +18,21 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
     <link rel="stylesheet" type="text/css" href="../css/main.css">
+    <!-- stuff from chat.html -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script src="../siofu/client.js"></script>
+    <!-- Popper.js, then Bootstrap JS -->
+    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-material-design@4.0.0-beta.4/dist/js/bootstrap-material-design.js" integrity="sha384-3xciOSDAlaXneEmyOo0ME/2grfpqzhhTcM4cE32Ce9+8DW/04AGoTACzQpphYGYe"
+        crossorigin="anonymous"></script>
+    <script src="../js/autosize.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('body').bootstrapMaterialDesign()
+        })
+    </script>
 </head>
 
 <body ng-app="mainApp">
@@ -75,7 +90,7 @@
                         <div class="card"  ng-controller="modalCtrl">
                             <div class="card-body">
                                 <h5 class="card-title">Server Response: N/A</h5>
-                                <input ng-model="dataToSend">
+
                                 <button  ng-controller="modalCtrl" ng-click="open()">Send</button>
                                 <!-- <p class="card-text"> input<input ng-model="FilterController.input" /></p> -->
                             </div>
@@ -136,7 +151,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 hidden-sm-down" style="background-color:#6eb7ff">
+            <div class="col-lg-3 hidden-sm-down">
                 <div ng-include="'../html/chat.html'"></div>
             </div>
 
