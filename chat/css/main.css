@@ -28,3 +28,7 @@ body {
         display: none;
     }
 }
+
+.mm-btn-side {
+    background-color: transparent;
+}

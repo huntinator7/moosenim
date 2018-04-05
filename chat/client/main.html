@@ -28,6 +28,7 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
     <link rel="stylesheet" type="text/css" href="../css/main.css">
+    <link rel="stylesheet" type="text/css" href="../css/core.css">
     <!-- stuff from chat.html -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
@@ -36,40 +37,39 @@
 </head>
 
 <body ng-app="mainApp">
-<div ng-include="'../html/todomodal.html'"></div>
+    <header>
+        <div class="side-nav fixed sn-bg-4" style="background-color:#f0f0f0">
+            <img style="height: 140px; width: 140px;" src="https://moosen.im/uploads/moosenim4ColoredSmall.png">
+            <br>
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    Groups
+                </h5>
+                <div class="card-body">
+                    <ul class="nav flex-column">
+                        <li class="nav-item" ng-repeat="x in roomlist">
+                            <a type="button" class="btn mm-btn-side btn-sm" ng-click="changeRooms(x.serialid)">{{x.name}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <a href="/settings">Settings Page</a>
+            <br />
+            <a href="/chat">Chat Messages</a>
+        </div>
+    </header>
+    <div ng-include="'../html/todomodal.html'"></div>
     <div class="container-fluid" ng-controller="Ctrl">
         <div class="col-lg-12" style="background-color:#6eb7ff">
         </div>
-        <div class="row h-100">
-            <div class="col-lg-2 hidden-sm-down" style="background-color:#f0f0f0">
-                <img style="height: 140px; width: 140px;" src="https://moosen.im/uploads/moosenim4ColoredSmall.png">
-                <br>
-                <div class="card-header" id="headingOne">
-                    <h5 class="mb-0">
-                        Groups
-                    </h5>
-                    <div>
-                        Groups
-                        <div class="card-body">
-                            <ul class="nav flex-column">
-                                <li class="nav-item" ng-repeat="x in roomlist">
-                                    <button type="button" class="btn btn-secondary btn-sm" ng-click="changeRooms(x.serialid)">{{x.name}}</button>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <a href="/settings">Settings Page</a>
-                <br />
-                <a href="/chat">Chat Messages</a>
-            </div>
-            <div class="col-lg-7" style="text-align:center;    background-clip: content-box, padding-box;">
+        <div class="row">
+            <div class="col-lg-8" style="text-align:center;    background-clip: content-box, padding-box;">
                 <h5 style="color: white;">
                     <strong>{{motd}}</strong>
                 </h5>
                 <br>
                 <div class="row" ng-controller="Ctrl">
-                    <div class="card-columns" >
+                    <div class="card-columns">
                         <div class="card bg-primary text-white text-center p-3">
                             <blockquote class="blockquote mb-0">
                                 <p>Welcome back {{ username }}!</p>
@@ -80,10 +80,10 @@
                                 </footer>
                             </blockquote>
                         </div>
-                        <div class="card"  ng-controller="modalCtrl">
+                        <div class="card" ng-controller="modalCtrl">
                             <div class="card-body">
                                 <h5 class="card-title">Server Response: N/A</h5>
-                                <button  ng-controller="modalCtrl" ng-click="open()">Send</button>
+                                <button ng-controller="modalCtrl" ng-click="open()">Send</button>
                                 <!-- <p class="card-text"> input<input ng-model="FilterController.input" /></p> -->
                             </div>
                         </div>
@@ -100,9 +100,11 @@
                         </div>
                         <div class="card text-center">
                             <div class="card-body">
-                                <h5 class="card-title">To Do List</h5> <button type="button"  data-toggle="modal" data-target="#todo-modal" class="btn btn-secondary btn-sm">
-                                    <i class="material-icons"  >add</i></button>
-                                    <button class="button" data-toggle="modal" data-target="#todo-modal" id="todo-button">open modal</button>
+                                <h5 class="card-title">To Do List</h5>
+                                <button type="button" data-toggle="modal" data-target="#todo-modal" class="btn btn-secondary btn-sm">
+                                    <i class="material-icons">add</i>
+                                </button>
+                                <button class="button" data-toggle="modal" data-target="#todo-modal" id="todo-button">open modal</button>
                                 <p class="card-text">
                                     <ul>
                                         <li ng-repeat="x in todo">
@@ -144,7 +146,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 hidden-sm-down">
+            <div class="col-lg-4 hidden-sm-down">
                 <div ng-include="'../html/chat.html'"></div>
             </div>
         </div>
