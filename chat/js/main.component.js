@@ -40,7 +40,8 @@ var module = angular.module('socket.io', []).provider('$socket', function $socke
 		}
 	}
 })
-var modalModual = angular.module('modals',['ui.bootstrap']){
+var modalModual = angular.module('modals',['ui.bootstrap'])
+.controller('modalCtrl', function modalCtrl($scope, $modal) {
 var ModalDemoCtrl = function($scope, $modal, $log) {
 
 	$scope.items = ['item1', 'item2', 'item3']
