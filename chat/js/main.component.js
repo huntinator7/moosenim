@@ -95,7 +95,12 @@ var app = angular.module('mainApp', ['socket.io'])
 		$scope.emitBasic = function emitBasic() {
 			$scope.dataToSend = '';
 		}
-
+		$scope.submitTodo = function submitTodo() {
+			$socket.emit('addtodo',$scope.messages[0].roomId,$scope.todo.tags,$scope.todo.msg,$scope.todo.date)
+			$scope.todo.msg = '';
+			$scope.todo.tags = '';
+			$scope.todo.date = '';
+		}
 		$scope.emitBasic2 = function emitBasic() {
 
 			$socket.emit('chat message', $scope.dataToSend, $scope.messages[0].roomId);
@@ -103,7 +108,7 @@ var app = angular.module('mainApp', ['socket.io'])
 			$scope.dataToSend = '';
 		}
 
-		
+
 	})
 	.controller('modalCtrl', function modalCtrl($scope) {
 

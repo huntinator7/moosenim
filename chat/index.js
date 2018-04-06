@@ -412,7 +412,10 @@ socket.emit('onconnect', socket.request.user.displayName)
         if (regex) addNewCommand(roomId, cmd, actn, msg, username, pic)
         else addNewCommand(roomId, escStrReg(cmd), actn, msg, username, pic)
     })
-    
+    socket.on('addtodo', (roomId, tags, msg, date, notes) => {
+        addTODO (roomId, socket.request.user.id, tags, msg, date, notes)
+    })
+
 
     socket.on('updateroomtheme', (params, icon, type, roomId) => {
         controller.changeRoomTheme(con, params, icon, type, roomId)
