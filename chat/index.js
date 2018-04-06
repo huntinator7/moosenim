@@ -412,7 +412,8 @@ socket.emit('onconnect', socket.request.user.displayName)
         if (regex) addNewCommand(roomId, cmd, actn, msg, username, pic)
         else addNewCommand(roomId, escStrReg(cmd), actn, msg, username, pic)
     })
-    socket.on('addtodo', (tags, msg, date, notes) => {
+    socket.on('addtodo', (tags, msg, date) => {
+        console.log('addtodo: ',msg,tags,date+note)
         addTODO (3, socket.request.user.id, tags, msg, date, notes)
     })
 
