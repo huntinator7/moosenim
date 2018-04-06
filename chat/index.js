@@ -684,14 +684,14 @@ function addTODO (roomId, uid, tags, msg, date) {
         date
     }
 try{
-        con.query('SELECT todo FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
-            const addtodo = new Promise((resolve, reject) => {
-                var newArr = JSON.parse(rows[0].commands)
-                newArr.push(arr)
-                myArrString = JSON.stringify(newArr)
-                con.query('UPDATE rooms set todo = ? WHERE serialid = ?', [myArrString, roomId])
-                resolve(controller.getTODO(con,io,roomId))
-            })
+        // con.query('SELECT todo FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
+        //     const addtodo = new Promise((resolve, reject) => {
+        //         var newArr = JSON.parse(rows[0].commands)
+        //         newArr.push(arr)
+        //         myArrString = JSON.stringify(newArr)
+        //         con.query('UPDATE rooms set todo = ? WHERE serialid = ?', [myArrString, roomId])
+        //         resolve(controller.getTODO(con,io,roomId))
+        //     })
 
         })
       }catch(e){
