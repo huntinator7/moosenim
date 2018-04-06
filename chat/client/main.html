@@ -50,7 +50,7 @@
                 </h5>
                 <ul class="flex-column mm-sidebar">
                     <li class="nav-item" ng-repeat="x in roomlist">
-                        <a class="btn mm-btn-side btn-sm" ng-click="changeRooms(x.serialid)">{{x.name}}</a>
+                        <a class="btn mm-btn-side btn-sm mm-blue-bkg" ng-click="changeRooms(x.serialid)">{{x.name}}</a>
                     </li>
                 </ul>
                 <a href="/settings">Settings Page</a>
@@ -62,7 +62,7 @@
                     <strong>{{motd}}</strong>
                 </h5>
                 <br>
-                <div class="row" ng-controller="Ctrl">
+                <div class="container" ng-controller="Ctrl">
                     <div class="card-columns">
                         <div class="card bg-primary text-white text-center p-3">
                             <blockquote class="blockquote mb-0">
@@ -95,7 +95,7 @@
                         <div class="card text-center">
                             <div class="card-body">
                                 <h5 class="card-title">To Do List</h5>
-                                <button type="button" data-toggle="modal" data-target="#todo-modal" class="btn btn-secondary btn-sm">
+                                <button type="button" data-toggle="modal" data-target="#todo-modal" class="btn mm-blue-bkg btn-sm">
                                     <i class="material-icons">add</i>
                                 </button>
                                 <button class="button" data-toggle="modal" data-target="#todo-modal" id="todo-button">open modal</button>
