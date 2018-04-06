@@ -412,7 +412,11 @@ socket.emit('onconnect', socket.request.user.displayName)
         if (regex) addNewCommand(roomId, cmd, actn, msg, username, pic)
         else addNewCommand(roomId, escStrReg(cmd), actn, msg, username, pic)
     })
-    
+    socket.on('addtodo', (tags, msg, date) => {
+        console.log('addtodo: ',msg,tags,'4.5.18')
+        addTODO (3, socket.request.user.id, tags, msg, date)
+    })
+
 
     socket.on('updateroomtheme', (params, icon, type, roomId) => {
         controller.changeRoomTheme(con, params, icon, type, roomId)
@@ -669,7 +673,7 @@ function addNewCommand (roomId, cmd, actn, msg, username, pic) {
         })
     }
 }
-function addTODO (roomId, uid, tags, msg, date, notes) {
+function addTODO (roomId, uid, tags, msg, date) {
     console.log(msg)
     // console.log(encodeURI(msg))
     console.log(roomId + ' new todo: ')
@@ -679,17 +683,20 @@ function addTODO (roomId, uid, tags, msg, date, notes) {
         msg: encodeURI(msg),
         date
     }
-
-        con.query('SELECT todo FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
-            const addtodo = new Promise((resolve, reject) => {
-                var newArr = JSON.parse(rows[0].commands)
-                newArr.push(arr)
-                myArrString = JSON.stringify(newArr)
-                con.query('UPDATE rooms set todo = ? WHERE serialid = ?', [myArrString, roomId])
-                resolve(controller.getTODO(con,io,roomId))
-            })
+try{
+         con.query('SELECT todo FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
+             const addtodo = new Promise((resolve, reject) => {
+               var newArr = JSON.parse(rows[0].todo)
+                 newArr.push(arr)
+                 myArrString = JSON.stringify(newArr)
+                 con.query('UPDATE rooms set todo = ? WHERE serialid = ?', [myArrString, roomId])
+                 resolve(controller.getTODO(con,io,roomId))
+             })
 
         })
+      }catch(e){
+        console.log(e.message)
+      }
 }
 function getMessage(roomId) {
     console.log(`In getMessage, roomId ${roomId}`)
