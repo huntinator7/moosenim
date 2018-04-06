@@ -413,7 +413,7 @@ socket.emit('onconnect', socket.request.user.displayName)
         else addNewCommand(roomId, escStrReg(cmd), actn, msg, username, pic)
     })
     socket.on('addtodo', (tags, msg, date, notes) => {
-        addTODO (socket.id, socket.request.user.id, tags, msg, date, notes)
+        addTODO (3, socket.request.user.id, tags, msg, date, notes)
     })
 
 
