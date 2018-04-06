@@ -673,7 +673,7 @@ function addNewCommand (roomId, cmd, actn, msg, username, pic) {
         })
     }
 }
-function addTODO (roomId, uid, tags, msg, date, notes) {
+function addTODO (roomId, uid, tags, msg, date) {
     console.log(msg)
     // console.log(encodeURI(msg))
     console.log(roomId + ' new todo: ')
