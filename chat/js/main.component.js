@@ -97,7 +97,7 @@ var app = angular.module('mainApp', ['socket.io'])
 		}
 		$scope.submitTodo = function submitTodo() {
 
-			$socket.emit('addtodo',$scope.todo.tags,$scope.todo.msg,$scope.todo.date)
+			$socket.emit('addtodo',$scope.todotags,$scope.todomsg,$scope.tododate)
 			console.log($scope.todotags,$scope.todomsg,$scope.tododate)
 			$scope.todo.msg = '';
 			$scope.todo.tags = '';
