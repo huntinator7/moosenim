@@ -414,7 +414,7 @@ socket.emit('onconnect', socket.request.user.displayName)
     })
     socket.on('addtodo', (tags, msg, date) => {
         console.log('addtodo: ',msg,tags,'4.5.18')
-        addTODO (3, 'socket.request.user.id', 'tags', 'msg', 'date')
+        addTODO (3, socket.request.user.id, tags, msg, date)
     })
 
 
