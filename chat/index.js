@@ -683,7 +683,7 @@ function addTODO (roomId, uid, tags, msg, date) {
         msg: encodeURI(msg),
         date
     }
-
+try{
         con.query('SELECT todo FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
             const addtodo = new Promise((resolve, reject) => {
                 var newArr = JSON.parse(rows[0].commands)
@@ -694,6 +694,9 @@ function addTODO (roomId, uid, tags, msg, date) {
             })
 
         })
+      }catch(e){
+        console.log(e.message)
+      }
 }
 function getMessage(roomId) {
     console.log(`In getMessage, roomId ${roomId}`)
