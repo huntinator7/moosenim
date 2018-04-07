@@ -78,6 +78,11 @@
                             <div class="card-body">
                                 <h5 class="card-title">Server Response: N/A</h5>
                                 <button ng-controller="modalCtrl" ng-click="open()">Send</button>
+                                <button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">Toggle collapse Vertically</button>
+                                <hr>
+                                <div uib-collapse="isCollapsed">
+                                  <div class="well well-lg">Some content</div>
+                                </div>
                                 <!-- <p class="card-text"> input<input ng-model="FilterController.input" /></p> -->
                             </div>
                         </div>
@@ -105,7 +110,7 @@
                                                 {{x.msg}}
                                                 <div class="dropdown">
                                                   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="material-icons">create</i>
+                                                    <i class="material-icons" style="font-size:3;">mode_edit</i>
                                                   </button>
                                                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                     <a class="dropdown-item" href="#">Action</a>
