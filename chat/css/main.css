@@ -43,3 +43,8 @@ body {
     position: fixed;
     right: 0px;
 }
+
+.mm-col {
+    height: 100vh;
+    overflow: scroll;
+}
