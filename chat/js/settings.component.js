@@ -51,7 +51,7 @@
 		.controller('Ctrl', function Ctrl($scope, $socket) {
 
 			$socket.on('onconnect', function(data) {
-			
+			console.log('called onconnect')
 				$scope.nickname = data[0].name
 				$scope.url = data[0].profpic
 			})
@@ -63,6 +63,7 @@
 			$socket.on('roomlist', function(rooms) {
 				$scope.roomlist = []
 				$scope.roomlist = rooms
+				$socket.emit('getuser')
 			})
 
 			$socket.on('chatmessage2', function(rows) {
