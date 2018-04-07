@@ -273,7 +273,7 @@ $(function () {
                             }
                         }
                     })
-                $('.materialboxed').materialbox()
+                // $('.materialboxed').materialbox()
             }
         } else {
             console.log($("a[room='" + room + "']").parent())
@@ -462,7 +462,7 @@ $(function () {
         $(".mm-collection .mm-collection-item>.secondary-content").css("color", css.text2)
         $(".mm-collection li:nth-child(even)").css("background-color", css.mb1)
         $(".mm-collection li:nth-child(odd)").css("background-color", css.mb2)
-        $('.materialboxed').materialbox()
+        // $('.materialboxed').materialbox()
     }
 
     function handleFileSelect(evt) {

@@ -1,25 +1,20 @@
 body {
     background: linear-gradient(to right, #6eb7ff, #23ffdd);
-
 }
-
-
 
 .btn btn-success {
     background-color: #6eb7ff;
 }
 
-
-
 .light {
     background-color: #baddff;
 }
 
-
-.odd{
+.odd {
     background-color: #baddff;
 }
-.even{
+
+.even {
     background-color: #6eb7ff;
 }
 
@@ -35,4 +30,16 @@ body {
 
 .mm-sidebar {
     list-style: none;
+    padding-left: 0px;
+}
+
+.sidebar-l {
+    position: fixed;
+    left: 0px;
+    background-color: #f0f0f0;
+}
+
+.sidebar-r {
+    position: fixed;
+    right: 0px;
 }
