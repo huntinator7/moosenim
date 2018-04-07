@@ -410,9 +410,9 @@ io.sockets.on('connection', socket => {
         if (regex) addNewCommand(roomId, cmd, actn, msg, username, pic)
         else addNewCommand(roomId, escStrReg(cmd), actn, msg, username, pic)
     })
-    socket.on('addtodo', (tags, msg, date) => {
+    socket.on('addtodo', (roomId, tags, msg, date) => {
         console.log('addtodo: ',msg,tags,'4.5.18')
-        addTODO (3, socket.request.user.id, tags, msg, date)
+        addTODO (roomId, socket.request.user.id, tags, msg, date)
     })
 
 

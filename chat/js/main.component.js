@@ -50,7 +50,6 @@ var app = angular.module('mainApp', ['socket.io'])
 
 		$socket.on('onconnect', function(data) {
 			$scope.messages = []
-			console.log(data+"onconnect"+data)
 			$scope.username = data[0].name
 		})
 
@@ -75,7 +74,7 @@ var app = angular.module('mainApp', ['socket.io'])
 				roomId: roomId,
 				badge: badge
 			}
-			$scope.username = Name
+
 			$scope.messages.push(msgPack)
 		})
 		$socket.on('get todo', (todolist, roomId) => {
@@ -98,7 +97,7 @@ var app = angular.module('mainApp', ['socket.io'])
 		}
 		$scope.submitTodo = function submitTodo() {
 
-			$socket.emit('addtodo',$scope.todotags,$scope.todomsg,$scope.tododate)
+			$socket.emit('addtodo',$scope.messages[0].roomId,$scope.todotags,$scope.todomsg,$scope.tododate)
 			console.log($scope.todotags,$scope.todomsg,$scope.tododate)
 			$scope.todo.msg = '';
 			$scope.todo.tags = '';
