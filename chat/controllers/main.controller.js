@@ -83,7 +83,9 @@ var controller = {
         })
     },
     getUser: function(con,io,uid,sid){
+      console.log('get User called')
       con.query('SELECT * FROM  users WHERE uid = ?',[uid],(err,rows) =>{
+        console.log('con query called')
         io.to(sid).emit('onconnect',rows)
       })
     },
