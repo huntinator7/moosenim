@@ -389,7 +389,7 @@ io.sockets.on('connection', socket => {
     //Test emit
     socket.on('getuser', name => {
         console.log('pong'+name)
-
+      //  controller.getAdminStatus(con,io,socket.request.user.id,socket.id)
         controller.getUser(con,io,socket.request.user.id,socket.id)
         //console.log(Object.keys(io.sockets.sockets))
     })

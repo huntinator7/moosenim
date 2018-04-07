@@ -86,7 +86,7 @@ var controller = {
       console.log('get User called')
       con.query('SELECT * FROM  users WHERE uid = ?',[uid],(err,rows) =>{
         var isadmin
-        con.query('SELECT is_admin FROM room_users WHERE room_id = ? AND user_id = ?', [sid, uid], (error, rows, results) => {
+        con.query('SELECT is_admin FROM room_users WHERE room_id = ? AND user_id = ?', [3, uid], (error, rows, results) => {
           isadmin = rows[0]
         })
         io.to(sid).emit('onconnect',rows,isadmin)
