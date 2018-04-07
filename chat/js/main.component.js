@@ -65,7 +65,7 @@ var app = angular.module('mainApp', ['socket.io'])
 			$socket.emit('getuser',3)
 		})
 		$socket.on('getadminstatus',(rows)=>{
-			console.log(rows)
+			console.log(rows.is_admin)
 		})
 
 		$socket.on('chat message', function(Name, message, time, id, profpic, roomId, badge) {
