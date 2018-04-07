@@ -103,6 +103,10 @@
                                         <li ng-repeat="x in todo">
                                             <div ng-class-odd="'odd'" ng-class-even="'even'">
                                                 {{x.msg}}
+
+                                                <button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="right" data-content="<button> test button</button>">
+                                                  <i class="material-icons">create</i>
+                                                </button>
                                                 <br />
                                                 <span class="badge">{{x.tags}}</span>
                                                 <small class="text-muted">{{x.date}}</small>
@@ -129,8 +133,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
-                                    This card has even longer content than the first to show that equal height action.</p>
+                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
                                 <p class="card-text">
                                     <small class="text-muted">Last updated 3 mins ago</small>
                                 </p>
