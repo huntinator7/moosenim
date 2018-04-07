@@ -89,7 +89,7 @@ var app = angular.module('mainApp', ['socket.io'])
 
 		$scope.changeRooms = function changeRooms(roomId) {
 			$scope.messages = []
-			$socket.emit('changerooms', roomId)
+		//	$socket.emit('changerooms', roomId)
 
 		}
 
