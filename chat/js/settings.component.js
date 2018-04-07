@@ -51,9 +51,9 @@
 		.controller('Ctrl', function Ctrl($scope, $socket) {
 
 			$socket.on('onconnect', function(data) {
-				$socket.emit('retPre', 100, 1)
 				$scope.serverResponse = data
-
+				$scope.nickname = data.name;
+				$scope.url = data.profpic;
 			})
 
 			$socket.on('motd update', function(motd, roomid) {

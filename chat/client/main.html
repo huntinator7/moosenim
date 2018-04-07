@@ -41,8 +41,8 @@
     <div class="container-fluid" ng-controller="Ctrl">
         <div class="col-lg-12" style="background-color:#6eb7ff">
         </div>
-        <div class="row flex-xl-nowrap">
-            <div class="col-12 col-md-3 col-xl-2 bd-sidebar mm-col">
+        <div class="row">
+            <div class="col-lg-3 hidden-sm-down" style="background-color:#f0f0f0">
                 <img style="height: 140px; width: 140px;" src="https://moosen.im/uploads/moosenim4ColoredSmall.png">
                 <br>
                 <h5 class="mb-0">
@@ -50,20 +50,19 @@
                 </h5>
                 <ul class="flex-column mm-sidebar">
                     <li class="nav-item" ng-repeat="x in roomlist">
-                        <a class="btn mm-btn-side btn-sm mm-blue-bkg" ng-click="changeRooms(x.serialid)">{{x.name}}</a>
+                        <a class="btn mm-btn-side btn-sm" ng-click="changeRooms(x.serialid)">{{x.name}}</a>
                     </li>
                 </ul>
                 <a href="/settings">Settings Page</a>
                 <br />
                 <a href="/chat">Chat Messages</a>
             </div>
-            <div class="col-12 col-md-9 col-xl-8 py-md-3 pl-md-5 bd-content mm-col" role="main">
-                <!-- style="text-align:center; background-clip:content-box, padding-box;" -->
+            <div class="col-lg-6" style="text-align:center;    background-clip: content-box, padding-box;">
                 <h5 style="color: white;">
                     <strong>{{motd}}</strong>
                 </h5>
                 <br>
-                <div class="container" ng-controller="Ctrl">
+                <div class="row" ng-controller="Ctrl">
                     <div class="card-columns">
                         <div class="card bg-primary text-white text-center p-3">
                             <blockquote class="blockquote mb-0">
@@ -79,9 +78,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Server Response: N/A</h5>
                                 <button ng-controller="modalCtrl" ng-click="open()">Send</button>
-                                <p class="card-text"> input
-                                    <input ng-model="FilterController.input" />
-                                </p>
+                                <!-- <p class="card-text"> input<input ng-model="FilterController.input" /></p> -->
                             </div>
                         </div>
                         <div class="card p-3">
@@ -98,10 +95,9 @@
                         <div class="card text-center">
                             <div class="card-body">
                                 <h5 class="card-title">To Do List</h5>
-                                <button type="button" data-toggle="modal" data-target="#todo-modal" class="btn mm-blue-bkg btn-sm">
+                                <button type="button" data-toggle="modal" data-target="#todo-modal" class="btn btn-secondary btn-sm">
                                     <i class="material-icons">add</i>
                                 </button>
-                                <button class="button" data-toggle="modal" data-target="#todo-modal" id="todo-button">open modal</button>
                                 <p class="card-text">
                                     <ul>
                                         <li ng-repeat="x in todo">
@@ -143,35 +139,11 @@
                     </div>
                 </div>
             </div>
-            <div class="d-none d-xl-block col-xl-2 bd-toc mm-col">
-                <div class="bmd-layout-container bmd-drawer-f-l bmd-drawer-overlay main">
-                    <main class="bmd-layout-content" id="maindiv">
-                        <div class="row">
-                            <ul class="mm-collection" id="messages">
-                            </ul>
-                        </div>
-                        <div class="row">
-                            <form class="mm-form" autocomplete="off">
-                                <div class="input-group">
-                                    <textarea type="text" id="send-message" class="form-control" placeholder="Message" name="message"></textarea>
-                                    <div class="input-group-btn">
-                                        <label name="files[]" id="add_pics" class="btn">
-                                            <i class="material-icons" style="margin-left:-0.7rem">add</i>
-                                            <input style="display: none" type="file" multiple>
-                                        </label>
-                                        <button type="submit" class="btn mm-submit">
-                                            <i class="material-icons">send</i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </main>
-                </div>
+            <div class="col-lg-3 hidden-sm-down">
+                <div ng-include="'../html/sidechat.html'"></div>
             </div>
         </div>
     </div>
-    <script src='../js/sidechat.js'></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src='../js/main.component.js'></script>
 

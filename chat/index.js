@@ -383,7 +383,8 @@ socket.emit('onconnect', socket.request.user.displayName)
     //Test emit
     socket.on('ping', name => {
         console.log('pong'+name)
-        socket.emit('onconnect',name)
+
+        controller.getUser(con,io,socket.request.user.id,socket.id)
         //console.log(Object.keys(io.sockets.sockets))
     })
     socket.on('ping2', function(name) {
@@ -398,7 +399,7 @@ socket.emit('onconnect', socket.request.user.displayName)
     //Emit for when on mobile and needing the logs
     socket.on('log', message => {
         console.log(socket.id + ': ' + message)
-        socket.emit('onconnect',socket.request.user.displayName)
+        //socket.emit('onconnect',socket.request.user.displayName)
     })
 
     socket.on('addroom', name => {
