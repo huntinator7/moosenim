@@ -50,8 +50,8 @@ var app = angular.module('mainApp', ['socket.io'])
 
 		$socket.on('onconnect', function(data) {
 			$scope.messages = []
-			console.log(data.name+"onconnect")
-			$scope.username = data.name
+			console.log(data[0].name+"onconnect")
+			$scope.username = data[0].name
 		})
 
 		$socket.on('motd update', function(motd, roomid) {
