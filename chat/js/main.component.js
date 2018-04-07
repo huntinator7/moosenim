@@ -49,9 +49,10 @@ var app = angular.module('mainApp', ['socket.io'])
 	.controller('Ctrl', function Ctrl($scope, $socket) {
 		 $scope.isCollapsed = false
 		 	$scope.messages = []
-		$socket.on('onconnect', function(data) {
+		$socket.on('onconnect', function(data,isAdmin) {
 			$scope.messages = []
 			$scope.username = data[0].name
+			console.log(isAdmin)
 		})
 
 		$socket.on('motd update', function(motd, roomid) {
