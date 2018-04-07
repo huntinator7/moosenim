@@ -47,7 +47,8 @@ var app = angular.module('mainApp', ['socket.io'])
 	})
 	//.service('modalService', modalService)
 	.controller('Ctrl', function Ctrl($scope, $socket) {
-		 $scope.isCollapsed = false;
+		 $scope.isCollapsed = false
+		 	$scope.messages = []
 		$socket.on('onconnect', function(data) {
 			$scope.messages = []
 			$scope.username = data[0].name
