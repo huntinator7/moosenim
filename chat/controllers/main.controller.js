@@ -83,9 +83,9 @@ var controller = {
         })
     },
     getUser: function(con,io,uid,sid){
-      con.query('SELECT * FROM  users WHERE uid = ?',[uid],(err,rows)) =>{
+      con.query('SELECT * FROM  users WHERE uid = ?',[uid],(err,rows) =>{
         io.to(sid).emit('onconnect',rows)
-      }
+      })
     }
     searchUsers: function (con, email) {
         con.query('SELECT * FROM users WHERE email = ?', [email], (error, rows) => {
