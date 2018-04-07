@@ -50,7 +50,7 @@ var app = angular.module('mainApp', ['socket.io'])
 
 		$socket.on('onconnect', function(data) {
 			$scope.messages = []
-			console.log(data[0].name+"onconnect")
+			console.log(data[0]+"onconnect"+data)
 			$scope.username = data[0].name
 		})
 
