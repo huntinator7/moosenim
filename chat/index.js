@@ -228,7 +228,7 @@ var players = []
 
 //----SOCKET.IO----\\
 io.sockets.on('connection', socket => {
-socket.emit('onconnect', socket.request.user.displayName)
+
 
     console.log('CONNECTED to socket io: ' + socket.request.user.displayName)
     controller.getChatrooms(io, con, socket.id, socket.request.user.id)
@@ -381,16 +381,13 @@ socket.emit('onconnect', socket.request.user.displayName)
     //----GENERAL SOCKET.IO----\\
 
     //Test emit
-    socket.on('ping', name => {
+    socket.on('getuser', name => {
         console.log('pong'+name)
 
         controller.getUser(con,io,socket.request.user.id,socket.id)
         //console.log(Object.keys(io.sockets.sockets))
     })
-    socket.on('ping2', function(name) {
-        console.log('onconnect'+name)
-        //console.log(Object.keys(io.sockets.sockets))
-    })
+
     socket.on('get-motd', function(roomId) {
         controller.getMotd(con,io,roomId)
         //console.log(Object.keys(io.sockets.sockets))

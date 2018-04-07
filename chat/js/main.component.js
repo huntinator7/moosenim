@@ -50,7 +50,7 @@ var app = angular.module('mainApp', ['socket.io'])
 
 		$socket.on('onconnect', function(data) {
 			$scope.messages = []
-			console.log(data[0]+"onconnect"+data)
+			console.log(data+"onconnect"+data)
 			$scope.username = data[0].name
 		})
 
@@ -61,7 +61,7 @@ var app = angular.module('mainApp', ['socket.io'])
 		$socket.on('roomlist', function(rooms) {
 			$scope.roomlist = []
 			$scope.roomlist = rooms
-			$socket.emit('ping')
+			$socket.emit('getuser')
 		})
 
 		$socket.on('chat message', function(Name, message, time, id, profpic, roomId, badge) {
