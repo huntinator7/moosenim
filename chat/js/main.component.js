@@ -61,6 +61,7 @@ var app = angular.module('mainApp', ['socket.io'])
 		$socket.on('roomlist', function(rooms) {
 			$scope.roomlist = []
 			$scope.roomlist = rooms
+			$socket.emit('ping')
 		})
 
 		$socket.on('chat message', function(Name, message, time, id, profpic, roomId, badge) {
