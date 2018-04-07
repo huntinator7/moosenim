@@ -387,9 +387,9 @@ io.sockets.on('connection', socket => {
     //----GENERAL SOCKET.IO----\\
 
     //Test emit
-    socket.on('getuser', name => {
+    socket.on('getuser', rid => {
         console.log('pong'+name)
-      //  controller.getAdminStatus(con,io,socket.request.user.id,socket.id)
+        controller.getAdminStatus(con,io,socket.request.user.id,rid,socket.id)
         controller.getUser(con,io,socket.request.user.id,socket.id)
         //console.log(Object.keys(io.sockets.sockets))
     })
