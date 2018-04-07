@@ -85,8 +85,11 @@ var controller = {
     getUser: function(con,io,uid,sid){
       console.log('get User called')
       con.query('SELECT * FROM  users WHERE uid = ?',[uid],(err,rows) =>{
-        console.log('con query called')
-        io.to(sid).emit('onconnect',rows,getAdminStatus(con,io,uid,sid))
+        var isadmin
+        con.query('SELECT is_admin FROM room_users WHERE room_id = ? AND user_id = ?', [sid, uid], (error, rows, results) => {
+          isadmin = rows[0]
+        })
+        io.to(sid).emit('onconnect',rows,isadmin)
       })
     },
     getAdminStatus: function(con,io,uid,roomId){
