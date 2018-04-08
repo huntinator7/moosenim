@@ -53,19 +53,22 @@ var app = angular.module('mainApp', ['socket.io'])
 			$scope.messages = []
 			$scope.username = data[0].name
 			console.log(isAdmin)
+
 		})
 
 		$socket.on('motd update', function(motd, roomid) {
 			$scope.motd = motd
+			$socket.emit('getuser',roomid)
 		})
 
 		$socket.on('roomlist', function(rooms) {
 			$scope.roomlist = []
 			$scope.roomlist = rooms
-			$socket.emit('getuser',3)
+
 		})
 		$socket.on('getadminstatus',(rows)=>{
-			console.log(rows.is_admin)
+
+			$scope.adminStatus=rows.is_admin
 		})
 
 		$socket.on('chat message', function(Name, message, time, id, profpic, roomId, badge) {
