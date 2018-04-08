@@ -15,6 +15,7 @@ body {
 
 .media {
     color: #000000;
+    background-color: #ffffff;
     background-clip: content-box, padding-box;
 }
 
@@ -33,8 +34,8 @@ body {
 }
 
 .mr-3 {
-    height: 240px;
-    width: 25%;
+     height: 240px;
+    width: 160px;
 }
 
 @media screen and (max-width: 1081px) {
