@@ -55,7 +55,7 @@ var app = angular.module('mainApp', ['socket.io'])
 			$scope.username = data[0].name
 
 
-			$scope.dateString=moment().second()
+			$scope.dateString=moment().Now()
 
 		})
 
@@ -104,7 +104,7 @@ var app = angular.module('mainApp', ['socket.io'])
 		}
 
 		$scope.emitBasic = function emitBasic() {
-			console.log(moment($scope.dateString).subtract(7,'seconds'))
+			console.log( moment(moment($scope.dateString,"hh:mm").diff(moment("hh:mm"))).format("hh:mm"))
 		}
 		$scope.submitTodo = function submitTodo() {
 
