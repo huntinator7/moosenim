@@ -66,7 +66,7 @@ var app = angular.module('mainApp', ['socket.io'])
 			dateString += newDate.getMinutes()
 
 			//console.log(dateString)
-			$scope.dateString=moment().format()
+			$scope.dateString=moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
 
 		})
 
@@ -115,7 +115,7 @@ var app = angular.module('mainApp', ['socket.io'])
 		}
 
 		$scope.emitBasic = function emitBasic() {
-			$scope.dataToSend = '';
+			console.log(moment.subtract($scope.dateString))
 		}
 		$scope.submitTodo = function submitTodo() {
 

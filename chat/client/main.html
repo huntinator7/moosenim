@@ -78,7 +78,7 @@
                         <div class="card" ng-controller="modalCtrl">
                             <div class="card-body">
                                 <h5 class="card-title">{{dateString}}</h5>
-                                <button ng-controller="modalCtrl" ng-click="open()">Send</button>
+                                <button ng-controller="Ctrl" ng-click="emitBasic()">Send</button>
                                 <button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">Toggle collapse Vertically</button>
                                 <hr>
                                 <div uib-collapse="isCollapsed">
