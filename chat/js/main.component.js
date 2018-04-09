@@ -104,7 +104,7 @@ var app = angular.module('mainApp', ['socket.io'])
 		}
 
 		$scope.emitBasic = function emitBasic() {
-			console.log( moment(moment($scope.dateString,"hh:mm").diff(moment("hh:mm"))).format("hh:mm"))
+			console.log( moment.duration($scope.dateString.diff(moment())))
 		}
 		$scope.submitTodo = function submitTodo() {
 
