@@ -60,7 +60,10 @@ var app = angular.module('mainApp', ['socket.io'])
 			// Get the month, day, and year.
 			dateString += (newDate.getMonth() + 1) + "/";
 			dateString += newDate.getDate() + "/";
-			dateString += newDate.getFullYear();
+			dateString += newDate.getFullYear()+" ";
+			dateString += newDate.getHours()+':'
+			dateString += newDate.getMinutes()
+
 			console.log(dateString)
 
 		})
