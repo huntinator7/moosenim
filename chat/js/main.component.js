@@ -54,19 +54,8 @@ var app = angular.module('mainApp', ['socket.io'])
 			$scope.messages = []
 			$scope.username = data[0].name
 
-			var dateString = "";
 
-			var newDate = new Date();
-
-			// Get the month, day, and year.
-			dateString += (newDate.getMonth() + 1) + "/";
-			dateString += newDate.getDate() + "/";
-			dateString += newDate.getFullYear()+" ";
-			dateString += newDate.getHours()+':'
-			dateString += newDate.getMinutes()
-
-			//console.log(dateString)
-			$scope.dateString=moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
+			$scope.dateString=moment().second()
 
 		})
 
@@ -115,7 +104,7 @@ var app = angular.module('mainApp', ['socket.io'])
 		}
 
 		$scope.emitBasic = function emitBasic() {
-			console.log(moment().subtract($scope.dateString))
+			console.log(moment().subtract($scope.dateString,'seconds'))
 		}
 		$scope.submitTodo = function submitTodo() {
 
