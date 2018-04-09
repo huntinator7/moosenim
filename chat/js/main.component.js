@@ -53,12 +53,15 @@ var app = angular.module('mainApp', ['socket.io'])
 			$scope.messages = []
 			$scope.username = data[0].name
 
-			var date = new Date("Jan 01, 2001");
-			var str = "Today's date is: ";
-   			str += (date.getMonth() + 1) + "/";
-   			str += date.getDate() + "/";
-   			str += date.getFullYear();
-			console.log(str)
+			var dateString = "Today's date is: ";
+
+			var newDate = new Date();
+
+			// Get the month, day, and year.
+			dateString += (newDate.getMonth() + 1) + "/";
+			dateString += newDate.getDate() + "/";
+			dateString += newDate.getFullYear();
+			console.log(dateString)
 
 		})
 
