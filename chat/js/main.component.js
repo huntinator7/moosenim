@@ -52,7 +52,7 @@ var app = angular.module('mainApp', ['socket.io'])
 		$socket.on('onconnect', function(data,isAdmin) {
 			$scope.messages = []
 			$scope.username = data[0].name
-			console.log(isAdmin)
+			console.log(Date.now())
 
 		})
 
