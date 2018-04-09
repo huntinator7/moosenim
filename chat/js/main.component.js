@@ -55,7 +55,7 @@ var app = angular.module('mainApp', ['socket.io'])
 			$scope.username = data[0].name
 
 
-			$scope.dateString=moment().Now()
+			$scope.dateString=moment()
 
 		})
 
