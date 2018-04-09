@@ -65,6 +65,7 @@ var app = angular.module('mainApp', ['socket.io'])
 			dateString += newDate.getMinutes()
 
 			console.log(dateString)
+			$scope.dateString=dateString
 
 		})
 
