@@ -326,7 +326,7 @@ $(function () {
                     e.username +
                     ' <span class="badge badge-dark">Bot</span></span><p class="message">' +
                     e.msg + '</p><span class="secondary-content">' +
-                    time + '</a></li>', thisId, e.username, e.msg)
+                    moment(time).fromNow() + '</a></li>', thisId, e.username, e.msg)
             }
 
             function doRest(newMsg) {
@@ -361,7 +361,7 @@ $(function () {
                                 '" alt="" class="circle msg-icon"><span class="title" id="msgtitle">' +
                                 userStr + '</span><p class="message">' +
                                 newMsg + '</p><span class="secondary-content">' +
-                                time + '</a></li>')
+                                moment(time).fromNow() + '</a></li>')
                             document.title = user.replace(/ .*/, '') + ': ' + newMsg
                             handleMessageCSS()
                         } else {
@@ -370,7 +370,7 @@ $(function () {
                                 '" alt="" class="circle msg-icon"><span class="title" id="msgtitle">' +
                                 userStr + '</span><p class="message">' +
                                 newMsg + '</p><span class="secondary-content">' +
-                                time + '</a></li>', id, user, newMsg)
+                                moment(time).fromNow() + '</a></li>', id, user, newMsg)
                             if (first_id > id) {
                                 first_id = id
                             }
