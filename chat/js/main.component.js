@@ -49,11 +49,12 @@ var app = angular.module('mainApp', ['socket.io'])
 	.controller('Ctrl', function Ctrl($scope, $socket) {
 		 $scope.isCollapsed = false
 		 	$scope.messages = []
+			moment().format()
 		$socket.on('onconnect', function(data,isAdmin) {
 			$scope.messages = []
 			$scope.username = data[0].name
 
-			var dateString = "Today's date is: ";
+			var dateString = "";
 
 			var newDate = new Date();
 
@@ -64,8 +65,8 @@ var app = angular.module('mainApp', ['socket.io'])
 			dateString += newDate.getHours()+':'
 			dateString += newDate.getMinutes()
 
-			console.log(dateString)
-			$scope.dateString=dateString
+			//console.log(dateString)
+			$scope.dateString=moment().format()
 
 		})
 
