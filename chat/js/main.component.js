@@ -53,6 +53,7 @@ var app = angular.module('mainApp', ['socket.io'])
 		$socket.on('onconnect', function(data,isAdmin) {
 			$scope.messages = []
 			$scope.username = data[0].name
+			$scope.roomId = data[0].curroom
 
 
 			$scope.dateString=moment()
@@ -96,11 +97,10 @@ var app = angular.module('mainApp', ['socket.io'])
 
 		})
 
-
 		$scope.changeRooms = function changeRooms(roomId) {
 			$scope.messages = []
 			$socket.emit('changerooms', roomId)
-
+			$scope.roomId = roomId
 		}
 
 		$scope.emitBasic = function emitBasic() {
@@ -108,18 +108,19 @@ var app = angular.module('mainApp', ['socket.io'])
 		}
 		$scope.submitTodo = function submitTodo() {
 
-			$socket.emit('addtodo',$scope.messages[0].roomId,$scope.todotags,$scope.todomsg,$scope.tododate)
-			console.log($scope.todotags,$scope.todomsg,$scope.tododate)
-			$scope.todo.msg = '';
-			$scope.todo.tags = '';
-			$scope.todo.date = '';
+			$socket.emit('addtodo',$scope.roomId,$scope.todotags,'PIECE OF SHIT',$scope.dateString)
+			console.log($scope.todotags,$scope.todomsg,$scope.dateString)
+			$scope.todomsg = 'asdasd'
+			$scope.todotags = ''
+
 		}
 		$scope.deleteTodo = function deleteTodo(todo){
-
+			console.log(todo)
+			$socket.emit('removetodo', todo,$scope.roomId)
 		}
 		$scope.emitBasic2 = function emitBasic() {
 
-			$socket.emit('chat message', $scope.dataToSend, $scope.messages[0].roomId);
+			$socket.emit('chat message', $scope.dataToSend, $scope.roomId);
 
 			$scope.dataToSend = '';
 		}

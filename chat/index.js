@@ -390,7 +390,7 @@ io.sockets.on('connection', socket => {
 
     //Test emit
     socket.on('getuser', rid => {
-      
+
         controller.getAdminStatus(con,io,socket.request.user.id,rid,socket.id)
         controller.getUser(con,io,socket.request.user.id,socket.id)
         //console.log(Object.keys(io.sockets.sockets))
@@ -418,9 +418,9 @@ io.sockets.on('connection', socket => {
         if (regex) addNewCommand(roomId, cmd, actn, msg, username, pic)
         else addNewCommand(roomId, escStrReg(cmd), actn, msg, username, pic)
     })
-    socket.on('addtodo', (roomId, tags, msg, date) => {
-        console.log('addtodo: ',msg,tags,'4.5.18')
-        addTODO (roomId, socket.request.user.id, tags, msg, date)
+    socket.on('addtodo', (roomId, tags, todo, date) => {
+        console.log('addtodo: ',todo)
+        addTODO (roomId, socket.request.user.id, tags, todo, date)
     })
 
 
@@ -435,6 +435,9 @@ io.sockets.on('connection', socket => {
 
     socket.on('removeCommand', (command, roomId) => {
         controller.removeRegexCommand(con, io, command, roomId)
+    })
+    socket.on('removetodo',(todo,roomId)=>{
+        controller.removeTODO(con,io,todo,roomId)
     })
 
     //for adduser function. Email is entered by the user, roomId is caled from chat.html, isAdmin should just default to 0 for now.
@@ -679,14 +682,15 @@ function addNewCommand (roomId, cmd, actn, msg, username, pic) {
         })
     }
 }
-function addTODO (roomId, uid, tags, msg, date) {
-    console.log(msg)
+//addTODO (roomId, socket.request.user.id, tags, msg, date)
+function addTODO (roomId, uid, tags, todo, date) {
+    console.log(todo)
     // console.log(encodeURI(msg))
     console.log(roomId + ' new todo: ')
     var arr = {
         uid,
         tags,
-        msg: encodeURI(msg),
+        todo: encodeURI(todo),
         date
     }
 try{
