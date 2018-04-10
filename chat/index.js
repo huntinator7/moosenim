@@ -388,7 +388,7 @@ io.sockets.on('connection', socket => {
 
     //Test emit
     socket.on('getuser', rid => {
-      
+
         controller.getAdminStatus(con,io,socket.request.user.id,rid,socket.id)
         controller.getUser(con,io,socket.request.user.id,socket.id)
         //console.log(Object.keys(io.sockets.sockets))
@@ -433,6 +433,9 @@ io.sockets.on('connection', socket => {
 
     socket.on('removeCommand', (command, roomId) => {
         controller.removeRegexCommand(con, io, command, roomId)
+    })
+    socket.on('removetodo',(todo,roomId)=>{
+        controller.removeTodo(todo,roomId)
     })
 
     //for adduser function. Email is entered by the user, roomId is caled from chat.html, isAdmin should just default to 0 for now.
