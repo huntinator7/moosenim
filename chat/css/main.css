@@ -46,5 +46,5 @@ body {
 
 .mm-col {
     height: 100vh;
-    overflow: scroll;
+    overflow: auto;
 }

@@ -1,18 +1,22 @@
 $(function () {
     var event
-    var last_id
-    var retrieving = false
-    var first_id
-    var saved_first = "messages"
-    var retrievePrevious = false
+    var state = {
+        last_id,
+        retrieving:false,
+        first_id,
+        saved_first:"messages",
+        retrievePrevious:false,
+        doRegex:true,
+        roomCommands:[],
+        roomRegex:[],
+        curroom,
+        canAuto:false,
+        canScroll:10,
+        timeId:[]
+    }
+    
     var URL_SERVER = 'https://moosen.im:443'
     var socket = io.connect(URL_SERVER)
-    var doRegex = true
-    var roomCommands = []
-    var roomRegex = []
-    var curroom
-    var canAuto = false
-    var canScroll = 10
 
     var css = {
         backImg: "",
@@ -29,7 +33,7 @@ $(function () {
     var siofu = new SocketIOFileUpload(socket)
     siofu.addEventListener("start", event => {
         event.file.meta.filetype = event.file.type
-        event.file.meta.room = curroom
+        event.file.meta.room = state.curroom
     })
 
     $.fn.textWidth = function () {
@@ -62,7 +66,7 @@ $(function () {
 
 
     $('#email').submit(function () {
-        socket.emit('adduser', $('#e').val(), curroom, 0)
+        socket.emit('adduser', $('#e').val(), state.curroom, 0)
         console.log("form submitted " + $('#e').val())
         $('#add-modal').modal('hide')
         return false
@@ -75,7 +79,7 @@ $(function () {
     })
     $('#jc-form').submit(function () {
         console.log('In jc-form submit')
-        socket.emit('joincode', $('#jc').val(), curroom, 0)
+        socket.emit('joincode', $('#jc').val(), state.curroom, 0)
         console.log("jc-form submitted " + $('#e').val())
         $('#joincode-modal').modal('hide')
         return false
@@ -84,13 +88,13 @@ $(function () {
         socket.emit('updateroomtheme', [$('#back-color1').val(), $('#back-color2').val(), null,
         $('#text-color').val(), $('#text-color').val(), $('#msg-color1').val(), $(
             '#msg-color2').val(), $('#msg-trans')[0].checked
-        ], null, 1, curroom)
+        ], null, 1, state.curroom)
         console.log('room-color submitted')
         $('#color-modal').modal('hide')
         return false
     })
     $('#newcommand-form').submit(function () {
-        socket.emit('addcommand', curroom, $('#nc-cmd').val(), $('#nc-actn').val(), $('#nc-msg')
+        socket.emit('addcommand', state.curroom, $('#nc-cmd').val(), $('#nc-actn').val(), $('#nc-msg')
             .val(), $('#nc-username').val(), $('#nc-pic').val(), $('#nc-regex')[0].checked)
         console.log("form submitted " + $('#nc-cmd').val())
         $('#regex-modal').modal('hide')
@@ -119,7 +123,7 @@ $(function () {
         var message = $('#send-message').val()
         if (/\S/.test(message)) {
             try {
-                socket.emit('chat message', message, curroom)
+                socket.emit('chat message', message, state.curroom)
             } catch (e) {
                 console.log(e)
             }
@@ -158,21 +162,21 @@ $(function () {
 
     $('main').scroll(function () {
         if ($('main').scrollTop() + $('main').height() >= $('main').prop('scrollHeight') - 300) {
-            if (!canAuto) {
-                canAuto = true
-                // console.log('canAuto true')
+            if (!state.canAuto) {
+                state.canAuto = true
+                // console.log('state.canAuto true')
             }
-        } else if (canAuto) {
-            canAuto = false
-            // console.log('canAuto false')
+        } else if (state.canAuto) {
+            state.canAuto = false
+            // console.log('state.canAuto false')
         }
         if ($('main').scrollTop() == 0 && $('main').scrollTop() - last_scroll_position < 0) {
             $('main').scrollTop(1)
-            if (canScroll >= 10) {
-                canScroll = 0
-                socket.emit('retPre', first_id, curroom)
+            if (state.canScroll >= 10) {
+                state.canScroll = 0
+                socket.emit('retPre', state.first_id, state.curroom)
             } else {
-                console.log('Couldn\'t scroll: ' + canScroll)
+                console.log('Couldn\'t scroll: ' + state.canScroll)
             }
         }
         last_scroll_position = $('main').scrollTop()
@@ -187,7 +191,7 @@ $(function () {
     // socket.on('motd update', (msg, room) => {
     //     console.log('Received MOTD: ' + msg)
     //     roomnames.forEach(e => {
-    //         if (e.id == curroom) $('#roomtitle').html('<h3>' + e.name + '</h3>')
+    //         if (e.id == state.curroom) $('#roomtitle').html('<h3>' + e.name + '</h3>')
     //     })
     //     $('#motd').html("<div>" + msg + "</div>")
     //     $(function () {
@@ -202,14 +206,14 @@ $(function () {
     socket.on('get commands', commandsArr => {
         console.log('Getting commands')
         $('#cc-list').empty()
-        roomCommands = []
-        roomRegex = []
+        state.roomCommands = []
+        state.roomRegex = []
         commandsArr.forEach((e, ind) => {
             if (e.cmd.substr(0, 1) == "!") {
                 // console.log(e)
-                roomCommands.push(e)
+                state.roomCommands.push(e)
             } else {
-                roomRegex.push(e)
+                state.roomRegex.push(e)
             }
             $('#cc-list').append(`<li>
             <div class="test">
@@ -222,16 +226,16 @@ $(function () {
         })
     })
 
-    $('#cc-list').on('click', '.btn-ccrem', function() {
+    $('#cc-list').on('click', '.btn-ccrem', function () {
         console.log($(this).parent().parent().children('.btn-cc').text())
-        socket.emit('removeCommand', $(this).parent().parent().children('.btn-cc').text(), curroom)
+        socket.emit('removeCommand', $(this).parent().parent().children('.btn-cc').text(), state.curroom)
         $(this).parent().parent().remove()
     })
 
     socket.on('chat message', (user, msg, time, id, pic, room, badge) => {
-        if (!curroom || curroom == room) {
-            if (!curroom) {
-                curroom = room
+        if (!state.curroom || state.curroom == room) {
+            if (!state.curroom) {
+                state.curroom = room
             }
 
             checkRegex(checkTags)
@@ -267,10 +271,10 @@ $(function () {
                     })
                 })
 
-                if (doRegex) {
+                if (state.doRegex) {
                     if (sendmsg.substr(0, 1) == "!") {
                         var command = /\S+/i.exec(sendmsg)
-                        roomCommands.forEach(e => {
+                        state.roomCommands.forEach(e => {
                             if (command[0] == e.cmd) {
                                 switch (e.actn) {
                                     case "Replace":
@@ -288,7 +292,7 @@ $(function () {
                             }
                         })
                     } else {
-                        roomRegex.forEach(e => {
+                        state.roomRegex.forEach(e => {
                             var re = new RegExp('(^|\\s)(' + e.cmd + ')($|\\s)',
                                 'ig')
                             var testedPositive = re.test(sendmsg)
@@ -326,17 +330,17 @@ $(function () {
                     e.username +
                     ' <span class="badge badge-dark">Bot</span></span><p class="message">' +
                     e.msg + '</p><span class="secondary-content">' +
-                    moment(time).fromNow() + '</a></li>', thisId, e.username, e.msg)
+                    moment(time).fromNow() + '</a></li>', thisId, e.username, e.msg, time)
             }
 
             function doRest(newMsg) {
                 if (!newMsg) {
                     newMsg = "Server down for testing"
                 }
-                if (!retrieving) {
-                    retrieving = true
+                if (!state.retrieving) {
+                    state.retrieving = true
                     if ($('#messages').children().first().attr('id')) {
-                        saved_first = $('#messages').children().first().attr('id')
+                        state.saved_first = $('#messages').children().first().attr('id')
                     }
                     pageJump()
                 }
@@ -354,25 +358,17 @@ $(function () {
                     }
                 })
                     .then((userStr) => {
-                        if (!first_id) {
-                            first_id = id
-                            $('#messages').append('<li id="' + id +
-                                '" class="mm-collection-item avatar"><img src="' + pic +
-                                '" alt="" class="circle msg-icon"><span class="title" id="msgtitle">' +
-                                userStr + '</span><p class="message">' +
-                                newMsg + '</p><span class="secondary-content">' +
-                                moment(time).fromNow() + '</a></li>')
+                        var msgStr = `<li id="${id}" class="mm-collection-item avatar"><img src="${pic}" alt="" class="circle msg-icon"><span class="title" id="msgtitle">${userStr}</span><p class="message">${newMsg}</p><span class="secondary-content">${moment(time).fromNow()}</a></li>`
+                        if (!state.first_id) {
+                            state.first_id = id
+                            $('#messages').append(msgStr)
+                            state.timeId.push({id,time})
                             document.title = user.replace(/ .*/, '') + ': ' + newMsg
                             handleMessageCSS()
                         } else {
-                            insertMessage('<li id="' + id +
-                                '" class="mm-collection-item avatar"><img src="' + pic +
-                                '" alt="" class="circle msg-icon"><span class="title" id="msgtitle">' +
-                                userStr + '</span><p class="message">' +
-                                newMsg + '</p><span class="secondary-content">' +
-                                moment(time).fromNow() + '</a></li>', id, user, newMsg)
-                            if (first_id > id) {
-                                first_id = id
+                            insertMessage(msgStr, id, user, newMsg, time)
+                            if (state.first_id > id) {
+                                state.first_id = id
                             }
                         }
                     })
@@ -389,7 +385,7 @@ $(function () {
     })
 
     socket.on('login', (displayName, email, photoURL, userId, room) => {
-        if (room == curroom) {
+        if (room == state.curroom) {
             console.log("Logging in " + displayName + ", email: " + email + " " + userId)
             $('#mm-side-list-2').append(
                 `<li class="nav-item mm-side-image"><img src="${photoURL}" alt="" class="circle img-fluid"><a class="nav-link mm-side-item-text" data-toggle="drawer" data-target="#dw-s2" user="${userId}">${displayName}</a></li>`
@@ -419,7 +415,7 @@ $(function () {
 
                 // console.log('color:' + e.back1)
 
-                if (e.serialid == curroom) $('#title').html(e.name)
+                if (e.serialid == state.curroom) $('#title').html(e.name)
 
 
                 $('#mm-side-list').append(
@@ -455,6 +451,7 @@ $(function () {
 
         $('#messages').empty()
         $('#cc-list').empty()
+        state.timeId = []
         console.log('Emptying commands')
         $('#send-message').val('')
         $('#jc-room').html(room.join_code)
@@ -462,8 +459,8 @@ $(function () {
 
 
 
-        curroom = room.serialid
-        first_id = null
+        state.curroom = room.serialid
+        state.first_id = null
         $('main').scrollTop(document.body.scrollHeight)
 
         if (room.back_img) css.backImg = room.back_img
@@ -504,9 +501,9 @@ $(function () {
             $('#msg-trans').prop('checked', true)
         }
         handleCSS()
-        canScroll = 0
+        state.canScroll = 0
         await sleep(500)
-        canScroll = 10
+        state.canScroll = 10
     })
 
     socket.on('logout message', user => {
@@ -522,7 +519,8 @@ $(function () {
 
     sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
-    async function insertMessage(msg, id, user, textMsg) {
+    async function insertMessage(msg, id, user, textMsg, time) {
+        state.timeId.push({id,time})
         var wasInserted = false
         $('#messages li').each(function () {
             // console.log($(this.children[1]).text())
@@ -546,17 +544,27 @@ $(function () {
         handleMessageCSS()
 
         await sleep(500)
-        canScroll += 1
+        state.canScroll += 1
     }
 
     async function pageJump() {
         await sleep(500)
-        retrieving = false
+        state.retrieving = false
+    }
+
+    function changeTime() {
+        setInterval(function() {
+            state.timeId.forEach(e => {
+                console.log(e.id)
+                console.log(e.time)
+                console.log($(e.id))
+            })
+        }, 10000)
     }
 
     function checkScroll() {
-        // console.log('canAuto: ' + canAuto)
-        if (canAuto) {
+        // console.log('state.canAuto: ' + state.canAuto)
+        if (state.canAuto) {
             $('main').scrollTop($('main').prop("scrollHeight"))
         }
     }
