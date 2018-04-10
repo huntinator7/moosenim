@@ -435,7 +435,7 @@ io.sockets.on('connection', socket => {
         controller.removeRegexCommand(con, io, command, roomId)
     })
     socket.on('removetodo',(todo,roomId)=>{
-        controller.removeTODO(todo,roomId)
+        controller.removeTODO(con,io,todo,roomId)
     })
 
     //for adduser function. Email is entered by the user, roomId is caled from chat.html, isAdmin should just default to 0 for now.
