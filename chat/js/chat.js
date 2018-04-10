@@ -561,6 +561,7 @@ $(function () {
             })
         }, 10000)
     }
+    changeTime()
 
     function checkScroll() {
         // console.log('state.canAuto: ' + state.canAuto)
