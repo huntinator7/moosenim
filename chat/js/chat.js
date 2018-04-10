@@ -557,7 +557,7 @@ $(function () {
             state.timeId.forEach(e => {
                 console.log(e.id)
                 console.log(e.time)
-                console.log($('#' + e.id.toString()))
+                console.log($('#' + e.id.toString()).children()[3])
             })
         }, 10000)
     }
