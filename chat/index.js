@@ -115,7 +115,7 @@ io.use(passportSocketIO.authorize({
         host: 'localhost',
         port: 6379,
         client: client,
-        ttl: 260
+        ttl: 86400
     }),
     passport: passport,
     cookieParser: require('cookie-parser'),
