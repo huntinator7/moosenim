@@ -8,11 +8,14 @@
     <meta charset=utf-8 />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Herd</title>
+    <link rel="stylesheet" type="text/css" href="../css/main.css">
+    <!-- Required for all pages -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular.min.js"></script>
-    <!-- JQuery -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="../js/moment.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <p ng-include="'../html/core.html'"></p>
+    <!--                        -->
 </head>
 
 <body ng-app="mainApp">
@@ -61,7 +64,7 @@
                                 <button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">Toggle collapse Vertically</button>
                                 <hr>
                                 <div uib-collapse="isCollapsed">
-                                  <div class="well well-lg">Some content</div>
+                                    <div class="well well-lg">Some content</div>
                                 </div>
                                 <!-- <p class="card-text"> input<input ng-model="FilterController.input" /></p> -->
                             </div>
@@ -81,7 +84,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">To Do List</h5>
                                 <button type="button" data-toggle="modal" data-target="#todo-modal" class="btn btn-secondary btn-sm">
-                                    <i class="material-icons"style="font-size:4;">add</i>
+                                    <i class="material-icons" style="font-size:4;">add</i>
                                 </button>
                                 <p class="card-text">
                                     <ul>
@@ -89,9 +92,9 @@
                                             <div ng-class-odd="'odd'" ng-class-even="'even'">
                                                 {{x.msg}}
                                                 <div class="dropdown">
-                                                  <button class="btn btn-secondary" type="button" ng-click="emitBasic(x)">
-                                                    <i class="material-icons">clear</i>
-                                                  </button>
+                                                    <button class="btn btn-secondary" type="button" ng-click="emitBasic(x)">
+                                                        <i class="material-icons">clear</i>
+                                                    </button>
 
                                                 </div>
                                                 <br />
@@ -120,7 +123,8 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
+                                    This card has even longer content than the first to show that equal height action.</p>
                                 <p class="card-text">
                                     <small class="text-muted">Last updated 3 mins ago</small>
                                 </p>
@@ -134,9 +138,7 @@
             </div>
         </div>
     </div>
-    <script src="/socket.io/socket.io.js"></script>
     <script src='../js/main.component.js'></script>
-
 </body>
 
 </html>
