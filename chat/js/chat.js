@@ -557,7 +557,7 @@ $(function () {
             state.timeId.forEach(e => {
                 $('#' + e.id.toString()).children('.secondary-content').html(moment(e.time).fromNow())
             })
-        }, 10000)
+        }, 30000)
     }
     changeTime()
 
