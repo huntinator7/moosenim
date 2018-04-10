@@ -55,14 +55,14 @@ var app = angular.module('mainApp', ['socket.io'])
 			$scope.username = data[0].name
 			$scope.roomId = data[0].curroom
 
-
+			$socket.emit('getuser',$scope.roomId)
 			$scope.dateString=moment()
 
 		})
 
 		$socket.on('motd update', function(motd, roomid) {
 			$scope.motd = motd
-			$socket.emit('getuser',roomid)
+
 		})
 
 		$socket.on('roomlist', function(rooms) {
@@ -86,7 +86,7 @@ var app = angular.module('mainApp', ['socket.io'])
 				roomId: roomId,
 				badge: badge
 			}
-
+			console.log(msgPack)
 			$scope.messages.push(msgPack)
 		})
 		$socket.on('get todo', (todolist, roomId) => {
