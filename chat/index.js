@@ -416,9 +416,9 @@ io.sockets.on('connection', socket => {
         if (regex) addNewCommand(roomId, cmd, actn, msg, username, pic)
         else addNewCommand(roomId, escStrReg(cmd), actn, msg, username, pic)
     })
-    socket.on('addtodo', (roomId, tags, msg, date) => {
-        console.log('addtodo: ',msg,tags,'4.5.18')
-        addTODO (roomId, socket.request.user.id, tags, msg, date)
+    socket.on('addtodo', (roomId, tags, todo, date) => {
+        console.log('addtodo: ',todo)
+        addTODO (roomId, socket.request.user.id, tags, todo, date)
     })
 
 
@@ -680,14 +680,15 @@ function addNewCommand (roomId, cmd, actn, msg, username, pic) {
         })
     }
 }
-function addTODO (roomId, uid, tags, msg, date) {
-    console.log(msg)
+//addTODO (roomId, socket.request.user.id, tags, msg, date)
+function addTODO (roomId, uid, tags, todo, date) {
+    console.log(todo)
     // console.log(encodeURI(msg))
     console.log(roomId + ' new todo: ')
     var arr = {
         uid,
         tags,
-        msg: encodeURI(msg),
+        todo: encodeURI(todo),
         date
     }
 try{
