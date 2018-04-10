@@ -114,8 +114,8 @@ var app = angular.module('mainApp', ['socket.io'])
 			$scope.todo.tags = '';
 			$scope.todo.date = '';
 		}
-		$scope.deleteTodo(todo){
-			
+		$scope.deleteTodo = function deleteTodo(todo){
+
 		}
 		$scope.emitBasic2 = function emitBasic() {
 
