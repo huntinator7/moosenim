@@ -1,15 +1,15 @@
 $(function () {
     var event
     var state = {
-        last_id,
+        last_id:null,
         retrieving:false,
-        first_id,
+        first_id:null,
         saved_first:"messages",
         retrievePrevious:false,
         doRegex:true,
         roomCommands:[],
         roomRegex:[],
-        curroom,
+        curroom:null,
         canAuto:false,
         canScroll:10,
         timeId:[]
