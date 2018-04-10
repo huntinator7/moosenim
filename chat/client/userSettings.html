@@ -9,13 +9,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Herd-Settings</title>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/4.0.2/bootstrap-material-design.min.css">
-    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/bootstrap-material-design@4.0.0-beta.4/dist/js/bootstrap-material-design.js" integrity="sha384-3xciOSDAlaXneEmyOo0ME/2grfpqzhhTcM4cE32Ce9+8DW/04AGoTACzQpphYGYe" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
+        integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
+        crossorigin="anonymous"></script>
+
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/main.css">
     <p ng-include="'../html/core.html'"></p>
 </head>
@@ -33,9 +40,9 @@
                     <div class="card">
                         <div class="card-header" id="headingOne">
                             <h5 class="mb-0">
-        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          Groups
-        </button>
+                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Groups
+                                </button>
                             </h5>
                         </div>
                         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
@@ -51,7 +58,8 @@
                     </div>
 
                 </div>
-                <a href="/business">Home Page</a><br />
+                <a href="/business">Home Page</a>
+                <br />
                 <a href="/">Chat Messages</a>
             </div>
             <div class="col-lg-8" style="text-align:center;    background-clip: content-box, padding-box;">
@@ -63,7 +71,10 @@
                     <div class="card-columns">
                         <div class="card bg-primary text-white text-center p-3">
                             <blockquote class="blockquote mb-0">
-                                <p><h5>Settings for {{ serverResponse }}<h5></h5></p>
+                                <p>
+                                    <h5>Settings for {{ serverResponse }}
+                                        <h5></h5>
+                                </p>
                                 <footer class="blockquote-footer">
                                     <small>
 
@@ -76,8 +87,11 @@
                             <div class="card-body">
                                 <h5 class="card-title">User information</h5>
 
-                                Change display name: <input ng-model="nickname"><br />
-                                Change PRofile Picture (url) <input ng-model="url"><br />
+                                Change display name:
+                                <input ng-model="nickname">
+                                <br /> Change PRofile Picture (url)
+                                <input ng-model="url">
+                                <br />
                                 <button ng-click="updateUser()">Update</button>
 
                             </div>
@@ -87,7 +101,8 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
+                                    This card has even longer content than the first to show that equal height action.</p>
                                 <p class="card-text">
                                     <small class="text-muted">Last updated 3 mins ago</small>
                                 </p>
@@ -100,7 +115,8 @@
             <div class="col-lg-2 hidden-sm-down" ng-controller="Ctrl" style="background-color:#6eb7ff">
 
                 <div ng-class-odd="'odd'" ng-class-even="'even'" style="word-break: break-all; word-wrap: break-word;" ng-repeat="x in messages">
-                    <img src="{{x.profpic}}" /><strong>{{x.username}}:</strong> {{x.message}} -{{x.timestamp}}
+                    <img src="{{x.profpic}}" />
+                    <strong>{{x.username}}:</strong> {{x.message}} -{{x.timestamp}}
                 </div>
                 <input ng-model="dataToSend">
                 <button ng-click="emitBasic2()">Send</button>
