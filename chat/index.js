@@ -88,7 +88,7 @@ app.use(session({
         host: 'localhost',
         port: 6379,
         client: client,
-        ttl: 260
+        ttl: 86400
     })
 }))
 
