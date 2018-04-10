@@ -1,6 +1,9 @@
-(function () {
+(function test () {
     document.write('Testing1')
     console.log('Testing2')
     this.innerHTML = 'Testing3'
     document.getElementById('1').innerHTML = 'Testing4'
-})
+})()
+
+
+{/* <a onClick="this.id='a'">a</a> */}
