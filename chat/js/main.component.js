@@ -116,7 +116,7 @@ var app = angular.module('mainApp', ['socket.io'])
 		}
 		$scope.deleteTodo = function deleteTodo(todo){
 			console.log(todo)
-			$socket.emit('removetodo', todo,$scope.messages[0].roomId)
+			$socket.emit('removetodo', todo,3)
 		}
 		$scope.emitBasic2 = function emitBasic() {
 
