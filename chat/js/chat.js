@@ -555,8 +555,6 @@ $(function () {
     function changeTime() {
         setInterval(function() {
             state.timeId.forEach(e => {
-                console.log(e.id)
-                console.log(e.time)
                 $('#' + e.id.toString()).children('.secondary-content').html(moment(e.time).fromNow())
             })
         }, 10000)
