@@ -9,32 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Herd</title>
 
-    <!-- JQuery -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <!-- Bootstrap tooltips -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
-    <!-- Bootstrap core JavaScript -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <!-- MDB core JavaScript -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/js/mdb.min.js"></script>
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- Bootstrap core CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Material Design Bootstrap -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/css/mdb.min.css" rel="stylesheet">
-
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular.min.js"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
-    <link rel="stylesheet" type="text/css" href="../css/main.css">
-    <link rel="stylesheet" type="text/css" href="../css/core.css">
-    <!-- stuff from chat.html -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
-    <script src="../siofu/client.js"></script>
-    <script src="../js/autosize.js"></script>
-    <script src="../js/moment.js"></script>
+    <p ng-include="'../html/core.html'"></p>
 </head>
 
 <body ng-app="mainApp">
@@ -102,7 +77,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">To Do List</h5>
                                 <button type="button" data-toggle="modal" data-target="#todo-modal" class="btn btn-secondary btn-sm">
-                                    <i class="material-icons">add</i>
+                                    <i class="material-icons"style="font-size:4;">add</i>
                                 </button>
                                 <p class="card-text">
                                     <ul>
@@ -110,14 +85,10 @@
                                             <div ng-class-odd="'odd'" ng-class-even="'even'">
                                                 {{x.msg}}
                                                 <div class="dropdown">
-                                                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="material-icons" style="font-size:3;">mode_edit</i>
+                                                  <button class="btn btn-secondary" type="button" ng-click="emitBasic(x)">
+                                                    <i class="material-icons">clear</i>
                                                   </button>
-                                                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a class="dropdown-item" href="#">Action</a>
-                                                    <a class="dropdown-item" href="#">Another action</a>
-                                                    <a class="dropdown-item" href="#">Something else here</a>
-                                                  </div>
+
                                                 </div>
                                                 <br />
                                                 <span class="badge">{{x.tags}}</span>

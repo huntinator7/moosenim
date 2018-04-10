@@ -203,14 +203,14 @@ var controller = {
             })
         })
     },
-    removeTODO: function (con, io, command, roomId) {
+    removeTODO: function (con, io, todo, roomId) {
         con.query('SELECT todo FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
             if (error) console.log(error)
-            var coms = JSON.parse(rows[0].commands)
+            var coms = JSON.parse(rows[0].todo)
             console.log(coms)
-            const removeTOdo = new Promise((resolve, reject) => {
+            const removeTodo = new Promise((resolve, reject) => {
                 coms = coms.reduce(function (list, item) {
-                    if (decodeURI(item.cmd) !== command) {
+                    if (decodeURI(item.msg) !== todo.msg) {
                         list.push(item)
                     }
                     return list
