@@ -118,7 +118,7 @@ var app = angular.module('mainApp', ['socket.io'])
 			console.log(todo)
 			$socket.emit('removetodo', todo,$scope.roomId)
 		}
-		$scope.emitBasic2 = function emitBasic() {
+		$scope.sendMessage = function sendMessage() {
 
 			$socket.emit('chat message', $scope.dataToSend, $scope.roomId);
 
