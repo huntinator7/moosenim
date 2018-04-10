@@ -54,7 +54,7 @@ var app = angular.module('mainApp', ['socket.io'])
 			$scope.messages = []
 			$scope.username = data[0].name
 			$scope.roomId = data[0].curroom
-
+			console.log('curroom = '+data[0].curroom)
 			$socket.emit('getuser',$scope.roomId)
 			$scope.dateString=moment()
 
