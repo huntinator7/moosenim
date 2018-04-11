@@ -113,7 +113,7 @@ var app = angular.module('mainApp', ['socket.io'])
         }
         $scope.submitTodo = function submitTodo() {
 
-            $socket.emit('addtodo', $scope.roomId, $scope.todotags, $scope.todomsg, moment().format('MM/DD/YYYY')
+            $socket.emit('addtodo', $scope.roomId, $scope.todotags, $scope.todomsg, moment().format('MM/DD/YYYY'))
             console.log($scope.todotags, $scope.todomsg, $scope.dateString)
             $scope.todomsg = 'asdasd'
             $scope.todotags = ''
