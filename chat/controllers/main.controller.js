@@ -83,7 +83,7 @@ var controller = {
         })
     },
     getUser: function(con,io,uid,sid){
-      
+
       con.query('SELECT * FROM  users WHERE uid = ?',[uid],(err,rows) =>{
         var isadmin
 
@@ -207,10 +207,10 @@ var controller = {
         con.query('SELECT todo FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
             if (error) console.log(error)
             var coms = JSON.parse(rows[0].todo)
-            console.log(coms)
+        //    console.log(coms)
             const removeTodo = new Promise((resolve, reject) => {
                 coms = coms.reduce(function (list, item) {
-                    if (decodeURI(item.msg) !== todo.msg) {
+                    if (decodeURI(item.todo) !== todo.todo) {
                         list.push(item)
                     }
                     return list

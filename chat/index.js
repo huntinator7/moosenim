@@ -687,6 +687,7 @@ function addTODO(roomId, uid, tags, todo, date) {
         todo,
         date
     }
+    //console.log(arr.todo)
     try {
         con.query('SELECT todo FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
             const addtodo = new Promise((resolve, reject) => {

@@ -77,7 +77,7 @@ var app = angular.module('mainApp', ['socket.io'])
         })
         $socket.on('getadminstatus', (rows) => {
 
-            $scope.adminStatus = rows[0].is_admin
+            //$scope.adminStatus = rows.is_admin
         })
 
         $socket.on('chat message', function (Name, message, time, id, profpic, roomId, badge) {
@@ -114,10 +114,10 @@ var app = angular.module('mainApp', ['socket.io'])
         $scope.submitTodo = function submitTodo() {
 
             $socket.emit('addtodo', $scope.roomId, $scope.todotags, $scope.todomsg, moment().format('MM/DD/YYYY'))
-            console.log($scope.todotags, $scope.todomsg, $scope.dateString)
-            $scope.todomsg = 'asdasd'
-            $scope.todotags = ''
 
+            $scope.todomsg = ''
+            $scope.todotags = ''
+			console.log($scope.todotags, $scope.todomsg, $scope.dateString)
         }
         $scope.deleteTodo = function deleteTodo(todo) {
             console.log(todo)
