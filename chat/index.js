@@ -66,8 +66,8 @@ process.stdin.on('data', text => {
 
 var io = require('socket.io')(server)
 io.attach(server, {
-  pingInterval: 10000,
-  pingTimeout: 6000,
+    pingInterval: 10000,
+    pingTimeout: 6000,
 });
 //----PASSPORT----\\
 passport.use(new strategy({
@@ -191,8 +191,8 @@ app.get('/auth/google/callback',
 // API \\
 app.use((req, res, next) => {
 
-    var err = new Error('Not Found'+req)
-    console.log(err.message+ " ")
+    var err = new Error('Not Found' + req)
+    console.log(err.message + " ")
     err.status = 404
 
     next(err)
@@ -216,9 +216,9 @@ function loginUser(uid, displayName, photoURL, email) {
             console.log('new user: ' + uid)
             con.query('INSERT INTO users (name, uid, profpic, isonline, totalmessages, email, curroom) VALUES ( ?, ?, ?, 1,1,?,1)', [displayName, uid, photoURL, email], (err, res) => {
                 //add to general and report bug chatrooms
-                controller.addToRoom(con, email, 1, 0,displayName)
-                controller.addToRoom(con, email, 16, 0,displayName)
-                controller.addToRoom(con, email, 42, 1,displayName)
+                controller.addToRoom(con, email, 1, 0, displayName)
+                controller.addToRoom(con, email, 16, 0, displayName)
+                controller.addToRoom(con, email, 42, 1, displayName)
                 if (err) console.log(err)
             })
         } else {
@@ -244,8 +244,8 @@ io.sockets.on('connection', socket => {
     console.log('CONNECTED to socket io: ' + socket.request.user.displayName)
     controller.getChatrooms(io, con, socket.id, socket.request.user.id)
     con.query('SELECT room_id FROM room_users WHERE user_id = ?', [socket.request.user.id], (error, rows, results) => {
-            socket.join(rows[0].room_id)
-            io.to(rows[0].room_id).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id, rows[0].room_id)
+        socket.join(rows[0].room_id)
+        io.to(rows[0].room_id).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id, rows[0].room_id)
 
 
 
@@ -392,13 +392,13 @@ io.sockets.on('connection', socket => {
     //Test emit
     socket.on('getuser', rid => {
 
-        controller.getAdminStatus(con,io,socket.request.user.id,rid,socket.id)
-        controller.getUser(con,io,socket.request.user.id,socket.id)
+        controller.getAdminStatus(con, io, socket.request.user.id, rid, socket.id)
+        controller.getUser(con, io, socket.request.user.id, socket.id)
         //console.log(Object.keys(io.sockets.sockets))
     })
 
-    socket.on('get-motd', function(roomId) {
-        controller.getMotd(con,io,roomId)
+    socket.on('get-motd', function (roomId) {
+        controller.getMotd(con, io, roomId)
         //console.log(Object.keys(io.sockets.sockets))
     })
 
@@ -409,7 +409,7 @@ io.sockets.on('connection', socket => {
     })
 
     socket.on('addroom', name => {
-        controller.createChatroom(con, io, name, socket.request.user.id,socket.request.user.displayName)
+        controller.createChatroom(con, io, name, socket.request.user.id, socket.request.user.displayName)
 
     })
     socket.on('updateuser', (nickname, url) => {
@@ -420,8 +420,8 @@ io.sockets.on('connection', socket => {
         else addNewCommand(roomId, escStrReg(cmd), actn, msg, username, pic)
     })
     socket.on('addtodo', (roomId, tags, t, date) => {
-        console.log('addtodo: ',t)
-        addTODO (roomId, socket.request.user.id, tags, t, date)
+        console.log('addtodo: ', t)
+        addTODO(roomId, socket.request.user.id, tags, t, date)
     })
 
 
@@ -437,14 +437,14 @@ io.sockets.on('connection', socket => {
     socket.on('removeCommand', (command, roomId) => {
         controller.removeRegexCommand(con, io, command, roomId)
     })
-    socket.on('removetodo',(todo,roomId)=>{
-        controller.removeTODO(con,io,todo,roomId)
+    socket.on('removetodo', (todo, roomId) => {
+        controller.removeTODO(con, io, todo, roomId)
     })
 
     //for adduser function. Email is entered by the user, roomId is caled from chat.html, isAdmin should just default to 0 for now.
     socket.on('adduser', (email, roomId, isAdmin) => {
         console.log('add user called')
-        controller.addToRoom(con, email, roomId, 0,'')
+        controller.addToRoom(con, email, roomId, 0, '')
         joinChatroom(socket, roomId)
     })
 
@@ -460,31 +460,31 @@ io.sockets.on('connection', socket => {
     })
 
     socket.on('retPre', (previous, roomId) => {
-        console.log('retpre called'+previous+" "+roomId)
+        console.log('retpre called' + previous + " " + roomId)
         showPreviousMessages(10, previous, socket.id, roomId)
     })
 
     //vr State Code
 
-  socket.on('vrconnection', function (uid, x, y) {
-      console.log('hello from VR')
-      var p = { uid: uid, x: x, y: y, color: 'red' }
-      players.push(p)
-      socket.emit('vrUpdatePos', players)
-  })
-  setInterval(updateClient, 33)
-  function updateClient() {
-      socket.emit('vrTest', players)
-  }
-  socket.on('vrlocalPos', function (uid, x, y) {
-      for (var i = 0; i < players.length; i++) {
-          if (uid = players[i].uid) {
-              players[i].x = x
-              players[i].y = y
-              break
-          }
-      }
-  })
+    socket.on('vrconnection', function (uid, x, y) {
+        console.log('hello from VR')
+        var p = { uid: uid, x: x, y: y, color: 'red' }
+        players.push(p)
+        socket.emit('vrUpdatePos', players)
+    })
+    setInterval(updateClient, 33)
+    function updateClient() {
+        socket.emit('vrTest', players)
+    }
+    socket.on('vrlocalPos', function (uid, x, y) {
+        for (var i = 0; i < players.length; i++) {
+            if (uid = players[i].uid) {
+                players[i].x = x
+                players[i].y = y
+                break
+            }
+        }
+    })
 
     //----CHAT MESSAGE----\\
     socket.on('chat message', (msg, roomId) => {
@@ -653,7 +653,7 @@ function handleDisconnect() {
 handleDisconnect()
 
 //----MESSAGE HANDLING----\\
-function addNewCommand (roomId, cmd, actn, msg, username, pic) {
+function addNewCommand(roomId, cmd, actn, msg, username, pic) {
     console.log(msg)
     // console.log(encodeURI(msg))
     console.log(roomId + ' new command: ' + cmd)
@@ -677,14 +677,14 @@ function addNewCommand (roomId, cmd, actn, msg, username, pic) {
                 newArr.push(arr)
                 myArrString = JSON.stringify(newArr)
                 con.query('UPDATE rooms set commands = ? WHERE serialid = ?', [myArrString, roomId])
-                resolve(controller.getRegexCommands(con,io,roomId, roomId))
+                resolve(controller.getRegexCommands(con, io, roomId, roomId))
             })
 
         })
     }
 }
 //addTODO (roomId, socket.request.user.id, tags, msg, date)
-function addTODO (roomId, uid, tags, todo, date) {
+function addTODO(roomId, uid, tags, todo, date) {
     console.log(todo)
     // console.log(encodeURI(msg))
     console.log(roomId + ' new todo: ')
@@ -694,20 +694,20 @@ function addTODO (roomId, uid, tags, todo, date) {
         todo: encodeURI(todo),
         date
     }
-try{
-         con.query('SELECT todo FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
-             const addtodo = new Promise((resolve, reject) => {
-               var newArr = JSON.parse(rows[0].todo)
-                 newArr.push(arr)
-                 myArrString = JSON.stringify(newArr)
-                 con.query('UPDATE rooms set todo = ? WHERE serialid = ?', [myArrString, roomId])
-                 resolve(controller.getTODO(con,io,roomId))
-             })
+    try {
+        con.query('SELECT todo FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
+            const addtodo = new Promise((resolve, reject) => {
+                var newArr = JSON.parse(rows[0].todo)
+                newArr.push(arr)
+                myArrString = JSON.stringify(newArr)
+                con.query('UPDATE rooms set todo = ? WHERE serialid = ?', [myArrString, roomId])
+                resolve(controller.getTODO(con, io, roomId))
+            })
 
         })
-      }catch(e){
+    } catch (e) {
         console.log(e.message)
-      }
+    }
 }
 function getMessage(roomId) {
     console.log(`In getMessage, roomId ${roomId}`)
@@ -766,7 +766,7 @@ function joinChatroom(socket, roomId) {
                         con.query('UPDATE users SET curroom = ? WHERE uid = ?', [roomId, socket.request.user.id])
                         socket.join(roomId)
                         controller.getRegexCommands(con, io, roomId, socket.id)
-                        controller.getTODO(con,io,roomId)
+                        controller.getTODO(con, io, roomId)
                         resolve()
                     }
                 })

@@ -21,6 +21,7 @@ router.get('/vr', function (req, res) {
     res.sendFile('/html/vr.html', { 'root': '/var/www/html/chat' })
 })
 router.get('/r', function (req, res) {
+    console.log(req)
     res.sendFile('/js/test.js', { 'root': '/var/www/html/chat' })
 })
 router.get('/chat', function (req, res) {

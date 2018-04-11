@@ -1,20 +1,20 @@
 $(function () {
     var event
     var state = {
-        last_id:null,
-        retrieving:false,
-        first_id:null,
-        saved_first:"messages",
-        retrievePrevious:false,
-        doRegex:true,
-        roomCommands:[],
-        roomRegex:[],
-        curroom:null,
-        canAuto:false,
-        canScroll:10,
-        timeId:[]
+        last_id: null,
+        retrieving: false,
+        first_id: null,
+        saved_first: "messages",
+        retrievePrevious: false,
+        doRegex: true,
+        roomCommands: [],
+        roomRegex: [],
+        curroom: null,
+        canAuto: false,
+        canScroll: 10,
+        timeId: []
     }
-    
+
     var URL_SERVER = 'https://moosen.im:443'
     var socket = io.connect(URL_SERVER)
 
@@ -362,7 +362,7 @@ $(function () {
                         if (!state.first_id) {
                             state.first_id = id
                             $('#messages').append(msgStr)
-                            state.timeId.push({id,time})
+                            state.timeId.push({ id, time })
                             document.title = user.replace(/ .*/, '') + ': ' + newMsg
                             handleMessageCSS()
                         } else {
@@ -520,7 +520,7 @@ $(function () {
     sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
     async function insertMessage(msg, id, user, textMsg, time) {
-        state.timeId.push({id,time})
+        state.timeId.push({ id, time })
         var wasInserted = false
         $('#messages li').each(function () {
             // console.log($(this.children[1]).text())
@@ -553,7 +553,7 @@ $(function () {
     }
 
     function changeTime() {
-        setInterval(function() {
+        setInterval(function () {
             state.timeId.forEach(e => {
                 $('#' + e.id.toString()).children('.secondary-content').html(moment(e.time).fromNow())
             })
