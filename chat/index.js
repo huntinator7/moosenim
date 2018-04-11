@@ -65,7 +65,10 @@ process.stdin.on('data', text => {
 })
 
 var io = require('socket.io')(server)
-
+io.attach(server, {
+  pingInterval: 10000,
+  pingTimeout: 6000,
+});
 //----PASSPORT----\\
 passport.use(new strategy({
     clientID: '333736509560-id8si5cbuim26d3e67s4l7oscjfsakat.apps.googleusercontent.com',
@@ -189,7 +192,7 @@ app.get('/auth/google/callback',
 app.use((req, res, next) => {
 
     var err = new Error('Not Found'+req)
-    console.log(err+ " "+req)
+    console.log(err.message+ " "
     err.status = 404
 
     next(err)
