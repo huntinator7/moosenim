@@ -55,7 +55,7 @@ var app = angular.module('mainApp', ['socket.io'])
 			$scope.messages = []
 			$socket.emit('getuser',$scope.roomId)
 
-			$scope.dateString=moment()
+			$scope.dateString=moment().format()
 
 		})
 		$socket.on('onconnect', function(data,isAdmin) {
