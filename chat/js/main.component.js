@@ -50,13 +50,17 @@ var app = angular.module('mainApp', ['socket.io'])
 		 $scope.isCollapsed = false
 		 	$scope.messages = []
 			moment().format()
-		$socket.on('onconnect', function(data,isAdmin) {
+		$socket.on('login', function(name,email,photo,uid,roomId) {
 			$scope.messages = []
+			$socket.emit('getuser',$scope.roomId)
+			console.log(roomId)
+			$scope.dateString=moment()
+
+		})
+		$socket.on('onconnect', function(data,isAdmin) {
 			$scope.username = data[0].name
 			$scope.roomId = data[0].curroom
 			console.log('curroom = '+data[0].curroom)
-			$socket.emit('getuser',$scope.roomId)
-			$scope.dateString=moment()
 
 		})
 
@@ -86,7 +90,7 @@ var app = angular.module('mainApp', ['socket.io'])
 				roomId: roomId,
 				badge: badge
 			}
-			
+
 			$scope.messages.push(msgPack)
 		})
 		$socket.on('get todo', (todolist, roomId) => {

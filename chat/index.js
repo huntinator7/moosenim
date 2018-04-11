@@ -94,7 +94,7 @@ app.use(session({
 
 function onAuthorizeSuccess(data, accept) {
     console.log('success connection to socket.io')
-    console.log(data)
+
     accept()
 }
 
