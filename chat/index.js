@@ -241,14 +241,12 @@ io.sockets.on('connection', socket => {
     console.log('CONNECTED to socket io: ' + socket.request.user.displayName)
     controller.getChatrooms(io, con, socket.id, socket.request.user.id)
     con.query('SELECT room_id FROM room_users WHERE user_id = ?', [socket.request.user.id], (error, rows, results) => {
-        rows.forEach(e => {
-            io.to(e.room_id).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id, e.room_id)
 
-            socket.join(e.room_id)
-        })
-        socket.request.user.photos.forEach(e => {
-            console.log(e)
-        })
+            io.to(rows[0].room_id).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id, rows[0].room_id)
+
+            socket.join(rows[0].room_id)
+
+
 
     })
     con.query('SELECT * FROM users WHERE uid = ?', [socket.request.user.id], (error, rows, results) => {
