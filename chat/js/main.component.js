@@ -55,7 +55,7 @@ var app = angular.module('mainApp', ['socket.io'])
             $scope.messages = []
             $socket.emit('getuser', $scope.roomId)
 
-            $scope.dateString = moment().format()
+            $scope.dateString = moment()..format('MM/DD/YYYY')
 
         })
         $socket.on('onconnect', function (data, isAdmin) {
@@ -113,7 +113,7 @@ var app = angular.module('mainApp', ['socket.io'])
         }
         $scope.submitTodo = function submitTodo() {
 
-            $socket.emit('addtodo', $scope.roomId, $scope.todotags, 'PIECE OF SHIT', $scope.dateString)
+            $socket.emit('addtodo', $scope.roomId, $scope.todotags, $scope.todomsg, moment().format('MM/DD/YYYY')
             console.log($scope.todotags, $scope.todomsg, $scope.dateString)
             $scope.todomsg = 'asdasd'
             $scope.todotags = ''

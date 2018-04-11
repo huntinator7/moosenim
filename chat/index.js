@@ -689,7 +689,7 @@ function addTODO(roomId, uid, tags, todo, date) {
     var arr = {
         uid,
         tags,
-        todo: encodeURI(todo),
+        todo,
         date
     }
     try {
