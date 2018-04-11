@@ -54,7 +54,7 @@ var app = angular.module('mainApp', ['socket.io'])
 			console.log('login called')
 			$scope.messages = []
 			$socket.emit('getuser',$scope.roomId)
-		
+
 			$scope.dateString=moment()
 
 		})
@@ -77,7 +77,7 @@ var app = angular.module('mainApp', ['socket.io'])
 		})
 		$socket.on('getadminstatus',(rows)=>{
 
-			$scope.adminStatus=rows.is_admin
+			$scope.adminStatus=rows[0].is_admin
 		})
 
 		$socket.on('chat message', function(Name, message, time, id, profpic, roomId, badge) {
