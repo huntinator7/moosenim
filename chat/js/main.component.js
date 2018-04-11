@@ -51,9 +51,10 @@ var app = angular.module('mainApp', ['socket.io'])
 		 	$scope.messages = []
 			moment().format()
 		$socket.on('login', function(name,email,photo,uid,roomId) {
+			console.log('login called')
 			$scope.messages = []
 			$socket.emit('getuser',$scope.roomId)
-			console.log(roomId)
+		
 			$scope.dateString=moment()
 
 		})
