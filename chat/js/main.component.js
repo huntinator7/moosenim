@@ -86,7 +86,7 @@ var app = angular.module('mainApp', ['socket.io'])
 				roomId: roomId,
 				badge: badge
 			}
-			console.log(msgPack)
+			
 			$scope.messages.push(msgPack)
 		})
 		$socket.on('get todo', (todolist, roomId) => {
