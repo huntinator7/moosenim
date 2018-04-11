@@ -34,7 +34,7 @@ var module = angular.module('socket.io', []).provider('$socket', function $socke
                     })
                 } else {
                     console.log('.emit called')
-                    socket.emit(event, data, data2)
+                    socket.emit(event, data, data2,data3,data4,data6)
                 }
             },
         }
