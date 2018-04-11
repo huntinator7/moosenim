@@ -83,7 +83,7 @@ var controller = {
         })
     },
     getUser: function(con,io,uid,sid){
-      
+
       con.query('SELECT * FROM  users WHERE uid = ?',[uid],(err,rows) =>{
         var isadmin
 
@@ -210,7 +210,7 @@ var controller = {
             console.log(coms)
             const removeTodo = new Promise((resolve, reject) => {
                 coms = coms.reduce(function (list, item) {
-                    if (decodeURI(item.msg) !== todo.msg) {
+                    if (decodeURI(item.todo) !== todo.todo) {
                         list.push(item)
                     }
                     return list
