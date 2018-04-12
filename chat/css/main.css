@@ -31,7 +31,7 @@ body {
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
-    text-align: left;
+    text-align: left !important;
 }
 
 .mm-sidebar {
