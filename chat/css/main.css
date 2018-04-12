@@ -12,10 +12,12 @@ body {
 
 .odd {
     background-color: #baddff;
+    padding: 4px 10px;
 }
 
 .even {
     background-color: #6eb7ff;
+    padding: 4px 10px;
 }
 
 @media screen and (max-width: 1081px) {
@@ -26,6 +28,10 @@ body {
 
 .mm-btn-side {
     background-color: transparent;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
 }
 
 .mm-sidebar {

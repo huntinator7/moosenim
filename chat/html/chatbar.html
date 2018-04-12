@@ -1,7 +1,7 @@
-<div  ng-controller="Ctrl" >
-
+<div ng-controller="Ctrl" style="max-height:100vh; overflow-y:scroll; overflow-x:hidden;">
     <div ng-class-odd="'odd'" ng-class-even="'even'" style="word-break: break-all; word-wrap: break-word;" ng-repeat="x in messages">
-        <img src='{{x.profpic}}' style="height:32px;width:32px; border-radius: 50%;" /><strong>{{x.name}}:</strong> {{x.message}}
+        <img src='{{x.profpic}}' style="height:32px; width:32px; border-radius:50%;" />
+        <strong>{{x.name}}:</strong> <p>{{x.message}}</p>
         <br />
         <small class="text-muted">{{x.time}}</small>
     </div>
