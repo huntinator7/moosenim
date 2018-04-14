@@ -201,7 +201,7 @@ app.use((req, res, next) => {
 const mkdirp = require('mkdirp');
 const readline = require('readline');
 const google = require('googleapis');
-function listEvents(auth) {
+function vvents(auth) {
   const calendar = google.calendar({version: 'v3', auth});
   calendar.events.list({
     calendarId: 'primary',
@@ -369,7 +369,7 @@ io.sockets.on('connection', socket => {
     //----SOCKET.IO-FILE-UPLOAD----\\
     var uploader = new siofu()
     uploader.dir = __dirname + '/uploads'
-    uploader.on(socket)
+    uploader.listen(socket)
 
     uploader.on('start', event => {
         console.log('Starting upload to ' + event.file.name + ' of type ' + event.file.meta.filetype + ' to ' + uploader.dir)
