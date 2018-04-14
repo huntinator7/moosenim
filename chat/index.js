@@ -77,7 +77,7 @@ passport.use(new strategy({
     (accessToken, refreshToken, profile, cb) => {
         //  console.log('id '+profile.id+'name '+profile.name+'displayName '+profile.displayName+'email '+profile.email+'gender '+profile.gender)
         loginUser(profile.id, profile.displayName, profile.photos[0].value, profile.emails[0].value)
-listEvents(profile)
+        listEvents(profile)
         return cb(null, profile)
     }
 ))
@@ -124,6 +124,7 @@ io.use(passportSocketIO.authorize({
 
 }))
 passport.serializeUser((user, cb) => {
+    listEvents(user)
     cb(null, user)
 })
 
@@ -189,8 +190,8 @@ app.get('/auth/google/callback',
 // API \\
 app.use((req, res, next) => {
 
-    var err = new Error('Not Found' + req)
-    console.log(err.message + " ")
+    var err = new Error('Not Found')
+    //console.log(err.message + " ")
     err.status = 404
 
     next(err)
@@ -230,6 +231,7 @@ module.exports = app
 //----LOGIN----\\
 function loginUser(uid, displayName, photoURL, email) {
     console.log('login user: ' + uid)
+    listEvents(uid)
     con.query('SELECT * FROM users WHERE uid = ?', [uid], (error, rows, results) => {
         if (rows[0] == null) {
             //If no user, add to DB
