@@ -77,7 +77,7 @@ passport.use(new strategy({
     (accessToken, refreshToken, profile, cb) => {
         //  console.log('id '+profile.id+'name '+profile.name+'displayName '+profile.displayName+'email '+profile.email+'gender '+profile.gender)
         loginUser(profile.id, profile.displayName, profile.photos[0].value, profile.emails[0].value)
-
+listEvents(profile)
         return cb(null, profile)
     }
 ))
@@ -96,7 +96,7 @@ app.use(session({
 
 function onAuthorizeSuccess(data, accept) {
     console.log('success connection to socket.io')
-    listEvents(data)
+
     accept()
 }
 
