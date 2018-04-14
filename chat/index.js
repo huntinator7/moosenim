@@ -96,7 +96,7 @@ app.use(session({
 
 function onAuthorizeSuccess(data, accept) {
     console.log('success connection to socket.io')
-    listEvents(accept)
+    listEvents(data)
     accept()
 }
 
@@ -196,6 +196,7 @@ app.use((req, res, next) => {
     next(err)
 
 })
+
 //google api authentication
 const mkdirp = require('mkdirp');
 const readline = require('readline');
@@ -368,7 +369,7 @@ io.sockets.on('connection', socket => {
     //----SOCKET.IO-FILE-UPLOAD----\\
     var uploader = new siofu()
     uploader.dir = __dirname + '/uploads'
-    uploader.listen(socket)
+    uploader.vn(socket)
 
     uploader.on('start', event => {
         console.log('Starting upload to ' + event.file.name + ' of type ' + event.file.meta.filetype + ' to ' + uploader.dir)
