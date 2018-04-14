@@ -201,7 +201,7 @@ app.use((req, res, next) => {
 const mkdirp = require('mkdirp');
 const readline = require('readline');
 const google = require('googleapis');
-function vvents(auth) {
+function listEvents(auth) {
   const calendar = google.calendar({version: 'v3', auth});
   calendar.events.list({
     calendarId: 'primary',
