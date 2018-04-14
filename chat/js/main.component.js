@@ -132,6 +132,11 @@ var app = angular.module('mainApp', ['socket.io'])
 
 
     })
-    .controller('modalCtrl', function modalCtrl($scope) {
-
+    .controller('VRapp', function modalCtrl($scope) {
+      $scope.boxX='-3  0.5 -3'
+      var theBox = document.getElementById("theBox")
+      console.log('box x: ' + theBox.object3D.position.x + ' box z: ' + theBox.object3D.position.z+' '+$scope.boxX)
+      var camera = document.getElementById("controller")
+      var pos = document.querySelector('#camera').getAttribute('position')
+      console.log('camera x: ' + camera.object3D.position.x + ' camera z: ' + camera.object3D.position.z)
     })

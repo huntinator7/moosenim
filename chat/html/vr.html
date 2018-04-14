@@ -25,6 +25,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
     <!--socket.io and Ajax APIs-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular.min.js"></script>
+    <link rel="import" href="../html/core.html">
+
     <style>
     </style>
 </head>
@@ -34,11 +37,12 @@
     <script>
 
         var URL_SERVER = 'https://moosen.im:443'
-        var socket = io.connect(URL_SERVER)
+       var socket = io.connect(URL_SERVER)
         var event
         var camera = document.getElementById("controller")
 
         var theBox = document.getElementById("theBox")
+
         // var ground = document.getElementById("ground")
         $(function () {
             var uid = socket.id
@@ -103,7 +107,8 @@
         })
     </script>
 
-    <a-scene>
+    <a-scene ng-app="mainApp" ng-controller="VRapp">
+
         <a-assets>
             <!-- <a-asset-item id="room" src="../images/iscv2.obj"></a-asset-item>
             <a-asset-item id="roommat" src="../images/iscv2.mtl"></a-asset-item> -->
@@ -117,17 +122,18 @@
             <!--<a-entity  wasd-controls></a-entity>-->
         </a-entity>
         <!-- <a-obj-model src="#room" mtl="#roommat" position="0 0.1 4" rotation="-90 0 0" scale="0.08 0.08 0.08"></a-obj-model> -->
-        <a-box id="theBox" position="-1 0.5 -3" rotation="0 45 0">
+        <script>console.log({{boxX}}+'html side')</script>
+        <a-box id="theBox" position='{{boxX}}' rotation="0 45 0">
         </a-box>
         <a-box id="theBox2" position="-1 0.5 -6" rotation="0 0 0">
         </a-box>
-        <a-plane id="painting 1" width="1" height="2"></a-plane>
+        <a-plane id="painting 1"  position="-3 1 -4"  width="1" height="2"  material="src: https://moosen.im/uploads/moosenim4ColoredSmall.png;  roughness: 1; metalness: 0"></a-plane>
         <a-plane id="ground" color="#003711" width="10000" height="10000" material=" repeat: 100 100 metalness: 0.6 roughness: 0.4"
             rotation="-90 0 0"></a-plane>
         <!--<a-entity particle-system="preset: snow particleCount: 10"></a-entity>-->
         <a-sky color="#9bfcff"></a-sky>
     </a-scene>
-
+<script src='../js/main.component.js'></script>
 </body>
 
 </html>
