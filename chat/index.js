@@ -369,7 +369,7 @@ io.sockets.on('connection', socket => {
     //----SOCKET.IO-FILE-UPLOAD----\\
     var uploader = new siofu()
     uploader.dir = __dirname + '/uploads'
-    uploader.vn(socket)
+    uploader.on(socket)
 
     uploader.on('start', event => {
         console.log('Starting upload to ' + event.file.name + ' of type ' + event.file.meta.filetype + ' to ' + uploader.dir)
