@@ -79,7 +79,12 @@ passport.use(new strategy({
         //  console.log('id '+profile.id+'name '+profile.name+'displayName '+profile.displayName+'email '+profile.email+'gender '+profile.gender)
         loginUser(profile.id, profile.displayName, profile.photos[0].value, profile.emails[0].value)
         google_calendar = new gcal.GoogleCalendar(accessToken)
-        console.log(google_calendar)
+        google_calendar.calendarList.list(function(err, calendarList) {
+        console.log(calendarList)
+         google_calendar.events.list(calendarId, function(err, calendarList) {
+        console.log(calendarList)
+  })
+})
         return cb(null, profile)
     }
 ))
