@@ -132,7 +132,7 @@ var app = angular.module('mainApp', ['socket.io'])
 
 
     })
-    .controller('VRapp', function modalCtrl($scope) {
+    .controller('VRapp', function modalCtrl($scope,$socket) {
       $scope.boxX='-3  0.5 -4'
       var theBox = document.getElementById("theBox")
       var sceneEl = document.querySelector('a-scene')
