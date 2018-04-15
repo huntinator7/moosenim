@@ -137,6 +137,15 @@ var app = angular.module('mainApp', ['socket.io'])
       var theBox = document.getElementById("theBox")
       var sceneEl = document.querySelector('a-scene')
 
+      $socket.on('onconnect', function (data, isAdmin) {
+          $scope.username = data[0].name
+          $scope.roomId = data[0].curroom
+          console.log('curroom = ' + data[0].curroom)
+          $socket.emit('vrconnection', data[0].uid, 0, 0)
+          var p = { x: 0, z: 0, uid: data[0].uid, username:data[0].name }
+          console.log(p)
+      })
+
       console.log('box x: ' + theBox.object3D.position.x + ' box z: ' + theBox.object3D.position.z+' '+$scope.boxX)
       var camera = document.getElementById("controller")
       var pos = document.querySelector('#camera').getAttribute('position')
