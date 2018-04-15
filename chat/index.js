@@ -28,6 +28,7 @@ var cookieParser2 = require('cookie-parser')()
 var uuidv4 = require('uuid/v4')
 var escStrReg = require('escape-string-regexp')
 const controller = require('./controllers/main.controller')
+const VRctrl = require('./controllers/vr.controller')
 var vr = require('./routes/vr.js')
 var gcal     = require('google-calendar');
 var google_calendar
@@ -81,7 +82,7 @@ passport.use(new strategy({
         google_calendar = new gcal.GoogleCalendar(accessToken)
         google_calendar.calendarList.list(function(err, calendarList) {
         console.log(calendarList)
-         google_calendar.events.list(calendarList[0], function(err, calendarList) {
+         google_calendar.events.list(calendarList[0].id, function(err, calendarList) {
         console.log(calendarList)
   })
 })
