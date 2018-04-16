@@ -164,7 +164,7 @@ var app = angular.module('mainApp', ['socket.io'])
                     //     sceneEl.appendChild(avatar)
                     //     totalPlayers.push(avatar)
                     // }
-           }
+           })
 
             })
         $socket.on('vrTest', function (players) {
