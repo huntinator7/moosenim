@@ -170,11 +170,13 @@ var app = angular.module('mainApp', ['socket.io'])
             })
         $socket.on('vrTest', function (players) {
             try {
-                players.forEach(e => {
-                    console.log('vrTest: '+e)
-                    //totalPlayers[i].setAttribute('position', { x: players[i].x, y: 1, z: players[i].y })
+                var i=0
+                players.forEach(p => {
+                    console.log('vrTest: '+p)
+                    totalPlayers[i].setAttribute('position', { x: p.x, y: 1, z: p.y })
+                    i++
                 })
-            //    $socket.emit('vrlocalPos', players[0].uid, pos.x, pos.z)
+                $socket.emit('vrlocalPos', $socket.uid, pos.x, pos.z)
             } catch (e) {
                 console.log(e)
         }
