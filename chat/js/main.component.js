@@ -145,6 +145,7 @@ var app = angular.module('mainApp', ['socket.io'])
       $socket.on('vrUpdatePos', function (players,uid) {
                 console.log("successful reply")
                 totalPlayers = players
+                players = [1,2,3,4]
                 $scope.uid = uid
                 players.forEach(e => {
                     console.log('i:'+ players.length)
@@ -152,7 +153,7 @@ var app = angular.module('mainApp', ['socket.io'])
                     //     console.log('if triggered:'+ players.length)
                     //     var avatar = document.createElement('a-entity')
                     //     avatar.setAttribute('position', { x: e.x, y: 1, z: e.z })
-                    // 
+                    //
                     //     avatar.setAttribute('geometry', {
                     //         primitive: 'cylinder',
                     //         height: 1.5,
