@@ -507,7 +507,7 @@ io.sockets.on('connection', socket => {
 		socket.emit('vrTest', players)
 	}
 	socket.on('vrlocalPos', function(uid, x, y) {
-        console.log('player length '+players.length)
+        //console.log('player length '+players.length)
 		for (var i = 0; i < players.length; i++) {
             //console.log('update for '+players[i].uid+' '+players[i].x+players[i].y)
 			if (uid = players[i].uid) {
