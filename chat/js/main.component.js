@@ -174,6 +174,6 @@ var app = angular.module('mainApp', ['socket.io'])
                 console.log(e)
         }
 })
-      console.log('box x: ' + theBox.object3D.position.x + ' box z: ' + theBox.object3D.position.z+' '+$scope.boxX)
+    //  console.log('box x: ' + theBox.object3D.position.x + ' box z: ' + theBox.object3D.position.z+' '+$scope.boxX)
       console.log('camera x: ' + camera.object3D.position.x + ' camera z: ' + camera.object3D.position.z)
     })

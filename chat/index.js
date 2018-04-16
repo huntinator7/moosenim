@@ -478,12 +478,13 @@ io.sockets.on('connection', socket => {
 			color: 'red'
 		}
 		players.push(p)
+        consolel.log('player info: '+p)
 		socket.emit('vrUpdatePos', players,socket.request.user.id)
 	})
 	setInterval(updateClient, 33)
 
 	function updateClient() {
-	//	socket.emit('vrTest', players)
+		socket.emit('vrTest', players)
 	}
 	socket.on('vrlocalPos', function(uid, x, y) {
 		for (var i = 0; i < players.length; i++) {
