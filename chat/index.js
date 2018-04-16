@@ -480,9 +480,7 @@ io.sockets.on('connection', socket => {
                 if(p.uid == socket.request.user.id) reject()
                 console.log('players' +p.uid)
             })
-        } catch(e){
-            console.log(e)
-        }
+
             console.log('begin filling array')
             var p = {
     			uid: socket.request.user.id,
@@ -494,6 +492,9 @@ io.sockets.on('connection', socket => {
     		players.push(p)
             console.log('player info: '+players.length)
             resolve(socket.emit('vrUpdatePos', players,socket.request.user.id))
+        } catch(e){
+            console.log(e)
+        }
         })
 
 
@@ -506,7 +507,9 @@ io.sockets.on('connection', socket => {
 		socket.emit('vrTest', players)
 	}
 	socket.on('vrlocalPos', function(uid, x, y) {
+        console.log('update for '+uid+' '+x+y)
 		for (var i = 0; i < players.length; i++) {
+
 			if (uid = players[i].uid) {
 				players[i].x = x
 				players[i].y = y
