@@ -141,17 +141,16 @@ var app = angular.module('mainApp', ['socket.io'])
       var totalPlayers = []
 
       $socket.emit('vrconnection', 0, 0)
-
+      console.log('is it looping?')
       $socket.on('vrUpdatePos', function (players,uid) {
                 console.log("successful reply")
                 totalPlayers = players
                 $scope.uid = uid
-
-                for (var i = 0; i < players.length; i++) {
+                players.forEach(e => {
                     console.log('i:'+ players.length)
-                    if (players.uid != uid) {
+                    if (e.uid != uid) {
                         var avatar = document.createElement('a-entity')
-                        avatar.setAttribute('position', { x: players[i].x, y: 1, z: players[i].z })
+                        avatar.setAttribute('position', { x: e.x, y: 1, z: e.z })
 
                         avatar.setAttribute('geometry', {
                             primitive: 'cylinder',
@@ -167,8 +166,8 @@ var app = angular.module('mainApp', ['socket.io'])
             })
         $socket.on('vrTest', function (players) {
             try {
-                for (var i = 0; i < players.length; i++) {
-                    console.log('vrTest: '+i)
+                players.forEach(e => {
+                    console.log('vrTest: '+e)
                     //totalPlayers[i].setAttribute('position', { x: players[i].x, y: 1, z: players[i].y })
                 }
             //    $socket.emit('vrlocalPos', players[0].uid, pos.x, pos.z)
