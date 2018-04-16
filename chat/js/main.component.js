@@ -151,7 +151,7 @@ var app = angular.module('mainApp', ['socket.io'])
                 players.forEach(p => {
                     if(players.length>100) players=[]
                     console.log('p:' + players.length)
-                    if (p.uid != uid) {
+                    //if (p.uid != uid) {
                         console.log('if triggered:'+ players.length)
                         var avatar = document.createElement('a-entity')
                         avatar.setAttribute('position', { x: p.x, y: 1, z: p.z })
@@ -169,7 +169,7 @@ var app = angular.module('mainApp', ['socket.io'])
                             name : 'testificate'
                         }
                         totalPlayers.push(tp)
-                    }
+                    //}
            })
 
             })
