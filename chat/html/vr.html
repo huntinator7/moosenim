@@ -56,12 +56,16 @@
         </a-box>
         <a-box id="theBox2" position="-1 0.5 -6" rotation="0 0 0">
         </a-box>
-    
+
         <a-plane id="painting 1"  position="-3 1 -4"  width="1" height="2"  material="src: https://moosen.im/uploads/moosenim4ColoredSmall.png;  roughness: 1; metalness: 0"></a-plane>
         <a-plane id="ground" color="#003711" width="10000" height="10000" material=" repeat: 100 100 metalness: 0.6 roughness: 0.4"
             rotation="-90 0 0"></a-plane>
         <!--<a-entity particle-system="preset: snow particleCount: 10"></a-entity>-->
         <a-sky color="#9bfcff"></a-sky>
+        <script>
+        var pos = document.querySelector('#camera').getAttribute('position')
+        console.log('camera x: ' + pos.x + ' camera z: ' + pos.z)
+        </script>
     </a-scene>
  <script src="https://rawgit.com/bryik/aframe-bmfont-text-component/master/dist/aframe-bmfont-text-component.min.js"></script>
 <script src='../js/main.component.js'></script>
