@@ -170,7 +170,7 @@ var app = angular.module('mainApp', ['socket.io'])
             })
         $socket.on('vrTest', function (players) {
             try {
-                //  console.log('camera x: ' + pos.x + ' camera z: ' + pos.z)
+                  console.log('camera x: ' + pos.x + ' camera z: ' + pos.z)
                 for (var i = 0; i < players.length; i++) {
                     //console.log('vrTest: ')
                     totalPlayers[i].setAttribute('position', { x: players[i].x, y: 1, z: players[i].y })
@@ -181,6 +181,6 @@ var app = angular.module('mainApp', ['socket.io'])
                 console.log(e)
         }
 })
-    //  console.log('box x: ' + theBox.object3D.position.x + ' box z: ' + theBox.object3D.position.z+' '+$scope.boxX)
+      console.log('box x: ' + camera.object3D.position.x + ' box z: ' + camera.object3D.position.z+' '+$scope.boxX)
 
     })
