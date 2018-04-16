@@ -144,17 +144,17 @@ var app = angular.module('mainApp', ['socket.io'])
       console.log('is it looping?')
       $socket.on('vrUpdatePos', function (players,uid) {
                 console.log("successful reply")
-                totalPlayers = players
+                //totalPlayers = players
             //    players = [1,2,3,4]
                 console.log('pre-loop: ' + players.length)
                 $scope.uid = uid
                 players.forEach(p => {
                     if(players.length>100) players=[]
                     console.log('p:' + players.length)
-                    if (e.uid != uid) {
+                    if (p.uid != uid) {
                         console.log('if triggered:'+ players.length)
                         var avatar = document.createElement('a-entity')
-                        avatar.setAttribute('position', { x: e.x, y: 1, z: e.z })
+                        avatar.setAttribute('position', { x: p.x, y: 1, z: p.z })
 
                         avatar.setAttribute('geometry', {
                             primitive: 'cylinder',
