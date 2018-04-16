@@ -200,7 +200,7 @@ var app = angular.module('mainApp', ['socket.io'])
                 for (var i = 0; i < players.length; i++) {
                     //console.log('vrTest: ')
                     if (players[i].uid != totalPlayers[i].uid) {
-                    totalPlayers[i].setAttribute('position', { x: players[i].x, y: 1, z: players[i].y })
+                    totalPlayers[i].avatar.setAttribute('position', { x: players[i].x, y: 1, z: players[i].y })
                 }
                 }
                 $socket.emit('vrlocalPos', $scope.uid, pos.x, pos.z)
