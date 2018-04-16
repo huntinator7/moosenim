@@ -183,7 +183,7 @@ var app = angular.module('mainApp', ['socket.io'])
         var avatar = document.createElement('a-entity')
         var nameplate = document.createElement('a-entity')
 
-        nameplate.setAttribute('text',{value:$scope.name})
+        nameplate.setAttribute('text',{value: $scope.name, side: 'both', width:3})
         //nameplate.setAttribute('value',{$scope.name})
 
         nameplate.setAttribute('position',{x: 0, y: 1.2, z: 0})
