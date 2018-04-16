@@ -89,10 +89,10 @@ passport.use(new strategy({
  })
 })
 
-}
+
         return cb(null, profile)
-    
-))
+
+})
 app.use(session({
     key: 'connect.sid',
     secret: 'richardnixon',
