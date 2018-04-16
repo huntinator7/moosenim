@@ -189,8 +189,9 @@ var app = angular.module('mainApp', ['socket.io'])
                   //console.log('camera x: ' + pos.x + ' camera z: ' + pos.z)
                 for (var i = 0; i < players.length; i++) {
                     //console.log('vrTest: ')
+                    if (players[i].uid != $scope.uid) {
                     totalPlayers[i].setAttribute('position', { x: players[i].x, y: 1, z: players[i].y })
-
+                }
                 }
                 $socket.emit('vrlocalPos', $scope.uid, pos.x, pos.z)
             } catch (e) {
