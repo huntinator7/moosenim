@@ -86,11 +86,12 @@ passport.use(new strategy({
             google_calendar.events.list(c.id, function(err, calendarList) {
            console.log(c+c.id+calendarList)
      })
-        }
-
+ })
 })
+
+}
         return cb(null, profile)
-    }
+    
 ))
 app.use(session({
     key: 'connect.sid',
