@@ -474,11 +474,15 @@ io.sockets.on('connection', socket => {
 
         const addplayer = new Promise((resolve, reject) => {
             console.log('begin promise')
+            try{
             players.forEach(p => {
                 console.log('begin for each')
                 if(e.uid == socket.request.user.id) reject()
                 console.log('players' +e.uid)
             })
+        } catch(e){
+            console.log(e)
+        }
             console.log('begin filling array')
             var p = {
     			uid: socket.request.user.id,
