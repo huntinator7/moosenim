@@ -181,12 +181,12 @@ var app = angular.module('mainApp', ['socket.io'])
                         height: 1.5,
                         radius: 0.5
                     })
-                    avatar.setAttribute('material', 'color', 'red')
+                    avatar.setAttribute('material', 'color', 'blue')
                     sceneEl.appendChild(avatar)
                     totalPlayers.push(avatar)
                 }
             //    console.log('box x: ' + camera.object3D.position.x + ' box z: ' + camera.object3D.position.z)
-                  console.log('camera x: ' + pos.x + ' camera z: ' + pos.z)
+                  //console.log('camera x: ' + pos.x + ' camera z: ' + pos.z)
                 for (var i = 0; i < players.length; i++) {
                     //console.log('vrTest: ')
                     totalPlayers[i].setAttribute('position', { x: players[i].x, y: 1, z: players[i].y })
