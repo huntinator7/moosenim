@@ -164,17 +164,17 @@ var app = angular.module('mainApp', ['socket.io'])
                         avatar.setAttribute('material', 'color', 'red')
                         sceneEl.appendChild(avatar)
                         totalPlayers.push(avatar)
-                //    }
+                    //}
            })
 
             })
         $socket.on('vrTest', function (players) {
             try {
-                var i=0
-                players.forEach(p => {
-                    console.log('vrTest: '+p)
-                    totalPlayers[i].setAttribute('position', { x: p.x, y: 1, z: p.y })
-                    i++
+
+                for (var i = 0; i < players.length; i++) {
+                    console.log('vrTest: ')
+                    totalPlayers[i].setAttribute('position', { x: players[i].x, y: 1, z: players[i].y })
+
                 })
                 $socket.emit('vrlocalPos', $socket.uid, pos.x, pos.z)
             } catch (e) {
