@@ -181,7 +181,9 @@ var app = angular.module('mainApp', ['socket.io'])
 
     function spawnAvatars(){
         var avatar = document.createElement('a-entity')
-        var nameplate = document.createElement('a-entity').setAttribute('text',$scope.name)
+        var nameplate = document.createElement('a-entity')
+
+        nameplate.setAttribute('text',$scope.name)
 
         nameplate.setAttribute('position',{x: 0, y: 2, z: 0})
         avatar.setAttribute('position', { x: 0, y: 1, z: 0 })
