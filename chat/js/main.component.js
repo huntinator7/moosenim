@@ -146,9 +146,10 @@ var app = angular.module('mainApp', ['socket.io'])
                 console.log("successful reply")
                 totalPlayers = players
                 players = [1,2,3,4]
+                console.log('pre-loop: ' + players.length)
                 $scope.uid = uid
-                players.forEach(e => {
-                    console.log('i:'+ players.length)
+                // players.forEach(e => {
+                //     console.log('i:' + players.length)
                     // if (e.uid != uid) {
                     //     console.log('if triggered:'+ players.length)
                     //     var avatar = document.createElement('a-entity')
@@ -163,7 +164,7 @@ var app = angular.module('mainApp', ['socket.io'])
                     //     sceneEl.appendChild(avatar)
                     //     totalPlayers.push(avatar)
                     // }
-                }
+            //    }
 
             })
         $socket.on('vrTest', function (players) {

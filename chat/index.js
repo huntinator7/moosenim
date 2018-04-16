@@ -473,7 +473,7 @@ io.sockets.on('connection', socket => {
 		console.log('hello from VR')
 
         const addplayer = new Promise((resolve, reject) => {
-            players = [1,2,3,4]
+
             // players.forEach(p => {
             //     if(e.uid == socket.request.user.id) reject()
             //     console.log('players' +e.uid)
