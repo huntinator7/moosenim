@@ -150,7 +150,7 @@ var app = angular.module('mainApp', ['socket.io'])
       })
       $socket.on('vrUpdatePos', function (players) {
                 console.log("successful reply")
-                totalPlayers = [];
+
                 for (var i = 0; i < players.length; i++) {
                     if (players.uid != uid) {
                         var avatar = document.createElement('a-entity')
