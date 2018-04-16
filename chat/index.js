@@ -82,9 +82,12 @@ passport.use(new strategy({
         google_calendar = new gcal.GoogleCalendar(accessToken)
         google_calendar.calendarList.list(function(err, calendarList) {
         console.log(calendarList)
-         google_calendar.events.list(calendarList[0].id, function(err, calendarList) {
-        console.log(calendarList)
-  })
+        calendarList.forEach(c => {
+            google_calendar.events.list(c.id, function(err, calendarList) {
+           console.log(c+c.id+calendarList)
+     })
+        }
+
 })
         return cb(null, profile)
     }
