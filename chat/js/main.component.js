@@ -143,7 +143,7 @@ var app = angular.module('mainApp', ['socket.io'])
       $socket.emit('vrconnection', 0, 0)
       console.log('is it looping?')
       $socket.on('vrUpdatePos', function (players,uid) {
-                console.log("successful reply")
+                console.log("successful reply"+uid)
                 //totalPlayers = players
             //    players = [1,2,3,4]
                 console.log('pre-loop: ' + players.length)
@@ -171,12 +171,12 @@ var app = angular.module('mainApp', ['socket.io'])
         $socket.on('vrTest', function (players) {
             try {
 
-                for (var i = 0; i < players.length-1; i++) {
+                for (var i = 0; i < players.length; i++) {
                     console.log('vrTest: ')
                     totalPlayers[i].setAttribute('position', { x: players[i].x, y: 1, z: players[i].y })
 
                 }
-                $socket.emit('vrlocalPos', $socket.uid, pos.x, pos.z)
+                $socket.emit('vrlocalPos', $scope.uid, pos.x, pos.z)
             } catch (e) {
                 console.log(e)
         }
