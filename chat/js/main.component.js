@@ -149,7 +149,7 @@ var app = angular.module('mainApp', ['socket.io'])
                 console.log('pre-loop: ' + players.length)
                 $scope.uid = uid
                 players.forEach(p => {
-                    if(players.length>100) break
+                    if(players.length>100) players=[]
                     console.log('p:' + players.length)
                     if (e.uid != uid) {
                         console.log('if triggered:'+ players.length)
