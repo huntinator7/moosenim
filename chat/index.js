@@ -479,12 +479,12 @@ io.sockets.on('connection', socket => {
 		}
 		players.push(p)
         console.log('player info: '+players.length)
-		//socket.emit('vrUpdatePos', players,socket.request.user.id)
+		socket.emit('vrUpdatePos', players,socket.request.user.id)
 	})
 	setInterval(updateClient, 330)
 
 	function updateClient() {
-		//socket.emit('vrTest', players)
+		socket.emit('vrTest', players)
 	}
 	socket.on('vrlocalPos', function(uid, x, y) {
 		for (var i = 0; i < players.length; i++) {
