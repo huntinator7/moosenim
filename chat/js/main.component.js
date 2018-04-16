@@ -161,9 +161,14 @@ var app = angular.module('mainApp', ['socket.io'])
                             height: 1.5,
                             radius: 0.5
                         })
-                        avatar.setAttribute('material', 'color', 'red')
+                        avatar.setAttribute('material', 'color', p.color)
                         sceneEl.appendChild(avatar)
-                        totalPlayers.push(avatar)
+                        var tp = {
+                            uid = uid,
+                            avatar=avatar,
+                            name='testificate'
+                        }
+                        totalPlayers.push(tp)
                     }
            })
 
@@ -183,13 +188,18 @@ var app = angular.module('mainApp', ['socket.io'])
                     })
                     avatar.setAttribute('material', 'color', 'blue')
                     sceneEl.appendChild(avatar)
-                    totalPlayers.push(avatar)
+                    var tp = {
+                        uid = $scope.uid,
+                        avatar=avatar,
+                        name='testificate'
+                    }
+                    totalPlayers.push(tp)
                 }
             //    console.log('box x: ' + camera.object3D.position.x + ' box z: ' + camera.object3D.position.z)
                   //console.log('camera x: ' + pos.x + ' camera z: ' + pos.z)
                 for (var i = 0; i < players.length; i++) {
                     //console.log('vrTest: ')
-                    if (players[i].uid != $scope.uid) {
+                    if (players[i].uid != totalPlayers[i].uid) {
                     totalPlayers[i].setAttribute('position', { x: players[i].x, y: 1, z: players[i].y })
                 }
                 }
