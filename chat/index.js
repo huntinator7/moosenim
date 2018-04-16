@@ -471,15 +471,21 @@ io.sockets.on('connection', socket => {
 
 	socket.on('vrconnection', function(x, y) {
 		console.log('hello from VR')
-		var p = {
-			uid: socket.request.user.id,
-			x: x,
-			y: y,
-			color: 'red'
-		}
-		players.push(p)
-        console.log('player info: '+players.length)
-		socket.emit('vrUpdatePos', players,socket.request.user.id)
+        const addplayer = new Promise((resolve, reject) => {
+            var p = {
+    			uid: socket.request.user.id,
+    			x: x,
+    			y: y,
+    			color: 'red'
+    		}
+    		players.push(p)
+            console.log('player info: '+players.length)
+            resolve(socket.emit('vrUpdatePos', players,socket.request.user.id))
+        })
+
+
+
+
 	})
 	setInterval(updateClient, 330)
 

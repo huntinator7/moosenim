@@ -149,19 +149,19 @@ var app = angular.module('mainApp', ['socket.io'])
 
                 for (var i = 0; i < players.length; i++) {
                     console.log('i:'+ i)
-                    // if (players.uid != uid) {
-                    //     var avatar = document.createElement('a-entity')
-                    //     avatar.setAttribute('position', { x: players[i].x, y: 1, z: players[i].z })
-                    //
-                    //     avatar.setAttribute('geometry', {
-                    //         primitive: 'cylinder',
-                    //         height: 1.5,
-                    //         radius: 0.5
-                    //     })
-                    //     avatar.setAttribute('material', 'color', 'red')
-                    //     sceneEl.appendChild(avatar)
-                    //     totalPlayers.push(avatar)
-                    // }
+                    if (players.uid != uid) {
+                        var avatar = document.createElement('a-entity')
+                        avatar.setAttribute('position', { x: players[i].x, y: 1, z: players[i].z })
+
+                        avatar.setAttribute('geometry', {
+                            primitive: 'cylinder',
+                            height: 1.5,
+                            radius: 0.5
+                        })
+                        avatar.setAttribute('material', 'color', 'red')
+                        sceneEl.appendChild(avatar)
+                        totalPlayers.push(avatar)
+                    }
                 }
 
             })
