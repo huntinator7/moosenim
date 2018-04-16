@@ -136,6 +136,9 @@ var app = angular.module('mainApp', ['socket.io'])
       $scope.boxX='-3  0.5 -4'
       var theBox = document.getElementById("theBox")
       var sceneEl = document.querySelector('a-scene')
+      var camera = document.getElementById("controller")
+      var pos = document.querySelector('#camera').getAttribute('position')
+      var totalPlayers = []
 
       $socket.on('onconnect', function (data, isAdmin) {
           $scope.username = data[0].name
@@ -145,9 +148,36 @@ var app = angular.module('mainApp', ['socket.io'])
           var p = { x: 0, z: 0, uid: data[0].uid, username:data[0].name }
           console.log(p)
       })
+      socket.on('vrUpdatePos', function (players) {
+                console.log("successful reply")
+                totalPlayers = [];
+                for (var i = 0; i < players.length; i++) {
+                    if (players.uid != uid) {
+                        var avatar = document.createElement('a-entity')
+                        avatar.setAttribute('position', { x: players[i].x, y: 1, z: players[i].z })
 
+                        avatar.setAttribute('geometry', {
+                            primitive: 'cylinder',
+                            height: 1.5,
+                            radius: 0.5
+                        })
+                        avatar.setAttribute('material', 'color', 'red')
+                        sceneEl.appendChild(avatar)
+                        totalPlayers.push(avatar)
+                    }
+                }
+            })
+        socket.on('vrTest', function (players) {
+            try {
+                for (var i = 0; i < players.length; i++) {
+
+                    totalPlayers[i].setAttribute('position', { x: players[i].x, y: 1, z: players[i].y })
+                }
+                socket.emit('vrlocalPos', uid, pos.x, pos.z)
+            } catch (e) {
+                console.log(e)
+        }
+})
       console.log('box x: ' + theBox.object3D.position.x + ' box z: ' + theBox.object3D.position.z+' '+$scope.boxX)
-      var camera = document.getElementById("controller")
-      var pos = document.querySelector('#camera').getAttribute('position')
       console.log('camera x: ' + camera.object3D.position.x + ' camera z: ' + camera.object3D.position.z)
     })
