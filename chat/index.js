@@ -484,6 +484,7 @@ io.sockets.on('connection', socket => {
             console.log('begin filling array')
             var p = {
     			uid: socket.request.user.id,
+                name: socket.request.user.displayName,
     			x: x,
     			y: y,
     			color: 'red'

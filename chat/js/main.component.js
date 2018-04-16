@@ -143,32 +143,16 @@ var app = angular.module('mainApp', ['socket.io'])
       $socket.emit('vrconnection', 0, 0)
       console.log('is it looping?')
       $socket.on('vrUpdatePos', function (players,uid) {
-                console.log("successful reply"+uid)
+
                 //totalPlayers = players
             //    players = [1,2,3,4]
                 console.log('pre-loop: ' + players.length)
                 $scope.uid = uid
                 players.forEach(p => {
                     if(players.length>100) players=[]
-                    console.log('p:' + players.length)
+                    console.log('p:' + p.name)
                     //if (p.uid != uid) {
-                        console.log('if triggered:'+ players.length)
-                        var avatar = document.createElement('a-entity')
-                        avatar.setAttribute('position', { x: p.x, y: 1, z: p.z })
-
-                        avatar.setAttribute('geometry', {
-                            primitive: 'cylinder',
-                            height: 1.5,
-                            radius: 0.5
-                        })
-                        avatar.setAttribute('material', 'color', p.color)
-                        sceneEl.appendChild(avatar)
-                        var tp = {
-                            uid : uid,
-                            avatar : avatar,
-                            name : 'testificate'
-                        }
-                        totalPlayers.push(tp)
+                        spawnAvatars()
                     //}
            })
 
@@ -178,22 +162,7 @@ var app = angular.module('mainApp', ['socket.io'])
                 var camera = document.getElementById("controller")
                 var pos = document.querySelector('#camera').getAttribute('position')
                 if(players.length>totalPlayers.length){
-                    var avatar = document.createElement('a-entity')
-                    avatar.setAttribute('position', { x: 0, y: 1, z: 0 })
-
-                    avatar.setAttribute('geometry', {
-                        primitive: 'cylinder',
-                        height: 1.5,
-                        radius: 0.5
-                    })
-                    avatar.setAttribute('material', 'color', 'blue')
-                    sceneEl.appendChild(avatar)
-                    var tp = {
-                        uid : $scope.uid,
-                        avatar : avatar,
-                        name : 'testificate'
-                    }
-                    totalPlayers.push(tp)
+                    spawnAvatars()
                 }
             //    console.log('box x: ' + camera.object3D.position.x + ' box z: ' + camera.object3D.position.z)
                   //console.log('camera x: ' + pos.x + ' camera z: ' + pos.z)
@@ -208,6 +177,25 @@ var app = angular.module('mainApp', ['socket.io'])
                 console.log(e)
         }
 })
+
+    function spawnAvatars(){
+        var avatar = document.createElement('a-entity')
+        avatar.setAttribute('position', { x: 0, y: 1, z: 0 })
+
+        avatar.setAttribute('geometry', {
+            primitive: 'cylinder',
+            height: 1.5,
+            radius: 0.5
+        })
+        avatar.setAttribute('material', 'color', 'blue')
+        sceneEl.appendChild(avatar)
+        var tp = {
+            uid : $scope.uid,
+            avatar : avatar,
+            name : 'testificate'
+        }
+        totalPlayers.push(tp)
+    }
       console.log('box x: ' + camera.object3D.position.x + ' box z: ' + camera.object3D.position.z+' '+$scope.boxX)
 
     })
