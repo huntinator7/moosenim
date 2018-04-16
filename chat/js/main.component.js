@@ -139,18 +139,14 @@ var app = angular.module('mainApp', ['socket.io'])
       var camera = document.getElementById("controller")
       var pos = document.querySelector('#camera').getAttribute('position')
       var totalPlayers = []
+
       $socket.emit('vrconnection', 0, 0)
-      $socket.on('onconnect', function (data, isAdmin) {
-          $scope.username = data[0].name
-          $scope.roomId = data[0].curroom
-          console.log('curroom = ' + data[0].curroom)
 
-          var p = { x: 0, z: 0, uid: data[0].uid, username:data[0].name }
-          console.log(p)
-      })
-      $socket.on('vrUpdatePos', function (players) {
+      $socket.on('vrUpdatePos', function (players,uid) {
                 console.log("successful reply")
-
+                totalPlayers = players
+                $scope.uid = uid
+                console.log('uid:' uid)
                 for (var i = 0; i < players.length; i++) {
                     if (players.uid != uid) {
                         var avatar = document.createElement('a-entity')
