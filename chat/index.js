@@ -82,7 +82,7 @@ passport.use(new strategy({
 		google_calendar = new gcal.GoogleCalendar(accessToken)
 		google_calendar.calendarList.list(function(err, calendarList) {
 			console.log(calendarList)
-			
+
 		})
 		return cb(null, profile)
 	}
@@ -469,10 +469,10 @@ io.sockets.on('connection', socket => {
 
 	//vr State Code
 
-	socket.on('vrconnection', function(uid, x, y) {
+	socket.on('vrconnection', function(x, y) {
 		console.log('hello from VR')
 		var p = {
-			uid: uid,
+			uid: socket.request.user.id,
 			x: x,
 			y: y,
 			color: 'red'
