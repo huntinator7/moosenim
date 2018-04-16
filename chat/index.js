@@ -487,7 +487,7 @@ io.sockets.on('connection', socket => {
                 name: socket.request.user.displayName,
     			x: x,
     			y: y,
-                rotation:0,
+                rot:0,
     			color: 'red'
     		}
             console.log('begin push')
