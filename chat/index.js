@@ -478,7 +478,7 @@ io.sockets.on('connection', socket => {
 			color: 'red'
 		}
 		players.push(p)
-        consolel.log('player info: '+p)
+        console.log('player info: '+p)
 		socket.emit('vrUpdatePos', players,socket.request.user.id)
 	})
 	setInterval(updateClient, 33)
