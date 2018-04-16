@@ -175,7 +175,7 @@ var app = angular.module('mainApp', ['socket.io'])
                     console.log('vrTest: ')
                     totalPlayers[i].setAttribute('position', { x: players[i].x, y: 1, z: players[i].y })
 
-                })
+                }
                 $socket.emit('vrlocalPos', $socket.uid, pos.x, pos.z)
             } catch (e) {
                 console.log(e)
