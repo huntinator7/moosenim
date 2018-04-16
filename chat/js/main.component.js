@@ -149,6 +149,7 @@ var app = angular.module('mainApp', ['socket.io'])
                 players.forEach(e => {
                     console.log('i:'+ players.length)
                     if (e.uid != uid) {
+                        console.log('if triggered:'+ players.length)
                         var avatar = document.createElement('a-entity')
                         avatar.setAttribute('position', { x: e.x, y: 1, z: e.z })
 
