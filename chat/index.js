@@ -515,7 +515,7 @@ io.sockets.on('connection', socket => {
 			if (uid = players[i].uid) {
 				players[i].x = x
 				players[i].y = y
-                players[y].rot=rot
+                players[i].rot=rot
 				break
 			}
 		}
