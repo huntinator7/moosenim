@@ -473,17 +473,20 @@ io.sockets.on('connection', socket => {
 		console.log('hello from VR')
 
         const addplayer = new Promise((resolve, reject) => {
-
+            console.log('begin promise')
             players.forEach(p => {
+                console.log('begin for each')
                 if(e.uid == socket.request.user.id) reject()
                 console.log('players' +e.uid)
             })
+            console.log('begin filling array')
             var p = {
     			uid: socket.request.user.id,
     			x: x,
     			y: y,
     			color: 'red'
     		}
+            console.log('begin push')
     		players.push(p)
             console.log('player info: '+players.length)
             resolve(socket.emit('vrUpdatePos', players,socket.request.user.id))
