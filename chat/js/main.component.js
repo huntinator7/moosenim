@@ -146,8 +146,9 @@ var app = angular.module('mainApp', ['socket.io'])
                 console.log("successful reply")
                 totalPlayers = players
                 $scope.uid = uid
-                console.log('uid:'+ uid)
+
                 for (var i = 0; i < players.length; i++) {
+                    console.log('i:'+ i)
                     if (players.uid != uid) {
                         var avatar = document.createElement('a-entity')
                         avatar.setAttribute('position', { x: players[i].x, y: 1, z: players[i].z })
