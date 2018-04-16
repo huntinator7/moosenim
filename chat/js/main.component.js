@@ -33,7 +33,7 @@ var module = angular.module('socket.io', []).provider('$socket', function $socke
                         })
                     })
                 } else {
-                    console.log('.emit called')
+                    //console.log('.emit called')
                     socket.emit(event, data, data2, data3, data4, data6)
                 }
             },
@@ -170,9 +170,9 @@ var app = angular.module('mainApp', ['socket.io'])
             })
         $socket.on('vrTest', function (players) {
             try {
-
+                  console.log('camera x: ' + camera.object3D.position.x + ' camera z: ' + camera.object3D.position.z)
                 for (var i = 0; i < players.length; i++) {
-                    console.log('vrTest: ')
+                    //console.log('vrTest: ')
                     totalPlayers[i].setAttribute('position', { x: players[i].x, y: 1, z: players[i].y })
 
                 }
@@ -182,5 +182,5 @@ var app = angular.module('mainApp', ['socket.io'])
         }
 })
     //  console.log('box x: ' + theBox.object3D.position.x + ' box z: ' + theBox.object3D.position.z+' '+$scope.boxX)
-      console.log('camera x: ' + camera.object3D.position.x + ' camera z: ' + camera.object3D.position.z)
+
     })
