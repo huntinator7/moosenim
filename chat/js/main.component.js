@@ -162,6 +162,7 @@ var app = angular.module('mainApp', ['socket.io'])
                         totalPlayers.push(avatar)
                     }
                 }
+
             })
         $socket.on('vrTest', function (players) {
             try {
