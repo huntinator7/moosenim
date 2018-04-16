@@ -140,7 +140,7 @@ var app = angular.module('mainApp', ['socket.io'])
       var pos = document.querySelector('#camera').getAttribute('position')
       var totalPlayers = []
 
-     // $socket.emit('vrconnection', 0, 0)
+      $socket.emit('vrconnection', 0, 0)
 
       $socket.on('vrUpdatePos', function (players,uid) {
                 console.log("successful reply")
