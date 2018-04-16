@@ -172,7 +172,7 @@ var app = angular.module('mainApp', ['socket.io'])
                     //console.log('vrTest: ')
                     //if (players[i].uid != totalPlayers[i].uid) {
                     totalPlayers[i].avatar.setAttribute('position', { x: players[i].x, y: 1, z: players[i].y })
-                    totalPlayers[i].avatar.setAttribute('rotation', { x: 0, y: players[i].rotation.y, z: 0 })
+                    totalPlayers[i].avatar.setAttribute('rotation', { x: 0, y: players[i].rot.y, z: 0 })
                 //}
                 }
                 $socket.emit('vrlocalPos', $scope.uid, pos.x, pos.z,rot.y)
