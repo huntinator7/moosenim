@@ -477,8 +477,8 @@ io.sockets.on('connection', socket => {
             try{
             players.forEach(p => {
                 console.log('begin for each')
-                if(e.uid == socket.request.user.id) reject()
-                console.log('players' +e.uid)
+                if(p.uid == socket.request.user.id) reject()
+                console.log('players' +p.uid)
             })
         } catch(e){
             console.log(e)
