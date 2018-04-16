@@ -170,6 +170,8 @@ var app = angular.module('mainApp', ['socket.io'])
             })
         $socket.on('vrTest', function (players) {
             try {
+                var camera = document.getElementById("controller")
+                var pos = document.querySelector('#camera').getAttribute('position')
                 console.log('box x: ' + camera.object3D.position.x + ' box z: ' + camera.object3D.position.z)
                   console.log('camera x: ' + pos.x + ' camera z: ' + pos.z)
                 for (var i = 0; i < players.length; i++) {
