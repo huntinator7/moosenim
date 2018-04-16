@@ -170,7 +170,7 @@ var app = angular.module('mainApp', ['socket.io'])
             })
         $socket.on('vrTest', function (players) {
             try {
-                  console.log('camera x: ' + camera.object3D.position.x + ' camera z: ' + camera.object3D.position.z)
+                  console.log('camera x: ' + pos.x + ' camera z: ' + pos.z)
                 for (var i = 0; i < players.length; i++) {
                     //console.log('vrTest: ')
                     totalPlayers[i].setAttribute('position', { x: players[i].x, y: 1, z: players[i].y })
