@@ -148,6 +148,7 @@ var app = angular.module('mainApp', ['socket.io'])
             //    players = [1,2,3,4]
                 console.log('pre-loop: ' + players.length)
                 $scope.uid = uid
+                $scope.name = players[0].name
                 players.forEach(p => {
                     if(players.length>100) players=[]
                     console.log('p:' + p.name)
@@ -180,6 +181,9 @@ var app = angular.module('mainApp', ['socket.io'])
 
     function spawnAvatars(){
         var avatar = document.createElement('a-entity')
+        var nameplate = document.createElement('a-entity').setAttribute('text',$scope.name)
+        avatar.appendChild(nameplate)
+        nameplate.setAttribute('position',{x: 0, y: 2, z: 0})
         avatar.setAttribute('position', { x: 0, y: 1, z: 0 })
 
         avatar.setAttribute('geometry', {
