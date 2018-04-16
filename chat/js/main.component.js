@@ -172,7 +172,7 @@ var app = angular.module('mainApp', ['socket.io'])
                 players.forEach(e => {
                     console.log('vrTest: '+e)
                     //totalPlayers[i].setAttribute('position', { x: players[i].x, y: 1, z: players[i].y })
-                }
+                })
             //    $socket.emit('vrlocalPos', players[0].uid, pos.x, pos.z)
             } catch (e) {
                 console.log(e)
