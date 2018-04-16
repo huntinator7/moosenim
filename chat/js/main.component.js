@@ -169,9 +169,9 @@ var app = angular.module('mainApp', ['socket.io'])
                   //console.log('camera x: ' + pos.x + ' camera z: ' + pos.z)
                 for (var i = 0; i < players.length; i++) {
                     //console.log('vrTest: ')
-                    if (players[i].uid != totalPlayers[i].uid) {
+                    //if (players[i].uid != totalPlayers[i].uid) {
                     totalPlayers[i].avatar.setAttribute('position', { x: players[i].x, y: 1, z: players[i].y })
-                }
+                //}
                 }
                 $socket.emit('vrlocalPos', $scope.uid, pos.x, pos.z)
             } catch (e) {
@@ -183,9 +183,10 @@ var app = angular.module('mainApp', ['socket.io'])
         var avatar = document.createElement('a-entity')
         var nameplate = document.createElement('a-entity')
 
-        nameplate.setAttribute('text',$scope.name)
+        nameplate.setAttribute('text',{$scope.name})
+        nameplate.setAttribute('value',{$scope.name})
 
-        nameplate.setAttribute('position',{x: 0, y: 2, z: 0})
+        nameplate.setAttribute('position',{x: 0, y: 1.2, z: 0})
         avatar.setAttribute('position', { x: 0, y: 1, z: 0 })
 
         avatar.setAttribute('geometry', {
