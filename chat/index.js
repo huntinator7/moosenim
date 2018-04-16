@@ -474,17 +474,17 @@ io.sockets.on('connection', socket => {
 
         const addplayer = new Promise((resolve, reject) => {
 
-            // players.forEach(p => {
-            //     if(e.uid == socket.request.user.id) reject()
-            //     console.log('players' +e.uid)
-            // })
-            // var p = {
-    		// 	uid: socket.request.user.id,
-    		// 	x: x,
-    		// 	y: y,
-    		// 	color: 'red'
-    		// }
-    		// players.push(p)
+            players.forEach(p => {
+                if(e.uid == socket.request.user.id) reject()
+                console.log('players' +e.uid)
+            })
+            var p = {
+    			uid: socket.request.user.id,
+    			x: x,
+    			y: y,
+    			color: 'red'
+    		}
+    		players.push(p)
             console.log('player info: '+players.length)
             resolve(socket.emit('vrUpdatePos', players,socket.request.user.id))
         })

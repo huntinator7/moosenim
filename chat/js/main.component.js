@@ -145,25 +145,26 @@ var app = angular.module('mainApp', ['socket.io'])
       $socket.on('vrUpdatePos', function (players,uid) {
                 console.log("successful reply")
                 totalPlayers = players
-                players = [1,2,3,4]
+            //    players = [1,2,3,4]
                 console.log('pre-loop: ' + players.length)
                 $scope.uid = uid
                 players.forEach(p => {
+                    if(players.length>100) break
                     console.log('p:' + players.length)
-                    // if (e.uid != uid) {
-                    //     console.log('if triggered:'+ players.length)
-                    //     var avatar = document.createElement('a-entity')
-                    //     avatar.setAttribute('position', { x: e.x, y: 1, z: e.z })
-                    //
-                    //     avatar.setAttribute('geometry', {
-                    //         primitive: 'cylinder',
-                    //         height: 1.5,
-                    //         radius: 0.5
-                    //     })
-                    //     avatar.setAttribute('material', 'color', 'red')
-                    //     sceneEl.appendChild(avatar)
-                    //     totalPlayers.push(avatar)
-                    // }
+                    if (e.uid != uid) {
+                        console.log('if triggered:'+ players.length)
+                        var avatar = document.createElement('a-entity')
+                        avatar.setAttribute('position', { x: e.x, y: 1, z: e.z })
+
+                        avatar.setAttribute('geometry', {
+                            primitive: 'cylinder',
+                            height: 1.5,
+                            radius: 0.5
+                        })
+                        avatar.setAttribute('material', 'color', 'red')
+                        sceneEl.appendChild(avatar)
+                        totalPlayers.push(avatar)
+                    }
            })
 
             })
