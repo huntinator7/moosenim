@@ -172,6 +172,19 @@ var app = angular.module('mainApp', ['socket.io'])
             try {
                 var camera = document.getElementById("controller")
                 var pos = document.querySelector('#camera').getAttribute('position')
+                if(players.length>totalPlayers.length){
+                    var avatar = document.createElement('a-entity')
+                    avatar.setAttribute('position', { x: p.x, y: 1, z: p.z })
+
+                    avatar.setAttribute('geometry', {
+                        primitive: 'cylinder',
+                        height: 1.5,
+                        radius: 0.5
+                    })
+                    avatar.setAttribute('material', 'color', 'red')
+                    sceneEl.appendChild(avatar)
+                    totalPlayers.push(avatar)
+                }
                 console.log('box x: ' + camera.object3D.position.x + ' box z: ' + camera.object3D.position.z)
                   console.log('camera x: ' + pos.x + ' camera z: ' + pos.z)
                 for (var i = 0; i < players.length; i++) {
