@@ -88,7 +88,7 @@ passport.use(new strategy({
      })
  })
 })
-
+}
 
         return cb(null, profile)
 
