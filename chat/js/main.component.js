@@ -148,7 +148,7 @@ var app = angular.module('mainApp', ['socket.io'])
           var p = { x: 0, z: 0, uid: data[0].uid, username:data[0].name }
           console.log(p)
       })
-      socket.on('vrUpdatePos', function (players) {
+      $socket.on('vrUpdatePos', function (players) {
                 console.log("successful reply")
                 totalPlayers = [];
                 for (var i = 0; i < players.length; i++) {
@@ -167,7 +167,7 @@ var app = angular.module('mainApp', ['socket.io'])
                     }
                 }
             })
-        socket.on('vrTest', function (players) {
+        $socket.on('vrTest', function (players) {
             try {
                 for (var i = 0; i < players.length; i++) {
 
