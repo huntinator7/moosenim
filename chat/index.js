@@ -487,6 +487,7 @@ io.sockets.on('connection', socket => {
                 name: socket.request.user.displayName,
     			x: x,
     			y: y,
+                rotation:,0,
     			color: 'red'
     		}
             console.log('begin push')
@@ -507,13 +508,14 @@ io.sockets.on('connection', socket => {
 	function updateClient() {
 		socket.emit('vrTest', players)
 	}
-	socket.on('vrlocalPos', function(uid, x, y) {
+	socket.on('vrlocalPos', function(uid, x, y,rot) {
         //console.log('player length '+players.length)
 		for (var i = 0; i < players.length; i++) {
             //console.log('update for '+players[i].uid+' '+players[i].x+players[i].y)
 			if (uid = players[i].uid) {
 				players[i].x = x
 				players[i].y = y
+                players[y].rot=rot
 				break
 			}
 		}

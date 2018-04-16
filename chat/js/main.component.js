@@ -162,6 +162,7 @@ var app = angular.module('mainApp', ['socket.io'])
             try {
                 var camera = document.getElementById("controller")
                 var pos = document.querySelector('#camera').getAttribute('position')
+                var rot = document.querySelector('#camera').getAttribute('rotation')
                 if(players.length>totalPlayers.length){
                     spawnAvatars()
                 }
@@ -171,9 +172,10 @@ var app = angular.module('mainApp', ['socket.io'])
                     //console.log('vrTest: ')
                     //if (players[i].uid != totalPlayers[i].uid) {
                     totalPlayers[i].avatar.setAttribute('position', { x: players[i].x, y: 1, z: players[i].y })
+                    totalPlayers[i].avatar.setAttribute('rotation', { x: 0, y: players[i].rotation, z: 0 })
                 //}
                 }
-                $socket.emit('vrlocalPos', $scope.uid, pos.x, pos.z)
+                $socket.emit('vrlocalPos', $scope.uid, pos.x, pos.z,rot.y)
             } catch (e) {
                 console.log(e)
         }
@@ -183,7 +185,7 @@ var app = angular.module('mainApp', ['socket.io'])
         var avatar = document.createElement('a-entity')
         var nameplate = document.createElement('a-entity')
 
-        nameplate.setAttribute('text',{value: $scope.name, side: 'both', width:3})
+        nameplate.setAttribute('text',{value: $scope.name, side: 'both', width:3, anchor:'left'})
         //nameplate.setAttribute('value',{$scope.name})
 
         nameplate.setAttribute('position',{x: 0, y: 1.2, z: 0})
