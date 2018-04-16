@@ -164,9 +164,9 @@ var app = angular.module('mainApp', ['socket.io'])
                         avatar.setAttribute('material', 'color', p.color)
                         sceneEl.appendChild(avatar)
                         var tp = {
-                            uid = uid,
-                            avatar=avatar,
-                            name='testificate'
+                            uid : uid,
+                            avatar : avatar,
+                            name : 'testificate'
                         }
                         totalPlayers.push(tp)
                     }
@@ -189,9 +189,9 @@ var app = angular.module('mainApp', ['socket.io'])
                     avatar.setAttribute('material', 'color', 'blue')
                     sceneEl.appendChild(avatar)
                     var tp = {
-                        uid = $scope.uid,
-                        avatar=avatar,
-                        name='testificate'
+                        uid : $scope.uid,
+                        avatar : avatar,
+                        name : 'testificate'
                     }
                     totalPlayers.push(tp)
                 }
