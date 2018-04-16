@@ -473,17 +473,18 @@ io.sockets.on('connection', socket => {
 		console.log('hello from VR')
 
         const addplayer = new Promise((resolve, reject) => {
-            players.forEach(p => {
-                if(e.uid == socket.request.user.id) reject()
-                console.log('players' +e.uid)
-            })
-            var p = {
-    			uid: socket.request.user.id,
-    			x: x,
-    			y: y,
-    			color: 'red'
-    		}
-    		players.push(p)
+            players = [1,2,3,4]
+            // players.forEach(p => {
+            //     if(e.uid == socket.request.user.id) reject()
+            //     console.log('players' +e.uid)
+            // })
+            // var p = {
+    		// 	uid: socket.request.user.id,
+    		// 	x: x,
+    		// 	y: y,
+    		// 	color: 'red'
+    		// }
+    		// players.push(p)
             console.log('player info: '+players.length)
             resolve(socket.emit('vrUpdatePos', players,socket.request.user.id))
         })
@@ -495,7 +496,7 @@ io.sockets.on('connection', socket => {
 	setInterval(updateClient, 330)
 
 	function updateClient() {
-		socket.emit('vrTest', players)
+		//socket.emit('vrTest', players)
 	}
 	socket.on('vrlocalPos', function(uid, x, y) {
 		for (var i = 0; i < players.length; i++) {

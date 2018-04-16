@@ -139,7 +139,7 @@ var app = angular.module('mainApp', ['socket.io'])
       var camera = document.getElementById("controller")
       var pos = document.querySelector('#camera').getAttribute('position')
       var totalPlayers = []
-
+      console.log('is it looping?')
       $socket.emit('vrconnection', 0, 0)
       console.log('is it looping?')
       $socket.on('vrUpdatePos', function (players,uid) {
@@ -148,20 +148,20 @@ var app = angular.module('mainApp', ['socket.io'])
                 $scope.uid = uid
                 players.forEach(e => {
                     console.log('i:'+ players.length)
-                    if (e.uid != uid) {
-                        console.log('if triggered:'+ players.length)
-                        var avatar = document.createElement('a-entity')
-                        avatar.setAttribute('position', { x: e.x, y: 1, z: e.z })
-
-                        avatar.setAttribute('geometry', {
-                            primitive: 'cylinder',
-                            height: 1.5,
-                            radius: 0.5
-                        })
-                        avatar.setAttribute('material', 'color', 'red')
-                        sceneEl.appendChild(avatar)
-                        totalPlayers.push(avatar)
-                    }
+                    // if (e.uid != uid) {
+                    //     console.log('if triggered:'+ players.length)
+                    //     var avatar = document.createElement('a-entity')
+                    //     avatar.setAttribute('position', { x: e.x, y: 1, z: e.z })
+                    // 
+                    //     avatar.setAttribute('geometry', {
+                    //         primitive: 'cylinder',
+                    //         height: 1.5,
+                    //         radius: 0.5
+                    //     })
+                    //     avatar.setAttribute('material', 'color', 'red')
+                    //     sceneEl.appendChild(avatar)
+                    //     totalPlayers.push(avatar)
+                    // }
                 }
 
             })
