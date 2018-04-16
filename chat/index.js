@@ -503,7 +503,7 @@ io.sockets.on('connection', socket => {
 	setInterval(updateClient, 330)
 
 	function updateClient() {
-		//socket.emit('vrTest', players)
+		socket.emit('vrTest', players)
 	}
 	socket.on('vrlocalPos', function(uid, x, y) {
 		for (var i = 0; i < players.length; i++) {
