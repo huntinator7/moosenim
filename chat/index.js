@@ -758,7 +758,7 @@ function getMessage(roomId) {
 function getDBUN(id) {
     return new Promise(resolve => {
         if (id.substr(0, 4) === 'disc') {
-            console.log(client.status)
+            if (client.status !== 0) await sleep(1000)
             var user = client.users.get(id.substr(4))
             resolve([user.username, 'https://cdn.discordapp.com/avatars/' + user.id + '/' + user.avatar + '.png', 'Discord'])
         } else {
