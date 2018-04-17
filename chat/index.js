@@ -587,7 +587,7 @@ io.sockets.on('connection', socket => {
             // console.log('begin push')
             players.push(p)
             // console.log('player info: ' + players.length)
-            resolve(socket.emit('vrUpdatePos', players, socket.request.user.id))
+            resolve(/*socket.emit('vrUpdatePos', players, socket.request.user.id)*/)
         })
     })
 
