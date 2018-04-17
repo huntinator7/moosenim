@@ -54,18 +54,6 @@ var server = https.createServer(options, app).listen(443, () => {
     console.log('server up and running at port 443')
 })
 
-//----ADMIN MESSAGING----\\
-process.stdin.resume()
-process.stdin.setEncoding('utf8')
-
-process.stdin.on('data', text => {
-    // var roomId = 1
-    // var msg = util.inspect(text.trim())
-    // console.log('received data:', msg)
-    // sendMessage(msg.substr(1, msg.length - 2), '<span style="color:red">Admin</span>', 1, roomId)
-    // getMessage(roomId, 'https://i.imgur.com/CgVX6vv.png')
-})
-
 process.on('uncaughtException', function (exception) {
     console.log(exception)
 })
@@ -483,29 +471,25 @@ try {
 
             const addplayer = new Promise((resolve, reject) => {
                 console.log('begin promise')
-                try {
-                    players.forEach(p => {
-                        console.log('begin for each')
-                        if (p.uid == socket.request.user.id) reject()
-                        console.log('players' + p.uid)
-                    })
+                players.forEach(p => {
+                    console.log('begin for each')
+                    if (p.uid == socket.request.user.id) reject()
+                    console.log('players' + p.uid)
+                })
 
-                    console.log('begin filling array')
-                    var p = {
-                        uid: socket.request.user.id,
-                        name: socket.request.user.displayName,
-                        x: x,
-                        y: y,
-                        rot: 0,
-                        color: 'red'
-                    }
-                    console.log('begin push')
-                    players.push(p)
-                    console.log('player info: ' + players.length)
-                    resolve(socket.emit('vrUpdatePos', players, socket.request.user.id))
-                } catch (e) {
-                    console.log(e)
+                console.log('begin filling array')
+                var p = {
+                    uid: socket.request.user.id,
+                    name: socket.request.user.displayName,
+                    x: x,
+                    y: y,
+                    rot: 0,
+                    color: 'red'
                 }
+                console.log('begin push')
+                players.push(p)
+                console.log('player info: ' + players.length)
+                resolve(socket.emit('vrUpdatePos', players, socket.request.user.id))
             })
 
             socket.on('relaySessionDescription', conf => {
