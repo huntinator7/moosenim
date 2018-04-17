@@ -143,60 +143,69 @@ var app = angular.module('mainApp', ['socket.io'])
         $socket.emit('vrconnection', 0, 0)
         console.log('is it looping?')
         $socket.on('vrUpdatePos', function (players, uid) {
-            console.log("successful reply" + uid)
+
             //totalPlayers = players
             //    players = [1,2,3,4]
             console.log('pre-loop: ' + players.length)
             $scope.uid = uid
+            $scope.name = players[0].name
             players.forEach(p => {
                 if (players.length > 100) players = []
-                console.log('p:' + players.length)
-                //    if (p.uid != uid) {
-                console.log('if triggered:' + players.length)
-                var avatar = document.createElement('a-entity')
-                avatar.setAttribute('position', { x: p.x, y: 1, z: p.z })
-
-                avatar.setAttribute('geometry', {
-                    primitive: 'cylinder',
-                    height: 1.5,
-                    radius: 0.5
-                })
-                avatar.setAttribute('material', 'color', 'red')
-                sceneEl.appendChild(avatar)
-                totalPlayers.push(avatar)
+                console.log('p:' + p.name)
+                //if (p.uid != uid) {
+                spawnAvatars()
                 //}
             })
 
         })
-        $socket.on('vrTest', function (players) {
-            try {
-                var camera = document.getElementById("controller")
-                var pos = document.querySelector('#camera').getAttribute('position')
-                if (players.length > totalPlayers.length) {
-                    var avatar = document.createElement('a-entity')
-                    avatar.setAttribute('position', { x: p.x, y: 1, z: p.z })
-
-                    avatar.setAttribute('geometry', {
-                        primitive: 'cylinder',
-                        height: 1.5,
-                        radius: 0.5
-                    })
-                    avatar.setAttribute('material', 'color', 'red')
-                    sceneEl.appendChild(avatar)
-                    totalPlayers.push(avatar)
-                }
-                console.log('box x: ' + camera.object3D.position.x + ' box z: ' + camera.object3D.position.z)
-                console.log('camera x: ' + pos.x + ' camera z: ' + pos.z)
-                for (var i = 0; i < players.length; i++) {
-                    //console.log('vrTest: ')
-                    totalPlayers[i].setAttribute('position', { x: players[i].x, y: 1, z: players[i].y })
-
-                }
-                $socket.emit('vrlocalPos', $scope.uid, pos.x, pos.z)
-            } catch (e) {
-                console.log(e)
-            }
-        })
-        console.log('box x: ' + camera.object3D.position.x + ' box z: ' + camera.object3D.position.z + ' ' + $scope.boxX)
 
     })
+$socket.on('vrTest', function (players) {
+    try {
+        var camera = document.getElementById("controller")
+        var pos = document.querySelector('#camera').getAttribute('position')
+        var rot = document.querySelector('#camera').getAttribute('rotation')
+        if (players.length > totalPlayers.length) {
+            spawnAvatars()
+        }
+        //    console.log('box x: ' + camera.object3D.position.x + ' box z: ' + camera.object3D.position.z)
+        //console.log('camera x: ' + pos.x + ' camera z: ' + pos.z)
+        for (var i = 0; i < players.length; i++) {
+            //console.log('vrTest: ')
+            if (players[i].uid != totalPlayers[i].uid) {
+                totalPlayers[i].avatar.setAttribute('position', { x: players[i].x, y: 1, z: players[i].y })
+                totalPlayers[i].avatar.setAttribute('rotation', { x: 0, y: players[i].rot, z: 0 })
+            }
+        }
+        $socket.emit('vrlocalPos', $scope.uid, pos.x, pos.z, rot.y)
+    } catch (e) {
+        console.log(e)
+    }
+})
+
+function spawnAvatars() {
+    var avatar = document.createElement('a-entity')
+    var nameplate = document.createElement('a-entity')
+
+    nameplate.setAttribute('text', { value: $scope.name, side: 'both', width: 3, anchor: 'left' })
+    //nameplate.setAttribute('value',{$scope.name})
+
+    nameplate.setAttribute('position', { x: 0, y: 1.2, z: 0 })
+    avatar.setAttribute('position', { x: 0, y: 1, z: 0 })
+
+    avatar.setAttribute('geometry', {
+        primitive: 'cylinder',
+        height: 1.5,
+        radius: 0.5
+    })
+    avatar.setAttribute('material', 'color', 'blue')
+    sceneEl.appendChild(avatar)
+    avatar.appendChild(nameplate)
+    var tp = {
+        uid: $scope.uid,
+        avatar: avatar,
+        name: 'testificate'
+    }
+    totalPlayers.push(tp)
+}
+console.log('box x: ' + camera.object3D.position.x + ' box z: ' + camera.object3D.position.z + ' ' + $scope.boxX)

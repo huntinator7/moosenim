@@ -246,310 +246,478 @@ function loginUser(uid, displayName, photoURL, email) {
 var channels = {}
 var sockets = {}
 var players = []
-
-//----SOCKET.IO----\\
-io.sockets.on('connection', socket => {
-
-
-    console.log('CONNECTED to socket io: ' + socket.request.user.displayName)
-    controller.getChatrooms(io, con, socket.id, socket.request.user.id)
-    con.query('SELECT room_id FROM room_users WHERE user_id = ?', [socket.request.user.id], (error, rows, results) => {
-        socket.join(rows[0].room_id)
-        io.to(rows[0].room_id).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id, rows[0].room_id)
-    })
-    con.query('SELECT * FROM users WHERE uid = ?', [socket.request.user.id], (error, rows, results) => {
-        joinChatroom(socket, rows[0].curroom)
-    })
-
-    //----WEBRTC VOICE----\\
-    socket.channels = {}
-    sockets[socket.id] = socket
-
-    console.log('[' + socket.id + '] connection accepted')
-    socket.on('disconnect', () => {
-        for (var channel in socket.channels) {
-            part(channel)
-        }
-        console.log('[' + socket.id + '] disconnected')
-        delete sockets[socket.id]
-    })
+try {
+    //----SOCKET.IO----\\
+    io.sockets.on('connection', socket => {
 
 
-    socket.on('join', conf => {
-        console.log('[' + socket.id + '] join ', conf)
-        var channel = conf.channel
-        var userdata = conf.userdata
+        console.log('CONNECTED to socket io: ' + socket.request.user.displayName)
+        controller.getChatrooms(io, con, socket.id, socket.request.user.id)
+        con.query('SELECT room_id FROM room_users WHERE user_id = ?', [socket.request.user.id], (error, rows, results) => {
+            socket.join(rows[0].room_id)
+            io.to(rows[0].room_id).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id, rows[0].room_id)
+        })
+        con.query('SELECT * FROM users WHERE uid = ?', [socket.request.user.id], (error, rows, results) => {
+            joinChatroom(socket, rows[0].curroom)
+        })
 
-        if (channel in socket.channels) {
-            console.log('[' + socket.id + '] ERROR: already joined ', channel)
-            return
-        }
+        //----WEBRTC VOICE----\\
+        socket.channels = {}
+        sockets[socket.id] = socket
 
-        if (!(channel in channels)) {
-            channels[channel] = {}
-        }
-
-        for (id in channels[channel]) {
-            channels[channel][id].emit('addPeer', {
-                'peer_id': socket.id,
-                'should_create_offer': false
-            })
-            socket.emit('addPeer', {
-                'peer_id': id,
-                'should_create_offer': true
-            })
-        }
-
-        channels[channel][socket.id] = socket
-        socket.channels[channel] = channel
-    })
-
-    function part(channel) {
-        //  console.log('[' + socket.id + '] part ')
-
-        if (!(channel in socket.channels)) {
-            console.log('[' + socket.id + '] ERROR: not in ', channel)
-            return
-        }
-
-        delete socket.channels[channel]
-        delete channels[channel][socket.id]
-
-        for (id in channels[channel]) {
-            channels[channel][id].emit('removePeer', {
-                'peer_id': socket.id
-            })
-            socket.emit('removePeer', {
-                'peer_id': id
-            })
-        }
-    }
-    socket.on('part', part)
+        console.log('[' + socket.id + '] connection accepted')
+        socket.on('disconnect', () => {
+            for (var channel in socket.channels) {
+                part(channel)
+            }
+            console.log('[' + socket.id + '] disconnected')
+            delete sockets[socket.id]
+        })
 
 
+        socket.on('join', conf => {
+            console.log('[' + socket.id + '] join ', conf)
+            var channel = conf.channel
+            var userdata = conf.userdata
 
+            if (channel in socket.channels) {
+                console.log('[' + socket.id + '] ERROR: already joined ', channel)
+                return
+            }
 
+            if (!(channel in channels)) {
+                channels[channel] = {}
+            }
 
-    socket.on('relayICECandidate', conf => {
-        var peer_id = conf.peer_id
-        var ice_candidate = conf.ice_candidate
-        console.log('[' + socket.id + '] relaying ICE candidate to [' + peer_id + '] ', ice_candidate)
-
-        if (peer_id in sockets) {
-            sockets[peer_id].emit('iceCandidate', {
-                'peer_id': socket.id,
-                'ice_candidate': ice_candidate
-            })
-        }
-    })
-
-    socket.on('relaySessionDescription', conf => {
-        var peer_id = conf.peer_id
-        var session_description = conf.session_description
-        console.log('[' + socket.id + '] relaying session description to [' + peer_id + '] ', session_description)
-
-        if (peer_id in sockets) {
-            sockets[peer_id].emit('sessionDescription', {
-                'peer_id': socket.id,
-                'session_description': session_description
-            })
-        }
-    })
-
-    //----SOCKET.IO-FILE-UPLOAD----\\
-    var uploader = new siofu()
-    uploader.dir = __dirname + '/uploads'
-    uploader.listen(socket)
-
-    uploader.on('start', event => {
-        console.log('Starting upload to ' + event.file.name + ' of type ' + event.file.meta.filetype + ' to ' + uploader.dir)
-    })
-
-    uploader.on('saved', event => {
-        var un = socket.request.user.displayName
-        var uid = socket.request.user.id
-        var name = event.file.name
-        var type = event.file.meta.filetype
-        //  console.log('room: ' + event.file.meta.room)
-        var roomId = event.file.meta.room
-        console.log('upload     socket.id: ' + socket.id)
-        console.log(name + ' successfully saved.')
-        console.log(type)
-        var msg
-        if (/video/g.test(type)) {
-            msg = 'https://moosen.im/uploads/' + name
-        } else if (/image/g.test(type)) {
-            msg = 'https://moosen.im/uploads/' + name
-        } else {
-            msg = '<a href="/uploads/' + name + '" download="' + name + '">' + name + '</a>'
-        }
-        controller.sendMessage(con, msg, uid, roomId)
-        getMessage(roomId)
-        if (roomId == config.discord.sendChannel) {
-            client.channels.get(config.discord.moosen).send({
-                files: [('./uploads/' + name)]
-            })
-        }
-    })
-
-    //----GENERAL SOCKET.IO----\\
-
-    //Test emit
-    socket.on('getuser', rid => {
-
-        controller.getAdminStatus(con, io, socket.request.user.id, rid, socket.id)
-        controller.getUser(con, io, socket.request.user.id, socket.id)
-        //console.log(Object.keys(io.sockets.sockets))
-    })
-
-    socket.on('get-motd', function (roomId) {
-        controller.getMotd(con, io, roomId)
-        //console.log(Object.keys(io.sockets.sockets))
-    })
-
-    //Emit for when on mobile and needing the logs
-    socket.on('log', message => {
-        console.log(socket.id + ': ' + message)
-        //socket.emit('onconnect',socket.request.user.displayName)
-    })
-
-    socket.on('addroom', name => {
-        controller.createChatroom(con, io, name, socket.request.user.id, socket.request.user.displayName)
-
-    })
-    socket.on('updateuser', (nickname, url) => {
-        controller.updateUser(con, socket.request.user.id, nickname, url)
-    })
-    socket.on('addcommand', (roomId, cmd, actn, msg, username, pic, regex) => {
-        if (regex) addNewCommand(roomId, cmd, actn, msg, username, pic)
-        else addNewCommand(roomId, escStrReg(cmd), actn, msg, username, pic)
-    })
-    socket.on('addtodo', (roomId, tags, t, date) => {
-        console.log('addtodo: ', t)
-        addTODO(roomId, socket.request.user.id, tags, t, date)
-    })
-
-
-    socket.on('updateroomtheme', (params, icon, type, roomId) => {
-        controller.changeRoomTheme(con, params, icon, type, roomId)
-        joinChatroom(socket, roomId)
-    })
-
-    socket.on('changerooms', roomId => {
-        joinChatroom(socket, roomId)
-    })
-
-    socket.on('removeCommand', (command, roomId) => {
-        controller.removeRegexCommand(con, io, command, roomId)
-    })
-    socket.on('removetodo', (todo, roomId) => {
-        controller.removeTODO(con, io, todo, roomId)
-    })
-
-    //for adduser function. Email is entered by the user, roomId is caled from chat.html, isAdmin should just default to 0 for now.
-    socket.on('adduser', (email, roomId, isAdmin) => {
-        console.log('add user called')
-        controller.addToRoom(con, email, roomId, 0, '')
-        joinChatroom(socket, roomId)
-    })
-
-    socket.on('joincode', (code, roomId, isAdmin) => {
-        console.log('join code called')
-        controller.joinRoom(con, io, code, socket.request.user.id, socket.id)
-    })
-
-
-    socket.on('searchusers', email => {
-        //maybe make this variable do something...
-        var id = searchUsers(email)
-    })
-
-    socket.on('retPre', (previous, roomId) => {
-        console.log('retpre called' + previous + " " + roomId)
-        showPreviousMessages(10, previous, socket.id, roomId)
-    })
-
-    //vr State Code
-
-    socket.on('vrconnection', function (x, y) {
-        console.log('hello from VR')
-
-        const addplayer = new Promise((resolve, reject) => {
-            console.log('begin promise')
-            try {
-                players.forEach(p => {
-                    console.log('begin for each')
-                    if (p.uid == socket.request.user.id) reject()
-                    console.log('players' + p.uid)
+            for (id in channels[channel]) {
+                channels[channel][id].emit('addPeer', {
+                    'peer_id': socket.id,
+                    'should_create_offer': false
                 })
+                socket.emit('addPeer', {
+                    'peer_id': id,
+                    'should_create_offer': true
+                })
+            }
 
-                console.log('begin filling array')
-                var p = {
-                    uid: socket.request.user.id,
-                    x: x,
-                    y: y,
-                    color: 'red'
-                }
-                console.log('begin push')
-                players.push(p)
-                console.log('player info: ' + players.length)
-                resolve(socket.emit('vrUpdatePos', players, socket.request.user.id))
-            } catch (e) {
-                console.log(e)
+            channels[channel][socket.id] = socket
+            socket.channels[channel] = channel
+        })
+
+        function part(channel) {
+            //  console.log('[' + socket.id + '] part ')
+
+            if (!(channel in socket.channels)) {
+                console.log('[' + socket.id + '] ERROR: not in ', channel)
+                return
+            }
+
+            delete socket.channels[channel]
+            delete channels[channel][socket.id]
+
+            for (id in channels[channel]) {
+                channels[channel][id].emit('removePeer', {
+                    'peer_id': socket.id
+                })
+                socket.emit('removePeer', {
+                    'peer_id': id
+                })
+            }
+        }
+        socket.on('part', part)
+
+
+
+
+
+        socket.on('relayICECandidate', conf => {
+            var peer_id = conf.peer_id
+            var ice_candidate = conf.ice_candidate
+            console.log('[' + socket.id + '] relaying ICE candidate to [' + peer_id + '] ', ice_candidate)
+
+            if (peer_id in sockets) {
+                sockets[peer_id].emit('iceCandidate', {
+                    'peer_id': socket.id,
+                    'ice_candidate': ice_candidate
+                })
             }
         })
-    })
-    setInterval(updateClient, 330)
 
-    function updateClient() {
-        socket.emit('vrTest', players)
-    }
+        socket.on('relaySessionDescription', conf => {
+            var peer_id = conf.peer_id
+            var session_description = conf.session_description
+            console.log('[' + socket.id + '] relaying session description to [' + peer_id + '] ', session_description)
 
-    socket.on('vrlocalPos', function (uid, x, y) {
-        console.log('player length ' + players.length)
-        for (var i = 0; i < players.length; i++) {
-            //console.log('update for '+players[i].uid+' '+players[i].x+players[i].y)
-            if (uid = players[i].uid) {
-                players[i].x = x
-                players[i].y = y
-                break
+            if (peer_id in sockets) {
+                sockets[peer_id].emit('sessionDescription', {
+                    'peer_id': socket.id,
+                    'session_description': session_description
+                })
             }
-        }
-    })
+        })
 
-    //----CHAT MESSAGE----\\
-    socket.on('chat message', (msg, roomId) => {
-        var isAdmin
-        con.query('SELECT is_admin FROM room_users WHERE room_id = ? AND user_id = ?', [roomId, socket.request.user.id], (error, rows, results) => {
-            if (!rows) {
-                console.log('Access Denied')
-                return
+        //----SOCKET.IO-FILE-UPLOAD----\\
+        var uploader = new siofu()
+        uploader.dir = __dirname + '/uploads'
+        uploader.listen(socket)
+
+        uploader.on('start', event => {
+            console.log('Starting upload to ' + event.file.name + ' of type ' + event.file.meta.filetype + ' to ' + uploader.dir)
+        })
+
+        uploader.on('saved', event => {
+            var un = socket.request.user.displayName
+            var uid = socket.request.user.id
+            var name = event.file.name
+            var type = event.file.meta.filetype
+            //  console.log('room: ' + event.file.meta.room)
+            var roomId = event.file.meta.room
+            console.log('upload     socket.id: ' + socket.id)
+            console.log(name + ' successfully saved.')
+            console.log(type)
+            var msg
+            if (/video/g.test(type)) {
+                msg = 'https://moosen.im/uploads/' + name
+            } else if (/image/g.test(type)) {
+                msg = 'https://moosen.im/uploads/' + name
             } else {
+                msg = '<a href="/uploads/' + name + '" download="' + name + '">' + name + '</a>'
+            }
+            controller.sendMessage(con, msg, uid, roomId)
+            getMessage(roomId)
+            if (roomId == config.discord.sendChannel) {
+                client.channels.get(config.discord.moosen).send({
+                    files: [('./uploads/' + name)]
+                })
+            }
+        })
+
+        //----GENERAL SOCKET.IO----\\
+
+        //Test emit
+        socket.on('getuser', rid => {
+
+            controller.getAdminStatus(con, io, socket.request.user.id, rid, socket.id)
+            controller.getUser(con, io, socket.request.user.id, socket.id)
+            //console.log(Object.keys(io.sockets.sockets))
+        })
+
+        socket.on('get-motd', function (roomId) {
+            controller.getMotd(con, io, roomId)
+            //console.log(Object.keys(io.sockets.sockets))
+        })
+
+        //Emit for when on mobile and needing the logs
+        socket.on('log', message => {
+            console.log(socket.id + ': ' + message)
+            //socket.emit('onconnect',socket.request.user.displayName)
+        })
+
+        socket.on('addroom', name => {
+            controller.createChatroom(con, io, name, socket.request.user.id, socket.request.user.displayName)
+
+        })
+        socket.on('updateuser', (nickname, url) => {
+            controller.updateUser(con, socket.request.user.id, nickname, url)
+        })
+        socket.on('addcommand', (roomId, cmd, actn, msg, username, pic, regex) => {
+            if (regex) addNewCommand(roomId, cmd, actn, msg, username, pic)
+            else addNewCommand(roomId, escStrReg(cmd), actn, msg, username, pic)
+        })
+        socket.on('addtodo', (roomId, tags, t, date) => {
+            console.log('addtodo: ', t)
+            addTODO(roomId, socket.request.user.id, tags, t, date)
+        })
+
+
+        socket.on('updateroomtheme', (params, icon, type, roomId) => {
+            controller.changeRoomTheme(con, params, icon, type, roomId)
+            joinChatroom(socket, roomId)
+        })
+
+        socket.on('changerooms', roomId => {
+            joinChatroom(socket, roomId)
+        })
+
+        socket.on('removeCommand', (command, roomId) => {
+            controller.removeRegexCommand(con, io, command, roomId)
+        })
+        socket.on('removetodo', (todo, roomId) => {
+            controller.removeTODO(con, io, todo, roomId)
+        })
+
+        //for adduser function. Email is entered by the user, roomId is caled from chat.html, isAdmin should just default to 0 for now.
+        socket.on('adduser', (email, roomId, isAdmin) => {
+            console.log('add user called')
+            controller.addToRoom(con, email, roomId, 0, '')
+            joinChatroom(socket, roomId)
+        })
+
+        socket.on('joincode', (code, roomId, isAdmin) => {
+            console.log('join code called')
+            controller.joinRoom(con, io, code, socket.request.user.id, socket.id)
+        })
+
+
+        socket.on('searchusers', email => {
+            //maybe make this variable do something...
+            var id = searchUsers(email)
+        })
+
+        socket.on('retPre', (previous, roomId) => {
+            console.log('retpre called' + previous + " " + roomId)
+            showPreviousMessages(10, previous, socket.id, roomId)
+        })
+
+        //vr State Code
+
+        socket.on('vrconnection', function (x, y) {
+            console.log('hello from VR')
+
+            const addplayer = new Promise((resolve, reject) => {
+                console.log('begin promise')
                 try {
-                    isAdmin = rows[0].is_admin == '1' ? true : false
+                    players.forEach(p => {
+                        console.log('begin for each')
+                        if (p.uid == socket.request.user.id) reject()
+                        console.log('players' + p.uid)
+                    })
+
+                    console.log('begin filling array')
+                    var p = {
+                        uid: socket.request.user.id,
+                        name: socket.request.user.displayName,
+                        x: x,
+                        y: y,
+                        rot: 0,
+                        color: 'red'
+                    }
+                    console.log('begin push')
+                    players.push(p)
+                    console.log('player info: ' + players.length)
+                    resolve(socket.emit('vrUpdatePos', players, socket.request.user.id))
                 } catch (e) {
                     console.log(e)
                 }
-                msg = msg.replace(/</ig, '&lt;')
-                msg = msg.replace(/>/ig, '&gt;')
-                if (/!doggo/.test(msg)) {
-                    controller.getDoggo().then(url => strReplacePromise(/!doggo/ig, msg, url))
-                        .then(reply => sendMsg(reply))
-                        .catch(err => {
-                            console.log(err)
-                        })
-                } else sendMsg(msg)
+            })
 
-                function sendMsg(message) {
-                    var un = socket.request.user.displayName
-                    var uid = socket.request.user.id
-                    controller.sendMessage(con, message, uid, roomId)
-                    getMessage(roomId)
+            socket.on('relaySessionDescription', conf => {
+                var peer_id = conf.peer_id
+                var session_description = conf.session_description
+                console.log('[' + socket.id + '] relaying session description to [' + peer_id + '] ', session_description)
+
+                if (peer_id in sockets) {
+                    sockets[peer_id].emit('sessionDescription', {
+                        'peer_id': socket.id,
+                        'session_description': session_description
+                    })
                 }
+            })
+
+            //----SOCKET.IO-FILE-UPLOAD----\\
+            var uploader = new siofu()
+            uploader.dir = __dirname + '/uploads'
+            uploader.listen(socket)
+
+            uploader.on('start', event => {
+                console.log('Starting upload to ' + event.file.name + ' of type ' + event.file.meta.filetype + ' to ' + uploader.dir)
+            })
+
+            uploader.on('saved', event => {
+                var un = socket.request.user.displayName
+                var uid = socket.request.user.id
+                var name = event.file.name
+                var type = event.file.meta.filetype
+                //  console.log('room: ' + event.file.meta.room)
+                var roomId = event.file.meta.room
+                console.log('upload     socket.id: ' + socket.id)
+                console.log(name + ' successfully saved.')
+                console.log(type)
+                var msg
+                if (/video/g.test(type)) {
+                    msg = 'https://moosen.im/uploads/' + name
+                } else if (/image/g.test(type)) {
+                    msg = 'https://moosen.im/uploads/' + name
+                } else {
+                    msg = '<a href="/uploads/' + name + '" download="' + name + '">' + name + '</a>'
+                }
+                controller.sendMessage(con, msg, uid, roomId)
+                getMessage(roomId)
+                if (roomId == config.discord.sendChannel) {
+                    client.channels.get(config.discord.moosen).send({
+                        files: [('./uploads/' + name)]
+                    })
+                }
+            })
+
+            //----GENERAL SOCKET.IO----\\
+
+            //Test emit
+            socket.on('getuser', rid => {
+
+                controller.getAdminStatus(con, io, socket.request.user.id, rid, socket.id)
+                controller.getUser(con, io, socket.request.user.id, socket.id)
+                //console.log(Object.keys(io.sockets.sockets))
+            })
+
+            socket.on('get-motd', function (roomId) {
+                controller.getMotd(con, io, roomId)
+                //console.log(Object.keys(io.sockets.sockets))
+            })
+
+            //Emit for when on mobile and needing the logs
+            socket.on('log', message => {
+                console.log(socket.id + ': ' + message)
+                //socket.emit('onconnect',socket.request.user.displayName)
+            })
+
+            socket.on('addroom', name => {
+                controller.createChatroom(con, io, name, socket.request.user.id, socket.request.user.displayName)
+
+            })
+            socket.on('updateuser', (nickname, url) => {
+                controller.updateUser(con, socket.request.user.id, nickname, url)
+            })
+            socket.on('addcommand', (roomId, cmd, actn, msg, username, pic, regex) => {
+                if (regex) addNewCommand(roomId, cmd, actn, msg, username, pic)
+                else addNewCommand(roomId, escStrReg(cmd), actn, msg, username, pic)
+            })
+            socket.on('addtodo', (roomId, tags, t, date) => {
+                console.log('addtodo: ', t)
+                addTODO(roomId, socket.request.user.id, tags, t, date)
+            })
+
+
+            socket.on('updateroomtheme', (params, icon, type, roomId) => {
+                controller.changeRoomTheme(con, params, icon, type, roomId)
+                joinChatroom(socket, roomId)
+            })
+
+            socket.on('changerooms', roomId => {
+                joinChatroom(socket, roomId)
+            })
+
+            socket.on('removeCommand', (command, roomId) => {
+                controller.removeRegexCommand(con, io, command, roomId)
+            })
+            socket.on('removetodo', (todo, roomId) => {
+                controller.removeTODO(con, io, todo, roomId)
+            })
+
+            //for adduser function. Email is entered by the user, roomId is caled from chat.html, isAdmin should just default to 0 for now.
+            socket.on('adduser', (email, roomId, isAdmin) => {
+                console.log('add user called')
+                controller.addToRoom(con, email, roomId, 0, '')
+                joinChatroom(socket, roomId)
+            })
+
+            socket.on('joincode', (code, roomId, isAdmin) => {
+                console.log('join code called')
+                controller.joinRoom(con, io, code, socket.request.user.id, socket.id)
+            })
+
+
+            socket.on('searchusers', email => {
+                //maybe make this variable do something...
+                var id = searchUsers(email)
+            })
+
+            socket.on('retPre', (previous, roomId) => {
+                console.log('retpre called' + previous + " " + roomId)
+                showPreviousMessages(10, previous, socket.id, roomId)
+            })
+
+            //vr State Code
+
+            socket.on('vrconnection', function (x, y) {
+                console.log('hello from VR')
+
+                const addplayer = new Promise((resolve, reject) => {
+                    console.log('begin promise')
+                    try {
+                        players.forEach(p => {
+                            console.log('begin for each')
+                            if (p.uid == socket.request.user.id) reject()
+                            console.log('players' + p.uid)
+                        })
+
+                        console.log('begin filling array')
+                        var p = {
+                            uid: socket.request.user.id,
+                            x: x,
+                            y: y,
+                            color: 'red'
+                        }
+                        console.log('begin push')
+                        players.push(p)
+                        console.log('player info: ' + players.length)
+                        resolve(socket.emit('vrUpdatePos', players, socket.request.user.id))
+                    } catch (e) {
+                        console.log(e)
+                    }
+                })
+            })
+            setInterval(updateClient, 330)
+
+        })
+        setInterval(updateClient, 33)
+
+        function updateClient() {
+            socket.emit('vrTest', players)
+        }
+        socket.on('vrlocalPos', function (uid, x, y, rot) {
+            //console.log('player length '+players.length)
+            try {
+                for (var i = 0; i < players.length; i++) {
+                    //console.log('update for '+players[i].uid+' '+players[i].x+players[i].y)
+                    if (uid = players[i].uid) {
+                        players[i].x = x
+                        players[i].y = y
+                        players[i].rot = rot
+                        break
+                    }
+                }
+            } catch (e) {
+                console.log(e + " line 524")
             }
         })
+
+        //----CHAT MESSAGE----\\
+        socket.on('chat message', (msg, roomId) => {
+            var isAdmin
+            con.query('SELECT is_admin FROM room_users WHERE room_id = ? AND user_id = ?', [roomId, socket.request.user.id], (error, rows, results) => {
+                if (!rows) {
+                    console.log('Access Denied')
+                    return
+                } else {
+                    try {
+                        isAdmin = rows[0].is_admin == '1' ? true : false
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    msg = msg.replace(/</ig, '&lt;')
+                    msg = msg.replace(/>/ig, '&gt;')
+                    if (/!doggo/.test(msg)) {
+                        controller.getDoggo().then(url => strReplacePromise(/!doggo/ig, msg, url))
+                            .then(reply => sendMsg(reply))
+                            .catch(err => {
+                                console.log(err)
+                            })
+                    } else sendMsg(msg)
+
+                    function sendMsg(message) {
+                        var un = socket.request.user.displayName
+                        var uid = socket.request.user.id
+                        controller.sendMessage(con, message, uid, roomId)
+                        getMessage(roomId)
+                    }
+                }
+            })
+        })
     })
-})
+} catch (e) {
+    console.log(e)
+}
 
 function strReplacePromise(reg, str, rep) {
     return new Promise((resolve, reject) => {

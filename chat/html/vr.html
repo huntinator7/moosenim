@@ -13,6 +13,7 @@
         gtag('config', 'UA-112336897-1')
     </script>
     <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
+     <script src="https://unpkg.com/aframe-text-geometry-component@^0.5.0/dist/aframe-text-geometry-component.min.js"></script>
     <!--Aframe api main-->
     <script src="https://unpkg.com/aframe-animation-component@3.2.1/dist/aframe-animation-component.min.js"></script>
     <!--Aframe animation API-->
@@ -39,6 +40,7 @@
     <a-scene ng-app="mainApp" ng-controller="VRapp">
 
         <a-assets>
+             <a-asset-item id="optimerBoldFont" src="https://rawgit.com/mrdoob/three.js/dev/examples/fonts/optimer_bold.typeface.json"></a-asset-item>
             <!-- <a-asset-item id="room" src="../images/iscv2.obj"></a-asset-item>
             <a-asset-item id="roommat" src="../images/iscv2.mtl"></a-asset-item> -->
         </a-assets>
@@ -51,6 +53,9 @@
             <!--<a-entity  wasd-controls></a-entity>-->
         </a-entity>
         <!-- <a-obj-model src="#room" mtl="#roommat" position="0 0.1 4" rotation="-90 0 0" scale="0.08 0.08 0.08"></a-obj-model> -->
+
+        <a-entity text-geometry="value: What's up"></a-entity>
+        <a-entity text-geometry="value: Dog?; font: #optimerBoldFont"></a-entity>
 
         <a-box id="theBox" position='{{boxX}}' rotation="0 45 0">
         </a-box>
