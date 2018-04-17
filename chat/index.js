@@ -67,10 +67,13 @@ process.stdin.on('data', text => {
 })
 
 process.on('uncaughtException', function (exception) {
-    console.log(exception) // to see your exception details in the console
-    // if you are on production, maybe you can send the exception details to your
-    // email as well ?
+    console.log(exception)
 })
+
+process.on('unhandledRejection', (reason, p) => {
+    console.log("Unhandled Rejection at: Promise ", p, " reason: ", reason)
+})
+
 
 var io = require('socket.io')(server)
 io.attach(server, {
@@ -185,8 +188,6 @@ app.use('/js', express.static(__dirname + '/js'))
 app.use('/html', express.static(__dirname + '/html'))
 app.use('/css', express.static(__dirname + '/css'))
 app.use('/siofu', express.static(__dirname + '/node_modules/socketio-file-upload'))
-
-
 
 //----AUTH----\\
 app.get('/auth/google',
@@ -640,31 +641,25 @@ try {
 
                 const addplayer = new Promise((resolve, reject) => {
                     console.log('begin promise')
-                    try {
-                        players.forEach(p => {
-                            console.log('begin for each')
-                            if (p.uid == socket.request.user.id) reject()
-                            console.log('players' + p.uid)
-                        })
+                    players.forEach(p => {
+                        console.log('begin for each')
+                        if (p.uid == socket.request.user.id) reject()
+                        console.log('players' + p.uid)
+                    })
 
-                        console.log('begin filling array')
-                        var p = {
-                            uid: socket.request.user.id,
-                            x: x,
-                            y: y,
-                            color: 'red'
-                        }
-                        console.log('begin push')
-                        players.push(p)
-                        console.log('player info: ' + players.length)
-                        resolve(socket.emit('vrUpdatePos', players, socket.request.user.id))
-                    } catch (e) {
-                        console.log(e)
+                    console.log('begin filling array')
+                    var p = {
+                        uid: socket.request.user.id,
+                        x: x,
+                        y: y,
+                        color: 'red'
                     }
+                    console.log('begin push')
+                    players.push(p)
+                    console.log('player info: ' + players.length)
+                    resolve(socket.emit('vrUpdatePos', players, socket.request.user.id))
                 })
             })
-            setInterval(updateClient, 330)
-
         })
         setInterval(updateClient, 33)
 
