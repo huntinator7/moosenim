@@ -755,6 +755,10 @@ function getMessage(roomId) {
     })
 }
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms))
+}
+
 async function getDBUN(id) {
     return new Promise(resolve => {
         if (id.substr(0, 4) === 'disc') {
@@ -818,11 +822,6 @@ function joinChatroom(socket, roomId) {
             }
         })
     })
-}
-
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 async function sendToDiscord(un, msg) {
