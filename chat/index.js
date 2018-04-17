@@ -755,7 +755,7 @@ function getMessage(roomId) {
     })
 }
 
-function getDBUN(id) {
+async function getDBUN(id) {
     return new Promise(resolve => {
         if (id.substr(0, 4) === 'disc') {
             if (client.status !== 0) await sleep(1000)
