@@ -759,22 +759,30 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-async function getDBUN(id) {
-    return new Promise(resolve => {
-        if (id.substr(0, 4) === 'disc') {
-            if (client.status !== 0) await sleep(1000)
-            var user = client.users.get(id.substr(4))
-            resolve([user.username, 'https://cdn.discordapp.com/avatars/' + user.id + '/' + user.avatar + '.png', 'Discord'])
-        } else {
-            con.query('SELECT name, profpic, badge FROM users WHERE uid = ?', [id], (error, row) => {
-                if (row.length < 1) {
-                    resolve(['Undefined', 'https://moosen.im/uploads/moosenim4ColoredSmall.png', null])
-                } else {
-                    resolve([row[0].name, row[0].profpic, row[0].badge])
-                }
-            })
+function getDBUN(id) {
+    const waitForClient = new Promise(resolve => {
+        var isReady = false
+        while (!isReady) {
+            if (client.status == 0) isReady = true
         }
+        if (isReady) resolve()
+    }).then(() => {
+        return new Promise(resolve => {
+            if (id.substr(0, 4) === 'disc') {
+                var user = client.users.get(id.substr(4))
+                resolve([user.username, 'https://cdn.discordapp.com/avatars/' + user.id + '/' + user.avatar + '.png', 'Discord'])
+            } else {
+                con.query('SELECT name, profpic, badge FROM users WHERE uid = ?', [id], (error, row) => {
+                    if (row.length < 1) {
+                        resolve(['Undefined', 'https://moosen.im/uploads/moosenim4ColoredSmall.png', null])
+                    } else {
+                        resolve([row[0].name, row[0].profpic, row[0].badge])
+                    }
+                })
+            }
+        })
     })
+    
 }
 
 //----PREVIOUS MESSAGES----\\
