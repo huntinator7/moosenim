@@ -246,10 +246,7 @@ var players = []
 
 //Discord login with token from dev page
 var client = new Discord.Client()
-function startClient() {
-    return new Promise(resolve => client.login(config.token))
-}
-await startClient()
+client.login(config.token)
 
 //Login message for Discord
 client.on('ready', () => {
@@ -761,6 +758,7 @@ function getMessage(roomId) {
 function getDBUN(id) {
     return new Promise(resolve => {
         if (id.substr(0, 4) === 'disc') {
+            console.log(client.status)
             var user = client.users.get(id.substr(4))
             resolve([user.username, 'https://cdn.discordapp.com/avatars/' + user.id + '/' + user.avatar + '.png', 'Discord'])
         } else {
