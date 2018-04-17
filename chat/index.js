@@ -242,6 +242,104 @@ var channels = {}
 var sockets = {}
 var players = []
 
+//----DISCORD----\\
+
+//Discord login with token from dev page
+var client = new Discord.Client()
+client.login(config.token)
+
+//Login message for Discord
+client.on('ready', () => {
+    console.log(`Logged in as ${client.user.tag}`)
+})
+
+//Any time a Discord message is sent, bot checks to see if in moosen-im channel and if not sent by bot. If so, it adds the message to the DB and emits it
+client.on('message', msg => {
+    console.log(msg.author.id)
+    // client.user.setAvatar('./images/discord.png')
+    if (msg.channel.id == config.discord.moosen && !(msg.author.bot)) {
+        var newmsg = msg.content
+        var unRegex = RegExp('<@!?([0-9]+)>')
+        var unArray
+        while ((unArray = unRegex.exec(newmsg)) !== null) {
+            console.log(`Found ${unArray[1]}`)
+            msg.channel.members.forEach(e => {
+                if (e.user.id == unArray[1]) {
+                    console.log(e.user.username + ' ' + unArray[0])
+                    var repstr = '@' + e.user.username
+                    var regex2 = new RegExp(unArray[0])
+                    newmsg = newmsg.replace(regex2, repstr)
+                }
+            })
+        }
+        var roleRegex = RegExp('<@&([0-9]+)>')
+        var roleArray
+        while ((roleArray = roleRegex.exec(newmsg)) !== null) {
+            console.log(`Found ${roleArray[1]}`)
+            msg.guild.roles.forEach(e => {
+                if (e.id == roleArray[1]) {
+                    console.log(e.name + ' ' + roleArray[0])
+                    var repstr = '@' + e.name
+                    var regex2 = new RegExp(roleArray[0])
+                    newmsg = newmsg.replace(regex2, repstr)
+                }
+            })
+        }
+        // <@&319362702197915648>
+        var emoteRegex = RegExp('<:.*?:([0-9]+)>')
+        var emoteArray
+        while ((emoteArray = emoteRegex.exec(newmsg)) !== null) {
+            console.log(`Found ${emoteArray[1]} in ${emoteArray[0]}`)
+            var repstr = '<img class="mm-discord-emoji" src="https://cdn.discordapp.com/emojis/' + emoteArray[1] + '.png" alt="Error - Image not found">'
+            var regex2 = new RegExp(emoteArray[0])
+            newmsg = newmsg.replace(regex2, repstr)
+        }
+
+        if (msg.attachments.array().length) {
+            try {
+                console.log(msg.attachments.first().url)
+                newmsg += msg.attachments.first().url
+
+            } catch (e) {
+                console.log('Message attachment has no url')
+            }
+        }
+        controller.sendMessage(con, newmsg, 'disc' + msg.author.id, config.discord.sendChannel)
+        getMessage(config.discord.sendChannel)
+    }
+})
+
+//handlers for errors and disconnects
+client.on('disconnect', function (event) {
+    if (event.code != 1000) {
+        console.log("Discord client disconnected with reason: " + event.reason + " (" + event.code + "). Attempting to reconnect in 6s...")
+        setTimeout(function () {
+            client.login(config.discord.key)
+        }, 6000)
+    }
+})
+
+client.on('error', function (err) {
+    console.log("Discord client error '" + err.code + "'. Attempting to reconnect in 6s...")
+    client.destroy()
+    setTimeout(function () {
+        client.login(config.discord.key)
+    }, 6000)
+})
+
+process.on('rejectionHandled', (err) => {
+    console.log(err)
+    console.log("an error occurred. reconnecting...")
+    client.destroy()
+    setTimeout(function () {
+        client.login(config.discord.key)
+    }, 2000)
+})
+
+process.on('exit', function () {
+    client.destroy()
+})
+
 //----SOCKET.IO----\\
 io.sockets.on('connection', socket => {
 
@@ -467,17 +565,17 @@ io.sockets.on('connection', socket => {
     //vr State Code
 
     socket.on('vrconnection', function (x, y) {
-        console.log('hello from VR')
+        // console.log('hello from VR')
 
         const addplayer = new Promise((resolve, reject) => {
-            console.log('begin promise')
+            // console.log('begin promise')
             players.forEach(p => {
-                console.log('begin for each')
+                // console.log('begin for each')
                 if (p.uid == socket.request.user.id) reject()
-                console.log('players' + p.uid)
+                // console.log('players' + p.uid)
             })
 
-            console.log('begin filling array')
+            // console.log('begin filling array')
             var p = {
                 uid: socket.request.user.id,
                 name: socket.request.user.displayName,
@@ -486,9 +584,9 @@ io.sockets.on('connection', socket => {
                 rot: 0,
                 color: 'red'
             }
-            console.log('begin push')
+            // console.log('begin push')
             players.push(p)
-            console.log('player info: ' + players.length)
+            // console.log('player info: ' + players.length)
             resolve(socket.emit('vrUpdatePos', players, socket.request.user.id))
         })
     })
@@ -499,18 +597,14 @@ io.sockets.on('connection', socket => {
 
     socket.on('vrlocalPos', function (uid, x, y, rot) {
         //console.log('player length '+players.length)
-        try {
-            for (var i = 0; i < players.length; i++) {
-                //console.log('update for '+players[i].uid+' '+players[i].x+players[i].y)
-                if (uid = players[i].uid) {
-                    players[i].x = x
-                    players[i].y = y
-                    players[i].rot = rot
-                    break
-                }
+        for (var i = 0; i < players.length; i++) {
+            //console.log('update for '+players[i].uid+' '+players[i].x+players[i].y)
+            if (uid = players[i].uid) {
+                players[i].x = x
+                players[i].y = y
+                players[i].rot = rot
+                break
             }
-        } catch (e) {
-            console.log(e + " line 524")
         }
     })
 
@@ -553,104 +647,6 @@ function strReplacePromise(reg, str, rep) {
         resolve(str.replace(reg, rep))
     })
 }
-
-//----DISCORD----\\
-
-//Discord login with token from dev page
-var client = new Discord.Client()
-client.login(config.token)
-
-//Login message for Discord
-client.on('ready', () => {
-    console.log(`Logged in as ${client.user.tag}`)
-})
-
-//Any time a Discord message is sent, bot checks to see if in moosen-im channel and if not sent by bot. If so, it adds the message to the DB and emits it
-client.on('message', msg => {
-    console.log(msg.author.id)
-    // client.user.setAvatar('./images/discord.png')
-    if (msg.channel.id == config.discord.moosen && !(msg.author.bot)) {
-        var newmsg = msg.content
-        var unRegex = RegExp('<@!?([0-9]+)>')
-        var unArray
-        while ((unArray = unRegex.exec(newmsg)) !== null) {
-            console.log(`Found ${unArray[1]}`)
-            msg.channel.members.forEach(e => {
-                if (e.user.id == unArray[1]) {
-                    console.log(e.user.username + ' ' + unArray[0])
-                    var repstr = '@' + e.user.username
-                    var regex2 = new RegExp(unArray[0])
-                    newmsg = newmsg.replace(regex2, repstr)
-                }
-            })
-        }
-        var roleRegex = RegExp('<@&([0-9]+)>')
-        var roleArray
-        while ((roleArray = roleRegex.exec(newmsg)) !== null) {
-            console.log(`Found ${roleArray[1]}`)
-            msg.guild.roles.forEach(e => {
-                if (e.id == roleArray[1]) {
-                    console.log(e.name + ' ' + roleArray[0])
-                    var repstr = '@' + e.name
-                    var regex2 = new RegExp(roleArray[0])
-                    newmsg = newmsg.replace(regex2, repstr)
-                }
-            })
-        }
-        // <@&319362702197915648>
-        var emoteRegex = RegExp('<:.*?:([0-9]+)>')
-        var emoteArray
-        while ((emoteArray = emoteRegex.exec(newmsg)) !== null) {
-            console.log(`Found ${emoteArray[1]} in ${emoteArray[0]}`)
-            var repstr = '<img class="mm-discord-emoji" src="https://cdn.discordapp.com/emojis/' + emoteArray[1] + '.png" alt="Error - Image not found">'
-            var regex2 = new RegExp(emoteArray[0])
-            newmsg = newmsg.replace(regex2, repstr)
-        }
-
-        if (msg.attachments.array().length) {
-            try {
-                console.log(msg.attachments.first().url)
-                newmsg += msg.attachments.first().url
-
-            } catch (e) {
-                console.log('Message attachment has no url')
-            }
-        }
-        controller.sendMessage(con, newmsg, 'disc' + msg.author.id, config.discord.sendChannel)
-        getMessage(config.discord.sendChannel)
-    }
-})
-
-//handlers for errors and disconnects
-client.on('disconnect', function (event) {
-    if (event.code != 1000) {
-        console.log("Discord client disconnected with reason: " + event.reason + " (" + event.code + "). Attempting to reconnect in 6s...")
-        setTimeout(function () {
-            client.login(config.discord.key)
-        }, 6000)
-    }
-})
-
-client.on('error', function (err) {
-    console.log("Discord client error '" + err.code + "'. Attempting to reconnect in 6s...")
-    client.destroy()
-    setTimeout(function () {
-        client.login(config.discord.key)
-    }, 6000)
-})
-
-process.on('rejectionHandled', (err) => {
-    console.log(err)
-    console.log("an error occurred. reconnecting...")
-    client.destroy()
-    setTimeout(function () {
-        client.login(config.discord.key)
-    }, 2000)
-})
-
-process.on('exit', function () {
-    client.destroy()
-})
 
 //----MYSQL DB----\\
 
