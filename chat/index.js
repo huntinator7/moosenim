@@ -758,7 +758,7 @@ function getMessage(roomId) {
 }
 
 async function getDBUN(id) {
-    if (client.status === 0) {
+    if (client.status !== 0) {
         await sleep(3000)
     }
     return new Promise(resolve => {
