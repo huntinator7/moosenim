@@ -31,7 +31,7 @@ var escStrReg = require('escape-string-regexp')
 const controller = require('./controllers/main.controller')
 const VRctrl = require('./controllers/vr.controller')
 var vr = require('./routes/vr.js')
-var gcal = require('google-calendar');
+var gcal = require('google-calendar')
 var google_calendar
 //import controller from './controllers/main.controller'
 
@@ -66,11 +66,17 @@ process.stdin.on('data', text => {
     // getMessage(roomId, 'https://i.imgur.com/CgVX6vv.png')
 })
 
+process.on('uncaughtException', function (exception) {
+    console.log(exception) // to see your exception details in the console
+    // if you are on production, maybe you can send the exception details to your
+    // email as well ?
+})
+
 var io = require('socket.io')(server)
 io.attach(server, {
     pingInterval: 10000,
     pingTimeout: 6000,
-});
+})
 //----PASSPORT----\\
 passport.use(new strategy({
     clientID: '333736509560-id8si5cbuim26d3e67s4l7oscjfsakat.apps.googleusercontent.com',
@@ -864,11 +870,11 @@ function addNewCommand(roomId, cmd, actn, msg, username, pic) {
         username,
         pic
     }
-    var isValid = true;
+    var isValid = true
     try {
-        new RegExp(cmd);
+        new RegExp(cmd)
     } catch (e) {
-        isValid = false;
+        isValid = false
     }
     if (isValid) {
         con.query('SELECT commands FROM rooms WHERE serialid = ?', [roomId], (error, rows) => {
