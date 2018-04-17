@@ -246,7 +246,10 @@ var players = []
 
 //Discord login with token from dev page
 var client = new Discord.Client()
-client.login(config.token)
+function startClient() {
+    return new Promise(resolve => client.login(config.token))
+}
+await startClient()
 
 //Login message for Discord
 client.on('ready', () => {
