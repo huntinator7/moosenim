@@ -760,13 +760,7 @@ function sleep(ms) {
 }
 
 function getDBUN(id) {
-    const waitForClient = new Promise(resolve => {
-        var isReady = false
-        while (!isReady) {
-            if (client.status == 0) isReady = true
-        }
-        if (isReady) resolve()
-    }).then(() => {
+    if (client.status === 0) {
         return new Promise(resolve => {
             if (id.substr(0, 4) === 'disc') {
                 var user = client.users.get(id.substr(4))
@@ -781,8 +775,7 @@ function getDBUN(id) {
                 })
             }
         })
-    })
-    
+    }
 }
 
 //----PREVIOUS MESSAGES----\\
