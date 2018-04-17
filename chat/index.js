@@ -764,6 +764,7 @@ async function getDBUN(id) {
     return new Promise(resolve => {
         if (id.substr(0, 4) === 'disc') {
             var user = client.users.get(id.substr(4))
+            console.log('here')
             resolve([user.username, 'https://cdn.discordapp.com/avatars/' + user.id + '/' + user.avatar + '.png', 'Discord'])
         } else {
             con.query('SELECT name, profpic, badge FROM users WHERE uid = ?', [id], (error, row) => {
