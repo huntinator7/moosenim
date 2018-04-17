@@ -117,7 +117,7 @@ var app = angular.module('mainApp', ['socket.io'])
 
             $scope.todomsg = ''
             $scope.todotags = ''
-			console.log($scope.todotags, $scope.todomsg, $scope.dateString)
+            console.log($scope.todotags, $scope.todomsg, $scope.dateString)
         }
         $scope.deleteTodo = function deleteTodo(todo) {
             console.log(todo)
@@ -132,47 +132,47 @@ var app = angular.module('mainApp', ['socket.io'])
 
 
     })
-    .controller('VRapp', function modalCtrl($scope,$socket) {
-      $scope.boxX='-3  0.5 -4'
-      var theBox = document.getElementById("theBox")
-      var sceneEl = document.querySelector('a-scene')
-      var camera = document.getElementById("controller")
-      var pos = document.querySelector('#camera').getAttribute('position')
-      var totalPlayers = []
-      console.log('is it looping?')
-      $socket.emit('vrconnection', 0, 0)
-      console.log('is it looping?')
-      $socket.on('vrUpdatePos', function (players,uid) {
-                console.log("successful reply"+uid)
-                //totalPlayers = players
+    .controller('VRapp', function modalCtrl($scope, $socket) {
+        $scope.boxX = '-3  0.5 -4'
+        var theBox = document.getElementById("theBox")
+        var sceneEl = document.querySelector('a-scene')
+        var camera = document.getElementById("controller")
+        var pos = document.querySelector('#camera').getAttribute('position')
+        var totalPlayers = []
+        console.log('is it looping?')
+        $socket.emit('vrconnection', 0, 0)
+        console.log('is it looping?')
+        $socket.on('vrUpdatePos', function (players, uid) {
+            console.log("successful reply" + uid)
+            //totalPlayers = players
             //    players = [1,2,3,4]
-                console.log('pre-loop: ' + players.length)
-                $scope.uid = uid
-                players.forEach(p => {
-                    if(players.length>100) players=[]
-                    console.log('p:' + players.length)
+            console.log('pre-loop: ' + players.length)
+            $scope.uid = uid
+            players.forEach(p => {
+                if (players.length > 100) players = []
+                console.log('p:' + players.length)
                 //    if (p.uid != uid) {
-                        console.log('if triggered:'+ players.length)
-                        var avatar = document.createElement('a-entity')
-                        avatar.setAttribute('position', { x: p.x, y: 1, z: p.z })
+                console.log('if triggered:' + players.length)
+                var avatar = document.createElement('a-entity')
+                avatar.setAttribute('position', { x: p.x, y: 1, z: p.z })
 
-                        avatar.setAttribute('geometry', {
-                            primitive: 'cylinder',
-                            height: 1.5,
-                            radius: 0.5
-                        })
-                        avatar.setAttribute('material', 'color', 'red')
-                        sceneEl.appendChild(avatar)
-                        totalPlayers.push(avatar)
-                    //}
-           })
-
+                avatar.setAttribute('geometry', {
+                    primitive: 'cylinder',
+                    height: 1.5,
+                    radius: 0.5
+                })
+                avatar.setAttribute('material', 'color', 'red')
+                sceneEl.appendChild(avatar)
+                totalPlayers.push(avatar)
+                //}
             })
+
+        })
         $socket.on('vrTest', function (players) {
             try {
                 var camera = document.getElementById("controller")
                 var pos = document.querySelector('#camera').getAttribute('position')
-                if(players.length>totalPlayers.length){
+                if (players.length > totalPlayers.length) {
                     var avatar = document.createElement('a-entity')
                     avatar.setAttribute('position', { x: p.x, y: 1, z: p.z })
 
@@ -186,7 +186,7 @@ var app = angular.module('mainApp', ['socket.io'])
                     totalPlayers.push(avatar)
                 }
                 console.log('box x: ' + camera.object3D.position.x + ' box z: ' + camera.object3D.position.z)
-                  console.log('camera x: ' + pos.x + ' camera z: ' + pos.z)
+                console.log('camera x: ' + pos.x + ' camera z: ' + pos.z)
                 for (var i = 0; i < players.length; i++) {
                     //console.log('vrTest: ')
                     totalPlayers[i].setAttribute('position', { x: players[i].x, y: 1, z: players[i].y })
@@ -195,8 +195,8 @@ var app = angular.module('mainApp', ['socket.io'])
                 $socket.emit('vrlocalPos', $scope.uid, pos.x, pos.z)
             } catch (e) {
                 console.log(e)
-        }
-})
-      console.log('box x: ' + camera.object3D.position.x + ' box z: ' + camera.object3D.position.z+' '+$scope.boxX)
+            }
+        })
+        console.log('box x: ' + camera.object3D.position.x + ' box z: ' + camera.object3D.position.z + ' ' + $scope.boxX)
 
     })
