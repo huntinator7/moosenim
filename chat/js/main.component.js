@@ -157,7 +157,7 @@ var app = angular.module('mainApp', ['socket.io'])
 
         })
 
-    })
+
 $socket.on('vrTest', function (players) {
     try {
         var camera = document.getElementById("controller")
@@ -207,3 +207,4 @@ function spawnAvatars() {
     totalPlayers.push(tp)
 }
 console.log('box x: ' + camera.object3D.position.x + ' box z: ' + camera.object3D.position.z + ' ' + $scope.boxX)
+})
