@@ -85,10 +85,11 @@ passport.use(new strategy({
             google_calendar.events.list('en.usa#holiday@group.v.calendar.google.com', function(err, calendarList) {
                 //console.log(calendarList.summary)
                 var events = JSON.parse(calendarList)
-                events.forEach(i => {
-                    console.log(i)
-                    console.log('summary: '+i.summary)
-                })
+                console.log(events)
+                // events.forEach(i => {
+                //     console.log(i)
+                //     console.log('summary: '+i.summary)
+                // })
             })
         })
         return cb(null, profile)
