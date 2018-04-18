@@ -598,7 +598,7 @@ io.sockets.on('connection', socket => {
             resolve(socket.emit('vrUpdatePos', players, socket.request.user.id))
         })
     })
-    setInterval(updateClient(),33)
+    setInterval(updateClient,33)
     function updateClient() {
         socket.emit('vrTest', players)
     }
