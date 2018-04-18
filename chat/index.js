@@ -82,8 +82,9 @@ passport.use(new strategy({
         loginUser(profile.id, profile.displayName, profile.photos[0].value, profile.emails[0].value)
         google_calendar = new gcal.GoogleCalendar(accessToken)
         google_calendar.calendarList.list(function (err, calendarList) {
-            console.log(calendarList.get('en.usa#holiday@group.v.calendar.google.com'))
-
+            google_calendar.events.list('en.usa#holiday@group.v.calendar.google.com', function(err, calendarList) {
+                console.log(calendarList)
+            })
         })
         return cb(null, profile)
     }
