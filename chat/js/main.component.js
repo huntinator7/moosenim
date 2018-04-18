@@ -144,8 +144,6 @@ var app = angular.module('mainApp', ['socket.io'])
         console.log('is it looping?')
         $socket.on('vrUpdatePos', function (players, uid) {
 
-            //totalPlayers = players
-            //    players = [1,2,3,4]
             console.log('pre-loop: ' + players.length)
             $scope.uid = uid
             $scope.name = players[0].name
