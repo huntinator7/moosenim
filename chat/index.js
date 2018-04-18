@@ -85,7 +85,8 @@ passport.use(new strategy({
             google_calendar.events.list('en.usa#holiday@group.v.calendar.google.com', function(err, calendarList) {
                 //console.log(calendarList.summary)
                 var events = JSON.parse(calendarList)
-                console.log(events)
+                console.log(events.summary)
+
                 // events.forEach(i => {
                 //     console.log(i)
                 //     console.log('summary: '+i.summary)
