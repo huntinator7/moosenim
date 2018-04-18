@@ -87,7 +87,7 @@ passport.use(new strategy({
                 const decode = new Promise((resolve, reject) => {
                 var events = JSON.parse(calendarList)
                 resolve(console.log(events.summary))
-            }
+            })
 
 
 
