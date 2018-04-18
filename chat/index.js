@@ -82,11 +82,11 @@ passport.use(new strategy({
         loginUser(profile.id, profile.displayName, profile.photos[0].value, profile.emails[0].value)
         google_calendar = new gcal.GoogleCalendar(accessToken)
         google_calendar.calendarList.list(function (err, calendarList) {
-            console.log(calendarList)
-            google_calendar.events.list('en.usa#holiday@group.v.calendar.google.com', function(err, calendarList) {
+            //console.log(calendarList)
+            google_calendar.events.list('curahee24@gmail.com', function(err, calendarList) {
                 //console.log(calendarList.summary)
                 var events = JSON.parse(calendarList)
-
+                console.log(events)
 
             })
         })
@@ -598,7 +598,7 @@ io.sockets.on('connection', socket => {
             resolve(socket.emit('vrUpdatePos', players, socket.request.user.id))
         })
     })
-
+    setInterval(updateClient(),33)
     function updateClient() {
         socket.emit('vrTest', players)
     }
