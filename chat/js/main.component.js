@@ -170,10 +170,10 @@ $socket.on('vrTest', function (players) {
         //console.log('camera x: ' + pos.x + ' camera z: ' + pos.z)
         for (var i = 0; i < players.length; i++) {
             //console.log('vrTest: ')
-            if (players[i].uid != totalPlayers[i].uid) {
+            //if (players[i].uid != totalPlayers[i].uid) {
                 totalPlayers[i].avatar.setAttribute('position', { x: players[i].x, y: 1, z: players[i].y })
                 totalPlayers[i].avatar.setAttribute('rotation', { x: 0, y: players[i].rot, z: 0 })
-            }
+            //}
         }
         $socket.emit('vrlocalPos', $scope.uid, pos.x, pos.z, rot.y)
     } catch (e) {
