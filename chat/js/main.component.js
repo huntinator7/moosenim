@@ -50,8 +50,10 @@ var app = angular.module('mainApp', ['socket.io'])
         $scope.isCollapsed = false
         $scope.messages = []
         moment().format()
-        $socket.on('login', function (name, email, photo, uid, roomId) {
+        $socket.on('login', function (name, email, photo, uid, roomId,cal) {
             console.log('login called')
+            $scope.cal= cal
+            console.log('calender '+cal)
             $scope.messages = []
             $socket.emit('getuser', $scope.roomId)
 
@@ -163,7 +165,7 @@ $socket.on('vrTest', function (players) {
         var camera = document.getElementById("controller")
         var pos = document.querySelector('#camera').getAttribute('position')
         var rot = document.querySelector('#camera').getAttribute('rotation')
-        if (players.length+1 > totalPlayers.length) {
+        if (players.length+2 > totalPlayers.length) {
             spawnAvatars()
         }
         //    console.log('box x: ' + camera.object3D.position.x + ' box z: ' + camera.object3D.position.z)
