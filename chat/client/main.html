@@ -58,7 +58,7 @@
                                 <h5 class="card-title">{{dateString}}</h5>
                                 <li ng-repeat="x in cal">
                                     <div ng-class-odd="'odd'" ng-class-even="'even'">
-                                        {{x}}
+                                        {{x.summary}}
                                     </div>
                                 </li>
                                 <button ng-controller="Ctrl" ng-click="emitBasic()">Send</button>
