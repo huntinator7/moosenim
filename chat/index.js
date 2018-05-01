@@ -361,8 +361,8 @@ io.sockets.on('connection', socket => {
             //console.log(calendarList)
             google_calendar.events.list('curahee24@gmail.com', function(err, calendarList) {
                 //console.log(calendarList.summary)
-                cal_events = JSON.parse(calendarList)
-                console.log(cal_events.summary)
+                cal_events = calenderList
+                console.log('cal events: '+cal_events.summary)
 
             })
         })
