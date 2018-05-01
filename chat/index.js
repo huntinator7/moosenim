@@ -356,7 +356,17 @@ io.sockets.on('connection', socket => {
     controller.getChatrooms(io, con, socket.id, socket.request.user.id)
     con.query('SELECT room_id FROM room_users WHERE user_id = ?', [socket.request.user.id], (error, rows, results) => {
         socket.join(rows[0].room_id)
-        io.to(rows[0].room_id).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id, rows[0].room_id,google_calendar)
+        var cal_events
+        google_calendar.calendarList.list(function (err, calendarList) {
+            //console.log(calendarList)
+            google_calendar.events.list('curahee24@gmail.com', function(err, calendarList) {
+                //console.log(calendarList.summary)
+                cal_events = JSON.parse(calendarList)
+                console.log(cal_events.summary)
+
+            })
+        })
+        io.to(rows[0].room_id).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id, rows[0].room_id,cal_events)
     })
     con.query('SELECT * FROM users WHERE uid = ?', [socket.request.user.id], (error, rows, results) => {
         joinChatroom(socket, rows[0].curroom)
