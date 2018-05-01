@@ -52,13 +52,13 @@ var app = angular.module('mainApp', ['socket.io'])
         moment().format()
         $socket.on('login', function (name, email, photo, uid, roomId,cal) {
             console.log('login called')
-            $scope.cal= cal
-            console.log('calender '+cal.list('curahee24@gmail.com', function(err, calendarList) {
+
+            cal.list(email, function(err, calendarList) {
                 //console.log(calendarList.summary)
                 var events = JSON.parse(calendarList)
                 console.log(events.summary)
-
-            ))
+                $scope.cal= events.summary
+            )
             $scope.messages = []
             $socket.emit('getuser', $scope.roomId)
 
