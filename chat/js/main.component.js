@@ -58,7 +58,7 @@ var app = angular.module('mainApp', ['socket.io'])
                 var events = JSON.parse(calendarList)
                 console.log(events.summary)
                 $scope.cal= events.summary
-            )
+            })
             $scope.messages = []
             $socket.emit('getuser', $scope.roomId)
 
