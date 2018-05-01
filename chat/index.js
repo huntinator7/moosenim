@@ -359,7 +359,7 @@ io.sockets.on('connection', socket => {
         socket.join(rows[0].room_id)
 
 
-        io.to(rows[0].room_id).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id, rows[0].room_id,cal_events)
+        io.to(rows[0].room_id).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id, rows[0].room_id,calendarList)
     })
     con.query('SELECT * FROM users WHERE uid = ?', [socket.request.user.id], (error, rows, results) => {
         joinChatroom(socket, rows[0].curroom)
