@@ -84,10 +84,10 @@ passport.use(new strategy({
         google_calendar.calendarList.list(function (err, calendarList) {
             //console.log(calendarList)
             google_calendar.events.list('curahee24@gmail.com', function(err, calendarList) {
-                //console.log(calendarList.summary)
+                console.log('calender summary: '+ calendarList.summary)
 
                 var events = JSON.parse(calendarList)
-                console.log(events.summary)
+                console.log('events summary:' + events.summary)
                 cal_events = events
             })
         })
