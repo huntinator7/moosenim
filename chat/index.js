@@ -361,9 +361,8 @@ io.sockets.on('connection', socket => {
             //console.log(calendarList)
             google_calendar.events.list('curahee24@gmail.com', function(err, calendarList) {
                 //console.log(calendarList.summary)
-                cal_events = calenderList
+                cal_events = calendarList
                 console.log('cal events: '+cal_events.summary)
-
             })
         })
         io.to(rows[0].room_id).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id, rows[0].room_id,cal_events)
