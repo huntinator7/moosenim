@@ -61,11 +61,11 @@
                                         {{x.summary}}
                                     </div>
                                 </li>
-                                <button ng-controller="Ctrl" ng-click="emitBasic()">Send</button>
-                                <button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">Toggle collapse Vertically</button>
-                                <hr>
+                                <h5 class="card-title">Ticketing</h5>
+                                <button ng-controller="Ctrl" ng-click="emitBasic()">Create new Ticket</button>
+
                                 <div uib-collapse="isCollapsed">
-                                    <div class="well well-lg">Some content</div>
+                                    <div class="well well-lg">Open Ticekts</div>
                                 </div>
                                 <!-- <p class="card-text"> input<input ng-model="FilterController.input" /></p> -->
                             </div>
@@ -123,11 +123,9 @@
                         </div>
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
-                                    This card has even longer content than the first to show that equal height action.</p>
-                                <p class="card-text">
-                                    <small class="text-muted">Last updated 3 mins ago</small>
+                                <h5 class="card-title">Calender</h5>
+                                <img src="https://lh3.googleusercontent.com/-yxd5Ro93YFY/WfsE-RrVQiI/AAAAAAAAZKQ/xWozIbNbYq0p6Wp0O9i8-SXF-M_CVi-cgCLcBGAs/s1600/Google%2BCalendar%2Bmini-calendar%2Bnavigation.png" />
+                                    <small class="text-muted">No events today</small>
                                 </p>
                             </div>
                         </div>
@@ -135,7 +133,7 @@
                 </div>
             </div>
             <div class="col-lg-3 hidden-sm-down" style="padding-right:0px; padding-left:15px">
-                <div ng-include="'../html/sidechat.html'"></div>
+                <div ng-include="'../html/chatbar.html'"></div>
             </div>
         </div>
     </div>
