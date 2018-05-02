@@ -158,6 +158,10 @@ var config = require('./config')
 // object definitions
 var user = require('./js/user.js')
 
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jsx');
+app.engine('jsx', require('express-react-views').createEngine());
+
 //Associating .js files with URLs
 app.use(cors())
 app.use(bodyParser.json())
