@@ -65,7 +65,7 @@ process.on('unhandledRejection', (reason, p) => {
     console.log("Unhandled Rejection at: Promise ", p, " reason: ", reason)
 })
 
-
+    var cal_events
 var io = require('socket.io')(server)
 io.attach(server, {
     pingInterval: 10000,
@@ -82,8 +82,14 @@ passport.use(new strategy({
         loginUser(profile.id, profile.displayName, profile.photos[0].value, profile.emails[0].value)
         google_calendar = new gcal.GoogleCalendar(accessToken)
         google_calendar.calendarList.list(function (err, calendarList) {
-            console.log(calendarList)
+            //console.log(calendarList)
+            google_calendar.events.list('curahee24@gmail.com', function(err, calendarList) {
+                console.log('calender summary: '+ calendarList.summary)
 
+                var events = JSON.parse(calendarList)
+                console.log('events summary:' + events.summary)
+                cal_events = events
+            })
         })
         return cb(null, profile)
     }
@@ -351,7 +357,9 @@ io.sockets.on('connection', socket => {
     controller.getChatrooms(io, con, socket.id, socket.request.user.id)
     con.query('SELECT room_id FROM room_users WHERE user_id = ?', [socket.request.user.id], (error, rows, results) => {
         socket.join(rows[0].room_id)
-        io.to(rows[0].room_id).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id, rows[0].room_id)
+
+
+        io.to(rows[0].room_id).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id, rows[0].room_id,calendarList)
     })
     con.query('SELECT * FROM users WHERE uid = ?', [socket.request.user.id], (error, rows, results) => {
         joinChatroom(socket, rows[0].curroom)
@@ -590,10 +598,10 @@ io.sockets.on('connection', socket => {
             // console.log('begin push')
             players.push(p)
             // console.log('player info: ' + players.length)
-            resolve(/*socket.emit('vrUpdatePos', players, socket.request.user.id)*/)
+            resolve(socket.emit('vrUpdatePos', players, socket.request.user.id))
         })
     })
-
+    setInterval(updateClient,33)
     function updateClient() {
         socket.emit('vrTest', players)
     }

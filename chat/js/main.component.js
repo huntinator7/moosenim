@@ -50,8 +50,9 @@ var app = angular.module('mainApp', ['socket.io'])
         $scope.isCollapsed = false
         $scope.messages = []
         moment().format()
-        $socket.on('login', function (name, email, photo, uid, roomId) {
-            console.log('login called')
+        $socket.on('login', function (name, email, photo, uid, roomId,cal) {
+            console.log('login called'+cal)
+            $scope.cal = cal
             $scope.messages = []
             $socket.emit('getuser', $scope.roomId)
 
@@ -144,8 +145,6 @@ var app = angular.module('mainApp', ['socket.io'])
         console.log('is it looping?')
         $socket.on('vrUpdatePos', function (players, uid) {
 
-            //totalPlayers = players
-            //    players = [1,2,3,4]
             console.log('pre-loop: ' + players.length)
             $scope.uid = uid
             $scope.name = players[0].name
@@ -159,23 +158,24 @@ var app = angular.module('mainApp', ['socket.io'])
 
         })
 
-    })
+
 $socket.on('vrTest', function (players) {
     try {
         var camera = document.getElementById("controller")
         var pos = document.querySelector('#camera').getAttribute('position')
         var rot = document.querySelector('#camera').getAttribute('rotation')
-        if (players.length > totalPlayers.length) {
+        if (players.length+2 > totalPlayers.length) {
             spawnAvatars()
         }
         //    console.log('box x: ' + camera.object3D.position.x + ' box z: ' + camera.object3D.position.z)
         //console.log('camera x: ' + pos.x + ' camera z: ' + pos.z)
         for (var i = 0; i < players.length; i++) {
-            //console.log('vrTest: ')
-            if (players[i].uid != totalPlayers[i].uid) {
-                totalPlayers[i].avatar.setAttribute('position', { x: players[i].x, y: 1, z: players[i].y })
-                totalPlayers[i].avatar.setAttribute('rotation', { x: 0, y: players[i].rot, z: 0 })
-            }
+
+
+                    totalPlayers[i].avatar.setAttribute('position', { x: players[i].x, y: 1, z: players[i].y })
+                    totalPlayers[i].avatar.setAttribute('rotation', { x: 0, y: players[i].rot, z: 0 })
+
+
         }
         $socket.emit('vrlocalPos', $scope.uid, pos.x, pos.z, rot.y)
     } catch (e) {
@@ -209,3 +209,4 @@ function spawnAvatars() {
     totalPlayers.push(tp)
 }
 console.log('box x: ' + camera.object3D.position.x + ' box z: ' + camera.object3D.position.z + ' ' + $scope.boxX)
+})

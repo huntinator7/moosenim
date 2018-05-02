@@ -26,6 +26,8 @@ router.get('/chat', function (req, res) {
 router.get('/settings', function (req, res) {
     res.sendFile('/client/userSettings.html', { 'root': '/var/www/html/chat' })
 })
-
+router.get('/react', function (req, res) {
+    res.sendFile('/html/reactTest.html', { 'root': '/var/www/html/chat' })
+})
 //export this router to use in our index.js
 module.exports = router
