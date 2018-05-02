@@ -42,7 +42,7 @@ function sleep(ms) {
 app2.all('*', ensureSecure) // at top of routing calls
 
 function ensureSecure(req, res, next) {
-    console.log(req.url)
+    // console.log(req.url)
     res.redirect('https://www.moosen.im' + req.url) // express 4.x
 }
 
