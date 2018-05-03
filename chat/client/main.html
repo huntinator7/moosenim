@@ -85,7 +85,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">To Do List</h5>
                                 <button type="button" data-toggle="modal" data-target="#todo-modal" class="btn btn-secondary btn-sm">
-                                    <i class="material-icons" style="font-size:4;">add</i>
+                                    <i class="material-icons" style="font-size:4; position:absolute; right:3px;">add</i>
                                 </button>
                                 <p class="card-text">
                                     <ul>
@@ -93,7 +93,7 @@
                                             <div ng-class-odd="'odd'" ng-class-even="'even'">
                                                 {{x.todo}}
                                                 <div class="dropdown">
-                                                    <button class="btn btn-secondary" style="position:absolute; right:3px; bottom:1px;"type="button" ng-click="deleteTodo(x)">
+                                                    <button class="btn btn-secondary" style="position:absolute; right:3px; bottom:0.5px;"type="button" ng-click="deleteTodo(x)">
                                                         <i class="material-icons">clear</i>
                                                     </button>
 
