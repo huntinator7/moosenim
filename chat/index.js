@@ -551,7 +551,7 @@ io.sockets.on('connection', socket => {
         controller.removeRegexCommand(con, io, command, roomId)
     })
     socket.on('removetodo', (todo, roomId) => {
-        console.log('todo to be deleted: '+todo.todo)
+        console.log('todo to be deleted: '+roomId)
         controller.removeTODO(con, io, todo, roomId)
     })
 
