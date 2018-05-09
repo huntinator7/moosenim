@@ -20,6 +20,9 @@ router.get('/voicetest', function (req, res) {
 router.get('/vr', function (req, res) {
     res.sendFile('/html/vr.html', { 'root': '/var/www/html/chat' })
 })
+router.get('/android', function (req, res) {
+    res.sendFile('/html/androidapp.html', { 'root': '/var/www/html/chat' })
+})
 router.get('/chat', function (req, res) {
     res.sendFile('/html/chat.html', { 'root': '/var/www/html/chat' })
 })
