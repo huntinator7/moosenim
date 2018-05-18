@@ -41,8 +41,8 @@
 
         <a-assets>
              <a-asset-item id="optimerBoldFont" src="https://rawgit.com/mrdoob/three.js/dev/examples/fonts/optimer_bold.typeface.json"></a-asset-item>
-            <!-- <a-asset-item id="room" src="../images/iscv2.obj"></a-asset-item>
-            <a-asset-item id="roommat" src="../images/iscv2.mtl"></a-asset-item> -->
+             <a-asset-item id="room" src="../images/room1/room1.obj"></a-asset-item>
+            <a-asset-item id="roommat" src="../images/room1/room1.mtl"></a-asset-item>
         </a-assets>
 
         <a-entity hand-controls="left"></a-entity>
@@ -50,9 +50,9 @@
         <a-camera id="camera"></a-camera>
         <a-entity id="controller" position="0,-3,0 ">
 
-            <!--<a-entity  wasd-controls></a-entity>-->
+            <a-entity  wasd-controls></a-entity>
         </a-entity>
-        <!-- <a-obj-model src="#room" mtl="#roommat" position="0 0.1 4" rotation="-90 0 0" scale="0.08 0.08 0.08"></a-obj-model> -->
+         <a-obj-model src="#room" mtl="#roommat" position="0 0.1 4" rotation="-90 0 0" scale="0.08 0.08 0.08"></a-obj-model>
 
         <a-entity text-geometry="value: What's up"></a-entity>
         <a-entity text-geometry="value: Dog?; font: #optimerBoldFont"></a-entity>
