@@ -7,7 +7,7 @@ class Main extends React.Component {
 
     render() {
         return (
-            <form action="/api/realestate" method="post" enctype="multipart/form-data">
+            <form action="/api/realestate" method="post" encType="multipart/form-data">
                 <div>
                     <input ref={(ref) => { this.uploadInput = ref }} type="file" multiple />
                 </div>
