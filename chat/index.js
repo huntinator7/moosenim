@@ -218,12 +218,7 @@ app.use((req, res, next) => {
 })
 
 const storage = multer.diskStorage({
-    destination: function () {
-        crypto.pseudoRandomBytes(8, function (err, raw) {
-            if (err) return callback(err)
-            callback(null, 'realestate/' + raw.toString('hex'))
-        })
-    },
+    destination: 'realestate/',
     filename: function (req, file, callback) {
         crypto.pseudoRandomBytes(8, function (err, raw) {
             if (err) return callback(err)
@@ -234,7 +229,7 @@ const storage = multer.diskStorage({
 
 var upload = multer({ storage: storage })
 
-app.post('/api/realestate', upload.array('realestate'), (req, res) => {
+app.post('/api/realestate', upload.array('realestate', 100), (req, res) => {
     if (!req.files) {
         console.log("No file received");
         return res.send({
