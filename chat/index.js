@@ -4,6 +4,7 @@ var https = require('https')
 var express = require('express')
 var errorhandler = require('errorhandler')
 var bodyParser = require('body-parser')
+var morgan = require('morgan')
 var mysql = require('mysql')
 var siofu = require('socketio-file-upload')
 var moment = require('moment')
@@ -65,7 +66,7 @@ process.on('unhandledRejection', (reason, p) => {
     console.log("Unhandled Rejection at: Promise ", p, " reason: ", reason)
 })
 
-    var cal_events
+var cal_events
 var io = require('socket.io')(server)
 io.attach(server, {
     pingInterval: 10000,
@@ -83,8 +84,8 @@ passport.use(new strategy({
         google_calendar = new gcal.GoogleCalendar(accessToken)
         google_calendar.calendarList.list(function (err, calendarList) {
             //console.log(calendarList)
-            google_calendar.events.list('curahee24@gmail.com', function(err, calendarList) {
-                console.log('calender summary: '+ calendarList.summary)
+            google_calendar.events.list('curahee24@gmail.com', function (err, calendarList) {
+                console.log('calender summary: ' + calendarList.summary)
 
                 var events = JSON.parse(calendarList)
                 console.log('events summary:' + events.summary)
@@ -158,13 +159,14 @@ var config = require('./config')
 // object definitions
 var user = require('./js/user.js')
 
-app.set('views', __dirname + '/views');
-app.set('view engine', 'jsx');
-app.engine('jsx', require('express-react-views').createEngine());
+app.set('views', __dirname + '/views')
+app.set('view engine', 'jsx')
+app.engine('jsx', require('express-react-views').createEngine())
 
 //Associating .js files with URLs
 app.use(cors())
 app.use(bodyParser.json())
+app.use(morgan('dev'))
 app.use(errorhandler())
 app.use(favicon(path.join(__dirname, 'favicon.ico')))
 app.use('/', routes)
@@ -206,21 +208,47 @@ app.get('/auth/google/callback',
     }
 )
 
-// API \\
+// <API> \\
 app.use((req, res, next) => {
-
     var err = new Error('Not Found')
     //console.log(err.message + " ")
     err.status = 404
-
     next(err)
-
 })
 
-//google api authentication
+const storage = multer.diskStorage({
+    destination: function () {
+        crypto.pseudoRandomBytes(8, function (err, raw) {
+            if (err) return callback(err)
+            callback(null, 'realestate/' + raw.toString('hex'))
+        })
+    },
+    filename: function (req, file, callback) {
+        crypto.pseudoRandomBytes(8, function (err, raw) {
+            if (err) return callback(err)
+            callback(null, raw.toString('hex') + path.extname(file.originalname))
+        })
+    }
+})
 
+var upload = multer({ storage: storage })
 
-//end athentication
+app.post('/api/realestate', upload.array('realestate'), (req, res) => {
+    if (!req.files) {
+        console.log("No file received");
+        return res.send({
+            success: false
+        });
+
+    } else {
+        console.log('Files received');
+        return res.send({
+            success: true
+        })
+    }
+})
+
+// </API> \\
 
 module.exports = app
 
@@ -363,7 +391,7 @@ io.sockets.on('connection', socket => {
         socket.join(rows[0].room_id)
 
 
-        io.to(rows[0].room_id).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id, rows[0].room_id,calendarList)
+        io.to(rows[0].room_id).emit('login', socket.request.user.displayName, socket.request.user.emails[0].value, socket.request.user.photos[0].value, socket.request.user.id, rows[0].room_id, calendarList)
     })
     con.query('SELECT * FROM users WHERE uid = ?', [socket.request.user.id], (error, rows, results) => {
         joinChatroom(socket, rows[0].curroom)
@@ -551,7 +579,7 @@ io.sockets.on('connection', socket => {
         controller.removeRegexCommand(con, io, command, roomId)
     })
     socket.on('removetodo', (todo, roomId) => {
-        console.log('todo to be deleted: '+roomId)
+        console.log('todo to be deleted: ' + roomId)
         controller.removeTODO(con, io, todo, roomId)
     })
 
@@ -606,22 +634,21 @@ io.sockets.on('connection', socket => {
             resolve(socket.emit('vrUpdatePos', players, socket.request.user.id))
         })
     })
-    setInterval(updateClient,33)
+    setInterval(updateClient, 33)
     function updateClient() {
         socket.emit('vrTest', players)
     }
 
     socket.on('vrlocalPos', function (uid, x, y, rot) {
         //console.log('player length '+players.length)
-        for (var i = 0; i < players.length; i++) {
-            //console.log('update for '+players[i].uid+' '+players[i].x+players[i].y)
-            if (uid = players[i].uid) {
-                players[i].x = x
-                players[i].y = y
-                players[i].rot = rot
+        players.forEach((e) => {
+            if (uid = e.uid) {
+                e.x = x
+                e.y = y
+                e.rot = rot
                 break
             }
-        }
+        })
     })
 
     //----CHAT MESSAGE----\\
