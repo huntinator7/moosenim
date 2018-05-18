@@ -210,13 +210,6 @@ app.get('/auth/google/callback',
 )
 
 // <API> \\
-app.use((req, res, next) => {
-    var err = new Error('Not Found')
-    //console.log(err.message + " ")
-    err.status = 404
-    next(err)
-})
-
 const storage = multer.diskStorage({
     destination: 'realestate/',
     filename: function (req, file, callback) {
@@ -229,7 +222,7 @@ const storage = multer.diskStorage({
 
 var upload = multer({ storage: storage })
 
-app.post('/api/realestate', /*upload.array('realestate', 100), */(req, res) => {
+app.post('/api/realestate', upload.array('realestate', 100), (req, res) => {
     if (!req.files) {
         console.log("No file received");
         return res.send({
