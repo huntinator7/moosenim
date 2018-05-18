@@ -641,14 +641,10 @@ io.sockets.on('connection', socket => {
 
     socket.on('vrlocalPos', function (uid, x, y, rot) {
         //console.log('player length '+players.length)
-        players.forEach((e) => {
-            if (uid = e.uid) {
-                e.x = x
-                e.y = y
-                e.rot = rot
-                break
-            }
-        })
+        let matchingPlayer = players.filter(e => e.uid === uid )
+        matchingPlayer[0].x = x
+        matchingPlayer[0].y = y
+        matchingPlayer[0].rot = rot
     })
 
     //----CHAT MESSAGE----\\
