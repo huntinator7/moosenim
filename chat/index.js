@@ -229,7 +229,7 @@ const storage = multer.diskStorage({
 
 var upload = multer({ storage: storage })
 
-app.post('/api/realestate', upload.array('realestate', 100), (req, res) => {
+app.post('/api/realestate', /*upload.array('realestate', 100), */(req, res) => {
     if (!req.files) {
         console.log("No file received");
         return res.send({
