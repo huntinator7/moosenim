@@ -9,16 +9,11 @@
 </head>
 
 <body>
-    <script>
-        var app = angular.module('app', [])
-        app.controller('ctrl', function($scope) {
-            $scope.elements = ["1", "2", "3"]
-        })
-    </script>
+
 </body>
-    <div ng-app="app">
+    <div ng-app="app"ng-controller="ctrl">
         <div>
-            <button ng-repeat="x in elements"> {{x}}</button>
+            <p ng-repeat="x in elements"> {{x}}</p>
         </div>
     </div>
     </div>
