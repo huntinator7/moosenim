@@ -14,7 +14,7 @@
 <body>
 
 </body>
-<div ng-app="app" ng-controller="ctrl as $ctrl" class="modal-demo">
+<div ng-app="app" ng-controller="ctrl" class="modal-demo">
     <div>
         <button ng-repeat="x in elements"> {{x}}</button>
     </div>
@@ -32,16 +32,14 @@
 <script>
     var app = angular.module('app', ['ui.bootstrap'])
 
-    app.controller('ctrl', function($scope, $uibmodal, $timeout, $dialog) {
+    app.controller('ctrl', function($scope, $timeout, $dialog) {
     $scope.elements = ["1", "2", "3"]
 
-    var $ctrl = this;
-    $ctrl.items = ['item1', 'item2', 'item3'];
 
     $timeout(function(){
     $dialog.dialog({}).open('modalContent.html');
     }, 3000);
-    
+
 })
 
 </script>
