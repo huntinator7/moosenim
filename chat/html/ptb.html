@@ -11,87 +11,120 @@
 <body>
 
 </body>
-    <div ng-app="app"ng-controller="ctrl">
-        <div>
-            <button ng-repeat="x in elements"> {{x}}</button>
-        </div>
+<div ng-app="app" ng-controller="ctrl as $ctrl" class="modal-demo">
+    <div>
+        <button ng-repeat="x in elements"> {{x}}</button>
     </div>
+</div>
 
+<script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">I'm a modal!</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+        <ul>
+            <li ng-repeat="item in $ctrl.items">
+                <a href="#" ng-click="$event.preventDefault(); $ctrl.selected.item = item">{{ item }}</a>
+            </li>
+        </ul>
+        Selected: <b>{{ $ctrl.selected.item }}</b>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+    </div>
+</script>
 
-    <script>
-        var app = angular.module('app', [])
-        app.controller('ctrl', function($scope, $uibmodal, $document, $log) {
-            $scope.elements = ["1", "2", "3"]
+<script>
+    var app = angular.module('app', [])
+    app.controller('ctrl', function($scope, $uibmodal, $document, $log) {
+    $scope.elements = ["1", "2", "3"]
 
-            var $ctrl = this;
-            $ctrl.items = ['item1', 'item2', 'item3'];
-
-
-
-                  $ctrl.open = function (size, parentSelector) {
-                    var parentElem = parentSelector ?
-                      angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
-                    var modalInstance = $uibModal.open({
-                      animation: $ctrl.animationsEnabled,
-                      ariaLabelledBy: 'modal-title',
-                      ariaDescribedBy: 'modal-body',
-                      templateUrl: 'myModalContent.html',
-                      controller: 'ModalInstanceCtrl',
-                      controllerAs: '$ctrl',
-                      size: size,
-                      appendTo: parentElem,
-                      resolve: {
-                        items: function () {
-                          return $ctrl.items;
-                        }
-                      }
-                    });
-
-                    modalInstance.result.then(function (selectedItem) {
-                      $ctrl.selected = selectedItem;
-                    }, function () {
-                      $log.info('Modal dismissed at: ' + new Date());
-                    });
-                  };
-
-                  $ctrl.openComponentModal = function () {
-                    var modalInstance = $uibModal.open({
-                      animation: $ctrl.animationsEnabled,
-                      component: 'modalComponent',
-                      resolve: {
-                        items: function () {
-                          return $ctrl.items;
-                        }
-                      }
-                    });
-
-                    modalInstance.result.then(function (selectedItem) {
-                      $ctrl.selected = selectedItem;
-                    }, function () {
-                      $log.info('modal-component dismissed at: ' + new Date());
-                    });
-                  };
+    var $ctrl = this;
+    $ctrl.items = ['item1', 'item2', 'item3'];
 
 
 
-                    $uibModal.open({
-                      animation: $ctrl.animationsEnabled,
-                      ariaLabelledBy: 'modal-title-top',
-                      ariaDescribedBy: 'modal-body-top',
-                      templateUrl: 'stackedModal.html',
-                      size: 'sm',
-                      controller: function($scope) {
-                        $scope.name = 'top';
-                      }
-                    });
-                  };
+    $ctrl.open = function(size, parentSelector) {
+        var parentElem = parentSelector ?
+            angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
+        var modalInstance = $uibModal.open({
+            animation: $ctrl.animationsEnabled,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'myModalContent.html',
+            controller: 'ModalInstanceCtrl',
+            controllerAs: '$ctrl',
+            size: size,
+            appendTo: parentElem,
+            resolve: {
+                items: function() {
+                    return $ctrl.items;
+                }
+            }
+        });
 
-                  $ctrl.toggleAnimation = function () {
-                    $ctrl.animationsEnabled = !$ctrl.animationsEnabled;
-                  };
-                });
-        })
-    </script>
+        modalInstance.result.then(function(selectedItem) {
+            $ctrl.selected = selectedItem;
+        }, function() {
+            $log.info('Modal dismissed at: ' + new Date());
+        });
+    };
+
+    $ctrl.openComponentModal = function() {
+        var modalInstance = $uibModal.open({
+            animation: $ctrl.animationsEnabled,
+            component: 'modalComponent',
+            resolve: {
+                items: function() {
+                    return $ctrl.items;
+                }
+            }
+        });
+
+        modalInstance.result.then(function(selectedItem) {
+            $ctrl.selected = selectedItem;
+        }, function() {
+            $log.info('modal-component dismissed at: ' + new Date());
+        });
+    };
+
+
+
+    $uibModal.open({
+        animation: $ctrl.animationsEnabled,
+        ariaLabelledBy: 'modal-title-top',
+        ariaDescribedBy: 'modal-body-top',
+        templateUrl: 'stackedModal.html',
+        size: 'sm',
+        controller: function($scope) {
+            $scope.name = 'top';
+        }
+    });
+    };
+
+    $ctrl.toggleAnimation = function() {
+    $ctrl.animationsEnabled = !$ctrl.animationsEnabled;
+    };
+    });
+    })
+    var app = angular.module('app', [])
+    app.controller('ModalInstanceCtrl', function($uibModalInstance, items) {
+        var $ctrl = this;
+        $ctrl.items = items;
+        $ctrl.selected = {
+            item: $ctrl.items[0]
+        };
+
+        $ctrl.ok = function() {
+            $uibModalInstance.close($ctrl.selected.item);
+        };
+
+        $ctrl.cancel = function() {
+            $uibModalInstance.dismiss('cancel');
+        };
+    });
+</script>
 
 </body>
 
