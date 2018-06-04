@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <link rel="icon" href="https://www.moosen.im/favicon.ico">
     <meta charset="utf-8">
@@ -11,16 +12,22 @@
 
     <div ng-app="app" ng-init="elements = ['1','2']">
         <div>
-            <button ng-repeat = "x in elements"> {{x}}</button>
+            <button ng-repeat="x in elements"> {{x}}</button>
         </div>
     </div>
     </div>
+    <script>
+        var app = angular.module('app', [])
+        app.controller('ctrl', function($scope) {
+            $scope.elements = ["1", "2", "3"]
+        })
+    </script>
 </body>
 <script>
-var app = angular.module('app',[])
-app.controller('ctrl', function($scope){
-    $scope.elements = ["1","2","3"]
-})
-
+    var app = angular.module('app', [])
+    app.controller('ctrl', function($scope) {
+        $scope.elements = ["1", "2", "3"]
+    })
 </script>
+
 </html>
