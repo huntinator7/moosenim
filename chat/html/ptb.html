@@ -9,10 +9,18 @@
 
 <body>
 
-    <div ng-app="" ng-init="title = 'Periodic Table of Business'">
-        <p>Name: <input type="text" ng-model="title"></p>
-        <p ng-bind="title"></p>
+    <div ng-app="app" ng-init="title = 'Periodic Table of Business'">
+        <div>
+            <button ng-repeat = "x in elements"> {{x}}</button>
+        </div>
+    </div?>
     </div>
 </body>
+<script>
+var app = angular.module('app',[])
+app.controller('ctrl', function($scope){
+    $scope.elements = {'1','2','3'}
+})
 
+</script>
 </html>
