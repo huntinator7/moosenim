@@ -4,11 +4,15 @@
     <link rel="icon" href="https://www.moosen.im/favicon.ico">
     <meta charset="utf-8">
     <title>Periodic Table of Business</title>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 </head>
 
 <body>
-    {{title}}
+
+    <div ng-app="" ng-init="title = 'Periodic Table of Business'">
+        <p>Name: <input type="text" ng-model="title"></p>
+        <p ng-bind="title"></p>
+    </div>
 </body>
 
 </html>
