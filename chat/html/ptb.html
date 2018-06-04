@@ -31,18 +31,17 @@
 
 <script>
     var app = angular.module('app', ['ui.bootstrap'])
-    function DialogDemoCtrl($scope, $timeout, $dialog){
-  $timeout(function(){
-    $dialog.dialog({}).open('modalContent.html');
-  }, 3000);
-}
-    app.controller('ctrl', function($scope, $uibmodal, $document, $log) {
+
+    app.controller('ctrl', function($scope, $uibmodal, $timeout, $dialog) {
     $scope.elements = ["1", "2", "3"]
 
     var $ctrl = this;
     $ctrl.items = ['item1', 'item2', 'item3'];
 
-
+    $timeout(function(){
+    $dialog.dialog({}).open('modalContent.html');
+    }, 3000);
+    }
 })
 
 </script>
