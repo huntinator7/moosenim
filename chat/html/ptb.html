@@ -9,8 +9,14 @@
 </head>
 
 <body>
-
-    <div ng-app="app" ng-init="elements = ['1','2']">
+    <script>
+        var app = angular.module('app', [])
+        app.controller('ctrl', function($scope) {
+            $scope.elements = ["1", "2", "3"]
+        })
+    </script>
+</body>
+    <div ng-app="app">
         <div>
             <button ng-repeat="x in elements"> {{x}}</button>
         </div>
@@ -23,11 +29,6 @@
         })
     </script>
 </body>
-<script>
-    var app = angular.module('app', [])
-    app.controller('ctrl', function($scope) {
-        $scope.elements = ["1", "2", "3"]
-    })
-</script>
+
 
 </html>
