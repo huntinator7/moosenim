@@ -16,7 +16,7 @@
 </body>
 <div ng-app="app" ng-controller="ctrl" class="modal-demo">
     <div>
-        <button ng-repeat="x in elements"> {{x}}</button>
+        <button ng-repeat="x in elements" ng-click="openModal(x)"> {{x}}</button>
     </div>
 </div>
 
@@ -36,9 +36,10 @@
     $scope.elements = ["1", "2", "3"]
 
 
-    $timeout(function(){
-    $dialog.dialog({}).open('./html/elementmodal.html');
-    }, 3000);
+    function openModal(x){
+    $dialog.dialog({}).open('./html/elementmodal.html')
+    console.log(x)
+    }
 
 })
 
