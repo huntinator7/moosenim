@@ -6,9 +6,9 @@
     <meta charset="utf-8">
     <title>Periodic Table of Business</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-   <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.2.0.js"></script>
-   <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
-   <link href="./html/todomodal.html" rel="import" />
+    <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.2.0.js"></script>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link href="./html/todomodal.html" rel="import" />
 </head>
 
 <body>
@@ -24,42 +24,56 @@
     var app = angular.module('app', ['ui.bootstrap'])
 
     app.controller('ctrl', function($scope, $timeout, $dialog) {
-    $scope.elements = [
-        {name: '1', content: 'test content'},
-        {name: '2', content: 'test content'},
-        {name: '3', content: 'test content'}
-    ]
-    var dialogOptions = {
-      controller: 'modalCtrl',
-      templateUrl: './html/elementmodal.html'
-    };
+        $scope.elements = [{
+                name: '1',
+                content: 'test content'
+            },
+            {
+                name: '2',
+                content: 'test content'
+            },
+            {
+                name: '3',
+                content: 'test content'
+            }
+        ]
+        var dialogOptions = {
+            controller: 'modalCtrl',
+            templateUrl: './html/elementmodal.html'
+        };
 
-    $scope.openModal = function openModal(x){
-        var modalinfo = x
+        $scope.openModal = function openModal(x) {
+            var modalinfo = x
 
-            $dialog.dialog(angular.extend(dialogOptions,{resolve:{item: angular.copy(modalInfo)}}))
-            .open()
-            .then(function(res){
-                if(result){
-                    angular.copy(result,modalInfo)
-                }
-                modalinfo = null
-            })
-//    $dialog.dialog({}).open('./html/elementmodal.html')
-//    console.log($scope.modalinfo)
-//    }
-})
-function modalCtrl($scope, item, dialog){
+            $dialog.dialog(angular.extend(dialogOptions, {
+                    resolve: {
+                        item: angular.copy(modalInfo)
+                    }
+                }))
+                .open()
+                .then(function(res) {
+                    if (result) {
+                        angular.copy(result, modalInfo)
+                    }
+                    modalinfo = null
+                })
+            //    $dialog.dialog({}).open('./html/elementmodal.html')
+            //    console.log($scope.modalinfo)
+            //    }
+        }
+    })
 
-  $scope.item = item
+    function modalCtrl($scope, item, dialog) {
 
-  $scope.save = function() {
-    dialog.close($scope.item)
-  }
+        $scope.item = item
 
-  $scope.close = function(){
-    dialog.close(undefined)
-  }
+        $scope.save = function() {
+            dialog.close($scope.item)
+        }
+
+        $scope.close = function() {
+            dialog.close(undefined)
+        }
 </script>
 
 </body>
