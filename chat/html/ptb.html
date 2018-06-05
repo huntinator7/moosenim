@@ -41,6 +41,7 @@
 
 
     $scope.openModal = function openModal(x){
+        $scope.modalinfo = x
     $dialog.dialog({}).open('./html/elementmodal.html')
     console.log(x)
     }
