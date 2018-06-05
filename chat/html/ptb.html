@@ -49,16 +49,16 @@
                 .open('./html/elementmodal.html',function (){
                     console.log('hello open')
                     modalInfo = x
-                    
+
                 })
                 .then(function(res) {
                     if (res) {
-                        angular.copy(res, modalInfo)
+                    //    angular.copy(res, modalInfo)
                         console.log('res called')
                     }
                     else{
                         console.log('res no worky')
-                        angular.copy(res, modalInfo)
+                    //    angular.copy(res, modalInfo)
                     }
                     console.log('set to null')
                     modalInfo = null
