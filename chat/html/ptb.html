@@ -33,7 +33,7 @@
     var app = angular.module('app', ['ui.bootstrap'])
 
     app.controller('ctrl', function($scope, $timeout, $dialog) {
-    $scope.elements = ['{name: "1", content: "test content"}, {name: "2", content: "test content"}, {name: "3s", content: "test content"}']
+    $scope.elements = '[{name: "1", content: "test content"}, {name: "2", content: "test content"}, {name: "3s", content: "test content"}]'
 
 
     $scope.openModal = function openModal(x){
