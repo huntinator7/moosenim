@@ -46,7 +46,9 @@
             var modalInfo = x
             console.log(modalInfo)
             $dialog.dialog({})
-                .open('./html/elementmodal.html')
+                .open('./html/elementmodal.html',function (){
+                    console.log('hello open')
+                })
                 .then(function(res) {
                     if (res) {
                         angular.copy(res, modalInfo)
