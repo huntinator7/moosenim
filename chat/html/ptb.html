@@ -36,7 +36,7 @@
     $scope.elements = ["1", "2", "3"]
 
 
-    function openModal(x){
+    $scope.openModal = function openModal(x){
     $dialog.dialog({}).open('./html/elementmodal.html')
     console.log(x)
     }
