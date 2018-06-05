@@ -43,7 +43,7 @@
         };
 
         $scope.openModal = function openModal(x) {
-            var modalinfo = x
+            var modalInfo = x
 
             $dialog.dialog(angular.extend(dialogOptions, {
                     resolve: {
@@ -55,7 +55,7 @@
                     if (result) {
                         angular.copy(result, modalInfo)
                     }
-                    modalinfo = null
+                    modalInfo = null
                 })
             //    $dialog.dialog({}).open('./html/elementmodal.html')
             //    console.log($scope.modalinfo)
