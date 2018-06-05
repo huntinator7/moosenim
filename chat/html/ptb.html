@@ -16,7 +16,7 @@
 </body>
 <div ng-app="app" ng-controller="ctrl" class="modal-demo">
     <div>
-        <button ng-repeat="x in elements" ng-click="openModal(x)"> {{x}}</button>
+        <button ng-repeat="x in elements" ng-click="openModal(x)"> {{x.name}}</button>
     </div>
 </div>
 
@@ -33,7 +33,7 @@
     var app = angular.module('app', ['ui.bootstrap'])
 
     app.controller('ctrl', function($scope, $timeout, $dialog) {
-    $scope.elements = ["1", "2", "3"]
+    $scope.elements = ['{name: "1", content: "test content"}, {name: "2", content: "test content"}, {name: "3s", content: "test content"}']
 
 
     $scope.openModal = function openModal(x){
