@@ -44,13 +44,27 @@
 
         $scope.openModal = function openModal(x) {
             var modalInfo = x
-
+            console.log(modalInfo)
             $dialog.dialog({})
+            .controller('modalCtrl', function modalCtrl($scope, item, dialog) {
+
+                $scope.item = item
+
+                $scope.save = function() {
+                    dialog.close($scope.item)
+                }
+
+                $scope.close = function() {
+                    dialog.close(undefined)
+                }
+            })
                 .open('./html/elementmodal.html')
                 .then(function(res) {
                     if (res) {
                         angular.copy(res, modalInfo)
+                        console.log('res called')
                     }
+                    console.log('set to null')
                     modalInfo = null
                 })
 
