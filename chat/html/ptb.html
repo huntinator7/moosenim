@@ -46,18 +46,6 @@
             var modalInfo = x
             console.log(modalInfo)
             $dialog.dialog({})
-            .controller('modalCtrl', function modalCtrl($scope, item, dialog) {
-
-                $scope.item = item
-
-                $scope.save = function() {
-                    dialog.close($scope.item)
-                }
-
-                $scope.close = function() {
-                    dialog.close(undefined)
-                }
-            })
                 .open('./html/elementmodal.html')
                 .then(function(res) {
                     if (res) {
