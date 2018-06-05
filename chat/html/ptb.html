@@ -45,11 +45,7 @@
         $scope.openModal = function openModal(x) {
             var modalInfo = x
 
-            $dialog.dialog(angular.extend(dialogOptions, {
-                    resolve: {
-                        item: angular.copy(modalInfo)
-                    }
-                }))
+            $dialog.dialog({})
                 .open('./html/elementmodal.html')
                 // .then(function(res) {
                 //     if (res) {
@@ -63,7 +59,7 @@
             //    }
         }
     })
-    // 
+    //
     // function modalCtrl($scope, item, dialog) {
     //
     //     $scope.item = item
