@@ -47,31 +47,31 @@
 
             $dialog.dialog({})
                 .open('./html/elementmodal.html')
-                // .then(function(res) {
-                //     if (res) {
-                //         angular.copy(res, modalInfo)
-                //     }
-                //     modalInfo = null
-                // })
+                .then(function(res) {
+                    if (res) {
+                        angular.copy(res, modalInfo)
+                    }
+                    modalInfo = null
+                })
 
             //    $dialog.dialog({}).open('./html/elementmodal.html')
             //    console.log($scope.modalinfo)
             //    }
         }
     })
-    //
-    // function modalCtrl($scope, item, dialog) {
-    //
-    //     $scope.item = item
-    //
-    //     $scope.save = function() {
-    //         dialog.close($scope.item)
-    //     }
-    //
-    //     $scope.close = function() {
-    //         dialog.close(undefined)
-    //     }
-    // }
+
+    function modalCtrl($scope, item, dialog) {
+
+        $scope.item = item
+
+        $scope.save = function() {
+            dialog.close($scope.item)
+        }
+
+        $scope.close = function() {
+            dialog.close(undefined)
+        }
+    }
 </script>
 
 </body>
