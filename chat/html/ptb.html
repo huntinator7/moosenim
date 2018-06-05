@@ -52,8 +52,8 @@
                 }))
                 .open()
                 .then(function(res) {
-                    if (result) {
-                        angular.copy(result, modalInfo)
+                    if (res) {
+                        angular.copy(res, modalInfo)
                     }
                     modalInfo = null
                 })
