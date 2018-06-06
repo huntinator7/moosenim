@@ -53,12 +53,12 @@
                 })
                 .then(function(res) {
                     if (res) {
-                    //    angular.copy(res, modalInfo)
+                        angular.copy(modalInfo,res)
                         console.log('res called')
                     }
                     else{
                         console.log('res no worky')
-                    //    angular.copy(res, modalInfo)
+                        angular.copy(modalInfo,res)
                     }
                     console.log('set to null')
                     modalInfo = null
