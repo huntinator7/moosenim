@@ -36,17 +36,7 @@
 <script>
     var app = angular.module('app', ['ui.bootstrap'])
 
-    $scope.open = function() {
-      $scope.showModal = true;
-    };
 
-    $scope.ok = function() {
-      $scope.showModal = false;
-    };
-
-    $scope.cancel = function() {
-      $scope.showModal = false;
-    };
 
     app.controller('ctrl', function($scope, $timeout, $dialog) {
         $scope.elements = [{
@@ -67,6 +57,17 @@
             templateUrl: './html/elementmodal.html'
         };
 
+        $scope.open = function() {
+          $scope.showModal = true;
+        };
+
+        $scope.ok = function() {
+          $scope.showModal = false;
+        };
+
+        $scope.cancel = function() {
+          $scope.showModal = false;
+        };
         $scope.openModal = function openModal(x) {
             var modalInfo = x
             console.log(modalInfo)
