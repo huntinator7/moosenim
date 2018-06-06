@@ -14,7 +14,7 @@
 <body>
 
 </body>
-<div ng-app="app" ng-controller="ctrl" class="modal-demo">
+<div ng-app="app" ng-controller="ctrl" class="modal-demo" ng-init="showModal=false">
     <div>
         <button ng-repeat="x in elements" ng-click="openModal(x)"> {{x.name}}</button>
     </div>
@@ -56,7 +56,7 @@
             controller: 'modalCtrl',
             templateUrl: './html/elementmodal.html'
         };
-
+        $scope.showModal = false;
         $scope.open = function() {
           $scope.showModal = true;
         };
