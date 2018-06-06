@@ -27,6 +27,7 @@
 
 
     app.controller('ctrl', function($scope, $timeout, $dialog) {
+        var modalInfo2 = 'testing'
         $scope.elements = [{
                 name: '1',
                 content: 'test content'
@@ -53,7 +54,7 @@
                     console.log('hello open')
                     $scope.modalInfo = x
                     $scope.modalContent = x
-                    
+
                 })
                 .then(function(res) {
                     if (res) {
