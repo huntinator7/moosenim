@@ -48,7 +48,8 @@
             $dialog.dialog({})
                 .open('./html/elementmodal.html',function (){
                     console.log('hello open')
-                    modalInfo = x
+                    $scope.modalInfo = x
+                    $scope.modalContent = x
 
                 })
                 .then(function(res) {
