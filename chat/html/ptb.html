@@ -16,23 +16,11 @@
 </body>
 <div ng-app="app" ng-controller="ctrl" class="modal-demo" ng-init="showModal=false">
     <div>
-        <button ng-repeat="x in elements" ng-click="openModal(x)"> {{x.name}}</button>
+        <button ng-repeat="x in elements" ng-click="openModal('x')"> {{x.name}}</button>
     </div>
 </div>
 <button class="btn" ng-click="open()">Open Modal</button>
 
-  <div modal="showModal" close="cancel()">
-    <div class="modal-header">
-        <h4>Modal Dialog</h4>
-    </div>
-    <div class="modal-body">
-        <p>Example paragraph with some text.</p>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-success" ng-click="ok()">Okay</button>
-      <button class="btn" ng-click="cancel()">Cancel</button>
-    </div>
-  </div>
 <script>
     var app = angular.module('app', ['ui.bootstrap.modal'])
 
@@ -56,18 +44,7 @@
             controller: 'modalCtrl',
             templateUrl: './html/elementmodal.html'
         };
-        $scope.showModal = false;
-        $scope.open = function() {
-          $scope.showModal = true;
-        };
 
-        $scope.ok = function() {
-          $scope.showModal = false;
-        };
-
-        $scope.cancel = function() {
-          $scope.showModal = false;
-        };
         $scope.openModal = function openModal(x) {
             var modalInfo = x
             console.log(modalInfo)
