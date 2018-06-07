@@ -17,7 +17,9 @@
 
 
 
-
+<div ng-repeat= "x in elements">
+        <button type="button" class="btn btn-default" >{{x.name}}</button>
+</div>
     <button type="button" class="btn btn-default" >1</button>
     <button type="button" class="btn btn-default" >2</button>
     <button type="button" class="btn btn-default" >3</button>
@@ -28,7 +30,7 @@
 </div>
 
 <script>
-    var app = angular.module('app', ['ui.bootstrap.modal'])
+    var app = angular.module('app', ['ui.bootstrap'])
 
 
 
