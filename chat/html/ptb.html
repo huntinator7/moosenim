@@ -59,45 +59,69 @@
     </div>
 </div>
 <script>
-var app = angular.module('ui.bootstrap.demo').controller('ModalDemoCtrl', function ($uibModal, $log, $document) {
-var $ctrl = this;
-$ctrl.items = ['item1', 'item2', 'item3'];
+    var app = angular.module('app', ['ui.bootstrap.modal'])
 
-$ctrl.animationsEnabled = true;
 
-$ctrl.open = function (size, parentSelector) {
-var parentElem = parentSelector ?
-  angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
-var modalInstance = $uibModal.open({
-  animation: $ctrl.animationsEnabled,
-  ariaLabelledBy: 'modal-title',
-  ariaDescribedBy: 'modal-body',
-  templateUrl: 'myModalContent.html',
-  controller: 'ModalInstanceCtrl',
-  controllerAs: '$ctrl',
-  size: size,
-  appendTo: parentElem,
-  resolve: {
-    items: function () {
-      return $ctrl.items;
-    }
-  }
-});
 
-modalInstance.result.then(function (selectedItem) {
-  $ctrl.selected = selectedItem;
-}, function () {
-  $log.info('Modal dismissed at: ' + new Date());
-});
-};
+    app.controller('ctrl', function($scope, $timeout, $dialog) {
+        $scope.elements = [{
+                name: '1',
+                content: 'test content'
+            },
+            {
+                name: '2',
+                content: 'test content'
+            },
+            {
+                name: '3',
+                content: 'test content'
+            }
+        ]
+        var dialogOptions = {
+            controller: 'modalCtrl',
+            templateUrl: './html/elementmodal.html'
+        };
 
-$ctrl.openComponentModal = function () {
-var modalInstance = $uibModal.open({
-  animation: $ctrl.animationsEnabled,
-  component: 'modalComponent',
-  resolve: {
-    items: function () {
-      return $ctrl.items;
+        $scope.openModal = function openModal(x) {
+            var modalInfo = x
+            console.log(modalInfo)
+            $dialog.dialog({})
+                .open('./html/elementmodal.html',function (){
+                    console.log('hello open')
+                    $scope.modalInfo = x
+                    $scope.modalContent = x
+
+                })
+                .then(function(res) {
+                    if (res) {
+                        angular.copy(modalInfo,res)
+                        console.log('res called')
+                    }
+                    else{
+                        console.log('res no worky')
+                        angular.copy(modalInfo,res)
+                    }
+                    console.log('set to null')
+                    modalInfo = null
+                })
+
+            //    $dialog.dialog({}).open('./html/elementmodal.html')
+            //    console.log($scope.modalinfo)
+            //    }
+        }
+    })
+
+    function modalCtrl($scope, item, dialog) {
+
+        $scope.item = item
+
+        $scope.save = function() {
+            dialog.close($scope.item)
+        }
+
+        $scope.close = function() {
+            dialog.close(undefined)
+        }
     }
   }
 });
