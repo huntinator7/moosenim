@@ -6,7 +6,7 @@
       <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 
-    <script src="example.js"></script>
+    
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css" rel="stylesheet">
   </head>
   <body>
@@ -28,5 +28,49 @@
         </tbody>
       </table>
     </div>
+    <script>
+    angular.module('plunker', ['ui.bootstrap']);
+
+    function ListCtrl($scope, $dialog) {
+
+      $scope.items = [
+        {name: 'foo', value: 'foo value'},
+        {name: 'bar', value: 'bar value'},
+        {name: 'baz', value: 'baz value'}
+      ];
+
+      var dialogOptions = {
+        controller: 'EditCtrl',
+        templateUrl: 'itemEdit.html'
+      };
+
+      $scope.edit = function(item){
+
+        var itemToEdit = item;
+
+        $dialog.dialog(angular.extend(dialogOptions, {resolve: {item: angular.copy(itemToEdit)}}))
+          .open()
+          .then(function(result) {
+            if(result) {
+              angular.copy(result, itemToEdit);
+            }
+            itemToEdit = undefined;
+        });
+      };
+    }
+    // the dialog is injected in the specified controller
+    function EditCtrl($scope, item, dialog){
+
+      $scope.item = item;
+
+      $scope.save = function() {
+        dialog.close($scope.item);
+      };
+
+      $scope.close = function(){
+        dialog.close(undefined);
+      };
+    }
+    </script>
   </body>
 </html>
