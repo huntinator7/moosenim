@@ -1,10 +1,8 @@
-<div class="modal-header" ng-app='app' ng-controller='ctrl'>
-  <h1>{{modalInfo}}{{x.name}}</h1>
+<div class="modal-header">
+  <h1>Edit {{item.name}}</h1>
 </div>
 <div class="modal-body">
- content: {{modalInfo}} {{modalContent}}
- <br />
- 
+  <p><input ng-model="item.value" /></p>
 </div>
 <div class="modal-footer">
   <button ng-click="save()" class="btn btn-primary" >Save</button>

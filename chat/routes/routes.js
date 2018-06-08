@@ -17,6 +17,6 @@ router.get('/chat',             (req, res) => res.sendFile('/html/chat.html', { 
 router.get('/settings',         (req, res) => res.sendFile('/client/userSettings.html', { 'root': '/var/www/html/chat' }))
 router.get('/react',            (req, res) => res.render('reactTest', {name: 'Nigolus'}))
 router.get('/freerealestate',   (req, res) => res.render('realEstate', {}))
-router.get('/ptb',              (req, res) => res.sendFile('/html/ptb.html', { 'root': '/var/www/html/chat' }))
+router.get('/ptb',              (req, res) => res.sendFile('/html/ptb/index.html', { 'root': '/var/www/html/chat' }))
 //export this router to use in our index.js
 module.exports = router
