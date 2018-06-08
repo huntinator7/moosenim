@@ -6,7 +6,7 @@
       <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 
-    
+
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css" rel="stylesheet">
   </head>
   <body>
@@ -29,9 +29,9 @@
       </table>
     </div>
     <script>
-    angular.module('plunker', ['ui.bootstrap']);
+    var app = angular.module('plunker', ['ui.bootstrap']);
 
-    function ListCtrl($scope, $dialog) {
+    app.controller('ListCtrl',function($scope, $dialog) {
 
       $scope.items = [
         {name: 'foo', value: 'foo value'},
@@ -57,7 +57,7 @@
             itemToEdit = undefined;
         });
       };
-    }
+  })
     // the dialog is injected in the specified controller
     function EditCtrl($scope, item, dialog){
 
