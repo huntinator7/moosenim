@@ -59,7 +59,7 @@
       };
   })
     // the dialog is injected in the specified controller
-    function EditCtrl($scope, item, dialog){
+    app.controller('EditCtrl', function($scope, item, dialog){
 
       $scope.item = item;
 
@@ -70,7 +70,7 @@
       $scope.close = function(){
         dialog.close(undefined);
       };
-    }
+  })
     </script>
   </body>
 </html>
