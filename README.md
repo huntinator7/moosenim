@@ -1,5 +1,5 @@
 # moosenim
-Moosen im is the new, fun way to chat with friends. 
+Moosen im is the lame, shit way to chat with friends. 
 
 ## Code Description
 ### Server function definitions
